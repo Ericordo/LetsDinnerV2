@@ -8,11 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		88349EFA236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349EF9236DE9FC002A1879 /* Assets.xcassets */; };
-		88349F01236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 88349F00236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		88349F01236DE9FC002A1879 /* Let's Dinner!.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 88349F00236DE9FC002A1879 /* Let's Dinner!.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		88349F06236DE9FC002A1879 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
 		88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F08236DE9FC002A1879 /* MessagesViewController.swift */; };
 		88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0A236DE9FC002A1879 /* MainInterface.storyboard */; };
 		88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0D236DE9FC002A1879 /* Assets.xcassets */; };
+		88349F1D236DEF15002A1879 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1C236DEF15002A1879 /* Constants.swift */; };
+		88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1F236E1B60002A1879 /* InitialViewController.swift */; };
+		88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F20236E1B60002A1879 /* InitialViewController.xib */; };
+		88349F25236E20CF002A1879 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F24236E20CF002A1879 /* UIView.swift */; };
+		88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F26236EFFC6002A1879 /* RegistrationViewController.swift */; };
+		88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F27236EFFC6002A1879 /* RegistrationViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +38,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				88349F01236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension.appex in Embed App Extensions */,
+				88349F01236DE9FC002A1879 /* Let's Dinner!.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,15 +46,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		88349EF6236DE9FB002A1879 /* LetsDinnerV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetsDinnerV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		88349EF6236DE9FB002A1879 /* Let's Dinner!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Dinner!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88349EF9236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349EFB236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		88349F00236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "LetsDinnerV2 MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		88349F00236DE9FC002A1879 /* Let's Dinner!.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Let's Dinner!.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88349F05236DE9FC002A1879 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
 		88349F08236DE9FC002A1879 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		88349F0B236DE9FC002A1879 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		88349F0D236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349F0F236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88349F1C236DEF15002A1879 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		88349F1F236E1B60002A1879 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		88349F20236E1B60002A1879 /* InitialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialViewController.xib; sourceTree = "<group>"; };
+		88349F24236E20CF002A1879 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		88349F26236EFFC6002A1879 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		88349F27236EFFC6002A1879 /* RegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +88,8 @@
 		88349EF7236DE9FB002A1879 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				88349EF6236DE9FB002A1879 /* LetsDinnerV2.app */,
-				88349F00236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension.appex */,
+				88349EF6236DE9FB002A1879 /* Let's Dinner!.app */,
+				88349F00236DE9FC002A1879 /* Let's Dinner!.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,12 +114,66 @@
 		88349F07236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
-				88349F08236DE9FC002A1879 /* MessagesViewController.swift */,
-				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
+				88349F19236DEEEB002A1879 /* Model */,
+				88349F1B236DEEF9002A1879 /* Controller */,
+				88349F1A236DEEF2002A1879 /* View */,
+				88349F1E236DEF1C002A1879 /* Extensions */,
 				88349F0D236DE9FC002A1879 /* Assets.xcassets */,
 				88349F0F236DE9FC002A1879 /* Info.plist */,
 			);
 			path = "LetsDinnerV2 MessagesExtension";
+			sourceTree = "<group>";
+		};
+		88349F19236DEEEB002A1879 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				88349F1C236DEF15002A1879 /* Constants.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		88349F1A236DEEF2002A1879 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		88349F1B236DEEF9002A1879 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				88349F08236DE9FC002A1879 /* MessagesViewController.swift */,
+				88349F23236E1B67002A1879 /* InitialVC */,
+				88349F2A236EFFD4002A1879 /* RegistrationVC */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		88349F1E236DEF1C002A1879 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				88349F24236E20CF002A1879 /* UIView.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		88349F23236E1B67002A1879 /* InitialVC */ = {
+			isa = PBXGroup;
+			children = (
+				88349F1F236E1B60002A1879 /* InitialViewController.swift */,
+				88349F20236E1B60002A1879 /* InitialViewController.xib */,
+			);
+			path = InitialVC;
+			sourceTree = "<group>";
+		};
+		88349F2A236EFFD4002A1879 /* RegistrationVC */ = {
+			isa = PBXGroup;
+			children = (
+				88349F26236EFFC6002A1879 /* RegistrationViewController.swift */,
+				88349F27236EFFC6002A1879 /* RegistrationViewController.xib */,
+			);
+			path = RegistrationVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +193,7 @@
 			);
 			name = LetsDinnerV2;
 			productName = LetsDinnerV2;
-			productReference = 88349EF6236DE9FB002A1879 /* LetsDinnerV2.app */;
+			productReference = 88349EF6236DE9FB002A1879 /* Let's Dinner!.app */;
 			productType = "com.apple.product-type.application.messages";
 		};
 		88349EFF236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension */ = {
@@ -144,7 +210,7 @@
 			);
 			name = "LetsDinnerV2 MessagesExtension";
 			productName = "LetsDinnerV2 MessagesExtension";
-			productReference = 88349F00236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension.appex */;
+			productReference = 88349F00236DE9FC002A1879 /* Let's Dinner!.appex */;
 			productType = "com.apple.product-type.app-extension.messages";
 		};
 /* End PBXNativeTarget section */
@@ -198,7 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
+				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
+				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,7 +277,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88349F25236E20CF002A1879 /* UIView.swift in Sources */,
+				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
+				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
+				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +357,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -339,7 +411,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -352,7 +424,7 @@
 		88349F13236DE9FC002A1879 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
@@ -362,7 +434,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2.MessagesExtension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Let's Dinner!";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -372,7 +444,7 @@
 		88349F14236DE9FC002A1879 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
@@ -382,7 +454,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2.MessagesExtension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Let's Dinner!";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -397,8 +469,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Let's Dinner!";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -412,8 +485,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Let's Dinner!";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
