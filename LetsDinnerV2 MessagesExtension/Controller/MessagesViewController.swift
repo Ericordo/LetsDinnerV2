@@ -13,7 +13,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.setGradient(colorOne: Colors.gradientPink, colorTwo: Colors.gradientRed)
+        self.view.setGradient(colorOne: Colors.gradientRed, colorTwo: Colors.gradientPink)
         // Do any additional setup after loading the view.
     }
     
