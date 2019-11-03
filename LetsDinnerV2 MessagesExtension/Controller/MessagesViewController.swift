@@ -11,6 +11,8 @@ import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
     
+    var newNameRequested = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.setGradient(colorOne: Colors.gradientRed, colorTwo: Colors.gradientPink)
@@ -78,7 +80,12 @@ class MessagesViewController: MSMessagesAppViewController {
             // Show a list of previously created ice creams.
             controller = instantiateInitialViewController()
         } else {
-            controller = instantiateRegistrationViewController()
+            if defaults.username.isEmpty || newNameRequested {
+                newNameRequested = false
+                controller = instantiateRegistrationViewController()
+            } else {
+                controller = instantiateNewEventViewController()
+            }
         }
 //        else {
 ////             // Parse an `IceCream` from the conversation's `selectedMessage` or create a new `IceCream`.
@@ -126,6 +133,12 @@ class MessagesViewController: MSMessagesAppViewController {
         controller.delegate = self
         return controller
     }
+    
+    private func instantiateNewEventViewController() -> UIViewController {
+        let controller = NewEventViewController(nibName: VCNibs.newEventViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
 
 }
 
@@ -137,12 +150,18 @@ extension MessagesViewController: InitialViewControllerDelegate {
     }
     
     func initialVCDidTapInfoButton(controller: InitialViewController) {
+        newNameRequested = true
         requestPresentationStyle(.expanded)
     }
-    
-
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
+    func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
+        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        presentViewController(for: conversation, with: .expanded)
+    }
+}
+
+extension MessagesViewController: NewEventViewControllerDelegate {
     
 }

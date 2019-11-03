@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RegistrationViewControllerDelegate : class {
-    
+        func registrationVCDidTapSaveButton(controller: RegistrationViewController)
 }
 
 class RegistrationViewController: UIViewController {
@@ -25,6 +25,8 @@ class RegistrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        nameTextField.delegate = self
+        
         // Do any additional setup after loading the view.
     }
     
@@ -32,7 +34,10 @@ class RegistrationViewController: UIViewController {
         saveButton.layer.cornerRadius = 8.0
         saveButton.layer.masksToBounds = true
         saveButton.setGradient(colorOne: Colors.gradientRed, colorTwo: Colors.gradientPink)
-        
+        if !defaults.username.isEmpty {
+            nameTextField.text = defaults.username
+        }
+        errorLabel.isHidden = true
         
     }
 
@@ -40,6 +45,18 @@ class RegistrationViewController: UIViewController {
 
     
     @IBAction func didTapSave(_ sender: UIButton) {
+        guard let text = nameTextField.text else { return }
+        switch text.isEmpty {
+        case true:
+            errorLabel.isHidden = false
+        case false:
+            defaults.username = text
+            delegate?.registrationVCDidTapSaveButton(controller: self)
+        }
     }
+    
+}
+
+extension RegistrationViewController: UITextFieldDelegate {
     
 }

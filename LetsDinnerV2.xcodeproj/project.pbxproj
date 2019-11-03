@@ -19,6 +19,9 @@
 		88349F25236E20CF002A1879 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F24236E20CF002A1879 /* UIView.swift */; };
 		88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F26236EFFC6002A1879 /* RegistrationViewController.swift */; };
 		88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F27236EFFC6002A1879 /* RegistrationViewController.xib */; };
+		88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2B236F7145002A1879 /* UserDefaults.swift */; };
+		88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2D236F7A1D002A1879 /* NewEventViewController.swift */; };
+		88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F2E236F7A1D002A1879 /* NewEventViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		88349F24236E20CF002A1879 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		88349F26236EFFC6002A1879 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		88349F27236EFFC6002A1879 /* RegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationViewController.xib; sourceTree = "<group>"; };
+		88349F2B236F7145002A1879 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		88349F2D236F7A1D002A1879 /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
+		88349F2E236F7A1D002A1879 /* NewEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewEventViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +152,7 @@
 				88349F08236DE9FC002A1879 /* MessagesViewController.swift */,
 				88349F23236E1B67002A1879 /* InitialVC */,
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
+				88349F31236F7A22002A1879 /* NewEventVC */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -154,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				88349F24236E20CF002A1879 /* UIView.swift */,
+				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -174,6 +182,15 @@
 				88349F27236EFFC6002A1879 /* RegistrationViewController.xib */,
 			);
 			path = RegistrationVC;
+			sourceTree = "<group>";
+		};
+		88349F31236F7A22002A1879 /* NewEventVC */ = {
+			isa = PBXGroup;
+			children = (
+				88349F2D236F7A1D002A1879 /* NewEventViewController.swift */,
+				88349F2E236F7A1D002A1879 /* NewEventViewController.xib */,
+			);
+			path = NewEventVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
+				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
 				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
@@ -279,7 +297,9 @@
 			files = (
 				88349F25236E20CF002A1879 /* UIView.swift in Sources */,
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
+				88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
+				88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 			);
