@@ -22,6 +22,10 @@
 		88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2B236F7145002A1879 /* UserDefaults.swift */; };
 		88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2D236F7A1D002A1879 /* NewEventViewController.swift */; };
 		88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F2E236F7A1D002A1879 /* NewEventViewController.xib */; };
+		88349F332370302E002A1879 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F322370302E002A1879 /* DatePicker.swift */; };
+		88349F352370388C002A1879 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F342370388C002A1879 /* Event.swift */; };
+		88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F37237043BB002A1879 /* RecipesViewController.swift */; };
+		88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F38237043BB002A1879 /* RecipesViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +71,10 @@
 		88349F2B236F7145002A1879 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		88349F2D236F7A1D002A1879 /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
 		88349F2E236F7A1D002A1879 /* NewEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewEventViewController.xib; sourceTree = "<group>"; };
+		88349F322370302E002A1879 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
+		88349F342370388C002A1879 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		88349F37237043BB002A1879 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
+		88349F38237043BB002A1879 /* RecipesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipesViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				88349F1C236DEF15002A1879 /* Constants.swift */,
+				88349F342370388C002A1879 /* Event.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -142,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
+				88349F322370302E002A1879 /* DatePicker.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -153,6 +163,7 @@
 				88349F23236E1B67002A1879 /* InitialVC */,
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
 				88349F31236F7A22002A1879 /* NewEventVC */,
+				88349F362370439B002A1879 /* RecipesVC */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -191,6 +202,15 @@
 				88349F2E236F7A1D002A1879 /* NewEventViewController.xib */,
 			);
 			path = NewEventVC;
+			sourceTree = "<group>";
+		};
+		88349F362370439B002A1879 /* RecipesVC */ = {
+			isa = PBXGroup;
+			children = (
+				88349F37237043BB002A1879 /* RecipesViewController.swift */,
+				88349F38237043BB002A1879 /* RecipesViewController.xib */,
+			);
+			path = RecipesVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,6 +302,7 @@
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
 				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
+				88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */,
 				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
@@ -296,12 +317,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F25236E20CF002A1879 /* UIView.swift in Sources */,
+				88349F352370388C002A1879 /* Event.swift in Sources */,
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
 				88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
+				88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */,
+				88349F332370302E002A1879 /* DatePicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

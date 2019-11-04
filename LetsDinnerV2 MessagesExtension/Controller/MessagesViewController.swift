@@ -99,7 +99,12 @@ class MessagesViewController: MSMessagesAppViewController {
 ////            }
 //        }
 
+        addChildViewController(controller: controller)
+    }
+    
+    func addChildViewController(controller: UIViewController) {
         addChild(controller)
+        
         controller.view.frame = view.bounds
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(controller.view)
@@ -139,6 +144,12 @@ class MessagesViewController: MSMessagesAppViewController {
         controller.delegate = self
         return controller
     }
+    
+    private func instantiateRecipesViewController() -> UIViewController {
+        let controller = RecipesViewController(nibName: VCNibs.recipesViewController, bundle: nil)
+        controller.delegate = self
+         return controller
+     }
 
 }
 
@@ -163,5 +174,14 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
+    func newEventVCDidTapNext(controller: NewEventViewController) {
+        let controller = instantiateRecipesViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+        
+    }
+}
+
+extension MessagesViewController: RecipesViewControllerDelegate {
     
 }

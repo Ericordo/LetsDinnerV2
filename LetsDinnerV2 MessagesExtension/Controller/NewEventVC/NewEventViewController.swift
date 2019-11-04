@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NewEventViewControllerDelegate: class {
-    
+    func newEventVCDidTapNext(controller: NewEventViewController)
 }
 
 class NewEventViewController: UIViewController {
@@ -24,18 +24,100 @@ class NewEventViewController: UIViewController {
     
     weak var delegate: NewEventViewControllerDelegate?
     
+    let datePicker = DatePicker()
+    var dateSelected = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
+        textFields.forEach { textField in
+            textField!.delegate = self
+        }
         
         
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     func setupUI() {
         errorLabel.isHidden = true
+        checkForExistingEvent()
     }
+    
+    func presentDatePicker() {
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDonePicker))
+        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelPicker))
+        datePicker.toolbar.setItems([cancelButton,space,doneButton], animated: false)
+        
+        dateTextField.inputAccessoryView = datePicker.toolbar
+        dateTextField.inputView = datePicker
+    }
+    
+    @objc func didTapDonePicker() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, h:mm a"
+        dateTextField.text = formatter.string(from: datePicker.date)
+        dateSelected = true
+        dateTextField.endEditing(true)
+    }
+    
+    @objc func didTapCancelPicker() {
+        dateTextField.endEditing(true)
+    }
+    
+    func checkForExistingEvent() {
+        dinnerNameTextField.text = Event.shared.dinnerName
+        hostNameTextField.text = Event.shared.hostName
+        locationTextField.text = Event.shared.dinnerLocation
+        if dateSelected && !Event.shared.dateTimestamp.isZero {
+            dateTextField.text = Event.shared.dinnerDate
+        }
+    }
+    
+    func allFieldsAreFilled() -> Bool {
+        guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text, let date = dateTextField.text else {
+            return false
+        }
+        if !host.isEmpty && !dinner.isEmpty && !location.isEmpty && !date.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
+    @IBAction func didTapNext(_ sender: UIButton) {
+        if !allFieldsAreFilled() {
+            errorLabel.isHidden = false
+        } else {
+            guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text else { return }
+            Event.shared.hostName = host
+            Event.shared.dinnerName = dinner
+            Event.shared.dinnerLocation = location
+            Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
+            dateSelected = false
+            delegate?.newEventVCDidTapNext(controller: self)
+        }
+    }
+    
+    
+}
 
-   
+extension NewEventViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == dateTextField {
+            presentDatePicker()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
+    
 }

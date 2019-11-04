@@ -23,4 +23,9 @@ enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
     static let newEventViewController = "NewEventViewController"
+    static let recipesViewController = "RecipesViewController"
+}
+
+enum CellNibs {
+    
 }
