@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecipeCell" rowHeight="159" id="KGk-i7-Jjw" customClass="RecipeCell" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="159"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="159"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ARN-iG-m3N">
+                        <rect key="frame" x="27" y="0.0" width="321" height="159"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lp5-gd-jQ7">
+                        <rect key="frame" x="27" y="106" width="321" height="53"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FI7-dc-TJe">
+                                <rect key="frame" x="12" y="4" width="209" height="45"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWa-be-hue">
+                                <rect key="frame" x="229" y="11.5" width="80" height="30"/>
+                                <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="UWx-FL-jO1"/>
+                                </constraints>
+                                <state key="normal" title="Choose">
+                                    <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapChooseButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="bei-ZM-vnl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-bf-o6z">
+                                <rect key="frame" x="281" y="12.5" width="28" height="28"/>
+                                <state key="normal" image="checkedbutton"/>
+                                <connections>
+                                    <action selector="didTapChosenButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="FUh-So-YZp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="0.89597602739726023" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FI7-dc-TJe" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" constant="4" id="CHU-C9-ZPg"/>
+                            <constraint firstAttribute="trailing" secondItem="JWa-be-hue" secondAttribute="trailing" constant="12" id="FOH-Qd-bk1"/>
+                            <constraint firstItem="Krg-bf-o6z" firstAttribute="centerY" secondItem="JWa-be-hue" secondAttribute="centerY" id="GgL-l8-Lr2"/>
+                            <constraint firstItem="JWa-be-hue" firstAttribute="centerY" secondItem="FI7-dc-TJe" secondAttribute="centerY" id="MOf-vD-i6V"/>
+                            <constraint firstItem="FI7-dc-TJe" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" constant="12" id="Ph8-RB-TTg"/>
+                            <constraint firstItem="JWa-be-hue" firstAttribute="leading" secondItem="FI7-dc-TJe" secondAttribute="trailing" constant="8" id="ajt-WJ-Xxv"/>
+                            <constraint firstAttribute="height" constant="53" id="lm3-IZ-yyh"/>
+                            <constraint firstAttribute="bottom" secondItem="FI7-dc-TJe" secondAttribute="bottom" constant="4" id="mJ5-07-w1u"/>
+                            <constraint firstItem="Krg-bf-o6z" firstAttribute="trailing" secondItem="JWa-be-hue" secondAttribute="trailing" id="tHp-xc-IKH"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="lp5-gd-jQ7" secondAttribute="bottom" id="F0v-b9-DVf"/>
+                    <constraint firstItem="ARN-iG-m3N" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Hr7-wZ-Zsk"/>
+                    <constraint firstAttribute="trailing" secondItem="ARN-iG-m3N" secondAttribute="trailing" constant="27" id="U4s-Pu-rbg"/>
+                    <constraint firstAttribute="bottom" secondItem="ARN-iG-m3N" secondAttribute="bottom" id="ivP-vx-UtB"/>
+                    <constraint firstAttribute="trailing" secondItem="lp5-gd-jQ7" secondAttribute="trailing" constant="27" id="qJF-Vh-3aR"/>
+                    <constraint firstItem="lp5-gd-jQ7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="27" id="sCI-4H-U0s"/>
+                    <constraint firstItem="ARN-iG-m3N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="27" id="w3f-Aq-eyw"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="bottomView" destination="lp5-gd-jQ7" id="2fJ-Qt-WNg"/>
+                <outlet property="chooseButton" destination="JWa-be-hue" id="BAe-3y-XD6"/>
+                <outlet property="chosenButton" destination="Krg-bf-o6z" id="WjP-Se-qoE"/>
+                <outlet property="recipeImageView" destination="ARN-iG-m3N" id="r0f-Xk-1UD"/>
+                <outlet property="recipeNameLabel" destination="FI7-dc-TJe" id="di6-gV-WIV"/>
+            </connections>
+            <point key="canvasLocation" x="131.15942028985509" y="118.19196428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="checkedbutton" width="28" height="28"/>
+    </resources>
+</document>

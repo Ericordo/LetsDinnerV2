@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>544387580887-sv5u0vnfpmtnserdhf2dvfbsl787jpqt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.544387580887-sv5u0vnfpmtnserdhf2dvfbsl787jpqt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBASke8BWfUwlDr1BjNS61lFJW79qsTmTo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>544387580887</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.EricOrdonneau.LetsDinnerV2.MessagesExtension</string>
+	<key>PROJECT_ID</key>
+	<string>let-s-dinner</string>
+	<key>STORAGE_BUCKET</key>
+	<string>let-s-dinner.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:544387580887:ios:57a84f9dfc92e97cecc192</string>
+	<key>DATABASE_URL</key>
+	<string>https://let-s-dinner.firebaseio.com</string>
+</dict>
+</plist>

@@ -3,13 +3,42 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		880B13312372FA08003E29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13302372FA08003E29AC /* User.swift */; };
+		880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133323736D5C003E29AC /* EventSummaryViewController.swift */; };
+		880B133623736D5C003E29AC /* EventSummaryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B133423736D5C003E29AC /* EventSummaryViewController.xib */; };
+		880B133F237376C7003E29AC /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133D237376C7003E29AC /* AnswerCell.swift */; };
+		880B1340237376C7003E29AC /* AnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B133E237376C7003E29AC /* AnswerCell.xib */; };
+		880B1343237376D6003E29AC /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1341237376D6003E29AC /* InfoCell.swift */; };
+		880B1344237376D6003E29AC /* InfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B1342237376D6003E29AC /* InfoCell.xib */; };
+		880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1345237376E3003E29AC /* DescriptionCell.swift */; };
+		880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B1346237376E3003E29AC /* DescriptionCell.xib */; };
+		880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1349237376F3003E29AC /* TaskSummaryCell.swift */; };
+		880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B134A237376F3003E29AC /* TaskSummaryCell.xib */; };
+		880B134F23737700003E29AC /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B134D23737700003E29AC /* UserCell.swift */; };
+		880B135023737700003E29AC /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B134E23737700003E29AC /* UserCell.xib */; };
+		880B135323737711003E29AC /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B135123737711003E29AC /* CalendarCell.swift */; };
+		880B135423737711003E29AC /* CalendarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B135223737711003E29AC /* CalendarCell.xib */; };
+		880B135623746A5D003E29AC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B135523746A5D003E29AC /* UIButton.swift */; };
+		880B1358237474A4003E29AC /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1357237474A4003E29AC /* Task.swift */; };
+		880B135A23747578003E29AC /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B135923747578003E29AC /* Array.swift */; };
+		880B135C2374758F003E29AC /* TaskExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B135B2374758F003E29AC /* TaskExtension.swift */; };
+		880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B135E2374B08A003E29AC /* TaskCVCell.swift */; };
+		880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B135F2374B08A003E29AC /* TaskCVCell.xib */; };
+		880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13622374B37A003E29AC /* TaskStatusButton.swift */; };
+		880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13642374B3F2003E29AC /* TaskPersonLabel.swift */; };
+		880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13672374BE0D003E29AC /* TasksListViewController.swift */; };
+		880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B13682374BE0D003E29AC /* TasksListViewController.xib */; };
+		880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B136C2374C6C7003E29AC /* TaskCell.swift */; };
+		880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B136D2374C6C7003E29AC /* TaskCell.xib */; };
+		880B137323757224003E29AC /* UserCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B137123757224003E29AC /* UserCVCell.swift */; };
+		880B137423757224003E29AC /* UserCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B137223757224003E29AC /* UserCVCell.xib */; };
+		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		88349EFA236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349EF9236DE9FC002A1879 /* Assets.xcassets */; };
 		88349F01236DE9FC002A1879 /* Let's Dinner!.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 88349F00236DE9FC002A1879 /* Let's Dinner!.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		88349F06236DE9FC002A1879 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
 		88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F08236DE9FC002A1879 /* MessagesViewController.swift */; };
 		88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0A236DE9FC002A1879 /* MainInterface.storyboard */; };
 		88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0D236DE9FC002A1879 /* Assets.xcassets */; };
@@ -26,6 +55,23 @@
 		88349F352370388C002A1879 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F342370388C002A1879 /* Event.swift */; };
 		88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F37237043BB002A1879 /* RecipesViewController.swift */; };
 		88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F38237043BB002A1879 /* RecipesViewController.xib */; };
+		88349F3C2370525D002A1879 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3B2370525D002A1879 /* DataHelper.swift */; };
+		88349F412370D10A002A1879 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3F2370D10A002A1879 /* RecipeCell.swift */; };
+		88349F422370D10A002A1879 /* RecipeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F402370D10A002A1879 /* RecipeCell.xib */; };
+		883A29FA2371D15D0099ECDF /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 883A29F92371D15D0099ECDF /* Readme.md */; };
+		883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */; };
+		883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */; };
+		883A2A022372D5520099ECDF /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A2A002372D5520099ECDF /* EventDescriptionViewController.swift */; };
+		883A2A032372D5520099ECDF /* EventDescriptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A012372D5520099ECDF /* EventDescriptionViewController.xib */; };
+		883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A052372E9910099ECDF /* GoogleService-Info.plist */; };
+		8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */; };
+		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
+		88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */; };
+		88B7832E23717D84009E4F3C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor.swift */; };
+		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
+		88B7833223718125009E4F3C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe.swift */; };
+		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
+		BFA8ED65C29B499DC1CEDA65 /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +99,41 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		16492027AA4CC9A0444EDB54 /* Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2 MessagesExtension/Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		1D3EEB756B7462E534F70D74 /* Pods-LetsDinnerV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.debug.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.debug.xcconfig"; sourceTree = "<group>"; };
+		4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2 MessagesExtension/Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
+		4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetsDinnerV2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		880B13302372FA08003E29AC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		880B133323736D5C003E29AC /* EventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
+		880B133423736D5C003E29AC /* EventSummaryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventSummaryViewController.xib; sourceTree = "<group>"; };
+		880B133D237376C7003E29AC /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
+		880B133E237376C7003E29AC /* AnswerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerCell.xib; sourceTree = "<group>"; };
+		880B1341237376D6003E29AC /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
+		880B1342237376D6003E29AC /* InfoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoCell.xib; sourceTree = "<group>"; };
+		880B1345237376E3003E29AC /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
+		880B1346237376E3003E29AC /* DescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DescriptionCell.xib; sourceTree = "<group>"; };
+		880B1349237376F3003E29AC /* TaskSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSummaryCell.swift; sourceTree = "<group>"; };
+		880B134A237376F3003E29AC /* TaskSummaryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskSummaryCell.xib; sourceTree = "<group>"; };
+		880B134D23737700003E29AC /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		880B134E23737700003E29AC /* UserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
+		880B135123737711003E29AC /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		880B135223737711003E29AC /* CalendarCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarCell.xib; sourceTree = "<group>"; };
+		880B135523746A5D003E29AC /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		880B1357237474A4003E29AC /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		880B135923747578003E29AC /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		880B135B2374758F003E29AC /* TaskExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskExtension.swift; sourceTree = "<group>"; };
+		880B135E2374B08A003E29AC /* TaskCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCVCell.swift; sourceTree = "<group>"; };
+		880B135F2374B08A003E29AC /* TaskCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskCVCell.xib; sourceTree = "<group>"; };
+		880B13622374B37A003E29AC /* TaskStatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatusButton.swift; sourceTree = "<group>"; };
+		880B13642374B3F2003E29AC /* TaskPersonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPersonLabel.swift; sourceTree = "<group>"; };
+		880B13672374BE0D003E29AC /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
+		880B13682374BE0D003E29AC /* TasksListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksListViewController.xib; sourceTree = "<group>"; };
+		880B136C2374C6C7003E29AC /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		880B136D2374C6C7003E29AC /* TaskCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskCell.xib; sourceTree = "<group>"; };
+		880B137123757224003E29AC /* UserCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCVCell.swift; sourceTree = "<group>"; };
+		880B137223757224003E29AC /* UserCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserCVCell.xib; sourceTree = "<group>"; };
+		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
 		88349EF6236DE9FB002A1879 /* Let's Dinner!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Dinner!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88349EF9236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349EFB236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,27 +156,153 @@
 		88349F342370388C002A1879 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		88349F37237043BB002A1879 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		88349F38237043BB002A1879 /* RecipesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipesViewController.xib; sourceTree = "<group>"; };
+		88349F3B2370525D002A1879 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
+		88349F3F2370D10A002A1879 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
+		88349F402370D10A002A1879 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
+		883A29F92371D15D0099ECDF /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
+		883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsViewController.swift; sourceTree = "<group>"; };
+		883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeDetailsViewController.xib; sourceTree = "<group>"; };
+		883A2A002372D5520099ECDF /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
+		883A2A012372D5520099ECDF /* EventDescriptionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDescriptionViewController.xib; sourceTree = "<group>"; };
+		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		88B7832D23717D84009E4F3C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		88B7833123718125009E4F3C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		88B78334237183DB009E4F3C /* PredefinedRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PredefinedRecipes.json; sourceTree = "<group>"; };
+		BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.release.xcconfig"; sourceTree = "<group>"; };
+		DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetsDinnerV2_MessagesExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		148FD0FFFF9A2FD83F7DA173 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFA8ED65C29B499DC1CEDA65 /* Pods_LetsDinnerV2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		88349EFD236DE9FC002A1879 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88349F06236DE9FC002A1879 /* Messages.framework in Frameworks */,
+				8858BF302371CAFD00133877 /* Messages.framework in Frameworks */,
+				8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		880B133223736D3C003E29AC /* EventSummaryVC */ = {
+			isa = PBXGroup;
+			children = (
+				880B133323736D5C003E29AC /* EventSummaryViewController.swift */,
+				880B133423736D5C003E29AC /* EventSummaryViewController.xib */,
+			);
+			path = EventSummaryVC;
+			sourceTree = "<group>";
+		};
+		880B133723737605003E29AC /* AnswerCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B133D237376C7003E29AC /* AnswerCell.swift */,
+				880B133E237376C7003E29AC /* AnswerCell.xib */,
+			);
+			path = AnswerCell;
+			sourceTree = "<group>";
+		};
+		880B133823737619003E29AC /* InfoCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B1341237376D6003E29AC /* InfoCell.swift */,
+				880B1342237376D6003E29AC /* InfoCell.xib */,
+			);
+			path = InfoCell;
+			sourceTree = "<group>";
+		};
+		880B133923737622003E29AC /* DescriptionCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B1345237376E3003E29AC /* DescriptionCell.swift */,
+				880B1346237376E3003E29AC /* DescriptionCell.xib */,
+			);
+			path = DescriptionCell;
+			sourceTree = "<group>";
+		};
+		880B133A2373762A003E29AC /* TaskSummaryCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B1349237376F3003E29AC /* TaskSummaryCell.swift */,
+				880B134A237376F3003E29AC /* TaskSummaryCell.xib */,
+			);
+			path = TaskSummaryCell;
+			sourceTree = "<group>";
+		};
+		880B133B23737635003E29AC /* UserCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B134D23737700003E29AC /* UserCell.swift */,
+				880B134E23737700003E29AC /* UserCell.xib */,
+			);
+			path = UserCell;
+			sourceTree = "<group>";
+		};
+		880B133C2373763D003E29AC /* CalendarCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B135123737711003E29AC /* CalendarCell.swift */,
+				880B135223737711003E29AC /* CalendarCell.xib */,
+			);
+			path = CalendarCell;
+			sourceTree = "<group>";
+		};
+		880B135D2374B06B003E29AC /* TaskCVCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B135E2374B08A003E29AC /* TaskCVCell.swift */,
+				880B135F2374B08A003E29AC /* TaskCVCell.xib */,
+			);
+			path = TaskCVCell;
+			sourceTree = "<group>";
+		};
+		880B13662374BDAE003E29AC /* TasksListVC */ = {
+			isa = PBXGroup;
+			children = (
+				880B13672374BE0D003E29AC /* TasksListViewController.swift */,
+				880B13682374BE0D003E29AC /* TasksListViewController.xib */,
+			);
+			path = TasksListVC;
+			sourceTree = "<group>";
+		};
+		880B136B2374C6AD003E29AC /* TaskCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B136C2374C6C7003E29AC /* TaskCell.swift */,
+				880B136D2374C6C7003E29AC /* TaskCell.xib */,
+			);
+			path = TaskCell;
+			sourceTree = "<group>";
+		};
+		880B1370237571FF003E29AC /* UserCVCell */ = {
+			isa = PBXGroup;
+			children = (
+				880B137123757224003E29AC /* UserCVCell.swift */,
+				880B137223757224003E29AC /* UserCVCell.xib */,
+			);
+			path = UserCVCell;
+			sourceTree = "<group>";
+		};
 		88349EEF236DE9FB002A1879 = {
 			isa = PBXGroup;
 			children = (
+				883A29F92371D15D0099ECDF /* Readme.md */,
 				88349EF8236DE9FB002A1879 /* LetsDinnerV2 */,
 				88349F07236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension */,
 				88349F04236DE9FC002A1879 /* Frameworks */,
 				88349EF7236DE9FB002A1879 /* Products */,
+				B017EC268CCDD12643C7FD91 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +328,8 @@
 			isa = PBXGroup;
 			children = (
 				88349F05236DE9FC002A1879 /* Messages.framework */,
+				4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */,
+				DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -128,12 +337,15 @@
 		88349F07236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
+				880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */,
 				88349F19236DEEEB002A1879 /* Model */,
 				88349F1B236DEEF9002A1879 /* Controller */,
 				88349F1A236DEEF2002A1879 /* View */,
 				88349F1E236DEF1C002A1879 /* Extensions */,
+				88B7833323718391009E4F3C /* Ressources */,
 				88349F0D236DE9FC002A1879 /* Assets.xcassets */,
 				88349F0F236DE9FC002A1879 /* Info.plist */,
+				883A2A052372E9910099ECDF /* GoogleService-Info.plist */,
 			);
 			path = "LetsDinnerV2 MessagesExtension";
 			sourceTree = "<group>";
@@ -143,6 +355,10 @@
 			children = (
 				88349F1C236DEF15002A1879 /* Constants.swift */,
 				88349F342370388C002A1879 /* Event.swift */,
+				88349F3B2370525D002A1879 /* DataHelper.swift */,
+				88B7833123718125009E4F3C /* Recipe.swift */,
+				880B13302372FA08003E29AC /* User.swift */,
+				880B1357237474A4003E29AC /* Task.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -150,8 +366,12 @@
 		88349F1A236DEEF2002A1879 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				88349F3D2370D0C1002A1879 /* Cells */,
 				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
 				88349F322370302E002A1879 /* DatePicker.swift */,
+				88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */,
+				880B13622374B37A003E29AC /* TaskStatusButton.swift */,
+				880B13642374B3F2003E29AC /* TaskPersonLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -164,6 +384,10 @@
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
 				88349F31236F7A22002A1879 /* NewEventVC */,
 				88349F362370439B002A1879 /* RecipesVC */,
+				883A29FB2371F4580099ECDF /* RecipeDetailsVC */,
+				883A2A042372D5560099ECDF /* EventDescriptionVC */,
+				880B133223736D3C003E29AC /* EventSummaryVC */,
+				880B13662374BDAE003E29AC /* TasksListVC */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -173,6 +397,12 @@
 			children = (
 				88349F24236E20CF002A1879 /* UIView.swift */,
 				88349F2B236F7145002A1879 /* UserDefaults.swift */,
+				88B7832D23717D84009E4F3C /* UIColor.swift */,
+				88B7832F23717E3E009E4F3C /* String.swift */,
+				880B135523746A5D003E29AC /* UIButton.swift */,
+				880B135923747578003E29AC /* Array.swift */,
+				880B135B2374758F003E29AC /* TaskExtension.swift */,
+				880B1375237576C3003E29AC /* UIImageView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -213,6 +443,69 @@
 			path = RecipesVC;
 			sourceTree = "<group>";
 		};
+		88349F3D2370D0C1002A1879 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				880B136B2374C6AD003E29AC /* TaskCell */,
+				880B135D2374B06B003E29AC /* TaskCVCell */,
+				880B133C2373763D003E29AC /* CalendarCell */,
+				880B133B23737635003E29AC /* UserCell */,
+				880B1370237571FF003E29AC /* UserCVCell */,
+				880B133A2373762A003E29AC /* TaskSummaryCell */,
+				880B133923737622003E29AC /* DescriptionCell */,
+				880B133823737619003E29AC /* InfoCell */,
+				880B133723737605003E29AC /* AnswerCell */,
+				88349F3E2370D0C9002A1879 /* RecipeCell */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		88349F3E2370D0C9002A1879 /* RecipeCell */ = {
+			isa = PBXGroup;
+			children = (
+				88349F3F2370D10A002A1879 /* RecipeCell.swift */,
+				88349F402370D10A002A1879 /* RecipeCell.xib */,
+			);
+			path = RecipeCell;
+			sourceTree = "<group>";
+		};
+		883A29FB2371F4580099ECDF /* RecipeDetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */,
+				883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */,
+			);
+			path = RecipeDetailsVC;
+			sourceTree = "<group>";
+		};
+		883A2A042372D5560099ECDF /* EventDescriptionVC */ = {
+			isa = PBXGroup;
+			children = (
+				883A2A002372D5520099ECDF /* EventDescriptionViewController.swift */,
+				883A2A012372D5520099ECDF /* EventDescriptionViewController.xib */,
+			);
+			path = EventDescriptionVC;
+			sourceTree = "<group>";
+		};
+		88B7833323718391009E4F3C /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				88B78334237183DB009E4F3C /* PredefinedRecipes.json */,
+			);
+			path = Ressources;
+			sourceTree = "<group>";
+		};
+		B017EC268CCDD12643C7FD91 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1D3EEB756B7462E534F70D74 /* Pods-LetsDinnerV2.debug.xcconfig */,
+				BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */,
+				16492027AA4CC9A0444EDB54 /* Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig */,
+				4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -220,8 +513,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88349F16236DE9FC002A1879 /* Build configuration list for PBXNativeTarget "LetsDinnerV2" */;
 			buildPhases = (
+				52F07E8A278835332D7590CA /* [CP] Check Pods Manifest.lock */,
 				88349EF4236DE9FB002A1879 /* Resources */,
 				88349F15236DE9FC002A1879 /* Embed App Extensions */,
+				148FD0FFFF9A2FD83F7DA173 /* Frameworks */,
+				D708FD19D8820027417285B2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -237,6 +533,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88349F12236DE9FC002A1879 /* Build configuration list for PBXNativeTarget "LetsDinnerV2 MessagesExtension" */;
 			buildPhases = (
+				64B97D168BF486D7C14A6B6C /* [CP] Check Pods Manifest.lock */,
 				88349EFC236DE9FC002A1879 /* Sources */,
 				88349EFD236DE9FC002A1879 /* Frameworks */,
 				88349EFE236DE9FC002A1879 /* Resources */,
@@ -292,6 +589,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				883A29FA2371D15D0099ECDF /* Readme.md in Resources */,
 				88349EFA236DE9FC002A1879 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,31 +599,138 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
+				880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */,
+				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
+				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
+				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
+				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
+				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
+				883A2A032372D5520099ECDF /* EventDescriptionViewController.xib in Resources */,
+				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */,
 				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
+				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
+				880B135423737711003E29AC /* CalendarCell.xib in Resources */,
 				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
+				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
+				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
+				88349F422370D10A002A1879 /* RecipeCell.xib in Resources */,
+				880B133623736D5C003E29AC /* EventSummaryViewController.xib in Resources */,
+				880B1340237376C7003E29AC /* AnswerCell.xib in Resources */,
+				88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52F07E8A278835332D7590CA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LetsDinnerV2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		64B97D168BF486D7C14A6B6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LetsDinnerV2 MessagesExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D708FD19D8820027417285B2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		88349EFC236DE9FC002A1879 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				883A2A022372D5520099ECDF /* EventDescriptionViewController.swift in Sources */,
 				88349F25236E20CF002A1879 /* UIView.swift in Sources */,
+				88B7832E23717D84009E4F3C /* UIColor.swift in Sources */,
+				88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */,
+				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
+				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,
+				880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */,
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
+				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,
 				88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */,
+				880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
 				88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */,
+				880B135323737711003E29AC /* CalendarCell.swift in Sources */,
+				880B1358237474A4003E29AC /* Task.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
+				88349F3C2370525D002A1879 /* DataHelper.swift in Sources */,
+				880B134F23737700003E29AC /* UserCell.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
+				88B7833023717E3E009E4F3C /* String.swift in Sources */,
+				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,
 				88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */,
+				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
+				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,
+				880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */,
+				880B1376237576C3003E29AC /* UIImageView.swift in Sources */,
+				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
 				88349F332370302E002A1879 /* DatePicker.swift in Sources */,
+				880B133F237376C7003E29AC /* AnswerCell.swift in Sources */,
+				880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */,
+				88B7833223718125009E4F3C /* Recipe.swift in Sources */,
+				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
+				880B13312372FA08003E29AC /* User.swift in Sources */,
+				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
+				880B135A23747578003E29AC /* Array.swift in Sources */,
+				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +806,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -455,7 +860,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -467,8 +872,10 @@
 		};
 		88349F13236DE9FC002A1879 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 16492027AA4CC9A0444EDB54 /* Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
@@ -487,6 +894,7 @@
 		};
 		88349F14236DE9FC002A1879 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -507,13 +915,14 @@
 		};
 		88349F17236DE9FC002A1879 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D3EEB756B7462E534F70D74 /* Pods-LetsDinnerV2.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2;
 				PRODUCT_NAME = "Let's Dinner!";
 				SWIFT_VERSION = 5.0;
@@ -523,13 +932,14 @@
 		};
 		88349F18236DE9FC002A1879 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2;
 				PRODUCT_NAME = "Let's Dinner!";
 				SWIFT_VERSION = 5.0;

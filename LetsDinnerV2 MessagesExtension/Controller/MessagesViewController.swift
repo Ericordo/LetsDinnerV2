@@ -8,6 +8,7 @@
 
 import UIKit
 import Messages
+import Firebase
 
 class MessagesViewController: MSMessagesAppViewController {
     
@@ -16,19 +17,25 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.setGradient(colorOne: Colors.gradientRed, colorTwo: Colors.gradientPink)
-        // Do any additional setup after loading the view.
+        if FirebaseApp.app() == nil {
+                   FirebaseApp.configure()
+               }
     }
     
     // MARK: - Conversation Handling
     
     override func willBecomeActive(with conversation: MSConversation) {
         presentViewController(for: conversation, with: presentationStyle)
-        
-        
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
-        
         // Use this method to configure the extension and restore previously stored state.
+    }
+    
+    override func didBecomeActive(with conversation: MSConversation) {
+        guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
+        if Event.shared.currentUser == nil {
+            Event.shared.currentUser = User(identifier: currentUserUid, fullName: defaults.username, hasAccepted: false)
+        }
     }
     
     override func didResignActive(with conversation: MSConversation) {
@@ -49,7 +56,10 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
-        // Called when the user taps the send button.
+         if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+                   Event.shared.acceptInvitation(Event.shared.currentUser?.hasAccepted)
+               }
+               Event.shared.updateFirebaseTasks()
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -75,7 +85,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Remove any child view controllers that have been presented.
         removeAllChildViewControllers()
         
-        let controller: UIViewController
+        let controller : UIViewController
         if presentationStyle == .compact {
             // Show a list of previously created ice creams.
             controller = instantiateInitialViewController()
@@ -84,7 +94,15 @@ class MessagesViewController: MSMessagesAppViewController {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController()
             } else {
-                controller = instantiateNewEventViewController()
+                if conversation.selectedMessage?.url != nil {
+                    guard let message = conversation.selectedMessage else { return }
+                    Event.shared.currentSession = message.session
+                    Event.shared.parseMessage(message: message)
+                    controller = instantiateEventSummaryViewController()
+                } else {
+                    controller = instantiateNewEventViewController()
+                }
+                
             }
         }
 //        else {
@@ -150,7 +168,34 @@ class MessagesViewController: MSMessagesAppViewController {
         controller.delegate = self
          return controller
      }
-
+    
+    private func instantiateEventDescriptionViewController() -> UIViewController {
+        let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
+    private func instantiateEventSummaryViewController() -> UIViewController {
+        let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
+    private func instantiateTasksListViewController() -> UIViewController {
+        let controller = TasksListViewController(nibName: VCNibs.tasksListViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
+    private func sendMessage(message: MSMessage) {
+         guard let conversation = activeConversation else { fatalError("Expected a conversation") }
+        conversation.insert(message) {error in
+            if let error = error {
+                print(error)
+            }
+        }
+        self.dismiss()
+    }
 }
 
 
@@ -177,11 +222,76 @@ extension MessagesViewController: NewEventViewControllerDelegate {
     func newEventVCDidTapNext(controller: NewEventViewController) {
         let controller = instantiateRecipesViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
-        
+        addChildViewController(controller: controller) 
     }
 }
 
 extension MessagesViewController: RecipesViewControllerDelegate {
+    func recipeVCDidTapNext(controller: RecipesViewController) {
+        let controller = instantiateEventDescriptionViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func recipeVCDidTapPrevious(controller: RecipesViewController) {
+        let controller = instantiateNewEventViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    
+}
+
+extension MessagesViewController: EventDescriptionViewControllerDelegate {
+    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController) {
+        let controller = instantiateRecipesViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+        sendMessage(message: message)
+    }
+    
+    
+}
+
+extension MessagesViewController: EventSummaryViewControllerDelegate {
+    func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
+        let controller = instantiateTasksListViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController) {
+        if hasAccepted {
+            Event.shared.summary = defaults.username + MessagesToDisplay.acceptedInvitation
+        } else {
+            Event.shared.summary = defaults.username + MessagesToDisplay.declinedInvitation
+        }
+        Event.shared.currentUser?.hasAccepted = hasAccepted
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        sendMessage(message: message)
+    }
+    
+    
+}
+
+extension MessagesViewController: TasksListViewControllerDelegate {
+    func tasksListVCDidTapBackButton(controller: TasksListViewController) {
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        sendMessage(message: message)
+    }
+    
+    func tasksListVCDidTapSubmit(controller: TasksListViewController) {
+        let controller = instantiateEventSummaryViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
     
 }

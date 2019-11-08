@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
 }
@@ -89,8 +90,10 @@ class NewEventViewController: UIViewController {
     
     
     @IBAction func didTapNext(_ sender: UIButton) {
+        
         if !allFieldsAreFilled() {
             errorLabel.isHidden = false
+            print("fields not filled")
         } else {
             guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text else { return }
             Event.shared.hostName = host
@@ -98,7 +101,9 @@ class NewEventViewController: UIViewController {
             Event.shared.dinnerLocation = location
             Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
             dateSelected = false
-            delegate?.newEventVCDidTapNext(controller: self)
+            print("tapnexctbeforedelegate")
+            delegate!.newEventVCDidTapNext(controller: self)
+            print("tapnexctafterdelegate")
         }
     }
     

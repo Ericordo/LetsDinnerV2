@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" id="KGk-i7-Jjw" customClass="UserCell" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="227"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="227"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAg-Wa-eaw">
+                        <rect key="frame" x="32" y="14" width="55" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TeS-6x-eIx">
+                        <rect key="frame" x="0.0" y="50" width="320" height="177"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YO9-od-Xg8">
+                            <size key="itemSize" width="60" height="100"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="28" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="TeS-6x-eIx" firstAttribute="top" secondItem="CAg-Wa-eaw" secondAttribute="bottom" constant="15" id="B1H-mI-wrm"/>
+                    <constraint firstItem="CAg-Wa-eaw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="EHm-GZ-Djq"/>
+                    <constraint firstAttribute="bottom" secondItem="TeS-6x-eIx" secondAttribute="bottom" id="I8v-i1-x8t"/>
+                    <constraint firstItem="TeS-6x-eIx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="UZE-2e-a20"/>
+                    <constraint firstItem="CAg-Wa-eaw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="kgf-VT-lBS"/>
+                    <constraint firstAttribute="trailing" secondItem="TeS-6x-eIx" secondAttribute="trailing" id="rvP-V6-49B"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="peopleCollectionView" destination="TeS-6x-eIx" id="dGZ-Md-zRW"/>
+                <outlet property="titleLabel" destination="CAg-Wa-eaw" id="44T-jg-9kP"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="135"/>
+        </tableViewCell>
+    </objects>
+</document>

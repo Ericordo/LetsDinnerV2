@@ -1,13 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecipesViewController" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecipesViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="Ciq-25-awl" id="BfY-Mq-1MU"/>
+                <outlet property="nextButton" destination="lhc-Ek-PZ3" id="GWK-61-TJ2"/>
+                <outlet property="previousButton" destination="Tff-p2-emW" id="72z-uY-8dF"/>
+                <outlet property="recipesTableView" destination="foA-gA-QWG" id="MWL-Ab-q23"/>
+                <outlet property="resultsLabel" destination="qeB-1L-5bN" id="AnK-lT-0f0"/>
+                <outlet property="searchBar" destination="JSv-Jk-kjP" id="o0y-8Q-pWH"/>
+                <outlet property="searchLabel" destination="3EZ-7s-2av" id="F1f-Va-qQ1"/>
+                <outlet property="titleLabel" destination="nph-G5-JAT" id="xGG-v2-FaQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,8 +25,90 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tff-p2-emW">
+                    <rect key="frame" x="17" y="20" width="66" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Previous">
+                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapPrevious:" destination="-1" eventType="touchUpInside" id="gCa-2p-xHu"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhc-Ek-PZ3">
+                    <rect key="frame" x="324" y="20" width="34" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Skip">
+                        <color key="titleColor" red="0.83529411760000005" green="0.1019607843" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="7Jl-Ed-Gxa"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nph-G5-JAT">
+                    <rect key="frame" x="156" y="26" width="63.5" height="21"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <searchBar contentMode="redraw" placeholder="Search for recipes" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-Jk-kjP" customClass="CustomSearchBar" customModule="Let_s_Dinner_" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="59" width="375" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="LHK-34-xfR"/>
+                    </constraints>
+                    <color key="tintColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="foA-gA-QWG">
+                    <rect key="frame" x="0.0" y="99" width="375" height="568"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeB-1L-5bN">
+                    <rect key="frame" x="146" y="323" width="83" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3EZ-7s-2av">
+                    <rect key="frame" x="142" y="323" width="91" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ciq-25-awl">
+                    <rect key="frame" x="118" y="323.5" width="20" height="20"/>
+                    <color key="color" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                </activityIndicatorView>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="Tff-p2-emW" secondAttribute="top" id="36t-eR-ubz"/>
+                <constraint firstItem="JSv-Jk-kjP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="6PT-Vd-73X"/>
+                <constraint firstItem="3EZ-7s-2av" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AsH-bm-bBt"/>
+                <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="Coz-nV-2rH"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lhc-Ek-PZ3" secondAttribute="trailing" constant="17" id="Peh-yq-uQv"/>
+                <constraint firstItem="JSv-Jk-kjP" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="QJR-09-tPV"/>
+                <constraint firstItem="Tff-p2-emW" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="W0O-oG-ZzY"/>
+                <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="Tff-p2-emW" secondAttribute="top" id="WO7-bQ-hbk"/>
+                <constraint firstItem="nph-G5-JAT" firstAttribute="centerY" secondItem="Tff-p2-emW" secondAttribute="centerY" id="WaY-wZ-IxL"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="foA-gA-QWG" secondAttribute="bottom" id="ZiO-Ub-VcR"/>
+                <constraint firstItem="3EZ-7s-2av" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="b6D-zc-4J1"/>
+                <constraint firstItem="foA-gA-QWG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dQH-db-Zr2"/>
+                <constraint firstItem="Ciq-25-awl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="gi3-Ch-DRG"/>
+                <constraint firstItem="qeB-1L-5bN" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="i6B-Za-uvM"/>
+                <constraint firstItem="3EZ-7s-2av" firstAttribute="leading" secondItem="Ciq-25-awl" secondAttribute="trailing" constant="4" id="iwH-cM-GK5"/>
+                <constraint firstItem="lhc-Ek-PZ3" firstAttribute="centerY" secondItem="Tff-p2-emW" secondAttribute="centerY" id="kmv-xv-DfE"/>
+                <constraint firstItem="foA-gA-QWG" firstAttribute="top" secondItem="JSv-Jk-kjP" secondAttribute="bottom" id="maH-ap-31Y"/>
+                <constraint firstItem="qeB-1L-5bN" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="ov7-yc-6XJ"/>
+                <constraint firstItem="JSv-Jk-kjP" firstAttribute="top" secondItem="nph-G5-JAT" secondAttribute="bottom" constant="12" id="tWO-Rp-lqc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="foA-gA-QWG" secondAttribute="trailing" id="wcp-CI-Ci1"/>
+                <constraint firstItem="nph-G5-JAT" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="y7s-m5-lRj"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="132" y="136.28185907046478"/>
         </view>
     </objects>
 </document>
