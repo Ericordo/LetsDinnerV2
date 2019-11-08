@@ -59,7 +59,7 @@ enum MessagesToDisplay {
     static let assignedToYourself = "Assigned to yourself"
     static let yes = "Yes"
     static let no = "No"
-    static let unsubmittedTasks = "You have unsbumitted tasks."
+    static let unsubmittedTasks = "You have unsubmitted tasks."
     static let submitQuestion = "Do you want to submit them?"
 }
 
