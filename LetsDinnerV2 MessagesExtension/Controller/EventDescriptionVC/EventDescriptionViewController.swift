@@ -61,7 +61,7 @@ class EventDescriptionViewController: UIViewController {
     @IBAction func didTapFinish(_ sender: UIButton) {
         guard let text = descriptionTextView.text else { return }
         if text.isEmpty {
-            let refreshAlert = UIAlertController(title: "Please enter event description.", message: "", preferredStyle: UIAlertController.Style.alert)
+            let refreshAlert = UIAlertController(title: MessagesToDisplay.descriptionPrompt, message: "", preferredStyle: UIAlertController.Style.alert)
             refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
                 self.descriptionTextView.becomeFirstResponder()
             }))
