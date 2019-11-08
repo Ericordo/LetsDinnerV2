@@ -26,7 +26,6 @@ class NewEventViewController: UIViewController {
     weak var delegate: NewEventViewControllerDelegate?
     
     let datePicker = DatePicker()
-    var dateSelected = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +35,7 @@ class NewEventViewController: UIViewController {
             textField!.delegate = self
         }
         
-        
-        
-        // Do any additional setup after loading the view.
+    
     }
     
     func setupUI() {
@@ -63,7 +60,6 @@ class NewEventViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, h:mm a"
         dateTextField.text = formatter.string(from: datePicker.date)
-        dateSelected = true
         dateTextField.endEditing(true)
     }
     
@@ -75,7 +71,7 @@ class NewEventViewController: UIViewController {
         dinnerNameTextField.text = Event.shared.dinnerName
         hostNameTextField.text = Event.shared.hostName
         locationTextField.text = Event.shared.dinnerLocation
-        if dateSelected && !Event.shared.dateTimestamp.isZero {
+        if !Event.shared.dateTimestamp.isZero {
             dateTextField.text = Event.shared.dinnerDate
         }
     }
@@ -103,10 +99,7 @@ class NewEventViewController: UIViewController {
             Event.shared.dinnerName = dinner
             Event.shared.dinnerLocation = location
             Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
-            dateSelected = false
-            print("tapnexctbeforedelegate")
             delegate!.newEventVCDidTapNext(controller: self)
-            print("tapnexctafterdelegate")
         }
     }
     
