@@ -47,12 +47,15 @@ class NewEventViewController: UIViewController {
     }
     
     func presentDatePicker() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.tintColor = Colors.customPink
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDonePicker))
         let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelPicker))
-        datePicker.toolbar.setItems([cancelButton,space,doneButton], animated: false)
+        toolbar.setItems([cancelButton,space,doneButton], animated: false)
         
-        dateTextField.inputAccessoryView = datePicker.toolbar
+        dateTextField.inputAccessoryView = toolbar
         dateTextField.inputView = datePicker
     }
     
