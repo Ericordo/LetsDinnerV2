@@ -44,7 +44,7 @@ class NewEventViewController: UIViewController {
     }
     
     func presentDatePicker() {
-        let toolbar = UIToolbar()
+        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.width, height: CGFloat(44))))
         toolbar.sizeToFit()
         toolbar.tintColor = Colors.customPink
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDonePicker))
