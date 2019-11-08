@@ -25,12 +25,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZA-WH-Xen">
-                            <rect key="frame" x="308" y="13" width="44" height="44"/>
+                            <rect key="frame" x="316" y="15" width="44" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="aNc-Vn-SiE"/>
                                 <constraint firstAttribute="width" constant="44" id="e7x-9y-lyP"/>
                             </constraints>
-                            <state key="normal" image="infoButtonIcon"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" image="profilebutton"/>
                             <connections>
                                 <action selector="didTapInfo:" destination="-1" eventType="touchUpInside" id="7Ux-P3-HmO"/>
                             </connections>
@@ -87,8 +88,8 @@
                         <constraint firstItem="I2d-j5-BN2" firstAttribute="top" secondItem="067-Ls-Y8h" secondAttribute="top" constant="70" id="ij1-dW-eHP"/>
                         <constraint firstItem="Uz0-h7-atq" firstAttribute="top" secondItem="7Di-Pk-WPi" secondAttribute="bottom" constant="8" id="l6e-0j-7u1"/>
                         <constraint firstItem="Uz0-h7-atq" firstAttribute="centerX" secondItem="067-Ls-Y8h" secondAttribute="centerX" id="phI-FG-mlc"/>
-                        <constraint firstAttribute="trailing" secondItem="hZA-WH-Xen" secondAttribute="trailing" constant="23" id="rca-Xa-ml9"/>
-                        <constraint firstItem="hZA-WH-Xen" firstAttribute="top" secondItem="067-Ls-Y8h" secondAttribute="top" constant="13" id="t4y-K7-plP"/>
+                        <constraint firstAttribute="trailing" secondItem="hZA-WH-Xen" secondAttribute="trailing" constant="15" id="rca-Xa-ml9"/>
+                        <constraint firstItem="hZA-WH-Xen" firstAttribute="top" secondItem="067-Ls-Y8h" secondAttribute="top" constant="15" id="t4y-K7-plP"/>
                     </constraints>
                 </view>
             </subviews>
@@ -105,6 +106,6 @@
     </objects>
     <resources>
         <image name="App icon white" width="45" height="33"/>
-        <image name="infoButtonIcon" width="22" height="22"/>
+        <image name="profilebutton" width="33" height="33"/>
     </resources>
 </document>
