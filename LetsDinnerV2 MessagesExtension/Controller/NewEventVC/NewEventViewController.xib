@@ -16,6 +16,7 @@
                 <outlet property="hostNameTextField" destination="Opz-v8-87p" id="cYr-QZ-7WR"/>
                 <outlet property="locationTextField" destination="0Qf-bJ-rKC" id="ZSe-4D-xiV"/>
                 <outlet property="nextButton" destination="OxX-0E-huw" id="cWp-lt-HkK"/>
+                <outlet property="profileButton" destination="ed6-pw-dxQ" id="jVS-zh-KF5"/>
                 <outlet property="titleLabel" destination="DdJ-Rh-Nv7" id="M64-gZ-EWE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -26,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OxX-0E-huw">
-                    <rect key="frame" x="322" y="20" width="36" height="33"/>
+                    <rect key="frame" x="322" y="10" width="36" height="33"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="36" id="MzK-Yn-RQn"/>
                         <constraint firstAttribute="height" constant="33" id="RFF-a7-QAY"/>
@@ -95,6 +96,17 @@
                     <color key="textColor" red="0.97647058823529409" green="0.4392156862745098" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ed6-pw-dxQ">
+                    <rect key="frame" x="17" y="10" width="33" height="33"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="33" id="Tkb-Yf-mwj"/>
+                        <constraint firstAttribute="width" constant="33" id="f43-Dz-Evd"/>
+                    </constraints>
+                    <state key="normal" image="profilebutton"/>
+                    <connections>
+                        <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="xQe-Ks-qif"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -102,15 +114,20 @@
                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="top" secondItem="DdJ-Rh-Nv7" secondAttribute="bottom" constant="30" id="Dga-3g-l2h"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="PII-pn-KdY"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
+                <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="W00-lv-t0a"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DdJ-Rh-Nv7" secondAttribute="trailing" constant="30" id="Ygj-pE-8xy"/>
                 <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="b2i-nv-giP"/>
+                <constraint firstItem="OxX-0E-huw" firstAttribute="centerY" secondItem="ed6-pw-dxQ" secondAttribute="centerY" id="bwn-4m-w08"/>
                 <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="61" id="e3c-tp-3y1"/>
                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pdm-sO-pFx"/>
-                <constraint firstItem="OxX-0E-huw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="rqg-tu-5S6"/>
+                <constraint firstItem="OxX-0E-huw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="rqg-tu-5S6"/>
                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="sYn-oi-xXW"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="139" y="135"/>
         </view>
     </objects>
+    <resources>
+        <image name="profilebutton" width="21" height="21"/>
+    </resources>
 </document>

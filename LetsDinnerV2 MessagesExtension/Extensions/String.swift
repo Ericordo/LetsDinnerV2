@@ -62,7 +62,7 @@ extension String {
         
         if firstChar.isEmpty && secondChar.isEmpty {
             firstChar = "?"
-            secondChar = "?"
+            secondChar = ""
         }
         
         return firstChar + secondChar

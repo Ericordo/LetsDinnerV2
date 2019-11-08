@@ -11,6 +11,7 @@ import UIKit
 
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
+    func newEventVCDdidTapProfile(controller: NewEventViewController)
 }
 
 class NewEventViewController: UIViewController {
@@ -22,6 +23,7 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var profileButton: UIButton!
     
     weak var delegate: NewEventViewControllerDelegate?
     
@@ -102,6 +104,11 @@ class NewEventViewController: UIViewController {
             delegate!.newEventVCDidTapNext(controller: self)
         }
     }
+    
+    @IBAction func didTapProfileButton(_ sender: UIButton) {
+        delegate?.newEventVCDdidTapProfile(controller: self)
+    }
+    
     
     
 }

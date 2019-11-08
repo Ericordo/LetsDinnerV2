@@ -212,6 +212,13 @@ extension MessagesViewController: InitialViewControllerDelegate {
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
+    func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
+          let controller = instantiateInitialViewController()
+            requestPresentationStyle(.compact)
+              removeAllChildViewControllers()
+              addChildViewController(controller: controller)
+    }
+    
     func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
         guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         presentViewController(for: conversation, with: .expanded)
@@ -219,6 +226,12 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
+    func newEventVCDdidTapProfile(controller: NewEventViewController) {
+        let controller = instantiateRegistrationViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller) 
+    }
+    
     func newEventVCDidTapNext(controller: NewEventViewController) {
         let controller = instantiateRecipesViewController()
         removeAllChildViewControllers()

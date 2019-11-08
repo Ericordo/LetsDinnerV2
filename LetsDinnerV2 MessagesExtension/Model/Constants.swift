@@ -65,6 +65,7 @@ enum MessagesToDisplay {
 }
 
 enum LabelStrings {
+    static let getStarted = "Please enter your full name \n to get started."
     static let host = "Host"
     static let date = "Date"
     static let location = "Location"

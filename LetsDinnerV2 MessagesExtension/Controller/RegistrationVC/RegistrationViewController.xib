@@ -10,10 +10,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegistrationViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
+                <outlet property="addPicButton" destination="ong-OT-2JY" id="GII-LU-RzS"/>
+                <outlet property="cancelButton" destination="Stm-VU-WqM" id="ylv-jk-H1T"/>
                 <outlet property="errorLabel" destination="Sx3-KJ-BHS" id="Qci-on-dpS"/>
                 <outlet property="nameTextField" destination="6Lx-oO-BiL" id="7yg-B2-meA"/>
-                <outlet property="saveButton" destination="HSu-xG-MmD" id="45N-8X-6rO"/>
+                <outlet property="profileLabel" destination="qXe-Sf-voV" id="mYI-pD-M7o"/>
+                <outlet property="saveButton" destination="dmE-YD-pT3" id="xkk-Py-iEb"/>
                 <outlet property="titleLabel" destination="y77-Ee-2OU" id="QsS-87-RD4"/>
+                <outlet property="userPic" destination="Br6-mp-dS2" id="Yt7-8X-MRv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y77-Ee-2OU">
-                    <rect key="frame" x="84" y="46" width="207" height="41"/>
+                    <rect key="frame" x="84" y="56" width="207" height="41"/>
                     <string key="text">To get started,
 please enter your full name</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -31,7 +35,7 @@ please enter your full name</string>
                     <nil key="highlightedColor"/>
                 </label>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Lx-oO-BiL">
-                    <rect key="frame" x="40" y="151" width="295" height="22"/>
+                    <rect key="frame" x="40" y="217" width="295" height="22"/>
                     <color key="tintColor" red="0.97647058823529409" green="0.4392156862745098" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="79t-gF-LEW"/>
@@ -40,7 +44,7 @@ please enter your full name</string>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sx3-KJ-BHS">
-                    <rect key="frame" x="87.5" y="179" width="200" height="17"/>
+                    <rect key="frame" x="87.5" y="245" width="200" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="SoY-K1-uwp"/>
                         <constraint firstAttribute="width" constant="200" id="nDT-X2-XTB"/>
@@ -50,7 +54,7 @@ please enter your full name</string>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSu-xG-MmD">
-                    <rect key="frame" x="120.5" y="236" width="134" height="34"/>
+                    <rect key="frame" x="120.5" y="302" width="134" height="34"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="134" id="YEh-x1-Jhp"/>
                         <constraint firstAttribute="height" constant="34" id="c6o-TI-Ddj"/>
@@ -58,25 +62,80 @@ please enter your full name</string>
                     <state key="normal" title="Save">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Stm-VU-WqM">
+                    <rect key="frame" x="17" y="10" width="53" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
                     <connections>
-                        <action selector="didTapSave:" destination="-1" eventType="touchUpInside" id="xgg-dB-Hgn"/>
+                        <action selector="didTapCancel:" destination="-1" eventType="touchUpInside" id="fK3-9o-qKg"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmE-YD-pT3">
+                    <rect key="frame" x="321" y="10" width="37" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Save">
+                        <color key="titleColor" red="0.83529411760000005" green="0.1019607843" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapSave:" destination="-1" eventType="touchUpInside" id="GJi-Zd-Gqd"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXe-Sf-voV">
+                    <rect key="frame" x="161.5" y="16" width="52" height="21"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Br6-mp-dS2">
+                    <rect key="frame" x="137.5" y="107" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="sca-o0-gMx"/>
+                        <constraint firstAttribute="height" constant="100" id="wrl-KD-CBC"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ong-OT-2JY">
+                    <rect key="frame" x="204.5" y="176" width="33" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="31" id="A56-BE-cZt"/>
+                        <constraint firstAttribute="width" constant="33" id="iun-tE-pKQ"/>
+                    </constraints>
+                    <state key="normal" image="addpicture"/>
+                    <connections>
+                        <action selector="didTapAddPic:" destination="-1" eventType="touchUpInside" id="Nhp-Un-HrV"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="Stm-VU-WqM" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="44M-8E-YlP"/>
                 <constraint firstItem="6Lx-oO-BiL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="40" id="5Th-1U-mqO"/>
                 <constraint firstItem="HSu-xG-MmD" firstAttribute="top" secondItem="Sx3-KJ-BHS" secondAttribute="bottom" constant="40" id="AUH-fZ-Psi"/>
-                <constraint firstItem="6Lx-oO-BiL" firstAttribute="top" secondItem="y77-Ee-2OU" secondAttribute="bottom" constant="64" id="E9h-cI-VqB"/>
+                <constraint firstItem="6Lx-oO-BiL" firstAttribute="top" secondItem="Br6-mp-dS2" secondAttribute="bottom" constant="10" id="HII-0j-tyZ"/>
+                <constraint firstItem="qXe-Sf-voV" firstAttribute="centerY" secondItem="Stm-VU-WqM" secondAttribute="centerY" id="HaY-R3-DDk"/>
+                <constraint firstItem="ong-OT-2JY" firstAttribute="bottom" secondItem="Br6-mp-dS2" secondAttribute="bottom" id="Lwr-t5-MqB"/>
+                <constraint firstItem="dmE-YD-pT3" firstAttribute="centerY" secondItem="Stm-VU-WqM" secondAttribute="centerY" id="NL4-Dn-NQT"/>
                 <constraint firstItem="HSu-xG-MmD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TEv-KC-1PI"/>
                 <constraint firstItem="Sx3-KJ-BHS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Tw7-F0-gap"/>
-                <constraint firstItem="y77-Ee-2OU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="46" id="WYh-PE-Te6"/>
+                <constraint firstItem="qXe-Sf-voV" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Uv2-2C-tDE"/>
+                <constraint firstItem="y77-Ee-2OU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="56" id="WYh-PE-Te6"/>
                 <constraint firstItem="y77-Ee-2OU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="czJ-D7-AES"/>
+                <constraint firstItem="ong-OT-2JY" firstAttribute="trailing" secondItem="Br6-mp-dS2" secondAttribute="trailing" id="flz-Rb-qFA"/>
+                <constraint firstItem="Stm-VU-WqM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="hKH-IB-8VX"/>
+                <constraint firstItem="Br6-mp-dS2" firstAttribute="top" secondItem="y77-Ee-2OU" secondAttribute="bottom" constant="10" id="ij0-uh-4hn"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dmE-YD-pT3" secondAttribute="trailing" constant="17" id="imm-qk-AbG"/>
                 <constraint firstItem="Sx3-KJ-BHS" firstAttribute="top" secondItem="6Lx-oO-BiL" secondAttribute="bottom" constant="6" id="qKT-ny-2Eh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Lx-oO-BiL" secondAttribute="trailing" constant="40" id="rTa-Tl-9EQ"/>
+                <constraint firstItem="dmE-YD-pT3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="uLn-76-Gxl"/>
+                <constraint firstItem="Br6-mp-dS2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uoS-tz-Oo0"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="139" y="131"/>
         </view>
     </objects>
+    <resources>
+        <image name="addpicture" width="33" height="31"/>
+    </resources>
 </document>
