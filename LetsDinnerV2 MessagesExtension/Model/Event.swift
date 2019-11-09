@@ -39,8 +39,16 @@ class Event {
     var eventDescription = String()
     var hostIdentifier = ""
     var participants = [User]()
-    var tasks = [Task]()
-    var currentConversationTaskStates = [Task]()
+    var tasks = [Task]() {
+        didSet {
+            print("TASKS", tasks.count)
+        }
+    }
+    var currentConversationTaskStates = [Task]() {
+        didSet {
+            print("CURRENTCONVERSATIONTASKS", currentConversationTaskStates.count)
+        }
+    }
     var firebaseEventUid = ""
     var currentUser: User?
     
@@ -142,7 +150,10 @@ class Event {
                 guard let state = dict["state"] as? Int else { return }
                 let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
                 tasks.append(task)
-                self.currentConversationTaskStates.append(task)
+                let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+                self.currentConversationTaskStates.append(newTask)
+//                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
+//                self.currentConversationTaskStates.append(task)
             }
             self.tasks = tasks
             

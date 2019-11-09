@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="142"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhZ-Nl-Vu1" customClass="TaskStatusButton" customModule="Let_s_Dinner_" customModuleProvider="target">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zhZ-Nl-Vu1" customClass="TaskStatusButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                         <rect key="frame" x="31" y="12" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="2vE-Ad-hE9"/>

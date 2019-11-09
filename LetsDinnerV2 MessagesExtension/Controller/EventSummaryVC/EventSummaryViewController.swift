@@ -144,6 +144,14 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return descriptionCell
         case 6:
             taskSummaryCell.delegate = self
+            var numberOfCompletedTasks = 0
+            Event.shared.tasks.forEach { task in
+                if task.taskState == .completed {
+                    numberOfCompletedTasks += 1
+                }
+            }
+            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
+            taskSummaryCell.progressCircle.animate(percentage: percentage)
             return taskSummaryCell
         case 7:
             return userCell

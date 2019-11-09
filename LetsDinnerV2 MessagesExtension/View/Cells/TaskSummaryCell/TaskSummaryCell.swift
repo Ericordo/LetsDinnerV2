@@ -17,6 +17,7 @@ class TaskSummaryCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var seeAllButton: UIButton!
     @IBOutlet weak var tasksCollectionView: UICollectionView!
+    @IBOutlet weak var progressCircle: ProgressCircle!
     
     weak var delegate: TaskSummaryCellDelegate?
     

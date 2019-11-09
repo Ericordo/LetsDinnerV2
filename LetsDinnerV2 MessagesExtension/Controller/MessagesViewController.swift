@@ -295,15 +295,15 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
 
 extension MessagesViewController: TasksListViewControllerDelegate {
     func tasksListVCDidTapBackButton(controller: TasksListViewController) {
-        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
-        sendMessage(message: message)
+        let controller = instantiateEventSummaryViewController()
+              removeAllChildViewControllers()
+              addChildViewController(controller: controller)
     }
     
     func tasksListVCDidTapSubmit(controller: TasksListViewController) {
-        let controller = instantiateEventSummaryViewController()
-        removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        sendMessage(message: message)
     }
     
     
