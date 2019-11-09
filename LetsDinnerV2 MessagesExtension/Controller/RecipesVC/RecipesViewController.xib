@@ -27,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tff-p2-emW">
-                    <rect key="frame" x="17" y="20" width="66" height="33"/>
+                    <rect key="frame" x="17" y="10" width="66" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Previous">
                         <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -37,7 +37,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lhc-Ek-PZ3">
-                    <rect key="frame" x="324" y="20" width="34" height="33"/>
+                    <rect key="frame" x="324" y="10" width="34" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Skip">
                         <color key="titleColor" red="0.83529411760000005" green="0.1019607843" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -47,13 +47,13 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nph-G5-JAT">
-                    <rect key="frame" x="156" y="26" width="63.5" height="21"/>
+                    <rect key="frame" x="156" y="16" width="63.5" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <searchBar contentMode="redraw" placeholder="Search for recipes" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-Jk-kjP" customClass="CustomSearchBar" customModule="Let_s_Dinner_" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="59" width="375" height="40"/>
+                    <rect key="frame" x="0.0" y="49" width="375" height="40"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="LHK-34-xfR"/>
@@ -63,7 +63,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="foA-gA-QWG">
-                    <rect key="frame" x="0.0" y="99" width="375" height="568"/>
+                    <rect key="frame" x="0.0" y="89" width="375" height="578"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeB-1L-5bN">
@@ -88,7 +88,7 @@
                 <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="Tff-p2-emW" secondAttribute="top" id="36t-eR-ubz"/>
                 <constraint firstItem="JSv-Jk-kjP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="6PT-Vd-73X"/>
                 <constraint firstItem="3EZ-7s-2av" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AsH-bm-bBt"/>
-                <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="Coz-nV-2rH"/>
+                <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="Coz-nV-2rH"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="lhc-Ek-PZ3" secondAttribute="trailing" constant="17" id="Peh-yq-uQv"/>
                 <constraint firstItem="JSv-Jk-kjP" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="QJR-09-tPV"/>
                 <constraint firstItem="Tff-p2-emW" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="W0O-oG-ZzY"/>

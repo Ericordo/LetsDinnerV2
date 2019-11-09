@@ -12,6 +12,15 @@ class ProgressCircle: UIView {
     
     let shapeLayer = CAShapeLayer()
     
+//    let percentageLabel: UILabel = {
+//        let label = UILabel()
+//        label.textAlignment = .center
+//        label.text = "100%"
+//        label.textColor = .black
+//        label.font = UIFont.boldSystemFont(ofSize: 5)
+//        return label
+//    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -23,6 +32,10 @@ class ProgressCircle: UIView {
       }
     
     private func configureView() {
+//        self.addSubview(percentageLabel)
+//        percentageLabel.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+//        percentageLabel.center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
+        
         let center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
 
         let tracklayer = CAShapeLayer()

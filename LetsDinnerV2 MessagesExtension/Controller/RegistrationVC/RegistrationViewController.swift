@@ -69,9 +69,7 @@ class RegistrationViewController: UIViewController {
     
     @IBAction func didTapAddPic(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: "Calm down, not implemented yet", message: "Soon baby", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "I'm sorry, you are the best Eric", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+        
     }
     
 }
