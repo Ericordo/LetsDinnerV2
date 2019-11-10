@@ -52,7 +52,7 @@ class RegistrationViewController: UIViewController {
         titleLabel.text = LabelStrings.getStarted
         
         userPic.layer.cornerRadius = userPic.frame.height / 2
-        userPic.clipsToBounds = true
+        userPic.layer.masksToBounds = true
         userPic.layer.borderWidth = 2.0
         userPic.layer.borderColor = Colors.customPink.cgColor
         
@@ -121,7 +121,9 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let text = textField.text else { return }
+        if deleteButton.isHidden {
         userPic.setImage(string: text, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
     }
     
 }

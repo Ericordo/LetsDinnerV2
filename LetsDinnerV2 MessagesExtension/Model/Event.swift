@@ -250,7 +250,7 @@ class Event {
         
         let storage = Storage.storage().reference()
         
-        let storageRef = storage.child("ProfilePictures").child("UserProfilePic").child(UUID().uuidString)
+        let storageRef = storage.child("ProfilePictures").child("UserProfilePic").child(UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString)
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
