@@ -46,28 +46,37 @@ class NewEventViewController: UIViewController {
     }
     
     func presentDatePicker() {
-        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.width, height: CGFloat(44))))
-        toolbar.sizeToFit()
-        toolbar.tintColor = Colors.customPink
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDonePicker))
-        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelPicker))
-        toolbar.setItems([cancelButton,space,doneButton], animated: false)
-        
-        dateTextField.inputAccessoryView = toolbar
+      
+//        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.width, height: CGFloat(44))))
+//        toolbar.sizeToFit()
+//        toolbar.tintColor = Colors.customPink
+//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDonePicker))
+//        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelPicker))
+//        toolbar.setItems([cancelButton,space,doneButton], animated: false)
+//
+//        dateTextField.inputAccessoryView = toolbar
+        datePicker.addTarget(self, action: #selector(didSelectDate), for: .valueChanged)
         dateTextField.inputView = datePicker
+
     }
     
-    @objc func didTapDonePicker() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a"
-        dateTextField.text = formatter.string(from: datePicker.date)
-        dateTextField.endEditing(true)
-    }
+    @objc func didSelectDate() {
+          let formatter = DateFormatter()
+          formatter.dateFormat = "MMM d, h:mm a"
+          dateTextField.text = formatter.string(from: datePicker.date)
+      }
     
-    @objc func didTapCancelPicker() {
-        dateTextField.endEditing(true)
-    }
+//    @objc func didTapDonePicker() {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "MMM d, h:mm a"
+//        dateTextField.text = formatter.string(from: datePicker.date)
+//        dateTextField.endEditing(true)
+//    }
+//
+//    @objc func didTapCancelPicker() {
+//        dateTextField.endEditing(true)
+//    }
     
     func checkForExistingEvent() {
         dinnerNameTextField.text = Event.shared.dinnerName
@@ -94,6 +103,7 @@ class NewEventViewController: UIViewController {
         
         if !allFieldsAreFilled() {
             errorLabel.isHidden = false
+            view.endEditing(true)
             print("fields not filled")
         } else {
             guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text else { return }
@@ -129,3 +139,5 @@ extension NewEventViewController: UITextFieldDelegate {
     
     
 }
+
+
