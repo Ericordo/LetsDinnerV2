@@ -12,6 +12,9 @@ import iMessageDataKit
 import FirebaseDatabase
 
 
+
+
+
 class Event {
     
     static let shared = Event()
@@ -236,6 +239,18 @@ class Event {
         Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
         
     }
+    
+    func saveUserPicToFirebase() {
+           
+       }
+       
+       func updateUserPicOnFirebase() {
+       
+       }
+       
+       func deleteUserPicOnFirebase() {
+           
+       }
     
 
     

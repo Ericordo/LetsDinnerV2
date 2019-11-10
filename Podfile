@@ -20,6 +20,7 @@ target 'LetsDinnerV2 MessagesExtension' do
   pod 'iMessageDataKit'
   pod 'Firebase'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
 
 
 end
