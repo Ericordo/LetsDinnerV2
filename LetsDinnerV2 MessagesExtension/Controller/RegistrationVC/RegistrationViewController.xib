@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="addPicButton" destination="ong-OT-2JY" id="GII-LU-RzS"/>
                 <outlet property="cancelButton" destination="Stm-VU-WqM" id="ylv-jk-H1T"/>
+                <outlet property="deleteButton" destination="UBq-kg-cl1" id="PJm-bM-iOA"/>
                 <outlet property="errorLabel" destination="Sx3-KJ-BHS" id="Qci-on-dpS"/>
                 <outlet property="nameTextField" destination="6Lx-oO-BiL" id="7yg-B2-meA"/>
                 <outlet property="profileLabel" destination="qXe-Sf-voV" id="mYI-pD-M7o"/>
@@ -107,6 +108,17 @@ please enter your full name</string>
                         <action selector="didTapAddPic:" destination="-1" eventType="touchUpInside" id="Nhp-Un-HrV"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBq-kg-cl1">
+                    <rect key="frame" x="137.5" y="191" width="16" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="OcM-eB-uMN"/>
+                        <constraint firstAttribute="height" constant="16" id="gmO-4f-Dxw"/>
+                    </constraints>
+                    <state key="normal" image="deletebutton"/>
+                    <connections>
+                        <action selector="didTapDeletePic:" destination="-1" eventType="touchUpInside" id="Ozr-b2-760"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -116,11 +128,13 @@ please enter your full name</string>
                 <constraint firstItem="6Lx-oO-BiL" firstAttribute="top" secondItem="Br6-mp-dS2" secondAttribute="bottom" constant="10" id="HII-0j-tyZ"/>
                 <constraint firstItem="qXe-Sf-voV" firstAttribute="centerY" secondItem="Stm-VU-WqM" secondAttribute="centerY" id="HaY-R3-DDk"/>
                 <constraint firstItem="ong-OT-2JY" firstAttribute="bottom" secondItem="Br6-mp-dS2" secondAttribute="bottom" id="Lwr-t5-MqB"/>
+                <constraint firstItem="UBq-kg-cl1" firstAttribute="bottom" secondItem="Br6-mp-dS2" secondAttribute="bottom" id="NCb-eM-k7Q"/>
                 <constraint firstItem="dmE-YD-pT3" firstAttribute="centerY" secondItem="Stm-VU-WqM" secondAttribute="centerY" id="NL4-Dn-NQT"/>
                 <constraint firstItem="HSu-xG-MmD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TEv-KC-1PI"/>
                 <constraint firstItem="Sx3-KJ-BHS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Tw7-F0-gap"/>
                 <constraint firstItem="qXe-Sf-voV" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Uv2-2C-tDE"/>
                 <constraint firstItem="y77-Ee-2OU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="56" id="WYh-PE-Te6"/>
+                <constraint firstItem="UBq-kg-cl1" firstAttribute="leading" secondItem="Br6-mp-dS2" secondAttribute="leading" id="XUb-vm-qCI"/>
                 <constraint firstItem="y77-Ee-2OU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="czJ-D7-AES"/>
                 <constraint firstItem="ong-OT-2JY" firstAttribute="trailing" secondItem="Br6-mp-dS2" secondAttribute="trailing" id="flz-Rb-qFA"/>
                 <constraint firstItem="Stm-VU-WqM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="hKH-IB-8VX"/>
@@ -137,5 +151,6 @@ please enter your full name</string>
     </objects>
     <resources>
         <image name="addpicture" width="33" height="31"/>
+        <image name="deletebutton" width="16" height="16"/>
     </resources>
 </document>

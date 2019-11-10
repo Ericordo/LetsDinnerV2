@@ -22,19 +22,23 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var profileLabel: UILabel!
     @IBOutlet weak var userPic: UIImageView!
     @IBOutlet weak var addPicButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     
     
     
     weak var delegate: RegistrationViewControllerDelegate?
     
+     let picturePicker = UIImagePickerController()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         nameTextField.delegate = self
+        picturePicker.delegate = self
         
-        // Do any additional setup after loading the view.
+     
     }
     
     func setupUI() {
@@ -44,6 +48,11 @@ class RegistrationViewController: UIViewController {
         }
         errorLabel.isHidden = true
         titleLabel.text = LabelStrings.getStarted
+        
+        userPic.layer.cornerRadius = userPic.frame.height / 2
+        userPic.clipsToBounds = true
+        userPic.layer.borderWidth = 2.0
+        userPic.layer.borderColor = Colors.customPink.cgColor
         
         userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
         
@@ -69,8 +78,26 @@ class RegistrationViewController: UIViewController {
     
     @IBAction func didTapAddPic(_ sender: UIButton) {
         
+        picturePicker.sourceType = .photoLibrary
+        picturePicker.allowsEditing = true
+        present(picturePicker, animated: true, completion: nil)
+                                                
+        
         
     }
+    
+    @IBAction func didTapDeletePic(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Do you want to delete your picture?", message: "", preferredStyle: .alert)
+        let delete = UIAlertAction(title: "Yes", style: .destructive) { action in
+            self.userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+            self.deleteButton.isHidden = true
+        }
+        let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     
 }
 
@@ -80,4 +107,18 @@ extension RegistrationViewController: UITextFieldDelegate {
         userPic.setImage(string: text, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
+}
+
+extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        userPic.image = imageEdited
+        
+        guard let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        userPic.image = imageOriginal
+       
+        deleteButton.isHidden = false
+        picturePicker.dismiss(animated: true, completion: nil)
+    }
 }

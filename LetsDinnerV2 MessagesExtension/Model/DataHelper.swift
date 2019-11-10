@@ -73,6 +73,18 @@ class DataHelper {
         
     }
     
+    func saveUserPicToFirebase() {
+        
+    }
+    
+    func updateUserPicOnFirebase() {
+        
+    }
+    
+    func deleteUserPicOnFirebase() {
+        
+    }
+    
     
     
 }
