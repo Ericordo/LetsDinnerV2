@@ -13,4 +13,9 @@ extension UserDefaults {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }
+    
+    var profilePicUrl: String {
+        get { return string(forKey: "profilePicUrl") ?? "" }
+        set { set(newValue, forKey: "profilePicUrl") }
+    }
 }

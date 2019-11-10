@@ -13,9 +13,14 @@ class User {
     var fullName: String
     var hasAccepted: Bool
     
+    var profilePicUrl: String? 
+    
+    
+    
     init(identifier: String, fullName: String, hasAccepted: Bool) {
         self.identifier = identifier
         self.fullName = fullName
         self.hasAccepted = hasAccepted
     }
+ 
 }

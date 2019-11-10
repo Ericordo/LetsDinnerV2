@@ -20,7 +20,19 @@ class UserCVCell: UICollectionViewCell {
     func configureCell(user: User) {
         var strokeColor = UIColor()
         strokeColor = user.hasAccepted ? Colors.hasAccepted : Colors.hasDeclined
-        userPicture.setImage(string: user.fullName.initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+        
+        if let imageURL = URL(string: user.profilePicUrl!) {
+            userPicture.layer.cornerRadius = userPicture.frame.height/2
+            userPicture.clipsToBounds = true
+            userPicture.layer.borderWidth = 2.0
+            userPicture.layer.borderColor = strokeColor.cgColor
+            userPicture.kf.setImage(with: imageURL)
+        } else {
+            userPicture.setImage(string: user.fullName.initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+        
+        
+        
         nameLabel.text = user.fullName
     }
 

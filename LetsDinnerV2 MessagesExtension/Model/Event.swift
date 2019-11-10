@@ -10,6 +10,7 @@ import Foundation
 import Messages
 import iMessageDataKit
 import FirebaseDatabase
+import FirebaseStorage
 
 
 
@@ -42,16 +43,8 @@ class Event {
     var eventDescription = String()
     var hostIdentifier = ""
     var participants = [User]()
-    var tasks = [Task]() {
-        didSet {
-            print("TASKS", tasks.count)
-        }
-    }
-    var currentConversationTaskStates = [Task]() {
-        didSet {
-            print("CURRENTCONVERSATIONTASKS", currentConversationTaskStates.count)
-        }
-    }
+    var tasks = [Task]()
+    var currentConversationTaskStates = [Task]() 
     var firebaseEventUid = ""
     var currentUser: User?
     
@@ -99,6 +92,7 @@ class Event {
         guard let userID = currentUser?.identifier else { return "" }
         let reference = Database.database().reference()
         let ingredients = selectedRecipes.map { $0.ingredientList }
+        
         let childUid = reference.child("Events").childByAutoId()
         let parameters: [String : Any] = ["dinnerName" : dinnerName, "hostName" : hostName, "dateTimestamp" : dateTimestamp, "dinnerLocation" : dinnerLocation, "eventDescription" : eventDescription, "hostID" : userID]
         childUid.setValue(parameters)
@@ -118,7 +112,9 @@ class Event {
                 recipeChild.setValue(parameters)
             }
         }
-        let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true]
+        // let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true]
+        // New line below to add profilePic to Test
+        let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true, "profilePicUrl" : defaults.profilePicUrl]
         currentUser?.hasAccepted = true
         childUid.child("participants").child(userID).setValue(participantsParameters)
         self.firebaseEventUid = childUid.key!
@@ -138,7 +134,11 @@ class Event {
                 guard let dict = value as? [String : Any] else { return }
                 guard let fullName = dict["fullName"] as? String else { return }
                 guard let hasAccepted = dict["hasAccepted"] as? Bool else { return }
+                // New line
+                guard let profilePicUrl = dict["profilePicUrl"] as? String else { return }
                 let user = User(identifier: key, fullName: fullName, hasAccepted: hasAccepted)
+                // New line
+                user.profilePicUrl = profilePicUrl
                 users.append(user)
             }
             self.participants = users
@@ -233,24 +233,48 @@ class Event {
     
     func acceptInvitation(_ bool: Bool?) {
         guard let identifier = currentUser?.identifier else { return }
+        // let participantsParameters: [String: Any] = [
+//            "fullName": defaults.username,
+//            "hasAccepted": bool as Any]
+       // New line
         let participantsParameters: [String: Any] = [
-            "fullName": defaults.username,
-            "hasAccepted": bool as Any]
-        Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
+        "fullName": defaults.username,
+        "hasAccepted": bool as Any, "profilePicUrl" : defaults.profilePicUrl]
+    Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
         
     }
     
-    func saveUserPicToFirebase() {
-           
-       }
+    func saveUserPicToFirebase(_ image: UIImage?, completion: @escaping ((_ url:String?)->())) {
+        guard let imageToSave = image else { return }
+        guard let imageData = imageToSave.jpegData(compressionQuality: 0.5) else { return }
+        
+        let storage = Storage.storage().reference()
+        
+        let storageRef = storage.child("ProfilePictures").child("UserProfilePic").child(UUID().uuidString)
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        
+        storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
+            if error != nil {
+                completion(nil)
+            }
+            storageRef.downloadURL { (url, error ) in
+                if error != nil {
+                    completion(nil)
+                }
+                if let downloadUrl = url?.absoluteString {
+                    print("URL", downloadUrl)
+                    completion(downloadUrl)
+                }
+            }
+        }
+    }
        
-       func updateUserPicOnFirebase() {
        
-       }
        
-       func deleteUserPicOnFirebase() {
-           
-       }
+    func deleteUserPicOnFirebase() {}
+    func updateUserPicOnFirebase() {}
     
 
     

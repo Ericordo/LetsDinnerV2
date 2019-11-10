@@ -29,7 +29,9 @@ class RegistrationViewController: UIViewController {
     
     weak var delegate: RegistrationViewControllerDelegate?
     
-     let picturePicker = UIImagePickerController()
+    let picturePicker = UIImagePickerController()
+    
+    var profileImage: UIImage?
     
     
     override func viewDidLoad() {
@@ -54,21 +56,35 @@ class RegistrationViewController: UIViewController {
         userPic.layer.borderWidth = 2.0
         userPic.layer.borderColor = Colors.customPink.cgColor
         
-        userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+        if let imageURL = URL(string: defaults.profilePicUrl) {
+            userPic.kf.setImage(with: imageURL)
+        } else {
+            userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+            deleteButton.isHidden = true
+        }
+        
         
     }
 
 
 
     @IBAction func didTapSave(_ sender: UIButton) {
-                guard let text = nameTextField.text else { return }
-                switch text.isEmpty {
-                case true:
-                    errorLabel.isHidden = false
-                case false:
-                    defaults.username = text
-                    delegate?.registrationVCDidTapSaveButton(controller: self)
-                }
+        Event.shared.saveUserPicToFirebase(profileImage) { url in
+            Event.shared.currentUser?.profilePicUrl = url
+            if let profilePicUrl = url {
+                defaults.profilePicUrl = profilePicUrl
+            }
+            
+        }
+        
+        guard let text = nameTextField.text else { return }
+        switch text.isEmpty {
+        case true:
+            errorLabel.isHidden = false
+        case false:
+            defaults.username = text
+            delegate?.registrationVCDidTapSaveButton(controller: self)
+        }
     }
     
     @IBAction func didTapCancel(_ sender: UIButton) {
@@ -89,6 +105,7 @@ class RegistrationViewController: UIViewController {
     @IBAction func didTapDeletePic(_ sender: UIButton) {
         let alert = UIAlertController(title: "Do you want to delete your picture?", message: "", preferredStyle: .alert)
         let delete = UIAlertAction(title: "Yes", style: .destructive) { action in
+            defaults.profilePicUrl = ""
             self.userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
             self.deleteButton.isHidden = true
         }
@@ -113,9 +130,11 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        profileImage = imageEdited
         userPic.image = imageEdited
         
         guard let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        profileImage = imageOriginal
         userPic.image = imageOriginal
        
         deleteButton.isHidden = false

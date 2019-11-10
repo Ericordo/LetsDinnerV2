@@ -203,6 +203,8 @@ class MessagesViewController: MSMessagesAppViewController {
 extension MessagesViewController: InitialViewControllerDelegate {
     func initialVCDidTapStartButton(controller: InitialViewController) {
         requestPresentationStyle(.expanded)
+        activeConversation?.selectedMessage?.url = nil
+        Event.shared.resetEvent()
     }
     
     func initialVCDidTapInfoButton(controller: InitialViewController) {
