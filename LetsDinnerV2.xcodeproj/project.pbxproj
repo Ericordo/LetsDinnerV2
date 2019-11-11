@@ -344,7 +344,7 @@
 				88349F1B236DEEF9002A1879 /* Controller */,
 				88349F1A236DEEF2002A1879 /* View */,
 				88349F1E236DEF1C002A1879 /* Extensions */,
-				88B7833323718391009E4F3C /* Ressources */,
+				88B7833323718391009E4F3C /* Resources */,
 				88349F0D236DE9FC002A1879 /* Assets.xcassets */,
 				88349F0F236DE9FC002A1879 /* Info.plist */,
 				883A2A052372E9910099ECDF /* GoogleService-Info.plist */,
@@ -490,12 +490,12 @@
 			path = EventDescriptionVC;
 			sourceTree = "<group>";
 		};
-		88B7833323718391009E4F3C /* Ressources */ = {
+		88B7833323718391009E4F3C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				88B78334237183DB009E4F3C /* PredefinedRecipes.json */,
 			);
-			path = Ressources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		B017EC268CCDD12643C7FD91 /* Pods */ = {
