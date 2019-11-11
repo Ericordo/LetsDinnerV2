@@ -14,8 +14,8 @@ protocol RecipeCellDelegate: class {
 }
 
 class RecipeCell: UITableViewCell {
+    @IBOutlet weak var backgroundCellView: UIView!
     @IBOutlet weak var recipeImageView: UIImageView!
-    @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var recipeNameLabel: UILabel!
     @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var chosenButton: UIButton!
@@ -29,11 +29,15 @@ class RecipeCell: UITableViewCell {
     }
 
     func setupCell() {
+        backgroundCellView.clipsToBounds = true
+        backgroundCellView.layer.cornerRadius = 10
+        backgroundCellView.backgroundColor = Colors.paleGray
+        
         chooseButton.clipsToBounds = true
         chooseButton.layer.cornerRadius = 10
         recipeImageView.clipsToBounds = true
         recipeImageView.layer.cornerRadius = 10
-        bottomView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+ 
         recipeImageView.kf.indicatorType = .activity
         selectionStyle = .none
     }

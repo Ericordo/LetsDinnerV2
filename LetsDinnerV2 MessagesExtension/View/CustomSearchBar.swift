@@ -23,11 +23,15 @@ class CustomSearchBar: UISearchBar {
     
     
     private func setupSearchBar() {
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0).cgColor
-        let image = UIColor(red:0.98, green:0.98, blue:0.98, alpha:1.0).image()
+        self.layer.borderWidth = 0.1
+        self.layer.borderColor = UIColor(red:1 , green:1 , blue:1, alpha:1.0).cgColor
+        let image = UIColor(red:1, green:1, blue:1, alpha:1.0).image()
         self.setBackgroundImage(image, for: .any, barMetrics: .default)
         self.scopeBarBackgroundImage = image
+        self.barTintColor = .clear
+        self.backgroundColor = .clear
+        self.isTranslucent = true
+        self.searchBarStyle = .prominent
     }
 
 }
