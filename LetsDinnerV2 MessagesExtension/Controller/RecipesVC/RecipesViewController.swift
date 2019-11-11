@@ -14,6 +14,7 @@ protocol RecipesViewControllerDelegate: class {
 }
 
 class RecipesViewController: UIViewController {
+    
     @IBOutlet weak var previousButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -38,22 +39,20 @@ class RecipesViewController: UIViewController {
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil), forCellReuseIdentifier: CellNibs.recipeCell)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
-        
         searchBar.delegate = self
+        
         setupUI()
-        DataHelper.shared.loadPredefinedRecipes { recipes in
-            self.searchResults = recipes
-        }
-       
-
-
+        loadRecipes()
     }
     
     private func setupUI() {
         configureNextButton()
+        
         recipesTableView.tableFooterView = UIView()
         recipesTableView.separatorStyle = .none
-        recipesTableView.rowHeight = 179
+        recipesTableView.rowHeight = 120
+        recipesTableView.showsVerticalScrollIndicator = false
+        
         searchLabel.isHidden = true
         resultsLabel.isHidden = true
     }
@@ -65,6 +64,12 @@ class RecipesViewController: UIViewController {
                  let recipesCount = String(Event.shared.selectedRecipes.count)
                  nextButton.setTitle("Next (\(recipesCount))", for: .normal)
              }
+    }
+    
+    private func loadRecipes() {
+        DataHelper.shared.loadPredefinedRecipes { recipes in
+            self.searchResults = recipes
+        }
     }
     
     func showSearchProgress(_ bool: Bool) {
@@ -84,10 +89,6 @@ class RecipesViewController: UIViewController {
     @IBAction func didTapNext(_ sender: Any) {
         delegate?.recipeVCDidTapNext(controller: self)
     }
-    
-
-
-
 }
 
 extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -142,8 +143,6 @@ extension RecipesViewController: RecipeCellDelegate {
         }
         configureNextButton()
     }
-    
-    
 }
 
 extension RecipesViewController: UISearchBarDelegate {
@@ -165,9 +164,6 @@ extension RecipesViewController: UISearchBarDelegate {
         }
         
     }
-    
-    
-    
 }
 
 extension RecipesViewController: RecipeDetailsViewControllerDelegate {
@@ -175,6 +171,4 @@ extension RecipesViewController: RecipeDetailsViewControllerDelegate {
         recipesTableView.reloadData()
         configureNextButton()
     }
-    
-    
 }
