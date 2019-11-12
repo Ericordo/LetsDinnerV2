@@ -87,8 +87,11 @@ class MessagesViewController: MSMessagesAppViewController {
         
         let controller : UIViewController
         if presentationStyle == .compact {
-            // Show a list of previously created ice creams.
-            controller = instantiateInitialViewController()
+            if Event.shared.dinnerName.isEmpty {
+                controller = instantiateInitialViewController()
+            } else {
+                controller = instantiateIdleViewController()
+            }
         } else {
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
@@ -100,22 +103,23 @@ class MessagesViewController: MSMessagesAppViewController {
                     Event.shared.parseMessage(message: message)
                     controller = instantiateEventSummaryViewController()
                 } else {
-                    controller = instantiateNewEventViewController()
+                    
+                    if Event.shared.dinnerName.isEmpty {
+                        controller = instantiateNewEventViewController()
+                    } else if Event.shared.selectedRecipes.isEmpty {
+                        controller = instantiateRecipesViewController()
+                    } else if Event.shared.eventDescription.isEmpty {
+                        controller = instantiateEventDescriptionViewController()
+                    } else {
+                        controller = instantiateNewEventViewController()
+                    }
                 }
                 
             }
+            
         }
-//        else {
-////             // Parse an `IceCream` from the conversation's `selectedMessage` or create a new `IceCream`.
-////            let iceCream = IceCream(message: conversation.selectedMessage) ?? IceCream()
-////
-////            // Show either the in process construction process or the completed ice cream.
-////            if iceCream.isComplete {
-////                controller = instantiateCompletedIceCreamController(with: iceCream)
-////            } else {
-////                controller = instantiateBuildIceCreamController(with: iceCream)
-////            }
-//        }
+        
+
 
         addChildViewController(controller: controller)
     }
@@ -147,6 +151,12 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private func instantiateInitialViewController() -> UIViewController {
         let controller = InitialViewController(nibName: VCNibs.initialViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
+    private func instantiateIdleViewController() -> UIViewController {
+        let controller = IdleViewController(nibName: VCNibs.idleViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
@@ -211,6 +221,20 @@ extension MessagesViewController: InitialViewControllerDelegate {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
+}
+
+extension MessagesViewController: IdleViewControllerDelegate {
+    func idleVCDidTapContinue(controller: IdleViewController) {
+        requestPresentationStyle(.expanded)
+    }
+    
+    func idleVCDidTapNewDinner(controller: IdleViewController) {
+        requestPresentationStyle(.expanded)
+        activeConversation?.selectedMessage?.url = nil
+        Event.shared.resetEvent()
+    }
+    
+    
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {

@@ -29,6 +29,7 @@ enum VCNibs {
     static let eventDescriptionViewController = "EventDescriptionViewController"
     static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"
+    static let idleViewController = "IdleViewController"
 }
 
 enum CellNibs {
