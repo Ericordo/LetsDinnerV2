@@ -16,7 +16,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.setGradient(colorOne: Colors.gradientRed, colorTwo: Colors.gradientPink)
+        self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         if FirebaseApp.app() == nil {
                    FirebaseApp.configure()
                }

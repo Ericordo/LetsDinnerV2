@@ -29,7 +29,7 @@ class IdleViewController: UIViewController {
 
     
     func setupUI() {
-        view.setGradient(colorOne: Colors.gradientRed, colorTwo: Colors.gradientPink)
+        view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         continueButton.layer.cornerRadius = 8.0
         newDinnerButton.layer.cornerRadius = 8.0
     }
