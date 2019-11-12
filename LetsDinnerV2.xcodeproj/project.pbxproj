@@ -38,6 +38,8 @@
 		880B137423757224003E29AC /* UserCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B137223757224003E29AC /* UserCVCell.xib */; };
 		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
+		882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882C4C17237AEA900039B55F /* IdleViewController.swift */; };
+		882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 882C4C18237AEA900039B55F /* IdleViewController.xib */; };
 		88349EFA236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349EF9236DE9FC002A1879 /* Assets.xcassets */; };
 		88349F01236DE9FC002A1879 /* Let's Dinner!.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 88349F00236DE9FC002A1879 /* Let's Dinner!.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F08236DE9FC002A1879 /* MessagesViewController.swift */; };
@@ -136,6 +138,8 @@
 		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
 		880B13792376EB99003E29AC /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		882C4C17237AEA900039B55F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
+		882C4C18237AEA900039B55F /* IdleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IdleViewController.xib; sourceTree = "<group>"; };
 		88349EF6236DE9FB002A1879 /* Let's Dinner!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Dinner!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88349EF9236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349EFB236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -296,6 +300,15 @@
 			path = UserCVCell;
 			sourceTree = "<group>";
 		};
+		882C4C14237AEA470039B55F /* IdleVC */ = {
+			isa = PBXGroup;
+			children = (
+				882C4C17237AEA900039B55F /* IdleViewController.swift */,
+				882C4C18237AEA900039B55F /* IdleViewController.xib */,
+			);
+			path = IdleVC;
+			sourceTree = "<group>";
+		};
 		88349EEF236DE9FB002A1879 = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				88349F08236DE9FC002A1879 /* MessagesViewController.swift */,
+				882C4C14237AEA470039B55F /* IdleVC */,
 				88349F23236E1B67002A1879 /* InitialVC */,
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
 				88349F31236F7A22002A1879 /* NewEventVC */,
@@ -613,6 +627,7 @@
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */,
 				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
+				882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */,
 				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				880B135423737711003E29AC /* CalendarCell.xib in Resources */,
@@ -711,6 +726,7 @@
 				880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
 				88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */,
+				882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */,
 				880B135323737711003E29AC /* CalendarCell.swift in Sources */,
 				880B1358237474A4003E29AC /* Task.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
@@ -881,8 +897,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.6;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -903,8 +919,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.6;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -926,8 +942,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.6;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2;
@@ -944,8 +960,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.6;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EricOrdonneau.LetsDinnerV2;
