@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,6 +13,7 @@
                 <outlet property="activityIndicator" destination="Ciq-25-awl" id="BfY-Mq-1MU"/>
                 <outlet property="nextButton" destination="lhc-Ek-PZ3" id="GWK-61-TJ2"/>
                 <outlet property="previousButton" destination="Tff-p2-emW" id="72z-uY-8dF"/>
+                <outlet property="progressView" destination="kjK-VE-8qe" id="Hcl-Jd-zKH"/>
                 <outlet property="recipesTableView" destination="foA-gA-QWG" id="MWL-Ab-q23"/>
                 <outlet property="resultsLabel" destination="qeB-1L-5bN" id="AnK-lT-0f0"/>
                 <outlet property="searchBar" destination="JSv-Jk-kjP" id="o0y-8Q-pWH"/>
@@ -82,9 +83,16 @@
                     <rect key="frame" x="118" y="323.5" width="20" height="20"/>
                     <color key="color" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </activityIndicatorView>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kjK-VE-8qe">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="h1a-Zr-n1g"/>
+                    </constraints>
+                </progressView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="kjK-VE-8qe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2z6-CD-9Pb"/>
                 <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="Tff-p2-emW" secondAttribute="top" id="36t-eR-ubz"/>
                 <constraint firstItem="JSv-Jk-kjP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="6PT-Vd-73X"/>
                 <constraint firstItem="3EZ-7s-2av" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AsH-bm-bBt"/>
@@ -96,6 +104,8 @@
                 <constraint firstItem="nph-G5-JAT" firstAttribute="centerY" secondItem="Tff-p2-emW" secondAttribute="centerY" id="WaY-wZ-IxL"/>
                 <constraint firstAttribute="bottom" secondItem="foA-gA-QWG" secondAttribute="bottom" id="ZiO-Ub-VcR"/>
                 <constraint firstItem="3EZ-7s-2av" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="b6D-zc-4J1"/>
+                <constraint firstItem="kjK-VE-8qe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="c2x-KN-ghr"/>
+                <constraint firstAttribute="trailing" secondItem="kjK-VE-8qe" secondAttribute="trailing" id="cfp-B2-rrL"/>
                 <constraint firstItem="foA-gA-QWG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="dQH-db-Zr2"/>
                 <constraint firstItem="Ciq-25-awl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="gi3-Ch-DRG"/>
                 <constraint firstItem="qeB-1L-5bN" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="i6B-Za-uvM"/>

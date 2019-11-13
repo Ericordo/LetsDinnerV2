@@ -17,6 +17,7 @@
                 <outlet property="locationTextField" destination="0Qf-bJ-rKC" id="ZSe-4D-xiV"/>
                 <outlet property="nextButton" destination="OxX-0E-huw" id="cWp-lt-HkK"/>
                 <outlet property="profileButton" destination="ed6-pw-dxQ" id="jVS-zh-KF5"/>
+                <outlet property="progressView" destination="fj6-OV-3pu" id="Pf0-o8-STB"/>
                 <outlet property="titleLabel" destination="DdJ-Rh-Nv7" id="M64-gZ-EWE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -107,24 +108,33 @@
                         <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="xQe-Ks-qif"/>
                     </connections>
                 </button>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fj6-OV-3pu">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="ALc-em-yM9"/>
+                    </constraints>
+                </progressView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Bm6-vG-axt" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="15" id="1Bf-mn-hUp"/>
+                <constraint firstAttribute="trailing" secondItem="fj6-OV-3pu" secondAttribute="trailing" id="AEK-pT-e7b"/>
                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="top" secondItem="DdJ-Rh-Nv7" secondAttribute="bottom" constant="30" id="Dga-3g-l2h"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="PII-pn-KdY"/>
+                <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
                 <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="W00-lv-t0a"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DdJ-Rh-Nv7" secondAttribute="trailing" constant="30" id="Ygj-pE-8xy"/>
                 <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="b2i-nv-giP"/>
                 <constraint firstItem="OxX-0E-huw" firstAttribute="centerY" secondItem="ed6-pw-dxQ" secondAttribute="centerY" id="bwn-4m-w08"/>
                 <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="61" id="e3c-tp-3y1"/>
+                <constraint firstItem="fj6-OV-3pu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ixo-gi-hjD"/>
                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pdm-sO-pFx"/>
                 <constraint firstItem="OxX-0E-huw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="rqg-tu-5S6"/>
                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="sYn-oi-xXW"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="139" y="135"/>
+            <point key="canvasLocation" x="138.40000000000001" y="134.48275862068968"/>
         </view>
     </objects>
     <resources>
