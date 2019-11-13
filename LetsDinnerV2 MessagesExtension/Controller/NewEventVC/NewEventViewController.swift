@@ -24,6 +24,8 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var profileButton: UIButton!
+    @IBOutlet weak var progressView: UIProgressView!
+    
     
     weak var delegate: NewEventViewControllerDelegate?
     
@@ -36,13 +38,19 @@ class NewEventViewController: UIViewController {
         textFields.forEach { textField in
             textField!.delegate = self
         }
-        
-    
     }
+    
+
+    
+   
     
     func setupUI() {
         errorLabel.isHidden = true
         checkForExistingEvent()
+        progressView.progressTintColor = Colors.newGradientRed
+        progressView.trackTintColor = .white
+        progressView.progress = 0
+        progressView.setProgress(1/3, animated: true)
     }
     
     func presentDatePicker() {

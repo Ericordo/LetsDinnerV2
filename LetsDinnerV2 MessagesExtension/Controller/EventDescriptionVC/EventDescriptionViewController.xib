@@ -15,6 +15,7 @@
                 <outlet property="descriptionTextView" destination="ZdD-LW-Ecp" id="HaV-jb-Ssc"/>
                 <outlet property="finishButton" destination="EYC-8q-1Vc" id="Hpw-LU-KVx"/>
                 <outlet property="previousButton" destination="7MY-VL-jbc" id="E7b-hX-EWe"/>
+                <outlet property="progressView" destination="4Z9-2h-KiU" id="GBs-vi-vWL"/>
                 <outlet property="titleLabel" destination="21h-w9-DJ0" id="3iy-QV-16V"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -69,6 +70,12 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4Z9-2h-KiU">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="uqo-oZ-eXd"/>
+                    </constraints>
+                </progressView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -78,14 +85,17 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ZdD-LW-Ecp" secondAttribute="bottom" constant="20" id="HpQ-M0-8Ks"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="21h-w9-DJ0" secondAttribute="trailing" constant="20" id="IFE-hJ-gLP"/>
                 <constraint firstItem="v9j-bc-Zir" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="JP7-CL-tuj"/>
+                <constraint firstItem="4Z9-2h-KiU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="PE0-YC-APf"/>
                 <constraint firstItem="21h-w9-DJ0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="PwZ-Bi-Cmc"/>
                 <constraint firstItem="7MY-VL-jbc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="Qg7-R3-Il0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ZdD-LW-Ecp" secondAttribute="trailing" constant="20" id="RI7-uz-OFE"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="EYC-8q-1Vc" secondAttribute="trailing" constant="17" id="VJj-Yk-Ls6"/>
                 <constraint firstItem="xmR-VI-U0S" firstAttribute="top" secondItem="21h-w9-DJ0" secondAttribute="bottom" constant="6" id="VQM-GS-1B9"/>
                 <constraint firstItem="ZdD-LW-Ecp" firstAttribute="top" secondItem="21h-w9-DJ0" secondAttribute="bottom" constant="20" id="YCd-Qc-Jmq"/>
+                <constraint firstAttribute="trailing" secondItem="4Z9-2h-KiU" secondAttribute="trailing" id="fbO-mO-wgK"/>
                 <constraint firstItem="21h-w9-DJ0" firstAttribute="top" secondItem="7MY-VL-jbc" secondAttribute="bottom" constant="14" id="mQh-Re-u66"/>
                 <constraint firstItem="7MY-VL-jbc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="sTs-JK-i69"/>
+                <constraint firstItem="4Z9-2h-KiU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tPc-pk-XK4"/>
                 <constraint firstItem="ZdD-LW-Ecp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="uqj-Z8-TZI"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

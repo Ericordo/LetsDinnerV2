@@ -23,6 +23,7 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var resultsLabel: UILabel!
     @IBOutlet weak var searchLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var progressView: UIProgressView!
     
     weak var delegate: RecipesViewControllerDelegate?
     
@@ -32,7 +33,7 @@ class RecipesViewController: UIViewController {
             recipesTableView.reloadData()
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +56,11 @@ class RecipesViewController: UIViewController {
         
         searchLabel.isHidden = true
         resultsLabel.isHidden = true
+        
+        progressView.progressTintColor = Colors.newGradientRed
+        progressView.trackTintColor = .white
+        progressView.progress = 1/3
+        progressView.setProgress(2/3, animated: true)
     }
     
     private func configureNextButton() {

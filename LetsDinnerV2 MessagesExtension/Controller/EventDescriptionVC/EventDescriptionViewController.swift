@@ -21,6 +21,7 @@ class EventDescriptionViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var progressView: UIProgressView!
     
     weak var delegate: EventDescriptionViewControllerDelegate?
     var placeholderLabel = UILabel()
@@ -45,6 +46,10 @@ class EventDescriptionViewController: UIViewController {
         placeholderLabel.textColor = Colors.customGray
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()
+        progressView.progressTintColor = Colors.newGradientRed
+        progressView.trackTintColor = .white
+        progressView.progress = 2/3
+        progressView.setProgress(1, animated: true)
     }
     
     func checkRemainingChars() {
