@@ -17,8 +17,18 @@ extension UIView {
         gradientLayer.colors = [colorOne.cgColor, colorTwo.cgColor]
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.4)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
         layer.insertSublayer(gradientLayer, at: 0)
     }
+    
+    func setGradientToValue(colorOne: UIColor, colorTwo: UIColor, value: Double) {
+         let gradientLayer = CAGradientLayer()
+         gradientLayer.frame = bounds
+         gradientLayer.colors = [colorOne.cgColor, colorTwo.cgColor]
+         gradientLayer.locations = [0.0, 1.0]
+         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+         gradientLayer.endPoint = CGPoint(x: 0.5, y: value)
+         layer.insertSublayer(gradientLayer, at: 0)
+     }
     
 }
