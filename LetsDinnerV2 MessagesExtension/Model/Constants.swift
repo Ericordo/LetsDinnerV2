@@ -67,6 +67,7 @@ enum MessagesToDisplay {
     static let unsubmittedTasks = "You have unsubmitted tasks."
     static let submitQuestion = "Do you want to submit them?"
     static let descriptionPrompt = "Please enter a description for your dinner."
+    static let update = "Update"
 }
 
 enum LabelStrings {

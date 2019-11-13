@@ -31,7 +31,7 @@ class InitialViewController: UIViewController {
     }
     
     func setupUI() {
-        backgroundView.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        backgroundView.setGradientToValue(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed, value: 0.4)
         newDinnerButton.layer.cornerRadius = 8.0
      
         
