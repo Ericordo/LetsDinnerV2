@@ -14,6 +14,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController)
 }
 
+
 class EventSummaryViewController: UIViewController {
     
     @IBOutlet weak var summaryTableView: UITableView!
@@ -96,7 +97,7 @@ class EventSummaryViewController: UIViewController {
 
 extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -173,6 +174,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
 }
 
+// MARK: - AnswerCellDelegate
+
 extension EventSummaryViewController: AnswerCellDelegate {
     func didTapAccept() {
         delegate?.eventSummaryVCDidAnswer(hasAccepted: true, controller: self)
@@ -182,15 +185,30 @@ extension EventSummaryViewController: AnswerCellDelegate {
         delegate?.eventSummaryVCDidAnswer(hasAccepted: false, controller: self)
     }
     
+    func addToCalendarAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
+                                      message: MessagesToDisplay.addToCalendarAlertMessage,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Nope",
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { (_) in self.didTapAccept()}))
+        alert.addAction(UIAlertAction(title: "Add",
+                                      style: UIAlertAction.Style.default,
+                                      handler: { (_) in self.calendarCellDidTapCalendarButton()}))
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }
 
 extension EventSummaryViewController: CalendarCellDelegate {
+
     func calendarCellDidTapCalendarButton() {
         let title = Event.shared.dinnerName
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation
         addEventToCalendar(with: title, forDate: date, location: location)
+        
+        self.didTapAccept()
     }
 }
 

@@ -17,9 +17,12 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-        if FirebaseApp.app() == nil {
+        
+        DispatchQueue.main.async{
+            if FirebaseApp.app() == nil {
                    FirebaseApp.configure()
-               }
+            }
+        }
     }
     
     // MARK: - Conversation Handling
@@ -82,10 +85,11 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func presentViewController(for conversation: MSConversation, with presentationStyle: MSMessagesAppPresentationStyle) {
+        
         // Remove any child view controllers that have been presented.
         removeAllChildViewControllers()
         
-        let controller : UIViewController
+        let controller: UIViewController
         if presentationStyle == .compact {
             if Event.shared.dinnerName.isEmpty {
                 controller = instantiateInitialViewController()
@@ -119,8 +123,6 @@ class MessagesViewController: MSMessagesAppViewController {
             
         }
         
-
-
         addChildViewController(controller: controller)
     }
     

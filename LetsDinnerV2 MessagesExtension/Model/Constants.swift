@@ -68,6 +68,8 @@ enum MessagesToDisplay {
     static let submitQuestion = "Do you want to submit them?"
     static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
+    static let addToCalendarAlertTitle = "Add To Calendar?"
+    static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
 }
 
 enum LabelStrings {
