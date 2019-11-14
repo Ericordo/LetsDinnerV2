@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnswerCell" rowHeight="97" id="KGk-i7-Jjw" customClass="AnswerCell" customModule="Let_s_Dinner_" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnswerCell" rowHeight="162" id="KGk-i7-Jjw" customClass="AnswerCell" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="177"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="118"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="177"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8g-eA-eac">
-                        <rect key="frame" x="30" y="15" width="315" height="26"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8g-eA-eac">
+                        <rect key="frame" x="30" y="15" width="315" height="41"/>
+                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="34"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="ne0-5I-8q4">
-                        <rect key="frame" x="30" y="61" width="315" height="31"/>
+                        <rect key="frame" x="30" y="76" width="315" height="42"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqt-fm-iyq">
-                                <rect key="frame" x="0.0" y="0.0" width="142" height="31"/>
-                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" title=" Accept" image="Yes">
-                                    <color key="titleColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="didTapAccept:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Uba-W0-rXs"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zlw-9x-gVF">
-                                <rect key="frame" x="173" y="0.0" width="142" height="31"/>
+                                <rect key="frame" x="0.0" y="0.0" width="142" height="42"/>
                                 <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title=" Decline" image="No">
                                     <color key="titleColor" red="0.81568627450980391" green="0.0078431372549019607" blue="0.10588235294117647" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -46,29 +36,49 @@
                                     <action selector="didTapDecline:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="WlY-dj-yzF"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jqt-fm-iyq">
+                                <rect key="frame" x="173" y="0.0" width="142" height="42"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title=" Accept" image="Yes">
+                                    <color key="titleColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapAccept:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Uba-W0-rXs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="height" constant="31" id="eyP-ov-yBA"/>
+                            <constraint firstAttribute="height" constant="42" id="eyP-ov-yBA"/>
                         </constraints>
                     </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do you want to accept is invite?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV8-Y4-RUA">
+                        <rect key="frame" x="67" y="138" width="241.5" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="i8g-eA-eac" secondAttribute="trailing" constant="30" id="IPT-jq-z4G"/>
+                    <constraint firstItem="NV8-Y4-RUA" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Sfn-CH-Bb8"/>
                     <constraint firstItem="i8g-eA-eac" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="Yg2-N8-brB"/>
                     <constraint firstItem="ne0-5I-8q4" firstAttribute="trailing" secondItem="i8g-eA-eac" secondAttribute="trailing" id="Zwy-oy-76a"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="ne0-5I-8q4" secondAttribute="bottom" constant="15" id="jEI-Cm-5iT"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="i8g-eA-eac" secondAttribute="bottom" constant="20" id="b9Q-2X-JgE"/>
+                    <constraint firstItem="NV8-Y4-RUA" firstAttribute="top" secondItem="ne0-5I-8q4" secondAttribute="bottom" constant="20" id="j2X-JN-nID"/>
                     <constraint firstItem="ne0-5I-8q4" firstAttribute="leading" secondItem="i8g-eA-eac" secondAttribute="leading" id="mlx-pt-dVf"/>
+                    <constraint firstItem="ne0-5I-8q4" firstAttribute="top" secondItem="i8g-eA-eac" secondAttribute="bottom" constant="20" id="oux-U6-fqW"/>
+                    <constraint firstAttribute="bottom" secondItem="NV8-Y4-RUA" secondAttribute="bottom" constant="18.5" id="rMD-cn-drf"/>
                     <constraint firstItem="i8g-eA-eac" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="uCp-mq-Fub"/>
-                    <constraint firstItem="ne0-5I-8q4" firstAttribute="top" secondItem="i8g-eA-eac" secondAttribute="bottom" constant="20" id="yob-LC-Wwz"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="acceptButton" destination="jqt-fm-iyq" id="zFK-dO-Dji"/>
                 <outlet property="declineButton" destination="Zlw-9x-gVF" id="30t-2K-XHb"/>
+                <outlet property="questionLabel" destination="NV8-Y4-RUA" id="wnd-9I-WLf"/>
                 <outlet property="titleLabel" destination="i8g-eA-eac" id="mQL-so-wkS"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="108.14732142857143"/>
+            <point key="canvasLocation" x="136.95652173913044" y="125.55803571428571"/>
         </tableViewCell>
     </objects>
     <resources>

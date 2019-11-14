@@ -25,19 +25,20 @@ class EventSummaryViewController: UIViewController {
         super.viewDidLoad()
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
+        
         registerCell(CellNibs.answerCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
         registerCell(CellNibs.userCell)
         registerCell(CellNibs.calendarCell)
+        
         setupUI()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         if !Event.shared.participants.isEmpty {
             summaryTableView.isHidden = false
         }
-       
-  
     }
     
     func setupUI() {
@@ -91,10 +92,6 @@ class EventSummaryViewController: UIViewController {
             }
         }
     }
-
-
-    
-
 }
 
 extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource {
@@ -111,66 +108,63 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let calendarCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.calendarCell) as! CalendarCell
         
         switch indexPath.row {
-        case 0:
-            guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
-            if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
-            }) {
-                if answerCell.acceptButton != nil && answerCell.declineButton != nil {
-                    answerCell.acceptButton.removeFromSuperview()
-                    answerCell.declineButton.removeFromSuperview()
+            case 0:
+                guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
+                if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
+                }) {
+                    if answerCell.acceptButton != nil && answerCell.declineButton != nil {
+                        answerCell.acceptButton.removeFromSuperview()
+                        answerCell.declineButton.removeFromSuperview()
+                        answerCell.questionLabel.removeFromSuperview()
+                    }
                 }
+                answerCell.titleLabel.text = Event.shared.dinnerName
                 
-            }
-            answerCell.titleLabel.text = Event.shared.dinnerName
-            answerCell.delegate = self
-            return answerCell
-        case 1:
-            calendarCell.delegate = self
-            return calendarCell
-        case 2:
-            infoCell.titleLabel.text = LabelStrings.host
-            infoCell.infoLabel.text = Event.shared.hostName
-            return infoCell
-        case 3:
-            infoCell.titleLabel.text = LabelStrings.date
-            infoCell.infoLabel.text = Event.shared.dinnerDate
-            return infoCell
-        case 4:
-            infoCell.titleLabel.text = LabelStrings.location
-            infoCell.infoLabel.text = Event.shared.dinnerLocation
-            return infoCell
-        case 5:
-            descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
-            return descriptionCell
-        case 6:
-            taskSummaryCell.delegate = self
-            var numberOfCompletedTasks = 0
-            Event.shared.tasks.forEach { task in
-                if task.taskState == .completed {
-                    numberOfCompletedTasks += 1
+                answerCell.delegate = self
+                return answerCell
+
+            case 1:
+                infoCell.titleLabel.text = LabelStrings.host
+                infoCell.infoLabel.text = Event.shared.hostName
+                return infoCell
+            case 2:
+                infoCell.titleLabel.text = LabelStrings.date
+                infoCell.infoLabel.text = Event.shared.dinnerDate
+                return infoCell
+            case 3:
+                infoCell.titleLabel.text = LabelStrings.location
+                infoCell.infoLabel.text = Event.shared.dinnerLocation
+                return infoCell
+            case 4:
+                descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+                return descriptionCell
+            case 5:
+                taskSummaryCell.delegate = self
+                var numberOfCompletedTasks = 0
+                Event.shared.tasks.forEach { task in
+                    if task.taskState == .completed {
+                        numberOfCompletedTasks += 1
+                    }
                 }
+                let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
+                taskSummaryCell.progressCircle.animate(percentage: percentage)
+                return taskSummaryCell
+            case 6:
+                return userCell
+            default:
+                break
             }
-            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
-            taskSummaryCell.progressCircle.animate(percentage: percentage)
-            return taskSummaryCell
-        case 7:
-            return userCell
-        default:
-            break
-        }
-        return UITableViewCell() 
+            return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
-        case 2, 3, 4:
+        case 1, 2, 3:
             return 52
-        case 6:
+        case 5:
             return 240
-        case 7:
+        case 6:
             return 165
-        case 1:
-            return 40
         default:
             return UITableView.automaticDimension
         }

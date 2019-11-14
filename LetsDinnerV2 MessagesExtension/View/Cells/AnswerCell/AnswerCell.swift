@@ -19,6 +19,8 @@ class AnswerCell: UITableViewCell {
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
     
+    @IBOutlet weak var questionLabel: UILabel!
+    
     weak var delegate: AnswerCellDelegate?
     
     override func awakeFromNib() {
@@ -38,14 +40,10 @@ class AnswerCell: UITableViewCell {
     @IBAction func didTapAccept(_ sender: UIButton) {
         acceptButton.shake()
         delegate?.didTapAccept()
-        
     }
     
     @IBAction func didTapDecline(_ sender: UIButton) {
         declineButton.shake()
         delegate?.didTapDecline()
-        
     }
-    
-    
 }
