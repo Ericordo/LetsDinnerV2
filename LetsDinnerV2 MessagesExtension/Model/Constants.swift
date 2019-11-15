@@ -58,7 +58,7 @@ enum MessagesToDisplay {
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
     static let userHasDeclinedAlert = "You declined the invitation, you can not manage the tasks."
     static let acceptedInvitation = " accepted the invitation"
-    static let declinedInvitation = " You are not one of them"
+    static let declinedInvitation = " declined the invitation"
     static let eventExists = "This event is already in your calendar"
     static let completed = "Completed"
     static let assignedToYourself = "Assigned to yourself"
@@ -68,10 +68,10 @@ enum MessagesToDisplay {
     static let submitQuestion = "Do you want to submit them?"
     static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
-    static let addToCalendarAlertTitle = "Add To Calendar?"
+    static let addToCalendarAlertTitle = "Add to calendar?"
     static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
-    static let declineEventAlertTitle = "Do you want to Decline?"
-    static let declineEventAlertMessage = "By Declining, you won't able to participate the event."
+    static let declineEventAlertTitle = "Do you want to decline?"
+    static let declineEventAlertMessage = "By declining, you won't able to participate the event."
 }
 
 enum LabelStrings {
