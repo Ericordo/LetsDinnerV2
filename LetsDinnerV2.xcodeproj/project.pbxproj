@@ -70,6 +70,8 @@
 		8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */; };
 		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
 		88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362DE237C3F8C005B6B81 /* ProgressBar.swift */; };
+		88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */; };
+		88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */; };
 		88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */; };
 		88B7832E23717D84009E4F3C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor.swift */; };
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
@@ -173,6 +175,8 @@
 		883A2A012372D5520099ECDF /* EventDescriptionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDescriptionViewController.xib; sourceTree = "<group>"; };
 		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		88A362DE237C3F8C005B6B81 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
+		88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManagementViewController.xib; sourceTree = "<group>"; };
 		88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		88B7832D23717D84009E4F3C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -405,6 +409,7 @@
 				88349F31236F7A22002A1879 /* NewEventVC */,
 				88349F362370439B002A1879 /* RecipesVC */,
 				883A29FB2371F4580099ECDF /* RecipeDetailsVC */,
+				88A362E0237EA8B6005B6B81 /* ManagementVC */,
 				883A2A042372D5560099ECDF /* EventDescriptionVC */,
 				880B133223736D3C003E29AC /* EventSummaryVC */,
 				880B13662374BDAE003E29AC /* TasksListVC */,
@@ -505,6 +510,15 @@
 				883A2A012372D5520099ECDF /* EventDescriptionViewController.xib */,
 			);
 			path = EventDescriptionVC;
+			sourceTree = "<group>";
+		};
+		88A362E0237EA8B6005B6B81 /* ManagementVC */ = {
+			isa = PBXGroup;
+			children = (
+				88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */,
+				88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */,
+			);
+			path = ManagementVC;
 			sourceTree = "<group>";
 		};
 		88B7833323718391009E4F3C /* Resources */ = {
@@ -619,6 +633,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
+				88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */,
 				880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
@@ -738,6 +753,7 @@
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,
+				88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */,
 				88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */,
 				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
 				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,

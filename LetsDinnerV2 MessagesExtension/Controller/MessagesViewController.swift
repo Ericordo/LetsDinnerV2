@@ -183,6 +183,12 @@ class MessagesViewController: MSMessagesAppViewController {
          return controller
      }
     
+    private func instantiateManagementViewController() -> UIViewController {
+        let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
     private func instantiateEventDescriptionViewController() -> UIViewController {
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
         controller.delegate = self
@@ -271,7 +277,7 @@ extension MessagesViewController: NewEventViewControllerDelegate {
 
 extension MessagesViewController: RecipesViewControllerDelegate {
     func recipeVCDidTapNext(controller: RecipesViewController) {
-        let controller = instantiateEventDescriptionViewController()
+        let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
@@ -281,13 +287,27 @@ extension MessagesViewController: RecipesViewControllerDelegate {
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
+}
+
+extension MessagesViewController: ManagementViewControllerDelegate {
+    func managementVCDidTapBack(controller: ManagementViewController) {
+        let controller = instantiateRecipesViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func managementVCDdidTapNext(controller: ManagementViewController) {
+        let controller = instantiateEventDescriptionViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
     
     
 }
 
 extension MessagesViewController: EventDescriptionViewControllerDelegate {
     func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController) {
-        let controller = instantiateRecipesViewController()
+        let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
