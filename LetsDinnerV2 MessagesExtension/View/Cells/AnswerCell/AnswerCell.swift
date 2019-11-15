@@ -9,8 +9,8 @@
 import UIKit
 
 protocol AnswerCellDelegate: class {
-    func didTapAccept()
-    func didTapDecline()
+    func addToCalendarAlert()
+    func declineEventAlert()
 }
 
 class AnswerCell: UITableViewCell {
@@ -18,15 +18,18 @@ class AnswerCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
+    @IBOutlet weak var questionLabel: UILabel!
     
     weak var delegate: AnswerCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         acceptButton.clipsToBounds = true
-        declineButton.clipsToBounds = true
         acceptButton.layer.cornerRadius = 6
+        acceptButton.backgroundColor = Colors.paleGray
+        declineButton.clipsToBounds = true
         declineButton.layer.cornerRadius = 6
+        declineButton.backgroundColor = Colors.paleGray
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,15 +40,11 @@ class AnswerCell: UITableViewCell {
     
     @IBAction func didTapAccept(_ sender: UIButton) {
         acceptButton.shake()
-        delegate?.didTapAccept()
-        
+        delegate?.addToCalendarAlert()
     }
     
     @IBAction func didTapDecline(_ sender: UIButton) {
         declineButton.shake()
-        delegate?.didTapDecline()
-        
+        delegate?.declineEventAlert()
     }
-    
-    
 }

@@ -14,6 +14,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController)
 }
 
+
 class EventSummaryViewController: UIViewController {
     
     @IBOutlet weak var summaryTableView: UITableView!
@@ -25,19 +26,21 @@ class EventSummaryViewController: UIViewController {
         super.viewDidLoad()
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
+        
         registerCell(CellNibs.answerCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
         registerCell(CellNibs.userCell)
         registerCell(CellNibs.calendarCell)
+        
         setupUI()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
+        
         if !Event.shared.participants.isEmpty {
             summaryTableView.isHidden = false
         }
-       
-  
     }
     
     func setupUI() {
@@ -52,6 +55,87 @@ class EventSummaryViewController: UIViewController {
     func registerCell(_ nibName: String) {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
     }
+}
+
+//MARK: - Setup TableView
+
+extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 7
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
+        let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
+        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
+        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
+        let userCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.userCell) as! UserCell
+        let calendarCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.calendarCell) as! CalendarCell
+        
+        switch indexPath.row {
+            case 0:
+                guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
+                if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
+                }) {
+                    if answerCell.acceptButton != nil && answerCell.declineButton != nil {
+                        answerCell.acceptButton.removeFromSuperview()
+                        answerCell.declineButton.removeFromSuperview()
+                        answerCell.questionLabel.removeFromSuperview()
+                    }
+                }
+                answerCell.titleLabel.text = Event.shared.dinnerName
+                
+                answerCell.delegate = self
+                return answerCell
+
+            case 1:
+                infoCell.titleLabel.text = LabelStrings.host
+                infoCell.infoLabel.text = Event.shared.hostName
+                return infoCell
+            case 2:
+                infoCell.titleLabel.text = LabelStrings.date
+                infoCell.infoLabel.text = Event.shared.dinnerDate
+                return infoCell
+            case 3:
+                infoCell.titleLabel.text = LabelStrings.location
+                infoCell.infoLabel.text = Event.shared.dinnerLocation
+                return infoCell
+            case 4:
+                descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+                return descriptionCell
+            case 5:
+                taskSummaryCell.delegate = self
+                var numberOfCompletedTasks = 0
+                Event.shared.tasks.forEach { task in
+                    if task.taskState == .completed {
+                        numberOfCompletedTasks += 1
+                    }
+                }
+                let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
+                taskSummaryCell.progressCircle.animate(percentage: percentage)
+                return taskSummaryCell
+            case 6:
+                return userCell
+            default:
+                break
+            }
+            return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 1, 2, 3:
+            return 52
+        case 5:
+            return 240
+        case 6:
+            return 165
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+    
+    // MARK: - Other Function
     
     func addEventToCalendar(with title: String, forDate eventStartDate: Date, location: String) {
         store.requestAccess(to: .event) { (success, error) in
@@ -91,93 +175,11 @@ class EventSummaryViewController: UIViewController {
             }
         }
     }
-
-
-    
-
-}
-
-extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
-        let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
-        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
-        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
-        let userCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.userCell) as! UserCell
-        let calendarCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.calendarCell) as! CalendarCell
-        
-        switch indexPath.row {
-        case 0:
-            guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
-            if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
-            }) {
-                if answerCell.acceptButton != nil && answerCell.declineButton != nil {
-                    answerCell.acceptButton.removeFromSuperview()
-                    answerCell.declineButton.removeFromSuperview()
-                }
-                
-            }
-            answerCell.titleLabel.text = Event.shared.dinnerName
-            answerCell.delegate = self
-            return answerCell
-        case 1:
-            calendarCell.delegate = self
-            return calendarCell
-        case 2:
-            infoCell.titleLabel.text = LabelStrings.host
-            infoCell.infoLabel.text = Event.shared.hostName
-            return infoCell
-        case 3:
-            infoCell.titleLabel.text = LabelStrings.date
-            infoCell.infoLabel.text = Event.shared.dinnerDate
-            return infoCell
-        case 4:
-            infoCell.titleLabel.text = LabelStrings.location
-            infoCell.infoLabel.text = Event.shared.dinnerLocation
-            return infoCell
-        case 5:
-            descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
-            return descriptionCell
-        case 6:
-            taskSummaryCell.delegate = self
-            var numberOfCompletedTasks = 0
-            Event.shared.tasks.forEach { task in
-                if task.taskState == .completed {
-                    numberOfCompletedTasks += 1
-                }
-            }
-            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
-            taskSummaryCell.progressCircle.animate(percentage: percentage)
-            return taskSummaryCell
-        case 7:
-            return userCell
-        default:
-            break
-        }
-        return UITableViewCell() 
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 2, 3, 4:
-            return 52
-        case 6:
-            return 240
-        case 7:
-            return 165
-        case 1:
-            return 40
-        default:
-            return UITableView.automaticDimension
-        }
-    }
     
     
 }
+
+// MARK: - AnswerCellDelegate
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func didTapAccept() {
@@ -188,8 +190,34 @@ extension EventSummaryViewController: AnswerCellDelegate {
         delegate?.eventSummaryVCDidAnswer(hasAccepted: false, controller: self)
     }
     
+    func addToCalendarAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
+                                      message: MessagesToDisplay.addToCalendarAlertMessage,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Nope",
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { (_) in self.didTapAccept()}))
+        alert.addAction(UIAlertAction(title: "Add",
+                                      style: UIAlertAction.Style.default,
+                                      handler: { (_) in self.calendarCellDidTapCalendarButton()}))
+        self.present(alert, animated: true, completion: nil)
+    }
     
+    func declineEventAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.declineEventAlertTitle,
+                                      message: MessagesToDisplay.declineEventAlertMessage,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Decline",
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { (_) in self.didTapDecline()}))
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: UIAlertAction.Style.default,
+                                      handler: nil ))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
+
+// MARK: - Calendar Cell Delegate
 
 extension EventSummaryViewController: CalendarCellDelegate {
     func calendarCellDidTapCalendarButton() {
@@ -197,8 +225,12 @@ extension EventSummaryViewController: CalendarCellDelegate {
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation
         addEventToCalendar(with: title, forDate: date, location: location)
+        
+        self.didTapAccept()
     }
 }
+
+// MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
     func taskSummaryCellDidTapSeeAll() {
