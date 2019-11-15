@@ -29,6 +29,7 @@ enum VCNibs {
     static let newEventViewController = "NewEventViewController"
     static let recipesViewController = "RecipesViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
+    static let managementViewController = "ManagementViewController"
     static let eventDescriptionViewController = "EventDescriptionViewController"
     static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"

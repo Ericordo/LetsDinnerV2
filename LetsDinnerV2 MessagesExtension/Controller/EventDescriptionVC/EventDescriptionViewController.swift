@@ -48,7 +48,7 @@ class EventDescriptionViewController: UIViewController {
         descriptionTextView.becomeFirstResponder()
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
-        progressView.progress = 2/3
+        progressView.progress = 3/4
         progressView.setProgress(1, animated: true)
     }
     
