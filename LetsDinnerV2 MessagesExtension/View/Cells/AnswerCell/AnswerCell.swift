@@ -9,23 +9,18 @@
 import UIKit
 
 protocol AnswerCellDelegate: class {
-    func didTapAccept()
-    func didTapDecline()
     func addToCalendarAlert()
+    func declineEventAlert()
 }
 
-
- 
 class AnswerCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
-    
     @IBOutlet weak var questionLabel: UILabel!
     
     weak var delegate: AnswerCellDelegate?
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,11 +41,10 @@ class AnswerCell: UITableViewCell {
     @IBAction func didTapAccept(_ sender: UIButton) {
         acceptButton.shake()
         delegate?.addToCalendarAlert()
-//        delegate?.didTapAccept()
     }
     
     @IBAction func didTapDecline(_ sender: UIButton) {
         declineButton.shake()
-        delegate?.didTapDecline()
+        delegate?.declineEventAlert()
     }
 }

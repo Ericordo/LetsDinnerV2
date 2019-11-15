@@ -29,9 +29,8 @@ class CalendarCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-              super.layoutSubviews()
-              
-          }
+        super.layoutSubviews()
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -40,7 +39,4 @@ class CalendarCell: UITableViewCell {
     @IBAction func didTapCalendarButton(_ sender: UIButton) {
         delegate?.calendarCellDidTapCalendarButton()
     }
-    
-    
-    
 }

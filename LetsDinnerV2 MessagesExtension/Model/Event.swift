@@ -12,10 +12,6 @@ import iMessageDataKit
 import FirebaseDatabase
 import FirebaseStorage
 
-
-
-
-
 class Event {
     
     static let shared = Event()
