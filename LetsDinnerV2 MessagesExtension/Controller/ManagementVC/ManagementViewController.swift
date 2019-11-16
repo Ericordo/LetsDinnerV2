@@ -23,11 +23,17 @@ class ManagementViewController: UIViewController {
     
     weak var delegate: ManagementViewControllerDelegate?
     
+    private var tasks = Event.shared.tasks
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tasksTableView.delegate = self
+        tasksTableView.dataSource = self
+        tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
         setupUI()
-
+//        prepareTasks()
+//        tasksTableView.tableFooterView = UIView()
         
     }
     
@@ -39,6 +45,7 @@ class ManagementViewController: UIViewController {
         
         
     }
+ 
     
     
     @IBAction private func didTapBack(_ sender: UIButton) {
@@ -50,6 +57,7 @@ class ManagementViewController: UIViewController {
     }
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
+        
     }
     
     
@@ -57,4 +65,46 @@ class ManagementViewController: UIViewController {
 
  
 
+}
+
+extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if tasks.count == 0 {
+            tableView.setEmptyView(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage)
+        } else {
+        tableView.restore()
+        }
+
+        return tasks.count
+      }
+      
+      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+          let taskCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskCell, for: indexPath) as! TaskCell
+          let task = tasks[indexPath.row]
+          taskCell.configureCell(task: task, indexPath: indexPath.row)
+          taskCell.delegate = self
+          return taskCell
+      }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! TaskCell
+        cell.didTapTaskStatusButton()
+    }
+      
+      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           return UITableView.automaticDimension
+       }
+    
+    
+    
+    
+}
+
+extension ManagementViewController: TaskCellDelegate {
+    func taskCellDidTapTaskStatusButton() {
+        
+    }
+    
+    
 }

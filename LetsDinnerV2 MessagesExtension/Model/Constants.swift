@@ -81,4 +81,7 @@ enum LabelStrings {
     static let date = "Date"
     static let location = "Location"
     static let addToCalendar = "Add to Calendar"
+    static let noTaskTitle = "There is nothing to do for your event"
+    static let noTaskMessage = "You can add things, they will appear here"
+    
 }

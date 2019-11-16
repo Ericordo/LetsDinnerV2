@@ -70,6 +70,7 @@ class RecipesViewController: UIViewController {
                  let recipesCount = String(Event.shared.selectedRecipes.count)
                  nextButton.setTitle("Next (\(recipesCount))", for: .normal)
              }
+        prepareTasks()
     }
     
     private func loadRecipes() {
@@ -94,6 +95,17 @@ class RecipesViewController: UIViewController {
     
     @IBAction func didTapNext(_ sender: Any) {
         delegate?.recipeVCDidTapNext(controller: self)
+    }
+    
+//    MARK: due to ManagementVC
+    private func prepareTasks() {
+        Event.shared.tasks.removeAll()
+        let ingredients = Event.shared.selectedRecipes.map { $0.ingredientList }
+        ingredients.forEach { ingredientList in
+            ingredientList?.forEach({ ingredient in
+                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: ""))
+            })
+        }
     }
 }
 

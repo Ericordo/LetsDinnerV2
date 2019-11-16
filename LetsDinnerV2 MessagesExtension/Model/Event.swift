@@ -40,7 +40,7 @@ class Event {
     var hostIdentifier = ""
     var participants = [User]()
     var tasks = [Task]()
-    var currentConversationTaskStates = [Task]() 
+    var currentConversationTaskStates = [Task]()
     var firebaseEventUid = ""
     var currentUser: User?
     
