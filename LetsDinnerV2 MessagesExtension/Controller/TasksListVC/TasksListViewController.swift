@@ -22,6 +22,7 @@ class TasksListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .tasksListVC
         setupUI()
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
