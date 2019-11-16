@@ -1,70 +1,60 @@
 //
-//  EventDescriptionViewControllerBis.swift
+//  EventDescriptionViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by Eric Ordonneau on 16/11/2019.
+//  Created by Eric Ordonneau on 06/11/2019.
 //  Copyright © 2019 Eric Ordonneau. All rights reserved.
 //
 
 import UIKit
 
-protocol EventDescriptionViewControllerDelegate: class {
-    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController)
-    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController)
+protocol EventDescriptionViewControllerDelegateOld: class {
+    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld)
+    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld)
 }
 
-class EventDescriptionViewController: UIViewController {
-    
+class EventDescriptionViewControllerOld: UIViewController {
+
+    @IBOutlet weak var finishButton: UIButton!
     @IBOutlet weak var previousButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var cookLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var recipesCollectionView: UICollectionView!
     
-    weak var delegate: EventDescriptionViewControllerDelegate?
-    var selectedRecipes = Event.shared.selectedRecipes
+    weak var delegate: EventDescriptionViewControllerDelegateOld?
     var placeholderLabel = UILabel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventDescriptionVC
         descriptionTextView.delegate = self
-        recipesCollectionView.delegate = self
-        recipesCollectionView.dataSource = self
-        recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
         setupUI()
         
-
-     
     }
     
-    private func setupUI() {
-        let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 100)
-        recipesCollectionView.collectionViewLayout = layout
+    func setupUI() {
+//        titleLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+         titleLabel.text = Event.shared.recipeTitles
+//        counterLabel.text = "500"
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         descriptionTextView.tintColor = Colors.customPink
-        placeholderLabel.text = LabelStrings.whatsThePlan
+        placeholderLabel.text = "So what’s the plan?"
         placeholderLabel.sizeToFit()
         checkForExistingDescription()
         checkRemainingChars()
         descriptionTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
         placeholderLabel.textColor = Colors.customGray
-        placeholderLabel.font = UIFont.systemFont(ofSize: 14)
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
         progressView.progress = 3/4
         progressView.setProgress(1, animated: true)
+        
     }
     
     private func checkRemainingChars() {
@@ -79,55 +69,27 @@ class EventDescriptionViewController: UIViewController {
             descriptionTextView.text = Event.shared.eventDescription
         }
     }
-    
-    
 
     @IBAction func didTapPrevious(_ sender: UIButton) {
-        delegate?.eventDescriptionVCDidTapPrevious(controller: self)
+         delegate?.eventDescriptionVCDidTapPrevious(controller: self)
     }
     
-    @IBAction func didTapNext(_ sender: UIButton) {
-           guard let text = descriptionTextView.text else { return }
-             if text.isEmpty {
-                 let refreshAlert = UIAlertController(title: MessagesToDisplay.descriptionPrompt, message: "", preferredStyle: UIAlertController.Style.alert)
-                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-                     self.descriptionTextView.becomeFirstResponder()
-                 }))
-                 present(refreshAlert, animated: true, completion: nil)
-             } else {
-                 Event.shared.eventDescription = text
-                 delegate?.eventDescriptionVCDidTapFinish(controller: self)
-             }
+    @IBAction func didTapFinish(_ sender: UIButton) {
+        guard let text = descriptionTextView.text else { return }
+        if text.isEmpty {
+            let refreshAlert = UIAlertController(title: MessagesToDisplay.descriptionPrompt, message: "", preferredStyle: UIAlertController.Style.alert)
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                self.descriptionTextView.becomeFirstResponder()
+            }))
+            present(refreshAlert, animated: true, completion: nil)
+        } else {
+            Event.shared.eventDescription = text
+            delegate?.eventDescriptionVCDidTapFinish(controller: self)
+        }
     }
-    
-    
-    
-}
+ }
 
-extension EventDescriptionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedRecipes.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
-        let recipe = selectedRecipes[indexPath.row]
-        recipeCVCell.configureCell(recipeTitle: recipe.title ?? "")
-        return recipeCVCell
-    }
-    
-    
-}
-
-extension EventDescriptionViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-          return 30
-      }
-    
-    
-}
-
-extension EventDescriptionViewController: UITextViewDelegate {
+extension EventDescriptionViewControllerOld: UITextViewDelegate {
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
            descriptionTextView.resignFirstResponder()
            return true
@@ -174,4 +136,3 @@ extension EventDescriptionViewController: UITextViewDelegate {
     }
     
 }
-

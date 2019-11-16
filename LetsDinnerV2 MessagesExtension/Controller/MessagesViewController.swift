@@ -214,6 +214,12 @@ class MessagesViewController: MSMessagesAppViewController {
         return controller
     }
     
+//    private func instantiateEventDescriptionViewControllerOld() -> UIViewController {
+//        let controller = EventDescriptionViewControllerBis(nibName: VCNibs.eventDescriptionViewControllerOld, bundle: nil)
+//        controller.delegate = self
+//        return controller
+//    }
+    
     private func instantiateEventDescriptionViewController() -> UIViewController {
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
         controller.delegate = self
@@ -334,6 +340,7 @@ extension MessagesViewController: ManagementViewControllerDelegate {
     
     func managementVCDdidTapNext(controller: ManagementViewController) {
         let controller = instantiateEventDescriptionViewController()
+//        let controller = instantiateEventDescriptionViewControllerOld()
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
@@ -353,9 +360,22 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
         sendMessage(message: message)
     }
-    
-    
 }
+
+extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
+    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
+        let controller = instantiateManagementViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+        sendMessage(message: message)
+    }
+}
+
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {

@@ -30,6 +30,7 @@ enum VCNibs {
     static let recipesViewController = "RecipesViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let managementViewController = "ManagementViewController"
+    static let eventDescriptionViewControllerOld = "EventDescriptionViewControllerOld"
     static let eventDescriptionViewController = "EventDescriptionViewController"
     static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"
@@ -48,6 +49,7 @@ enum CellNibs {
     static let taskCell = "TaskCell"
     static let userCVCell = "UserCVCell"
     static let taskManagementCell = "TaskManagementCell"
+    static let recipeCVCell = "RecipeCVCell"
 }
 
 enum ApiKeys {
@@ -88,5 +90,6 @@ enum LabelStrings {
     static let addToCalendar = "Add to Calendar"
     static let noTaskTitle = "There is nothing to do for your event"
     static let noTaskMessage = "You can add things, they will appear here"
+    static let whatsThePlan = "So, what's the plan?"
     
 }
