@@ -91,5 +91,6 @@ enum LabelStrings {
     static let noTaskTitle = "There is nothing to do for your event"
     static let noTaskMessage = "You can add things, they will appear here"
     static let whatsThePlan = "So, what's the plan?"
+    static let nothingToDo = "There is nothing to do!"
     
 }

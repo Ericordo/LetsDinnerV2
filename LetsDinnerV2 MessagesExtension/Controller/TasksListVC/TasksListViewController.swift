@@ -71,6 +71,13 @@ class TasksListViewController: UIViewController {
 
 extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if Event.shared.tasks.count == 0 {
+            tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
+        } else {
+            tableView.restore()
+        }
+
         return Event.shared.tasks.count
     }
     
