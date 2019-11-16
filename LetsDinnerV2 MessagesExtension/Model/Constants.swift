@@ -47,6 +47,7 @@ enum CellNibs {
     static let taskCVCell = "TaskCVCell"
     static let taskCell = "TaskCell"
     static let userCVCell = "UserCVCell"
+    static let taskManagementCell = "TaskManagementCell"
 }
 
 enum ApiKeys {
@@ -73,6 +74,10 @@ enum MessagesToDisplay {
     static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
     static let declineEventAlertTitle = "Do you want to decline?"
     static let declineEventAlertMessage = "By declining, you won't able to participate the event."
+    static let cancel = "Cancel"
+    static let add = "Add"
+    static let addThing = "Add a thing"
+    static let thingToAdd = "Thing to add"
 }
 
 enum LabelStrings {
@@ -81,4 +86,7 @@ enum LabelStrings {
     static let date = "Date"
     static let location = "Location"
     static let addToCalendar = "Add to Calendar"
+    static let noTaskTitle = "There is nothing to do for your event"
+    static let noTaskMessage = "You can add things, they will appear here"
+    
 }
