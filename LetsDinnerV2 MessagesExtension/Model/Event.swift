@@ -83,93 +83,182 @@ class Event {
          return message
     }
     
-    func uploadEventToFirebase() -> String {
-        
-        guard let userID = currentUser?.identifier else { return "" }
-        let reference = Database.database().reference()
-        let ingredients = selectedRecipes.map { $0.ingredientList }
-        
-        let childUid = reference.child("Events").childByAutoId()
-        let parameters: [String : Any] = ["dinnerName" : dinnerName, "hostName" : hostName, "dateTimestamp" : dateTimestamp, "dinnerLocation" : dinnerLocation, "eventDescription" : eventDescription, "hostID" : userID]
-        childUid.setValue(parameters)
-        if !ingredients.isEmpty {
-            ingredients.forEach { ingredientsPerRecipe in
-                ingredientsPerRecipe?.forEach({ ingredient in
-                    let ingredientChild = childUid.child("ingredients").childByAutoId()
-                    let parameters : [String : Any] = ["title" : ingredient, "ownerName" : "nil", "ownerUid" : "nil", "state" : 0]
-                    ingredientChild.setValue(parameters)
-                })
-            }
-        }
-        if !selectedRecipes.isEmpty {
-            selectedRecipes.forEach { recipe in
-                let recipeChild = childUid.child("recipes").childByAutoId()
-                let parameters : [String : Any] = ["title" : recipe.title ?? "", "sourceUrl" : recipe.sourceUrl ?? ""]
-                recipeChild.setValue(parameters)
-            }
-        }
-        // let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true]
-        // New line below to add profilePic to Test
-        let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true, "profilePicUrl" : defaults.profilePicUrl]
-        currentUser?.hasAccepted = true
-        childUid.child("participants").child(userID).setValue(participantsParameters)
-        self.firebaseEventUid = childUid.key!
-        return childUid.key!
-        
-    }
+//    func uploadEventToFirebase() -> String {
+//
+//        guard let userID = currentUser?.identifier else { return "" }
+//        let reference = Database.database().reference()
+//        let ingredients = selectedRecipes.map { $0.ingredientList }
+//
+//        let childUid = reference.child("Events").childByAutoId()
+//        let parameters: [String : Any] = ["dinnerName" : dinnerName, "hostName" : hostName, "dateTimestamp" : dateTimestamp, "dinnerLocation" : dinnerLocation, "eventDescription" : eventDescription, "hostID" : userID]
+//        childUid.setValue(parameters)
+//        if !ingredients.isEmpty {
+//            ingredients.forEach { ingredientsPerRecipe in
+//                ingredientsPerRecipe?.forEach({ ingredient in
+//                    let ingredientChild = childUid.child("ingredients").childByAutoId()
+//                    let parameters : [String : Any] = ["title" : ingredient, "ownerName" : "nil", "ownerUid" : "nil", "state" : 0]
+//                    ingredientChild.setValue(parameters)
+//                })
+//            }
+//        }
+//        if !selectedRecipes.isEmpty {
+//            selectedRecipes.forEach { recipe in
+//                let recipeChild = childUid.child("recipes").childByAutoId()
+//                let parameters : [String : Any] = ["title" : recipe.title ?? "", "sourceUrl" : recipe.sourceUrl ?? ""]
+//                recipeChild.setValue(parameters)
+//            }
+//        }
+//        // let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true]
+//        // New line below to add profilePic to Test
+//        let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true, "profilePicUrl" : defaults.profilePicUrl]
+//        currentUser?.hasAccepted = true
+//        childUid.child("participants").child(userID).setValue(participantsParameters)
+//        self.firebaseEventUid = childUid.key!
+//        return childUid.key!
+//
+//    }
     
-    func observeEvent() {
-        Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String : Any] else { return }
-            guard let hostID = value["hostID"] as? String else { return }
-            self.hostIdentifier = hostID
-            
-            var users = [User]()
-            guard let participants = value["participants"] as? [String : Any] else { return }
-            participants.forEach { key, value in
-                guard let dict = value as? [String : Any] else { return }
-                guard let fullName = dict["fullName"] as? String else { return }
-                guard let hasAccepted = dict["hasAccepted"] as? Bool else { return }
-                // New line
-                guard let profilePicUrl = dict["profilePicUrl"] as? String else { return }
-                let user = User(identifier: key, fullName: fullName, hasAccepted: hasAccepted)
-                // New line
-                user.profilePicUrl = profilePicUrl
-                users.append(user)
+//    MARK: Modification to test to add the custom tasks
+    func uploadEventToFirebase() -> String {
+          guard let userID = currentUser?.identifier else { return "" }
+          let reference = Database.database().reference()
+//          let ingredients = selectedRecipes.map { $0.ingredientList }
+          
+          let childUid = reference.child("Events").childByAutoId()
+          let parameters: [String : Any] = ["dinnerName" : dinnerName, "hostName" : hostName, "dateTimestamp" : dateTimestamp, "dinnerLocation" : dinnerLocation, "eventDescription" : eventDescription, "hostID" : userID]
+          childUid.setValue(parameters)
+          if !selectedRecipes.isEmpty {
+              selectedRecipes.forEach { recipe in
+                  let recipeChild = childUid.child("recipes").childByAutoId()
+                  let parameters : [String : Any] = ["title" : recipe.title ?? "", "sourceUrl" : recipe.sourceUrl ?? ""]
+                  recipeChild.setValue(parameters)
+              }
+          }
+        if !tasks.isEmpty {
+            tasks.forEach { task in
+                let taskChild = childUid.child("tasks").childByAutoId()
+                let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom]
+                taskChild.setValue(parameters)
             }
-            self.participants = users
-            
-            var tasks = [Task]()
-            guard let currentTasks = value["ingredients"] as? [String : Any] else { return }
-            currentTasks.forEach { (key, value) in
-                guard let dict = value as? [String : Any] else { return }
-                guard let title = dict["title"] as? String else { return }
-                guard let ownerName = dict["ownerName"] as? String else { return }
-                guard let ownerUid = dict["ownerUid"] as? String else { return }
-                guard let state = dict["state"] as? Int else { return }
-                let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
-                tasks.append(task)
-                let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
-                self.currentConversationTaskStates.append(newTask)
-//                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
-//                self.currentConversationTaskStates.append(task)
-            }
-            self.tasks = tasks
-            
-            var recipes = [Recipe]()
-            guard let selectedRecipes = value["recipes"] as? [String : Any] else { return }
-            selectedRecipes.forEach { (key, value) in
-                guard let dict = value as? [String : Any] else { return }
-                guard let title = dict["title"] as? String else { return }
-                guard let sourceUrl = dict["sourceUrl"] as? String else { return }
-                let recipe = Recipe(title: title, sourceUrl: sourceUrl)
-                recipes.append(recipe)
-            }
-            self.selectedRecipes = recipes
-            
-            NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
         }
-    }
+          // let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true]
+          // New line below to add profilePic to Test
+          let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true, "profilePicUrl" : defaults.profilePicUrl]
+          currentUser?.hasAccepted = true
+          childUid.child("participants").child(userID).setValue(participantsParameters)
+          self.firebaseEventUid = childUid.key!
+          return childUid.key!
+      }
+    
+//    func observeEvent() {
+//        Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
+//            guard let value = snapshot.value as? [String : Any] else { return }
+//            guard let hostID = value["hostID"] as? String else { return }
+//            self.hostIdentifier = hostID
+//
+//            var users = [User]()
+//            guard let participants = value["participants"] as? [String : Any] else { return }
+//            participants.forEach { key, value in
+//                guard let dict = value as? [String : Any] else { return }
+//                guard let fullName = dict["fullName"] as? String else { return }
+//                guard let hasAccepted = dict["hasAccepted"] as? Bool else { return }
+//                // New line
+//                guard let profilePicUrl = dict["profilePicUrl"] as? String else { return }
+//                let user = User(identifier: key, fullName: fullName, hasAccepted: hasAccepted)
+//                // New line
+//                user.profilePicUrl = profilePicUrl
+//                users.append(user)
+//            }
+//            self.participants = users
+//
+//            var tasks = [Task]()
+//            guard let currentTasks = value["ingredients"] as? [String : Any] else { return }
+//            currentTasks.forEach { (key, value) in
+//                guard let dict = value as? [String : Any] else { return }
+//                guard let title = dict["title"] as? String else { return }
+//                guard let ownerName = dict["ownerName"] as? String else { return }
+//                guard let ownerUid = dict["ownerUid"] as? String else { return }
+//                guard let state = dict["state"] as? Int else { return }
+//                let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+//                tasks.append(task)
+//                let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+//                self.currentConversationTaskStates.append(newTask)
+////                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
+////                self.currentConversationTaskStates.append(task)
+//            }
+//            self.tasks = tasks
+//
+//            var recipes = [Recipe]()
+//            guard let selectedRecipes = value["recipes"] as? [String : Any] else { return }
+//            selectedRecipes.forEach { (key, value) in
+//                guard let dict = value as? [String : Any] else { return }
+//                guard let title = dict["title"] as? String else { return }
+//                guard let sourceUrl = dict["sourceUrl"] as? String else { return }
+//                let recipe = Recipe(title: title, sourceUrl: sourceUrl)
+//                recipes.append(recipe)
+//            }
+//            self.selectedRecipes = recipes
+//
+//            NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
+//        }
+//    }
+    
+        func observeEvent() {
+            Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
+                guard let value = snapshot.value as? [String : Any] else { return }
+                guard let hostID = value["hostID"] as? String else { return }
+                self.hostIdentifier = hostID
+                
+                var users = [User]()
+                guard let participants = value["participants"] as? [String : Any] else { return }
+                participants.forEach { key, value in
+                    guard let dict = value as? [String : Any] else { return }
+                    guard let fullName = dict["fullName"] as? String else { return }
+                    guard let hasAccepted = dict["hasAccepted"] as? Bool else { return }
+                    // New line
+                    guard let profilePicUrl = dict["profilePicUrl"] as? String else { return }
+                    let user = User(identifier: key, fullName: fullName, hasAccepted: hasAccepted)
+                    // New line
+                    user.profilePicUrl = profilePicUrl
+                    users.append(user)
+                }
+                self.participants = users
+                
+                var tasks = [Task]()
+//                Changed "ingredients" with "tasks" in line below
+                guard let currentTasks = value["tasks"] as? [String : Any] else { return }
+                currentTasks.forEach { (key, value) in
+                    guard let dict = value as? [String : Any] else { return }
+                    guard let title = dict["title"] as? String else { return }
+                    guard let ownerName = dict["ownerName"] as? String else { return }
+                    guard let ownerUid = dict["ownerUid"] as? String else { return }
+                    guard let state = dict["state"] as? Int else { return }
+                    guard let isCustom = dict["isCustom"] as? Bool else { return }
+                    let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+                    task.isCustom = isCustom
+                    tasks.append(task)
+                    let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+                    newTask.isCustom = isCustom
+                    self.currentConversationTaskStates.append(newTask)
+    //                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
+    //                self.currentConversationTaskStates.append(task)
+                }
+                self.tasks = tasks
+                
+                var recipes = [Recipe]()
+                guard let selectedRecipes = value["recipes"] as? [String : Any] else { return }
+                selectedRecipes.forEach { (key, value) in
+                    guard let dict = value as? [String : Any] else { return }
+                    guard let title = dict["title"] as? String else { return }
+                    guard let sourceUrl = dict["sourceUrl"] as? String else { return }
+                    let recipe = Recipe(title: title, sourceUrl: sourceUrl)
+                    recipes.append(recipe)
+                }
+                self.selectedRecipes = recipes
+                
+                NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
+            }
+        }
     
     func parseMessage(message: MSMessage) {
         if let dinnerName = message.md.string(forKey: "dinnerName") {
@@ -193,10 +282,24 @@ class Event {
         observeEvent()
     }
     
+//    func updateFirebaseTasks() {
+//        tasks.forEach { task in
+//            let parameters: [String : Any] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state" : task.taskState.rawValue]
+//            let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("ingredients").child(task.taskUid)
+//            childUid.updateChildValues(parameters, withCompletionBlock: { (error, reference) in
+//                self.resetEvent()
+//            })
+//        }
+//    }
+    
+//    MARK: new updateFirebaseTasks func to add Custom Tasks
+    
     func updateFirebaseTasks() {
         tasks.forEach { task in
-            let parameters: [String : Any] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state" : task.taskState.rawValue]
-            let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("ingredients").child(task.taskUid)
+//            Added isCustom in the parameters
+            let parameters: [String : Any] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state" : task.taskState.rawValue, "isCustom" : task.isCustom]
+//            Replaced child[ingredients] by child[tasks]
+            let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
             childUid.updateChildValues(parameters, withCompletionBlock: { (error, reference) in
                 self.resetEvent()
             })

@@ -99,11 +99,18 @@ class RecipesViewController: UIViewController {
     
 //    MARK: due to ManagementVC
     private func prepareTasks() {
-        Event.shared.tasks.removeAll()
+        Event.shared.tasks.forEach { task in
+            if !task.isCustom {
+                let index = Event.shared.tasks.firstIndex { comparedTask -> Bool in
+                    comparedTask.taskName == task.taskName
+                }
+                Event.shared.tasks.remove(at: index!)
+            }
+        }
         let ingredients = Event.shared.selectedRecipes.map { $0.ingredientList }
         ingredients.forEach { ingredientList in
             ingredientList?.forEach({ ingredient in
-                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: ""))
+                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil"))
             })
         }
     }
