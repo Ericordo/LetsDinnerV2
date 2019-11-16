@@ -24,6 +24,7 @@ class EventSummaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .eventSummaryVC
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
         

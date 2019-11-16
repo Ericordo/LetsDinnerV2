@@ -36,7 +36,7 @@ class RecipesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        StepStatus.currentStep = .recipesVC
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil), forCellReuseIdentifier: CellNibs.recipeCell)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
@@ -195,5 +195,7 @@ extension RecipesViewController: RecipeDetailsViewControllerDelegate {
     func recipeDetailsVCShouldDismiss(_ controller: RecipeDetailsViewController) {
         recipesTableView.reloadData()
         configureNextButton()
+        StepStatus.currentStep = .recipesVC
+     
     }
 }

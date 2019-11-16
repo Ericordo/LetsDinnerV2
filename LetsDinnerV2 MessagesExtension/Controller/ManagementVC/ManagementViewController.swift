@@ -29,6 +29,7 @@ class ManagementViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .managementVC
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)

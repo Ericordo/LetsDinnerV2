@@ -28,19 +28,23 @@ class EventDescriptionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .eventDescriptionVC
         descriptionTextView.delegate = self
         setupUI()
         
     }
-
+    
     func setupUI() {
-        titleLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+//        titleLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+         titleLabel.text = Event.shared.recipeTitles
 //        counterLabel.text = "500"
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         descriptionTextView.tintColor = Colors.customPink
         placeholderLabel.text = "So what’s the plan?"
         placeholderLabel.sizeToFit()
+        checkForExistingDescription()
+        checkRemainingChars()
         descriptionTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
         placeholderLabel.textColor = Colors.customGray
@@ -50,6 +54,7 @@ class EventDescriptionViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 3/4
         progressView.setProgress(1, animated: true)
+        
     }
     
     func checkRemainingChars() {
@@ -57,6 +62,12 @@ class EventDescriptionViewController: UIViewController {
         let charsInTextView = -descriptionTextView.text.count
         let remainingChars = allowedChars + charsInTextView
         counterLabel.text = String(remainingChars)
+    }
+    
+    private func checkForExistingDescription() {
+        if Event.shared.eventDescription != "" {
+            descriptionTextView.text = Event.shared.eventDescription
+        }
     }
 
     @IBAction func didTapPrevious(_ sender: UIButton) {
@@ -90,6 +101,7 @@ extension EventDescriptionViewController: UITextViewDelegate {
       }
     
     func textViewDidChange(_ textView: UITextView) {
+        Event.shared.eventDescription = descriptionTextView.text ?? ""
         checkRemainingChars()
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
@@ -103,6 +115,10 @@ extension EventDescriptionViewController: UITextViewDelegate {
             descriptionTextView.resignFirstResponder()
         }
         return changedText.count <= 500
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        
     }
     
     @objc func updateTextView(notification: Notification) {

@@ -110,16 +110,41 @@ class MessagesViewController: MSMessagesAppViewController {
                     Event.shared.parseMessage(message: message)
                     controller = instantiateEventSummaryViewController()
                 } else {
-                    
-                    if Event.shared.dinnerName.isEmpty {
+                    switch StepStatus.currentStep {
+                    case .initialVC:
                         controller = instantiateNewEventViewController()
-                    } else if Event.shared.selectedRecipes.isEmpty {
+                    case .registrationVC:
+                        controller = instantiateRegistrationViewController()
+                    case .newEventVC:
+                        controller = instantiateNewEventViewController()
+                    case .recipesVC:
                         controller = instantiateRecipesViewController()
-                    } else if Event.shared.eventDescription.isEmpty {
+                    case .recipeDetailsVC:
+                        controller = instantiateRecipesViewController()
+                    case .managementVC:
+                        controller = instantiateManagementViewController()
+                    case .eventDescriptionVC:
                         controller = instantiateEventDescriptionViewController()
-                    } else {
+                    case .eventSummaryVC:
+                        controller = instantiateEventSummaryViewController()
+                    case .tasksListVC:
+                        controller = instantiateTasksListViewController()
+                    case .none:
                         controller = instantiateNewEventViewController()
                     }
+//                    if Event.shared.dinnerName.isEmpty {
+//                        controller = instantiateNewEventViewController()
+//                    } else if Event.shared.selectedRecipes.isEmpty {
+//                        controller = instantiateRecipesViewController()
+//                    } else if Event.shared.eventDescription.isEmpty {
+//                        controller = instantiateEventDescriptionViewController()
+//                    } else {
+//                        controller = instantiateNewEventViewController()
+//                    }
+                    
+                    
+                    
+                    
                 }
                 
             }
@@ -239,9 +264,19 @@ extension MessagesViewController: IdleViewControllerDelegate {
     }
     
     func idleVCDidTapNewDinner(controller: IdleViewController) {
-        requestPresentationStyle(.expanded)
-        activeConversation?.selectedMessage?.url = nil
+//        Event.shared.resetEvent()
+//        requestPresentationStyle(.expanded)
+//        activeConversation?.selectedMessage?.url = nil
+        
         Event.shared.resetEvent()
+        activeConversation?.selectedMessage?.url = nil
+//        let controller = instantiateNewEventViewController()
+        StepStatus.currentStep = .newEventVC
+        requestPresentationStyle(.expanded)
+        
+        
+//        addChildViewController(controller: controller)
+        
     }
     
     
@@ -256,6 +291,7 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
     }
     
     func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
+        StepStatus.currentStep = .newEventVC
         guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         presentViewController(for: conversation, with: .expanded)
     }
