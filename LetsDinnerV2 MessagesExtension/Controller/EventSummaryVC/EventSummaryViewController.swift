@@ -14,6 +14,14 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController)
 }
 
+private enum RowItem: Int, CaseIterable {
+    case title = 0
+    case answerCell = 1
+    case hostInfo = 2
+    case dateInfo = 3
+    case locationInfo = 4
+    case descriptionInfo = 5
+}
 
 class EventSummaryViewController: UIViewController {
     
@@ -28,6 +36,7 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
         
+        registerCell(CellNibs.titleCell)
         registerCell(CellNibs.answerCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
@@ -53,8 +62,19 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.isHidden = false
     }
     
+
     private func registerCell(_ nibName: String) {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+    }
+    
+    func isUsertheHost() -> Bool {
+        guard let currentUser = Event.shared.currentUser else { return false }
+        if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
+        }) {
+            return true
+        } else{
+            return false
+        }
     }
 }
 
@@ -62,10 +82,11 @@ class EventSummaryViewController: UIViewController {
 
 extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return RowItem.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
@@ -74,63 +95,71 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let calendarCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.calendarCell) as! CalendarCell
         
         switch indexPath.row {
-            case 0:
-                guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
-                if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
-                }) {
-                    if answerCell.acceptButton != nil && answerCell.declineButton != nil {
-                        answerCell.acceptButton.removeFromSuperview()
-                        answerCell.declineButton.removeFromSuperview()
-                        answerCell.questionLabel.removeFromSuperview()
-                    }
+        case RowItem.title.rawValue:
+            titleCell.titleLabel.text = Event.shared.dinnerName
+            titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+            return titleCell
+            
+        case RowItem.answerCell.rawValue:
+            guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
+            if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
+            }) {
+                if answerCell.acceptButton != nil && answerCell.declineButton != nil {
+                    answerCell.acceptButton.removeFromSuperview()
+                    answerCell.declineButton.removeFromSuperview()
+                    answerCell.questionLabel.removeFromSuperview()
                 }
-                answerCell.titleLabel.text = Event.shared.dinnerName
-                
-                answerCell.delegate = self
-                return answerCell
-
-            case 1:
-                infoCell.titleLabel.text = LabelStrings.host
-                infoCell.infoLabel.text = Event.shared.hostName
-                return infoCell
-            case 2:
-                infoCell.titleLabel.text = LabelStrings.date
-                infoCell.infoLabel.text = Event.shared.dinnerDate
-                return infoCell
-            case 3:
-                infoCell.titleLabel.text = LabelStrings.location
-                infoCell.infoLabel.text = Event.shared.dinnerLocation
-                return infoCell
-            case 4:
-                descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
-                return descriptionCell
-            case 5:
-                taskSummaryCell.delegate = self
-                var numberOfCompletedTasks = 0
-                Event.shared.tasks.forEach { task in
-                    if task.taskState == .completed {
-                        numberOfCompletedTasks += 1
-                    }
-                }
-                let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
-                taskSummaryCell.progressCircle.animate(percentage: percentage)
-                return taskSummaryCell
-            case 6:
-                return userCell
-            default:
-                break
             }
-            return UITableViewCell()
+
+            answerCell.delegate = self
+            return answerCell
+
+        case RowItem.hostInfo.rawValue:
+            infoCell.titleLabel.text = LabelStrings.host
+            infoCell.infoLabel.text = Event.shared.hostName
+            return infoCell
+            
+        case RowItem.dateInfo.rawValue:
+            infoCell.titleLabel.text = LabelStrings.date
+            infoCell.infoLabel.text = Event.shared.dinnerDate
+            return infoCell
+            
+        case RowItem.locationInfo.rawValue:
+            infoCell.titleLabel.text = LabelStrings.location
+            infoCell.infoLabel.text = Event.shared.dinnerLocation
+            return infoCell
+            
+        case RowItem.descriptionInfo.rawValue:
+            descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+            return descriptionCell
+            
+//        case 5:
+//            taskSummaryCell.delegate = self
+//            var numberOfCompletedTasks = 0
+//            Event.shared.tasks.forEach { task in
+//                if task.taskState == .completed {
+//                    numberOfCompletedTasks += 1
+//                }
+//            }
+//            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
+//            taskSummaryCell.progressCircle.animate(percentage: percentage)
+//            return taskSummaryCell
+//        case 6:
+//            return userCell
+        default:
+            break
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
-        case 1, 2, 3:
+        case RowItem.answerCell.rawValue:
+            return (isUsertheHost() ? 0 : 120)
+        case RowItem.hostInfo.rawValue,
+             RowItem.dateInfo.rawValue,
+             RowItem.locationInfo.rawValue:
             return 52
-        case 5:
-            return 240
-        case 6:
-            return 165
         default:
             return UITableView.automaticDimension
         }

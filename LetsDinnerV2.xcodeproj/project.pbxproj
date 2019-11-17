@@ -87,6 +87,8 @@
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
 		88B7833223718125009E4F3C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe.swift */; };
 		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
+		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
+		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
 		BFA8ED65C29B499DC1CEDA65 /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 /* End PBXBuildFile section */
 
@@ -202,6 +204,8 @@
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		88B7833123718125009E4F3C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		88B78334237183DB009E4F3C /* PredefinedRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PredefinedRecipes.json; sourceTree = "<group>"; };
+		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
+		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.release.xcconfig"; sourceTree = "<group>"; };
 		DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetsDinnerV2_MessagesExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -507,6 +511,7 @@
 				880B133823737619003E29AC /* InfoCell */,
 				880B133723737605003E29AC /* AnswerCell */,
 				88349F3E2370D0C9002A1879 /* RecipeCell */,
+				B8E4CA7923812174006DD095 /* TitleCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -600,6 +605,15 @@
 				4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B8E4CA7923812174006DD095 /* TitleCell */ = {
+			isa = PBXGroup;
+			children = (
+				B8E4CA7723812157006DD095 /* TitleCell.swift */,
+				B8E4CA7A238122AD006DD095 /* TitleCell.xib */,
+			);
+			path = TitleCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -706,6 +720,7 @@
 				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
 				885C60CD2380BABB00ED3A17 /* ReviewViewController.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
+				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				883A2A032372D5520099ECDF /* EventDescriptionViewControllerOld.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */,
@@ -835,6 +850,7 @@
 				880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */,
 				880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */,
 				88B7833223718125009E4F3C /* Recipe.swift in Sources */,
+				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				885C60C223809F7900ED3A17 /* EventDescriptionViewController.swift in Sources */,
