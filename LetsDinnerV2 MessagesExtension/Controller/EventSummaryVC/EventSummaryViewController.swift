@@ -14,13 +14,15 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController)
 }
 
-private enum RowItem: Int, CaseIterable {
+enum RowItemNumber: Int, CaseIterable {
     case title = 0
     case answerCell = 1
     case hostInfo = 2
     case dateInfo = 3
     case locationInfo = 4
     case descriptionInfo = 5
+    case taskInfo = 6
+    case userInfo = 7
 }
 
 class EventSummaryViewController: UIViewController {
@@ -67,7 +69,7 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
     }
     
-    func isUsertheHost() -> Bool {
+    private func isUsertheHost() -> Bool {
         guard let currentUser = Event.shared.currentUser else { return false }
         if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
         }) {
@@ -82,7 +84,7 @@ class EventSummaryViewController: UIViewController {
 
 extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return RowItem.allCases.count
+        return RowItemNumber.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -95,12 +97,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let calendarCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.calendarCell) as! CalendarCell
         
         switch indexPath.row {
-        case RowItem.title.rawValue:
+        case RowItemNumber.title.rawValue:
             titleCell.titleLabel.text = Event.shared.dinnerName
             titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
             return titleCell
             
-        case RowItem.answerCell.rawValue:
+        case RowItemNumber.answerCell.rawValue:
             guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
             if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
             }) {
@@ -114,52 +116,120 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             answerCell.delegate = self
             return answerCell
 
-        case RowItem.hostInfo.rawValue:
+        case RowItemNumber.hostInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
             return infoCell
             
-        case RowItem.dateInfo.rawValue:
+        case RowItemNumber.dateInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.date
             infoCell.infoLabel.text = Event.shared.dinnerDate
             return infoCell
             
-        case RowItem.locationInfo.rawValue:
+        case RowItemNumber.locationInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.location
             infoCell.infoLabel.text = Event.shared.dinnerLocation
             return infoCell
             
-        case RowItem.descriptionInfo.rawValue:
+        case RowItemNumber.descriptionInfo.rawValue:
             descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
             return descriptionCell
             
-//        case 5:
-//            taskSummaryCell.delegate = self
-//            var numberOfCompletedTasks = 0
-//            Event.shared.tasks.forEach { task in
-//                if task.taskState == .completed {
-//                    numberOfCompletedTasks += 1
-//                }
-//            }
-//            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
-//            taskSummaryCell.progressCircle.animate(percentage: percentage)
-//            return taskSummaryCell
-//        case 6:
-//            return userCell
+        case RowItemNumber.taskInfo.rawValue:
+            taskSummaryCell.delegate = self
+            var numberOfCompletedTasks = 0
+            Event.shared.tasks.forEach { task in
+                if task.taskState == .completed {
+                    numberOfCompletedTasks += 1
+                }
+            }
+            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
+            taskSummaryCell.progressCircle.animate(percentage: percentage)
+            return taskSummaryCell
+        case RowItemNumber.userInfo.rawValue:
+            return userCell
         default:
             break
         }
         return UITableViewCell()
     }
     
+    // MARK: - Show or hide the row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        // 3 conditions: accept(/Host) / Neutral / or decline)
+        
+        // Default Height:
+//        switch indexPath.row {
+//        case RowItemNumber.answerCell.rawValue:
+//            return 120
+//        case RowItemNumber.hostInfo.rawValue:
+//            return 52
+//        case RowItemNumber.dateInfo.rawValue,
+//             RowItemNumber.locationInfo.rawValue:
+//            return 52
+//        case RowItemNumber.taskInfo.rawValue:
+//            return 257
+//        case RowItemNumber.userInfo.rawValue:
+//            return 150
+//        default:
+//            return UITableView.automaticDimension
+//        }
+        
+        //Neutral:
+        
+        if Event.shared.currentUser?.hasAccepted == true {
+            // Accept or Host
+            
+            switch indexPath.row {
+            case RowItemNumber.answerCell.rawValue:
+                return (isUsertheHost() ? 0 : 120)
+            case RowItemNumber.hostInfo.rawValue:
+                return 52
+            case RowItemNumber.dateInfo.rawValue,
+                 RowItemNumber.locationInfo.rawValue:
+                return 52
+            case RowItemNumber.taskInfo.rawValue:
+                return 257
+            case RowItemNumber.userInfo.rawValue:
+                return 150
+            default:
+                return UITableView.automaticDimension
+            }
+            
+        } else if Event.shared.currentUser?.hasAccepted == false {
+            // Decline
+            switch indexPath.row {
+            case RowItemNumber.answerCell.rawValue:
+                return 120
+            case RowItemNumber.hostInfo.rawValue:
+                return 52
+            case RowItemNumber.dateInfo.rawValue,
+                 RowItemNumber.locationInfo.rawValue:
+                return 52
+            case RowItemNumber.taskInfo.rawValue:
+                return 0
+            case RowItemNumber.userInfo.rawValue:
+                return 150
+            default:
+                return UITableView.automaticDimension
+            }
+            
+        }
+        
+        // Netural - Pending
         switch indexPath.row {
-        case RowItem.answerCell.rawValue:
-            return (isUsertheHost() ? 0 : 120)
-        case RowItem.hostInfo.rawValue,
-             RowItem.dateInfo.rawValue,
-             RowItem.locationInfo.rawValue:
+        case RowItemNumber.answerCell.rawValue:
+            return 120
+        case RowItemNumber.hostInfo.rawValue:
             return 52
+        case RowItemNumber.dateInfo.rawValue,
+             RowItemNumber.locationInfo.rawValue:
+            return 52
+        case RowItemNumber.taskInfo.rawValue:
+            return 0
+        case RowItemNumber.userInfo.rawValue:
+            return 150
         default:
             return UITableView.automaticDimension
         }

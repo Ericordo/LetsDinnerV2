@@ -12,10 +12,7 @@ class User {
     var identifier: String
     var fullName: String
     var hasAccepted: Bool
-    
     var profilePicUrl: String? 
-    
-    
     
     init(identifier: String, fullName: String, hasAccepted: Bool) {
         self.identifier = identifier
