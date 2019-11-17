@@ -137,6 +137,18 @@ extension NewEventViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+              case dinnerNameTextField:
+                  hostNameTextField.becomeFirstResponder()
+              case hostNameTextField:
+                  locationTextField.becomeFirstResponder()
+              case locationTextField:
+                  dateTextField.becomeFirstResponder()
+              case dateTextField:
+                    textField.resignFirstResponder()
+              default:
+                  break
+              }
         textField.resignFirstResponder()
         return true
     }
