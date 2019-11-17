@@ -39,14 +39,15 @@ class TaskCVCell: UICollectionViewCell {
         } else {
             personLabel.text = ""
         }
-        guard let currentUser = Event.shared.currentUser else { return }
-        if task.taskState == .assigned || task.taskState == .completed {
-            isUserInteractionEnabled = task.assignedPersonUid == currentUser.identifier
-            taskStatusButton.isEnabled = task.assignedPersonUid == currentUser.identifier
-        } else {
-            taskStatusButton.isEnabled = true
-            isUserInteractionEnabled = true
-        }
+        isUserInteractionEnabled = false
+//        guard let currentUser = Event.shared.currentUser else { return }
+//        if task.taskState == .assigned || task.taskState == .completed {
+//            isUserInteractionEnabled = task.assignedPersonUid == currentUser.identifier
+//            taskStatusButton.isEnabled = task.assignedPersonUid == currentUser.identifier
+//        } else {
+//            taskStatusButton.isEnabled = true
+//            isUserInteractionEnabled = true
+//        }
     }
     
     override func layoutSubviews() {
