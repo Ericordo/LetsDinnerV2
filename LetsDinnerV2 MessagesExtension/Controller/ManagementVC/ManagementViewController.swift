@@ -42,8 +42,8 @@ class ManagementViewController: UIViewController {
     private func setupUI() {
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
-        progressView.progress = 2/4
-        progressView.setProgress(3/4, animated: true)
+        progressView.progress = 2/5
+        progressView.setProgress(3/5, animated: true)
         
         
     }

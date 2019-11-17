@@ -47,7 +47,7 @@ class NewEventViewController: UIViewController {
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
         progressView.progress = 0
-        progressView.setProgress(1/4, animated: true)
+        progressView.setProgress(1/5, animated: true)
     }
     
     func presentDatePicker() {

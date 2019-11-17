@@ -63,8 +63,8 @@ class EventDescriptionViewController: UIViewController {
         descriptionTextView.becomeFirstResponder()
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
-        progressView.progress = 3/4
-        progressView.setProgress(1, animated: true)
+        progressView.progress = 3/5
+        progressView.setProgress(4/5, animated: true)
     }
     
     private func checkRemainingChars() {

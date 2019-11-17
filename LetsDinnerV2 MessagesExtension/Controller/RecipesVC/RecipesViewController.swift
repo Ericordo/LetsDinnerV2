@@ -59,8 +59,8 @@ class RecipesViewController: UIViewController {
         
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
-        progressView.progress = 1/4
-        progressView.setProgress(2/4, animated: true)
+        progressView.progress = 1/5
+        progressView.setProgress(2/5, animated: true)
     }
     
     private func configureNextButton() {

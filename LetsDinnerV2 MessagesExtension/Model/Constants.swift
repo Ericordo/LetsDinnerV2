@@ -35,6 +35,7 @@ enum VCNibs {
     static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
+    static let reviewViewController = "ReviewViewController"
 }
 
 enum CellNibs {
@@ -92,5 +93,6 @@ enum LabelStrings {
     static let noTaskMessage = "You can add things, they will appear here"
     static let whatsThePlan = "So, what's the plan?"
     static let nothingToDo = "There is nothing to do!"
+    static let readyToSend = "Ready to send your invite?"
     
 }

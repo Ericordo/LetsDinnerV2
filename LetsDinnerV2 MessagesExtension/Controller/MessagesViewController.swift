@@ -125,6 +125,8 @@ class MessagesViewController: MSMessagesAppViewController {
                         controller = instantiateManagementViewController()
                     case .eventDescriptionVC:
                         controller = instantiateEventDescriptionViewController()
+                    case .reviewVC:
+                        controller = instantiateReviewViewController()
                     case .eventSummaryVC:
                         controller = instantiateEventSummaryViewController()
                     case .tasksListVC:
@@ -226,6 +228,12 @@ class MessagesViewController: MSMessagesAppViewController {
         return controller
     }
     
+    private func instantiateReviewViewController() -> UIViewController {
+        let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
+        controller.delegate = self
+        return controller 
+    }
+    
     private func instantiateEventSummaryViewController() -> UIViewController {
         let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
         controller.delegate = self
@@ -239,7 +247,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func sendMessage(message: MSMessage) {
-         guard let conversation = activeConversation else { fatalError("Expected a conversation") }
+         guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         conversation.insert(message) {error in
             if let error = error {
                 print(error)
@@ -298,7 +306,7 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
     
     func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
         StepStatus.currentStep = .newEventVC
-        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         presentViewController(for: conversation, with: .expanded)
     }
 }
@@ -356,9 +364,12 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
     }
     
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
-        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-        sendMessage(message: message)
+//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+//        sendMessage(message: message)
+        let controller = instantiateReviewViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
     }
 }
 
@@ -370,12 +381,28 @@ extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
     }
     
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
+//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+//        sendMessage(message: message)
+        let controller = instantiateReviewViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+}
+
+extension MessagesViewController: ReviewViewControllerDelegate {
+    func reviewVCDidTapPrevious(controller: ReviewViewController) {
+        let controller = instantiateEventDescriptionViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func reviewVCDidTapSend(controller: ReviewViewController) {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
         sendMessage(message: message)
     }
 }
-
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
@@ -395,8 +422,6 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)
     }
-    
-    
 }
 
 extension MessagesViewController: TasksListViewControllerDelegate {
@@ -411,6 +436,4 @@ extension MessagesViewController: TasksListViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)
     }
-    
-    
 }
