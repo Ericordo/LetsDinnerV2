@@ -111,7 +111,7 @@ extension TasksListViewController: TaskCellDelegate {
             submitButton.isEnabled = false
             submitButton.alpha = 0.5
         }
-        Event.shared.summary = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks."
+        Event.shared.summary = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
     }
     
     
