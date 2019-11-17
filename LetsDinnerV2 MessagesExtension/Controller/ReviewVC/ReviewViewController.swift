@@ -83,7 +83,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
                     answerCell.declineButton.removeFromSuperview()
                     answerCell.questionLabel.removeFromSuperview()
                 }
-            answerCell.titleLabel.text = Event.shared.dinnerName
+//            answerCell.titleLabel.text = Event.shared.dinnerName
         
             return answerCell
 
