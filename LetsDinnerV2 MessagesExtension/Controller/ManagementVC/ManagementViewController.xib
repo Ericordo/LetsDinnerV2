@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManagementViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <connections>
+                <outlet property="addButton" destination="oS0-MV-xiC" id="SOW-Ac-v2g"/>
+                <outlet property="backButton" destination="hfU-Un-jAU" id="k6Y-mn-IJ6"/>
+                <outlet property="nextButton" destination="haE-7o-ScL" id="OsG-bD-HEw"/>
+                <outlet property="progressView" destination="OCo-s0-ErQ" id="GAJ-PJ-p0v"/>
+                <outlet property="tasksTableView" destination="c6c-yo-AdS" id="YCm-JD-WNM"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfU-Un-jAU">
+                    <rect key="frame" x="17" y="10" width="66" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Previous">
+                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapBack:" destination="-1" eventType="touchUpInside" id="pOb-0l-0h2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haE-7o-ScL">
+                    <rect key="frame" x="322" y="10" width="36" height="33"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="Next">
+                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="qzl-kM-N3Z"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manage Things" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YIB-AR-09T">
+                    <rect key="frame" x="126.5" y="16" width="122.5" height="21"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OCo-s0-ErQ">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="GsZ-2N-E8V"/>
+                    </constraints>
+                </progressView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="c6c-yo-AdS">
+                    <rect key="frame" x="0.0" y="58" width="375" height="567"/>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS0-MV-xiC">
+                    <rect key="frame" x="17" y="635" width="111" height="22"/>
+                    <state key="normal" title=" Add Thing" image="plusbutton">
+                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapAdd:" destination="-1" eventType="touchUpInside" id="j8T-8L-Qky"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="OCo-s0-ErQ" secondAttribute="trailing" id="1BL-NI-CxL"/>
+                <constraint firstItem="oS0-MV-xiC" firstAttribute="top" secondItem="c6c-yo-AdS" secondAttribute="bottom" constant="10" id="68Q-fN-miz"/>
+                <constraint firstItem="YIB-AR-09T" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="6Qu-UN-jWS"/>
+                <constraint firstItem="YIB-AR-09T" firstAttribute="centerY" secondItem="hfU-Un-jAU" secondAttribute="centerY" id="9pI-Wc-bcL"/>
+                <constraint firstItem="hfU-Un-jAU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="CLF-eV-jtR"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="c6c-yo-AdS" secondAttribute="trailing" id="DEF-10-ZDI"/>
+                <constraint firstItem="hfU-Un-jAU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="Et8-Rb-uGO"/>
+                <constraint firstItem="c6c-yo-AdS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FVb-nf-QJu"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="haE-7o-ScL" secondAttribute="trailing" constant="17" id="I57-Ia-UAS"/>
+                <constraint firstItem="OCo-s0-ErQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IgC-7n-eeF"/>
+                <constraint firstItem="c6c-yo-AdS" firstAttribute="top" secondItem="hfU-Un-jAU" secondAttribute="bottom" constant="15" id="LCd-Yr-MJ0"/>
+                <constraint firstItem="haE-7o-ScL" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="UGS-kx-BhI"/>
+                <constraint firstItem="OCo-s0-ErQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="dS2-gC-CYg"/>
+                <constraint firstItem="oS0-MV-xiC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="rFW-bF-yhc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oS0-MV-xiC" secondAttribute="bottom" constant="10" id="tlx-OI-5Nt"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="132" y="127"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plusbutton" width="23" height="22"/>
+    </resources>
+</document>

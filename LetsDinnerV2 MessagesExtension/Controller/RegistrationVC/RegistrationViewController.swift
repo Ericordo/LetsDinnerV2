@@ -36,6 +36,7 @@ class RegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .registrationVC
         setupUI()
         nameTextField.delegate = self
         picturePicker.delegate = self

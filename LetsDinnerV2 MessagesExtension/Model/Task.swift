@@ -15,6 +15,9 @@ class Task: Hashable {
     var assignedPersonUid: String?
     var taskState: TaskState
     
+// MARK: Add for the custom tasks
+    var isCustom = false
+    
 //    var hashValue: Int {
 //        return taskUid.hashValue
 //    }

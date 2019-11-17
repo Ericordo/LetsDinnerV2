@@ -22,6 +22,7 @@ class TasksListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .tasksListVC
         setupUI()
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
@@ -49,6 +50,7 @@ class TasksListViewController: UIViewController {
                 Event.shared.currentConversationTaskStates.forEach { task in
                     
                     let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName)
+                    newTask.isCustom = task.isCustom
                     newTasks.append(newTask)
                 }
                 Event.shared.tasks = newTasks
@@ -69,6 +71,13 @@ class TasksListViewController: UIViewController {
 
 extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if Event.shared.tasks.count == 0 {
+            tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
+        } else {
+            tableView.restore()
+        }
+
         return Event.shared.tasks.count
     }
     

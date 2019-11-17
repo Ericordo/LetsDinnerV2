@@ -25,9 +25,11 @@ class RecipeDetailsViewController: UIViewController {
     
     var selectedRecipe: Recipe?
     weak var delegate: RecipeDetailsViewControllerDelegate?
+        
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .recipeDetailsVC
         webView.navigationDelegate = self
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         setupUI()
@@ -50,6 +52,7 @@ class RecipeDetailsViewController: UIViewController {
         delegate?.recipeDetailsVCShouldDismiss(self)
         dismiss(animated: true, completion: nil)
     }
+    
     
     @IBAction func didTapChoose(_ sender: UIButton) {
         chooseButton.isHidden = chosenButton.isHidden

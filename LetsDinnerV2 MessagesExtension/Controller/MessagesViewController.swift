@@ -110,16 +110,43 @@ class MessagesViewController: MSMessagesAppViewController {
                     Event.shared.parseMessage(message: message)
                     controller = instantiateEventSummaryViewController()
                 } else {
-                    
-                    if Event.shared.dinnerName.isEmpty {
+                    switch StepStatus.currentStep {
+                    case .initialVC:
                         controller = instantiateNewEventViewController()
-                    } else if Event.shared.selectedRecipes.isEmpty {
+                    case .registrationVC:
+                        controller = instantiateRegistrationViewController()
+                    case .newEventVC:
+                        controller = instantiateNewEventViewController()
+                    case .recipesVC:
                         controller = instantiateRecipesViewController()
-                    } else if Event.shared.eventDescription.isEmpty {
+                    case .recipeDetailsVC:
+                        controller = instantiateRecipesViewController()
+                    case .managementVC:
+                        controller = instantiateManagementViewController()
+                    case .eventDescriptionVC:
                         controller = instantiateEventDescriptionViewController()
-                    } else {
+                    case .reviewVC:
+                        controller = instantiateReviewViewController()
+                    case .eventSummaryVC:
+                        controller = instantiateEventSummaryViewController()
+                    case .tasksListVC:
+                        controller = instantiateTasksListViewController()
+                    case .none:
                         controller = instantiateNewEventViewController()
                     }
+//                    if Event.shared.dinnerName.isEmpty {
+//                        controller = instantiateNewEventViewController()
+//                    } else if Event.shared.selectedRecipes.isEmpty {
+//                        controller = instantiateRecipesViewController()
+//                    } else if Event.shared.eventDescription.isEmpty {
+//                        controller = instantiateEventDescriptionViewController()
+//                    } else {
+//                        controller = instantiateNewEventViewController()
+//                    }
+                    
+                    
+                    
+                    
                 }
                 
             }
@@ -183,10 +210,28 @@ class MessagesViewController: MSMessagesAppViewController {
          return controller
      }
     
+    private func instantiateManagementViewController() -> UIViewController {
+        let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
+//    private func instantiateEventDescriptionViewControllerOld() -> UIViewController {
+//        let controller = EventDescriptionViewControllerBis(nibName: VCNibs.eventDescriptionViewControllerOld, bundle: nil)
+//        controller.delegate = self
+//        return controller
+//    }
+    
     private func instantiateEventDescriptionViewController() -> UIViewController {
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
         controller.delegate = self
         return controller
+    }
+    
+    private func instantiateReviewViewController() -> UIViewController {
+        let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
+        controller.delegate = self
+        return controller 
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
@@ -202,7 +247,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func sendMessage(message: MSMessage) {
-         guard let conversation = activeConversation else { fatalError("Expected a conversation") }
+         guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         conversation.insert(message) {error in
             if let error = error {
                 print(error)
@@ -233,9 +278,19 @@ extension MessagesViewController: IdleViewControllerDelegate {
     }
     
     func idleVCDidTapNewDinner(controller: IdleViewController) {
-        requestPresentationStyle(.expanded)
-        activeConversation?.selectedMessage?.url = nil
+//        Event.shared.resetEvent()
+//        requestPresentationStyle(.expanded)
+//        activeConversation?.selectedMessage?.url = nil
+        
         Event.shared.resetEvent()
+        activeConversation?.selectedMessage?.url = nil
+//        let controller = instantiateNewEventViewController()
+        StepStatus.currentStep = .newEventVC
+        requestPresentationStyle(.expanded)
+        
+        
+//        addChildViewController(controller: controller)
+        
     }
     
     
@@ -250,7 +305,8 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
     }
     
     func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
-        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        StepStatus.currentStep = .newEventVC
+        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         presentViewController(for: conversation, with: .expanded)
     }
 }
@@ -271,7 +327,7 @@ extension MessagesViewController: NewEventViewControllerDelegate {
 
 extension MessagesViewController: RecipesViewControllerDelegate {
     func recipeVCDidTapNext(controller: RecipesViewController) {
-        let controller = instantiateEventDescriptionViewController()
+        let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
@@ -281,24 +337,71 @@ extension MessagesViewController: RecipesViewControllerDelegate {
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
+}
+
+extension MessagesViewController: ManagementViewControllerDelegate {
+    func managementVCDidTapBack(controller: ManagementViewController) {
+        let controller = instantiateRecipesViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func managementVCDdidTapNext(controller: ManagementViewController) {
+        let controller = instantiateEventDescriptionViewController()
+//        let controller = instantiateEventDescriptionViewControllerOld()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
     
     
 }
 
 extension MessagesViewController: EventDescriptionViewControllerDelegate {
     func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController) {
-        let controller = instantiateRecipesViewController()
+        let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
     
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
+//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+//        sendMessage(message: message)
+        let controller = instantiateReviewViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+}
+
+extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
+    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
+        let controller = instantiateManagementViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
+//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+//        sendMessage(message: message)
+        let controller = instantiateReviewViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+}
+
+extension MessagesViewController: ReviewViewControllerDelegate {
+    func reviewVCDidTapPrevious(controller: ReviewViewController) {
+        let controller = instantiateEventDescriptionViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
+    func reviewVCDidTapSend(controller: ReviewViewController) {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
         sendMessage(message: message)
     }
-    
-    
 }
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
@@ -319,8 +422,6 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)
     }
-    
-    
 }
 
 extension MessagesViewController: TasksListViewControllerDelegate {
@@ -335,6 +436,4 @@ extension MessagesViewController: TasksListViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)
     }
-    
-    
 }

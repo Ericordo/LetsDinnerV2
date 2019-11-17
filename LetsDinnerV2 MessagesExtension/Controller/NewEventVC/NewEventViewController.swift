@@ -33,6 +33,7 @@ class NewEventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .newEventVC
         setupUI()
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
@@ -40,17 +41,13 @@ class NewEventViewController: UIViewController {
         }
     }
     
-
-    
-   
-    
     func setupUI() {
         errorLabel.isHidden = true
         checkForExistingEvent()
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
         progressView.progress = 0
-        progressView.setProgress(1/3, animated: true)
+        progressView.setProgress(1/5, animated: true)
     }
     
     func presentDatePicker() {
@@ -86,7 +83,7 @@ class NewEventViewController: UIViewController {
 //        dateTextField.endEditing(true)
 //    }
     
-    func checkForExistingEvent() {
+    private func checkForExistingEvent() {
         dinnerNameTextField.text = Event.shared.dinnerName
         hostNameTextField.text = Event.shared.hostName
         locationTextField.text = Event.shared.dinnerLocation
@@ -95,7 +92,7 @@ class NewEventViewController: UIViewController {
         }
     }
     
-    func allFieldsAreFilled() -> Bool {
+     private func allFieldsAreFilled() -> Bool {
         guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text, let date = dateTextField.text else {
             return false
         }
@@ -142,6 +139,21 @@ extension NewEventViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+   func textFieldDidChangeSelection(_ textField: UITextField) {
+        switch textField {
+        case dinnerNameTextField:
+            Event.shared.dinnerName = textField.text ?? ""
+        case hostNameTextField:
+            Event.shared.hostName = textField.text ?? ""
+        case locationTextField:
+            Event.shared.dinnerLocation = textField.text ?? ""
+        case dateTextField:
+            Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
+        default:
+            break
+        }
     }
     
     

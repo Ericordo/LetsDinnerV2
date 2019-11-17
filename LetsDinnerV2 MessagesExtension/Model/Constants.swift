@@ -29,10 +29,13 @@ enum VCNibs {
     static let newEventViewController = "NewEventViewController"
     static let recipesViewController = "RecipesViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
+    static let managementViewController = "ManagementViewController"
+    static let eventDescriptionViewControllerOld = "EventDescriptionViewControllerOld"
     static let eventDescriptionViewController = "EventDescriptionViewController"
     static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
+    static let reviewViewController = "ReviewViewController"
 }
 
 enum CellNibs {
@@ -47,6 +50,8 @@ enum CellNibs {
     static let taskCVCell = "TaskCVCell"
     static let taskCell = "TaskCell"
     static let userCVCell = "UserCVCell"
+    static let taskManagementCell = "TaskManagementCell"
+    static let recipeCVCell = "RecipeCVCell"
 }
 
 enum ApiKeys {
@@ -59,7 +64,7 @@ enum MessagesToDisplay {
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
     static let userHasDeclinedAlert = "You declined the invitation, you can not manage the tasks."
     static let acceptedInvitation = " accepted the invitation"
-    static let declinedInvitation = " You are not one of them"
+    static let declinedInvitation = " declined the invitation"
     static let eventExists = "This event is already in your calendar"
     static let completed = "Completed"
     static let assignedToYourself = "Assigned to yourself"
@@ -69,10 +74,14 @@ enum MessagesToDisplay {
     static let submitQuestion = "Do you want to submit them?"
     static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
-    static let addToCalendarAlertTitle = "Add To Calendar?"
+    static let addToCalendarAlertTitle = "Add to calendar?"
     static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
-    static let declineEventAlertTitle = "Do you want to Decline?"
-    static let declineEventAlertMessage = "By Declining, you won't able to participate the event."
+    static let declineEventAlertTitle = "Do you want to decline?"
+    static let declineEventAlertMessage = "By declining, you won't able to participate the event."
+    static let cancel = "Cancel"
+    static let add = "Add"
+    static let addThing = "Add a thing"
+    static let thingToAdd = "Thing to add"
 }
 
 enum LabelStrings {
@@ -81,4 +90,10 @@ enum LabelStrings {
     static let date = "Date"
     static let location = "Location"
     static let addToCalendar = "Add to Calendar"
+    static let noTaskTitle = "There is nothing to do for your event"
+    static let noTaskMessage = "You can add things, they will appear here"
+    static let whatsThePlan = "So, what's the plan?"
+    static let nothingToDo = "There is nothing to do!"
+    static let readyToSend = "Ready to send your invite?"
+    
 }
