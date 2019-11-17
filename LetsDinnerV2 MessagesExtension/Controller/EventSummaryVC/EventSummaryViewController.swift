@@ -53,7 +53,7 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.isHidden = false
     }
     
-    func registerCell(_ nibName: String) {
+    private func registerCell(_ nibName: String) {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
     }
 }

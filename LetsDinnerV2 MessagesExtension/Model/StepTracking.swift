@@ -16,6 +16,7 @@ enum StepTracking {
     case recipeDetailsVC
     case managementVC
     case eventDescriptionVC
+    case reviewVC
     case eventSummaryVC
     case tasksListVC
 }

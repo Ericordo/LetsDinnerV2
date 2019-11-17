@@ -27,8 +27,8 @@
                             <action selector="didTapSeeAllButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="41b-rj-B16"/>
                         </connections>
                     </button>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="S5Z-dR-FMi">
-                        <rect key="frame" x="0.0" y="51" width="320" height="206"/>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="S5Z-dR-FMi">
+                        <rect key="frame" x="0.0" y="51" width="320" height="196"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="5" id="dVv-vX-qmI">
                             <size key="itemSize" width="313" height="55"/>
@@ -57,7 +57,7 @@
                     <constraint firstAttribute="trailing" secondItem="4yP-AY-rvq" secondAttribute="trailing" constant="30" id="JXp-if-A8N"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="top" secondItem="qkr-aQ-D4f" secondAttribute="bottom" constant="10" id="KKD-jc-Sgf"/>
                     <constraint firstItem="SI3-8J-DGU" firstAttribute="leading" secondItem="qkr-aQ-D4f" secondAttribute="trailing" constant="10" id="Kgc-Um-9vJ"/>
-                    <constraint firstAttribute="bottom" secondItem="S5Z-dR-FMi" secondAttribute="bottom" id="Rsh-mr-HKK"/>
+                    <constraint firstAttribute="bottom" secondItem="S5Z-dR-FMi" secondAttribute="bottom" constant="10" id="Rsh-mr-HKK"/>
                     <constraint firstItem="4yP-AY-rvq" firstAttribute="centerY" secondItem="SI3-8J-DGU" secondAttribute="centerY" id="SEp-A9-u7n"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Y2Y-yt-Wdn"/>
                     <constraint firstAttribute="trailing" secondItem="S5Z-dR-FMi" secondAttribute="trailing" id="ei3-2c-XFu"/>
