@@ -1,26 +1,26 @@
 //
-//  TitleCell.swift
+//  AnswerCell.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by Alex Cheung on 17/11/2019.
+//  Created by Eric Ordonneau on 06/11/2019.
 //  Copyright © 2019 Eric Ordonneau. All rights reserved.
 //
 
 import UIKit
 
-class TitleCell: UITableViewCell {
-    
-    @IBOutlet weak var titleLabel: UILabel!
+class AnswerDeclinedCell: UITableViewCell {
+
+    @IBOutlet weak var declineIcon: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-    
+        declineIcon.clipsToBounds = true
+        declineIcon.layer.cornerRadius = declineIcon.frame.height / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
+
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
     }
-    
 }

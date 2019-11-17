@@ -15,7 +15,6 @@ protocol AnswerCellDelegate: class {
 
 class AnswerCell: UITableViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var questionLabel: UILabel!
@@ -32,8 +31,7 @@ class AnswerCell: UITableViewCell {
         declineButton.clipsToBounds = true
         declineButton.layer.cornerRadius = 6
         declineButton.backgroundColor = Colors.paleGray
-        
-        
+            
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

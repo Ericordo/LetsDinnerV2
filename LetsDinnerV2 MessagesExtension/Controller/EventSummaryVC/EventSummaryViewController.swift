@@ -40,6 +40,7 @@ class EventSummaryViewController: UIViewController {
         
         registerCell(CellNibs.titleCell)
         registerCell(CellNibs.answerCell)
+        registerCell(CellNibs.answerDeclinedCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
@@ -90,6 +91,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
+        let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerDeclinedCell) as! AnswerDeclinedCell
+        
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
@@ -104,13 +107,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             
         case RowItemNumber.answerCell.rawValue:
             guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
-            if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
-            }) {
-                if answerCell.acceptButton != nil && answerCell.declineButton != nil {
-                    answerCell.acceptButton.removeFromSuperview()
-                    answerCell.declineButton.removeFromSuperview()
-                    answerCell.questionLabel.removeFromSuperview()
-                }
+
+    
+            if currentUser.hasAccepted == false {
+                return answerDeclinedCell
             }
 
             answerCell.delegate = self
@@ -175,15 +175,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 //        default:
 //            return UITableView.automaticDimension
 //        }
-        
-        //Neutral:
-        
+                
         if Event.shared.currentUser?.hasAccepted == true {
             // Accept or Host
-            
             switch indexPath.row {
             case RowItemNumber.answerCell.rawValue:
-                return (isUsertheHost() ? 0 : 120)
+                return (isUsertheHost() ? 0 : 80)
             case RowItemNumber.hostInfo.rawValue:
                 return 52
             case RowItemNumber.dateInfo.rawValue,
@@ -198,10 +195,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             }
             
         } else if Event.shared.currentUser?.hasAccepted == false {
-            // Decline
+            // Decline Status
             switch indexPath.row {
             case RowItemNumber.answerCell.rawValue:
-                return 120
+                return 80
             case RowItemNumber.hostInfo.rawValue:
                 return 52
             case RowItemNumber.dateInfo.rawValue,
