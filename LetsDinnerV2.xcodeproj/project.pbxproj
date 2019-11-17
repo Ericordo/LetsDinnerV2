@@ -79,6 +79,7 @@
 		885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60C62380A15400ED3A17 /* RecipeCVCell.xib */; };
 		885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */; };
 		885C60CD2380BABB00ED3A17 /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60CB2380BABB00ED3A17 /* ReviewViewController.xib */; };
+		885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60D12381DD9A00ED3A17 /* ApiError.swift */; };
 		88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362DE237C3F8C005B6B81 /* ProgressBar.swift */; };
 		88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */; };
 		88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */; };
@@ -196,6 +197,7 @@
 		885C60C62380A15400ED3A17 /* RecipeCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCVCell.xib; sourceTree = "<group>"; };
 		885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		885C60CB2380BABB00ED3A17 /* ReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewViewController.xib; sourceTree = "<group>"; };
+		885C60D12381DD9A00ED3A17 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		88A362DE237C3F8C005B6B81 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
 		88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManagementViewController.xib; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				880B13302372FA08003E29AC /* User.swift */,
 				880B1357237474A4003E29AC /* Task.swift */,
 				885C60BD23805A3D00ED3A17 /* StepTracking.swift */,
+				885C60D12381DD9A00ED3A17 /* ApiError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -839,6 +842,7 @@
 				88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */,
 				88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */,
 				885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */,
+				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
 				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
 				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,
 				880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */,

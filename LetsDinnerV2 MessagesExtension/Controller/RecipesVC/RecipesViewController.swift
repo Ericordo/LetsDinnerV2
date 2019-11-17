@@ -79,6 +79,13 @@ class RecipesViewController: UIViewController {
         }
     }
     
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        self.showSearchProgress(false)
+    }
+    
     func showSearchProgress(_ bool: Bool) {
         if bool {
             activityIndicator.startAnimating()
@@ -182,12 +189,25 @@ extension RecipesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        resultsLabel.isHidden = true
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
-        DataHelper.shared.loadSearchedRecipes(keyword: keyword, display: showSearchProgress(_:)) { recipes in
-            self.showSearchProgress(false)
-            self.searchResults = recipes
-        }
         
+        DataHelper.shared.loadSearchedRecipes(keyword: keyword, display: showSearchProgress(_:), completion: { [weak self] result in
+            switch result {
+            case .success(let recipes):
+                self?.showSearchProgress(false)
+                self?.searchResults = recipes
+            case .failure(let error):
+                switch error {
+                case .decodingFailed:
+                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
+                case .noNetwork:
+                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
+                case .requestLimit:
+                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+                }
+            }
+        })
     }
 }
 
