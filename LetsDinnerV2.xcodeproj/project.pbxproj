@@ -78,7 +78,7 @@
 		885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60C52380A15400ED3A17 /* RecipeCVCell.swift */; };
 		885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60C62380A15400ED3A17 /* RecipeCVCell.xib */; };
 		885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */; };
-		885C60CD2380BABB00ED3A17 /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60CB2380BABB00ED3A17 /* ReviewViewController.xib */; };
+		885C60CD2380BABB00ED3A17 /* EventInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60CB2380BABB00ED3A17 /* EventInfoViewController.xib */; };
 		88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362DE237C3F8C005B6B81 /* ProgressBar.swift */; };
 		88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */; };
 		88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */; };
@@ -93,6 +93,8 @@
 		B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */; };
 		B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */; };
 		B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */; };
+		B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700723843C6B0010AB7C /* EventInfoViewController.swift */; };
+		B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F7001238430DC0010AB7C /* ReviewViewController.xib */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
 		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
 /* End PBXBuildFile section */
@@ -211,7 +213,7 @@
 		885C60C52380A15400ED3A17 /* RecipeCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCVCell.swift; sourceTree = "<group>"; };
 		885C60C62380A15400ED3A17 /* RecipeCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCVCell.xib; sourceTree = "<group>"; };
 		885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
-		885C60CB2380BABB00ED3A17 /* ReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewViewController.xib; sourceTree = "<group>"; };
+		885C60CB2380BABB00ED3A17 /* EventInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventInfoViewController.xib; sourceTree = "<group>"; };
 		88A362DE237C3F8C005B6B81 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
 		88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManagementViewController.xib; sourceTree = "<group>"; };
@@ -224,6 +226,8 @@
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
 		B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerAcceptedCell.swift; sourceTree = "<group>"; };
 		B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerAcceptedCell.xib; sourceTree = "<group>"; };
+		B86F7001238430DC0010AB7C /* ReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewViewController.xib; sourceTree = "<group>"; };
+		B86F700723843C6B0010AB7C /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.release.xcconfig"; sourceTree = "<group>"; };
@@ -463,6 +467,7 @@
 				883A2A042372D5560099ECDF /* EventDescriptionVCOld */,
 				885C60C92380BA9500ED3A17 /* ReviewVC */,
 				880B133223736D3C003E29AC /* EventSummaryVC */,
+				B86F7006238435830010AB7C /* EventInfoViewController */,
 				880B13662374BDAE003E29AC /* TasksListVC */,
 			);
 			path = Controller;
@@ -598,7 +603,7 @@
 			isa = PBXGroup;
 			children = (
 				885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */,
-				885C60CB2380BABB00ED3A17 /* ReviewViewController.xib */,
+				B86F7001238430DC0010AB7C /* ReviewViewController.xib */,
 			);
 			path = ReviewVC;
 			sourceTree = "<group>";
@@ -629,6 +634,15 @@
 				4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B86F7006238435830010AB7C /* EventInfoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B86F700723843C6B0010AB7C /* EventInfoViewController.swift */,
+				885C60CB2380BABB00ED3A17 /* EventInfoViewController.xib */,
+			);
+			path = EventInfoViewController;
 			sourceTree = "<group>";
 		};
 		B8E4CA7923812174006DD095 /* TitleCell */ = {
@@ -734,6 +748,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */,
 				B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */,
 				B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */,
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
@@ -746,7 +761,7 @@
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
 				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
-				885C60CD2380BABB00ED3A17 /* ReviewViewController.xib in Resources */,
+				885C60CD2380BABB00ED3A17 /* EventInfoViewController.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				883A2A032372D5520099ECDF /* EventDescriptionViewControllerOld.xib in Resources */,
@@ -884,6 +899,7 @@
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				885C60C223809F7900ED3A17 /* EventDescriptionViewController.swift in Sources */,
+				B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */,
 				880B13312372FA08003E29AC /* User.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment version="4352" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iKh-JM-c5q" userLabel="Decline View">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Accepted" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ljf-bB-q1o">
                                 <rect key="frame" x="82" y="30" width="74" height="22"/>
@@ -36,15 +37,34 @@
                                     <color key="titleColor" red="0.81568627449999997" green="0.0078431372550000003" blue="0.1058823529" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sa1-sX-vbI" userLabel="UpdateButton">
+                                <rect key="frame" x="195" y="20" width="150" height="42"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="IV3-Yy-mFd"/>
+                                    <constraint firstAttribute="width" constant="150" id="eI2-ry-SDF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <state key="normal" title="Update">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapUpdateButton:" destination="Iu3-i7-0tb" eventType="touchUpInside" id="23Y-Fv-wQJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="5bd-If-z3i" firstAttribute="top" secondItem="iKh-JM-c5q" secondAttribute="top" constant="20" id="4Op-4j-QUe"/>
                             <constraint firstItem="5bd-If-z3i" firstAttribute="top" secondItem="iKh-JM-c5q" secondAttribute="top" constant="20" id="CLA-Nn-uWd"/>
+                            <constraint firstItem="sa1-sX-vbI" firstAttribute="top" secondItem="iKh-JM-c5q" secondAttribute="top" constant="20" id="HHV-W1-3OW"/>
+                            <constraint firstItem="sa1-sX-vbI" firstAttribute="centerY" secondItem="iKh-JM-c5q" secondAttribute="centerY" id="IJv-tt-j6W"/>
                             <constraint firstItem="5bd-If-z3i" firstAttribute="leading" secondItem="iKh-JM-c5q" secondAttribute="leading" constant="30" id="fDA-r0-34D"/>
+                            <constraint firstItem="5bd-If-z3i" firstAttribute="centerY" secondItem="iKh-JM-c5q" secondAttribute="centerY" id="gj8-ro-DiS"/>
                             <constraint firstItem="ljf-bB-q1o" firstAttribute="leading" secondItem="5bd-If-z3i" secondAttribute="trailing" constant="10" id="jHo-9M-Vnn"/>
                             <constraint firstItem="ljf-bB-q1o" firstAttribute="centerY" secondItem="5bd-If-z3i" secondAttribute="centerY" id="lYM-L8-GyK"/>
                             <constraint firstItem="5bd-If-z3i" firstAttribute="leading" secondItem="iKh-JM-c5q" secondAttribute="leading" constant="30" id="qxh-gH-ebs"/>
+                            <constraint firstAttribute="trailing" secondItem="sa1-sX-vbI" secondAttribute="trailing" constant="30" id="zZy-LJ-rxg"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -57,10 +77,10 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="6xp-gZ-xGq"/>
             <connections>
-                <outlet property="acceptIcon" destination="5bd-If-z3i" id="nWg-wd-aTK"/>
-                <outlet property="declineIcon" destination="5bd-If-z3i" id="G44-GT-0ue"/>
+                <outlet property="acceptIcon" destination="5bd-If-z3i" id="ihm-H5-hgz"/>
+                <outlet property="updateButton" destination="sa1-sX-vbI" id="V8r-cM-cyw"/>
             </connections>
-            <point key="canvasLocation" x="111" y="25"/>
+            <point key="canvasLocation" x="110.86956521739131" y="24.776785714285712"/>
         </tableViewCell>
     </objects>
     <resources>

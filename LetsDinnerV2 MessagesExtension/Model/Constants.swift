@@ -89,6 +89,7 @@ enum MessagesToDisplay {
 enum LabelStrings {
     static let getStarted = "Please enter your full name \n to get started."
     static let host = "Host"
+    static let eventInfo = "Event Info"
     static let date = "Date"
     static let location = "Location"
     static let addToCalendar = "Add to Calendar"

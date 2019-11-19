@@ -41,6 +41,7 @@ class EventSummaryViewController: UIViewController {
         registerCell(CellNibs.titleCell)
         registerCell(CellNibs.answerCell)
         registerCell(CellNibs.answerDeclinedCell)
+        registerCell(CellNibs.answerAcceptedCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
@@ -92,7 +93,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
         let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerDeclinedCell) as! AnswerDeclinedCell
-        
+        let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerAcceptedCell) as! AnswerAcceptedCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
@@ -106,19 +107,24 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return titleCell
             
         case RowItemNumber.answerCell.rawValue:
-            guard let currentUser = Event.shared.currentUser else { return UITableViewCell() }
-
-    
-            if currentUser.hasAccepted == false {
+            
+            if Event.shared.currentUser?.hasAccepted == false {
                 return answerDeclinedCell
+            } else if Event.shared.currentUser?.hasAccepted == true {
+                return answerAcceptedCell
             }
 
             answerCell.delegate = self
             return answerCell
 
         case RowItemNumber.hostInfo.rawValue:
-            infoCell.titleLabel.text = LabelStrings.host
-            infoCell.infoLabel.text = Event.shared.hostName
+            if Event.shared.currentUser?.hasAccepted == true {
+                infoCell.titleLabel.text = LabelStrings.eventInfo
+                infoCell.infoLabel.text = Event.shared.hostName + "  >"
+            } else {
+                infoCell.titleLabel.text = LabelStrings.host
+                infoCell.infoLabel.text = Event.shared.hostName
+            }
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -155,6 +161,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     // MARK: - Show or hide the row
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         // 3 conditions: accept(/Host) / Neutral / or decline)
@@ -180,12 +187,14 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             // Accept or Host
             switch indexPath.row {
             case RowItemNumber.answerCell.rawValue:
-                return (isUsertheHost() ? 0 : 80)
+//                return (isUsertheHost() ? 0 : 80) testing
+                return 80
             case RowItemNumber.hostInfo.rawValue:
                 return 52
             case RowItemNumber.dateInfo.rawValue,
-                 RowItemNumber.locationInfo.rawValue:
-                return 52
+                 RowItemNumber.locationInfo.rawValue,
+                 RowItemNumber.descriptionInfo.rawValue:
+                return 0 // Hide Row
             case RowItemNumber.taskInfo.rawValue:
                 return 257
             case RowItemNumber.userInfo.rawValue:
@@ -204,6 +213,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             case RowItemNumber.dateInfo.rawValue,
                  RowItemNumber.locationInfo.rawValue:
                 return 52
+
             case RowItemNumber.taskInfo.rawValue:
                 return 0
             case RowItemNumber.userInfo.rawValue:
@@ -229,6 +239,13 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return 150
         default:
             return UITableView.automaticDimension
+        }
+    }
+    
+    // MARK: - Select Row
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == RowItemNumber.hostInfo.rawValue {
+            print("selected")
         }
     }
     
@@ -344,8 +361,12 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
     }
     
     func presentAlert(_ title: String) {
-        let alert = UIAlertController(title: title, message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        let alert = UIAlertController(title: title,
+                                      message: "",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok",
+                                      style: .default,
+                                      handler: nil))
         present(alert, animated: true, completion: nil)
     }
     

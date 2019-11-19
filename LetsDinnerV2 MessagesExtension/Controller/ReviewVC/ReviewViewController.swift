@@ -27,13 +27,12 @@ class ReviewViewController: UIViewController {
         StepStatus.currentStep = .reviewVC
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
+        
         registerCell(CellNibs.answerCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
         setupUI()
-
-        
     }
     
     private func setupUI() {
