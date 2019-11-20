@@ -9,7 +9,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReviewViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
-                <outlet property="previousButton" destination="tRa-hc-m98" id="1mh-dQ-fSj"/>
                 <outlet property="progressView" destination="Uwl-PZ-Jns" id="tml-4x-oUb"/>
                 <outlet property="sendButton" destination="aI0-Jh-k9M" id="b2v-Zi-o8Q"/>
                 <outlet property="summaryTableView" destination="ojl-GP-L7P" id="uzw-Cw-VGN"/>
@@ -21,24 +20,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRa-hc-m98">
-                    <rect key="frame" x="17" y="10" width="66" height="33"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="Previous">
-                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapPrevious:" destination="-1" eventType="touchUpInside" id="tHH-qo-tmg"/>
-                    </connections>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-zH-lka">
-                    <rect key="frame" x="159" y="16" width="57" height="21"/>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ready to send your invite?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7B7-Wv-GEu">
-                    <rect key="frame" x="87" y="52" width="201" height="21"/>
+                    <rect key="frame" x="87" y="22" width="201" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -49,44 +32,61 @@
                         <constraint firstAttribute="height" constant="2" id="LYj-YD-udi"/>
                     </constraints>
                 </progressView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M">
-                    <rect key="frame" x="112.5" y="83" width="150" height="42"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="150" id="Y0d-v6-58A"/>
-                        <constraint firstAttribute="height" constant="42" id="zL8-oA-Xr8"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="Send">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapSend:" destination="-1" eventType="touchUpInside" id="wx4-ST-WDJ"/>
-                    </connections>
-                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ojl-GP-L7P">
-                    <rect key="frame" x="0.0" y="145" width="375" height="522"/>
+                    <rect key="frame" x="0.0" y="114.5" width="375" height="552.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="bga-3P-lPr">
+                    <rect key="frame" x="30" y="52.5" width="315" height="42"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDO-Rx-trL" customClass="greyButton" customModule="Let_s_Dinner_">
+                            <rect key="frame" x="0.0" y="0.0" width="141.5" height="42"/>
+                            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="42" id="tou-Oc-gLv"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Edit">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapEditButton:" destination="-1" eventType="touchUpInside" id="Lkq-01-wLK"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" customClass="greyButton" customModule="Let_s_Dinner_">
+                            <rect key="frame" x="173.5" y="0.0" width="141.5" height="42"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="42" id="zL8-oA-Xr8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Send">
+                                <color key="titleColor" red="0.0" green="0.56862745098039214" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapSend:" destination="-1" eventType="touchUpInside" id="wx4-ST-WDJ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="62i-i4-u99"/>
-                <constraint firstItem="eZR-zH-lka" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="D8Q-je-ua9"/>
+                <constraint firstItem="ojl-GP-L7P" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="BS3-z2-vKD"/>
+                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="20" id="BWQ-Oi-giM"/>
+                <constraint firstItem="bga-3P-lPr" firstAttribute="top" secondItem="7B7-Wv-GEu" secondAttribute="bottom" constant="10" id="Cd3-Je-R2a"/>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Fn1-JD-TEI"/>
                 <constraint firstItem="7B7-Wv-GEu" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="IXz-kQ-egB"/>
-                <constraint firstItem="aI0-Jh-k9M" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="KQl-U3-kp5"/>
-                <constraint firstItem="tRa-hc-m98" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="L12-Ss-u20"/>
-                <constraint firstItem="eZR-zH-lka" firstAttribute="centerY" secondItem="tRa-hc-m98" secondAttribute="centerY" id="OGi-kJ-Q79"/>
-                <constraint firstItem="7B7-Wv-GEu" firstAttribute="top" secondItem="eZR-zH-lka" secondAttribute="bottom" constant="15" id="Qvr-gY-VlX"/>
-                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="aI0-Jh-k9M" secondAttribute="bottom" constant="20" id="Uyh-aS-8ik"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bga-3P-lPr" secondAttribute="trailing" constant="30" id="MSB-Ue-twj"/>
+                <constraint firstItem="7B7-Wv-GEu" firstAttribute="top" secondItem="Uwl-PZ-Jns" secondAttribute="bottom" constant="20" id="RnW-8O-cZA"/>
+                <constraint firstItem="bga-3P-lPr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="amQ-tE-tuZ"/>
                 <constraint firstAttribute="trailing" secondItem="Uwl-PZ-Jns" secondAttribute="trailing" id="eT7-A3-m3p"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ojl-GP-L7P" secondAttribute="trailing" id="fod-eh-eTU"/>
-                <constraint firstItem="tRa-hc-m98" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="qGh-vv-ky1"/>
+                <constraint firstItem="bga-3P-lPr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="hgi-IL-04v"/>
                 <constraint firstAttribute="bottom" secondItem="ojl-GP-L7P" secondAttribute="bottom" id="uj3-h1-efv"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="w40-TZ-dZ6"/>
-                <constraint firstItem="aI0-Jh-k9M" firstAttribute="top" secondItem="7B7-Wv-GEu" secondAttribute="bottom" constant="10" id="z13-bf-u9V"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="132" y="153"/>
