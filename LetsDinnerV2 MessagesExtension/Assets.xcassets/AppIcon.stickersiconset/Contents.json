@@ -3,59 +3,59 @@
     {
       "size" : "60x45",
       "idiom" : "iphone",
-      "filename" : "Let's Dinner iMessage icons_iPhoneApp_60@2x.png",
+      "filename" : "Let's Dinner! iMessage_iMessageiPhone_120x90@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x45",
       "idiom" : "iphone",
-      "filename" : "Let's Dinner iMessage icons_iPhoneApp_60@3x.png",
+      "filename" : "Let's Dinner! iMessage_iMessageiPhone_180x135@3x.png",
       "scale" : "3x"
     },
     {
       "size" : "67x50",
       "idiom" : "ipad",
-      "filename" : "Let's Dinner MessagesiPad 67x50@2x.png",
+      "filename" : "Let's Dinner! iMessage_iMessageiPad_134x100@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "74x55",
       "idiom" : "ipad",
-      "filename" : "Let's Dinner MessagesiPad 74x55@3x.png",
+      "filename" : "Let's Dinner! iMessage_iMessageiPad_148x110@2x.png",
       "scale" : "2x"
     },
     {
       "size" : "27x20",
       "idiom" : "universal",
-      "filename" : "Let's Dinner Messages 27x20@2x.png",
+      "filename" : "Let's Dinner! iMessage_Messages_54x40@2x.png",
       "scale" : "2x",
       "platform" : "ios"
     },
     {
       "size" : "27x20",
       "idiom" : "universal",
-      "filename" : "Let's Dinner Messages 27x20@3x.png",
+      "filename" : "Let's Dinner! iMessage_Messages_81x60@3x.png",
       "scale" : "3x",
       "platform" : "ios"
     },
     {
       "size" : "32x24",
       "idiom" : "universal",
-      "filename" : "Let's Dinner Messages 32x24@2x.png",
+      "filename" : "Let's Dinner! iMessage_Messages_64x48@2x.png",
       "scale" : "2x",
       "platform" : "ios"
     },
     {
       "size" : "32x24",
       "idiom" : "universal",
-      "filename" : "Let's Dinner Messages 32x24@3x.png",
+      "filename" : "Let's Dinner! iMessage_Messages_96x72@3x.png",
       "scale" : "3x",
       "platform" : "ios"
     },
     {
       "size" : "1024x768",
       "idiom" : "ios-marketing",
-      "filename" : "Let's Dinner iMessage icons_MessagesAppStore_1024x768.png",
+      "filename" : "Let's Dinner! iMessage_MessagesAppStore_1024x768.png",
       "scale" : "1x",
       "platform" : "ios"
     }

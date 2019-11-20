@@ -20,6 +20,14 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var summaryTableView: UITableView!
     
     weak var delegate: ReviewViewControllerDelegate?
+    
+    let mailImageView : UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "mail")
+        image.contentMode = .scaleAspectFit
+        image.alpha = 0
+        return image
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +39,10 @@ class ReviewViewController: UIViewController {
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
-        
+
         setupUI()
+        
+
     }
     
     private func setupUI() {
@@ -53,7 +63,28 @@ class ReviewViewController: UIViewController {
     }
     
     @IBAction func didTapSend(_ sender: Any) {
-        delegate?.reviewVCDidTapSend(controller: self)
+//        delegate?.reviewVCDidTapSend(controller: self)
+        animateSending()
+    }
+    
+    private func animateSending() {
+        view.addSubview(mailImageView)
+        mailImageView.translatesAutoresizingMaskIntoConstraints = false
+        mailImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        mailImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        mailImageView.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        mailImageView.heightAnchor.constraint(equalToConstant: 105).isActive = true
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.summaryTableView.alpha = 0
+            self.mailImageView.alpha = 1
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.mailImageView.transform = CGAffineTransform(translationX: 0, y: -200)
+                self.mailImageView.alpha = 0
+            }) { (_) in
+                self.delegate?.reviewVCDidTapSend(controller: self)
+            }
+        }
     }
 }
 
