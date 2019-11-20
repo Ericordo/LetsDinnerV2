@@ -131,6 +131,8 @@ class MessagesViewController: MSMessagesAppViewController {
                         controller = instantiateEventSummaryViewController()
                     case .tasksListVC:
                         controller = instantiateTasksListViewController()
+                    case .eventInfoVC:
+                        controller = instantiateEventInfoViewController()
                     case .none:
                         controller = instantiateNewEventViewController()
                     }
@@ -242,6 +244,12 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private func instantiateTasksListViewController() -> UIViewController {
         let controller = TasksListViewController(nibName: VCNibs.tasksListViewController, bundle: nil)
+        controller.delegate = self
+        return controller
+    }
+    
+    private func instantiateEventInfoViewController() -> UIViewController {
+        let controller = EventInfoViewController(nibName: VCNibs.eventInfoViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
@@ -422,6 +430,12 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)
     }
+    
+    func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
+        let controller = instantiateEventInfoViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
 }
 
 extension MessagesViewController: TasksListViewControllerDelegate {
@@ -436,4 +450,13 @@ extension MessagesViewController: TasksListViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)
     }
+}
+
+extension MessagesViewController: EventInfoViewControllerDelegate {
+    func eventInfoVCDidTapBackButton(controller: EventInfoViewController) {
+        let controller = instantiateEventSummaryViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
 }

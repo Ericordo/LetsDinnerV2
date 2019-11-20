@@ -36,12 +36,15 @@ enum VCNibs {
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
     static let reviewViewController = "ReviewViewController"
+    static let eventInfoViewController = "EventInfoViewController"
 }
 
 enum CellNibs {
     static let titleCell = "TitleCell"
     static let recipeCell = "RecipeCell"
     static let answerCell = "AnswerCell"
+    static let answerDeclinedCell = "AnswerDeclinedCell"
+    static let answerAcceptedCell = "AnswerAcceptedCell"
     static let infoCell = "InfoCell"
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
@@ -91,6 +94,7 @@ enum MessagesToDisplay {
 enum LabelStrings {
     static let getStarted = "Please enter your full name \n to get started."
     static let host = "Host"
+    static let eventInfo = "Event Info"
     static let date = "Date"
     static let location = "Location"
     static let addToCalendar = "Add to Calendar"

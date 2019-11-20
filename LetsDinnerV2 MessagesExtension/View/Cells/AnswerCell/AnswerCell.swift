@@ -15,7 +15,6 @@ protocol AnswerCellDelegate: class {
 
 class AnswerCell: UITableViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var questionLabel: UILabel!
@@ -24,18 +23,26 @@ class AnswerCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        //
         acceptButton.clipsToBounds = true
         acceptButton.layer.cornerRadius = 6
         acceptButton.backgroundColor = Colors.paleGray
         declineButton.clipsToBounds = true
         declineButton.layer.cornerRadius = 6
         declineButton.backgroundColor = Colors.paleGray
+            
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+        // After clicked Accept or Decline
+//        if Event.shared.currentUser?.hasAccepted == true {
+//            declineButton.isHidden = true
+//        } else if Event.shared.currentUser?.hasAccepted == false {
+//            acceptButton.isHidden = true
+//        }
     }
     
     @IBAction func didTapAccept(_ sender: UIButton) {

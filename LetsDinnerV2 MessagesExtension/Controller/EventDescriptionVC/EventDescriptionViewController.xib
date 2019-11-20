@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -112,6 +112,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="1me-Lx-1fO" secondAttribute="trailing" constant="17" id="DBG-jF-j6a"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="UEu-C9-OVF" secondAttribute="trailing" id="GjY-a8-1iL"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MWM-v9-fEr" secondAttribute="trailing" constant="17" id="L9Z-dR-S6g"/>
+                <constraint firstItem="Jby-tb-pOQ" firstAttribute="leading" secondItem="1me-Lx-1fO" secondAttribute="leading" id="N2a-fy-AfT"/>
                 <constraint firstItem="UEu-C9-OVF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="Yhf-Nt-Mhf"/>
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerY" secondItem="xCd-kk-Y52" secondAttribute="centerY" id="cHT-R3-YQe"/>
                 <constraint firstItem="UEu-C9-OVF" firstAttribute="top" secondItem="MWM-v9-fEr" secondAttribute="bottom" constant="4" id="cI0-Wm-YR3"/>
