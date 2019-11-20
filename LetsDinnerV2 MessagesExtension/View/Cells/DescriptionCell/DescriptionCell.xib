@@ -52,8 +52,9 @@
                     </collectionView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="C6Y-bU-jKk" firstAttribute="top" secondItem="1yn-Qt-YLB" secondAttribute="bottom" constant="20" id="2jN-ng-fKp"/>
+                    <constraint firstItem="C6Y-bU-jKk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hvm-oW-UkS" secondAttribute="bottom" constant="20" id="2jN-ng-fKp"/>
                     <constraint firstItem="1yn-Qt-YLB" firstAttribute="leading" secondItem="hvm-oW-UkS" secondAttribute="leading" id="31C-Vy-HwY"/>
+                    <constraint firstItem="C6Y-bU-jKk" firstAttribute="top" secondItem="1yn-Qt-YLB" secondAttribute="bottom" constant="20" id="GsT-zm-gzG"/>
                     <constraint firstAttribute="trailing" secondItem="1yn-Qt-YLB" secondAttribute="trailing" id="LVS-zo-ypX"/>
                     <constraint firstItem="hvm-oW-UkS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="Wam-se-RFs"/>
                     <constraint firstItem="hvm-oW-UkS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="ZVq-mP-ksv"/>

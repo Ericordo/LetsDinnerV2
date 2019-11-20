@@ -248,6 +248,14 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == RowItemNumber.hostInfo.rawValue {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     // MARK: - Other Function
     
     func addEventToCalendar(with title: String, forDate eventStartDate: Date, location: String) {

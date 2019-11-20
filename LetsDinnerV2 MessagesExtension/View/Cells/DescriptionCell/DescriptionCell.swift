@@ -31,6 +31,10 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         self.descriptionLabel.backgroundColor = nil
         self.descriptionLabel.textColor = Colors.dullGray
+        
+        if Event.shared.selectedRecipes.count == 0 {
+            recipesCollectionView.removeFromSuperview()
+        }
     }
     
     override func layoutSubviews() {
