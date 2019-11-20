@@ -107,6 +107,10 @@ class NewEventViewController: UIViewController {
     @IBAction func didTapNext(_ sender: UIButton) {
         
         if !allFieldsAreFilled() {
+            dinnerNameTextField.animateEmpty()
+            hostNameTextField.animateEmpty()
+            locationTextField.animateEmpty()
+            dateTextField.animateEmpty()
             errorLabel.isHidden = false
             view.endEditing(true)
             print("fields not filled")
@@ -116,12 +120,55 @@ class NewEventViewController: UIViewController {
             Event.shared.dinnerName = dinner
             Event.shared.dinnerLocation = location
             Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
-            delegate!.newEventVCDidTapNext(controller: self)
+            animatedTextFields()
+            
         }
     }
     
     @IBAction func didTapProfileButton(_ sender: UIButton) {
         delegate?.newEventVCDdidTapProfile(controller: self)
+    }
+    
+    private func animatedTextFields() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            self.dinnerNameTextField.transform = CGAffineTransform(translationX: 0, y: -10)
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.dinnerNameTextField.alpha = 0
+                self.dinnerNameTextField.transform = self.dinnerNameTextField.transform.translatedBy(x: 200, y: 0)
+                
+                UIView.transition(with: self.titleLabel, duration: 2, options: .transitionCrossDissolve, animations: {
+                    self.titleLabel.textColor = Colors.newGradientRed
+                }, completion: nil)
+            })
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            self.hostNameTextField.transform = CGAffineTransform(translationX: 0, y: -10)
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.hostNameTextField.alpha = 0
+                self.hostNameTextField.transform = self.hostNameTextField.transform.translatedBy(x: 200, y: 0)
+            })
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.4, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            self.locationTextField.transform = CGAffineTransform(translationX: 0, y: -10)
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.locationTextField.alpha = 0
+                self.locationTextField.transform = self.locationTextField.transform.translatedBy(x: 200, y: 0)
+            })
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.6, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            self.dateTextField.transform = CGAffineTransform(translationX: 0, y: -10)
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.dateTextField.alpha = 0
+                self.dateTextField.transform = self.dateTextField.transform.translatedBy(x: 200, y: 0)
+            }, completion: { (_) in
+                self.delegate!.newEventVCDidTapNext(controller: self)
+            })
+}
+        
     }
     
     
