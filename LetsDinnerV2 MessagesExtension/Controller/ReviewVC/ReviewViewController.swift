@@ -15,7 +15,6 @@ protocol ReviewViewControllerDelegate: class {
 
 class ReviewViewController: UIViewController {
     
-    @IBOutlet weak var previousButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var summaryTableView: UITableView!
@@ -27,13 +26,13 @@ class ReviewViewController: UIViewController {
         StepStatus.currentStep = .reviewVC
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        registerCell(CellNibs.answerCell)
+        
+        registerCell(CellNibs.titleCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
-        setupUI()
-
         
+        setupUI()
     }
     
     private func setupUI() {
@@ -41,27 +40,21 @@ class ReviewViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 4/5
         progressView.setProgress(1, animated: true)
-        sendButton.layer.masksToBounds = true
-        sendButton.layer.cornerRadius = 8.0
-        sendButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-        summaryTableView.tableFooterView = UIView(frame: .zero)
+        
+        summaryTableView.tableFooterView = UIView()
     }
     
     private func registerCell(_ nibName: String) {
            summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
        }
     
-    
-    @IBAction func didTapPrevious(_ sender: UIButton) {
+    @IBAction func didTapEditButton(_ sender: Any) {
         delegate?.reviewVCDidTapPrevious(controller: self)
     }
-
+    
     @IBAction func didTapSend(_ sender: Any) {
         delegate?.reviewVCDidTapSend(controller: self)
     }
-    
-  
-
 }
 
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -70,23 +63,18 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
-              let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
-              let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
-              let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
+        
+        let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
+        let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
+        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
+        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         
         switch indexPath.row {
-        case 0:
-           
-                if answerCell.acceptButton != nil && answerCell.declineButton != nil {
-                    answerCell.acceptButton.removeFromSuperview()
-                    answerCell.declineButton.removeFromSuperview()
-                    answerCell.questionLabel.removeFromSuperview()
-                }
-//            answerCell.titleLabel.text = Event.shared.dinnerName
-        
-            return answerCell
 
+        case 0:
+           titleCell.titleLabel.text = Event.shared.dinnerName
+           titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+           return titleCell
         case 1:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
@@ -117,9 +105,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             break
         }
         return UITableViewCell()
-        
-        
-        
+            
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

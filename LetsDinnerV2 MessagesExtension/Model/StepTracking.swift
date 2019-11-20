@@ -19,6 +19,7 @@ enum StepTracking {
     case reviewVC
     case eventSummaryVC
     case tasksListVC
+    case eventInfoVC
 }
 
 class StepStatus {
