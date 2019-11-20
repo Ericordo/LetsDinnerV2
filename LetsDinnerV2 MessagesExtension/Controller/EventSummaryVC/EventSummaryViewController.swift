@@ -15,7 +15,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
-enum RowItemNumber: Int, CaseIterable {
+public enum RowItemNumber: Int, CaseIterable {
     case title = 0
     case answerCell = 1
     case hostInfo = 2
@@ -36,6 +36,7 @@ class EventSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
+        
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
         
@@ -47,7 +48,6 @@ class EventSummaryViewController: UIViewController {
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
         registerCell(CellNibs.userCell)
-        registerCell(CellNibs.calendarCell)
         
         setupUI()
         
@@ -66,7 +66,6 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.reloadData()
         summaryTableView.isHidden = false
     }
-    
 
     private func registerCell(_ nibName: String) {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
@@ -99,7 +98,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         let userCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.userCell) as! UserCell
-        let calendarCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.calendarCell) as! CalendarCell
         
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
@@ -261,8 +259,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 event.startDate = eventStartDate
                 event.endDate = Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)
                 event.location = location
+                
                 let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
                 event.addAlarm(alarm)
+                
                 let predicate = self.store.predicateForEvents(withStart: eventStartDate, end: Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)! , calendars: nil)
                 let existingEvents = self.store.events(matching: predicate)
                 let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
@@ -365,11 +365,9 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
         let alert = UIAlertController(title: title,
                                       message: "",
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok",
+        alert.addAction(UIAlertAction(title: "OK",
                                       style: .default,
                                       handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
-    
 }

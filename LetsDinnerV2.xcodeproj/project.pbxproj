@@ -95,6 +95,8 @@
 		B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */; };
 		B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700723843C6B0010AB7C /* EventInfoViewController.swift */; };
 		B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F7001238430DC0010AB7C /* ReviewViewController.xib */; };
+		B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* UIButtonClass.swift */; };
+		B86F700D238525A60010AB7C /* UITableViewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700C238525A60010AB7C /* UITableViewClass.swift */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
 		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
 /* End PBXBuildFile section */
@@ -228,6 +230,8 @@
 		B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerAcceptedCell.xib; sourceTree = "<group>"; };
 		B86F7001238430DC0010AB7C /* ReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewViewController.xib; sourceTree = "<group>"; };
 		B86F700723843C6B0010AB7C /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
+		B86F700A238521810010AB7C /* UIButtonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonClass.swift; sourceTree = "<group>"; };
+		B86F700C238525A60010AB7C /* UITableViewClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewClass.swift; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.release.xcconfig"; sourceTree = "<group>"; };
@@ -448,6 +452,8 @@
 				880B13642374B3F2003E29AC /* TaskPersonLabel.swift */,
 				880B13792376EB99003E29AC /* ProgressCircle.swift */,
 				88A362DE237C3F8C005B6B81 /* ProgressBar.swift */,
+				B86F700A238521810010AB7C /* UIButtonClass.swift */,
+				B86F700C238525A60010AB7C /* UITableViewClass.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -881,6 +887,7 @@
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,
 				88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */,
+				B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */,
 				88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */,
 				885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */,
 				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
@@ -903,6 +910,7 @@
 				880B13312372FA08003E29AC /* User.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
+				B86F700D238525A60010AB7C /* UITableViewClass.swift in Sources */,
 				88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 			);

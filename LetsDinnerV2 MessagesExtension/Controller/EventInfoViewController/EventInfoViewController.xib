@@ -11,7 +11,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventInfoViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
                 <outlet property="backButton" destination="tRa-hc-m98" id="9XJ-dL-86m"/>
+                <outlet property="calendarButton" destination="aI0-Jh-k9M" id="393-xQ-INn"/>
                 <outlet property="eventInfoTableView" destination="ojl-GP-L7P" id="vJC-UF-bea"/>
+                <outlet property="reminderButton" destination="AS3-Sj-gsz" id="Bzt-RV-Hjv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -45,7 +47,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="jCZ-wU-rPm">
                     <rect key="frame" x="15" y="591" width="345" height="42"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" userLabel="Calendar Button">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" userLabel="Calendar Button" customClass="PrimaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="150" height="42"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -57,14 +59,14 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AS3-Sj-gsz" userLabel="Reminder Button">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AS3-Sj-gsz" userLabel="Reminder Button" customClass="PrimaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="179" y="0.0" width="166" height="42"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="150" id="DAb-94-Z2N"/>
-                                <constraint firstAttribute="height" constant="42" id="j8e-He-XFa"/>
+                                <constraint firstAttribute="height" constant="42" id="7sm-H2-Zka"/>
+                                <constraint firstAttribute="width" constant="150" id="gYr-XO-HkS"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                             <state key="normal" title="Reminder...">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
