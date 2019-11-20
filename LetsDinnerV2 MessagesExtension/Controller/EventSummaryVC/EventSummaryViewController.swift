@@ -15,7 +15,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
-public enum RowItemNumber: Int, CaseIterable {
+private enum RowItemNumber: Int, CaseIterable {
     case title = 0
     case answerCell = 1
     case hostInfo = 2
