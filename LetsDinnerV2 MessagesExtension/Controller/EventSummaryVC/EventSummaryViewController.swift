@@ -12,6 +12,7 @@ import EventKit
 protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController)
     func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController)
+    func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
 enum RowItemNumber: Int, CaseIterable {
@@ -245,7 +246,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
-            print("selected")
+            self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
         }
     }
     

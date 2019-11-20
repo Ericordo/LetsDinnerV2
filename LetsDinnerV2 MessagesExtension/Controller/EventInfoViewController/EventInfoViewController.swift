@@ -8,13 +8,28 @@
 
 import UIKit
 
-class EventInfoViewController: UIViewController {
+protocol EventInfoViewControllerDelegate: class {
+    func eventInfoVCDidTapBackButton(controller: EventInfoViewController)
+}
 
+class EventInfoViewController: UIViewController {
+    
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var eventInfoTableView: UITableView!
+    
+    
+    weak var delegate: EventInfoViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func backButtonDidTap(_ sender: Any) {
+        self.delegate?.eventInfoVCDidTapBackButton(controller: self)
+    }
+    
     
 
 
