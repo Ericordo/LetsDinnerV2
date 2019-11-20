@@ -85,6 +85,10 @@ enum MessagesToDisplay {
     static let add = "Add"
     static let addThing = "Add a thing"
     static let thingToAdd = "Thing to add"
+    static let noNetwork = "No Network"
+    static let decodingFailed = "Failed to load recipes"
+    static let requestLimit = "Too many requests"
+    static let tryAgain = "You can try again in a minute"
 }
 
 enum LabelStrings {
