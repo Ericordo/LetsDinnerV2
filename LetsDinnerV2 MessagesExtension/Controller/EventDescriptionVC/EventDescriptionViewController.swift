@@ -36,10 +36,8 @@ class EventDescriptionViewController: UIViewController {
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
         recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
-        setupUI()
         
-
-     
+        setupUI()
     }
     
     private func setupUI() {
