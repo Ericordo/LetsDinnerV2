@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -33,7 +34,7 @@
                     </constraints>
                 </progressView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ojl-GP-L7P">
-                    <rect key="frame" x="0.0" y="114.5" width="375" height="552.5"/>
+                    <rect key="frame" x="0.0" y="104.5" width="375" height="562.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
@@ -75,7 +76,7 @@
             <constraints>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="62i-i4-u99"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="BS3-z2-vKD"/>
-                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="20" id="BWQ-Oi-giM"/>
+                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="10" id="BWQ-Oi-giM"/>
                 <constraint firstItem="bga-3P-lPr" firstAttribute="top" secondItem="7B7-Wv-GEu" secondAttribute="bottom" constant="10" id="Cd3-Je-R2a"/>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Fn1-JD-TEI"/>
                 <constraint firstItem="7B7-Wv-GEu" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="IXz-kQ-egB"/>
