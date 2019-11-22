@@ -15,7 +15,6 @@ import FirebaseStorage
 class Event {
     
     static let shared = Event()
-    
     private init () {}
     
     var currentSession: MSSession?
@@ -35,14 +34,16 @@ class Event {
     var recipeTitles: String {
           let titles = selectedRecipes.map { $0.title! }
           return titles.joined(separator:", ")
-      }
+    }
     var eventDescription = String()
     var hostIdentifier = ""
     var participants = [User]()
     var tasks = [Task]()
+    
     var currentConversationTaskStates = [Task]()
     var firebaseEventUid = ""
     var currentUser: User?
+    var isHostRegistered = false
     
     func resetEvent() {
         dinnerName.removeAll()
@@ -62,11 +63,12 @@ class Event {
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
         
         let layout = MSMessageTemplateLayout()
-        let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
         layout.image = UIImage(named: "bubblebackground")
         layout.imageTitle = dinnerName
         layout.imageSubtitle = dinnerDate
         layout.caption = "Tap to view Dinner! "
+        
+        let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
         message.layout = layout
         message.summaryText = summary
         message.md.set(value: dinnerName, forKey: "dinnerName")
@@ -74,6 +76,7 @@ class Event {
         message.md.set(value: dinnerLocation, forKey: "dinnerLocation")
         message.md.set(value: eventDescription, forKey: "eventDescription")
         message.md.set(value: dateTimestamp, forKey: "dateTimestamp")
+        
         if eventCreation {
             let firebaseChildUid = uploadEventToFirebase()
             message.md.set(value: firebaseChildUid, forKey: "firebaseEventUid")
@@ -119,35 +122,51 @@ class Event {
 //    }
     
 //    MARK: Modification to test to add the custom tasks
+    
     func uploadEventToFirebase() -> String {
-          guard let userID = currentUser?.identifier else { return "" }
-          let reference = Database.database().reference()
+        guard let userID = currentUser?.identifier else { return "" }
+        let reference = Database.database().reference()
 //          let ingredients = selectedRecipes.map { $0.ingredientList }
           
-          let childUid = reference.child("Events").childByAutoId()
-          let parameters: [String : Any] = ["dinnerName" : dinnerName, "hostName" : hostName, "dateTimestamp" : dateTimestamp, "dinnerLocation" : dinnerLocation, "eventDescription" : eventDescription, "hostID" : userID]
-          childUid.setValue(parameters)
-          if !selectedRecipes.isEmpty {
+        let childUid = reference.child("Events").childByAutoId()
+        let parameters: [String : Any] = ["dinnerName" : dinnerName,
+                                          "hostName" : hostName,
+                                          "dateTimestamp" : dateTimestamp,
+                                          "dinnerLocation" : dinnerLocation,
+                                          "eventDescription" : eventDescription,
+                                          "hostID" : userID]
+        childUid.setValue(parameters)
+          
+        if !selectedRecipes.isEmpty {
               selectedRecipes.forEach { recipe in
                   let recipeChild = childUid.child("recipes").childByAutoId()
-                  let parameters : [String : Any] = ["title" : recipe.title ?? "", "sourceUrl" : recipe.sourceUrl ?? ""]
+                  let parameters : [String : Any] = ["title" : recipe.title ?? "",
+                                                     "sourceUrl" : recipe.sourceUrl ?? ""]
                   recipeChild.setValue(parameters)
               }
           }
+            
         if !tasks.isEmpty {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
-                let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom]
+                let parameters : [String : Any ] = ["title" : task.taskName,
+                                                    "ownerName" : task.assignedPersonName,
+                                                    "ownerUid" : task.assignedPersonUid ?? "nil",
+                                                    "state": task.taskState.rawValue,
+                                                    "isCustom" : task.isCustom]
                 taskChild.setValue(parameters)
             }
         }
-          // let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true]
+
           // New line below to add profilePic to Test
-          let participantsParameters : [String : Any] = ["fullName" : defaults.username, "hasAccepted" : true, "profilePicUrl" : defaults.profilePicUrl]
-          currentUser?.hasAccepted = true
-          childUid.child("participants").child(userID).setValue(participantsParameters)
-          self.firebaseEventUid = childUid.key!
-          return childUid.key!
+        let participantsParameters : [String : Any] = ["fullName" : defaults.username,
+                                                       "hasAccepted" : currentUser?.hasAccepted.rawValue ?? "",
+                                                       "profilePicUrl" : defaults.profilePicUrl]
+       
+//        currentUser?.hasAccepted = .accepted
+        childUid.child("participants").child(userID).setValue(participantsParameters)
+        self.firebaseEventUid = childUid.key!
+        return childUid.key!
       }
     
 //    func observeEvent() {
@@ -211,13 +230,16 @@ class Event {
                 
                 var users = [User]()
                 guard let participants = value["participants"] as? [String : Any] else { return }
+                
                 participants.forEach { key, value in
                     guard let dict = value as? [String : Any] else { return }
                     guard let fullName = dict["fullName"] as? String else { return }
-                    guard let hasAccepted = dict["hasAccepted"] as? Bool else { return }
+                    guard let hasAccepted = dict["hasAccepted"] as? String else { return }
                     // New line
                     guard let profilePicUrl = dict["profilePicUrl"] as? String else { return }
-                    let user = User(identifier: key, fullName: fullName, hasAccepted: hasAccepted)
+                    let user = User(identifier: key,
+                                    fullName: fullName,
+                                    hasAccepted: Invitation(rawValue: hasAccepted)!)
                     // New line
                     user.profilePicUrl = profilePicUrl
                     users.append(user)
@@ -297,7 +319,11 @@ class Event {
     func updateFirebaseTasks() {
         tasks.forEach { task in
 //            Added isCustom in the parameters
-            let parameters: [String : Any] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state" : task.taskState.rawValue, "isCustom" : task.isCustom]
+            let parameters: [String : Any] = ["title" : task.taskName,
+                                              "ownerName" : task.assignedPersonName,
+                                              "ownerUid" : task.assignedPersonUid ?? "nil",
+                                              "state" : task.taskState.rawValue,
+                                              "isCustom" : task.isCustom]
 //            Replaced child[ingredients] by child[tasks]
             let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
             childUid.updateChildValues(parameters, withCompletionBlock: { (error, reference) in
@@ -305,8 +331,6 @@ class Event {
             })
         }
     }
-    
-    
     
     func getAssignedNewTasks() -> Int {
         let difference = tasks.difference(from: currentConversationTaskStates)
@@ -330,15 +354,14 @@ class Event {
         return completedStatusCount
     }
     
-    func acceptInvitation(_ bool: Bool?) {
+    func acceptInvitation(hasAccepted: Invitation) {
         guard let identifier = currentUser?.identifier else { return }
-        // let participantsParameters: [String: Any] = [
-//            "fullName": defaults.username,
-//            "hasAccepted": bool as Any]
-       // New line
-        let participantsParameters: [String: Any] = [
-        "fullName": defaults.username,
-        "hasAccepted": bool as Any, "profilePicUrl" : defaults.profilePicUrl]
+        guard let currentUser = currentUser else {return}
+
+        // Testing
+        let participantsParameters: [String: Any] = ["fullName": defaults.username,
+                                                     "hasAccepted": currentUser.hasAccepted.rawValue,
+                                                     "profilePicUrl" : defaults.profilePicUrl]
     Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
         
     }
@@ -370,11 +393,8 @@ class Event {
         }
     }
        
-       
-       
+ 
     func deleteUserPicOnFirebase() {}
     func updateUserPicOnFirebase() {}
-    
 
-    
 }

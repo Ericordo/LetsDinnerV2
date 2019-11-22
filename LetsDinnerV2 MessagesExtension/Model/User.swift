@@ -11,13 +11,18 @@ import Foundation
 class User {
     var identifier: String
     var fullName: String
-    var hasAccepted: Bool
+    var hasAccepted: Invitation
     var profilePicUrl: String? 
     
-    init(identifier: String, fullName: String, hasAccepted: Bool) {
+    init(identifier: String, fullName: String, hasAccepted: Invitation) {
         self.identifier = identifier
         self.fullName = fullName
         self.hasAccepted = hasAccepted
     }
- 
+}
+
+enum Invitation: String {
+    case pending = "Pending"
+    case accepted = "Accepted"
+    case declined = "Declined"
 }

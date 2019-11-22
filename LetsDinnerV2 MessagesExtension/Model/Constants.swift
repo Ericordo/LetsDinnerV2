@@ -19,7 +19,6 @@ enum Colors {
     static let hasDeclined = UIColor(red:0.82, green:0.01, blue:0.11, alpha:1.0)
     static let paleGray = UIColor(red: 242/255, green: 242/255, blue: 247/255, alpha: 1.0)
     static let dullGray = UIColor(red: 138/255, green: 138/255, blue: 142/255, alpha: 1.0)
-    
     static let newGradientPink = UIColor(red: 255/255, green: 111/255, blue: 133/255, alpha: 1.0)
     static let newGradientRed = UIColor(red: 255/255, green: 73/255, blue: 72/255, alpha: 1.0)
 }
@@ -104,5 +103,4 @@ enum LabelStrings {
     static let whatsThePlan = "So, what's the plan?"
     static let nothingToDo = "There is nothing to do!"
     static let readyToSend = "Ready to send your invite?"
-    
 }
