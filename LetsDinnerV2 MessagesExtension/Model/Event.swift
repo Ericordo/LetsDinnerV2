@@ -316,7 +316,9 @@ class Event {
     
 //    MARK: new updateFirebaseTasks func to add Custom Tasks
     
+    // Bug Exist: When created event by Host, it crashes if there is recipe
     func updateFirebaseTasks() {
+                
         tasks.forEach { task in
 //            Added isCustom in the parameters
             let parameters: [String : Any] = ["title" : task.taskName,
@@ -325,6 +327,7 @@ class Event {
                                               "state" : task.taskState.rawValue,
                                               "isCustom" : task.isCustom]
 //            Replaced child[ingredients] by child[tasks]
+                        
             let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
             childUid.updateChildValues(parameters, withCompletionBlock: { (error, reference) in
                 self.resetEvent()
@@ -354,9 +357,9 @@ class Event {
         return completedStatusCount
     }
     
-    func acceptInvitation(hasAccepted: Invitation) {
-        guard let identifier = currentUser?.identifier else { return }
+    func saveUserAcceptStateToFirebase(hasAccepted: Invitation) {
         guard let currentUser = currentUser else {return}
+        let identifier = currentUser.identifier
 
         // Testing
         let participantsParameters: [String: Any] = ["fullName": defaults.username,

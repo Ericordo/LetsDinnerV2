@@ -43,9 +43,6 @@ class EventInfoViewController: UIViewController {
         eventInfoTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
     }
     
-    
-
-    
     @IBAction func backButtonDidTap(_ sender: Any) {
         self.delegate?.eventInfoVCDidTapBackButton(controller: self)
     }
@@ -76,7 +73,7 @@ extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource {
             infoCell.infoLabel.text = Event.shared.dinnerLocation
             return infoCell
         case 3:
-            descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+            descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         default:
             break

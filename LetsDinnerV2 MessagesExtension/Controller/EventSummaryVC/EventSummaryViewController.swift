@@ -137,7 +137,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return infoCell
             
         case RowItemNumber.descriptionInfo.rawValue:
-            descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+            descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
             
         case RowItemNumber.taskInfo.rawValue:
@@ -233,6 +233,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard Event.shared.currentUser?.hasAccepted == .accepted else {return}
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
             self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
         }

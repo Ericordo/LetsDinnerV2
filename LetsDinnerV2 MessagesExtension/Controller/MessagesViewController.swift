@@ -66,16 +66,22 @@ class MessagesViewController: MSMessagesAppViewController {
         // Auto Accept the dinner for host creating event
         guard let currentUser = Event.shared.currentUser else {return}
         
-        if !Event.shared.isHostRegistered && !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+        if !Event.shared.isHostRegistered {
+            // Create Event session
+            if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             
             //Testing case: accept or decline
             currentUser.hasAccepted = .accepted
             Event.shared.isHostRegistered = true
-            Event.shared.acceptInvitation(hasAccepted: currentUser.hasAccepted)
+
+            Event.shared.saveUserAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+            }
+            
+        } else {
+            Event.shared.updateFirebaseTasks()
         }
         
-        
-        Event.shared.updateFirebaseTasks()
+
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
