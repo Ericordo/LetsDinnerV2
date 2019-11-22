@@ -22,7 +22,6 @@ class MessagesViewController: MSMessagesAppViewController {
         if FirebaseApp.app() == nil {
                FirebaseApp.configure()
         }
-        
     }
     
     // MARK: - Conversation Handling
@@ -36,8 +35,13 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didBecomeActive(with conversation: MSConversation) {
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
+        
         if Event.shared.currentUser == nil {
-            Event.shared.currentUser = User(identifier: currentUserUid, fullName: defaults.username, hasAccepted: false)
+            
+            // Initiate a new user
+            Event.shared.currentUser = User(identifier: currentUserUid,
+                                            fullName: defaults.username,
+                                            hasAccepted: .pending)
         }
     }
     
@@ -59,10 +63,19 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
-         if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-                   Event.shared.acceptInvitation(Event.shared.currentUser?.hasAccepted)
-               }
-               Event.shared.updateFirebaseTasks()
+        // Auto Accept the dinner for host creating event
+        guard let currentUser = Event.shared.currentUser else {return}
+        
+        if !Event.shared.isHostRegistered && !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+            
+            //Testing case: accept or decline
+            currentUser.hasAccepted = .accepted
+            Event.shared.isHostRegistered = true
+            Event.shared.acceptInvitation(hasAccepted: currentUser.hasAccepted)
+        }
+        
+        
+        Event.shared.updateFirebaseTasks()
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -79,6 +92,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.didTransition(to: presentationStyle)
+        
         guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         presentViewController(for: conversation, with: presentationStyle)
         print(#function)
@@ -100,6 +114,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 controller = instantiateIdleViewController()
             }
         } else {
+            //Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController()
@@ -413,19 +428,22 @@ extension MessagesViewController: ReviewViewControllerDelegate {
 }
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
+    
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
         let controller = instantiateTasksListViewController()
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
     
-    func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController) {
-        if hasAccepted {
+    func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
+        if hasAccepted == .accepted {
             Event.shared.summary = defaults.username + MessagesToDisplay.acceptedInvitation
-        } else {
+        } else if hasAccepted == .declined {
             Event.shared.summary = defaults.username + MessagesToDisplay.declinedInvitation
         }
+        
         Event.shared.currentUser?.hasAccepted = hasAccepted
+        
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
         sendMessage(message: message)

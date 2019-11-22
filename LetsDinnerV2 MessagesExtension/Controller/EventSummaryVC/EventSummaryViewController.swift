@@ -11,7 +11,7 @@ import EventKit
 
 protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController)
-    func eventSummaryVCDidAnswer(hasAccepted: Bool, controller: EventSummaryViewController)
+    func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController)
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
@@ -71,7 +71,7 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
     }
     
-    private func isUsertheHost() -> Bool {
+    func isUsertheHost() -> Bool {
         guard let currentUser = Event.shared.currentUser else { return false }
         if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
         }) {
@@ -107,9 +107,9 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             
         case RowItemNumber.answerCell.rawValue:
             
-            if Event.shared.currentUser?.hasAccepted == false {
+            if Event.shared.currentUser?.hasAccepted == .declined {
                 return answerDeclinedCell
-            } else if Event.shared.currentUser?.hasAccepted == true {
+            } else if Event.shared.currentUser?.hasAccepted == .accepted {
                 return answerAcceptedCell
             }
 
@@ -117,7 +117,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return answerCell
 
         case RowItemNumber.hostInfo.rawValue:
-            if Event.shared.currentUser?.hasAccepted == true {
+            if Event.shared.currentUser?.hasAccepted == .accepted {
                 infoCell.titleLabel.text = LabelStrings.eventInfo
                 infoCell.infoLabel.text = Event.shared.hostName + "  >"
             } else {
@@ -166,23 +166,13 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // 3 conditions: accept(/Host) / Neutral / or decline)
         
         // Default Height:
-//        switch indexPath.row {
-//        case RowItemNumber.answerCell.rawValue:
-//            return 120
-//        case RowItemNumber.hostInfo.rawValue:
-//            return 52
-//        case RowItemNumber.dateInfo.rawValue,
-//             RowItemNumber.locationInfo.rawValue:
-//            return 52
-//        case RowItemNumber.taskInfo.rawValue:
-//            return 257
-//        case RowItemNumber.userInfo.rawValue:
-//            return 150
-//        default:
-//            return UITableView.automaticDimension
-//        }
-                
-        if Event.shared.currentUser?.hasAccepted == true {
+        //title auto
+        //answerCell = 120
+        //hostInfo, locationInfo, dateInfo = 52
+        //taskInfo: 257
+        //userInfo: 150
+        
+        if Event.shared.currentUser?.hasAccepted == .accepted {
             // Accept or Host
             switch indexPath.row {
             case RowItemNumber.answerCell.rawValue:
@@ -202,7 +192,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 return UITableView.automaticDimension
             }
             
-        } else if Event.shared.currentUser?.hasAccepted == false {
+        } else if Event.shared.currentUser?.hasAccepted == .declined {
             // Decline Status
             switch indexPath.row {
             case RowItemNumber.answerCell.rawValue:
@@ -306,11 +296,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func didTapAccept() {
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: true, controller: self)
+        delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
     }
     
     func didTapDecline() {
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: false, controller: self)
+        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
     }
     
     func addToCalendarAlert() {
@@ -359,7 +349,7 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
     func taskSummaryCellDidTapSeeAll() {
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]
-            if user.hasAccepted {
+            if user.hasAccepted == .accepted {
                 delegate?.eventSummaryVCOpenTasksList(controller: self)
             } else {
                 presentAlert(MessagesToDisplay.declinedInvitation)

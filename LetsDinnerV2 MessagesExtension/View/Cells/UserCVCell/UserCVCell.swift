@@ -19,7 +19,12 @@ class UserCVCell: UICollectionViewCell {
     
     func configureCell(user: User) {
         var strokeColor = UIColor()
-        strokeColor = user.hasAccepted ? Colors.hasAccepted : Colors.hasDeclined
+        
+        if user.hasAccepted == .accepted {
+            strokeColor = Colors.hasAccepted
+        } else if user.hasAccepted == .declined || user.hasAccepted == .pending {
+            strokeColor = Colors.hasDeclined
+        }
         
         if let imageURL = URL(string: user.profilePicUrl!) {
             userPicture.layer.cornerRadius = userPicture.frame.height/2
@@ -30,8 +35,6 @@ class UserCVCell: UICollectionViewCell {
         } else {
             userPicture.setImage(string: user.fullName.initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
         }
-        
-        
         
         nameLabel.text = user.fullName
     }
