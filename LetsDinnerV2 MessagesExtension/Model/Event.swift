@@ -324,7 +324,8 @@ class Event {
                                               "ownerName" : task.assignedPersonName,
                                               "ownerUid" : task.assignedPersonUid ?? "nil",
                                               "state" : task.taskState.rawValue,
-                                              "isCustom" : task.isCustom]
+                                              "isCustom" : task.isCustom,
+                                              "parentRecipe" : task.parentRecipe ?? "nil"]
 //            Replaced child[ingredients] by child[tasks]
                         
             let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
