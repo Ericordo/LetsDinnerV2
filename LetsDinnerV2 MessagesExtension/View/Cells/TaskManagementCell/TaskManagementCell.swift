@@ -34,7 +34,8 @@ class TaskManagementCell: UITableViewCell {
                        personLabel.setTextAttributes(taskIsOwnedByUser: true)
                    }
                } else {
-                   personLabel.text = ""
+            personLabel.setTextAttributes(taskIsOwnedByUser: false)
+            personLabel.text = MessagesToDisplay.noAssignment
                }
                taskStatusButton.isUserInteractionEnabled = false
     }
@@ -54,10 +55,11 @@ class TaskManagementCell: UITableViewCell {
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             personLabel.text = MessagesToDisplay.completed
         case .completed:
+            personLabel.setTextAttributes(taskIsOwnedByUser: false)
             task.taskState = .unassigned
             task.assignedPersonName = "nil"
             task.assignedPersonUid = "nil"
-            personLabel.text = ""
+            personLabel.text = MessagesToDisplay.noAssignment
         }
         taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskName == task.taskName }) {
