@@ -18,6 +18,10 @@ class Task: Hashable {
 // MARK: Add for the custom tasks
     var isCustom = false
     
+// MARK: Add for the collapse rows
+
+    var parentRecipe: String?
+    
 //    var hashValue: Int {
 //        return taskUid.hashValue
 //    }
@@ -26,12 +30,14 @@ class Task: Hashable {
         hasher.combine(taskUid)
     }
     
-    init(taskName: String, assignedPersonUid: String?, taskState: Int, taskUid: String, assignedPersonName: String) {
+    init(taskName: String, assignedPersonUid: String?, taskState: Int, taskUid: String, assignedPersonName: String, parentRecipe: String?) {
         self.taskName = taskName
         self.assignedPersonName = assignedPersonName
         self.taskState = TaskState(rawValue: taskState)!
         self.taskUid = taskUid
         self.assignedPersonUid = assignedPersonUid
+        
+        self.parentRecipe = parentRecipe
     }
     
     

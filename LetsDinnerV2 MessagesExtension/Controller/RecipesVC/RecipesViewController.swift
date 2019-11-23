@@ -114,10 +114,20 @@ class RecipesViewController: UIViewController {
                 Event.shared.tasks.remove(at: index!)
             }
         }
-        let ingredients = Event.shared.selectedRecipes.map { $0.ingredientList }
-        ingredients.forEach { ingredientList in
-            ingredientList?.forEach({ ingredient in
-                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil"))
+        
+        //        let ingredients = Event.shared.selectedRecipes.map { $0.ingredientList }
+        //        ingredients.forEach { ingredientList in
+        //            ingredientList?.forEach({ ingredient in
+        //                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil"))
+        //            })
+        //        }
+        
+        let recipes = Event.shared.selectedRecipes
+        recipes.forEach { recipe in
+            let recipeName = recipe.title
+            let ingredients = recipe.ingredientList
+            ingredients?.forEach({ ingredient in
+                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil", parentRecipe: recipeName))
             })
         }
     }

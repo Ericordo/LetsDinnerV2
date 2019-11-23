@@ -26,6 +26,24 @@ extension UIButton {
           
           layer.add(shake, forKey: nil)
       }
+    
+    
+    
+    func rotate() {
+        if self.transform == .identity {
+            UIView.animate(withDuration: 0.2) {
+                self.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+            }
+        } else {
+            UIView.animate(withDuration: 0.2) {
+                self.transform = .identity
+            }
+        }
+    }
+    
+
+    
+    
 }
 
 
