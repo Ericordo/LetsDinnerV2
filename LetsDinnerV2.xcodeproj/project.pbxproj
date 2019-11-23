@@ -91,7 +91,6 @@
 		88B7833223718125009E4F3C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe.swift */; };
 		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
-		B86F6FF3238178F40010AB7C /* Pods_LetsDinnerV2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
 		B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */; };
 		B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */; };
@@ -124,17 +123,6 @@
 				88349F01236DE9FC002A1879 /* Let's Dinner!.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B86F6FF4238178F50010AB7C /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B86F6FF3238178F40010AB7C /* Pods_LetsDinnerV2.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -681,7 +669,6 @@
 				88349F15236DE9FC002A1879 /* Embed App Extensions */,
 				148FD0FFFF9A2FD83F7DA173 /* Frameworks */,
 				D708FD19D8820027417285B2 /* [CP] Embed Pods Frameworks */,
-				B86F6FF4238178F50010AB7C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1071,8 +1058,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.7;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1093,8 +1080,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.7;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1117,8 +1104,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.7;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1142,8 +1129,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.7;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				CURRENT_PROJECT_VERSION = 1.0.8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
