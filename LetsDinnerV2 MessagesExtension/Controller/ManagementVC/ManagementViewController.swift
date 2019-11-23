@@ -95,8 +95,8 @@ class ManagementViewController: UIViewController {
                                taskState: TaskState.unassigned.rawValue,
                                taskUid: "",
                                assignedPersonName: "nil",
+                               isCustom: true,
                                parentRecipe: "Misc.")
-            newTask.isCustom = true
             Event.shared.tasks.append(newTask)
             self.prepareData()
             self.tasksTableView.reloadData()

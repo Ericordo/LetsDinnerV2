@@ -124,10 +124,10 @@ class RecipesViewController: UIViewController {
         
         let recipes = Event.shared.selectedRecipes
         recipes.forEach { recipe in
-            let recipeName = recipe.title
+            let recipeName = recipe.title ?? ""
             let ingredients = recipe.ingredientList
             ingredients?.forEach({ ingredient in
-                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil", parentRecipe: recipeName))
+                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName))
             })
         }
     }

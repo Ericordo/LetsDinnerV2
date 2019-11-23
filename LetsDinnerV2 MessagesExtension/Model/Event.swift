@@ -150,7 +150,7 @@ class Event {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
 
-                let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe ?? "nil"]
+                let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
 
                 taskChild.setValue(parameters)
             }
@@ -255,11 +255,9 @@ class Event {
                     guard let state = dict["state"] as? Int else { return }
                     guard let isCustom = dict["isCustom"] as? Bool else { return }
                     guard let parentRecipe = dict["parentRecipe"] as? String else { return }
-                    let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, parentRecipe: parentRecipe)
-                    task.isCustom = isCustom
+                    let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
                     tasks.append(task)
-                    let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, parentRecipe: parentRecipe)
-                    newTask.isCustom = isCustom
+                    let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
                     self.currentConversationTaskStates.append(newTask)
     //                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
     //                self.currentConversationTaskStates.append(task)
@@ -325,7 +323,7 @@ class Event {
                                               "ownerUid" : task.assignedPersonUid ?? "nil",
                                               "state" : task.taskState.rawValue,
                                               "isCustom" : task.isCustom,
-                                              "parentRecipe" : task.parentRecipe ?? "nil"]
+                                              "parentRecipe" : task.parentRecipe]
 //            Replaced child[ingredients] by child[tasks]
                         
             let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
