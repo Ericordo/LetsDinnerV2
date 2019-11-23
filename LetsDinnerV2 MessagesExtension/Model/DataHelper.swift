@@ -90,10 +90,5 @@ class DataHelper {
         }
         dataTask.resume()
         
-    }
-    
-   
-    
-    
-    
+    } 
 }

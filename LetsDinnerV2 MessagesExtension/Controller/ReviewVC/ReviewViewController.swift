@@ -119,7 +119,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             infoCell.infoLabel.text = Event.shared.dinnerLocation
             return infoCell
         case 4:
-            descriptionCell.descriptionLabel.text = Event.shared.recipeTitles + "\n" + Event.shared.eventDescription
+            descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         case 5:
             taskSummaryCell.seeAllButton.isHidden = true

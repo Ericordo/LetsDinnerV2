@@ -36,10 +36,8 @@ class EventDescriptionViewController: UIViewController {
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
         recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
-        setupUI()
         
-
-     
+        setupUI()
     }
     
     private func setupUI() {
@@ -50,17 +48,24 @@ class EventDescriptionViewController: UIViewController {
         recipesCollectionView.collectionViewLayout = layout
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         descriptionTextView.tintColor = Colors.customPink
+        descriptionTextView.backgroundColor = nil
+        descriptionTextView.bounds.inset(by: UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0))
+        
         placeholderLabel.text = LabelStrings.whatsThePlan
         placeholderLabel.sizeToFit()
+        
         checkForExistingDescription()
         checkRemainingChars()
+        
         descriptionTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
         placeholderLabel.textColor = Colors.customGray
         placeholderLabel.font = UIFont.systemFont(ofSize: 14)
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()
+        
         progressView.progressTintColor = Colors.newGradientRed
         progressView.trackTintColor = .white
         progressView.progress = 3/5
