@@ -243,7 +243,8 @@ class Event {
                     users.append(user)
                 }
                 self.participants = users
-                
+//                The line below fixes the bug of tasks duplicated when tapping on back button from taskList without submitting changes
+                self.currentConversationTaskStates.removeAll()
                 var tasks = [Task]()
 //                Changed "ingredients" with "tasks" in line below
                 guard let currentTasks = value["tasks"] as? [String : Any] else { return }

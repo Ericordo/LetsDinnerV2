@@ -93,7 +93,7 @@ class ManagementViewController: UIViewController {
             let newTask = Task(taskName: textField.text!,
                                assignedPersonUid: "nil",
                                taskState: TaskState.unassigned.rawValue,
-                               taskUid: "",
+                               taskUid: "nil",
                                assignedPersonName: "nil",
                                isCustom: true,
                                parentRecipe: "Misc.")
