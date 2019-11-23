@@ -149,11 +149,9 @@ class Event {
         if !tasks.isEmpty {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
-                let parameters : [String : Any ] = ["title" : task.taskName,
-                                                    "ownerName" : task.assignedPersonName,
-                                                    "ownerUid" : task.assignedPersonUid ?? "nil",
-                                                    "state": task.taskState.rawValue,
-                                                    "isCustom" : task.isCustom]
+
+                let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe ?? "nil"]
+
                 taskChild.setValue(parameters)
             }
         }
@@ -256,10 +254,11 @@ class Event {
                     guard let ownerUid = dict["ownerUid"] as? String else { return }
                     guard let state = dict["state"] as? Int else { return }
                     guard let isCustom = dict["isCustom"] as? Bool else { return }
-                    let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+                    guard let parentRecipe = dict["parentRecipe"] as? String else { return }
+                    let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, parentRecipe: parentRecipe)
                     task.isCustom = isCustom
                     tasks.append(task)
-                    let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName)
+                    let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, parentRecipe: parentRecipe)
                     newTask.isCustom = isCustom
                     self.currentConversationTaskStates.append(newTask)
     //                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below

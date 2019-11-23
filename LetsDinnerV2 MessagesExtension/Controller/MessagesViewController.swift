@@ -19,9 +19,11 @@ class MessagesViewController: MSMessagesAppViewController {
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
         // Spend too much time?
+
         if FirebaseApp.app() == nil {
                FirebaseApp.configure()
         }
+
     }
     
     // MARK: - Conversation Handling
