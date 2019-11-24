@@ -20,13 +20,4 @@ public class PrimaryButton: UIButton {
     }
 }
 
-public class greyButton: UIButton {
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
 
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 8.0
-        self.backgroundColor = Colors.paleGray
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-    }
-}
