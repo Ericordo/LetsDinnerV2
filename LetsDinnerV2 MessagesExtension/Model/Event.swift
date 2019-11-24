@@ -58,6 +58,7 @@ class Event {
         currentSession = nil
         hostIdentifier.removeAll()
         participants.removeAll()
+        isHostRegistered = false
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
