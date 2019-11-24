@@ -23,20 +23,14 @@ class InitialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        StepStatus.currentStep = .initialVC
         setupUI()
-
-        
-        
-        
     }
     
     func setupUI() {
         backgroundView.setGradientToValue(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed, value: 0.4)
         newDinnerButton.layer.cornerRadius = 8.0
-     
-        
     }
-    
     
     @IBAction func didTapInfo(_ sender: UIButton) {
         delegate?.initialVCDidTapInfoButton(controller: self)

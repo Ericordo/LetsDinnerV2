@@ -11,20 +11,20 @@ import UIKit
 protocol IdleViewControllerDelegate: class {
     func idleVCDidTapContinue(controller: IdleViewController)
     func idleVCDidTapNewDinner(controller: IdleViewController)
+    func idleVCDidTapProfileButton(controller: IdleViewController)
 }
 
 class IdleViewController: UIViewController {
 
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var newDinnerButton: UIButton!
+    @IBOutlet weak var profileButton: UIButton!
     
      weak var delegate: IdleViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
-        // Do any additional setup after loading the view.
     }
 
     
@@ -42,6 +42,10 @@ class IdleViewController: UIViewController {
         delegate?.idleVCDidTapNewDinner(controller: self)
     }
     
+    
+    @IBAction func didTapProfileButton(_ sender: UIButton) {
+        delegate?.idleVCDidTapProfileButton(controller: self)
+    }
     
     
 

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RegistrationViewControllerDelegate : class {
-        func registrationVCDidTapSaveButton(controller: RegistrationViewController)
+        func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking)
         func registrationVCDidTapCancelButton(controller: RegistrationViewController)
 }
 
@@ -33,10 +33,15 @@ class RegistrationViewController: UIViewController {
     
     var profileImage: UIImage?
     
+    var previousStep: StepTracking?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        StepStatus.currentStep = .registrationVC
+        
+        if StepStatus.currentStep == .initialVC || StepStatus.currentStep == .newEventVC {
+            StepStatus.currentStep = .registrationVC
+        }
+        
         setupUI()
         nameTextField.delegate = self
         picturePicker.delegate = self
@@ -84,7 +89,7 @@ class RegistrationViewController: UIViewController {
             errorLabel.isHidden = false
         case false:
             defaults.username = text
-            delegate?.registrationVCDidTapSaveButton(controller: self)
+            delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep!)
         }
     }
     

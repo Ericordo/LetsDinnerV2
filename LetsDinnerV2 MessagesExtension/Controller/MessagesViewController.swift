@@ -125,7 +125,7 @@ class MessagesViewController: MSMessagesAppViewController {
             //Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
-                controller = instantiateRegistrationViewController()
+                controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep!)
             } else {
                 if conversation.selectedMessage?.url != nil {
                     guard let message = conversation.selectedMessage else { return }
@@ -137,7 +137,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     case .initialVC:
                         controller = instantiateNewEventViewController()
                     case .registrationVC:
-                        controller = instantiateRegistrationViewController()
+                        controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep!)
                     case .newEventVC:
                         controller = instantiateNewEventViewController()
                     case .recipesVC:
@@ -168,10 +168,6 @@ class MessagesViewController: MSMessagesAppViewController {
 //                    } else {
 //                        controller = instantiateNewEventViewController()
 //                    }
-                    
-                    
-                    
-                    
                 }
                 
             }
@@ -217,8 +213,9 @@ class MessagesViewController: MSMessagesAppViewController {
         return controller
     }
     
-    private func instantiateRegistrationViewController() -> UIViewController {
+    private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
+        controller.previousStep = previousStep
         controller.delegate = self
         return controller
     }
@@ -309,42 +306,51 @@ extension MessagesViewController: IdleViewControllerDelegate {
     }
     
     func idleVCDidTapNewDinner(controller: IdleViewController) {
-//        Event.shared.resetEvent()
-//        requestPresentationStyle(.expanded)
-//        activeConversation?.selectedMessage?.url = nil
-        
         Event.shared.resetEvent()
         activeConversation?.selectedMessage?.url = nil
-//        let controller = instantiateNewEventViewController()
         StepStatus.currentStep = .newEventVC
         requestPresentationStyle(.expanded)
-        
-        
-//        addChildViewController(controller: controller)
-        
     }
-    
-    
+
+    func idleVCDidTapProfileButton(controller: IdleViewController) {
+        newNameRequested = true
+        requestPresentationStyle(.expanded)
+    }
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
-    func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
-          let controller = instantiateInitialViewController()
+    func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking) {
+        if previousStep == .newEventVC {
+            StepStatus.currentStep = .newEventVC
+            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+            presentViewController(for: conversation, with: .expanded)
+        } else if previousStep == .initialVC {
+            StepStatus.currentStep = .newEventVC
+            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+            presentViewController(for: conversation, with: .expanded)
+        } else {
             requestPresentationStyle(.compact)
-              removeAllChildViewControllers()
-              addChildViewController(controller: controller)
+        }
     }
     
-    func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
-        StepStatus.currentStep = .newEventVC
-        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-        presentViewController(for: conversation, with: .expanded)
+    func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
+        newNameRequested = false
+//          let controller = instantiateInitialViewController()
+            requestPresentationStyle(.compact)
+//              removeAllChildViewControllers()
+//              addChildViewController(controller: controller)
     }
+    
+//    func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
+//        StepStatus.currentStep = .newEventVC
+//        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+//        presentViewController(for: conversation, with: .expanded)
+//    }
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
     func newEventVCDdidTapProfile(controller: NewEventViewController) {
-        let controller = instantiateRegistrationViewController()
+        let controller = instantiateRegistrationViewController(previousStep: .newEventVC)
         removeAllChildViewControllers()
         addChildViewController(controller: controller) 
     }

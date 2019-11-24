@@ -41,7 +41,7 @@
                         <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="dOP-M9-h5q"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Dinner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
                     <rect key="frame" x="30" y="61" width="315" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="bo0-Vf-SyB"/>
@@ -53,7 +53,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hsj-1b-iz7">
                     <rect key="frame" x="30" y="131" width="315" height="196"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of your Dinner" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="MuM-gh-UoV">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of your Event" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="MuM-gh-UoV">
                             <rect key="frame" x="0.0" y="0.0" width="315" height="34"/>
                             <color key="tintColor" red="0.97647058823529409" green="0.4392156862745098" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
@@ -138,6 +138,6 @@
         </view>
     </objects>
     <resources>
-        <image name="profilebutton" width="21" height="21"/>
+        <image name="profilebutton" width="22" height="22"/>
     </resources>
 </document>
