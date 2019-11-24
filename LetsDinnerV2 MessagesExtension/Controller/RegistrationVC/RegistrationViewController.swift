@@ -13,19 +13,21 @@ protocol RegistrationViewControllerDelegate : class {
         func registrationVCDidTapCancelButton(controller: RegistrationViewController)
 }
 
+enum ImageState {
+    case addPic
+    case deleteOrModifyPic
+}
+
 class RegistrationViewController: UIViewController {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var profileLabel: UILabel!
     @IBOutlet weak var userPic: UIImageView!
     @IBOutlet weak var addPicButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
-    
-    
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
     
     weak var delegate: RegistrationViewControllerDelegate?
     
@@ -35,6 +37,8 @@ class RegistrationViewController: UIViewController {
     
     var previousStep: StepTracking?
     
+    var imageState : ImageState = .addPic
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,95 +47,165 @@ class RegistrationViewController: UIViewController {
         }
         
         setupUI()
-        nameTextField.delegate = self
+
         picturePicker.delegate = self
-        
-     
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
     }
     
     func setupUI() {
-       
         if !defaults.username.isEmpty {
-            nameTextField.text = defaults.username
+            let usernameArray = defaults.username.split(separator: " ")
+            firstNameTextField.text = String(usernameArray.first!)
+            lastNameTextField.text = String(usernameArray.last!)
         }
         errorLabel.isHidden = true
-        titleLabel.text = LabelStrings.getStarted
-        
+
         userPic.layer.cornerRadius = userPic.frame.height / 2
         userPic.layer.masksToBounds = true
-        userPic.layer.borderWidth = 2.0
-        userPic.layer.borderColor = Colors.customPink.cgColor
-        
+
         if let imageURL = URL(string: defaults.profilePicUrl) {
-            userPic.kf.setImage(with: imageURL)
+            userPic.kf.indicatorType = .activity
+            addPicButton.isHidden = true
+            userPic.kf.setImage(with: imageURL, placeholder: UIImage(named: "profileplaceholder")) { result in
+                switch result {
+                case .success:
+                    self.addPicButton.setTitle("Modify image", for: .normal)
+                    self.imageState = .deleteOrModifyPic
+                case .failure:
+                    let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.checkUsername()
+                }
+                self.addPicButton.isHidden = false
+                
+            }
+        } else if !defaults.username.isEmpty {
+            userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+            addPicButton.setTitle("Add image", for: .normal)
+            imageState = .addPic
         } else {
-            userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
-            deleteButton.isHidden = true
+            userPic.image = UIImage(named: "profileplaceholder")
+            addPicButton.setTitle("Add image", for: .normal)
+            imageState = .addPic
         }
-        
-        
     }
 
-
-
     @IBAction func didTapSave(_ sender: UIButton) {
-        Event.shared.saveUserPicToFirebase(profileImage) { url in
-            Event.shared.currentUser?.profilePicUrl = url
-            if let profilePicUrl = url {
-                defaults.profilePicUrl = profilePicUrl
+        view.endEditing(true)
+        if let profileImage = profileImage {
+            Event.shared.saveUserPicToFirebase(profileImage) { [weak self] result in
+                switch result {
+                case .success(let url):
+                    Event.shared.currentUser?.profilePicUrl = url
+                    defaults.profilePicUrl = url
+                case .failure:
+                    let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self?.present(alert, animated: true, completion: nil)
+                    self?.checkUsername()
+                }
             }
-            
         }
         
-        guard let text = nameTextField.text else { return }
-        switch text.isEmpty {
-        case true:
-            errorLabel.isHidden = false
-        case false:
-            defaults.username = text
-            delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep!)
-        }
+        verifyEachTextFieldAndProceed()
     }
     
     @IBAction func didTapCancel(_ sender: UIButton) {
         delegate?.registrationVCDidTapCancelButton(controller: self)
     }
     
-    
     @IBAction func didTapAddPic(_ sender: UIButton) {
-        
+        switch imageState {
+        case .addPic:
+            presentPicker()
+        case .deleteOrModifyPic:
+            let alert = UIAlertController(title: "My image", message: "", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let modify = UIAlertAction(title: "Modify", style: .default) { action in
+                self.presentPicker()
+            }
+            let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
+                defaults.profilePicUrl = ""
+                self.profileImage = nil
+                self.checkUsername()
+            }
+            alert.addAction(cancel)
+            alert.addAction(modify)
+            alert.addAction(delete)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func presentPicker() {
         picturePicker.sourceType = .photoLibrary
         picturePicker.allowsEditing = true
         present(picturePicker, animated: true, completion: nil)
-                                                
-        
-        
     }
     
-    @IBAction func didTapDeletePic(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Do you want to delete your picture?", message: "", preferredStyle: .alert)
-        let delete = UIAlertAction(title: "Yes", style: .destructive) { action in
-            defaults.profilePicUrl = ""
-            self.userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
-            self.deleteButton.isHidden = true
+    private func checkUsername() {
+        if !defaults.username.isEmpty {
+            userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+            addPicButton.setTitle("Add image", for: .normal)
+        } else {
+            userPic.image = UIImage(named: "profileplaceholder")
+            addPicButton.setTitle("Add image", for: .normal)
         }
-        let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        alert.addAction(delete)
-        alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
+        imageState = .addPic
     }
     
+    private func verifyEachTextFieldAndProceed() {
+        if let firstName = firstNameTextField.text {
+            if firstName.isEmpty {
+                firstNameTextField.shake()
+                errorLabel.isHidden = false
+            }
+        }
+        
+        if let lastName = lastNameTextField.text {
+            if lastName.isEmpty {
+                lastNameTextField.shake()
+                errorLabel.isHidden = false
+            }
+        }
+        
+        if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
+            if !firstName.isEmpty && !lastName.isEmpty {
+                defaults.username = firstName.capitalized + " " + lastName.capitalized
+                errorLabel.isHidden = true
+                delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep!)
+            }
+        }
+    }
     
 }
 
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        guard let text = textField.text else { return }
-        if deleteButton.isHidden {
-        userPic.setImage(string: text, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 40, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+        if imageState == .addPic {
+            if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
+                if !firstName.isEmpty {
+                    userPic.setImage(string: firstName + " " + lastName, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+                } else {
+                    userPic.image = UIImage(named: "profileplaceholder")
+                }
+            }
         }
     }
     
+   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+              case firstNameTextField:
+                  lastNameTextField.becomeFirstResponder()
+              case lastNameTextField:
+                  textField.resignFirstResponder()
+              default:
+                  break
+              }
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -144,8 +218,10 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         guard let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         profileImage = imageOriginal
         userPic.image = imageOriginal
+        
+        imageState = .deleteOrModifyPic
+        addPicButton.setTitle("Modify image", for: .normal)
        
-        deleteButton.isHidden = false
         picturePicker.dismiss(animated: true, completion: nil)
     }
 }
