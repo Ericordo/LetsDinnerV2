@@ -247,38 +247,40 @@ class Event {
                 self.currentConversationTaskStates.removeAll()
                 var tasks = [Task]()
 //                Changed "ingredients" with "tasks" in line below
-                guard let currentTasks = value["tasks"] as? [String : Any] else { return }
-                currentTasks.forEach { (key, value) in
-                    guard let dict = value as? [String : Any] else { return }
-                    guard let title = dict["title"] as? String else { return }
-                    guard let ownerName = dict["ownerName"] as? String else { return }
-                    guard let ownerUid = dict["ownerUid"] as? String else { return }
-                    guard let state = dict["state"] as? Int else { return }
-                    guard let isCustom = dict["isCustom"] as? Bool else { return }
-                    guard let parentRecipe = dict["parentRecipe"] as? String else { return }
-                    let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
-                    tasks.append(task)
-                    let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
-                    self.currentConversationTaskStates.append(newTask)
-    //                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
-    //                self.currentConversationTaskStates.append(task)
+                if let currentTasks = value["tasks"] as? [String : Any] {
+                    currentTasks.forEach { (key, value) in
+                        guard let dict = value as? [String : Any] else { return }
+                        guard let title = dict["title"] as? String else { return }
+                        guard let ownerName = dict["ownerName"] as? String else { return }
+                        guard let ownerUid = dict["ownerUid"] as? String else { return }
+                        guard let state = dict["state"] as? Int else { return }
+                        guard let isCustom = dict["isCustom"] as? Bool else { return }
+                        guard let parentRecipe = dict["parentRecipe"] as? String else { return }
+                        let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
+                        tasks.append(task)
+                        let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
+                        self.currentConversationTaskStates.append(newTask)
+                        //                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
+                        //                self.currentConversationTaskStates.append(task)
+                    }
                 }
                 self.tasks = tasks
                 
                 var recipes = [Recipe]()
-                guard let selectedRecipes = value["recipes"] as? [String : Any] else { return }
-                selectedRecipes.forEach { (key, value) in
-                    guard let dict = value as? [String : Any] else { return }
-                    guard let title = dict["title"] as? String else { return }
-                    guard let sourceUrl = dict["sourceUrl"] as? String else { return }
-                    let recipe = Recipe(title: title, sourceUrl: sourceUrl)
-                    recipes.append(recipe)
+                if let selectedRecipes = value["recipes"] as? [String : Any] {
+                    selectedRecipes.forEach { (key, value) in
+                        guard let dict = value as? [String : Any] else { return }
+                        guard let title = dict["title"] as? String else { return }
+                        guard let sourceUrl = dict["sourceUrl"] as? String else { return }
+                        let recipe = Recipe(title: title, sourceUrl: sourceUrl)
+                        recipes.append(recipe)
+                    }
                 }
                 self.selectedRecipes = recipes
                 
                 NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
             }
-        }
+    }
     
     func parseMessage(message: MSMessage) {
         if let dinnerName = message.md.string(forKey: "dinnerName") {
