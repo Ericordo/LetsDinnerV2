@@ -41,7 +41,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="bga-3P-lPr">
                     <rect key="frame" x="30" y="52.5" width="315" height="42"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDO-Rx-trL" customClass="greyButton" customModule="Let_s_Dinner_">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDO-Rx-trL" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="141.5" height="42"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -55,7 +55,7 @@
                                 <action selector="didTapEditButton:" destination="-1" eventType="touchUpInside" id="Lkq-01-wLK"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" customClass="greyButton" customModule="Let_s_Dinner_">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="173.5" y="0.0" width="141.5" height="42"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
