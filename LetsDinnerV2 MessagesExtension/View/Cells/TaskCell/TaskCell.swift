@@ -40,15 +40,19 @@ class TaskCell: UITableViewCell {
             task.taskState = .assigned
             personLabel.text = MessagesToDisplay.assignedToYourself
         case .assigned:
-            task.taskState = .completed
-            task.assignedPersonName = defaults.username
-            task.assignedPersonUid = Event.shared.currentUser?.identifier
-            personLabel.text = MessagesToDisplay.completed
+            if Event.shared.currentUser?.identifier == task.assignedPersonUid {
+                task.taskState = .completed
+                task.assignedPersonName = defaults.username
+                task.assignedPersonUid = Event.shared.currentUser?.identifier
+                personLabel.text = MessagesToDisplay.completed
+            }
         case .completed:
+             if Event.shared.currentUser?.identifier == task.assignedPersonUid {
             task.taskState = .unassigned
             task.assignedPersonName = "nil"
             task.assignedPersonUid = "nil"
             personLabel.text = ""
+            }
         }
         taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskUid == task.taskUid }) {
