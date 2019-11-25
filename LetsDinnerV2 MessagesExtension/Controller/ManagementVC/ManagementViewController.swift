@@ -129,16 +129,17 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         return expandableTasks[section].tasks.count
       }
       
-      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          let taskManagementCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskManagementCell, for: indexPath) as! TaskManagementCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let taskManagementCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskManagementCell, for: indexPath) as! TaskManagementCell
         let task = expandableTasks[indexPath.section].tasks[indexPath.row]
-          taskManagementCell.configureCell(task: task, indexPath: indexPath.row)
-          return taskManagementCell
-      }
+        taskManagementCell.configureCell(task: task)
+        taskManagementCell.delegate = self
+        return taskManagementCell
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let taskManagementCell = tableView.cellForRow(at: indexPath) as! TaskManagementCell
-        taskManagementCell.didTapTaskStatusButton()
+        taskManagementCell.didTapTaskStatusButton(indexPath: indexPath)
     }
       
       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -224,9 +225,14 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
             return view
         }()
         
+        let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+     
+        
         headerView.addSubview(collapseButton)
+        headerView.addSubview(progressCircle)
         headerView.addSubview(nameLabel)
         headerView.addSubview(separator)
+        
         
         collapseButton.translatesAutoresizingMaskIntoConstraints = false
         collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
@@ -234,10 +240,20 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
         collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
         
+        progressCircle.translatesAutoresizingMaskIntoConstraints = false
+        progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+//        progressCircle.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
+//        progressCircle.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
+        progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
+       
+        
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
         nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: collapseButton.trailingAnchor, constant: -10).isActive = true
+//        nameLabel.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -10).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
         nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         
         separator.translatesAutoresizingMaskIntoConstraints = false
@@ -246,6 +262,15 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0).isActive = true
         separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         
+//        number of completed task in section / number of task in section
+        var numberOfCompletedTasks = 0
+        expandableTasks[section].tasks.forEach { task in
+            if task.taskState == .completed {
+                numberOfCompletedTasks += 1
+            }
+        }
+        let percentage : Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
+        progressCircle.animate(percentage: percentage)
         
         return headerView
     }
@@ -274,5 +299,20 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         
         
     }
+    
+}
+
+extension ManagementViewController: TaskManagementCellDelegate {
+    func taskManagementCellDidTapTaskStatusButton(indexPath: IndexPath) {
+        // No need for prepareData apparently
+        //        prepareData()
+        let indexSet = NSMutableIndexSet()
+        indexSet.add(indexPath.section)
+        //        Amazing trick to avoid weird behavior when sections are reloaded:
+        UIView.performWithoutAnimation {
+            self.tasksTableView.reloadSections(indexSet as IndexSet, with: .none)
+        }
+    }
+    
     
 }

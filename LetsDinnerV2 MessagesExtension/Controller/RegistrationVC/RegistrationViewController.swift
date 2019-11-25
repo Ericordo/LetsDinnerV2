@@ -123,7 +123,7 @@ class RegistrationViewController: UIViewController {
         case .deleteOrModifyPic:
             let alert = UIAlertController(title: "My image", message: "", preferredStyle: .alert)
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            let modify = UIAlertAction(title: "Modify", style: .default) { action in
+            let change = UIAlertAction(title: "Change", style: .default) { action in
                 self.presentPicker()
             }
             let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
@@ -132,7 +132,7 @@ class RegistrationViewController: UIViewController {
                 self.checkUsername()
             }
             alert.addAction(cancel)
-            alert.addAction(modify)
+            alert.addAction(change)
             alert.addAction(delete)
             self.present(alert, animated: true, completion: nil)
         }
