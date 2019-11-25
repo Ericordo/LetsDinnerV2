@@ -21,6 +21,7 @@ enum Colors {
     static let dullGray = UIColor(red: 138/255, green: 138/255, blue: 142/255, alpha: 1.0)
     static let newGradientPink = UIColor(red: 255/255, green: 111/255, blue: 133/255, alpha: 1.0)
     static let newGradientRed = UIColor(red: 255/255, green: 73/255, blue: 72/255, alpha: 1.0)
+    static let customBlue = UIColor(displayP3Red: 0/255, green: 165/255, blue: 255/255, alpha: 1.0)
 }
 
 enum VCNibs {

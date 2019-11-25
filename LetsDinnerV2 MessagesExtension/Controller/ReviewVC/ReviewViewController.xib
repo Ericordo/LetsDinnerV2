@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReviewViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
+                <outlet property="buttonStackView" destination="bga-3P-lPr" id="uYe-6C-toc"/>
+                <outlet property="editButton" destination="BDO-Rx-trL" id="OQY-ge-KWv"/>
                 <outlet property="progressView" destination="Uwl-PZ-Jns" id="tml-4x-oUb"/>
                 <outlet property="sendButton" destination="aI0-Jh-k9M" id="b2v-Zi-o8Q"/>
+                <outlet property="sendButtonLeadingConstraint" destination="AFb-Hv-JC5" id="WFY-61-DnF"/>
                 <outlet property="summaryTableView" destination="ojl-GP-L7P" id="uzw-Cw-VGN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -70,6 +73,9 @@
                             </connections>
                         </button>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="aI0-Jh-k9M" firstAttribute="leading" secondItem="bga-3P-lPr" secondAttribute="leading" constant="173.5" id="AFb-Hv-JC5"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

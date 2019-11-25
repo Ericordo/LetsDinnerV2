@@ -15,9 +15,12 @@ protocol ReviewViewControllerDelegate: class {
 
 class ReviewViewController: UIViewController {
     
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var editButton: GreyButton!
+    @IBOutlet weak var sendButton: GreyButton!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var summaryTableView: UITableView!
+    @IBOutlet weak var buttonStackView: UIStackView!
+    @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
     
     weak var delegate: ReviewViewControllerDelegate?
     
@@ -28,6 +31,10 @@ class ReviewViewController: UIViewController {
         image.alpha = 0
         return image
     }()
+    
+    let darkView = UIView()
+    
+    var isChecking = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +48,6 @@ class ReviewViewController: UIViewController {
         registerCell(CellNibs.taskSummaryCell)
 
         setupUI()
-        
 
     }
     
@@ -52,6 +58,8 @@ class ReviewViewController: UIViewController {
         progressView.setProgress(1, animated: true)
         
         summaryTableView.tableFooterView = UIView()
+        
+        sendButtonLeadingConstraint.isActive = false
     }
     
     private func registerCell(_ nibName: String) {
@@ -63,29 +71,76 @@ class ReviewViewController: UIViewController {
     }
     
     @IBAction func didTapSend(_ sender: Any) {
-//        delegate?.reviewVCDidTapSend(controller: self)
-        animateSending()
-    }
-    
-    private func animateSending() {
-        view.addSubview(mailImageView)
-        mailImageView.translatesAutoresizingMaskIntoConstraints = false
-        mailImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        mailImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        mailImageView.widthAnchor.constraint(equalToConstant: 105).isActive = true
-        mailImageView.heightAnchor.constraint(equalToConstant: 105).isActive = true
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.summaryTableView.alpha = 0
-            self.mailImageView.alpha = 1
-        }) { (_) in
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.mailImageView.transform = CGAffineTransform(translationX: 0, y: -200)
-                self.mailImageView.alpha = 0
-            }) { (_) in
-                self.delegate?.reviewVCDidTapSend(controller: self)
-            }
+        if isChecking {
+            sendInvitation()
+        } else {
+            reviewBeforeSending()
         }
     }
+    
+//    private func animateSending() {
+//        view.addSubview(mailImageView)
+//        mailImageView.translatesAutoresizingMaskIntoConstraints = false
+//        mailImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//        mailImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+//        mailImageView.widthAnchor.constraint(equalToConstant: 105).isActive = true
+//        mailImageView.heightAnchor.constraint(equalToConstant: 105).isActive = true
+//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+//            self.summaryTableView.alpha = 0
+//            self.mailImageView.alpha = 1
+//        }) { (_) in
+//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+//                self.mailImageView.transform = CGAffineTransform(translationX: 0, y: -200)
+//                self.mailImageView.alpha = 0
+//            }) { (_) in
+//                self.delegate?.reviewVCDidTapSend(controller: self)
+//            }
+//        }
+//    }
+    
+    private func reviewBeforeSending() {
+        darkView.frame = self.view.frame
+        darkView.backgroundColor = UIColor(white: 0, alpha: 0.1)
+        darkView.alpha = 0
+        darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
+        self.view.addSubview(darkView)
+        self.view.bringSubviewToFront(self.buttonStackView)
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.darkView.alpha = 1
+            self.sendButtonLeadingConstraint =  self.sendButton.leadingAnchor.constraint(equalTo: self.buttonStackView.leadingAnchor, constant: 0)
+            self.sendButtonLeadingConstraint.isActive = true
+            self.view.layoutIfNeeded()
+            self.sendButton.setTitleColor(.white, for: .normal)
+            self.sendButton.backgroundColor = Colors.customBlue
+        }) { (_) in
+            self.isChecking = true
+        }
+    }
+    
+    private func sendInvitation() {
+        darkView.removeFromSuperview()
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.summaryTableView.alpha = 0
+            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 200)
+        }) { (_) in
+            self.isChecking = false
+            self.delegate?.reviewVCDidTapSend(controller: self)
+        }
+    }
+    
+    @objc private func cancelSending() {
+        self.isChecking = false
+        darkView.removeFromSuperview()
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.sendButtonLeadingConstraint.isActive = false
+            self.view.layoutIfNeeded()
+            self.sendButton.setTitleColor(Colors.customBlue, for: .normal)
+            self.sendButton.backgroundColor = Colors.paleGray
+        })
+    }
+ 
 }
 
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
