@@ -20,6 +20,11 @@ class TasksListViewController: UIViewController {
     
     weak var delegate: TasksListViewControllerDelegate?
     
+    private var tasks = Event.shared.tasks
+    private var classifiedTasks = [[Task]]()
+    private var expandableTasks = [ExpandableTasks]()
+    private var sectionNames = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .tasksListVC
@@ -27,6 +32,8 @@ class TasksListViewController: UIViewController {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
+        prepareData()
+        tasksTableView.reloadData()
     }
     
     func setupUI() {
@@ -35,6 +42,36 @@ class TasksListViewController: UIViewController {
         submitButton.alpha = 0.5
         submitButton.layer.cornerRadius = 12
         submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+    }
+    
+    private func prepareData() {
+        tasks = Event.shared.tasks
+        classifiedTasks.removeAll()
+        expandableTasks.removeAll()
+        sectionNames.removeAll()
+        tasks.forEach { task in
+            if classifiedTasks.contains(where: { subTasks -> Bool in
+                subTasks.contains { (individualTask) -> Bool in
+                    individualTask.parentRecipe == task.parentRecipe
+                }
+            }) {
+                let index = classifiedTasks.firstIndex { (subTasks) -> Bool in
+                    subTasks.contains { (individualTask) -> Bool in
+                        individualTask.parentRecipe == task.parentRecipe
+                    }
+                }
+                classifiedTasks[index!].append(task)
+            } else {
+                classifiedTasks.append([task])
+            }
+        }
+        classifiedTasks.forEach { subtasks in
+            let subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
+            expandableTasks.append(subExpandableTasks)
+            if let sectionName = subtasks.first?.parentRecipe {
+                sectionNames.append(sectionName)
+            }
+        }
     }
 
 
@@ -53,6 +90,7 @@ class TasksListViewController: UIViewController {
                     newTasks.append(newTask)
                 }
                 Event.shared.tasks = newTasks
+                self.prepareData()
                 self.delegate?.tasksListVCDidTapBackButton(controller: self)
             }))
             present(alert, animated: true, completion: nil)
@@ -76,13 +114,16 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             tableView.restore()
         }
-
-        return Event.shared.tasks.count
+        
+        if !expandableTasks[section].isExpanded {
+            return 0
+        }
+        return expandableTasks[section].tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taskCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskCell, for: indexPath) as! TaskCell
-        let task = Event.shared.tasks[indexPath.row]
+        let task = expandableTasks[indexPath.section].tasks[indexPath.row]
         taskCell.configureCell(task: task, indexPath: indexPath.row)
         taskCell.delegate = self
         return taskCell
@@ -93,14 +134,130 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
      }
      
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         let cell = tableView.cellForRow(at: indexPath) as! TaskCell
-         cell.didTapTaskStatusButton()
+         let taskCell = tableView.cellForRow(at: indexPath) as! TaskCell
+        taskCell.didTapTaskStatusButton(indexPath: indexPath)
      }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+          if Event.shared.tasks.count == 0 {
+                    tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
+                } else {
+                tableView.restore()
+                }
+          
+          return expandableTasks.count
+      }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            
+            let headerView = UIView()
+            headerView.backgroundColor = .white
+            
+            let collapseButton : UIButton = {
+                let button = UIButton()
+                button.setImage(UIImage(named: "collapse"), for: .normal)
+                if !expandableTasks[section].isExpanded {
+                    button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+                }
+                button.tag = section
+                button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
+                return button
+            }()
+            
+            let nameLabel : UILabel = {
+                let label = UILabel()
+                label.text = sectionNames[section]
+                return label
+            }()
+            
+            let separator : UIView = {
+                let view = UIView()
+                view.backgroundColor = UIColor.lightGray
+                return view
+            }()
+            
+            let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+         
+            
+            headerView.addSubview(collapseButton)
+            headerView.addSubview(progressCircle)
+            headerView.addSubview(nameLabel)
+            headerView.addSubview(separator)
+            
+            
+            collapseButton.translatesAutoresizingMaskIntoConstraints = false
+            collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+            collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
+            collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
+            collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+            
+            progressCircle.translatesAutoresizingMaskIntoConstraints = false
+            progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+            progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
+           
+            
+            nameLabel.translatesAutoresizingMaskIntoConstraints = false
+            nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
+            nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0).isActive = true
+            nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
+            nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
+            
+            separator.translatesAutoresizingMaskIntoConstraints = false
+            separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0).isActive = true
+            separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0).isActive = true
+            separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
+            
+    //        number of completed task in section / number of task in section
+            var numberOfCompletedTasks = 0
+            expandableTasks[section].tasks.forEach { task in
+                if task.taskState == .completed {
+                    numberOfCompletedTasks += 1
+                }
+            }
+            let percentage : Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
+            progressCircle.animate(percentage: percentage)
+            
+            return headerView
+        }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    @objc func handleCloseCollapse(button: UIButton) {
+        button.rotate()
+        let section = button.tag
+        var indexPaths = [IndexPath]()
+        for row in expandableTasks[section].tasks.indices {
+            let indexPath = IndexPath(row: row, section: section)
+            indexPaths.append(indexPath)
+        }
+        
+        let isExpanded = expandableTasks[section].isExpanded
+        expandableTasks[section].isExpanded = !isExpanded
+        
+        if isExpanded {
+            tasksTableView.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            tasksTableView.insertRows(at: indexPaths, with: .fade)
+        }
+    }
     
     
 }
 
 extension TasksListViewController: TaskCellDelegate {
+    func taskCellUpdateProgress(indexPath: IndexPath) {
+        let indexSet = NSMutableIndexSet()
+        indexSet.add(indexPath.section)
+        UIView.performWithoutAnimation {
+            self.tasksTableView.reloadSections(indexSet as IndexSet, with: .none)
+        }
+    }
+    
     func taskCellDidTapTaskStatusButton() {
         let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
         if !difference.isEmpty {

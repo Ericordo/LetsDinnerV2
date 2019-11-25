@@ -10,6 +10,7 @@ import UIKit
 
 protocol TaskCellDelegate: class {
     func taskCellDidTapTaskStatusButton()
+    func taskCellUpdateProgress(indexPath: IndexPath)
 }
 
 class TaskCell: UITableViewCell {
@@ -30,7 +31,7 @@ class TaskCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func didTapTaskStatusButton() {
+    func didTapTaskStatusButton(indexPath: IndexPath) {
         guard let task = task else { return }
         switch task.taskState {
         case .unassigned:
@@ -45,6 +46,7 @@ class TaskCell: UITableViewCell {
                 task.assignedPersonName = defaults.username
                 task.assignedPersonUid = Event.shared.currentUser?.identifier
                 personLabel.text = MessagesToDisplay.completed
+                delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
         case .completed:
              if Event.shared.currentUser?.identifier == task.assignedPersonUid {
@@ -52,7 +54,9 @@ class TaskCell: UITableViewCell {
             task.assignedPersonName = "nil"
             task.assignedPersonUid = "nil"
             personLabel.text = ""
+                delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
+        
         }
         taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskUid == task.taskUid }) {
