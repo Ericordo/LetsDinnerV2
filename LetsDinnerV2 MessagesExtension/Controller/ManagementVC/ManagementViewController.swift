@@ -168,14 +168,19 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
 //
 //            prepareData()
            
-
-            
             if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
                 tasksTableView.deleteRows(at: [indexPath], with: .automatic)
             } else {
+                let recipeName = taskToDelete.parentRecipe
+                let index = Event.shared.selectedRecipes.firstIndex { recipe -> Bool in
+                    recipe.title == recipeName
+                }
+                Event.shared.selectedRecipes.remove(at: index!)
                 let indexSet = NSMutableIndexSet()
                 indexSet.add(indexPath.section)
                 tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
+               
+                
             }
 //            prepareData()
      
