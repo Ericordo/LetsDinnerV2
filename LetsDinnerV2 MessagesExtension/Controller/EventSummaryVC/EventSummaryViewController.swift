@@ -148,7 +148,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                     numberOfCompletedTasks += 1
                 }
             }
-            let percentage = CGFloat(numberOfCompletedTasks)/CGFloat(Event.shared.tasks.count)
+            let percentage = Double(numberOfCompletedTasks)/Double(Event.shared.tasks.count)
             taskSummaryCell.progressCircle.animate(percentage: percentage)
             return taskSummaryCell
         case RowItemNumber.userInfo.rawValue:

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TaskManagementCellDelegate: class {
+    func taskManagementCellDidTapTaskStatusButton(indexPath: IndexPath)
+}
+
 class TaskManagementCell: UITableViewCell {
     
     @IBOutlet weak var taskStatusButton: TaskStatusButton!
@@ -16,7 +20,9 @@ class TaskManagementCell: UITableViewCell {
     
     var task: Task?
     
-    func configureCell(task: Task, indexPath: Int) {
+     weak var delegate: TaskManagementCellDelegate?
+    
+    func configureCell(task: Task) {
         self.task = task
         taskNameLabel.text = task.taskName
         taskStatusButton.setState(state: task.taskState)
@@ -40,7 +46,8 @@ class TaskManagementCell: UITableViewCell {
                taskStatusButton.isUserInteractionEnabled = false
     }
     
-    func didTapTaskStatusButton() {
+    func didTapTaskStatusButton(indexPath: IndexPath) {
+   
         guard let task = task else { return }
         switch task.taskState {
         case .unassigned:
@@ -54,18 +61,19 @@ class TaskManagementCell: UITableViewCell {
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             personLabel.text = MessagesToDisplay.completed
+            delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         case .completed:
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
             task.taskState = .unassigned
             task.assignedPersonName = "nil"
             task.assignedPersonUid = "nil"
             personLabel.text = MessagesToDisplay.noAssignment
+            delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         }
         taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskName == task.taskName }) {
             Event.shared.tasks[index] = task
         }
-       
     }
     
     

@@ -25,13 +25,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FRV-dQ-HzY">
-                    <rect key="frame" x="17" y="10" width="41" height="33"/>
+                    <rect key="frame" x="17" y="10" width="45" height="33"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="41" id="gZN-rb-DRS"/>
+                        <constraint firstAttribute="width" constant="45" id="gZN-rb-DRS"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <state key="normal" title="Done">
-                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </state>
                     <connections>
                         <action selector="didTapDone:" destination="-1" eventType="touchUpInside" id="hyu-dV-b6C"/>
@@ -43,22 +43,22 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="Bcs-od-Jcu"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <state key="normal" title="Choose">
-                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </state>
                     <connections>
                         <action selector="didTapChoose:" destination="-1" eventType="touchUpInside" id="yvU-x9-IA1"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mjb-EU-Oi8">
-                    <rect key="frame" x="66" y="16" width="204" height="21"/>
+                    <rect key="frame" x="70" y="16" width="200" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6lw-Nc-ovZ">
-                    <rect key="frame" x="330" y="12.5" width="28" height="28"/>
+                    <rect key="frame" x="336" y="15.5" width="22" height="22"/>
                     <state key="normal" backgroundImage="checkedbutton"/>
                     <connections>
                         <action selector="didTapChosen:" destination="-1" eventType="touchUpInside" id="MGn-GD-aMJ"/>
@@ -101,6 +101,6 @@
         </view>
     </objects>
     <resources>
-        <image name="checkedbutton" width="28" height="28"/>
+        <image name="checkedbutton" width="22" height="22"/>
     </resources>
 </document>
