@@ -50,6 +50,14 @@ class ManagementViewController: UIViewController {
     private func prepareData() {
         tasks = Event.shared.tasks
         classifiedTasks.removeAll()
+        
+        var expandedStatus = [String : Bool]()
+        expandableTasks.forEach { expandableTasks in
+            if let parentRecipe = expandableTasks.tasks.first?.parentRecipe {
+                expandedStatus[parentRecipe] = expandableTasks.isExpanded
+            }
+        }
+        
         expandableTasks.removeAll()
         sectionNames.removeAll()
         tasks.forEach { task in
@@ -68,13 +76,24 @@ class ManagementViewController: UIViewController {
                 classifiedTasks.append([task])
             }
         }
+        
         classifiedTasks.forEach { subtasks in
-            let subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
+            var subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
+            if let parentRecipe = subtasks.first?.parentRecipe {
+                if let isExpanded = expandedStatus[parentRecipe] {
+                    subExpandableTasks = ExpandableTasks(isExpanded: isExpanded, tasks: subtasks)
+                }
+            }
+            
+//            let subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
+            
             expandableTasks.append(subExpandableTasks)
             if let sectionName = subtasks.first?.parentRecipe {
                 sectionNames.append(sectionName)
             }
         }
+        
+        expandedStatus.removeAll()
     }
     
     @IBAction private func didTapBack(_ sender: UIButton) {
