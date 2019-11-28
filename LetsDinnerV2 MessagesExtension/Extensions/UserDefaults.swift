@@ -19,6 +19,11 @@ extension UserDefaults {
         set { set(newValue, forKey: "profilePicUrl") }
     }
     
+    var address: String {
+        get { return string(forKey: "address") ?? "" }
+        set { set(newValue, forKey: "address") }
+    }
+    
     var hasAccepted: String {
         get { return string(forKey: "hasAccepted") ?? ""}
         set { set(newValue, forKey: "hasAccepted")}

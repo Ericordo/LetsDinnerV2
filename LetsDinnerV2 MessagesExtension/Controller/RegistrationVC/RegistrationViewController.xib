@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegistrationViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
                 <outlet property="addPicButton" destination="ong-OT-2JY" id="GII-LU-RzS"/>
+                <outlet property="addressTextField" destination="oMl-Hn-AW2" id="HXF-j0-djn"/>
                 <outlet property="cancelButton" destination="Stm-VU-WqM" id="ylv-jk-H1T"/>
                 <outlet property="errorLabel" destination="Sx3-KJ-BHS" id="Qci-on-dpS"/>
                 <outlet property="firstNameTextField" destination="6ef-LL-0fc" id="MpL-aW-Nb8"/>
@@ -73,14 +74,14 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9B-Jh-qfv">
-                    <rect key="frame" x="0.0" y="240" width="375" height="1"/>
+                    <rect key="frame" x="30" y="240" width="345" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="t9V-qm-EmW"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your full name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sx3-KJ-BHS">
-                    <rect key="frame" x="87.5" y="363" width="200" height="17"/>
+                    <rect key="frame" x="87.5" y="374" width="200" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="SoY-K1-uwp"/>
                         <constraint firstAttribute="width" constant="200" id="nDT-X2-XTB"/>
@@ -115,10 +116,26 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fyy-Ud-vvL">
-                    <rect key="frame" x="0.0" y="352" width="375" height="1"/>
+                    <rect key="frame" x="30" y="322" width="345" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="uWH-oc-AAk"/>
+                    </constraints>
+                </view>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address (optional)" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="oMl-Hn-AW2">
+                    <rect key="frame" x="30" y="323" width="315" height="40"/>
+                    <color key="tintColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="q24-bG-VCY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kQB-bz-ab9">
+                    <rect key="frame" x="33" y="363" width="342" height="1"/>
+                    <color key="backgroundColor" white="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="E1H-2o-6mg"/>
                     </constraints>
                 </view>
             </subviews>
@@ -126,32 +143,38 @@
             <constraints>
                 <constraint firstItem="Stm-VU-WqM" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="44M-8E-YlP"/>
                 <constraint firstItem="ong-OT-2JY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="5CU-AH-y8S"/>
-                <constraint firstItem="Fyy-Ud-vvL" firstAttribute="top" secondItem="KvY-Gs-x8H" secondAttribute="bottom" constant="30" id="Eu3-ZW-Jf1"/>
+                <constraint firstItem="oMl-Hn-AW2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="Dc7-QQ-wZi"/>
+                <constraint firstItem="Fyy-Ud-vvL" firstAttribute="top" secondItem="KvY-Gs-x8H" secondAttribute="bottom" id="Eu3-ZW-Jf1"/>
                 <constraint firstItem="qXe-Sf-voV" firstAttribute="centerY" secondItem="Stm-VU-WqM" secondAttribute="centerY" id="HaY-R3-DDk"/>
-                <constraint firstItem="Fyy-Ud-vvL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Itd-dr-cmA"/>
+                <constraint firstItem="Fyy-Ud-vvL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="Itd-dr-cmA"/>
+                <constraint firstItem="kQB-bz-ab9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="33" id="J9e-iq-i5A"/>
                 <constraint firstItem="6ef-LL-0fc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="LGS-5l-hGb"/>
                 <constraint firstItem="ong-OT-2JY" firstAttribute="top" secondItem="Br6-mp-dS2" secondAttribute="bottom" constant="10" id="LMt-I0-rOO"/>
                 <constraint firstItem="aoV-pg-WsT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="LPK-I2-jHV"/>
                 <constraint firstItem="KvY-Gs-x8H" firstAttribute="top" secondItem="aoV-pg-WsT" secondAttribute="bottom" id="LkG-c7-Rr4"/>
                 <constraint firstItem="dmE-YD-pT3" firstAttribute="centerY" secondItem="Stm-VU-WqM" secondAttribute="centerY" id="NL4-Dn-NQT"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KvY-Gs-x8H" secondAttribute="trailing" constant="30" id="OIG-0h-5d5"/>
-                <constraint firstItem="Sx3-KJ-BHS" firstAttribute="top" secondItem="Fyy-Ud-vvL" secondAttribute="bottom" constant="10" id="Rtv-9B-yJe"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oMl-Hn-AW2" secondAttribute="trailing" constant="30" id="OaD-KH-H9p"/>
+                <constraint firstAttribute="trailing" secondItem="kQB-bz-ab9" secondAttribute="trailing" id="PvJ-8O-zNJ"/>
                 <constraint firstItem="Sx3-KJ-BHS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Tw7-F0-gap"/>
                 <constraint firstItem="6ef-LL-0fc" firstAttribute="top" secondItem="n9B-Jh-qfv" secondAttribute="bottom" id="U2h-yI-ARV"/>
                 <constraint firstItem="qXe-Sf-voV" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Uv2-2C-tDE"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Fyy-Ud-vvL" secondAttribute="trailing" id="VxH-5y-Hf6"/>
                 <constraint firstItem="Br6-mp-dS2" firstAttribute="top" secondItem="qXe-Sf-voV" secondAttribute="bottom" constant="30" id="XE5-e4-DVM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="aoV-pg-WsT" secondAttribute="trailing" id="eL3-vQ-0M7"/>
+                <constraint firstItem="kQB-bz-ab9" firstAttribute="top" secondItem="oMl-Hn-AW2" secondAttribute="bottom" id="gbS-Iu-nPD"/>
                 <constraint firstItem="Stm-VU-WqM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="hKH-IB-8VX"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dmE-YD-pT3" secondAttribute="trailing" constant="17" id="imm-qk-AbG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6ef-LL-0fc" secondAttribute="trailing" constant="30" id="iwF-Cq-r7T"/>
+                <constraint firstItem="oMl-Hn-AW2" firstAttribute="top" secondItem="Fyy-Ud-vvL" secondAttribute="bottom" id="l5B-Ct-akZ"/>
                 <constraint firstItem="KvY-Gs-x8H" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="lHz-KQ-3DW"/>
                 <constraint firstItem="aoV-pg-WsT" firstAttribute="top" secondItem="6ef-LL-0fc" secondAttribute="bottom" id="ol0-qF-6ND"/>
                 <constraint firstItem="dmE-YD-pT3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="uLn-76-Gxl"/>
                 <constraint firstItem="Br6-mp-dS2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uoS-tz-Oo0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="n9B-Jh-qfv" secondAttribute="trailing" id="vDm-z8-hgs"/>
+                <constraint firstItem="Sx3-KJ-BHS" firstAttribute="top" secondItem="kQB-bz-ab9" secondAttribute="bottom" constant="10" id="vaQ-Cp-XiV"/>
                 <constraint firstItem="n9B-Jh-qfv" firstAttribute="top" secondItem="ong-OT-2JY" secondAttribute="bottom" constant="23" id="yRV-ZO-0b9"/>
-                <constraint firstItem="n9B-Jh-qfv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zhc-lu-DzG"/>
+                <constraint firstItem="n9B-Jh-qfv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="zhc-lu-DzG"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="138.40000000000001" y="130.88455772113943"/>

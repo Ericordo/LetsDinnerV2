@@ -121,8 +121,8 @@ class ReviewViewController: UIViewController {
     private func sendInvitation() {
         darkView.removeFromSuperview()
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.summaryTableView.alpha = 0
-            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 200)
+            self.summaryTableView.alpha = 0.65
+            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 20)
         }) { (_) in
             self.isChecking = false
             self.delegate?.reviewVCDidTapSend(controller: self)
