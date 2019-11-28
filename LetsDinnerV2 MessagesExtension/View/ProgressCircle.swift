@@ -65,7 +65,8 @@ class ProgressCircle: UIView {
         let outsidePath = UIBezierPath(arcCenter: center, radius: outsideRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
         
         outsideCircle.path = outsidePath.cgPath
-        outsideCircle.strokeColor = UIColor.lightGray.cgColor
+//        outsideCircle.strokeColor = UIColor.lightGray.cgColor
+        outsideCircle.strokeColor = UIColor.black.cgColor
         outsideCircle.fillColor = UIColor.clear.cgColor
         outsideCircle.lineWidth = 1
         self.layer.addSublayer(outsideCircle)
@@ -75,7 +76,8 @@ class ProgressCircle: UIView {
         let innerPath = UIBezierPath(arcCenter: center, radius: innerRadius/2, startAngle: -CGFloat.pi / 2 , endAngle: endAngle, clockwise: true)
         
         innerCircle.path = innerPath.cgPath
-        innerCircle.strokeColor = UIColor.lightGray.cgColor
+//        innerCircle.strokeColor = UIColor.lightGray.cgColor
+        innerCircle.strokeColor = UIColor.black.cgColor
         innerCircle.fillColor = UIColor.clear.cgColor
         innerCircle.lineWidth = innerRadius
         innerCircle.strokeEnd = 0
