@@ -46,12 +46,10 @@ class AnswerCell: UITableViewCell {
     }
     
     @IBAction func didTapAccept(_ sender: UIButton) {
-        acceptButton.shake()
         delegate?.addToCalendarAlert()
     }
     
     @IBAction func didTapDecline(_ sender: UIButton) {
-        declineButton.shake()
         delegate?.declineEventAlert()
     }
 }
