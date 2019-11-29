@@ -71,15 +71,15 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
     }
     
-    func isUsertheHost() -> Bool {
-        guard let currentUser = Event.shared.currentUser else { return false }
-        if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
-        }) {
-            return true
-        } else{
-            return false
-        }
-    }
+//    func isUsertheHost() -> Bool {
+//        guard let currentUser = Event.shared.currentUser else { return false }
+//        if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
+//        }) {
+//            return true
+//        } else{
+//            return false
+//        }
+//    }
 }
 
 //MARK: - Setup TableView
@@ -176,7 +176,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             // Accept or Host
             switch indexPath.row {
             case RowItemNumber.answerCell.rawValue:
-//                return (isUsertheHost() ? 0 : 80) testing
                 return 80
             case RowItemNumber.hostInfo.rawValue:
                 return 52

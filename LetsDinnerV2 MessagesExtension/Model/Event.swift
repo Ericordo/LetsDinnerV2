@@ -37,13 +37,14 @@ class Event {
     }
     var eventDescription = String()
     var hostIdentifier = ""
+    var isHostRegistered = false
+
     var participants = [User]()
     var tasks = [Task]()
     
+    var currentUser: User?
     var currentConversationTaskStates = [Task]()
     var firebaseEventUid = ""
-    var currentUser: User?
-    var isHostRegistered = false
     
     func resetEvent() {
         dinnerName.removeAll()
@@ -62,7 +63,6 @@ class Event {
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
-        
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "bubblebackground")
         layout.imageTitle = dinnerName
@@ -158,7 +158,7 @@ class Event {
         }
 
           // New line below to add profilePic to Test
-        let participantsParameters : [String : Any] = ["fullName" : defaults.username,
+        let participantsParameters : [String : Any] = ["fullName" :                                                         defaults.username,
                                                        "hasAccepted" : currentUser?.hasAccepted.rawValue ?? "",
                                                        "profilePicUrl" : defaults.profilePicUrl]
        
@@ -167,6 +167,8 @@ class Event {
         self.firebaseEventUid = childUid.key!
         return childUid.key!
       }
+    
+    
     
 //    func observeEvent() {
 //        Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
@@ -221,8 +223,11 @@ class Event {
 //        }
 //    }
     
+    
         func observeEvent() {
-            Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
+            // Run Two times when click on the event in message bubble
+            // Initiate user
+        Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
                 guard let value = snapshot.value as? [String : Any] else { return }
                 guard let hostID = value["hostID"] as? String else { return }
                 self.hostIdentifier = hostID
@@ -234,8 +239,8 @@ class Event {
                     guard let dict = value as? [String : Any] else { return }
                     guard let fullName = dict["fullName"] as? String else { return }
                     guard let hasAccepted = dict["hasAccepted"] as? String else { return }
-                    // New line
                     guard let profilePicUrl = dict["profilePicUrl"] as? String else { return }
+                    
                     let user = User(identifier: key,
                                     fullName: fullName,
                                     hasAccepted: Invitation(rawValue: hasAccepted)!)
@@ -244,6 +249,7 @@ class Event {
                     users.append(user)
                 }
                 self.participants = users
+            
 //                The line below fixes the bug of tasks duplicated when tapping on back button from taskList without submitting changes
                 self.currentConversationTaskStates.removeAll()
                 var tasks = [Task]()
@@ -317,7 +323,7 @@ class Event {
     
 //    MARK: new updateFirebaseTasks func to add Custom Tasks
     
-    // Bug Exist: When created event by Host, it crashes if there is recipe
+
     func updateFirebaseTasks() {
                 
         tasks.forEach { task in
@@ -359,15 +365,14 @@ class Event {
         return completedStatusCount
     }
     
-    func saveUserAcceptStateToFirebase(hasAccepted: Invitation) {
+    func updateAcceptStateToFirebase(hasAccepted: Invitation) {
         guard let currentUser = currentUser else {return}
         let identifier = currentUser.identifier
 
-        // Testing
-        let participantsParameters: [String: Any] = ["fullName": defaults.username,
+        let participantsParameters: [String: Any] = ["fullName":                                     defaults.username,
                                                      "hasAccepted": currentUser.hasAccepted.rawValue,
                                                      "profilePicUrl" : defaults.profilePicUrl]
-    Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
+        Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
         
     }
     

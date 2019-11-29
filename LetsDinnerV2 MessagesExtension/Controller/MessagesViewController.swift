@@ -18,12 +18,9 @@ class MessagesViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
-        // Spend too much time?
-
         if FirebaseApp.app() == nil {
                FirebaseApp.configure()
         }
-
     }
     
     // MARK: - Conversation Handling
@@ -38,12 +35,47 @@ class MessagesViewController: MSMessagesAppViewController {
     override func didBecomeActive(with conversation: MSConversation) {
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
         
+        func isAlreadyReply() -> Bool {
+                    if currentUserUid == Event.shared.hostIdentifier {
+                        print("Host")
+                        return true
+                    } else {
+                        for participant in Event.shared.participants {
+                            if currentUserUid == participant.identifier {
+                                if participant.hasAccepted != .pending {
+                                    return true
+                                }
+                            }
+                        }
+                    }
+                    return false
+                }
+        
+        // After you just created event, this will run on more time, then you will run message sent
+        //Everytime terminate the app, it will forget the event.shared.currentUser is Nil
+        
         if Event.shared.currentUser == nil {
+            // Check if it is a new event
+            
+            // Need to guard when user already in the group
+            guard isAlreadyReply() == false else { return }
             
             // Initiate a new user
             Event.shared.currentUser = User(identifier: currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
+    
+        } else {
+            
+            // Guard first time to create event
+            guard !Event.shared.hostIdentifier.isEmpty else { return }
+            
+            print("hostID: \(Event.shared.hostIdentifier)")
+
+            if isAlreadyReply() == false {
+                print("Test")
+            }
+        
         }
     }
     
@@ -74,16 +106,17 @@ class MessagesViewController: MSMessagesAppViewController {
             
             //Testing case: accept or decline
             currentUser.hasAccepted = .accepted
+            
+//            Event.shared.hostIdentifier = currentUser.identifier
             Event.shared.isHostRegistered = true
 
-            Event.shared.saveUserAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
             }
-            
         } else {
             Event.shared.updateFirebaseTasks()
         }
         
-
+        Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+    
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -450,6 +483,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     }
     
     func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
+        // Instant MessageUI update
         if hasAccepted == .accepted {
             Event.shared.summary = defaults.username + MessagesToDisplay.acceptedInvitation
         } else if hasAccepted == .declined {
