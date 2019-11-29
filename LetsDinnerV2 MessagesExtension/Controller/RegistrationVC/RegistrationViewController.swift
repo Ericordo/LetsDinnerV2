@@ -28,6 +28,7 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var addressTextField: UITextField!
     
     weak var delegate: RegistrationViewControllerDelegate?
     
@@ -51,6 +52,7 @@ class RegistrationViewController: UIViewController {
         picturePicker.delegate = self
         firstNameTextField.delegate = self
         lastNameTextField.delegate = self
+        addressTextField.delegate = self
     }
     
     func setupUI() {
@@ -59,6 +61,11 @@ class RegistrationViewController: UIViewController {
             firstNameTextField.text = String(usernameArray.first!)
             lastNameTextField.text = String(usernameArray.last!)
         }
+        
+        if !defaults.address.isEmpty {
+            addressTextField.text = defaults.address
+        }
+        
         errorLabel.isHidden = true
 
         userPic.layer.cornerRadius = userPic.frame.height / 2
@@ -156,6 +163,11 @@ class RegistrationViewController: UIViewController {
     }
     
     private func verifyEachTextFieldAndProceed() {
+        
+        if let address = addressTextField.text {
+            defaults.address = address
+        }
+        
         if let firstName = firstNameTextField.text {
             if firstName.isEmpty {
                 firstNameTextField.shake()
@@ -194,15 +206,17 @@ extension RegistrationViewController: UITextFieldDelegate {
         }
     }
     
-   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-              case firstNameTextField:
-                  lastNameTextField.becomeFirstResponder()
-              case lastNameTextField:
-                  textField.resignFirstResponder()
-              default:
-                  break
-              }
+        case firstNameTextField:
+            lastNameTextField.becomeFirstResponder()
+        case lastNameTextField:
+            addressTextField.becomeFirstResponder()
+        case addressTextField:
+            textField.resignFirstResponder()
+        default:
+            break
+        }
         textField.resignFirstResponder()
         return true
     }

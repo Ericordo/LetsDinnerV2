@@ -90,6 +90,7 @@
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
 		88B7833223718125009E4F3C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe.swift */; };
 		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
+		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
@@ -219,6 +220,7 @@
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		88B7833123718125009E4F3C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		88B78334237183DB009E4F3C /* PredefinedRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PredefinedRecipes.json; sourceTree = "<group>"; };
+		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				880B13792376EB99003E29AC /* ProgressCircle.swift */,
 				88A362DE237C3F8C005B6B81 /* ProgressBar.swift */,
 				B86F700C238525A60010AB7C /* StandardTableView.swift */,
+				88FE71A523901E2A00652429 /* InfoInput.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -904,6 +907,7 @@
 				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,
 				880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */,
 				880B1376237576C3003E29AC /* UIImageView.swift in Sources */,
+				88FE71A623901E2A00652429 /* InfoInput.swift in Sources */,
 				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
 				B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */,
 				88349F332370302E002A1879 /* DatePicker.swift in Sources */,

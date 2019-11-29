@@ -39,6 +39,7 @@ class NewEventViewController: UIViewController {
         textFields.forEach { textField in
             textField!.delegate = self
         }
+        
     }
     
     func setupUI() {
@@ -48,6 +49,16 @@ class NewEventViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 0
         progressView.setProgress(1/5, animated: true)
+        if !defaults.address.isEmpty {
+            let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+            addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+            locationTextField.inputAccessoryView = addressInput
+        }
+        if !defaults.username.isEmpty {
+            let hostInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+                hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+                hostNameTextField.inputAccessoryView = hostInput
+        }
     }
     
     func presentDatePicker() {
@@ -203,6 +214,7 @@ extension NewEventViewController: UITextFieldDelegate {
    func textFieldDidChangeSelection(_ textField: UITextField) {
         switch textField {
         case dinnerNameTextField:
+            
             Event.shared.dinnerName = textField.text ?? ""
         case hostNameTextField:
             Event.shared.hostName = textField.text ?? ""
