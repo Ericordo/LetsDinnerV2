@@ -40,6 +40,7 @@ class NewEventViewController: UIViewController {
             textField!.delegate = self
         }
         
+        
     }
     
     func setupUI() {

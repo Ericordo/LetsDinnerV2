@@ -207,11 +207,21 @@ class MessagesViewController: MSMessagesAppViewController {
         addChildViewController(controller: controller)
     }
     
-    func addChildViewController(controller: UIViewController) {
+    func addChildViewController(controller: UIViewController, transition: Bool = false) {
         addChild(controller)
         
         controller.view.frame = view.bounds
         controller.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Transition animation
+        if transition {
+            let transition = CATransition()
+            transition.duration = 0.1
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromLeft
+            view.layer.add(transition, forKey: nil)
+        }
+        
         view.addSubview(controller.view)
         
         NSLayoutConstraint.activate([
@@ -222,6 +232,8 @@ class MessagesViewController: MSMessagesAppViewController {
             ])
         
         controller.didMove(toParent: self)
+        
+
     }
     
     private func removeAllChildViewControllers() {
@@ -403,7 +415,7 @@ extension MessagesViewController: RecipesViewControllerDelegate {
     func recipeVCDidTapPrevious(controller: RecipesViewController) {
         let controller = instantiateNewEventViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: true)
     }
 }
 

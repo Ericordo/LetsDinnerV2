@@ -92,6 +92,7 @@
 		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
+		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
 		B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */; };
@@ -222,6 +223,7 @@
 		88B78334237183DB009E4F3C /* PredefinedRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PredefinedRecipes.json; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
+		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
 		B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerAcceptedCell.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
 				B8384BFE238A8503005B25E9 /* UIButton */,
 				88349F322370302E002A1879 /* DatePicker.swift */,
+				B85071D22392723D00632026 /* GestureRecognizer.swift */,
 				88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */,
 				880B13642374B3F2003E29AC /* TaskPersonLabel.swift */,
 				880B13792376EB99003E29AC /* ProgressCircle.swift */,
@@ -921,6 +924,7 @@
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				885C60C223809F7900ED3A17 /* EventDescriptionViewController.swift in Sources */,
 				B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */,
+				B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */,
 				880B13312372FA08003E29AC /* User.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
