@@ -44,6 +44,9 @@ class RecipesViewController: UIViewController {
         
         setupUI()
         loadRecipes()
+        
+        self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
+
     }
     
     private func setupUI() {
