@@ -54,8 +54,8 @@ class MessagesViewController: MSMessagesAppViewController {
         // After you just created event, this will run on more time, then you will run message sent
         //Everytime terminate the app, it will forget the event.shared.currentUser is Nil
         
+        // Check if it is a new event
         if Event.shared.currentUser == nil {
-            // Check if it is a new event
             
             // Need to guard when user already in the group
             guard isAlreadyReply() == false else { return }
