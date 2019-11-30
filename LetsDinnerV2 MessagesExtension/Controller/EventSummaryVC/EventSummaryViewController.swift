@@ -37,8 +37,31 @@ class EventSummaryViewController: UIViewController {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
         
+        self.setupTableView()
+        self.registerCells()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
+        
+        if !Event.shared.participants.isEmpty {
+            summaryTableView.isHidden = false
+        }
+    }
+    
+    func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
+        summaryTableView.tableFooterView = UIView()
+    }
+    
+    @objc func updateTable() {
+        summaryTableView.reloadData()
+        summaryTableView.isHidden = false
+    }
+    
+    func registerCells() {
+        func registerCell(_ nibName: String) {
+            summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+        }
         
         registerCell(CellNibs.titleCell)
         registerCell(CellNibs.answerCell)
@@ -48,38 +71,7 @@ class EventSummaryViewController: UIViewController {
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
         registerCell(CellNibs.userCell)
-        
-        setupUI()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-        
-        if !Event.shared.participants.isEmpty {
-            summaryTableView.isHidden = false
-        }
     }
-    
-    func setupUI() {
-        summaryTableView.tableFooterView = UIView()
-    }
-    
-    @objc func updateTable() {
-        summaryTableView.reloadData()
-        summaryTableView.isHidden = false
-    }
-
-    private func registerCell(_ nibName: String) {
-        summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
-    }
-    
-//    func isUsertheHost() -> Bool {
-//        guard let currentUser = Event.shared.currentUser else { return false }
-//        if Event.shared.participants.contains(where: { $0.identifier == currentUser.identifier
-//        }) {
-//            return true
-//        } else{
-//            return false
-//        }
-//    }
 }
 
 //MARK: - Setup TableView
@@ -107,12 +99,17 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             
         case RowItemNumber.answerCell.rawValue:
             
-            if Event.shared.currentUser?.hasAccepted == .declined {
-                return answerDeclinedCell
-            } else if Event.shared.currentUser?.hasAccepted == .accepted {
-                return answerAcceptedCell
+            // Check the currentUser has accepted or not
+            if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+                
+                let user = Event.shared.participants[index]
+                if user.hasAccepted == .declined {
+                    return answerDeclinedCell
+                } else if user.hasAccepted == .accepted {
+                    return answerAcceptedCell
+                }
             }
-
+            
             answerCell.delegate = self
             return answerCell
 
@@ -166,11 +163,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // 3 conditions: accept(/Host) / Neutral / or decline)
         
         // Default Height:
-        //title auto
-        //answerCell = 120
-        //hostInfo, locationInfo, dateInfo = 52
-        //taskInfo: 257
-        //userInfo: 150
+        // title auto
+        // answerCell = 120
+        // hostInfo, locationInfo, dateInfo = 52
+        // taskInfo: 257
+        // userInfo: 150
         
         if Event.shared.currentUser?.hasAccepted == .accepted {
             // Accept or Host
@@ -201,7 +198,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             case RowItemNumber.dateInfo.rawValue,
                  RowItemNumber.locationInfo.rawValue:
                 return 52
-
             case RowItemNumber.taskInfo.rawValue:
                 return 0
             case RowItemNumber.userInfo.rawValue:

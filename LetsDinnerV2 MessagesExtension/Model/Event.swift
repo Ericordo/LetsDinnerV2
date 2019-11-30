@@ -226,6 +226,7 @@ class Event {
     
         func observeEvent() {
             // Run Two times when click on the event in message bubble
+            
             // Initiate user
         Database.database().reference().child("Events").child(firebaseEventUid).observeSingleEvent(of: .value) { snapshot in
                 guard let value = snapshot.value as? [String : Any] else { return }

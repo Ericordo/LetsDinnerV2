@@ -33,6 +33,8 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didBecomeActive(with conversation: MSConversation) {
+        // After you just created event, this seesion will run one more time, after this, you will run message sent
+
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
         
         func isAlreadyReply() -> Bool {
@@ -51,8 +53,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     return false
                 }
         
-        // After you just created event, this will run on more time, then you will run message sent
-        //Everytime terminate the app, it will forget the event.shared.currentUser is Nil
+        // Everytime terminate the app, it will forget the event.shared.currentUser is Nil
         
         if Event.shared.currentUser == nil {
             // Check if it is a new event
@@ -64,17 +65,14 @@ class MessagesViewController: MSMessagesAppViewController {
             Event.shared.currentUser = User(identifier: currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
-    
         } else {
-            
             // Guard first time to create event
             guard !Event.shared.hostIdentifier.isEmpty else { return }
             
             print("hostID: \(Event.shared.hostIdentifier)")
 
-            if isAlreadyReply() == false {
-                print("Test")
-            }
+            // Fetch user identity
+//            Event.shared.currentUser?.identifier =
         
         }
     }
