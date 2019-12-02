@@ -15,12 +15,20 @@ import FirebaseStorage
 class Event {
     
     static let shared = Event()
-    private init () {}
+    init () {}
     
+    // Message Info
     var currentSession: MSSession?
+    var currentUser: User?
+    var currentConversationTaskStates = [Task]()
+    var firebaseEventUid = ""
+    var summary = ""
+    
+    // Event Details
     var dinnerName = ""
     var hostName = ""
-    var summary = ""
+    var dateTimestamp = Double()
+    var dinnerLocation = ""
     var dinnerDate : String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"
@@ -28,25 +36,25 @@ class Event {
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
-    var dateTimestamp = Double()
-    var dinnerLocation = ""
+    var eventDescription = String()
     var selectedRecipes = [Recipe]()
     var recipeTitles: String {
           let titles = selectedRecipes.map { $0.title! }
           return titles.joined(separator:", ")
     }
-    var eventDescription = String()
-    var hostIdentifier = ""
+    
+    // Helpful Variable
     var isHostRegistered = false
+
     
     var servings = 2
+
+    var hostIdentifier = ""
 
     var participants = [User]()
     var tasks = [Task]()
     
-    var currentUser: User?
-    var currentConversationTaskStates = [Task]()
-    var firebaseEventUid = ""
+    // MARKS: - Functions
     
     func resetEvent() {
         dinnerName.removeAll()
