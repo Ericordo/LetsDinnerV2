@@ -55,8 +55,8 @@ class MessagesViewController: MSMessagesAppViewController {
         
         // Everytime terminate the app, it will forget the event.shared.currentUser is Nil
         
+        // Check if it is a new event
         if Event.shared.currentUser == nil {
-            // Check if it is a new event
             
             // Need to guard when user already in the group
             guard isAlreadyReply() == false else { return }
@@ -153,7 +153,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 controller = instantiateIdleViewController()
             }
         } else {
-            //Expanded Style
+            // Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep!)
@@ -392,6 +392,13 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
+    // For TestCase
+    func eventDescriptionVCDidTapFinish(controller: NewEventViewController) {
+        let controller = instantiateReviewViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
     func newEventVCDdidTapProfile(controller: NewEventViewController) {
         let controller = instantiateRegistrationViewController(previousStep: .newEventVC)
         removeAllChildViewControllers()
@@ -432,8 +439,6 @@ extension MessagesViewController: ManagementViewControllerDelegate {
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
-    
-    
 }
 
 extension MessagesViewController: EventDescriptionViewControllerDelegate {
@@ -443,6 +448,7 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
         addChildViewController(controller: controller)
     }
     
+    // For TestCase
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
 //        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
 //        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
