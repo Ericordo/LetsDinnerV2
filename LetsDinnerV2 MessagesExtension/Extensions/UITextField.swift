@@ -48,6 +48,20 @@ extension UITextField {
         
         layer.add(shake, forKey: nil)
     }
+    
+
+      func setLeftView(image: UIImage) {
+        let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20)) // set your Own size
+        iconView.contentMode = .scaleAspectFit
+        iconView.image = image
+        
+        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
+        iconContainerView.addSubview(iconView)
+        leftView = iconContainerView
+        leftViewMode = .always
+        
+      }
+    
 }
 
 

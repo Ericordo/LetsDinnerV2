@@ -52,6 +52,13 @@ class NewEventViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 0
         progressView.setProgress(1/5, animated: true)
+        dinnerNameTextField.setLeftView(image: UIImage(named: "titleicon")!)
+        locationTextField.setLeftView(image: UIImage(named: "locationicon")!)
+        hostNameTextField.setLeftView(image: UIImage(named: "hosticon")!)
+        dateTextField.setLeftView(image: UIImage(named: "dateicon")!)
+        
+        
+        
         if !defaults.address.isEmpty {
             let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
             addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)

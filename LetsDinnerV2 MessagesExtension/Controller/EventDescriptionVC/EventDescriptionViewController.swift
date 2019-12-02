@@ -70,6 +70,8 @@ class EventDescriptionViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 3/5
         progressView.setProgress(4/5, animated: true)
+        
+        cookLabel.text = "COOKING FOR \(Event.shared.servings)"
     }
     
     private func checkRemainingChars() {
