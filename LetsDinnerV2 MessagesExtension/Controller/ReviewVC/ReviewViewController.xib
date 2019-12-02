@@ -50,7 +50,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="42" id="tou-Oc-gLv"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <state key="normal" title="Edit">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -64,7 +64,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="42" id="zL8-oA-Xr8"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <state key="normal" title="Send">
                                 <color key="titleColor" red="0.0" green="0.56862745098039214" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
