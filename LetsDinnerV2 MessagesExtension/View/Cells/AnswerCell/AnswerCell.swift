@@ -18,6 +18,8 @@ class AnswerCell: UITableViewCell {
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var acceptedLabel: UILabel!
+    @IBOutlet weak var stackView: UIStackView!
     
     weak var delegate: AnswerCellDelegate?
     
@@ -31,6 +33,7 @@ class AnswerCell: UITableViewCell {
         declineButton.clipsToBounds = true
         declineButton.layer.cornerRadius = 6
         declineButton.backgroundColor = Colors.paleGray
+        acceptedLabel.isHidden = true
             
     }
 
@@ -46,7 +49,18 @@ class AnswerCell: UITableViewCell {
     }
     
     @IBAction func didTapAccept(_ sender: UIButton) {
-        delegate?.addToCalendarAlert()
+        self.acceptButton.setTitle("", for: .normal)
+        self.declineButton.isHidden = true
+        stackView.distribution = .fillProportionally
+        acceptButton.translatesAutoresizingMaskIntoConstraints = false
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.stackView.spacing = 10
+            self.acceptButton.widthAnchor.constraint(equalToConstant: 42).isActive = true
+            self.acceptedLabel.isHidden = false
+            self.acceptButton.layer.cornerRadius = self.acceptButton.frame.size.height / 2
+        }) { (_) in
+            self.delegate?.addToCalendarAlert()
+        }
     }
     
     @IBAction func didTapDecline(_ sender: UIButton) {
