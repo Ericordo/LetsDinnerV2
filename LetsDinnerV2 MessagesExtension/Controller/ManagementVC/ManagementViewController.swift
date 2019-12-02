@@ -20,6 +20,8 @@ class ManagementViewController: UIViewController {
     @IBOutlet private weak var nextButton: UIButton!
     @IBOutlet private weak var tasksTableView: UITableView!
     @IBOutlet private weak var addButton: UIButton!
+    @IBOutlet private weak var servingsLabel: UILabel!
+    @IBOutlet private weak var servingsStepper: UIStepper!
     
     weak var delegate: ManagementViewControllerDelegate?
     
@@ -27,6 +29,12 @@ class ManagementViewController: UIViewController {
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()
+    private var servings : Int = 2 {
+        didSet {
+            servingsLabel.text = "Cooking for \(servings)"
+            Event.shared.servings = servings
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +42,7 @@ class ManagementViewController: UIViewController {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
+        servings = Event.shared.servings
         setupUI()
         prepareData()
         tasksTableView.reloadData()
@@ -45,6 +54,11 @@ class ManagementViewController: UIViewController {
         progressView.progress = 2/5
         progressView.setProgress(3/5, animated: true)
         tasksTableView.tableFooterView = UIView()
+        servingsLabel.text = "Cooking for \(servings)"
+        servingsStepper.minimumValue = 2
+        servingsStepper.maximumValue = 30
+        servingsStepper.stepValue = 1
+        servingsStepper.value = Double(servings)
     }
     
     private func prepareData() {
@@ -115,7 +129,7 @@ class ManagementViewController: UIViewController {
                                taskUid: "nil",
                                assignedPersonName: "nil",
                                isCustom: true,
-                               parentRecipe: "Misc.")
+                               parentRecipe: "Miscellaneous")
             Event.shared.tasks.append(newTask)
             self.prepareData()
             self.tasksTableView.reloadData()
@@ -130,6 +144,16 @@ class ManagementViewController: UIViewController {
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
+    
+    @IBAction func didTapStepper(_ sender: UIStepper) {
+        updateServings(servings: Int(sender.value))
+    }
+    
+    private func updateServings(servings: Int) {
+        self.servings = servings
+        
+    }
+    
 
 }
 

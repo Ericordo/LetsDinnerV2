@@ -38,6 +38,8 @@ class Event {
     var eventDescription = String()
     var hostIdentifier = ""
     var isHostRegistered = false
+    
+    var servings = 2
 
     var participants = [User]()
     var tasks = [Task]()
@@ -60,6 +62,7 @@ class Event {
         hostIdentifier.removeAll()
         participants.removeAll()
         isHostRegistered = false
+        servings = 2
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {

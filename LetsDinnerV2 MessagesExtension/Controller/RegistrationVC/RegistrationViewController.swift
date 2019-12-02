@@ -128,7 +128,9 @@ class RegistrationViewController: UIViewController {
         case .addPic:
             presentPicker()
         case .deleteOrModifyPic:
-            let alert = UIAlertController(title: "My image", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: "My image", message: "", preferredStyle: .actionSheet)
+            alert.popoverPresentationController?.sourceView = addPicButton
+            alert.popoverPresentationController?.sourceRect = addPicButton.bounds
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             let change = UIAlertAction(title: "Change", style: .default) { action in
                 self.presentPicker()
@@ -146,6 +148,8 @@ class RegistrationViewController: UIViewController {
     }
     
     private func presentPicker() {
+        picturePicker.popoverPresentationController?.sourceView = addPicButton
+        picturePicker.popoverPresentationController?.sourceRect = addPicButton.bounds
         picturePicker.sourceType = .photoLibrary
         picturePicker.allowsEditing = true
         present(picturePicker, animated: true, completion: nil)
