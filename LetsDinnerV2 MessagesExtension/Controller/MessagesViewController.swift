@@ -155,7 +155,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 controller = instantiateIdleViewController()
             }
         } else {
-            //Expanded Style
+            // Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep!)
@@ -382,6 +382,13 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
+    // For TestCase
+    func eventDescriptionVCDidTapFinish(controller: NewEventViewController) {
+        let controller = instantiateReviewViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
+    }
+    
     func newEventVCDdidTapProfile(controller: NewEventViewController) {
         let controller = instantiateRegistrationViewController(previousStep: .newEventVC)
         removeAllChildViewControllers()
@@ -422,8 +429,6 @@ extension MessagesViewController: ManagementViewControllerDelegate {
         removeAllChildViewControllers()
         addChildViewController(controller: controller)
     }
-    
-    
 }
 
 extension MessagesViewController: EventDescriptionViewControllerDelegate {
@@ -433,6 +438,7 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
         addChildViewController(controller: controller)
     }
     
+    // For TestCase
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
 //        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
 //        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)

@@ -12,6 +12,9 @@ import UIKit
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
+    
+    // For TestCase
+    func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
 class NewEventViewController: UIViewController {
@@ -26,6 +29,7 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
     
+    @IBOutlet weak var testButton: UIButton!
     
     weak var delegate: NewEventViewControllerDelegate?
     
@@ -39,7 +43,6 @@ class NewEventViewController: UIViewController {
         textFields.forEach { textField in
             textField!.delegate = self
         }
-        
     }
     
     func setupUI() {
@@ -59,6 +62,23 @@ class NewEventViewController: UIViewController {
                 hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
                 hostNameTextField.inputAccessoryView = hostInput
         }
+    }
+    
+    @IBAction func DidTapTestButton(_ sender: Any) {
+        
+        // Initiate TestCase
+        let event = testCase.createCaseOne()
+        Event.shared.dinnerName = event.dinnerName
+        Event.shared.hostName = event.hostName
+        Event.shared.eventDescription = event.eventDescription
+        Event.shared.dinnerLocation = event.dinnerLocation
+        Event.shared.dateTimestamp = event.dateTimestamp
+        // Remove Child Controller
+        
+        delegate?.eventDescriptionVCDidTapFinish(controller: self)
+        
+        print(Event.shared)
+        // Go to Review VC
     }
     
     func presentDatePicker() {
