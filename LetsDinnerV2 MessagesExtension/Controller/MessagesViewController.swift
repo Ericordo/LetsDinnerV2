@@ -33,6 +33,8 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didBecomeActive(with conversation: MSConversation) {
+        // After you just created event, this seesion will run one more time, after this, you will run message sent
+
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
         
         func isAlreadyReply() -> Bool {
@@ -51,8 +53,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     return false
                 }
         
-        // After you just created event, this will run on more time, then you will run message sent
-        //Everytime terminate the app, it will forget the event.shared.currentUser is Nil
+        // Everytime terminate the app, it will forget the event.shared.currentUser is Nil
         
         // Check if it is a new event
         if Event.shared.currentUser == nil {
@@ -64,17 +65,14 @@ class MessagesViewController: MSMessagesAppViewController {
             Event.shared.currentUser = User(identifier: currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
-    
         } else {
-            
             // Guard first time to create event
             guard !Event.shared.hostIdentifier.isEmpty else { return }
             
             print("hostID: \(Event.shared.hostIdentifier)")
 
-            if isAlreadyReply() == false {
-                print("Test")
-            }
+            // Fetch user identity
+//            Event.shared.currentUser?.identifier =
         
         }
     }
@@ -209,11 +207,21 @@ class MessagesViewController: MSMessagesAppViewController {
         addChildViewController(controller: controller)
     }
     
-    func addChildViewController(controller: UIViewController) {
+    func addChildViewController(controller: UIViewController, transition: Bool = false) {
         addChild(controller)
         
         controller.view.frame = view.bounds
         controller.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Transition animation
+        if transition {
+            let transition = CATransition()
+            transition.duration = 0.1
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromLeft
+            view.layer.add(transition, forKey: nil)
+        }
+        
         view.addSubview(controller.view)
         
         NSLayoutConstraint.activate([
@@ -224,6 +232,8 @@ class MessagesViewController: MSMessagesAppViewController {
             ])
         
         controller.didMove(toParent: self)
+        
+
     }
     
     private func removeAllChildViewControllers() {
@@ -412,7 +422,7 @@ extension MessagesViewController: RecipesViewControllerDelegate {
     func recipeVCDidTapPrevious(controller: RecipesViewController) {
         let controller = instantiateNewEventViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: true)
     }
 }
 
