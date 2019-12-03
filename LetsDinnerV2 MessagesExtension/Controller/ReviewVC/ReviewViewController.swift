@@ -199,7 +199,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         case 1, 2, 3:
             return 52
         case 5:
-            return 240
+            return 360
         default:
             return UITableView.automaticDimension
         }

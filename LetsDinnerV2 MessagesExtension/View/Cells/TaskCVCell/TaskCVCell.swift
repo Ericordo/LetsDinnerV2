@@ -21,14 +21,18 @@ class TaskCVCell: UICollectionViewCell {
     var task: Task?
     
     func configureCell(task: Task) {
+        
+        self.isUserInteractionEnabled = false
         self.task = task
         taskNameLabel.text = task.taskName
         taskStatusButton.setState(state: task.taskState)
+        
         if task.taskState == .assigned || task.taskState == .completed {
             if Event.shared.currentUser?.identifier != task.assignedPersonUid {
                 personLabel.text = task.assignedPersonName
                 personLabel.setTextAttributes(taskIsOwnedByUser: false)
             } else {
+                // My Task
                 if task.taskState == .completed {
                     personLabel.text = MessagesToDisplay.completed
                 } else {
@@ -36,10 +40,12 @@ class TaskCVCell: UICollectionViewCell {
                 }
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
             }
+            
         } else {
-            personLabel.text = ""
+            // Task Not Assigned
+            personLabel.text = MessagesToDisplay.noAssignment
+            personLabel.setTextAttributes(taskIsOwnedByUser: false)
         }
-        isUserInteractionEnabled = false
 //        guard let currentUser = Event.shared.currentUser else { return }
 //        if task.taskState == .assigned || task.taskState == .completed {
 //            isUserInteractionEnabled = task.assignedPersonUid == currentUser.identifier
@@ -51,16 +57,15 @@ class TaskCVCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-           super.layoutSubviews()
-           guard let task = task else { return }
-           if task.assignedPersonUid == "nil" {
-               personLabel.isHidden = true
-           } else {
-               personLabel.isHidden = false
-           }
-       }
-    
-    
-    
+        super.layoutSubviews()
+        taskNameLabel.sizeToFit()
+
+//        guard let task = task else { return }
+//        if task.assignedPersonUid == "nil" {
+//            personLabel.isHidden = true
+//        } else {
+//            personLabel.isHidden = false
+//        }
+    }
 
 }

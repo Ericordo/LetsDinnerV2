@@ -33,6 +33,7 @@ class EventSummaryViewController: UIViewController {
     let store = EKEventStore()
     weak var delegate: EventSummaryViewControllerDelegate?
     
+    // BUG: Running two times
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
@@ -40,6 +41,7 @@ class EventSummaryViewController: UIViewController {
         self.setupTableView()
         self.registerCells()
         
+ 
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
         if !Event.shared.participants.isEmpty {
@@ -47,15 +49,15 @@ class EventSummaryViewController: UIViewController {
         }
     }
     
+    @objc func updateTable() {
+        summaryTableView.reloadData()
+        summaryTableView.isHidden = false
+    }
+    
     func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
         summaryTableView.tableFooterView = UIView()
-    }
-    
-    @objc func updateTable() {
-        summaryTableView.reloadData()
-        summaryTableView.isHidden = false
     }
     
     func registerCells() {

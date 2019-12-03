@@ -417,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */,
+				B85071D423964CF900632026 /* Testing */,
 				88349F19236DEEEB002A1879 /* Model */,
 				88349F1B236DEEF9002A1879 /* Controller */,
 				88349F1A236DEEF2002A1879 /* View */,
@@ -433,7 +434,6 @@
 			isa = PBXGroup;
 			children = (
 				88349F1C236DEF15002A1879 /* Constants.swift */,
-				B85071D02391690600632026 /* Test.swift */,
 				88349F342370388C002A1879 /* Event.swift */,
 				88349F3B2370525D002A1879 /* DataHelper.swift */,
 				88B7833123718125009E4F3C /* Recipe.swift */,
@@ -657,6 +657,14 @@
 				B8384BFC238A8481005B25E9 /* GreyButton.swift */,
 			);
 			path = UIButton;
+			sourceTree = "<group>";
+		};
+		B85071D423964CF900632026 /* Testing */ = {
+			isa = PBXGroup;
+			children = (
+				B85071D02391690600632026 /* Test.swift */,
+			);
+			path = Testing;
 			sourceTree = "<group>";
 		};
 		B86F7006238435830010AB7C /* EventInfoVC */ = {

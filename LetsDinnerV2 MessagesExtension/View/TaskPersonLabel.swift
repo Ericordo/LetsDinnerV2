@@ -10,7 +10,7 @@ import UIKit
 
 class TaskPersonLabel: UILabel {
     
-    let taskIsOwnedByUserFont = UIFont.systemFont(ofSize: 13, weight: .semibold)
+    let taskIsOwnedByUserFont = UIFont.systemFont(ofSize: 13, weight: .regular)
     let taskIsOwnedByUserTextColor = Colors.customPink
     
     let regularFont = UIFont.systemFont(ofSize: 13)

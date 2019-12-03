@@ -30,29 +30,29 @@
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="S5Z-dR-FMi">
                         <rect key="frame" x="0.0" y="51" width="320" height="196"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="5" id="dVv-vX-qmI">
-                            <size key="itemSize" width="313" height="55"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="dVv-vX-qmI">
+                            <size key="itemSize" width="313" height="60"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qkr-aQ-D4f" customClass="ProgressCircle" customModule="Let_s_Dinner_" customModuleProvider="target">
-                        <rect key="frame" x="32" y="10" width="31" height="31"/>
+                        <rect key="frame" x="25" y="10" width="30" height="31"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="31" id="oAP-tH-7od"/>
+                            <constraint firstAttribute="width" constant="30" id="oAP-tH-7od"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Things to do" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SI3-8J-DGU">
-                        <rect key="frame" x="73" y="15" width="99.5" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is still missing?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SI3-8J-DGU">
+                        <rect key="frame" x="65" y="15" width="167" height="21"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="qkr-aQ-D4f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="32" id="3du-Gr-DlZ"/>
+                    <constraint firstItem="qkr-aQ-D4f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="3du-Gr-DlZ"/>
                     <constraint firstItem="qkr-aQ-D4f" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="9NZ-tN-zuk"/>
                     <constraint firstAttribute="trailing" secondItem="4yP-AY-rvq" secondAttribute="trailing" constant="30" id="JXp-if-A8N"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="top" secondItem="qkr-aQ-D4f" secondAttribute="bottom" constant="10" id="KKD-jc-Sgf"/>
@@ -60,6 +60,7 @@
                     <constraint firstAttribute="bottom" secondItem="S5Z-dR-FMi" secondAttribute="bottom" constant="10" id="Rsh-mr-HKK"/>
                     <constraint firstItem="4yP-AY-rvq" firstAttribute="centerY" secondItem="SI3-8J-DGU" secondAttribute="centerY" id="SEp-A9-u7n"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Y2Y-yt-Wdn"/>
+                    <constraint firstItem="SI3-8J-DGU" firstAttribute="centerY" secondItem="qkr-aQ-D4f" secondAttribute="centerY" id="d3y-f6-Nz7"/>
                     <constraint firstAttribute="trailing" secondItem="S5Z-dR-FMi" secondAttribute="trailing" id="ei3-2c-XFu"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="top" secondItem="SI3-8J-DGU" secondAttribute="bottom" constant="15" id="f7n-LM-o1a"/>
                     <constraint firstItem="SI3-8J-DGU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="vsY-C6-lMy"/>

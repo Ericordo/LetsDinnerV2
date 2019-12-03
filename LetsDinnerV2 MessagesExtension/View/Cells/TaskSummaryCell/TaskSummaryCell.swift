@@ -62,10 +62,15 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
 extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-         return UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
      }
 
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
          return 0.0
      }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 313, height: 80)
+    }
+
 }
