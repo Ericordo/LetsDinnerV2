@@ -45,6 +45,8 @@ class EventSummaryViewController: UIViewController {
         if !Event.shared.participants.isEmpty {
             summaryTableView.isHidden = false
         }
+        
+        
     }
     
     func setupTableView() {
@@ -109,7 +111,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                     return answerAcceptedCell
                 }
             }
-            
             answerCell.delegate = self
             return answerCell
 
@@ -291,13 +292,17 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 // MARK: - AnswerCellDelegate
 
 extension EventSummaryViewController: AnswerCellDelegate {
+    func declineInvitation() {
+        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
+    }
+    
     func didTapAccept() {
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
     }
     
-    func didTapDecline() {
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
-    }
+//    func didTapDecline() {
+//        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
+//    }
     
     func addToCalendarAlert() {
         let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
@@ -316,9 +321,14 @@ extension EventSummaryViewController: AnswerCellDelegate {
         let alert = UIAlertController(title: MessagesToDisplay.declineEventAlertTitle,
                                       message: MessagesToDisplay.declineEventAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
+//        alert.addAction(UIAlertAction(title: "Decline",
+//                                      style: UIAlertAction.Style.destructive,
+//                                      handler: { (_) in self.didTapDecline()}))
         alert.addAction(UIAlertAction(title: "Decline",
-                                      style: UIAlertAction.Style.destructive,
-                                      handler: { (_) in self.didTapDecline()}))
+                                       style: UIAlertAction.Style.destructive,
+                                       handler: { (_) in
+                                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TappedDecline"), object: nil)
+        }))
         alert.addAction(UIAlertAction(title: "Cancel",
                                       style: UIAlertAction.Style.default,
                                       handler: nil ))

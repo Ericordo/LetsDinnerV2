@@ -59,7 +59,6 @@ extension UITextField {
         iconContainerView.addSubview(iconView)
         leftView = iconContainerView
         leftViewMode = .always
-        
       }
     
 }
