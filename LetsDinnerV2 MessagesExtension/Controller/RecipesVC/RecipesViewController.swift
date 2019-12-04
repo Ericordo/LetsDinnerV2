@@ -13,6 +13,11 @@ protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapPrevious(controller: RecipesViewController)
 }
 
+enum SearchType {
+    case apiRecipes
+    case customRecipes
+}
+
 class RecipesViewController: UIViewController {
     
     @IBOutlet weak var previousButton: UIButton!
@@ -37,6 +42,12 @@ class RecipesViewController: UIViewController {
         }
     }
     
+    var searchType: SearchType = .apiRecipes {
+        didSet {
+            updateUI()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .recipesVC
@@ -46,7 +57,7 @@ class RecipesViewController: UIViewController {
         searchBar.delegate = self
         
         setupUI()
-//        loadRecipes()
+        loadRecipes()
         
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
 
@@ -69,6 +80,19 @@ class RecipesViewController: UIViewController {
         progressView.setProgress(2/5, animated: true)
     }
     
+    private func updateUI() {
+        switch searchType {
+        case .apiRecipes:
+            headerLabel.text = "DISCOVER THESE RECIPES"
+            searchBar.placeholder = "Search 360K+ recipes"
+            recipeToggle.setTitle("Your recipes", for: .normal)
+        case .customRecipes:
+            headerLabel.text = "YOUR RECIPES"
+            searchBar.placeholder = "Search your recipes"
+            recipeToggle.setTitle("All recipes", for: .normal)
+        }
+    }
+    
     private func configureNextButton() {
         if Event.shared.selectedRecipes.isEmpty {
                  nextButton.setTitle("Skip", for: .normal)
@@ -79,11 +103,11 @@ class RecipesViewController: UIViewController {
         prepareTasks()
     }
     
-//    private func loadRecipes() {
-//        DataHelper.shared.loadPredefinedRecipes { recipes in
-//            self.searchResults = recipes
-//        }
-//    }
+    private func loadRecipes() {
+        DataHelper.shared.loadPredefinedRecipes { recipe in
+            self.searchResults.append(recipe)
+        }
+    }
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -111,9 +135,16 @@ class RecipesViewController: UIViewController {
     }
     
     @IBAction func didTapCreateRecipe(_ sender: UIButton) {
+        let recipeCreationVC = RecipeCreationViewController()
+        present(recipeCreationVC, animated: true, completion: nil)
     }
     
     @IBAction func didTapRecipeToggle(_ sender: UIButton) {
+        if searchType == .apiRecipes {
+            searchType = .customRecipes
+        } else {
+            searchType = .apiRecipes
+        }
     }
     
     

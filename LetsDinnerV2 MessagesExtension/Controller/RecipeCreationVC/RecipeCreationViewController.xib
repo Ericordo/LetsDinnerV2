@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecipeCreationViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelButton" destination="OUl-sh-wYc" id="svw-2v-LKu"/>
+                <outlet property="doneButton" destination="UEw-H2-uNc" id="Nq3-jR-pAF"/>
+                <outlet property="headerLabel" destination="bIc-KY-GlN" id="Ib3-7p-9BV"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOy-Oe-3gA">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUl-sh-wYc">
+                            <rect key="frame" x="17" y="11.5" width="55" height="33"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapCancel:" destination="-1" eventType="touchUpInside" id="vFp-6e-7SG"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEw-H2-uNc">
+                            <rect key="frame" x="316" y="11.5" width="42" height="33"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <state key="normal" title="Done">
+                                <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapDone:" destination="-1" eventType="touchUpInside" id="7y5-wC-mlW"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a new recipe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIc-KY-GlN">
+                            <rect key="frame" x="108" y="17.5" width="159" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="OUl-sh-wYc" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="18a-7S-5cU"/>
+                        <constraint firstItem="UEw-H2-uNc" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="EV4-OE-ySJ"/>
+                        <constraint firstItem="OUl-sh-wYc" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="Gn6-u9-TRt"/>
+                        <constraint firstItem="OUl-sh-wYc" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="M2W-1v-bso"/>
+                        <constraint firstItem="bIc-KY-GlN" firstAttribute="centerX" secondItem="HOy-Oe-3gA" secondAttribute="centerX" id="NRb-w9-h0p"/>
+                        <constraint firstAttribute="trailing" secondItem="UEw-H2-uNc" secondAttribute="trailing" constant="17" id="n1X-ra-PLh"/>
+                        <constraint firstItem="OUl-sh-wYc" firstAttribute="leading" secondItem="HOy-Oe-3gA" secondAttribute="leading" constant="17" id="sOL-iA-SSp"/>
+                        <constraint firstItem="bIc-KY-GlN" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="tsH-UJ-acs"/>
+                        <constraint firstAttribute="height" constant="56" id="v0G-sF-dZV"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fSk-3d-IZu">
+                    <rect key="frame" x="0.0" y="56" width="375" height="1"/>
+                    <color key="backgroundColor" white="0.6719285102739726" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Wtt-6T-Fs0"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fSk-3d-IZu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0aG-mC-5wp"/>
+                <constraint firstItem="fSk-3d-IZu" firstAttribute="top" secondItem="HOy-Oe-3gA" secondAttribute="bottom" id="B9R-Wr-pLi"/>
+                <constraint firstItem="HOy-Oe-3gA" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="KuA-Xt-Wqz"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fSk-3d-IZu" secondAttribute="trailing" id="wPS-pm-Nbc"/>
+                <constraint firstItem="HOy-Oe-3gA" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wtV-e4-Y9I"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="HOy-Oe-3gA" secondAttribute="trailing" id="xen-bw-YJo"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="132" y="153"/>
+        </view>
+    </objects>
+</document>

@@ -126,4 +126,24 @@ class DataHelper {
     }
     
     
+    func loadPredefinedRecipes(completion: @escaping (_ recipes: Recipe) -> Void) {
+     
+        guard let path = Bundle.main.path(forResource: "SpoonacularRecipes", ofType: "json") else { return }
+        
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+            let jsonData = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+            let json = jsonData as? Dictionary<String, AnyObject>
+            guard let recipeInfo = json else { return }
+            
+            let recipe = Recipe(dict: recipeInfo)
+            DispatchQueue.main.async {
+                completion(recipe)
+            }
+        } catch let error {
+            print("JSON decoding failed", error)
+        }
+    }
+    
+    
 }
