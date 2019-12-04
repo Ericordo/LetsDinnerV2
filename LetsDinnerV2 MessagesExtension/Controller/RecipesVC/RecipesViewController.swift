@@ -24,6 +24,9 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var searchLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var headerLabel: UILabel!
+    @IBOutlet weak var createRecipeButton: UIButton!
+    @IBOutlet weak var recipeToggle: UIButton!
     
     weak var delegate: RecipesViewControllerDelegate?
     
@@ -43,7 +46,7 @@ class RecipesViewController: UIViewController {
         searchBar.delegate = self
         
         setupUI()
-        loadRecipes()
+//        loadRecipes()
         
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
 
@@ -76,11 +79,11 @@ class RecipesViewController: UIViewController {
         prepareTasks()
     }
     
-    private func loadRecipes() {
-        DataHelper.shared.loadPredefinedRecipes { recipes in
-            self.searchResults = recipes
-        }
-    }
+//    private func loadRecipes() {
+//        DataHelper.shared.loadPredefinedRecipes { recipes in
+//            self.searchResults = recipes
+//        }
+//    }
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -107,6 +110,14 @@ class RecipesViewController: UIViewController {
         delegate?.recipeVCDidTapNext(controller: self)
     }
     
+    @IBAction func didTapCreateRecipe(_ sender: UIButton) {
+    }
+    
+    @IBAction func didTapRecipeToggle(_ sender: UIButton) {
+    }
+    
+    
+    
 //    MARK: due to ManagementVC
     private func prepareTasks() {
         Event.shared.tasks.forEach { task in
@@ -130,7 +141,10 @@ class RecipesViewController: UIViewController {
             let recipeName = recipe.title ?? ""
             let ingredients = recipe.ingredientList
             ingredients?.forEach({ ingredient in
-                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName))
+                if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.metricAmount, let unit = ingredient.metricUnit {
+                    Event.shared.tasks.append(Task(taskName: "\(name), \(Int(amount)) \(unit)", assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName))
+                }
+                
             })
         }
     }
@@ -160,7 +174,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = recipesTableView.dequeueReusableCell(withIdentifier: CellNibs.recipeCell, for: indexPath) as! RecipeCell
         let recipe = searchResults[indexPath.section]
         var isSelected = false
-        if Event.shared.selectedRecipes.contains(where: { $0.uri == recipe.uri! }) {
+        if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
             isSelected = true
         }
         cell.configureCell(recipe: recipe, isSelected: isSelected)
@@ -176,40 +190,13 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         present(recipeDetailsVC, animated: true, completion: nil)
     }
     
-    
-}
-
-extension RecipesViewController: RecipeCellDelegate {
-    func recipeCellDidSelectRecipe(recipe: Recipe) {
-        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.uri == recipe.uri! }) {
-            Event.shared.selectedRecipes.remove(at: index)
-        } else {
-            Event.shared.selectedRecipes.append(recipe)
-        }
-        configureNextButton()
-    }
-}
-
-extension RecipesViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard !searchText.isEmpty else {
-            DataHelper.shared.loadPredefinedRecipes { recipes in
-                self.searchResults = recipes
-            }
-            return
-        }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        resultsLabel.isHidden = true
-        guard let keyword = searchBar.text, !keyword.isEmpty else { return }
-        
-        DataHelper.shared.loadSearchedRecipes(keyword: keyword, display: showSearchProgress(_:), completion: { [weak self] result in
+    private func loadSearchResult(recipeId: Int) {
+        searchResults.removeAll()
+        DataHelper.shared.loadSearchResults(recipeId: recipeId, display: showSearchProgress(_:)) { [weak self] result in
             switch result {
-            case .success(let recipes):
+            case.success(let recipe):
                 self?.showSearchProgress(false)
-                self?.searchResults = recipes
+                self?.searchResults.append(recipe)
             case .failure(let error):
                 switch error {
                 case .decodingFailed:
@@ -220,9 +207,78 @@ extension RecipesViewController: UISearchBarDelegate {
                     self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
                 }
             }
-        })
+        }
+    }
+    
+    
+}
+
+extension RecipesViewController: RecipeCellDelegate {
+    func recipeCellDidSelectRecipe(recipe: Recipe) {
+        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
+            Event.shared.selectedRecipes.remove(at: index)
+        } else {
+            Event.shared.selectedRecipes.append(recipe)
+        }
+        configureNextButton()
     }
 }
+
+extension RecipesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        guard !searchText.isEmpty else {
+//            DataHelper.shared.loadPredefinedRecipes { recipes in
+//                self.searchResults = recipes
+//            }
+//            return
+//        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        resultsLabel.isHidden = true
+        guard let keyword = searchBar.text, !keyword.isEmpty else { return }
+        
+//        DataHelper.shared.loadSearchedRecipes(keyword: keyword, display: showSearchProgress(_:), completion: { [weak self] result in
+//            switch result {
+//            case .success(let recipes):
+//                self?.showSearchProgress(false)
+//                self?.searchResults = recipes
+//            case .failure(let error):
+//                switch error {
+//                case .decodingFailed:
+//                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
+//                case .noNetwork:
+//                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
+//                case .requestLimit:
+//                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+//                }
+//            }
+//        })
+        
+        DataHelper.shared.getSearchedRecipesIds(keyword: keyword, display: showSearchProgress(_:)) { [weak self] result in
+            switch result {
+            case.success(let recipeIds):
+                self?.showSearchProgress(false)
+                recipeIds.forEach { recipeId in
+                    self?.loadSearchResult(recipeId: recipeId)
+                }
+            case .failure(let error):
+                switch error {
+                case .decodingFailed:
+                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
+                case .noNetwork:
+                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
+                case .requestLimit:
+                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+                }
+            }
+        }
+    }
+    
+    
+}
+
 
 extension RecipesViewController: RecipeDetailsViewControllerDelegate {
     func recipeDetailsVCShouldDismiss(_ controller: RecipeDetailsViewController) {

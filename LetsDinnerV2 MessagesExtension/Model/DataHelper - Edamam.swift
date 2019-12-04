@@ -8,6 +8,7 @@
 
 import Foundation
 
+/*
 class DataHelper {
     
     static let shared = DataHelper()
@@ -92,3 +93,4 @@ class DataHelper {
         
     } 
 }
+ */

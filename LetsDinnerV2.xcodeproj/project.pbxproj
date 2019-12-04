@@ -58,7 +58,7 @@
 		88349F352370388C002A1879 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F342370388C002A1879 /* Event.swift */; };
 		88349F39237043BB002A1879 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F37237043BB002A1879 /* RecipesViewController.swift */; };
 		88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F38237043BB002A1879 /* RecipesViewController.xib */; };
-		88349F3C2370525D002A1879 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3B2370525D002A1879 /* DataHelper.swift */; };
+		88349F3C2370525D002A1879 /* DataHelper - Edamam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3B2370525D002A1879 /* DataHelper - Edamam.swift */; };
 		88349F412370D10A002A1879 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3F2370D10A002A1879 /* RecipeCell.swift */; };
 		88349F422370D10A002A1879 /* RecipeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F402370D10A002A1879 /* RecipeCell.xib */; };
 		883A29FA2371D15D0099ECDF /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 883A29F92371D15D0099ECDF /* Readme.md */; };
@@ -88,8 +88,12 @@
 		88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */; };
 		88B7832E23717D84009E4F3C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor.swift */; };
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
-		88B7833223718125009E4F3C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe.swift */; };
+		88B7833223718125009E4F3C /* Recipe - Edamam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe - Edamam.swift */; };
 		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
+		88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */; };
+		88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */; };
+		88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */; };
+		88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88C95B2E23984736000E750A /* SpoonacularRecipes.json */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
 		B85071D12391690600632026 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* Test.swift */; };
@@ -192,7 +196,7 @@
 		88349F342370388C002A1879 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		88349F37237043BB002A1879 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		88349F38237043BB002A1879 /* RecipesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipesViewController.xib; sourceTree = "<group>"; };
-		88349F3B2370525D002A1879 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
+		88349F3B2370525D002A1879 /* DataHelper - Edamam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataHelper - Edamam.swift"; sourceTree = "<group>"; };
 		88349F3F2370D10A002A1879 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		88349F402370D10A002A1879 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
 		883A29F92371D15D0099ECDF /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
@@ -220,8 +224,12 @@
 		88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		88B7832D23717D84009E4F3C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		88B7833123718125009E4F3C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		88B7833123718125009E4F3C /* Recipe - Edamam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe - Edamam.swift"; sourceTree = "<group>"; };
 		88B78334237183DB009E4F3C /* PredefinedRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PredefinedRecipes.json; sourceTree = "<group>"; };
+		88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataHelper - Spoonacular.swift"; sourceTree = "<group>"; };
+		88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe - Spoonacular.swift"; sourceTree = "<group>"; };
+		88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient - Spoonacular.swift"; sourceTree = "<group>"; };
+		88C95B2E23984736000E750A /* SpoonacularRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SpoonacularRecipes.json; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
@@ -435,8 +443,11 @@
 				88349F1C236DEF15002A1879 /* Constants.swift */,
 				B85071D02391690600632026 /* Test.swift */,
 				88349F342370388C002A1879 /* Event.swift */,
-				88349F3B2370525D002A1879 /* DataHelper.swift */,
-				88B7833123718125009E4F3C /* Recipe.swift */,
+				88349F3B2370525D002A1879 /* DataHelper - Edamam.swift */,
+				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
+				88B7833123718125009E4F3C /* Recipe - Edamam.swift */,
+				88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */,
+				88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */,
 				880B13302372FA08003E29AC /* User.swift */,
 				880B1357237474A4003E29AC /* Task.swift */,
 				885C60BD23805A3D00ED3A17 /* StepTracking.swift */,
@@ -634,6 +645,7 @@
 			isa = PBXGroup;
 			children = (
 				88B78334237183DB009E4F3C /* PredefinedRecipes.json */,
+				88C95B2E23984736000E750A /* SpoonacularRecipes.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -689,6 +701,7 @@
 				88349F15236DE9FC002A1879 /* Embed App Extensions */,
 				148FD0FFFF9A2FD83F7DA173 /* Frameworks */,
 				D708FD19D8820027417285B2 /* [CP] Embed Pods Frameworks */,
+				88C95B2623982EBB000E750A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -708,6 +721,7 @@
 				88349EFC236DE9FC002A1879 /* Sources */,
 				88349EFD236DE9FC002A1879 /* Frameworks */,
 				88349EFE236DE9FC002A1879 /* Resources */,
+				88C95B2723982FDE000E750A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -776,6 +790,7 @@
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
 				88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */,
 				880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */,
+				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
 				885C60C323809F7900ED3A17 /* EventDescriptionViewController.xib in Resources */,
@@ -852,6 +867,41 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		88C95B2623982EBB000E750A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "
+";
+		};
+		88C95B2723982FDE000E750A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+		};
 		D708FD19D8820027417285B2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -885,8 +935,10 @@
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
 				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,
+				88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */,
 				880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */,
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
+				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,
 				88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */,
 				880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */,
@@ -898,7 +950,7 @@
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
 				880B1358237474A4003E29AC /* Task.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
-				88349F3C2370525D002A1879 /* DataHelper.swift in Sources */,
+				88349F3C2370525D002A1879 /* DataHelper - Edamam.swift in Sources */,
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,
 				880B134F23737700003E29AC /* UserCell.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
@@ -921,10 +973,11 @@
 				880B133F237376C7003E29AC /* AnswerCell.swift in Sources */,
 				880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */,
 				880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */,
-				88B7833223718125009E4F3C /* Recipe.swift in Sources */,
+				88B7833223718125009E4F3C /* Recipe - Edamam.swift in Sources */,
 				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
+				88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */,
 				885C60C223809F7900ED3A17 /* EventDescriptionViewController.swift in Sources */,
 				B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */,
 				B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */,
@@ -994,7 +1047,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1082,7 +1135,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 1.0.11;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1104,7 +1157,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 1.0.11;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1128,7 +1181,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 1.0.11;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1153,7 +1206,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.9;
+				CURRENT_PROJECT_VERSION = 1.0.11;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
