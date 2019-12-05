@@ -51,12 +51,13 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let taskCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.taskCVCell, for: indexPath) as! TaskCVCell
         let task = Event.shared.tasks[indexPath.row]
-        taskCVCell.configureCell(task: task)
+        let count = Int(indexPath.row) + 1
+        taskCVCell.configureCell(task: task, count: count)
         return taskCVCell
     }
-    
 }
 
 extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
@@ -70,7 +71,7 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
      }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 313, height: 80)
+        return CGSize(width: 330, height: 80)
     }
 
 }

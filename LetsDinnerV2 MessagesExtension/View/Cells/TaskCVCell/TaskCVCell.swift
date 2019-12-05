@@ -13,14 +13,20 @@ class TaskCVCell: UICollectionViewCell {
     @IBOutlet weak var taskStatusButton: TaskStatusButton!
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var personLabel: TaskPersonLabel!
+    @IBOutlet weak var seperatorLine: UIView!
+    
+    var task: Task?
+    var count : Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+  
     }
     
-    var task: Task?
+
     
-    func configureCell(task: Task) {
+    func configureCell(task: Task, count: Int) {
         
         self.isUserInteractionEnabled = false
         self.task = task
@@ -46,6 +52,13 @@ class TaskCVCell: UICollectionViewCell {
             personLabel.text = MessagesToDisplay.noAssignment
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
         }
+        
+        seperatorLine.isHidden = false
+        if count % 3 == 0 {
+            seperatorLine.isHidden = true
+        }
+        
+        
 //        guard let currentUser = Event.shared.currentUser else { return }
 //        if task.taskState == .assigned || task.taskState == .completed {
 //            isUserInteractionEnabled = task.assignedPersonUid == currentUser.identifier
@@ -59,6 +72,8 @@ class TaskCVCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         taskNameLabel.sizeToFit()
+        
+        
 
 //        guard let task = task else { return }
 //        if task.assignedPersonUid == "nil" {

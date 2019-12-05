@@ -30,6 +30,15 @@ class EventSummaryViewController: UIViewController {
     
     @IBOutlet weak var summaryTableView: UITableView!
     
+    // MARKS: - Variable
+    var user: User? {
+        if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+            let user = Event.shared.participants[index]
+            return user
+        } else {
+            return nil
+        }
+    }
     let store = EKEventStore()
     weak var delegate: EventSummaryViewControllerDelegate?
     
@@ -41,7 +50,6 @@ class EventSummaryViewController: UIViewController {
         self.setupTableView()
         self.registerCells()
         
- 
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
         if !Event.shared.participants.isEmpty {
@@ -102,26 +110,33 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.answerCell.rawValue:
             
             // Check the currentUser has accepted or not
-            if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-                
-                let user = Event.shared.participants[index]
-                if user.hasAccepted == .declined {
-                    return answerDeclinedCell
-                } else if user.hasAccepted == .accepted {
-                    return answerAcceptedCell
+//            if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+//
+//                let user = Event.shared.participants[index]
+                    
+                if let user = user {
+                    if user.hasAccepted == .declined {
+                        return answerDeclinedCell
+                    } else if user.hasAccepted == .accepted {
+                        return answerAcceptedCell
+                    }
                 }
-            }
+                
+//            }
             
+                
             answerCell.delegate = self
             return answerCell
 
         case RowItemNumber.hostInfo.rawValue:
-            if Event.shared.currentUser?.hasAccepted == .accepted {
-                infoCell.titleLabel.text = LabelStrings.eventInfo
-                infoCell.infoLabel.text = Event.shared.hostName + "  >"
-            } else {
-                infoCell.titleLabel.text = LabelStrings.host
-                infoCell.infoLabel.text = Event.shared.hostName
+            if let user = user {
+                if user.hasAccepted == .accepted {
+                    infoCell.titleLabel.text = LabelStrings.eventInfo
+                    infoCell.infoLabel.text = Event.shared.hostName + "  >"
+                } else {
+                    infoCell.titleLabel.text = LabelStrings.host
+                    infoCell.infoLabel.text = Event.shared.hostName
+                }
             }
             return infoCell
             
@@ -158,7 +173,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         return UITableViewCell()
     }
     
-    // MARK: - Show or hide the row
+    // MARK: - Row Height
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -168,46 +183,47 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // title auto
         // answerCell = 120
         // hostInfo, locationInfo, dateInfo = 52
-        // taskInfo: 257
+        // taskInfo: 350
         // userInfo: 150
         
-        if Event.shared.currentUser?.hasAccepted == .accepted {
-            // Accept or Host
-            switch indexPath.row {
-            case RowItemNumber.answerCell.rawValue:
-                return 80
-            case RowItemNumber.hostInfo.rawValue:
-                return 52
-            case RowItemNumber.dateInfo.rawValue,
-                 RowItemNumber.locationInfo.rawValue,
-                 RowItemNumber.descriptionInfo.rawValue:
-                return 0 // Hide Row
-            case RowItemNumber.taskInfo.rawValue:
-                return 257
-            case RowItemNumber.userInfo.rawValue:
-                return 150
-            default:
-                return UITableView.automaticDimension
+        if let user = user {
+            if user.hasAccepted == .accepted {
+                // Accept or Host
+                switch indexPath.row {
+                case RowItemNumber.answerCell.rawValue:
+                    return 80
+                case RowItemNumber.hostInfo.rawValue:
+                    return 52
+                case RowItemNumber.dateInfo.rawValue,
+                     RowItemNumber.locationInfo.rawValue,
+                     RowItemNumber.descriptionInfo.rawValue:
+                    return 0 // Hide Row
+                case RowItemNumber.taskInfo.rawValue:
+                    return 350
+                case RowItemNumber.userInfo.rawValue:
+                    return 150
+                default:
+                    return UITableView.automaticDimension
+                }
+                
+            } else if user.hasAccepted == .declined {
+                // Decline Status
+                switch indexPath.row {
+                case RowItemNumber.answerCell.rawValue:
+                    return 80
+                case RowItemNumber.hostInfo.rawValue:
+                    return 52
+                case RowItemNumber.dateInfo.rawValue,
+                     RowItemNumber.locationInfo.rawValue:
+                    return 52
+                case RowItemNumber.taskInfo.rawValue:
+                    return 0
+                case RowItemNumber.userInfo.rawValue:
+                    return 150
+                default:
+                    return UITableView.automaticDimension
+                }
             }
-            
-        } else if Event.shared.currentUser?.hasAccepted == .declined {
-            // Decline Status
-            switch indexPath.row {
-            case RowItemNumber.answerCell.rawValue:
-                return 80
-            case RowItemNumber.hostInfo.rawValue:
-                return 52
-            case RowItemNumber.dateInfo.rawValue,
-                 RowItemNumber.locationInfo.rawValue:
-                return 52
-            case RowItemNumber.taskInfo.rawValue:
-                return 0
-            case RowItemNumber.userInfo.rawValue:
-                return 150
-            default:
-                return UITableView.automaticDimension
-            }
-            
         }
         
         // Netural - Pending
@@ -264,17 +280,26 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
                     existingEvent.title == title && existingEvent.startDate == eventStartDate
                 }
+                
                 if eventAlreadyAdded {
-                    let alert = UIAlertController(title: MessagesToDisplay.eventExists, message: "", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    let alert = UIAlertController(title: MessagesToDisplay.eventExists,
+                                                  message: "",
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK",
+                                                  style: .default,
+                                                  handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 } else {
                     
                     do {
                         try self.store.save(event, span: .thisEvent)
                         DispatchQueue.main.async {
-                            let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert, message: "", preferredStyle: .alert)
-                            doneAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert,
+                                                              message: "",
+                                                              preferredStyle: .alert)
+                            doneAlert.addAction(UIAlertAction(title: "OK",
+                                                              style: .default,
+                                                              handler: nil))
                             self.present(doneAlert, animated: true, completion: nil)
                         }
                     } catch let error {

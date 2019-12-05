@@ -29,32 +29,44 @@
                                 <state key="normal" image="unassignedtask"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PF3-TD-4UY">
-                                <rect key="frame" x="38" y="11" width="255" height="20"/>
+                                <rect key="frame" x="38" y="11" width="255" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="44" id="eg8-An-Aha"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Assignment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8p6-Ng-yx3" customClass="TaskPersonLabel" customModule="Let_s_Dinner_" customModuleProvider="target">
                                 <rect key="frame" x="38" y="64" width="255" height="16"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tR9-y2-rz7" userLabel="BottomLine">
+                                <rect key="frame" x="38" y="88.5" width="250" height="0.5"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="0.5" id="cdD-nG-Q9t"/>
+                                    <constraint firstAttribute="height" constant="0.5" id="cnv-jg-Peb"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="PF3-TD-4UY" firstAttribute="top" secondItem="sLG-tV-Afa" secondAttribute="top" constant="1" id="IKm-dH-Ije"/>
-                            <constraint firstItem="8p6-Ng-yx3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PF3-TD-4UY" secondAttribute="bottom" constant="10" id="K8C-Gu-r4d"/>
+                            <constraint firstItem="8p6-Ng-yx3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PF3-TD-4UY" secondAttribute="bottom" constant="4" id="K8C-Gu-r4d"/>
                             <constraint firstItem="8p6-Ng-yx3" firstAttribute="trailing" secondItem="PF3-TD-4UY" secondAttribute="trailing" id="TLc-gy-WrG"/>
                             <constraint firstItem="sLG-tV-Afa" firstAttribute="top" secondItem="SWM-PQ-nFE" secondAttribute="top" constant="10" id="YaP-fr-SlI"/>
                             <constraint firstAttribute="trailing" secondItem="PF3-TD-4UY" secondAttribute="trailing" id="ca7-Ku-1K1"/>
                             <constraint firstItem="8p6-Ng-yx3" firstAttribute="leading" secondItem="PF3-TD-4UY" secondAttribute="leading" id="cbT-XN-5tQ"/>
                             <constraint firstItem="sLG-tV-Afa" firstAttribute="leading" secondItem="SWM-PQ-nFE" secondAttribute="leading" constant="6" id="fEA-oj-X9q"/>
+                            <constraint firstAttribute="bottom" secondItem="tR9-y2-rz7" secondAttribute="bottom" constant="1" id="kkv-zM-dO0"/>
+                            <constraint firstItem="tR9-y2-rz7" firstAttribute="leading" secondItem="PF3-TD-4UY" secondAttribute="leading" id="s2E-Hc-hUV"/>
                             <constraint firstItem="PF3-TD-4UY" firstAttribute="leading" secondItem="sLG-tV-Afa" secondAttribute="trailing" constant="10" id="tP1-CL-2nQ"/>
                             <constraint firstAttribute="bottom" secondItem="8p6-Ng-yx3" secondAttribute="bottom" constant="10" id="tP3-IZ-vBM"/>
+                            <constraint firstAttribute="trailing" secondItem="tR9-y2-rz7" secondAttribute="trailing" constant="5" id="uab-aO-Q3Q"/>
+                            <constraint firstItem="8p6-Ng-yx3" firstAttribute="leading" secondItem="PF3-TD-4UY" secondAttribute="leading" id="wIG-vG-Rbz"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -69,6 +81,7 @@
             <size key="customSize" width="293" height="90"/>
             <connections>
                 <outlet property="personLabel" destination="8p6-Ng-yx3" id="NMf-TR-DfE"/>
+                <outlet property="seperatorLine" destination="tR9-y2-rz7" id="cSD-Ie-VH6"/>
                 <outlet property="taskNameLabel" destination="PF3-TD-4UY" id="pSN-jy-GOD"/>
                 <outlet property="taskStatusButton" destination="sLG-tV-Afa" id="ZWh-xQ-dss"/>
             </connections>

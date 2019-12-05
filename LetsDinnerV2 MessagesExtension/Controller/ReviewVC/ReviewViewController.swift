@@ -143,6 +143,7 @@ class ReviewViewController: UIViewController {
  
 }
 
+// MARKS: - TableViewSetup
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
@@ -177,7 +178,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         case 5:
-            taskSummaryCell.seeAllButton.isHidden = true
+//            taskSummaryCell.seeAllButton.isHidden = true
             var numberOfCompletedTasks = 0
             Event.shared.tasks.forEach { task in
                 if task.taskState == .completed {
@@ -199,7 +200,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         case 1, 2, 3:
             return 52
         case 5:
-            return 360
+            return 350
         default:
             return UITableView.automaticDimension
         }
