@@ -20,11 +20,7 @@ class TaskCVCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-  
     }
-    
-
     
     func configureCell(task: Task, count: Int) {
         
@@ -74,8 +70,6 @@ class TaskCVCell: UICollectionViewCell {
         super.layoutSubviews()
         taskNameLabel.sizeToFit()
         
-        
-
 //        guard let task = task else { return }
 //        if task.assignedPersonUid == "nil" {
 //            personLabel.isHidden = true

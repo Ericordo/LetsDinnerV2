@@ -155,6 +155,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return descriptionCell
             
         case RowItemNumber.taskInfo.rawValue:
+            taskSummaryCell.seeAllBeforeCreateEvent.isHidden = true
             taskSummaryCell.delegate = self
             var numberOfCompletedTasks = 0
             Event.shared.tasks.forEach { task in
@@ -369,6 +370,10 @@ extension EventSummaryViewController: CalendarCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
+    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
+        // Hidden
+    }
+    
     func taskSummaryCellDidTapSeeAll() {
         if let user = user {
             if user.hasAccepted == .accepted {

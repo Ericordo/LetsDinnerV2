@@ -10,12 +10,14 @@ import UIKit
 
 protocol TaskSummaryCellDelegate: class {
     func taskSummaryCellDidTapSeeAll()
+    func taskSummaryDidTapSeeAllBeforeCreateEvent()
 }
 
 class TaskSummaryCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var seeAllButton: UIButton!
+    @IBOutlet weak var seeAllBeforeCreateEvent: UIButton!
     @IBOutlet weak var tasksCollectionView: UICollectionView!
     @IBOutlet weak var progressCircle: ProgressCircle!
     
@@ -43,6 +45,10 @@ class TaskSummaryCell: UITableViewCell {
     @IBAction func didTapSeeAllButton(_ sender: UIButton) {
         delegate?.taskSummaryCellDidTapSeeAll()
     }
+    
+    @IBAction func didTapSeeAllBeforeCreateEvent(_ sender: UIButton) {
+        delegate?.taskSummaryDidTapSeeAllBeforeCreateEvent()
+    }
 }
 
 extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -63,7 +69,7 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
 extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
+         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 55)
      }
 
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

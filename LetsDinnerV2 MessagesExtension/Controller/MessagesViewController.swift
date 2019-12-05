@@ -38,20 +38,20 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
         
         func isAlreadyReply() -> Bool {
-                    if currentUserUid == Event.shared.hostIdentifier {
-                        print("Host")
-                        return true
-                    } else {
-                        for participant in Event.shared.participants {
-                            if currentUserUid == participant.identifier {
-                                if participant.hasAccepted != .pending {
-                                    return true
-                                }
-                            }
+            if currentUserUid == Event.shared.hostIdentifier {
+                print("Host")
+                return true
+            } else {
+                for participant in Event.shared.participants {
+                    if currentUserUid == participant.identifier {
+                        if participant.hasAccepted != .pending {
+                            return true
                         }
                     }
-                    return false
                 }
+            }
+            return false
+        }
         
         // Everytime terminate the app, it will forget the event.shared.currentUser is Nil
         
@@ -487,6 +487,12 @@ extension MessagesViewController: ReviewViewControllerDelegate {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
         sendMessage(message: message)
+    }
+    
+    func reviewVCBackToManagementVC(controller: ReviewViewController) {
+        let controller = instantiateManagementViewController()
+        removeAllChildViewControllers()
+        addChildViewController(controller: controller)
     }
 }
 

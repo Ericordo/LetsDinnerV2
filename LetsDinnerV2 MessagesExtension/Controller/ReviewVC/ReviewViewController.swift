@@ -11,6 +11,7 @@ import UIKit
 protocol ReviewViewControllerDelegate: class {
     func reviewVCDidTapPrevious(controller: ReviewViewController)
     func reviewVCDidTapSend(controller: ReviewViewController)
+    func reviewVCBackToManagementVC(controller: ReviewViewController)
 }
 
 class ReviewViewController: UIViewController {
@@ -33,7 +34,6 @@ class ReviewViewController: UIViewController {
     }()
     
     let darkView = UIView()
-    
     var isChecking = false
 
     override func viewDidLoad() {
@@ -178,7 +178,8 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         case 5:
-//            taskSummaryCell.seeAllButton.isHidden = true
+            taskSummaryCell.seeAllButton.isHidden = true
+            taskSummaryCell.delegate = self
             var numberOfCompletedTasks = 0
             Event.shared.tasks.forEach { task in
                 if task.taskState == .completed {
@@ -204,6 +205,18 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             return UITableView.automaticDimension
         }
+    }
+}
+
+// MARK:- TaskSummary Delegate
+extension ReviewViewController: TaskSummaryCellDelegate {
+    func taskSummaryCellDidTapSeeAll() {
+        // Hidden
+    }
+    
+    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
+        // Go back to task management
+        delegate?.reviewVCBackToManagementVC(controller: self)
     }
 }
 
