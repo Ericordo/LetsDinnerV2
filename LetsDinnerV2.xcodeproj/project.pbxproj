@@ -429,6 +429,7 @@
 			isa = PBXGroup;
 			children = (
 				880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */,
+				B85071D423964CF900632026 /* Testing */,
 				88349F19236DEEEB002A1879 /* Model */,
 				88349F1B236DEEF9002A1879 /* Controller */,
 				88349F1A236DEEF2002A1879 /* View */,
@@ -445,7 +446,6 @@
 			isa = PBXGroup;
 			children = (
 				88349F1C236DEF15002A1879 /* Constants.swift */,
-				B85071D02391690600632026 /* Test.swift */,
 				88349F342370388C002A1879 /* Event.swift */,
 				88349F3B2370525D002A1879 /* DataHelper - Edamam.swift */,
 				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
@@ -562,10 +562,10 @@
 				885C60B8238030EC00ED3A17 /* TaskManagementCell */,
 				880B136B2374C6AD003E29AC /* TaskCell */,
 				880B135D2374B06B003E29AC /* TaskCVCell */,
+				880B133A2373762A003E29AC /* TaskSummaryCell */,
 				880B133C2373763D003E29AC /* CalendarCell */,
 				880B133B23737635003E29AC /* UserCell */,
 				880B1370237571FF003E29AC /* UserCVCell */,
-				880B133A2373762A003E29AC /* TaskSummaryCell */,
 				880B133923737622003E29AC /* DescriptionCell */,
 				880B133823737619003E29AC /* InfoCell */,
 				880B133723737605003E29AC /* AnswerCell */,
@@ -683,6 +683,14 @@
 				B8384BFC238A8481005B25E9 /* GreyButton.swift */,
 			);
 			path = UIButton;
+			sourceTree = "<group>";
+		};
+		B85071D423964CF900632026 /* Testing */ = {
+			isa = PBXGroup;
+			children = (
+				B85071D02391690600632026 /* Test.swift */,
+			);
+			path = Testing;
 			sourceTree = "<group>";
 		};
 		B86F7006238435830010AB7C /* EventInfoVC */ = {

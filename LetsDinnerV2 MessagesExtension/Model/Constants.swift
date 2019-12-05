@@ -73,6 +73,7 @@ enum MessagesToDisplay {
     static let eventExists = "This event is already in your calendar"
     static let completed = "Completed"
     static let assignedToYourself = "Assigned to yourself"
+    static let noAssignment = "No Assignment"
     static let yes = "Yes"
     static let no = "No"
     static let unsubmittedTasks = "You have unsubmitted tasks."
@@ -91,7 +92,6 @@ enum MessagesToDisplay {
     static let decodingFailed = "Failed to load recipes"
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
-    static let noAssignment = "No assignment"
 }
 
 enum LabelStrings {
