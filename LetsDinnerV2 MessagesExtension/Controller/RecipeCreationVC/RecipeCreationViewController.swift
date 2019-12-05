@@ -13,6 +13,10 @@ class RecipeCreationViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var addImageButton: UIButton!
+    @IBOutlet weak var recipeNameTextField: UITextField!
+    @IBOutlet weak var servingsTextField: UITextField!
     
 
     override func viewDidLoad() {
@@ -34,6 +38,8 @@ class RecipeCreationViewController: UIViewController {
     @IBAction func didTapDone(_ sender: Any) {
     }
     
+    @IBAction func didTapAddImage(_ sender: UIButton) {
+    }
     
 
 }
