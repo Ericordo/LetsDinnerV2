@@ -61,6 +61,7 @@ enum CellNibs {
 enum ApiKeys {
         static let appId =  "5dbeb10b"
         static let apiKey = "b92d6e0482b3e23150ef3060aec1fd31"
+        static let apiKeySpoonacular = "123e94eacbbf40e497d48a0dd5b83189"
 }
 
 enum MessagesToDisplay {

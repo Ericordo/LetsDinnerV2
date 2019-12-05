@@ -19,6 +19,7 @@ class RecipeCell: UITableViewCell {
     @IBOutlet weak var recipeNameLabel: UILabel!
     @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var chosenButton: UIButton!
+    @IBOutlet weak var backgroundImageView: UIImageView!
     
     var selectedRecipe = Recipe(dict: [:])
     weak var recipeCellDelegate: RecipeCellDelegate?
@@ -45,6 +46,7 @@ class RecipeCell: UITableViewCell {
     func configureCell(recipe: Recipe, isSelected: Bool) {
         if let imageURL = URL(string: recipe.imageUrl!) {
             recipeImageView.kf.setImage(with: imageURL)
+            backgroundImageView.kf.setImage(with: imageURL)
         }
         recipeNameLabel.text = recipe.title!
         selectedRecipe = recipe

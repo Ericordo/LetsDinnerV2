@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
