@@ -125,7 +125,9 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.willTransition(to: presentationStyle)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTransition"), object: nil)
         removeAllChildViewControllers()
+        
         
     }
     

@@ -34,6 +34,7 @@ class RecipeDetailsViewController: UIViewController {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         setupUI()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
     }
     
     func setupUI() {
@@ -46,6 +47,10 @@ class RecipeDetailsViewController: UIViewController {
         let isSelected = Event.shared.selectedRecipes.contains(where: { $0.title == recipe.title! })
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
+    }
+    
+    @objc private func closeVC() {
+        self.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func didTapDone(_ sender: UIButton) {

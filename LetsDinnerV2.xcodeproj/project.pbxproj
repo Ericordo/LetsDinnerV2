@@ -38,6 +38,7 @@
 		880B137423757224003E29AC /* UserCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B137223757224003E29AC /* UserCVCell.xib */; };
 		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
+		882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC523998738001634D9 /* CustomRecipe.swift */; };
 		882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882C4C17237AEA900039B55F /* IdleViewController.swift */; };
 		882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 882C4C18237AEA900039B55F /* IdleViewController.xib */; };
 		88349EFA236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349EF9236DE9FC002A1879 /* Assets.xcassets */; };
@@ -174,6 +175,7 @@
 		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
 		880B13792376EB99003E29AC /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		882B9CC523998738001634D9 /* CustomRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipe.swift; sourceTree = "<group>"; };
 		882C4C17237AEA900039B55F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
 		882C4C18237AEA900039B55F /* IdleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IdleViewController.xib; sourceTree = "<group>"; };
 		88349EF6236DE9FB002A1879 /* Let's Dinner!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Dinner!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -452,6 +454,7 @@
 				88B7833123718125009E4F3C /* Recipe - Edamam.swift */,
 				88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */,
 				88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */,
+				882B9CC523998738001634D9 /* CustomRecipe.swift */,
 				880B13302372FA08003E29AC /* User.swift */,
 				880B1357237474A4003E29AC /* Task.swift */,
 				885C60BD23805A3D00ED3A17 /* StepTracking.swift */,
@@ -976,6 +979,7 @@
 				88349F3C2370525D002A1879 /* DataHelper - Edamam.swift in Sources */,
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,
 				880B134F23737700003E29AC /* UserCell.swift in Sources */,
+				882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,

@@ -23,10 +23,16 @@ class RecipeCreationViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
+          NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        
     }
     
     private func setupUI() {
         
+    }
+    
+    @objc private func closeVC() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     
