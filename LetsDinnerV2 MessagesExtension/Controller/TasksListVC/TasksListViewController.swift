@@ -87,6 +87,10 @@ class TasksListViewController: UIViewController {
                 Event.shared.currentConversationTaskStates.forEach { task in
                     
                     let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName, isCustom: task.isCustom, parentRecipe: task.parentRecipe)
+                    if let amount = task.metricAmount, let unit = task.metricUnit {
+                        newTask.metricAmount = amount
+                        newTask.metricUnit = unit
+                    }
                     newTasks.append(newTask)
                 }
                 Event.shared.tasks = newTasks

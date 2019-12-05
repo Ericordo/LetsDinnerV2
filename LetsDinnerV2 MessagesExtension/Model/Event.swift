@@ -161,10 +161,13 @@ class Event {
         if !tasks.isEmpty {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
-
-                let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
-
-                taskChild.setValue(parameters)
+                if let amount = task.metricAmount, let unit = task.metricUnit {
+                    let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe, "metricAmount" : amount, "metricUnit" : unit]
+                    taskChild.setValue(parameters)
+                } else {
+                    let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
+                    taskChild.setValue(parameters)
+                }
             }
         }
 
@@ -276,8 +279,16 @@ class Event {
                         guard let isCustom = dict["isCustom"] as? Bool else { return }
                         guard let parentRecipe = dict["parentRecipe"] as? String else { return }
                         let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
+                        if let amount = dict["metricAmount"] as? Double, let unit = dict["metricUnit"] as? String {
+                            task.metricAmount = amount
+                            task.metricUnit = unit
+                        }
                         tasks.append(task)
                         let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
+                        if let amount = dict["metricAmount"] as? Double, let unit = dict["metricUnit"] as? String {
+                            newTask.metricAmount = amount
+                            newTask.metricUnit = unit
+                        }
                         self.currentConversationTaskStates.append(newTask)
                         //                I don't understand why with the line below, the number of updated tasks is always 0, but it works fine with the 2 lines above. Debugger seems to always crash with the 2 lines above instead of line below
                         //                self.currentConversationTaskStates.append(task)
@@ -340,12 +351,16 @@ class Event {
                 
         tasks.forEach { task in
 //            Added isCustom in the parameters
-            let parameters: [String : Any] = ["title" : task.taskName,
+            var parameters: [String : Any] = ["title" : task.taskName,
                                               "ownerName" : task.assignedPersonName,
                                               "ownerUid" : task.assignedPersonUid ?? "nil",
                                               "state" : task.taskState.rawValue,
                                               "isCustom" : task.isCustom,
                                               "parentRecipe" : task.parentRecipe]
+            if let amount = task.metricAmount, let unit = task.metricUnit {
+                parameters["metricAmount"] = amount
+                parameters["metricUnit"] = unit
+            }
 //            Replaced child[ingredients] by child[tasks]
                         
             let childUid = Database.database().reference().child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)

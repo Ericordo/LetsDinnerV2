@@ -26,7 +26,11 @@ class TaskCVCell: UICollectionViewCell {
         
         self.isUserInteractionEnabled = false
         self.task = task
-        taskNameLabel.text = task.taskName
+        if let amount = task.metricAmount, let unit = task.metricUnit {
+            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+        } else {
+            taskNameLabel.text = task.taskName
+        }
         taskStatusButton.setState(state: task.taskState)
         
         if task.taskState == .assigned || task.taskState == .completed {

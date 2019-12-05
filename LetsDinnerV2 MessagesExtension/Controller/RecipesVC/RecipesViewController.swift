@@ -170,10 +170,15 @@ class RecipesViewController: UIViewController {
         let recipes = Event.shared.selectedRecipes
         recipes.forEach { recipe in
             let recipeName = recipe.title ?? ""
+            let servings = Double(recipe.servings ?? 2)
             let ingredients = recipe.ingredientList
             ingredients?.forEach({ ingredient in
                 if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.metricAmount, let unit = ingredient.metricUnit {
-                    Event.shared.tasks.append(Task(taskName: "\(name), \(Int(amount)) \(unit)", assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName))
+                    let task = Task(taskName: name, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName)
+                    task.metricAmount = (amount * 2) / Double(servings)
+                    task.metricUnit = unit
+                    task.servings = 2
+                    Event.shared.tasks.append(task)
                 }
                 
             })
@@ -257,12 +262,13 @@ extension RecipesViewController: RecipeCellDelegate {
 
 extension RecipesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        guard !searchText.isEmpty else {
-//            DataHelper.shared.loadPredefinedRecipes { recipes in
-//                self.searchResults = recipes
-//            }
-//            return
-//        }
+        guard !searchText.isEmpty else {
+            DataHelper.shared.loadPredefinedRecipes { recipe in
+                self.searchResults.removeAll()
+                self.searchResults.append(recipe)
+            }
+            return
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

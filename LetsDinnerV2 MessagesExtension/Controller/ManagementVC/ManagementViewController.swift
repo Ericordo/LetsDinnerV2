@@ -22,6 +22,7 @@ class ManagementViewController: UIViewController {
     @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var servingsLabel: UILabel!
     @IBOutlet private weak var servingsStepper: UIStepper!
+    @IBOutlet weak var separatorView: UIView!
     
     weak var delegate: ManagementViewControllerDelegate?
     
@@ -35,7 +36,7 @@ class ManagementViewController: UIViewController {
             Event.shared.servings = servings
         }
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
@@ -56,9 +57,16 @@ class ManagementViewController: UIViewController {
         tasksTableView.tableFooterView = UIView()
         servingsLabel.text = "Cooking for \(servings)"
         servingsStepper.minimumValue = 2
-        servingsStepper.maximumValue = 30
+        servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
+        
+        if Event.shared.selectedRecipes.isEmpty {
+            servingsLabel.isHidden = true
+            servingsStepper.isHidden = true
+            separatorView.isHidden = true
+        }
+        
     }
     
     private func prepareData() {
@@ -150,8 +158,21 @@ class ManagementViewController: UIViewController {
     }
     
     private func updateServings(servings: Int) {
+      
         self.servings = servings
         
+        Event.shared.tasks.forEach { task in
+            if !task.isCustom {
+                if let amount = task.metricAmount, let oldServings = task.servings {
+                    task.metricAmount = (amount * Double(servings)) / Double(oldServings)
+                    task.servings = servings
+                }
+            }
+        }
+        
+        
+        prepareData()
+        tasksTableView.reloadData()
     }
     
 
@@ -337,17 +358,15 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
             let indexPath = IndexPath(row: row, section: section)
             indexPaths.append(indexPath)
         }
-        
+
         let isExpanded = expandableTasks[section].isExpanded
         expandableTasks[section].isExpanded = !isExpanded
-        
+
         if isExpanded {
             tasksTableView.deleteRows(at: indexPaths, with: .fade)
         } else {
             tasksTableView.insertRows(at: indexPaths, with: .fade)
         }
-        
-        
     }
     
 }
