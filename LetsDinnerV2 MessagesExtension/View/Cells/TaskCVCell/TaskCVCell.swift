@@ -53,6 +53,7 @@ class TaskCVCell: UICollectionViewCell {
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
         }
         
+        // For deleting the line for the bottom last cell
         seperatorLine.isHidden = false
         if count % 3 == 0 {
             seperatorLine.isHidden = true

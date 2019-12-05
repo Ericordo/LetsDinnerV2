@@ -370,8 +370,7 @@ extension EventSummaryViewController: CalendarCellDelegate {
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
     func taskSummaryCellDidTapSeeAll() {
-        if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-            let user = Event.shared.participants[index]
+        if let user = user {
             if user.hasAccepted == .accepted {
                 delegate?.eventSummaryVCOpenTasksList(controller: self)
             } else {

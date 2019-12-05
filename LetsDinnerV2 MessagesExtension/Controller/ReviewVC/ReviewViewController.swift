@@ -205,6 +205,5 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableView.automaticDimension
         }
     }
-    
-    
 }
+
