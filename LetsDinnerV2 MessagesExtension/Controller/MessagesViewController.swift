@@ -207,19 +207,24 @@ class MessagesViewController: MSMessagesAppViewController {
         addChildViewController(controller: controller)
     }
     
-    func addChildViewController(controller: UIViewController, transition: Bool = false) {
+    func addChildViewController(controller: UIViewController, transition: TransitionDirection = .noTransition) {
         addChild(controller)
         
         controller.view.frame = view.bounds
         controller.view.translatesAutoresizingMaskIntoConstraints = false
         
         // Transition animation
-        if transition {
-            let transition = CATransition()
-            transition.duration = 0.1
-            transition.type = CATransitionType.push
-            transition.subtype = CATransitionSubtype.fromLeft
-            view.layer.add(transition, forKey: nil)
+        if transition != .noTransition {
+            let transitionAnimation = CATransition()
+            transitionAnimation.duration = 0.2
+            transitionAnimation.type = CATransitionType.push
+            
+            if transition == .VCGoBack {
+                transitionAnimation.subtype = CATransitionSubtype.fromLeft
+            } else if transition == .VCGoFoward {
+                transitionAnimation.subtype = CATransitionSubtype.fromRight
+            }
+            view.layer.add(transitionAnimation, forKey: nil)
         }
         
         view.addSubview(controller.view)
@@ -410,7 +415,7 @@ extension MessagesViewController: NewEventViewControllerDelegate {
     func newEventVCDidTapNext(controller: NewEventViewController) {
         let controller = instantiateRecipesViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller) 
+        addChildViewController(controller: controller, transition: .VCGoFoward)
     }
 }
 
@@ -418,13 +423,13 @@ extension MessagesViewController: RecipesViewControllerDelegate {
     func recipeVCDidTapNext(controller: RecipesViewController) {
         let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoFoward)
     }
     
     func recipeVCDidTapPrevious(controller: RecipesViewController) {
         let controller = instantiateNewEventViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: true)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
 }
 
@@ -432,14 +437,14 @@ extension MessagesViewController: ManagementViewControllerDelegate {
     func managementVCDidTapBack(controller: ManagementViewController) {
         let controller = instantiateRecipesViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func managementVCDdidTapNext(controller: ManagementViewController) {
         let controller = instantiateEventDescriptionViewController()
 //        let controller = instantiateEventDescriptionViewControllerOld()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoFoward)
     }
 }
 
@@ -447,7 +452,7 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
     func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController) {
         let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     // For TestCase
@@ -465,7 +470,7 @@ extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
     func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
         let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
@@ -482,7 +487,7 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapPrevious(controller: ReviewViewController) {
         let controller = instantiateEventDescriptionViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func reviewVCDidTapSend(controller: ReviewViewController) {
@@ -494,7 +499,7 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCBackToManagementVC(controller: ReviewViewController) {
         let controller = instantiateManagementViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
 }
 
@@ -524,7 +529,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
         let controller = instantiateEventInfoViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoFoward)
     }
 }
 
@@ -532,7 +537,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
     func tasksListVCDidTapBackButton(controller: TasksListViewController) {
         let controller = instantiateEventSummaryViewController()
               removeAllChildViewControllers()
-              addChildViewController(controller: controller)
+              addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func tasksListVCDidTapSubmit(controller: TasksListViewController) {
@@ -546,7 +551,7 @@ extension MessagesViewController: EventInfoViewControllerDelegate {
     func eventInfoVCDidTapBackButton(controller: EventInfoViewController) {
         let controller = instantiateEventSummaryViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
 }
