@@ -9,13 +9,11 @@
 import Foundation
 import RealmSwift
 
-//class CustomRecipe: Object {
-//    @objc dynamic var title: String = ""
-//    @objc dynamic var image: UIImage?
-//    @objc dynamic var servings: Int
-//    @objc dynamic var ingredients: [Ingredient]
-//    @objc dynamic var done: Bool = false
-//    @objc dynamic var dateCreated: Date?
-//}
+class CustomRecipe: Object {
+    @objc dynamic var title: String = ""
+    @objc dynamic var imageData: Data? = nil
+//    @objc dynamic var servings: Int = 0
+//    let ingredients = List<CustomIngredient>()
+}
 
 

@@ -56,6 +56,7 @@ enum CellNibs {
     static let userCVCell = "UserCVCell"
     static let taskManagementCell = "TaskManagementCell"
     static let recipeCVCell = "RecipeCVCell"
+    static let sectionInputCell = "SectionInputCell"
 }
 
 enum ApiKeys {

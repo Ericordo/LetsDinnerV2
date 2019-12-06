@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapNext(controller: RecipesViewController)
@@ -34,6 +35,7 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var recipeToggle: UIButton!
     
     weak var delegate: RecipesViewControllerDelegate?
+    let realm = try! Realm()
     
     var searchResults = [Recipe]() {
         didSet {
@@ -41,6 +43,10 @@ class RecipesViewController: UIViewController {
             recipesTableView.reloadData()
         }
     }
+    
+    var customSearchResults: Results<CustomRecipe>?
+    
+    var customRecipes : Results<CustomRecipe>?
     
     var searchType: SearchType = .apiRecipes {
         didSet {
@@ -85,11 +91,17 @@ class RecipesViewController: UIViewController {
         case .apiRecipes:
             headerLabel.text = "DISCOVER THESE RECIPES"
             searchBar.placeholder = "Search 360K+ recipes"
-            recipeToggle.setTitle("Your recipes", for: .normal)
+            recipeToggle.setTitle("My recipes", for: .normal)
+            loadRecipes()
         case .customRecipes:
-            headerLabel.text = "YOUR RECIPES"
-            searchBar.placeholder = "Search your recipes"
+            headerLabel.text = "MY RECIPES"
+            searchBar.placeholder = "Search my recipes"
             recipeToggle.setTitle("All recipes", for: .normal)
+            loadCustomRecipes()
+            let alert = UIAlertController(title: "\(customRecipes!.count)", message: "", preferredStyle: .alert)
+            let action = UIAlertAction(title: "ok", style: .default, handler: nil)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -104,9 +116,15 @@ class RecipesViewController: UIViewController {
     }
     
     private func loadRecipes() {
+        searchResults.removeAll()
         DataHelper.shared.loadPredefinedRecipes { recipe in
             self.searchResults.append(recipe)
         }
+    }
+    
+    private func loadCustomRecipes() {
+        customRecipes = realm.objects(CustomRecipe.self)
+        recipesTableView.reloadData()
     }
     
     private func showAlert(title: String, message: String) {
@@ -203,17 +221,32 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return searchResults.count
+        switch searchType {
+        case.apiRecipes:
+            return searchResults.count
+        case.customRecipes:
+            return customRecipes!.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = recipesTableView.dequeueReusableCell(withIdentifier: CellNibs.recipeCell, for: indexPath) as! RecipeCell
-        let recipe = searchResults[indexPath.section]
-        var isSelected = false
-        if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
-            isSelected = true
+        switch searchType {
+        case .apiRecipes:
+            let recipe = searchResults[indexPath.section]
+            var isSelected = false
+            if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
+                isSelected = true
+            }
+            cell.configureCell(recipe: recipe, isSelected: isSelected)
+        case .customRecipes:
+            if let customRecipe = customRecipes?[indexPath.section] {
+                var isSelected = false
+                cell.configureCellWithCustomRecipe(customRecipe: customRecipe, isSelected: isSelected)
+            }
+  
         }
-        cell.configureCell(recipe: recipe, isSelected: isSelected)
+        
         cell.recipeCellDelegate = self
         return cell
     }
