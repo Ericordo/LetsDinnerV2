@@ -244,6 +244,8 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK: Init the VC
+    
     private func instantiateInitialViewController() -> UIViewController {
         let controller = InitialViewController(nibName: VCNibs.initialViewController, bundle: nil)
         controller.delegate = self
@@ -328,7 +330,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
 }
 
-
+    // MARK: Delegations
 
 extension MessagesViewController: InitialViewControllerDelegate {
     func initialVCDidTapStartButton(controller: InitialViewController) {
