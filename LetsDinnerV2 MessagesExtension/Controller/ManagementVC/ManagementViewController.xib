@@ -14,6 +14,7 @@
                 <outlet property="backButton" destination="hfU-Un-jAU" id="k6Y-mn-IJ6"/>
                 <outlet property="nextButton" destination="haE-7o-ScL" id="OsG-bD-HEw"/>
                 <outlet property="progressView" destination="OCo-s0-ErQ" id="GAJ-PJ-p0v"/>
+                <outlet property="separatorView" destination="b48-qc-gPw" id="1dF-Qo-RDr"/>
                 <outlet property="servingsLabel" destination="0C6-a0-T8D" id="m7j-mw-SPR"/>
                 <outlet property="servingsStepper" destination="4kC-yC-Std" id="Muj-cV-JGR"/>
                 <outlet property="tasksTableView" destination="c6c-yo-AdS" id="YCm-JD-WNM"/>

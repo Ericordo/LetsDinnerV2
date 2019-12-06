@@ -22,6 +22,10 @@ class Task: Hashable {
 
     var parentRecipe: String
     
+    var metricAmount: Double?
+    var metricUnit: String?
+    var servings: Int?
+    
 //    var hashValue: Int {
 //        return taskUid.hashValue
 //    }
