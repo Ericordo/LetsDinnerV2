@@ -44,14 +44,14 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="jCZ-wU-rPm">
-                    <rect key="frame" x="15" y="591" width="345" height="42"/>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="jCZ-wU-rPm">
+                    <rect key="frame" x="22.5" y="591" width="330" height="42"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" userLabel="Calendar Button" customClass="PrimaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="150" height="42"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="150" id="Y0d-v6-58A"/>
+                                <constraint firstAttribute="width" constant="150" id="wBd-PR-OFZ"/>
                                 <constraint firstAttribute="height" constant="42" id="zL8-oA-Xr8"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -60,11 +60,11 @@
                             </state>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AS3-Sj-gsz" userLabel="Reminder Button" customClass="PrimaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
-                            <rect key="frame" x="179" y="0.0" width="166" height="42"/>
+                            <rect key="frame" x="180" y="0.0" width="150" height="42"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="42" id="7sm-H2-Zka"/>
-                                <constraint firstAttribute="width" constant="150" id="gYr-XO-HkS"/>
+                                <constraint firstAttribute="width" constant="150" id="u6N-0P-ItY"/>
                             </constraints>
                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                             <state key="normal" title="Reminder...">
@@ -78,8 +78,9 @@
             <constraints>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="49" id="0Qd-iH-S7Q"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="jCZ-wU-rPm" secondAttribute="bottom" constant="34" id="23b-vb-qME"/>
-                <constraint firstItem="jCZ-wU-rPm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="7kl-zF-i9d"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jCZ-wU-rPm" secondAttribute="trailing" constant="15" id="Jqi-RQ-RXh"/>
+                <constraint firstItem="jCZ-wU-rPm" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="73B-oX-kxL"/>
+                <constraint firstItem="jCZ-wU-rPm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="7kl-zF-i9d"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jCZ-wU-rPm" secondAttribute="trailing" constant="15" id="Jqi-RQ-RXh"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TWB-dF-uB3"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="eoQ-A4-Ibv"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ojl-GP-L7P" secondAttribute="bottom" id="fz8-f7-exW"/>

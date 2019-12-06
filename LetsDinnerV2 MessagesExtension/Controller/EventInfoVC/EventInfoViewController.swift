@@ -16,9 +16,8 @@ class EventInfoViewController: UIViewController {
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var eventInfoTableView: UITableView!
-    @IBOutlet weak var calendarButton: UIButton!
-    @IBOutlet weak var reminderButton: UIButton!
-    
+    @IBOutlet weak var calendarButton: PrimaryButton!
+    @IBOutlet weak var reminderButton: PrimaryButton!
     
     weak var delegate: EventInfoViewControllerDelegate?
     
@@ -32,11 +31,14 @@ class EventInfoViewController: UIViewController {
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         
+        
+        
         setupUI()
     }
     
     func setupUI() {
         eventInfoTableView.tableFooterView = UIView()
+
     }
     
     private func registerCell(_ nibName: String) {
