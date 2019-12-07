@@ -112,9 +112,9 @@
                     </constraints>
                 </progressView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
-                    <rect key="frame" x="172" y="410" width="30" height="30"/>
+                    <rect key="frame" x="152" y="410" width="71" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Test"/>
+                    <state key="normal" title="TestCase1"/>
                     <connections>
                         <action selector="DidTapTestButton:" destination="-1" eventType="touchUpInside" id="rJa-bi-kly"/>
                     </connections>

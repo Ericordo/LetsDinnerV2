@@ -51,7 +51,7 @@ class NewEventViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 0
         progressView.setProgress(1/5, animated: true)
-        dinnerNameTextField.setLeftView(image: UIImage(named: "titleicon")!)
+        dinnerNameTextField.setLeftView(image: UIImage(named: "titleicon2")!)
         locationTextField.setLeftView(image: UIImage(named: "locationicon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hosticon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateicon")!)
