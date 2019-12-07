@@ -34,7 +34,7 @@ extension UITableView {
         
         let plateImageView : UIImageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "emptyplate")
+            imageView.image = UIImage(named: "emptyPlate")
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()

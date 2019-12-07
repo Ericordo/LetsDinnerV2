@@ -75,7 +75,7 @@ class Event {
     
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "bubblebackground")
+        layout.image = UIImage(named: "bubbleBackground")
         layout.imageTitle = dinnerName
         layout.imageSubtitle = dinnerDate
         layout.caption = "Tap to view Dinner! "

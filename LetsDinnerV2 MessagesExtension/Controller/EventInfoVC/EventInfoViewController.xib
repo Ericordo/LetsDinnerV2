@@ -22,19 +22,17 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRa-hc-m98">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRa-hc-m98">
                     <rect key="frame" x="17" y="10" width="52" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title=" Back" image="chevronIcon">
+                    <state key="normal" title=" Back" image="chevronLeft">
                         <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </state>
                     <connections>
                         <action selector="backButtonDidTap:" destination="-1" eventType="touchUpInside" id="fD6-d6-Ful"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Event Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-zH-lka">
-                    <rect key="frame" x="147.5" y="10.5" width="80" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-zH-lka">
+                    <rect key="frame" x="147.5" y="11" width="80" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -81,15 +79,19 @@
                 <constraint firstItem="jCZ-wU-rPm" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="73B-oX-kxL"/>
                 <constraint firstItem="jCZ-wU-rPm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="7kl-zF-i9d"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jCZ-wU-rPm" secondAttribute="trailing" constant="15" id="Jqi-RQ-RXh"/>
+                <constraint firstItem="tRa-hc-m98" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="QAt-QG-F7I"/>
+                <constraint firstItem="eZR-zH-lka" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TJ4-ZJ-fhH"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="TWB-dF-uB3"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="eoQ-A4-Ibv"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ojl-GP-L7P" secondAttribute="bottom" id="fz8-f7-exW"/>
+                <constraint firstItem="eZR-zH-lka" firstAttribute="centerY" secondItem="tRa-hc-m98" secondAttribute="centerY" id="nJY-LT-VhG"/>
+                <constraint firstItem="tRa-hc-m98" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="tOD-le-hIQ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="132" y="153"/>
+            <point key="canvasLocation" x="132" y="152.47376311844079"/>
         </view>
     </objects>
     <resources>
-        <image name="chevronIcon" width="7" height="12"/>
+        <image name="chevronLeft" width="7" height="12"/>
     </resources>
 </document>
