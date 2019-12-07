@@ -107,6 +107,6 @@ enum LabelStrings {
     static let whatsThePlan = "So, what's the plan?"
     static let nothingToDo = "There is nothing to do!"
     static let readyToSend = "Ready to send your invite?"
-    static let noCustomRecipeTitle = "You do not have any recipes"
+    static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create one!"
 }

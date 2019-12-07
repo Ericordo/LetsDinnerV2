@@ -7,6 +7,12 @@
 //
 
 import UIKit
+import RealmSwift
+
+protocol CustomRecipeDetailsVCDelegate : class {
+    func didDeleteCustomRecipe()
+}
+
 
 class CustomRecipeDetailsViewController: UIViewController {
 
@@ -17,6 +23,10 @@ class CustomRecipeDetailsViewController: UIViewController {
     @IBOutlet weak var editButton: UIButton!
     
     var selectedRecipe: CustomRecipe?
+    
+    let realm = try! Realm()
+    
+    weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +41,21 @@ class CustomRecipeDetailsViewController: UIViewController {
         let isSelected = Event.shared.selectedRecipes.contains(where: { $0.title == recipe.title })
               chooseButton.isHidden = isSelected
               chosenButton.isHidden = !isSelected
+    }
+    
+    private func deleteRecipe() {
+        if let recipe = self.selectedRecipe {
+            do {
+                try self.realm.write {
+                    self.realm.delete(recipe)
+                }
+            } catch {
+                print(error)
+            }
+        }
+        customRecipeDetailsDelegate?.didDeleteCustomRecipe()
+        self.dismiss(animated: true, completion: nil)
+        
     }
     
     @objc private func closeVC() {
@@ -60,7 +85,7 @@ class CustomRecipeDetailsViewController: UIViewController {
             
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
-            
+            self.deleteRecipe()
         }
         alert.addAction(cancel)
         alert.addAction(edit)

@@ -92,12 +92,15 @@ class RecipesViewController: UIViewController {
             headerLabel.text = "DISCOVER THESE RECIPES"
             searchBar.placeholder = "Search 360K+ recipes"
             recipeToggle.setTitle("My recipes", for: .normal)
+            resultsLabel.isHidden = true
             loadRecipes()
+            
         case .customRecipes:
             headerLabel.text = "MY RECIPES"
             searchBar.placeholder = "Search my recipes"
             recipeToggle.setTitle("All recipes", for: .normal)
             loadCustomRecipes()
+            resultsLabel.isHidden = true
         }
     }
     
@@ -219,7 +222,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         
         
-        if searchType == .customRecipes && customRecipes?.count == 0  {
+        if searchType == .customRecipes && customRecipes?.count == 0 {
             tableView.setEmptyView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
         } else {
             tableView.restore()
@@ -229,7 +232,9 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case.apiRecipes:
             return searchResults.count
         case.customRecipes:
-            return customRecipes!.count
+                return customRecipes!.count
+            
+            
         }
     }
     
@@ -268,7 +273,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             let recipe = recipes[indexPath.section]
             let customRecipeDetailsVC = CustomRecipeDetailsViewController()
             customRecipeDetailsVC.selectedRecipe = recipe
-            
+            customRecipeDetailsVC.customRecipeDetailsDelegate = self
             present(customRecipeDetailsVC, animated: true, completion: nil)
         }
         
@@ -276,7 +281,6 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func loadSearchResult(recipeId: Int) {
-        searchResults.removeAll()
         DataHelper.shared.loadSearchResults(recipeId: recipeId, display: showSearchProgress(_:)) { [weak self] result in
             switch result {
             case.success(let recipe):
@@ -311,12 +315,21 @@ extension RecipesViewController: RecipeCellDelegate {
 
 extension RecipesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard !searchText.isEmpty else {
-            DataHelper.shared.loadPredefinedRecipes { recipes in
-                self.searchResults = recipes
-                
+        switch searchType {
+        case .apiRecipes:
+            guard !searchText.isEmpty else {
+                DataHelper.shared.loadPredefinedRecipes { recipes in
+                    self.searchResults = recipes
+                }
+                return
             }
-            return
+        case .customRecipes:
+            guard !searchText.isEmpty else {
+                loadCustomRecipes()
+                resultsLabel.isHidden = true
+                recipesTableView.isHidden = false
+                return
+            }
         }
     }
     
@@ -325,40 +338,34 @@ extension RecipesViewController: UISearchBarDelegate {
         resultsLabel.isHidden = true
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
         
-//        DataHelper.shared.loadSearchedRecipes(keyword: keyword, display: showSearchProgress(_:), completion: { [weak self] result in
-//            switch result {
-//            case .success(let recipes):
-//                self?.showSearchProgress(false)
-//                self?.searchResults = recipes
-//            case .failure(let error):
-//                switch error {
-//                case .decodingFailed:
-//                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
-//                case .noNetwork:
-//                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
-//                case .requestLimit:
-//                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
-//                }
-//            }
-//        })
-        
-        DataHelper.shared.getSearchedRecipesIds(keyword: keyword, display: showSearchProgress(_:)) { [weak self] result in
-            switch result {
-            case.success(let recipeIds):
-                self?.showSearchProgress(false)
-                recipeIds.forEach { recipeId in
-                    self?.loadSearchResult(recipeId: recipeId)
-                }
-            case .failure(let error):
-                switch error {
-                case .decodingFailed:
-                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
-                case .noNetwork:
-                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
-                case .requestLimit:
-                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
-                }
-            }
+        switch searchType {
+        case .apiRecipes:
+            searchResults.removeAll()
+            DataHelper.shared.getSearchedRecipesIds(keyword: keyword, display: showSearchProgress(_:)) { [weak self] result in
+                   
+                   switch result {
+                   case.success(let recipeIds):
+                       self?.showSearchProgress(false)
+                       recipeIds.forEach { recipeId in
+                           self?.loadSearchResult(recipeId: recipeId)
+                       }
+                       if self?.searchResults.isEmpty ?? true {
+                           self?.resultsLabel.isHidden = false
+                       }
+                   case .failure(let error):
+                       switch error {
+                       case .decodingFailed:
+                           self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
+                       case .noNetwork:
+                           self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
+                       case .requestLimit:
+                           self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+                       }
+                   }
+               }
+        case .customRecipes:
+            customRecipes = customRecipes?.filter("title CONTAINS[cd] %@", keyword)
+            recipesTableView.reloadData()
         }
     }
     
@@ -377,6 +384,14 @@ extension RecipesViewController: RecipeDetailsViewControllerDelegate {
 
 extension RecipesViewController: RecipeCreationVCDelegate {
     func recipeCreationVCDidTapDone() {
+        loadCustomRecipes()
+    }
+}
+
+extension RecipesViewController: CustomRecipeDetailsVCDelegate {
+    func didDeleteCustomRecipe() {
         recipesTableView.reloadData()
     }
+    
+    
 }
