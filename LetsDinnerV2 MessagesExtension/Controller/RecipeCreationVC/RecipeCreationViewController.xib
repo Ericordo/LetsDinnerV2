@@ -108,7 +108,7 @@
                         <constraint firstAttribute="height" constant="1" id="V1l-wr-8sI"/>
                     </constraints>
                 </view>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Recipe name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tWH-Xi-eX8">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Recipe name" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="tWH-Xi-eX8">
                     <rect key="frame" x="30" y="274" width="315" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="78e-jO-yOg"/>
@@ -123,7 +123,7 @@
                         <constraint firstAttribute="height" constant="1" id="QxQ-Zu-THx"/>
                     </constraints>
                 </view>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Servings" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t1K-2N-40F">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Servings" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="t1K-2N-40F">
                     <rect key="frame" x="30" y="315" width="315" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="mdA-kr-Enc"/>

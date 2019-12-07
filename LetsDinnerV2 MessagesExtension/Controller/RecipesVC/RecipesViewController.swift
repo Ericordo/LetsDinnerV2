@@ -98,10 +98,6 @@ class RecipesViewController: UIViewController {
             searchBar.placeholder = "Search my recipes"
             recipeToggle.setTitle("All recipes", for: .normal)
             loadCustomRecipes()
-            let alert = UIAlertController(title: "\(customRecipes!.count)", message: "", preferredStyle: .alert)
-            let action = UIAlertAction(title: "ok", style: .default, handler: nil)
-            alert.addAction(action)
-            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -117,8 +113,8 @@ class RecipesViewController: UIViewController {
     
     private func loadRecipes() {
         searchResults.removeAll()
-        DataHelper.shared.loadPredefinedRecipes { recipe in
-            self.searchResults.append(recipe)
+        DataHelper.shared.loadPredefinedRecipes { recipes in
+            self.searchResults = recipes
         }
     }
     
@@ -154,6 +150,7 @@ class RecipesViewController: UIViewController {
     
     @IBAction func didTapCreateRecipe(_ sender: UIButton) {
         let recipeCreationVC = RecipeCreationViewController()
+        recipeCreationVC.recipeCreationVCDelegate = self
         present(recipeCreationVC, animated: true, completion: nil)
     }
     
@@ -198,7 +195,6 @@ class RecipesViewController: UIViewController {
                     task.servings = 2
                     Event.shared.tasks.append(task)
                 }
-                
             })
         }
     }
@@ -221,6 +217,14 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
+        
+        if searchType == .customRecipes && customRecipes?.count == 0  {
+            tableView.setEmptyView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
+        } else {
+            tableView.restore()
+        }
+        
         switch searchType {
         case.apiRecipes:
             return searchResults.count
@@ -252,11 +256,23 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let recipe = searchResults[indexPath.section]
-        let recipeDetailsVC = RecipeDetailsViewController()
-        recipeDetailsVC.selectedRecipe = recipe
-        recipeDetailsVC.delegate = self
-        present(recipeDetailsVC, animated: true, completion: nil)
+        switch searchType {
+        case .apiRecipes:
+            let recipe = searchResults[indexPath.section]
+            let recipeDetailsVC = RecipeDetailsViewController()
+            recipeDetailsVC.selectedRecipe = recipe
+            recipeDetailsVC.delegate = self
+            present(recipeDetailsVC, animated: true, completion: nil)
+        case .customRecipes:
+            guard let recipes = customRecipes else { return }
+            let recipe = recipes[indexPath.section]
+            let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+            customRecipeDetailsVC.selectedRecipe = recipe
+            
+            present(customRecipeDetailsVC, animated: true, completion: nil)
+        }
+        
+        
     }
     
     private func loadSearchResult(recipeId: Int) {
@@ -296,9 +312,9 @@ extension RecipesViewController: RecipeCellDelegate {
 extension RecipesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard !searchText.isEmpty else {
-            DataHelper.shared.loadPredefinedRecipes { recipe in
-                self.searchResults.removeAll()
-                self.searchResults.append(recipe)
+            DataHelper.shared.loadPredefinedRecipes { recipes in
+                self.searchResults = recipes
+                
             }
             return
         }
@@ -356,5 +372,11 @@ extension RecipesViewController: RecipeDetailsViewControllerDelegate {
         configureNextButton()
         StepStatus.currentStep = .recipesVC
      
+    }
+}
+
+extension RecipesViewController: RecipeCreationVCDelegate {
+    func recipeCreationVCDidTapDone() {
+        recipesTableView.reloadData()
     }
 }

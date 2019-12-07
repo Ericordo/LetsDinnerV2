@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+protocol RecipeCreationVCDelegate: class {
+    func recipeCreationVCDidTapDone()
+}
+
 class RecipeCreationViewController: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
@@ -24,6 +28,10 @@ class RecipeCreationViewController: UIViewController {
     private let picturePicker = UIImagePickerController()
        
     private var imageState : ImageState = .addPic
+    
+    private var readyToSave = false
+    
+    weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +60,22 @@ class RecipeCreationViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    private func saveRecipeToRealm(completion: @escaping (_ recipes: [Recipe]) -> Void) {
+        
+    }
+    
+    private func verifyInformation() -> Bool {
+        if let recipeName = recipeNameTextField.text {
+            if recipeName.isEmpty {
+                recipeNameTextField.shake()
+                return false
+            } else {
+                return true
+            }
+        }
+        return false
+    }
+    
     
     @IBAction func didTapCancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -78,7 +102,9 @@ class RecipeCreationViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
             
         }
+        recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
         self.dismiss(animated: true, completion: nil)
+        
     }
     
     @IBAction func didTapAddImage(_ sender: UIButton) {
