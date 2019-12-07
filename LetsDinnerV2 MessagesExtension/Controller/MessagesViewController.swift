@@ -9,6 +9,7 @@
 import UIKit
 import Messages
 import Firebase
+import RealmSwift
 
 class MessagesViewController: MSMessagesAppViewController {
     
@@ -16,10 +17,17 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
         if FirebaseApp.app() == nil {
                FirebaseApp.configure()
+        }
+        
+        do {
+            _ = try Realm()
+        } catch {
+            print("ERROR", error, error.localizedDescription)
         }
     }
     
@@ -125,7 +133,9 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.willTransition(to: presentationStyle)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTransition"), object: nil)
         removeAllChildViewControllers()
+        
         
     }
     

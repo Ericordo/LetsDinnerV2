@@ -54,6 +54,19 @@ class RecipeCell: UITableViewCell {
         chosenButton.isHidden = !isSelected
     }
     
+    func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool) {
+        if let imageData = customRecipe.imageData {
+            recipeImageView.image = UIImage(data: imageData)
+            backgroundImageView.image = UIImage(data: imageData)
+        } else {
+            recipeImageView.image = UIImage(named: "imageplaceholder")
+            backgroundImageView.backgroundColor = .white
+        }
+        recipeNameLabel.text = customRecipe.title
+        chooseButton.isHidden = isSelected
+        chosenButton.isHidden = !isSelected
+    }
+    
     @IBAction func didTapChooseButton(_ sender: UIButton) {
         recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
         chooseButton.isHidden = chosenButton.isHidden

@@ -56,6 +56,7 @@ enum CellNibs {
     static let userCVCell = "UserCVCell"
     static let taskManagementCell = "TaskManagementCell"
     static let recipeCVCell = "RecipeCVCell"
+    static let sectionInputCell = "SectionInputCell"
 }
 
 enum ApiKeys {
@@ -106,4 +107,6 @@ enum LabelStrings {
     static let whatsThePlan = "So, what's the plan?"
     static let nothingToDo = "There is nothing to do!"
     static let readyToSend = "Ready to send your invite?"
+    static let noCustomRecipeTitle = "No recipe"
+    static let noCustomRecipeMessage = "You can create one!"
 }

@@ -71,7 +71,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeB-1L-5bN">
-                    <rect key="frame" x="146.5" y="323.5" width="82.5" height="20.5"/>
+                    <rect key="frame" x="146.5" y="363.5" width="82.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -108,8 +108,8 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
-                                    <rect key="frame" x="255" y="0.0" width="86" height="20"/>
-                                    <state key="normal" title="Your recipes">
+                                    <rect key="frame" x="266" y="0.0" width="75" height="20"/>
+                                    <state key="normal" title="My recipes">
                                         <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </state>
                                     <connections>
@@ -168,7 +168,7 @@
                 <constraint firstItem="3EZ-7s-2av" firstAttribute="leading" secondItem="Ciq-25-awl" secondAttribute="trailing" constant="4" id="iwH-cM-GK5"/>
                 <constraint firstItem="bv3-Vn-pnT" firstAttribute="top" secondItem="foA-gA-QWG" secondAttribute="bottom" id="k01-22-hgQ"/>
                 <constraint firstItem="lhc-Ek-PZ3" firstAttribute="centerY" secondItem="Tff-p2-emW" secondAttribute="centerY" id="kmv-xv-DfE"/>
-                <constraint firstItem="qeB-1L-5bN" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="ov7-yc-6XJ"/>
+                <constraint firstItem="qeB-1L-5bN" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="40" id="ov7-yc-6XJ"/>
                 <constraint firstItem="JSv-Jk-kjP" firstAttribute="top" secondItem="nph-G5-JAT" secondAttribute="bottom" constant="15" id="tWO-Rp-lqc"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="foA-gA-QWG" secondAttribute="trailing" constant="16" id="wcp-CI-Ci1"/>
                 <constraint firstItem="nph-G5-JAT" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="y7s-m5-lRj"/>

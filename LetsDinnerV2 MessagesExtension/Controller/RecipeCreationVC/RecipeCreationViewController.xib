@@ -75,7 +75,9 @@
                         <constraint firstAttribute="height" constant="1" id="Wtt-6T-Fs0"/>
                     </constraints>
                 </view>
+
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceHolder" translatesAutoresizingMaskIntoConstraints="NO" id="LAq-Zi-jDD">
+
                     <rect key="frame" x="112.5" y="72" width="150" height="117"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="117" id="FY6-Ep-GXo"/>
@@ -108,7 +110,7 @@
                         <constraint firstAttribute="height" constant="1" id="V1l-wr-8sI"/>
                     </constraints>
                 </view>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Recipe name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tWH-Xi-eX8">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Recipe name" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="tWH-Xi-eX8">
                     <rect key="frame" x="30" y="274" width="315" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="78e-jO-yOg"/>
@@ -123,7 +125,7 @@
                         <constraint firstAttribute="height" constant="1" id="QxQ-Zu-THx"/>
                     </constraints>
                 </view>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Servings" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t1K-2N-40F">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Servings" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="t1K-2N-40F">
                     <rect key="frame" x="30" y="315" width="315" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="mdA-kr-Enc"/>

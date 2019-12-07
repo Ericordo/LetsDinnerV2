@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapNext(controller: RecipesViewController)
@@ -34,6 +35,7 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var recipeToggle: UIButton!
     
     weak var delegate: RecipesViewControllerDelegate?
+    let realm = try! Realm()
     
     var searchResults = [Recipe]() {
         didSet {
@@ -41,6 +43,10 @@ class RecipesViewController: UIViewController {
             recipesTableView.reloadData()
         }
     }
+    
+    var customSearchResults: Results<CustomRecipe>?
+    
+    var customRecipes : Results<CustomRecipe>?
     
     var searchType: SearchType = .apiRecipes {
         didSet {
@@ -85,11 +91,16 @@ class RecipesViewController: UIViewController {
         case .apiRecipes:
             headerLabel.text = "DISCOVER THESE RECIPES"
             searchBar.placeholder = "Search 360K+ recipes"
-            recipeToggle.setTitle("Your recipes", for: .normal)
+            recipeToggle.setTitle("My recipes", for: .normal)
+            resultsLabel.isHidden = true
+            loadRecipes()
+            
         case .customRecipes:
-            headerLabel.text = "YOUR RECIPES"
-            searchBar.placeholder = "Search your recipes"
+            headerLabel.text = "MY RECIPES"
+            searchBar.placeholder = "Search my recipes"
             recipeToggle.setTitle("All recipes", for: .normal)
+            loadCustomRecipes()
+            resultsLabel.isHidden = true
         }
     }
     
@@ -104,9 +115,15 @@ class RecipesViewController: UIViewController {
     }
     
     private func loadRecipes() {
-        DataHelper.shared.loadPredefinedRecipes { recipe in
-            self.searchResults.append(recipe)
+        searchResults.removeAll()
+        DataHelper.shared.loadPredefinedRecipes { recipes in
+            self.searchResults = recipes
         }
+    }
+    
+    private func loadCustomRecipes() {
+        customRecipes = realm.objects(CustomRecipe.self)
+        recipesTableView.reloadData()
     }
     
     private func showAlert(title: String, message: String) {
@@ -136,6 +153,7 @@ class RecipesViewController: UIViewController {
     
     @IBAction func didTapCreateRecipe(_ sender: UIButton) {
         let recipeCreationVC = RecipeCreationViewController()
+        recipeCreationVC.recipeCreationVCDelegate = self
         present(recipeCreationVC, animated: true, completion: nil)
     }
     
@@ -180,7 +198,6 @@ class RecipesViewController: UIViewController {
                     task.servings = 2
                     Event.shared.tasks.append(task)
                 }
-                
             })
         }
     }
@@ -203,31 +220,67 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return searchResults.count
+        
+        
+        if searchType == .customRecipes && customRecipes?.count == 0 {
+            tableView.setEmptyView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
+        } else {
+            tableView.restore()
+        }
+        
+        switch searchType {
+        case.apiRecipes:
+            return searchResults.count
+        case.customRecipes:
+                return customRecipes!.count
+            
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = recipesTableView.dequeueReusableCell(withIdentifier: CellNibs.recipeCell, for: indexPath) as! RecipeCell
-        let recipe = searchResults[indexPath.section]
-        var isSelected = false
-        if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
-            isSelected = true
+        switch searchType {
+        case .apiRecipes:
+            let recipe = searchResults[indexPath.section]
+            var isSelected = false
+            if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
+                isSelected = true
+            }
+            cell.configureCell(recipe: recipe, isSelected: isSelected)
+        case .customRecipes:
+            if let customRecipe = customRecipes?[indexPath.section] {
+                var isSelected = false
+                cell.configureCellWithCustomRecipe(customRecipe: customRecipe, isSelected: isSelected)
+            }
+  
         }
-        cell.configureCell(recipe: recipe, isSelected: isSelected)
+        
         cell.recipeCellDelegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let recipe = searchResults[indexPath.section]
-        let recipeDetailsVC = RecipeDetailsViewController()
-        recipeDetailsVC.selectedRecipe = recipe
-        recipeDetailsVC.delegate = self
-        present(recipeDetailsVC, animated: true, completion: nil)
+        switch searchType {
+        case .apiRecipes:
+            let recipe = searchResults[indexPath.section]
+            let recipeDetailsVC = RecipeDetailsViewController()
+            recipeDetailsVC.selectedRecipe = recipe
+            recipeDetailsVC.delegate = self
+            present(recipeDetailsVC, animated: true, completion: nil)
+        case .customRecipes:
+            guard let recipes = customRecipes else { return }
+            let recipe = recipes[indexPath.section]
+            let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+            customRecipeDetailsVC.selectedRecipe = recipe
+            customRecipeDetailsVC.customRecipeDetailsDelegate = self
+            present(customRecipeDetailsVC, animated: true, completion: nil)
+        }
+        
+        
     }
     
     private func loadSearchResult(recipeId: Int) {
-        searchResults.removeAll()
         DataHelper.shared.loadSearchResults(recipeId: recipeId, display: showSearchProgress(_:)) { [weak self] result in
             switch result {
             case.success(let recipe):
@@ -262,12 +315,21 @@ extension RecipesViewController: RecipeCellDelegate {
 
 extension RecipesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard !searchText.isEmpty else {
-            DataHelper.shared.loadPredefinedRecipes { recipe in
-                self.searchResults.removeAll()
-                self.searchResults.append(recipe)
+        switch searchType {
+        case .apiRecipes:
+            guard !searchText.isEmpty else {
+                DataHelper.shared.loadPredefinedRecipes { recipes in
+                    self.searchResults = recipes
+                }
+                return
             }
-            return
+        case .customRecipes:
+            guard !searchText.isEmpty else {
+                loadCustomRecipes()
+                resultsLabel.isHidden = true
+                recipesTableView.isHidden = false
+                return
+            }
         }
     }
     
@@ -276,40 +338,34 @@ extension RecipesViewController: UISearchBarDelegate {
         resultsLabel.isHidden = true
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
         
-//        DataHelper.shared.loadSearchedRecipes(keyword: keyword, display: showSearchProgress(_:), completion: { [weak self] result in
-//            switch result {
-//            case .success(let recipes):
-//                self?.showSearchProgress(false)
-//                self?.searchResults = recipes
-//            case .failure(let error):
-//                switch error {
-//                case .decodingFailed:
-//                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
-//                case .noNetwork:
-//                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
-//                case .requestLimit:
-//                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
-//                }
-//            }
-//        })
-        
-        DataHelper.shared.getSearchedRecipesIds(keyword: keyword, display: showSearchProgress(_:)) { [weak self] result in
-            switch result {
-            case.success(let recipeIds):
-                self?.showSearchProgress(false)
-                recipeIds.forEach { recipeId in
-                    self?.loadSearchResult(recipeId: recipeId)
-                }
-            case .failure(let error):
-                switch error {
-                case .decodingFailed:
-                    self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
-                case .noNetwork:
-                    self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
-                case .requestLimit:
-                    self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
-                }
-            }
+        switch searchType {
+        case .apiRecipes:
+            searchResults.removeAll()
+            DataHelper.shared.getSearchedRecipesIds(keyword: keyword, display: showSearchProgress(_:)) { [weak self] result in
+                   
+                   switch result {
+                   case.success(let recipeIds):
+                       self?.showSearchProgress(false)
+                       recipeIds.forEach { recipeId in
+                           self?.loadSearchResult(recipeId: recipeId)
+                       }
+                       if self?.searchResults.isEmpty ?? true {
+                           self?.resultsLabel.isHidden = false
+                       }
+                   case .failure(let error):
+                       switch error {
+                       case .decodingFailed:
+                           self?.showAlert(title: MessagesToDisplay.decodingFailed, message: "")
+                       case .noNetwork:
+                           self?.showAlert(title: MessagesToDisplay.noNetwork, message: "")
+                       case .requestLimit:
+                           self?.showAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+                       }
+                   }
+               }
+        case .customRecipes:
+            customRecipes = customRecipes?.filter("title CONTAINS[cd] %@", keyword)
+            recipesTableView.reloadData()
         }
     }
     
@@ -324,4 +380,18 @@ extension RecipesViewController: RecipeDetailsViewControllerDelegate {
         StepStatus.currentStep = .recipesVC
      
     }
+}
+
+extension RecipesViewController: RecipeCreationVCDelegate {
+    func recipeCreationVCDidTapDone() {
+        loadCustomRecipes()
+    }
+}
+
+extension RecipesViewController: CustomRecipeDetailsVCDelegate {
+    func didDeleteCustomRecipe() {
+        recipesTableView.reloadData()
+    }
+    
+    
 }

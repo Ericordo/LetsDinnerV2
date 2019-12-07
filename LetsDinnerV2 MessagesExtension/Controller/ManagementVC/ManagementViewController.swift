@@ -36,6 +36,8 @@ class ManagementViewController: UIViewController {
             Event.shared.servings = servings
         }
     }
+    
+    private var selectedSection : String?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,7 +139,7 @@ class ManagementViewController: UIViewController {
                                taskUid: "nil",
                                assignedPersonName: "nil",
                                isCustom: true,
-                               parentRecipe: "Miscellaneous")
+                               parentRecipe: self.selectedSection ?? "Miscellaneous")
             Event.shared.tasks.append(newTask)
             self.prepareData()
             self.tasksTableView.reloadData()
@@ -147,6 +149,10 @@ class ManagementViewController: UIViewController {
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = MessagesToDisplay.thingToAdd
             textField = alertTextField
+            let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
+            input.configureInput(sections: self.sectionNames)
+            input.sectionSelectionInputDelegate = self
+            textField.inputAccessoryView = input
         }
         alert.addAction(add)
         alert.addAction(cancel)
@@ -381,6 +387,14 @@ extension ManagementViewController: TaskManagementCellDelegate {
         UIView.performWithoutAnimation {
             self.tasksTableView.reloadSections(indexSet as IndexSet, with: .none)
         }
+    }
+    
+    
+}
+
+extension ManagementViewController: SectionSelectionInputDelegate {
+    func updateSelectedSection(sectionName: String) {
+        self.selectedSection = sectionName
     }
     
     

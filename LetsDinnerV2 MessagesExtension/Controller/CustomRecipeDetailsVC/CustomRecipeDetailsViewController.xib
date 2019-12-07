@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomRecipeDetailsViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <connections>
+                <outlet property="chooseButton" destination="sTL-uv-Asu" id="mZj-6R-pVs"/>
+                <outlet property="chosenButton" destination="8gT-hO-Zv7" id="Yrt-l4-ECQ"/>
+                <outlet property="doneButton" destination="obb-9V-9cI" id="Q5D-yw-zlH"/>
+                <outlet property="editButton" destination="uzg-cE-3VE" id="kbW-fd-31f"/>
+                <outlet property="nameLabel" destination="bHB-Lw-4fG" id="ZrG-Rl-JEW"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="obb-9V-9cI">
+                    <rect key="frame" x="17" y="10" width="45" height="33"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="45" id="8AC-tr-qle"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <state key="normal" title="Done">
+                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapDone:" destination="-1" eventType="touchUpInside" id="2gV-PQ-3FP"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sTL-uv-Asu">
+                    <rect key="frame" x="278" y="10" width="80" height="33"/>
+                    <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="TSV-N1-3Be"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <state key="normal" title="Choose">
+                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapChoose:" destination="-1" eventType="touchUpInside" id="Ojd-Kd-eqr"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHB-Lw-4fG">
+                    <rect key="frame" x="70" y="16" width="200" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gT-hO-Zv7">
+                    <rect key="frame" x="336" y="15.5" width="22" height="22"/>
+                    <state key="normal" image="checkedbutton"/>
+                    <connections>
+                        <action selector="didTapChosen:" destination="-1" eventType="touchUpInside" id="b1x-HL-xwo"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uzg-cE-3VE">
+                    <rect key="frame" x="17" y="624" width="32" height="33"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <state key="normal" title="Edit">
+                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapEdit:" destination="-1" eventType="touchUpInside" id="ubW-8y-ED6"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="uzg-cE-3VE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="1cg-4A-KWa"/>
+                <constraint firstItem="sTL-uv-Asu" firstAttribute="leading" secondItem="bHB-Lw-4fG" secondAttribute="trailing" constant="8" id="2U4-86-Uen"/>
+                <constraint firstItem="sTL-uv-Asu" firstAttribute="centerY" secondItem="obb-9V-9cI" secondAttribute="centerY" id="62d-IV-tsl"/>
+                <constraint firstItem="bHB-Lw-4fG" firstAttribute="centerY" secondItem="obb-9V-9cI" secondAttribute="centerY" id="7gx-hm-9q7"/>
+                <constraint firstItem="bHB-Lw-4fG" firstAttribute="leading" secondItem="obb-9V-9cI" secondAttribute="trailing" constant="8" id="G2A-ck-oZe"/>
+                <constraint firstItem="obb-9V-9cI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="InL-JR-FnK"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sTL-uv-Asu" secondAttribute="trailing" constant="17" id="Mhj-Tc-Jvo"/>
+                <constraint firstItem="8gT-hO-Zv7" firstAttribute="centerY" secondItem="sTL-uv-Asu" secondAttribute="centerY" id="OXQ-el-z17"/>
+                <constraint firstItem="8gT-hO-Zv7" firstAttribute="trailing" secondItem="sTL-uv-Asu" secondAttribute="trailing" id="xFH-9o-eQb"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="uzg-cE-3VE" secondAttribute="bottom" constant="10" id="xdE-3F-2Ko"/>
+                <constraint firstItem="obb-9V-9cI" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="zYr-bt-XLZ"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="132" y="139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="checkedbutton" width="22" height="22"/>
+    </resources>
+</document>
