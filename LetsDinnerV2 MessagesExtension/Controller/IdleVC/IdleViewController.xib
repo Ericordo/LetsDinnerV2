@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App icon white" translatesAutoresizingMaskIntoConstraints="NO" id="Q3t-vA-WNZ">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appIconWhite" translatesAutoresizingMaskIntoConstraints="NO" id="Q3t-vA-WNZ">
                     <rect key="frame" x="164" y="70" width="47" height="36"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="JRG-jn-9nw"/>
@@ -79,7 +79,7 @@
                         <constraint firstAttribute="width" constant="34" id="9lk-Eb-6lm"/>
                         <constraint firstAttribute="height" constant="34" id="n2s-ki-7x1"/>
                     </constraints>
-                    <state key="normal" image="profilebuttonwhite"/>
+                    <state key="normal" image="profileButtonWhite"/>
                     <connections>
                         <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="bjs-EQ-Ih5"/>
                     </connections>
@@ -101,7 +101,7 @@
         </view>
     </objects>
     <resources>
-        <image name="App icon white" width="45" height="33"/>
-        <image name="profilebuttonwhite" width="22" height="22"/>
+        <image name="appIconWhite" width="45" height="33"/>
+        <image name="profileButtonWhite" width="22" height="22"/>
     </resources>
 </document>

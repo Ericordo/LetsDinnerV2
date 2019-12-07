@@ -26,7 +26,7 @@
                                     <constraint firstAttribute="height" constant="22" id="Lt0-gM-tbT"/>
                                     <constraint firstAttribute="width" constant="22" id="nSg-Wh-RRq"/>
                                 </constraints>
-                                <state key="normal" image="unassignedtask"/>
+                                <state key="normal" image="unassignedTask"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PF3-TD-4UY">
                                 <rect key="frame" x="38" y="11" width="255" height="20.5"/>
@@ -89,6 +89,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="unassignedtask" width="24" height="24"/>
+        <image name="unassignedTask" width="24" height="24"/>
     </resources>
 </document>

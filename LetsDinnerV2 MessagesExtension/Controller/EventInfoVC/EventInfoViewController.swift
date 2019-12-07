@@ -31,8 +31,6 @@ class EventInfoViewController: UIViewController {
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
         
-        
-        
         setupUI()
     }
     
@@ -63,7 +61,7 @@ extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-            infoCell.titleLabel.text = LabelStrings.host
+            infoCell.titleLabel.text = LabelStrings.host 
             infoCell.infoLabel.text = Event.shared.hostName
             return infoCell
         case 1:

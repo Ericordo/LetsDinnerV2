@@ -24,7 +24,7 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRa-hc-m98">
                     <rect key="frame" x="17" y="10" width="52" height="22"/>
-                    <state key="normal" title=" Back" image="chevronIcon">
+                    <state key="normal" title=" Back" image="chevronLeft">
                         <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </state>
                     <connections>
@@ -88,10 +88,10 @@
                 <constraint firstItem="tRa-hc-m98" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="tOD-le-hIQ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="132" y="153"/>
+            <point key="canvasLocation" x="132" y="152.47376311844079"/>
         </view>
     </objects>
     <resources>
-        <image name="chevronIcon" width="7" height="12"/>
+        <image name="chevronLeft" width="7" height="12"/>
     </resources>
 </document>

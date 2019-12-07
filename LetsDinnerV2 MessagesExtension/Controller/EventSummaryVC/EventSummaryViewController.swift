@@ -133,7 +133,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             if let user = user {
                 if user.hasAccepted == .accepted {
                     infoCell.titleLabel.text = LabelStrings.eventInfo
-                    infoCell.infoLabel.text = Event.shared.hostName + "  >"
+                    infoCell.infoLabel.text = Event.shared.hostName + " "
+                    let rightArrow = UIImage(named: "chevronRight")
+                    infoCell.accessoryView = UIImageView(image: rightArrow)
+                    infoCell.accessoryView?.tintColor = Colors.paleGray
                 } else {
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
