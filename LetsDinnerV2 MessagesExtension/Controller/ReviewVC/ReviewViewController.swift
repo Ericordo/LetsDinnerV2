@@ -48,7 +48,6 @@ class ReviewViewController: UIViewController {
         registerCell(CellNibs.taskSummaryCell)
 
         setupUI()
-
     }
     
     private func setupUI() {
@@ -111,6 +110,7 @@ class ReviewViewController: UIViewController {
             self.sendButtonLeadingConstraint =  self.sendButton.leadingAnchor.constraint(equalTo: self.buttonStackView.leadingAnchor, constant: 0)
             self.sendButtonLeadingConstraint.isActive = true
             self.view.layoutIfNeeded()
+            self.sendButton.setTitle("Confirm", for: .normal)
             self.sendButton.setTitleColor(.white, for: .normal)
             self.sendButton.backgroundColor = Colors.customBlue
         }) { (_) in
@@ -136,6 +136,7 @@ class ReviewViewController: UIViewController {
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
             self.sendButtonLeadingConstraint.isActive = false
             self.view.layoutIfNeeded()
+            self.sendButton.setTitle("Send", for: .normal)
             self.sendButton.setTitleColor(Colors.customBlue, for: .normal)
             self.sendButton.backgroundColor = Colors.paleGray
         })

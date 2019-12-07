@@ -21,7 +21,7 @@ class AnswerAcceptedCell: UITableViewCell {
         
         updateButton.layer.masksToBounds = true
         updateButton.layer.cornerRadius = 8.0
-        updateButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+//        updateButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

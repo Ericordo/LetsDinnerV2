@@ -12,18 +12,19 @@ extension UITextField {
     func animateEmpty() {
         if self.text == "" {
             
-            
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0,
+                           initialSpringVelocity: 0,
+                           options: .curveEaseOut,
+                           animations: {
                 
 //                     self.layer.borderColor = Colors.newGradientPink.cgColor
 //                     self.layer.borderWidth = 2
 //                self.backgroundColor?.withAlphaComponent(1)
-            
-        
-                
                     
                  }) { (_) in
-                     self.shake()
+                    self.shake()
                     self.layer.borderWidth = 0
                     
                  }
@@ -55,7 +56,7 @@ extension UITextField {
         iconView.contentMode = .scaleAspectFit
         iconView.image = image
         
-        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
+        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 20))
         iconContainerView.addSubview(iconView)
         leftView = iconContainerView
         leftViewMode = .always

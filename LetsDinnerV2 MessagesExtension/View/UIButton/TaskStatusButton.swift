@@ -9,9 +9,9 @@
 import UIKit
 
 class TaskStatusButton: UIButton {
-    let unassignedImage = UIImage(named: "unassignedtask")
-    let assignedImage = UIImage(named: "assignedtask")
-    let completedImage = UIImage(named: "completedtask")
+    let unassignedImage = UIImage(named: "unassignedTask")
+    let assignedImage = UIImage(named: "assignedTask")
+    let completedImage = UIImage(named: "completedTask")
 
     func setState(state: TaskState) {
         switch state {
