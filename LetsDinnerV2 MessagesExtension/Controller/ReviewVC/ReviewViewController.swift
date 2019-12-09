@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 protocol ReviewViewControllerDelegate: class {
     func reviewVCDidTapPrevious(controller: ReviewViewController)
@@ -35,6 +36,7 @@ class ReviewViewController: UIViewController {
     
     let darkView = UIView()
     var isChecking = false
+    let store = EKEventStore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +51,8 @@ class ReviewViewController: UIViewController {
 
         setupUI()
     }
+    
+
     
     private func setupUI() {
         progressView.progressTintColor = Colors.newGradientRed
@@ -71,7 +75,17 @@ class ReviewViewController: UIViewController {
     
     @IBAction func didTapSend(_ sender: Any) {
         if isChecking {
+            
+            // Add to Calendar
+            let title = Event.shared.dinnerName
+            let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+            let location = Event.shared.dinnerLocation
+            
+            print(calendarManager.store)
+            calendarManager.addEventToCalendar(view: self, with: title, forDate: date, location: location)
+            
             sendInvitation()
+
         } else {
             reviewBeforeSending()
         }
@@ -180,7 +194,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return descriptionCell
         case 5:
             taskSummaryCell.seeAllButton.isHidden = true
-            taskSummaryCell.delegate = self
+            taskSummaryCell.reviewVCDelegate = self
             var numberOfCompletedTasks = 0
             Event.shared.tasks.forEach { task in
                 if task.taskState == .completed {
@@ -210,11 +224,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK:- TaskSummary Delegate
-extension ReviewViewController: TaskSummaryCellDelegate {
-    func taskSummaryCellDidTapSeeAll() {
-        // Hidden
-    }
-    
+extension ReviewViewController: TaskSummaryCellInReviewVCDelegate {
     func taskSummaryDidTapSeeAllBeforeCreateEvent() {
         // Go back to task management
         delegate?.reviewVCBackToManagementVC(controller: self)

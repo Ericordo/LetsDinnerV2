@@ -15,6 +15,8 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
+
+
 private enum RowItemNumber: Int, CaseIterable {
     case title = 0
     case answerCell = 1
@@ -46,17 +48,15 @@ class EventSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
-        
+                
         self.setupTableView()
         self.registerCells()
-        
+            
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
         if !Event.shared.participants.isEmpty {
             summaryTableView.isHidden = false
         }
-        
-        
     }
     
     @objc func updateTable() {
@@ -268,6 +268,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: - Other Function
     
     func addEventToCalendar(with title: String, forDate eventStartDate: Date, location: String) {
+        
         store.requestAccess(to: .event) { (success, error) in
             if error == nil {
                 let event = EKEvent.init(eventStore: self.store)

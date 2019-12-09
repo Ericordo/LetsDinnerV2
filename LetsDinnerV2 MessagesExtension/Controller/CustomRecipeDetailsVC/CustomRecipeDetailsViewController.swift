@@ -36,6 +36,7 @@ class CustomRecipeDetailsViewController: UIViewController {
 
     private func setupUI() {
         chooseButton.layer.cornerRadius = 10
+        chooseButton.backgroundColor = .white
         guard let recipe = selectedRecipe else { return }
               nameLabel.text = recipe.title
         let isSelected = Event.shared.selectedRecipes.contains(where: { $0.title == recipe.title })
