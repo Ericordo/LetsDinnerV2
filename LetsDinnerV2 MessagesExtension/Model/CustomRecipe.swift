@@ -10,10 +10,11 @@ import Foundation
 import RealmSwift
 
 class CustomRecipe: Object {
+    @objc dynamic var id = UUID().uuidString
     @objc dynamic var title: String = ""
     @objc dynamic var imageData: Data? = nil
-//    @objc dynamic var servings: Int = 0
-//    let ingredients = List<CustomIngredient>()
+    @objc dynamic var servings: Int = 0
+    var ingredients = List<CustomIngredient>()
 }
 
 

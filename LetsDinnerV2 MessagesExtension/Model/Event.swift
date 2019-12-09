@@ -38,10 +38,11 @@ class Event {
     }
     var eventDescription = String()
     var selectedRecipes = [Recipe]()
-    var recipeTitles: String {
-          let titles = selectedRecipes.map { $0.title! }
-          return titles.joined(separator:", ")
-    }
+    var selectedCustomRecipes = [CustomRecipe]()
+//    var recipeTitles: String {
+//          let titles = selectedRecipes.map { $0.title! }
+//          return titles.joined(separator:", ")
+//    }
     
     // Helpful Variable
     var isHostRegistered = false
@@ -462,6 +463,40 @@ class Event {
                 }
             }
         }
+    }
+    
+    func saveRecipeToFirebase(_ image: UIImage, id: String, completion: @escaping (Result<String, Error>) -> Void) {
+         
+          guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
+              
+              let storage = Storage.storage().reference()
+              
+              let storageRef = storage.child("RecipePictures").child("RecipePicture").child(id)
+              
+              let metadata = StorageMetadata()
+              metadata.contentType = "image/jpg"
+              
+              storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
+                  if error != nil {
+                      DispatchQueue.main.async {
+                          completion(.failure(error!))
+                      }
+                  }
+                  storageRef.downloadURL { (url, error ) in
+                      if error != nil {
+                          DispatchQueue.main.async {
+                              completion(.failure(error!))
+                          }
+                      }
+                      if let downloadUrl = url?.absoluteString {
+                          print("URL", downloadUrl)
+                          DispatchQueue.main.async {
+                              completion(.success(downloadUrl))
+                          }
+                          
+                      }
+                  }
+              }
     }
        
  

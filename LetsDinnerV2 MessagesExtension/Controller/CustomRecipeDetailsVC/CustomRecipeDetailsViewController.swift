@@ -21,26 +21,52 @@ class CustomRecipeDetailsViewController: UIViewController {
     @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var chosenButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var ingredientsLabel: UILabel!
+    @IBOutlet weak var ingredientsTableView: UITableView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
     var selectedRecipe: CustomRecipe?
     
     let realm = try! Realm()
     
+    private let rowHeight : CGFloat = 44
+    
+    private let topViewMinHeight: CGFloat = 80
+    private let topViewMaxHeight: CGFloat = 140
+    
+    
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ingredientsTableView.delegate = self
+        ingredientsTableView.dataSource = self
+        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+        scrollView.delegate = self
+        
         setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        
     }
 
     private func setupUI() {
         chooseButton.layer.cornerRadius = 10
         guard let recipe = selectedRecipe else { return }
-              nameLabel.text = recipe.title
-        let isSelected = Event.shared.selectedRecipes.contains(where: { $0.title == recipe.title })
-              chooseButton.isHidden = isSelected
-              chosenButton.isHidden = !isSelected
+        nameLabel.text = recipe.title
+        ingredientsLabel.text = "INGREDIENTS FOR \(recipe.servings) PEOPLE"
+        if let imageData = recipe.imageData {
+            recipeImageView.image = UIImage(data: imageData)
+        }
+        let isSelected = Event.shared.selectedCustomRecipes.contains(where: { $0.title == recipe.title })
+        chooseButton.isHidden = isSelected
+        chosenButton.isHidden = !isSelected
+        recipeImageView.layer.cornerRadius = 17
+        ingredientsTableView.rowHeight = rowHeight
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
     
     private func deleteRecipe() {
@@ -96,4 +122,35 @@ class CustomRecipeDetailsViewController: UIViewController {
     
    
 
+}
+
+extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (selectedRecipe?.ingredients.count)!
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
+        if let ingredient = selectedRecipe?.ingredients[indexPath.row] {
+            cell.configureCell(name: ingredient.name, amount: ingredient.amount.value ?? 0, unit: ingredient.unit ?? "")
+        }
+        return cell
+    }
+    
+    
+}
+
+extension CustomRecipeDetailsViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yOffset = scrollView.contentOffset.y
+        print(yOffset)
+        if yOffset < -topViewMaxHeight {
+            heightConstraint.constant = self.topViewMaxHeight
+        } else if yOffset < -topViewMinHeight {
+            heightConstraint.constant = yOffset * -1
+            
+        } else {
+            heightConstraint.constant = topViewMinHeight
+        }
+    }
 }

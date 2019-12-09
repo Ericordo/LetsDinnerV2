@@ -11,10 +11,13 @@ import RealmSwift
 
 class CustomIngredient: Object {
     @objc dynamic var name: String = ""
-    var metricAmount = RealmOptional<Double>()
-    var usAmount = RealmOptional<Double>()
-    @objc dynamic var metricUnit: String? = nil
-    @objc dynamic var usUnit: String? = nil
-//    var parentRecipe = LinkingObjects(fromType: CustomRecipe.self, property: "ingredients")
+    var amount = RealmOptional<Double>()
+    @objc dynamic var unit: String? = nil
+    var parentRecipe = LinkingObjects(fromType: CustomRecipe.self, property: "ingredients")
+    // If we want to convert the unit
+    //    var metricAmount = RealmOptional<Double>()
+    //    var usAmount = RealmOptional<Double>()
+    //    @objc dynamic var metricUnit: String? = nil
+    //    @objc dynamic var usUnit: String? = nil
 }
 

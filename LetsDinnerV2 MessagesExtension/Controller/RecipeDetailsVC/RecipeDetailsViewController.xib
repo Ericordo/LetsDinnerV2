@@ -59,7 +59,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6lw-Nc-ovZ">
                     <rect key="frame" x="334" y="14.5" width="24" height="24"/>
-                    <state key="normal" backgroundImage="checkedbutton"/>
+                    <state key="normal" backgroundImage="checkedButton"/>
                     <connections>
                         <action selector="didTapChosen:" destination="-1" eventType="touchUpInside" id="MGn-GD-aMJ"/>
                     </connections>
@@ -101,6 +101,6 @@
         </view>
     </objects>
     <resources>
-        <image name="checkedbutton" width="24" height="24"/>
+        <image name="checkedButton" width="24" height="24"/>
     </resources>
 </document>

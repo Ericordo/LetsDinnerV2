@@ -72,7 +72,7 @@ class EventDescriptionViewController: UIViewController {
         progressView.setProgress(4/5, animated: true)
         
         cookLabel.text = "COOKING FOR \(Event.shared.servings)"
-        if Event.shared.selectedRecipes.isEmpty {
+        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             cookLabel.isHidden = true
         }
     }

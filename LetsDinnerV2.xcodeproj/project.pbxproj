@@ -38,6 +38,9 @@
 		880B137423757224003E29AC /* UserCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B137223757224003E29AC /* UserCVCell.xib */; };
 		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
+		8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88224909239D67FC0054C24E /* AmountPicker.swift */; };
+		8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8822490C239D7AAF0054C24E /* IngredientCell.swift */; };
+		8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8822490D239D7AAF0054C24E /* IngredientCell.xib */; };
 		882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC523998738001634D9 /* CustomRecipe.swift */; };
 		882B9CC82399A0BD001634D9 /* CustomIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC72399A0BD001634D9 /* CustomIngredient.swift */; };
 		882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882C4C17237AEA900039B55F /* IdleViewController.swift */; };
@@ -182,6 +185,9 @@
 		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
 		880B13792376EB99003E29AC /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		88224909239D67FC0054C24E /* AmountPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountPicker.swift; sourceTree = "<group>"; };
+		8822490C239D7AAF0054C24E /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
+		8822490D239D7AAF0054C24E /* IngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IngredientCell.xib; sourceTree = "<group>"; };
 		882B9CC523998738001634D9 /* CustomRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipe.swift; sourceTree = "<group>"; };
 		882B9CC72399A0BD001634D9 /* CustomIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIngredient.swift; sourceTree = "<group>"; };
 		882C4C17237AEA900039B55F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
@@ -392,6 +398,15 @@
 			path = UserCVCell;
 			sourceTree = "<group>";
 		};
+		8822490B239D79C20054C24E /* IngredientCell */ = {
+			isa = PBXGroup;
+			children = (
+				8822490C239D7AAF0054C24E /* IngredientCell.swift */,
+				8822490D239D7AAF0054C24E /* IngredientCell.xib */,
+			);
+			path = IngredientCell;
+			sourceTree = "<group>";
+		};
 		882C4C14237AEA470039B55F /* IdleVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +502,7 @@
 				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
 				B8384BFE238A8503005B25E9 /* UIButton */,
 				88349F322370302E002A1879 /* DatePicker.swift */,
+				88224909239D67FC0054C24E /* AmountPicker.swift */,
 				B85071D22392723D00632026 /* GestureRecognizer.swift */,
 				88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */,
 				880B13642374B3F2003E29AC /* TaskPersonLabel.swift */,
@@ -578,6 +594,7 @@
 		88349F3D2370D0C1002A1879 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				8822490B239D79C20054C24E /* IngredientCell */,
 				88C9650B239A9BEB00CFC710 /* SectionInputCell */,
 				885C60C423809F9300ED3A17 /* RecipeCVCell */,
 				B8E4CA7923812174006DD095 /* TitleCell */,
@@ -874,6 +891,7 @@
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
+				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
 				880B135423737711003E29AC /* CalendarCell.xib in Resources */,
 				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
@@ -1047,6 +1065,7 @@
 				88C96507239A886000CFC710 /* CustomRecipeDetailsViewController.swift in Sources */,
 				88B7833223718125009E4F3C /* Recipe - Edamam.swift in Sources */,
 				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
+				8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */,
@@ -1061,6 +1080,7 @@
 				B85071D12391690600632026 /* Test.swift in Sources */,
 				B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
+				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

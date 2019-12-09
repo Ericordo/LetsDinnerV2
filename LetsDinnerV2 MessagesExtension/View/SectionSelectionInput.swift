@@ -32,7 +32,7 @@ class SectionSelectionInput : UIView {
     private let arrowImage : UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "arrowicon")
+        imageView.image = UIImage(named: "arrowIcon")
         return imageView
     }()
     
