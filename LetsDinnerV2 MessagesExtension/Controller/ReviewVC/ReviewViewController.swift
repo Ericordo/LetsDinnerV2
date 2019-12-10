@@ -75,20 +75,37 @@ class ReviewViewController: UIViewController {
     
     @IBAction func didTapSend(_ sender: Any) {
         if isChecking {
-            
-            // Add to Calendar
-            let title = Event.shared.dinnerName
-            let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-            let location = Event.shared.dinnerLocation
-            
-            print(calendarManager.store)
-            calendarManager.addEventToCalendar(view: self, with: title, forDate: date, location: location)
-            
-            sendInvitation()
-
+            // Show Alert if add to calendar
+            addToCalendarAlert()
         } else {
             reviewBeforeSending()
         }
+    }
+    
+    func confirmToAddCalendar() {
+        let title = Event.shared.dinnerName
+        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+        let location = Event.shared.dinnerLocation
+        
+        calendarManager.addEventToCalendar(view: self,
+                                            with: title,
+                                            forDate: date,
+                                            location: location)
+        
+        sendInvitation()
+    }
+    
+    func addToCalendarAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
+                                      message: MessagesToDisplay.addToCalendarAlertMessage,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Nope",
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { (_) in self.sendInvitation()}))
+        alert.addAction(UIAlertAction(title: "Add",
+                                      style: UIAlertAction.Style.default,
+                                      handler: { (_) in self.confirmToAddCalendar() }))
+        self.present(alert, animated: true, completion: nil)
     }
     
 //    private func animateSending() {

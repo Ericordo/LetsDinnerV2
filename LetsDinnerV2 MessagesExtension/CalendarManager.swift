@@ -41,13 +41,13 @@ class CalendarManager {
                 }
                 
                 if eventAlreadyAdded {
-                    print("Event already added")
                     let alert = UIAlertController(title: MessagesToDisplay.eventExists,
                                                   message: "",
                                                   preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK",
                                                   style: .default,
                                                   handler: nil))
+                    
                     DispatchQueue.main.async(execute: {
                         view.present(alert, animated: true)
                     })

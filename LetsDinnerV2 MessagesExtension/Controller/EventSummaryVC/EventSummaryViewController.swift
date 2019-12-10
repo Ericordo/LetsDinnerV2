@@ -112,20 +112,14 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.answerCell.rawValue:
             
             // Check the currentUser has accepted or not
-//            if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-//
-//                let user = Event.shared.participants[index]
-                    
-                if let user = user {
-                    if user.hasAccepted == .declined {
-                        return answerDeclinedCell
-                    } else if user.hasAccepted == .accepted {
-                        return answerAcceptedCell
-                    }
+            if let user = user {
+                if user.hasAccepted == .declined {
+                    return answerDeclinedCell
+                } else if user.hasAccepted == .accepted {
+                    return answerAcceptedCell
                 }
+            }
                 
-//            }
-            
             answerCell.delegate = self
             return answerCell
 
