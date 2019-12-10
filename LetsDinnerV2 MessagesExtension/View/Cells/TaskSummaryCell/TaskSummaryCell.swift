@@ -10,6 +10,9 @@ import UIKit
 
 protocol TaskSummaryCellDelegate: class {
     func taskSummaryCellDidTapSeeAll()
+}
+
+protocol TaskSummaryCellInReviewVCDelegate: class {
     func taskSummaryDidTapSeeAllBeforeCreateEvent()
 }
 
@@ -22,6 +25,7 @@ class TaskSummaryCell: UITableViewCell {
     @IBOutlet weak var progressCircle: ProgressCircle!
     
     weak var delegate: TaskSummaryCellDelegate?
+    weak var reviewVCDelegate: TaskSummaryCellInReviewVCDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,7 +51,7 @@ class TaskSummaryCell: UITableViewCell {
     }
     
     @IBAction func didTapSeeAllBeforeCreateEvent(_ sender: UIButton) {
-        delegate?.taskSummaryDidTapSeeAllBeforeCreateEvent()
+        reviewVCDelegate?.taskSummaryDidTapSeeAllBeforeCreateEvent()
     }
 }
 

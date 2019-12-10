@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 protocol ReviewViewControllerDelegate: class {
     func reviewVCDidTapPrevious(controller: ReviewViewController)
@@ -35,6 +36,7 @@ class ReviewViewController: UIViewController {
     
     let darkView = UIView()
     var isChecking = false
+    let store = EKEventStore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +51,8 @@ class ReviewViewController: UIViewController {
 
         setupUI()
     }
+    
+
     
     private func setupUI() {
         progressView.progressTintColor = Colors.newGradientRed
@@ -71,10 +75,37 @@ class ReviewViewController: UIViewController {
     
     @IBAction func didTapSend(_ sender: Any) {
         if isChecking {
-            sendInvitation()
+            // Show Alert if add to calendar
+            addToCalendarAlert()
         } else {
             reviewBeforeSending()
         }
+    }
+    
+    func confirmToAddCalendar() {
+        let title = Event.shared.dinnerName
+        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+        let location = Event.shared.dinnerLocation
+        
+        calendarManager.addEventToCalendar(view: self,
+                                            with: title,
+                                            forDate: date,
+                                            location: location)
+        
+        sendInvitation()
+    }
+    
+    func addToCalendarAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
+                                      message: MessagesToDisplay.addToCalendarAlertMessage,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Nope",
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { (_) in self.sendInvitation()}))
+        alert.addAction(UIAlertAction(title: "Add",
+                                      style: UIAlertAction.Style.default,
+                                      handler: { (_) in self.confirmToAddCalendar() }))
+        self.present(alert, animated: true, completion: nil)
     }
     
 //    private func animateSending() {
@@ -180,7 +211,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return descriptionCell
         case 5:
             taskSummaryCell.seeAllButton.isHidden = true
-            taskSummaryCell.delegate = self
+            taskSummaryCell.reviewVCDelegate = self
             var numberOfCompletedTasks = 0
             Event.shared.tasks.forEach { task in
                 if task.taskState == .completed {
@@ -210,11 +241,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK:- TaskSummary Delegate
-extension ReviewViewController: TaskSummaryCellDelegate {
-    func taskSummaryCellDidTapSeeAll() {
-        // Hidden
-    }
-    
+extension ReviewViewController: TaskSummaryCellInReviewVCDelegate {
     func taskSummaryDidTapSeeAllBeforeCreateEvent() {
         // Go back to task management
         delegate?.reviewVCBackToManagementVC(controller: self)

@@ -15,6 +15,8 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
+
+
 private enum RowItemNumber: Int, CaseIterable {
     case title = 0
     case answerCell = 1
@@ -46,17 +48,15 @@ class EventSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
-        
+                
         self.setupTableView()
         self.registerCells()
-        
+            
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
         if !Event.shared.participants.isEmpty {
             summaryTableView.isHidden = false
         }
-        
-        
     }
     
     @objc func updateTable() {
@@ -112,20 +112,14 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.answerCell.rawValue:
             
             // Check the currentUser has accepted or not
-//            if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-//
-//                let user = Event.shared.participants[index]
-                    
-                if let user = user {
-                    if user.hasAccepted == .declined {
-                        return answerDeclinedCell
-                    } else if user.hasAccepted == .accepted {
-                        return answerAcceptedCell
-                    }
+            if let user = user {
+                if user.hasAccepted == .declined {
+                    return answerDeclinedCell
+                } else if user.hasAccepted == .accepted {
+                    return answerAcceptedCell
                 }
+            }
                 
-//            }
-            
             answerCell.delegate = self
             return answerCell
 
@@ -268,6 +262,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: - Other Function
     
     func addEventToCalendar(with title: String, forDate eventStartDate: Date, location: String) {
+        
         store.requestAccess(to: .event) { (success, error) in
             if error == nil {
                 let event = EKEvent.init(eventStore: self.store)
