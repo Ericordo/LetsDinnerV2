@@ -63,7 +63,7 @@ class ManagementViewController: UIViewController {
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
         
-        if Event.shared.selectedRecipes.isEmpty {
+        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             servingsLabel.isHidden = true
             servingsStepper.isHidden = true
             separatorView.isHidden = true

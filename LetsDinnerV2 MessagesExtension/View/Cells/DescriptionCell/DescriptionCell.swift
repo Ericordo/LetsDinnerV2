@@ -15,6 +15,8 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var recipesCollectionView: UICollectionView!
     
     private let selectedRecipes = Event.shared.selectedRecipes
+    private let selectedCustomRecipes = Event.shared.selectedCustomRecipes
+    private var allRecipesTitles = [String]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,9 +34,16 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         self.descriptionLabel.backgroundColor = nil
         self.descriptionLabel.textColor = Colors.dullGray
         
-        if Event.shared.selectedRecipes.count == 0 {
+        if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty {
             recipesCollectionView.removeFromSuperview()
         }
+        
+        selectedRecipes.forEach { recipe in
+                  allRecipesTitles.append(recipe.title ?? "")
+              }
+              selectedCustomRecipes.forEach { customRecipe in
+                  allRecipesTitles.append(customRecipe.title)
+              }
     }
     
     override func layoutSubviews() {
@@ -49,14 +58,14 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedRecipes.count
+        return allRecipesTitles.count
      }
      
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
-         let recipe = selectedRecipes[indexPath.row]
-         recipeCVCell.configureCell(recipeTitle: recipe.title ?? "")
-         return recipeCVCell
+        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
+        let recipeTitle = allRecipesTitles[indexPath.row]
+        recipeCVCell.configureCell(recipeTitle: recipeTitle)
+        return recipeCVCell
      }
     
 }

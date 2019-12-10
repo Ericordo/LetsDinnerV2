@@ -11,6 +11,7 @@ import Messages
 import iMessageDataKit
 import FirebaseDatabase
 import FirebaseStorage
+import RealmSwift
 
 class Event {
     
@@ -38,10 +39,11 @@ class Event {
     }
     var eventDescription = String()
     var selectedRecipes = [Recipe]()
-    var recipeTitles: String {
-          let titles = selectedRecipes.map { $0.title! }
-          return titles.joined(separator:", ")
-    }
+    var selectedCustomRecipes = [CustomRecipe]()
+//    var recipeTitles: String {
+//          let titles = selectedRecipes.map { $0.title! }
+//          return titles.joined(separator:", ")
+//    }
     
     // Helpful Variable
     var isHostRegistered = false
@@ -61,6 +63,7 @@ class Event {
         hostName.removeAll()
         dinnerLocation.removeAll()
         selectedRecipes.removeAll()
+        selectedCustomRecipes.removeAll()
         eventDescription.removeAll()
         dateTimestamp = 0.0
         tasks.removeAll()
@@ -157,12 +160,44 @@ class Event {
                   recipeChild.setValue(parameters)
               }
           }
+        
+        if !selectedCustomRecipes.isEmpty {
+            selectedCustomRecipes.forEach { customRecipe in
+                var ingredients = [String : String]()
+                customRecipe.ingredients.forEach { ingredient in
+                    if let amount = ingredient.amount.value {
+                         ingredients[ingredient.name] = ", \(amount) \(ingredient.unit ?? "")"
+                    } else {
+                        ingredients[ingredient.name] = ""
+                    }
+                }
+                let customRecipeChild = childUid.child("customRecipes").childByAutoId()
+                if let downloadUrl = customRecipe.downloadUrl {
+                    let parameters : [String : Any] = ["title" : customRecipe.title,
+                                                       "downloadUrl" : downloadUrl,
+                                                       "ingredients" : ingredients,
+                                                       "id" : customRecipe.id,
+                                                       "servings" : customRecipe.servings]
+                    customRecipeChild.setValue(parameters)
+                } else {
+                    let parameters : [String : Any] = ["title" : customRecipe.title,
+                                                       "ingredients" : ingredients,
+                                                       "id" : customRecipe.id,
+                                                       "servings" : customRecipe.servings]
+                    customRecipeChild.setValue(parameters)
+                }
+
+            }
+        }
             
         if !tasks.isEmpty {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
                 if let amount = task.metricAmount, let unit = task.metricUnit {
                     let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe, "metricAmount" : amount, "metricUnit" : unit]
+                    taskChild.setValue(parameters)
+                } else if let amount = task.metricAmount {
+                    let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe, "metricAmount" : amount]
                     taskChild.setValue(parameters)
                 } else {
                     let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
@@ -279,14 +314,18 @@ class Event {
                         guard let isCustom = dict["isCustom"] as? Bool else { return }
                         guard let parentRecipe = dict["parentRecipe"] as? String else { return }
                         let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
-                        if let amount = dict["metricAmount"] as? Double, let unit = dict["metricUnit"] as? String {
+                        if let amount = dict["metricAmount"] as? Double {
                             task.metricAmount = amount
+                        }
+                        if let unit = dict["metricUnit"] as? String {
                             task.metricUnit = unit
                         }
                         tasks.append(task)
                         let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
-                        if let amount = dict["metricAmount"] as? Double, let unit = dict["metricUnit"] as? String {
+                        if let amount = dict["metricAmount"] as? Double {
                             newTask.metricAmount = amount
+                        }
+                        if let unit = dict["metricUnit"] as? String {
                             newTask.metricUnit = unit
                         }
                         self.currentConversationTaskStates.append(newTask)
@@ -307,6 +346,29 @@ class Event {
                     }
                 }
                 self.selectedRecipes = recipes
+            
+            var customRecipes = [CustomRecipe]()
+            if let selectedCustomRecipes = value["customRecipes"] as? [String : Any] {
+                selectedCustomRecipes.forEach { (key, value) in
+                    guard let dict = value as? [String : Any] else { return }
+                    guard let title = dict["title"] as? String else { return }
+                    guard let servings = dict["servings"] as? Int else { return }
+                    guard let ingredients = dict["ingredients"] as? [String : String] else { return }
+                    let customRecipe = CustomRecipe()
+                    customRecipe.title = title
+                    customRecipe.servings = servings
+                    ingredients.forEach { (key, value) in
+                        let customIngredient = CustomIngredient()
+                        customIngredient.name = key + value
+                        customRecipe.ingredients.append(customIngredient)
+                    }
+                    if let downloadUrl = dict["downloadUrl"] as? String {
+                        customRecipe.downloadUrl = downloadUrl
+                    }
+                    customRecipes.append(customRecipe)
+                }
+            }
+            self.selectedCustomRecipes = customRecipes
                 
                 NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
             }
@@ -357,8 +419,10 @@ class Event {
                                               "state" : task.taskState.rawValue,
                                               "isCustom" : task.isCustom,
                                               "parentRecipe" : task.parentRecipe]
-            if let amount = task.metricAmount, let unit = task.metricUnit {
+            if let amount = task.metricAmount {
                 parameters["metricAmount"] = amount
+            }
+            if let unit = task.metricUnit {
                 parameters["metricUnit"] = unit
             }
 //            Replaced child[ingredients] by child[tasks]
@@ -462,6 +526,40 @@ class Event {
                 }
             }
         }
+    }
+    
+    func saveRecipePicToFirebase(_ image: UIImage, id: String, completion: @escaping (Result<String, Error>) -> Void) {
+         
+          guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
+              
+              let storage = Storage.storage().reference()
+              
+              let storageRef = storage.child("RecipePictures").child("RecipePicture").child(id)
+              
+              let metadata = StorageMetadata()
+              metadata.contentType = "image/jpg"
+              
+              storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
+                  if error != nil {
+                      DispatchQueue.main.async {
+                          completion(.failure(error!))
+                      }
+                  }
+                  storageRef.downloadURL { (url, error ) in
+                      if error != nil {
+                          DispatchQueue.main.async {
+                              completion(.failure(error!))
+                          }
+                      }
+                      if let downloadUrl = url?.absoluteString {
+                          print("URL", downloadUrl)
+                          DispatchQueue.main.async {
+                              completion(.success(downloadUrl))
+                          }
+                          
+                      }
+                  }
+              }
     }
        
  

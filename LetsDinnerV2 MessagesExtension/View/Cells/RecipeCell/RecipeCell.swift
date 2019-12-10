@@ -11,7 +11,9 @@ import Kingfisher
 
 protocol RecipeCellDelegate: class {
     func recipeCellDidSelectRecipe(recipe: Recipe)
+    func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe)
 }
+
 
 class RecipeCell: UITableViewCell {
     @IBOutlet weak var backgroundCellView: UIView!
@@ -22,7 +24,10 @@ class RecipeCell: UITableViewCell {
     @IBOutlet weak var backgroundImageView: UIImageView!
     
     var selectedRecipe = Recipe(dict: [:])
+    var selectedCustomRecipe = CustomRecipe()
     weak var recipeCellDelegate: RecipeCellDelegate?
+    
+    var searchType: SearchType = .apiRecipes
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,38 +48,55 @@ class RecipeCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    func configureCell(recipe: Recipe, isSelected: Bool) {
+    func configureCell(recipe: Recipe, isSelected: Bool, searchType: SearchType) {
         if let imageURL = URL(string: recipe.imageUrl!) {
             recipeImageView.kf.setImage(with: imageURL)
             backgroundImageView.kf.setImage(with: imageURL)
         }
+        self.searchType = searchType
         recipeNameLabel.text = recipe.title!
         selectedRecipe = recipe
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
     }
     
-    func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool) {
-        if let imageData = customRecipe.imageData {
-            recipeImageView.image = UIImage(data: imageData)
-            backgroundImageView.image = UIImage(data: imageData)
+    func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
+        if let downloadUrl = customRecipe.downloadUrl {
+                  recipeImageView.kf.setImage(with: URL(string: downloadUrl))
+                  backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
+              
+//        if let imageData = customRecipe.imageData {
+//            recipeImageView.image = UIImage(data: imageData)
+//            backgroundImageView.image = UIImage(data: imageData)
         } else {
-            recipeImageView.image = UIImage(named: "imageplaceholder")
+            recipeImageView.image = UIImage(named: "imagePlaceholder")
             backgroundImageView.backgroundColor = .white
         }
+        self.searchType = searchType
         recipeNameLabel.text = customRecipe.title
+        selectedCustomRecipe = customRecipe
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
     }
     
     @IBAction func didTapChooseButton(_ sender: UIButton) {
-        recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
+        switch searchType {
+        case .apiRecipes:
+             recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
+        case .customRecipes:
+            recipeCellDelegate?.recipeCellDidSelectCustomRecipe(customRecipe: selectedCustomRecipe)
+        }
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
     }
     
     @IBAction func didTapChosenButton(_ sender: UIButton) {
-        recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
+        switch searchType {
+        case .apiRecipes:
+             recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
+        case .customRecipes:
+            recipeCellDelegate?.recipeCellDidSelectCustomRecipe(customRecipe: selectedCustomRecipe)
+        }
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
     }

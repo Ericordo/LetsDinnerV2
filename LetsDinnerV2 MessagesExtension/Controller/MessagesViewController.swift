@@ -476,22 +476,22 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
     }
 }
 
-extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
-    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
-        let controller = instantiateManagementViewController()
-        removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: .VCGoBack)
-    }
-    
-    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
-//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-//        sendMessage(message: message)
-        let controller = instantiateReviewViewController()
-        removeAllChildViewControllers()
-        addChildViewController(controller: controller)
-    }
-}
+//extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
+//    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
+//        let controller = instantiateManagementViewController()
+//        removeAllChildViewControllers()
+//        addChildViewController(controller: controller, transition: .VCGoBack)
+//    }
+//    
+//    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
+////        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+////        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+////        sendMessage(message: message)
+//        let controller = instantiateReviewViewController()
+//        removeAllChildViewControllers()
+//        addChildViewController(controller: controller)
+//    }
+//}
 
 extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapPrevious(controller: ReviewViewController) {

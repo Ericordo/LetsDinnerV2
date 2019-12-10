@@ -26,8 +26,10 @@ class EventDescriptionViewController: UIViewController {
     @IBOutlet weak var recipesCollectionView: UICollectionView!
     
     weak var delegate: EventDescriptionViewControllerDelegate?
-    var selectedRecipes = Event.shared.selectedRecipes
-    var placeholderLabel = UILabel()
+    private let selectedRecipes = Event.shared.selectedRecipes
+    private let selectedCustomRecipes = Event.shared.selectedCustomRecipes
+    private var allRecipesTitles = [String]()
+    private var placeholderLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,12 @@ class EventDescriptionViewController: UIViewController {
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
         recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
-        
+        selectedRecipes.forEach { recipe in
+            allRecipesTitles.append(recipe.title ?? "")
+        }
+        selectedCustomRecipes.forEach { customRecipe in
+            allRecipesTitles.append(customRecipe.title)
+        }
         setupUI()
     }
     
@@ -72,7 +79,7 @@ class EventDescriptionViewController: UIViewController {
         progressView.setProgress(4/5, animated: true)
         
         cookLabel.text = "COOKING FOR \(Event.shared.servings)"
-        if Event.shared.selectedRecipes.isEmpty {
+        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             cookLabel.isHidden = true
         }
     }
@@ -116,13 +123,13 @@ class EventDescriptionViewController: UIViewController {
 
 extension EventDescriptionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedRecipes.count
+        return allRecipesTitles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
-        let recipe = selectedRecipes[indexPath.row]
-        recipeCVCell.configureCell(recipeTitle: recipe.title ?? "")
+        let recipeTitle = allRecipesTitles[indexPath.row]
+        recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell
     }
     
