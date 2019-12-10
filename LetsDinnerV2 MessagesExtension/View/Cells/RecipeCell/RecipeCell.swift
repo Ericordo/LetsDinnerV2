@@ -61,9 +61,13 @@ class RecipeCell: UITableViewCell {
     }
     
     func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
-        if let imageData = customRecipe.imageData {
-            recipeImageView.image = UIImage(data: imageData)
-            backgroundImageView.image = UIImage(data: imageData)
+        if let downloadUrl = customRecipe.downloadUrl {
+                  recipeImageView.kf.setImage(with: URL(string: downloadUrl))
+                  backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
+              
+//        if let imageData = customRecipe.imageData {
+//            recipeImageView.image = UIImage(data: imageData)
+//            backgroundImageView.image = UIImage(data: imageData)
         } else {
             recipeImageView.image = UIImage(named: "imagePlaceholder")
             backgroundImageView.backgroundColor = .white

@@ -26,6 +26,8 @@ class TaskManagementCell: UITableViewCell {
         self.task = task
         if let amount = task.metricAmount, let unit = task.metricUnit {
             taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+        } else if let amount = task.metricAmount {
+            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
         } else {
             taskNameLabel.text = task.taskName
         }

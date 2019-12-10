@@ -15,8 +15,8 @@ protocol RecipeCreationVCDelegate: class {
 
 struct TemporaryIngredient {
     let name: String
-    let amount: Double
-    let unit: String 
+    let amount: Double?
+    let unit: String?
 }
 
 class RecipeCreationViewController: UIViewController {
@@ -27,7 +27,6 @@ class RecipeCreationViewController: UIViewController {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var recipeNameTextField: UITextField!
-    @IBOutlet weak var servingsTextField: UITextField!
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var unitTextField: UITextField!
@@ -36,6 +35,9 @@ class RecipeCreationViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var servingsLabel: UILabel!
+    @IBOutlet weak var servingsStepper: UIStepper!
     
     private let realm = try! Realm()
     
@@ -45,10 +47,15 @@ class RecipeCreationViewController: UIViewController {
     private let topViewMaxHeight: CGFloat = 160
     
     private let picturePicker = UIImagePickerController()
+    
+    private var recipeImage: UIImage?
+    private var downloadUrl: String?
        
     private var imageState : ImageState = .addPic
     
     private var readyToSave = false
+    
+    let customRecipe = CustomRecipe()
     
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
     
@@ -59,12 +66,17 @@ class RecipeCreationViewController: UIViewController {
             ingredientsTableViewHeightConstraint.constant = CGFloat(temporaryIngredients.count)*rowHeight
         }
     }
+    
+    private var servings : Int = 2 {
+           didSet {
+               servingsLabel.text = "For \(servings) people"
+           }
+       }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         recipeNameTextField.delegate = self
-        servingsTextField.delegate = self
         ingredientTextField.delegate = self
         amountTextField.delegate = self
         unitTextField.delegate = self
@@ -85,6 +97,12 @@ class RecipeCreationViewController: UIViewController {
     private func setupUI() {
         recipeImageView.layer.cornerRadius = 17
         ingredientsTableView.rowHeight = rowHeight
+        
+        servingsLabel.text = "For \(servings) people"
+        servingsStepper.minimumValue = 2
+        servingsStepper.maximumValue = 12
+        servingsStepper.stepValue = 1
+        servingsStepper.value = Double(servings)
     }
     
     private func presentPicker() {
@@ -102,22 +120,26 @@ class RecipeCreationViewController: UIViewController {
     private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
         do {
             try self.realm.write {
-                let customRecipe = CustomRecipe()
                 let customIngredients = List<CustomIngredient>()
-                if let recipeImage = recipeImageView.image {
-                    customRecipe.imageData = recipeImage.pngData()
-                }
+//                if let recipeImage = recipeImageView.image {
+//                    customRecipe.imageData = recipeImage.pngData()
+//                }
                 if let recipeTitle = recipeNameTextField.text {
                     customRecipe.title = recipeTitle
                 }
-                if let servings = Int(servingsTextField.text!) {
-                    customRecipe.servings = servings
+                if let downloadUrl = self.downloadUrl {
+                    customRecipe.downloadUrl = downloadUrl
                 }
+                customRecipe.servings = servings
                 temporaryIngredients.forEach { temporaryIngredient in
                     let customIngredient = CustomIngredient()
                     customIngredient.name = temporaryIngredient.name
-                    customIngredient.amount.value = temporaryIngredient.amount
-                    customIngredient.unit = temporaryIngredient.unit
+                    if let amount = temporaryIngredient.amount {
+                        customIngredient.amount.value = amount
+                    }
+                    if let unit = temporaryIngredient.unit {
+                       customIngredient.unit = unit
+                    }
                     customIngredients.append(customIngredient)
                 }
                 customRecipe.ingredients = customIngredients
@@ -152,21 +174,27 @@ class RecipeCreationViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-
+    
     @IBAction func didTapDone(_ sender: Any) {
-        saveRecipeToRealm { [weak self] result in
-            switch result {
-            case .success:
-                self?.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
-                self?.dismiss(animated: true, completion: nil)
-            case .failure(let error):
-                // To modify
-                let alert = UIAlertController(title: "\(error)", message: "\(error.localizedDescription)", preferredStyle: .alert)
-                let action = UIAlertAction(title: "ok", style: .default, handler: nil)
-                alert.addAction(action)
-                self?.present(alert, animated: true, completion: nil)
+        if verifyInformation() {
+            saveRecipeToRealm { [weak self] result in
+                switch result {
+                case .success:
+                    self?.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                    self?.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    // To modify
+                    let alert = UIAlertController(title: "\(error)", message: "\(error.localizedDescription)", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "ok", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self?.present(alert, animated: true, completion: nil)
+                }
             }
         }
+        
+    }
+    @IBAction func didTapStepper(_ sender: UIStepper) {
+        servings = Int(sender.value)
     }
     
     @IBAction func didTapAddImage(_ sender: UIButton) {
@@ -193,16 +221,22 @@ class RecipeCreationViewController: UIViewController {
     
     
     @IBAction func didTapAddIngredient(_ sender: UIButton) {
-        if let ingredientName = ingredientTextField.text, let ingredientAmount = amountTextField.text {
-            if ingredientName.isEmpty || ingredientAmount.isEmpty {
+        addIngredient()
+    }
+    
+    private func addIngredient() {
+        if let name = ingredientTextField.text, let amount = amountTextField.text, let unit = unitTextField.text {
+            if name.isEmpty {
                 addButton.shake()
-            } else {
-                if let amount = Double(ingredientAmount), let unit = unitTextField.text {
-                    let newTemporaryIngredient = TemporaryIngredient(name: ingredientName, amount: amount, unit: unit)
-                    temporaryIngredients.append(newTemporaryIngredient)
-                } else {
-                    addButton.shake()
-                }
+            } else if !amount.isEmpty && !unit.isEmpty {
+                let ingredient = TemporaryIngredient(name: name, amount: Double(amount), unit: unit)
+                temporaryIngredients.append(ingredient)
+            } else if !amount.isEmpty && unit.isEmpty {
+                let ingredient = TemporaryIngredient(name: name, amount: Double(amount), unit: nil)
+                temporaryIngredients.append(ingredient)
+            } else if amount.isEmpty {
+                let ingredient = TemporaryIngredient(name: name, amount: nil, unit: nil)
+                temporaryIngredients.append(ingredient)
             }
         }
     }
@@ -227,14 +261,36 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
         
         guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         recipeImageView.image = imageEdited
+        recipeImage = imageEdited
         
         guard let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         recipeImageView.image = imageOriginal
+        recipeImage = imageOriginal
         
         imageState = .deleteOrModifyPic
         addImageButton.setTitle("Modify image", for: .normal)
-       
+        
         picturePicker.dismiss(animated: true, completion: nil)
+        
+        if let recipeImage = recipeImage {
+            doneButton.isHidden = true
+            activityIndicator.startAnimating()
+            Event.shared.saveRecipePicToFirebase(recipeImage, id: customRecipe.id) { [weak self] result in
+                self?.doneButton.isHidden = false
+                self?.activityIndicator.stopAnimating()
+                switch result {
+                case .success(let url):
+                    self?.downloadUrl = url
+                case .failure:
+                    let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self?.present(alert, animated: true, completion: nil)
+                    self?.recipeImageView.image = UIImage(named: "imagePlaceholder")
+                }
+            }
+        }
+        
+        
     }
 }
 
@@ -246,7 +302,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
         let ingredient = temporaryIngredients[indexPath.row]
-        ingredientCell.configureCell(name: ingredient.name, amount: ingredient.amount, unit: ingredient.unit)
+        ingredientCell.configureCell(name: ingredient.name, amount: ingredient.amount ?? 0, unit: ingredient.unit ?? "")
         return ingredientCell
     }
     
