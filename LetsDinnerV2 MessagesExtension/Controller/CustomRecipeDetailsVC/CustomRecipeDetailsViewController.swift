@@ -87,7 +87,10 @@ class CustomRecipeDetailsViewController: UIViewController {
     }
     
     private func deleteRecipe() {
-        if let recipe = self.selectedRecipe {
+        guard let recipe = self.selectedRecipe else { return }
+        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.title == recipe.title }) {
+        Event.shared.selectedCustomRecipes.remove(at: index)
+        }
             do {
                 try self.realm.write {
                     self.realm.delete(recipe)
@@ -95,10 +98,8 @@ class CustomRecipeDetailsViewController: UIViewController {
             } catch {
                 print(error)
             }
-        }
         customRecipeDetailsDelegate?.didDeleteCustomRecipe()
         self.dismiss(animated: true, completion: nil)
-        
     }
     
     @objc private func closeVC() {

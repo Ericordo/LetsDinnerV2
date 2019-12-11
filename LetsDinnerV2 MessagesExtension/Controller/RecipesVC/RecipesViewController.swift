@@ -429,7 +429,7 @@ extension RecipesViewController: RecipeCreationVCDelegate {
     }
 }
 
-extension RecipesViewController: CustomRecipeDetailsVCDelegate {
+extension RecipesViewController: CustomRecipeDetailsVCDelegate {    
     func customrecipeDetailsVCShouldDismiss() {
         recipesTableView.reloadData()
         configureNextButton()
@@ -438,7 +438,10 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     
     func didDeleteCustomRecipe() {
         recipesTableView.reloadData()
+        configureNextButton()
     }
     
+
+
     
 }
