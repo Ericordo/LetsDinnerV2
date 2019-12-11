@@ -41,6 +41,8 @@ class InfoInput : UIToolbar {
         let labelItem = UIBarButtonItem(customView: infoLabel)
         let buttonItem = UIBarButtonItem(customView: addButton)
         self.items = [labelItem, buttonItem]
+        self.sizeToFit()
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     @objc private func didTapAdd() {

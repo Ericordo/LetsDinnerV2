@@ -67,13 +67,13 @@ class SectionSelectionInput : UIView {
         sectionsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         sectionsCollectionView.leadingAnchor.constraint(equalTo: arrowImage.trailingAnchor, constant: 10).isActive = true
         sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
-        
-        
+    // Maybe these two lines fix bug where the toolbar wasn't always there
+      self.sizeToFit()
+      self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
     override func layoutSubviews() {
         sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .left)
-        sectionSelectionInputDelegate?.updateSelectedSection(sectionName: "Miscellaneous")
     }
     
     func configureInput(sections: [String]) {
@@ -83,7 +83,6 @@ class SectionSelectionInput : UIView {
             }
         }
     }
-    
     
     
 }

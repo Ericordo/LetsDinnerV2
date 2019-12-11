@@ -129,6 +129,7 @@ class ManagementViewController: UIViewController {
     }
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
+        
         var textField = UITextField()
         let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
         let add = UIAlertAction(title: MessagesToDisplay.add, style: .default) { action in
@@ -152,6 +153,7 @@ class ManagementViewController: UIViewController {
             let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
             input.configureInput(sections: self.sectionNames)
             input.sectionSelectionInputDelegate = self
+            self.selectedSection = "Miscellaneous"
             textField.inputAccessoryView = input
         }
         alert.addAction(add)
