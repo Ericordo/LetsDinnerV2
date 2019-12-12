@@ -15,6 +15,8 @@ class CustomRecipe: Object {
 //    @objc dynamic var imageData: Data? = nil
     @objc dynamic var servings: Int = 0
     @objc dynamic var downloadUrl: String? = nil
+    var cookingSteps = List<String>() 
+    @objc dynamic var comments: String? = nil
     var ingredients = List<CustomIngredient>()
 }
 
