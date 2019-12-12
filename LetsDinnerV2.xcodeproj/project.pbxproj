@@ -108,7 +108,7 @@
 		88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88C9650D239A9C3600CFC710 /* SectionInputCell.xib */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
-		B85071D12391690600632026 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* Test.swift */; };
+		B85071D12391690600632026 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestCase.swift */; };
 		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
@@ -258,7 +258,7 @@
 		88C9650D239A9C3600CFC710 /* SectionInputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionInputCell.xib; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
-		B85071D02391690600632026 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		B85071D02391690600632026 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
 		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
@@ -462,8 +462,7 @@
 			isa = PBXGroup;
 			children = (
 				880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */,
-				B85071D423964CF900632026 /* Testing */,
-				B8AED7D2239E357F00F2F633 /* CalendarManager.swift */,
+				B8BEEAE823A23C28009DC2DB /* Manager */,
 				88349F19236DEEEB002A1879 /* Model */,
 				88349F1B236DEEF9002A1879 /* Controller */,
 				88349F1A236DEEF2002A1879 /* View */,
@@ -745,14 +744,6 @@
 			path = UIButton;
 			sourceTree = "<group>";
 		};
-		B85071D423964CF900632026 /* Testing */ = {
-			isa = PBXGroup;
-			children = (
-				B85071D02391690600632026 /* Test.swift */,
-			);
-			path = Testing;
-			sourceTree = "<group>";
-		};
 		B86F7006238435830010AB7C /* EventInfoVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -760,6 +751,15 @@
 				885C60CB2380BABB00ED3A17 /* EventInfoViewController.xib */,
 			);
 			path = EventInfoVC;
+			sourceTree = "<group>";
+		};
+		B8BEEAE823A23C28009DC2DB /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				B85071D02391690600632026 /* TestCase.swift */,
+				B8AED7D2239E357F00F2F633 /* CalendarManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		B8E4CA7923812174006DD095 /* TitleCell */ = {
@@ -1081,7 +1081,7 @@
 				880B135A23747578003E29AC /* Array.swift in Sources */,
 				B86F700D238525A60010AB7C /* StandardTableView.swift in Sources */,
 				88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */,
-				B85071D12391690600632026 /* Test.swift in Sources */,
+				B85071D12391690600632026 /* TestCase.swift in Sources */,
 				B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,

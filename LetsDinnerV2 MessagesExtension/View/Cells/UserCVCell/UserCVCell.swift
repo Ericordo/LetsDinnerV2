@@ -22,8 +22,10 @@ class UserCVCell: UICollectionViewCell {
         
         if user.hasAccepted == .accepted {
             strokeColor = Colors.hasAccepted
-        } else if user.hasAccepted == .declined || user.hasAccepted == .pending {
+        } else if user.hasAccepted == .declined {
             strokeColor = Colors.hasDeclined
+        } else if user.hasAccepted == .pending {
+            strokeColor = .darkGray
         }
         
         if let imageURL = URL(string: user.profilePicUrl!) {
