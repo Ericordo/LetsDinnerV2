@@ -39,8 +39,11 @@ class RecipesViewController: UIViewController {
     
     var searchResults = [Recipe]() {
         didSet {
-            resultsLabel.isHidden = !searchResults.isEmpty
             recipesTableView.reloadData()
+            if !searchResults.isEmpty {
+                resultsLabel.isHidden = true
+            }
+            print(searchResults.count)
         }
     }
     
@@ -126,6 +129,13 @@ class RecipesViewController: UIViewController {
         searchResults.removeAll()
         DataHelper.shared.loadPredefinedRecipes { recipes in
             self.searchResults = recipes
+            Event.shared.selectedRecipes.forEach { recipe in
+                if !self.searchResults.contains(where: { comparedRecipe -> Bool in
+                          comparedRecipe.id == recipe.id
+                      }) {
+                        self.searchResults.append(recipe)
+                      }
+                  }
         }
     }
     
@@ -149,6 +159,11 @@ class RecipesViewController: UIViewController {
         }
         recipesTableView.isHidden = bool
         searchLabel.isHidden = !bool
+        if bool == false {
+            if searchResults.isEmpty {
+                resultsLabel.isHidden = false
+            }
+        }
     }
     
     @IBAction func didTapPrevious(_ sender: UIButton) {
@@ -259,7 +274,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case.apiRecipes:
             return searchResults.count
         case.customRecipes:
-                return customRecipes!.count
+            return customRecipes!.count
             
             
         }
@@ -271,7 +286,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case .apiRecipes:
             let recipe = searchResults[indexPath.section]
             var isSelected = false
-            if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
+            if Event.shared.selectedRecipes.contains(where: { $0.title == recipe.title }) {
                 isSelected = true
             }
             cell.configureCell(recipe: recipe, isSelected: isSelected, searchType: searchType)
@@ -376,7 +391,6 @@ extension RecipesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        resultsLabel.isHidden = true
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
         
         switch searchType {
@@ -389,9 +403,6 @@ extension RecipesViewController: UISearchBarDelegate {
                        self?.showSearchProgress(false)
                        recipeIds.forEach { recipeId in
                            self?.loadSearchResult(recipeId: recipeId)
-                       }
-                       if self?.searchResults.isEmpty ?? true {
-                           self?.resultsLabel.isHidden = false
                        }
                    case .failure(let error):
                        switch error {

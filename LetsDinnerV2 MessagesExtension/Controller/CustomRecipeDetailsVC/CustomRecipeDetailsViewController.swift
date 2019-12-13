@@ -36,7 +36,6 @@ class CustomRecipeDetailsViewController: UIViewController {
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
     
-    
     var selectedRecipe: CustomRecipe?
     var existingEvent = false
     
@@ -66,7 +65,6 @@ class CustomRecipeDetailsViewController: UIViewController {
 
     private func setupUI() {
         chooseButton.layer.cornerRadius = 10
-        chooseButton.backgroundColor = .white
         guard let recipe = selectedRecipe else { return }
         nameLabel.text = recipe.title
         ingredientsLabel.text = "INGREDIENTS FOR \(recipe.servings) PEOPLE"

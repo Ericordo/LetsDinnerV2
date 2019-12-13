@@ -64,6 +64,8 @@ enum ApiKeys {
         static let appId =  "5dbeb10b"
         static let apiKey = "b92d6e0482b3e23150ef3060aec1fd31"
         static let apiKeySpoonacular = "123e94eacbbf40e497d48a0dd5b83189"
+    // In case too many requests during testing
+        static let backUpKey = "b07aca6301b44075ac9b4c9b09a2b3ac"
 }
 
 enum MessagesToDisplay {
