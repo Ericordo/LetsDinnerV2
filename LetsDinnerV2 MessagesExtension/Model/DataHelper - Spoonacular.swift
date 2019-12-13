@@ -18,7 +18,7 @@ class DataHelper {
         var recipesIds = [Int]()
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
         let query = keyword.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let endpoint = String(format: "https://api.spoonacular.com/recipes/search?query=%@&number=15&apiKey=\(ApiKeys.backUpKey)", query)
+        let endpoint = String(format: "https://api.spoonacular.com/recipes/search?query=%@&number=15&apiKey=\(ApiKeys.apiKeySpoonacular)", query)
         guard let endpointURL = URL(string: endpoint) else {
             print("invalid URL")
             return
@@ -77,7 +77,7 @@ class DataHelper {
 
     func loadSearchResults(recipeId: Int, display: (Bool) -> Void, completion: @escaping (Result<Recipe, ApiError>) -> Void) {
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
-        let endpoint = String(format: "https://api.spoonacular.com/recipes/\(recipeId)/information?includeNutrition=false&apiKey=\(ApiKeys.backUpKey)")
+        let endpoint = String(format: "https://api.spoonacular.com/recipes/\(recipeId)/information?includeNutrition=false&apiKey=\(ApiKeys.apiKeySpoonacular)")
         guard let endpointURL = URL(string: endpoint) else {
             print("invalid URL")
             return
