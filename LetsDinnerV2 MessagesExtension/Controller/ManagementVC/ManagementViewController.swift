@@ -47,8 +47,9 @@ class ManagementViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         servings = Event.shared.servings
         setupUI()
-        prepareData()
-        tasksTableView.reloadData()
+        updateServings(servings: servings)
+//        prepareData()
+//        tasksTableView.reloadData()
     }
     
     private func setupUI() {

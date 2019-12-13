@@ -27,12 +27,18 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     @IBOutlet weak var testButton: UIButton!
     
     weak var delegate: NewEventViewControllerDelegate?
     
     let datePicker = DatePicker()
+    
+    private var activeField: UITextField?
+    
+    private let headerViewHeight: CGFloat = 60
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +48,10 @@ class NewEventViewController: UIViewController {
         textFields.forEach { textField in
             textField!.delegate = self
         }
+        scrollView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupUI() {
@@ -55,6 +65,9 @@ class NewEventViewController: UIViewController {
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         
         
@@ -173,9 +186,14 @@ class NewEventViewController: UIViewController {
 extension NewEventViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeField = textField
         if textField == dateTextField {
             presentDatePicker()
         }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeField = nil
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -214,5 +232,34 @@ extension NewEventViewController: UITextFieldDelegate {
     
     
 }
+
+extension NewEventViewController: UIScrollViewDelegate {
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        var rectangle = self.view.frame
+        rectangle.size.height -= keyboardFrame.height
+        
+        if let activeField = activeField {
+            if !rectangle.contains(activeField.frame.origin) {
+                scrollView.scrollRectToVisible(activeField.frame, animated: true)
+            }
+        }
+    
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+    
+}
+
 
 

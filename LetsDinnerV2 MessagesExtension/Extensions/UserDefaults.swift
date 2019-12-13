@@ -24,6 +24,11 @@ extension UserDefaults {
         set { set(newValue, forKey: "address") }
     }
     
+    var measurementSystem: String {
+        get { return string(forKey: "measurementSystem") ?? "" }
+        set { set(newValue, forKey: "measurementSystem") }
+    }
+    
     var hasAccepted: String {
         get { return string(forKey: "hasAccepted") ?? ""}
         set { set(newValue, forKey: "hasAccepted")}

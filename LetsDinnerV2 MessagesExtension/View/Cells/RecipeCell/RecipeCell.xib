@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -51,12 +51,13 @@
                                     <constraint firstAttribute="height" constant="90" id="hYu-jU-off"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FI7-dc-TJe">
-                                <rect key="frame" x="15" y="15" width="245" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FI7-dc-TJe">
+                                <rect key="frame" x="15" y="10" width="245" height="20.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Label">
                                         <attributes>
-                                            <font key="NSFont" metaFont="system" size="17"/>
+                                            <font key="NSFont" size="17" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -64,6 +65,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-bf-o6z">
                                 <rect key="frame" x="15" y="73" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="pj0-C6-cC5"/>
+                                </constraints>
                                 <state key="normal" image="checkedButton"/>
                                 <connections>
                                     <action selector="didTapChosenButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="FUh-So-YZp"/>
@@ -72,6 +76,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWa-be-hue">
                                 <rect key="frame" x="15" y="70" width="55" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="RQw-C4-2b8"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <state key="normal" title="Choose">
                                     <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -87,7 +94,7 @@
                             <constraint firstItem="Krg-bf-o6z" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" constant="15" id="2dQ-b4-bHt"/>
                             <constraint firstItem="F8x-ME-HEw" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" id="GaA-YB-LBF"/>
                             <constraint firstItem="c6s-SQ-gPs" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" id="MPQ-W7-g8t"/>
-                            <constraint firstItem="FI7-dc-TJe" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" constant="15" id="OEa-Bo-POp"/>
+                            <constraint firstItem="FI7-dc-TJe" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" constant="10" id="OEa-Bo-POp"/>
                             <constraint firstItem="c6s-SQ-gPs" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" id="OeQ-G2-Hyf"/>
                             <constraint firstAttribute="trailing" secondItem="ARN-iG-m3N" secondAttribute="trailing" constant="10" id="Tsz-vb-iRy"/>
                             <constraint firstAttribute="bottom" secondItem="F8x-ME-HEw" secondAttribute="bottom" id="brk-Wn-u8C"/>

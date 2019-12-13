@@ -43,7 +43,7 @@ class RecipeCell: UITableViewCell {
         chooseButton.layer.cornerRadius = 10
         recipeImageView.clipsToBounds = true
         recipeImageView.layer.cornerRadius = 10
- 
+        recipeNameLabel.sizeToFit()
         recipeImageView.kf.indicatorType = .activity
         selectionStyle = .none
     }
@@ -58,6 +58,7 @@ class RecipeCell: UITableViewCell {
         selectedRecipe = recipe
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
+        recipeNameLabel.sizeToFit()
     }
     
     func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
@@ -70,6 +71,7 @@ class RecipeCell: UITableViewCell {
 //            backgroundImageView.image = UIImage(data: imageData)
         } else {
             recipeImageView.image = UIImage(named: "imagePlaceholder")
+            backgroundImageView.image = nil
             backgroundImageView.backgroundColor = .white
         }
         self.searchType = searchType

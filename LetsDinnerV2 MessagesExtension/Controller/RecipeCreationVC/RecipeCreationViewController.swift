@@ -30,14 +30,20 @@ class RecipeCreationViewController: UIViewController {
     @IBOutlet weak var ingredientTextField: UITextField!
     @IBOutlet weak var amountTextField: UITextField!
     @IBOutlet weak var unitTextField: UITextField!
+    @IBOutlet weak var stepTextField: UITextField!
     @IBOutlet weak var ingredientsTableView: UITableView!
+    @IBOutlet weak var stepsTableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var addStepButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stepsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var servingsLabel: UILabel!
     @IBOutlet weak var servingsStepper: UIStepper!
+    @IBOutlet weak var commentsTextView: UITextView!
+    @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     
     private let realm = try! Realm()
     
@@ -53,17 +59,25 @@ class RecipeCreationViewController: UIViewController {
        
     private var imageState : ImageState = .addPic
     
-    private var readyToSave = false
+    private var activeField: UITextField?
     
-    let customRecipe = CustomRecipe()
+    private let customRecipe = CustomRecipe()
     
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
     
-    var temporaryIngredients = [TemporaryIngredient]() {
+    private var temporaryIngredients = [TemporaryIngredient]() {
         didSet {
-            ingredientsTableView.isHidden = false
             ingredientsTableView.reloadData()
             ingredientsTableViewHeightConstraint.constant = CGFloat(temporaryIngredients.count)*rowHeight
+            contentViewHeightConstraint.constant = 600 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant
+        }
+    }
+    
+    private var temporarySteps = [String]() {
+        didSet {
+            stepsTableView.reloadData()
+            stepsTableViewHeightConstraint.constant = CGFloat(temporarySteps.count)*rowHeight
+            contentViewHeightConstraint.constant = 600 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant
         }
     }
     
@@ -84,20 +98,29 @@ class RecipeCreationViewController: UIViewController {
         ingredientsTableView.delegate = self
         picturePicker.delegate = self
         scrollView.delegate = self
-        scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
-        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
-        ingredientsTableView.isHidden = true
+        stepTextField.delegate = self
+        commentsTextView.delegate = self
+        stepsTableView.delegate = self
+        stepsTableView.dataSource = self
         
+        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+        stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+       
           NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
     private func setupUI() {
         recipeImageView.layer.cornerRadius = 17
         ingredientsTableView.rowHeight = rowHeight
-        
+        stepsTableView.rowHeight = rowHeight
+        ingredientsTableViewHeightConstraint.constant = 0
+        stepsTableViewHeightConstraint.constant = 0
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
         servingsLabel.text = "For \(servings) people"
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
@@ -143,6 +166,14 @@ class RecipeCreationViewController: UIViewController {
                     customIngredients.append(customIngredient)
                 }
                 customRecipe.ingredients = customIngredients
+                if let comments = commentsTextView.text {
+                    customRecipe.comments = comments
+                }
+                let cookingSteps = List<String>()
+                temporarySteps.forEach { step in
+                    cookingSteps.append(step)
+                }
+                customRecipe.cookingSteps = cookingSteps
                 realm.add(customRecipe)
             }
             DispatchQueue.main.async {
@@ -211,6 +242,9 @@ class RecipeCreationViewController: UIViewController {
             }
             let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
                 self.recipeImageView.image = UIImage(named: "imagePlaceholder")
+                self.addImageButton.setTitle("Add image", for: .normal)
+                self.imageState = .addPic
+                self.downloadUrl = nil
             }
             alert.addAction(cancel)
             alert.addAction(change)
@@ -239,6 +273,19 @@ class RecipeCreationViewController: UIViewController {
                 temporaryIngredients.append(ingredient)
             }
         }
+        ingredientTextField.text = ""
+    }
+    
+    
+    @IBAction func didTapAddStep(_ sender: UIButton) {
+        if let step = stepTextField.text {
+            if step.isEmpty {
+                addStepButton.shake()
+            } else {
+                temporarySteps.append(step)
+            }
+        }
+        stepTextField.text = ""
     }
     
 
@@ -246,7 +293,12 @@ class RecipeCreationViewController: UIViewController {
 
 extension RecipeCreationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeField = textField
 
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeField = nil
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -296,15 +348,51 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
 
 extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return temporaryIngredients.count
+        switch tableView {
+        case ingredientsTableView:
+            return temporaryIngredients.count
+        case stepsTableView:
+            return temporarySteps.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
-        let ingredient = temporaryIngredients[indexPath.row]
-        ingredientCell.configureCell(name: ingredient.name, amount: ingredient.amount ?? 0, unit: ingredient.unit ?? "")
-        return ingredientCell
+        
+    
+//        return ingredientCell
+        switch tableView {
+        case ingredientsTableView:
+            let ingredient = temporaryIngredients[indexPath.row]
+                ingredientCell.configureCell(name: ingredient.name, amount: ingredient.amount ?? 0, unit: ingredient.unit ?? "")
+            return ingredientCell
+        case stepsTableView:
+            let step = temporarySteps[indexPath.row]
+            ingredientCell.configureCell(name: step, amount: 0, unit: "")
+            return ingredientCell
+        default:
+            return UITableViewCell()
+        }
     }
+    
+        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+        
+        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if (editingStyle == .delete) {
+                switch tableView {
+                case ingredientsTableView:
+                    temporaryIngredients.remove(at: indexPath.row)
+                case stepsTableView:
+                    temporarySteps.remove(at: indexPath.row)
+                default:
+                    break
+                }
+            }
+        }
     
     
 }
@@ -331,8 +419,46 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         }
     }
     
-
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        var rectangle = self.view.frame
+        rectangle.size.height -= keyboardFrame.height
+        
+        if let activeField = activeField {
+            if !rectangle.contains(activeField.frame.origin) {
+                scrollView.scrollRectToVisible(activeField.frame, animated: true)
+            }
+        }
+        
+        if activeField == nil {
+            scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
+        }
+    }
     
- 
+    @objc func keyboardWillHide(notification: NSNotification) {
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    }
+    
+}
+
+extension RecipeCreationViewController: UITextViewDelegate {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+           commentsTextView.resignFirstResponder()
+           return true
+       }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+          super.touchesBegan(touches, with: event)
+          self.view.endEditing(true)
+      }
+    
+    
     
 }

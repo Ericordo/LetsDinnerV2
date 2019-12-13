@@ -29,16 +29,25 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var addressTextField: UITextField!
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var metricImageView: UIImageView!
+    @IBOutlet weak var imperialImageView: UIImageView!
+    @IBOutlet weak var metricView: UIView!
+    @IBOutlet weak var imperialView: UIView!
     
     weak var delegate: RegistrationViewControllerDelegate?
     
-    let picturePicker = UIImagePickerController()
+    private let picturePicker = UIImagePickerController()
     
-    var profileImage: UIImage?
+    private var profileImage: UIImage?
     
     var previousStep: StepTracking?
     
-    var imageState : ImageState = .addPic
+    private var imageState : ImageState = .addPic
+    
+    private let topViewMinHeight: CGFloat = 90
+    private let topViewMaxHeight: CGFloat = 170
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,9 +62,13 @@ class RegistrationViewController: UIViewController {
         firstNameTextField.delegate = self
         lastNameTextField.delegate = self
         addressTextField.delegate = self
+        scrollView.delegate = self
     }
     
     func setupUI() {
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
         if !defaults.username.isEmpty {
             let usernameArray = defaults.username.split(separator: " ")
             firstNameTextField.text = String(usernameArray.first!)
@@ -65,6 +78,11 @@ class RegistrationViewController: UIViewController {
         if !defaults.address.isEmpty {
             addressTextField.text = defaults.address
         }
+        
+        let tapGestureMetric = UITapGestureRecognizer(target: self, action: #selector(setupMetricSystem))
+        let tapGestureImperial = UITapGestureRecognizer(target: self, action: #selector(setupImperialSystem))
+        imperialView.addGestureRecognizer(tapGestureImperial)
+        metricView.addGestureRecognizer(tapGestureMetric)
         
         errorLabel.isHidden = true
 
@@ -97,6 +115,24 @@ class RegistrationViewController: UIViewController {
             addPicButton.setTitle("Add image", for: .normal)
             imageState = .addPic
         }
+        
+        if defaults.measurementSystem == "imperial" {
+            setupImperialSystem()
+        } else {
+            setupMetricSystem()
+        }
+    }
+    
+    @objc private func setupImperialSystem() {
+        imperialImageView.image = UIImage(named: "checkmark")
+        metricImageView.image = nil
+        defaults.measurementSystem = "imperial"
+    }
+    
+    @objc private func setupMetricSystem() {
+        imperialImageView.image = nil
+        metricImageView.image = UIImage(named: "checkmark")
+        defaults.measurementSystem = "metric"
     }
 
     @IBAction func didTapSave(_ sender: UIButton) {
@@ -166,6 +202,23 @@ class RegistrationViewController: UIViewController {
         imageState = .addPic
     }
     
+    private func updateInitials() {
+        if imageState == .addPic && headerViewHeightConstraint.constant == topViewMaxHeight {
+            if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
+                
+                if !firstName.isEmpty {
+                    userPic.setImage(string: firstName + " " + lastName, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+                    
+                } else {
+                    userPic.image = UIImage(named: "profilePlaceholder")
+                    
+                }
+            }
+        }
+    }
+    
+    
+    
     private func verifyEachTextFieldAndProceed() {
         
         if let address = addressTextField.text {
@@ -199,15 +252,7 @@ class RegistrationViewController: UIViewController {
 
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if imageState == .addPic {
-            if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
-                if !firstName.isEmpty {
-                    userPic.setImage(string: firstName + " " + lastName, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
-                } else {
-                    userPic.image = UIImage(named: "profilePlaceholder")
-                }
-            }
-        }
+        updateInitials()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -242,4 +287,26 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
        
         picturePicker.dismiss(animated: true, completion: nil)
     }
+}
+
+extension RegistrationViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yOffset = scrollView.contentOffset.y
+        userPic.layer.cornerRadius = userPic.frame.height / 2
+        if yOffset < -topViewMaxHeight {
+            headerViewHeightConstraint.constant = self.topViewMaxHeight
+            updateInitials()
+        } else if yOffset < -topViewMinHeight {
+            headerViewHeightConstraint.constant = yOffset * -1
+        } else {
+            headerViewHeightConstraint.constant = topViewMinHeight
+        }
+        
+        if headerViewHeightConstraint.constant == topViewMaxHeight {
+            addPicButton.alpha = 1
+        } else {
+            addPicButton.alpha = 0
+        }
+    }
+    
 }

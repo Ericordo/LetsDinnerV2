@@ -35,20 +35,22 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var recipeToggle: UIButton!
     
     weak var delegate: RecipesViewControllerDelegate?
-    let realm = try! Realm()
+    private let realm = try! Realm()
     
-    var searchResults = [Recipe]() {
+    private var searchResults = [Recipe]() {
         didSet {
-            resultsLabel.isHidden = !searchResults.isEmpty
             recipesTableView.reloadData()
         }
     }
     
-    var customSearchResults: Results<CustomRecipe>?
+    private var customSearchResults: Results<CustomRecipe>?
     
-    var customRecipes : Results<CustomRecipe>?
+    private var customRecipes : Results<CustomRecipe>?
     
-    var searchType: SearchType = .apiRecipes {
+    private var previouslySelectedRecipes = [Recipe]()
+    private var previouslySelectedCustomRecipes = [CustomRecipe]()
+    
+    private var searchType: SearchType = .apiRecipes {
         didSet {
             updateUI()
         }
@@ -66,6 +68,9 @@ class RecipesViewController: UIViewController {
         loadRecipes()
         
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
+        
+        previouslySelectedRecipes = Event.shared.selectedRecipes
+        previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
 
     }
     
@@ -105,27 +110,26 @@ class RecipesViewController: UIViewController {
     }
     
     private func configureNextButton() {
-//        if Event.shared.selectedRecipes.isEmpty {
-//                 nextButton.setTitle("Skip", for: .normal)
-//             } else {
-//                 let recipesCount = String(Event.shared.selectedRecipes.count)
-//                 nextButton.setTitle("Next (\(recipesCount))", for: .normal)
-//             }
-//        prepareTasks()
-        
         let count = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
         if count == 0 {
             nextButton.setTitle("Skip", for: .normal)
         } else {
             nextButton.setTitle("Next (\(count))", for: .normal)
         }
-        prepareTasks()
+//        prepareTasks()
     }
     
     private func loadRecipes() {
         searchResults.removeAll()
         DataHelper.shared.loadPredefinedRecipes { recipes in
             self.searchResults = recipes
+            Event.shared.selectedRecipes.forEach { recipe in
+                if !self.searchResults.contains(where: { comparedRecipe -> Bool in
+                          comparedRecipe.id == recipe.id
+                      }) {
+                        self.searchResults.append(recipe)
+                      }
+                  }
         }
     }
     
@@ -156,6 +160,7 @@ class RecipesViewController: UIViewController {
     }
     
     @IBAction func didTapNext(_ sender: Any) {
+        prepareTasks()
         delegate?.recipeVCDidTapNext(controller: self)
     }
     
@@ -173,12 +178,22 @@ class RecipesViewController: UIViewController {
         }
     }
     
-    
-    
-//    MARK: due to ManagementVC
     private func prepareTasks() {
+//        Event.shared.tasks.forEach { task in
+//            if !task.isCustom {
+//                let index = Event.shared.tasks.firstIndex { comparedTask -> Bool in
+//                    comparedTask.taskName == task.taskName
+//                }
+//                Event.shared.tasks.remove(at: index!)
+//            }
+//        }
+        
         Event.shared.tasks.forEach { task in
-            if !task.isCustom {
+            if !task.isCustom && !Event.shared.selectedRecipes.contains(where: { recipe -> Bool in
+                recipe.title == task.parentRecipe
+            }) && !Event.shared.selectedCustomRecipes.contains(where: { customRecipe -> Bool in
+                customRecipe.title == task.parentRecipe
+            }) {
                 let index = Event.shared.tasks.firstIndex { comparedTask -> Bool in
                     comparedTask.taskName == task.taskName
                 }
@@ -186,31 +201,73 @@ class RecipesViewController: UIViewController {
             }
         }
         
-        //        let ingredients = Event.shared.selectedRecipes.map { $0.ingredientList }
-        //        ingredients.forEach { ingredientList in
-        //            ingredientList?.forEach({ ingredient in
-        //                Event.shared.tasks.append(Task(taskName: ingredient, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "", assignedPersonName: "nil"))
-        //            })
-        //        }
+        var newRecipes = [Recipe]()
+        if previouslySelectedRecipes.count == 0 {
+            newRecipes = Event.shared.selectedRecipes
+        } else {
+            Event.shared.selectedRecipes.forEach { recipe in
+                if !previouslySelectedRecipes.contains(where: { comparedRecipe -> Bool in
+                    recipe.title == comparedRecipe.title
+                }) {
+                    newRecipes.append(recipe)
+                }
+            }
+        }
         
-        let recipes = Event.shared.selectedRecipes
-        recipes.forEach { recipe in
+        var newCustomRecipes = [CustomRecipe]()
+        if previouslySelectedCustomRecipes.count == 0 {
+            newCustomRecipes = Event.shared.selectedCustomRecipes
+        } else {
+            Event.shared.selectedCustomRecipes.forEach { recipe in
+                if !previouslySelectedCustomRecipes.contains(where: { comparedRecipe -> Bool in
+                    recipe.id == comparedRecipe.id
+                }) {
+                    newCustomRecipes.append(recipe)
+                }
+            }
+            
+        }
+        
+        
+
+//        let recipes = Event.shared.selectedRecipes
+//        recipes.forEach { recipe in
+        newRecipes.forEach { recipe in
             let recipeName = recipe.title ?? ""
             let servings = Double(recipe.servings ?? 2)
             let ingredients = recipe.ingredientList
-            ingredients?.forEach({ ingredient in
-                if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.metricAmount, let unit = ingredient.metricUnit {
-                    let task = Task(taskName: name, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName)
-                    task.metricAmount = (amount * 2) / Double(servings)
-                    task.metricUnit = unit
-                    task.servings = 2
-                    Event.shared.tasks.append(task)
-                }
-            })
+            
+            if defaults.measurementSystem == "imperial" {
+                
+                ingredients?.forEach({ ingredient in
+                    if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.usAmount, let unit = ingredient.usUnit {
+                        let task = Task(taskName: name, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName)
+                        task.metricAmount = (amount * 2) / Double(servings)
+                        task.metricUnit = unit
+                        task.servings = 2
+                        Event.shared.tasks.append(task)
+                    }
+                })
+                
+            } else {
+                
+                ingredients?.forEach({ ingredient in
+                    if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.metricAmount, let unit = ingredient.metricUnit {
+                        let task = Task(taskName: name, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName)
+                        task.metricAmount = (amount * 2) / Double(servings)
+                        task.metricUnit = unit
+                        task.servings = 2
+                        Event.shared.tasks.append(task)
+                    }
+                })
+                
+            }
+            
         }
         
-        let customRecipes = Event.shared.selectedCustomRecipes
-        customRecipes.forEach { customRecipe in
+//        let customRecipes = Event.shared.selectedCustomRecipes
+//        customRecipes.forEach { customRecipe in
+        newCustomRecipes.forEach { customRecipe in
             let recipeName = customRecipe.title
             let servings = Double(customRecipe.servings)
             let customIngredients = customRecipe.ingredients
@@ -224,9 +281,6 @@ class RecipesViewController: UIViewController {
                 Event.shared.tasks.append(task)
             }
         }
-        
-        
-        
     }
 }
 
@@ -247,8 +301,6 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        
         if searchType == .customRecipes && customRecipes?.count == 0 {
             tableView.setEmptyView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
         } else {
@@ -259,9 +311,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case.apiRecipes:
             return searchResults.count
         case.customRecipes:
-                return customRecipes!.count
-            
-            
+            return customRecipes!.count
         }
     }
     
@@ -271,7 +321,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case .apiRecipes:
             let recipe = searchResults[indexPath.section]
             var isSelected = false
-            if Event.shared.selectedRecipes.contains(where: { $0.id == recipe.id! }) {
+            if Event.shared.selectedRecipes.contains(where: { $0.title == recipe.title }) {
                 isSelected = true
             }
             cell.configureCell(recipe: recipe, isSelected: isSelected, searchType: searchType)
@@ -283,9 +333,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.configureCellWithCustomRecipe(customRecipe: customRecipe, isSelected: isSelected, searchType: searchType)
             }
-  
         }
-        
         cell.recipeCellDelegate = self
         return cell
     }
@@ -306,8 +354,6 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             customRecipeDetailsVC.customRecipeDetailsDelegate = self
             present(customRecipeDetailsVC, animated: true, completion: nil)
         }
-        
-        
     }
     
     private func loadSearchResult(recipeId: Int) {
@@ -350,12 +396,11 @@ extension RecipesViewController: RecipeCellDelegate {
         }
         configureNextButton()
     }
-    
-  
 }
 
 extension RecipesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        resultsLabel.isHidden = true
         switch searchType {
         case .apiRecipes:
             guard !searchText.isEmpty else {
@@ -376,7 +421,6 @@ extension RecipesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        resultsLabel.isHidden = true
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
         
         switch searchType {
@@ -387,11 +431,11 @@ extension RecipesViewController: UISearchBarDelegate {
                    switch result {
                    case.success(let recipeIds):
                        self?.showSearchProgress(false)
+                       if recipeIds.isEmpty {
+                        self?.resultsLabel.isHidden = false
+                       }
                        recipeIds.forEach { recipeId in
                            self?.loadSearchResult(recipeId: recipeId)
-                       }
-                       if self?.searchResults.isEmpty ?? true {
-                           self?.resultsLabel.isHidden = false
                        }
                    case .failure(let error):
                        switch error {
@@ -429,7 +473,7 @@ extension RecipesViewController: RecipeCreationVCDelegate {
     }
 }
 
-extension RecipesViewController: CustomRecipeDetailsVCDelegate {
+extension RecipesViewController: CustomRecipeDetailsVCDelegate {    
     func customrecipeDetailsVCShouldDismiss() {
         recipesTableView.reloadData()
         configureNextButton()
@@ -438,7 +482,10 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     
     func didDeleteCustomRecipe() {
         recipesTableView.reloadData()
+        configureNextButton()
     }
     
+
+
     
 }

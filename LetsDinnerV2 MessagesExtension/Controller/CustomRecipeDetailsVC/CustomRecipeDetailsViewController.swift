@@ -26,10 +26,18 @@ class CustomRecipeDetailsViewController: UIViewController {
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var ingredientsLabel: UILabel!
     @IBOutlet weak var ingredientsTableView: UITableView!
+    @IBOutlet weak var stepsTableView: UITableView!
+    @IBOutlet weak var stepsLabel: UILabel!
+    @IBOutlet weak var commentsLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ingredientsHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stepsHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
+    
     
     var selectedRecipe: CustomRecipe?
+    var existingEvent = false
     
     let realm = try! Realm()
     
@@ -38,14 +46,16 @@ class CustomRecipeDetailsViewController: UIViewController {
     private let topViewMinHeight: CGFloat = 80
     private let topViewMaxHeight: CGFloat = 140
     
-    
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ingredientsTableView.delegate = self
         ingredientsTableView.dataSource = self
+        stepsTableView.delegate = self
+        stepsTableView.dataSource = self
         ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+        stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         scrollView.delegate = self
         
         setupUI()
@@ -55,13 +65,23 @@ class CustomRecipeDetailsViewController: UIViewController {
 
     private func setupUI() {
         chooseButton.layer.cornerRadius = 10
-        chooseButton.backgroundColor = .white
         guard let recipe = selectedRecipe else { return }
         nameLabel.text = recipe.title
         ingredientsLabel.text = "INGREDIENTS FOR \(recipe.servings) PEOPLE"
 //        if let imageData = recipe.imageData {
 //            recipeImageView.image = UIImage(data: imageData)
 //        }
+        if recipe.ingredients.isEmpty {
+            ingredientsHeightConstraint.constant = 0
+        }
+        if recipe.cookingSteps.isEmpty {
+            stepsHeightConstraint.constant = 0
+        } else {
+            stepsHeightConstraint.constant = 1000
+        }
+        stepsTableView.rowHeight = UITableView.automaticDimension
+        stepsTableView.estimatedRowHeight = rowHeight
+        ingredientsHeightConstraint.constant = CGFloat(recipe.ingredients.count) * rowHeight
         let isSelected = Event.shared.selectedCustomRecipes.contains(where: { $0.title == recipe.title })
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
@@ -84,10 +104,39 @@ class CustomRecipeDetailsViewController: UIViewController {
                  }
              }
          }
+        commentsLabel.sizeToFit()
+        if let comments = recipe.comments {
+            commentsLabel.text = comments
+        }
+        
+        if existingEvent {
+            chosenButton.isEnabled = false
+            chooseButton.isEnabled = false
+            chooseButton.alpha = 0
+            chosenButton.alpha = 0
+        }
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+        UIView.animate(withDuration: 0, animations: {
+        self.stepsTableView.layoutIfNeeded()
+        }) { (complete) in
+            var heightOfTableView: CGFloat = 0.0
+            let cells = self.stepsTableView.visibleCells
+            for cell in cells {
+                heightOfTableView += cell.frame.height
+            }
+            self.stepsHeightConstraint.constant = heightOfTableView
+            self.contentViewHeightConstraint.constant = 650 + heightOfTableView + self.ingredientsHeightConstraint.constant
+    }
     }
     
     private func deleteRecipe() {
-        if let recipe = self.selectedRecipe {
+        guard let recipe = self.selectedRecipe else { return }
+        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.title == recipe.title }) {
+        Event.shared.selectedCustomRecipes.remove(at: index)
+        }
             do {
                 try self.realm.write {
                     self.realm.delete(recipe)
@@ -95,10 +144,8 @@ class CustomRecipeDetailsViewController: UIViewController {
             } catch {
                 print(error)
             }
-        }
         customRecipeDetailsDelegate?.didDeleteCustomRecipe()
         self.dismiss(animated: true, completion: nil)
-        
     }
     
     @objc private func closeVC() {
@@ -160,14 +207,33 @@ class CustomRecipeDetailsViewController: UIViewController {
 
 extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (selectedRecipe?.ingredients.count)!
+        switch tableView {
+        case ingredientsTableView:
+            return (selectedRecipe?.ingredients.count)!
+        case stepsTableView:
+            return (selectedRecipe?.cookingSteps.count)!
+        default:
+            return 0
+        }
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
-        if let ingredient = selectedRecipe?.ingredients[indexPath.row] {
+        switch tableView {
+        case ingredientsTableView:
+            if let ingredient = selectedRecipe?.ingredients[indexPath.row] {
             cell.configureCell(name: ingredient.name, amount: ingredient.amount.value ?? 0, unit: ingredient.unit ?? "")
+            }
+        case stepsTableView:
+            if let cookingStep = selectedRecipe?.cookingSteps[indexPath.row] {
+                cell.configureCell(name: cookingStep, amount: 0, unit: "")
+            }
+        default:
+            return UITableViewCell()
         }
+    
+        
         return cell
     }
     
