@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,20 +18,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yP-AY-rvq">
-                        <rect key="frame" x="67" y="41.5" width="186" height="29"/>
+                        <rect key="frame" x="67" y="41.5" width="165" height="29"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <state key="normal" title="See all that's needed for 2! &gt;">
-                            <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <state key="normal" title="See what is needed for 2!">
+                            <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </state>
                         <connections>
                             <action selector="didTapSeeAllButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="41b-rj-B16"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fbe-AQ-OMA" userLabel="See all Button for createEvent">
-                        <rect key="frame" x="67" y="41.5" width="186" height="29"/>
+                        <rect key="frame" x="67" y="41.5" width="165" height="29"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <state key="normal" title="See all that's needed for 2! &gt;">
-                            <color key="titleColor" red="0.83529411760000005" green="0.1019607843" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <state key="normal" title="See what is needed for 2!">
+                            <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </state>
                         <connections>
                             <action selector="didTapSeeAllBeforeCreateEvent:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="XCM-5c-Nng"/>
@@ -60,6 +60,13 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevronRight" translatesAutoresizingMaskIntoConstraints="NO" id="RBf-9W-U2S">
+                        <rect key="frame" x="237" y="48.5" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Mxg-dM-e4m"/>
+                            <constraint firstAttribute="width" constant="15" id="zbD-fW-feL"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="qkr-aQ-D4f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="27" id="3du-Gr-DlZ"/>
@@ -69,6 +76,7 @@
                     <constraint firstItem="4yP-AY-rvq" firstAttribute="leading" secondItem="SI3-8J-DGU" secondAttribute="leading" id="QTS-JW-Xg4"/>
                     <constraint firstAttribute="bottom" secondItem="S5Z-dR-FMi" secondAttribute="bottom" constant="10" id="Rsh-mr-HKK"/>
                     <constraint firstItem="Fbe-AQ-OMA" firstAttribute="top" secondItem="SI3-8J-DGU" secondAttribute="bottom" id="SL2-Y9-a0Z"/>
+                    <constraint firstItem="RBf-9W-U2S" firstAttribute="leading" secondItem="4yP-AY-rvq" secondAttribute="trailing" constant="5" id="XBL-xX-9nr"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Y2Y-yt-Wdn"/>
                     <constraint firstItem="4yP-AY-rvq" firstAttribute="top" secondItem="SI3-8J-DGU" secondAttribute="bottom" id="adF-qe-c4S"/>
                     <constraint firstItem="SI3-8J-DGU" firstAttribute="centerY" secondItem="qkr-aQ-D4f" secondAttribute="centerY" id="d3y-f6-Nz7"/>
@@ -76,6 +84,7 @@
                     <constraint firstAttribute="trailing" secondItem="S5Z-dR-FMi" secondAttribute="trailing" id="ei3-2c-XFu"/>
                     <constraint firstItem="4yP-AY-rvq" firstAttribute="top" secondItem="SI3-8J-DGU" secondAttribute="bottom" id="f7n-LM-o1a"/>
                     <constraint firstItem="SI3-8J-DGU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="vsY-C6-lMy"/>
+                    <constraint firstItem="RBf-9W-U2S" firstAttribute="centerY" secondItem="Fbe-AQ-OMA" secondAttribute="centerY" id="yrN-FP-cTh"/>
                     <constraint firstItem="S5Z-dR-FMi" firstAttribute="top" secondItem="Fbe-AQ-OMA" secondAttribute="bottom" constant="15" id="zdF-va-tok"/>
                 </constraints>
             </tableViewCellContentView>
@@ -90,4 +99,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="148.32589285714286"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="chevronRight" width="13" height="23"/>
+    </resources>
 </document>

@@ -33,7 +33,8 @@ class TaskSummaryCell: UITableViewCell {
         tasksCollectionView.dataSource = self
         tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-        
+        seeAllButton.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
+        seeAllBeforeCreateEvent.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
     }
     
     @objc func updateTable() {
