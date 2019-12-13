@@ -11,7 +11,7 @@ import UIKit
 class TaskPersonLabel: UILabel {
     
     let taskIsOwnedByUserFont = UIFont.systemFont(ofSize: 13, weight: .regular)
-    let taskIsOwnedByUserTextColor = Colors.customPink
+    let taskIsOwnedByUserTextColor = Colors.newGradientRed
     
     let regularFont = UIFont.systemFont(ofSize: 13)
     let regularTextColor = Colors.customGray
