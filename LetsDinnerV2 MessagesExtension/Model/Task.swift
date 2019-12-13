@@ -19,11 +19,13 @@ class Task: Hashable {
     var isCustom: Bool
     
 // MARK: Add for the collapse rows
-
     var parentRecipe: String
     
+    // To change everywhere to var amount and var unit, as the selection is done before
     var metricAmount: Double?
     var metricUnit: String?
+    
+    
     var servings: Int?
     
 //    var hashValue: Int {
