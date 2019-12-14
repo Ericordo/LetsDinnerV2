@@ -41,7 +41,7 @@ class TaskManagementCell: UITableViewCell {
                        if task.taskState == .completed {
                            personLabel.text = MessagesToDisplay.completed
                        } else {
-                           personLabel.text = MessagesToDisplay.assignedToYourself
+                           personLabel.text = MessagesToDisplay.assignedToMyself
                        }
                        personLabel.setTextAttributes(taskIsOwnedByUser: true)
                    }
@@ -61,7 +61,7 @@ class TaskManagementCell: UITableViewCell {
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             task.taskState = .assigned
-            personLabel.text = MessagesToDisplay.assignedToYourself
+            personLabel.text = MessagesToDisplay.assignedToMyself
         case .assigned:
             task.taskState = .completed
             task.assignedPersonName = defaults.username

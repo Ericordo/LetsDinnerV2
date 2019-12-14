@@ -76,7 +76,7 @@ enum MessagesToDisplay {
     static let declinedInvitation = " declined the invitation"
     static let eventExists = "This event is already in your calendar"
     static let completed = "Completed"
-    static let assignedToYourself = "Assigned to yourself"
+    static let assignedToMyself = "Assigned to myself"
     static let noAssignment = "No Assignment"
     static let yes = "Yes"
     static let no = "No"

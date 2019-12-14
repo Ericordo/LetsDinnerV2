@@ -44,7 +44,7 @@ class TaskCVCell: UICollectionViewCell {
                 if task.taskState == .completed {
                     personLabel.text = MessagesToDisplay.completed
                 } else {
-                    personLabel.text = MessagesToDisplay.assignedToYourself
+                    personLabel.text = MessagesToDisplay.assignedToMyself
                 }
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
             }
