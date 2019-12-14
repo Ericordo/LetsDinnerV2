@@ -274,6 +274,8 @@ class RecipeCreationViewController: UIViewController {
             }
         }
         ingredientTextField.text = ""
+        amountTextField.text = ""
+        unitTextField.text = ""
     }
     
     
