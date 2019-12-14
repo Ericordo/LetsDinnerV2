@@ -38,6 +38,8 @@ class ManagementViewController: UIViewController {
     }
     
     private var selectedSection : String?
+    
+    let input = SectionSelectionInput()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,7 @@ class ManagementViewController: UIViewController {
         updateServings(servings: servings)
 //        prepareData()
 //        tasksTableView.reloadData()
+        input.frame = CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44))
     }
     
     private func setupUI() {
@@ -151,11 +154,11 @@ class ManagementViewController: UIViewController {
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = MessagesToDisplay.thingToAdd
             textField = alertTextField
-            let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
-            input.configureInput(sections: self.sectionNames)
-            input.sectionSelectionInputDelegate = self
+//            let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
+            self.input.configureInput(sections: self.sectionNames)
+            self.input.sectionSelectionInputDelegate = self
             self.selectedSection = "Miscellaneous"
-            textField.inputAccessoryView = input
+            textField.inputAccessoryView = self.input
         }
         alert.addAction(add)
         alert.addAction(cancel)

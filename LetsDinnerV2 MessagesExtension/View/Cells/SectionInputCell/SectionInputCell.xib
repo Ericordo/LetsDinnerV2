@@ -26,10 +26,10 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="fFn-ro-iJH" secondAttribute="bottom" constant="5" id="bq2-di-EWg"/>
-                <constraint firstItem="fFn-ro-iJH" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="jNW-yg-Mw5"/>
-                <constraint firstAttribute="trailing" secondItem="fFn-ro-iJH" secondAttribute="trailing" constant="5" id="sna-g9-age"/>
-                <constraint firstItem="fFn-ro-iJH" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="wWW-eO-CCl"/>
+                <constraint firstAttribute="bottom" secondItem="fFn-ro-iJH" secondAttribute="bottom" constant="5" id="59I-GD-kF7"/>
+                <constraint firstAttribute="trailing" secondItem="fFn-ro-iJH" secondAttribute="trailing" constant="5" id="L1n-Yw-Oeo"/>
+                <constraint firstItem="fFn-ro-iJH" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="M7b-iE-kw6"/>
+                <constraint firstItem="fFn-ro-iJH" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="SUk-V4-b7e"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="208" height="40"/>
