@@ -72,14 +72,24 @@ class NewEventViewController: UIViewController {
         
         
         if !defaults.address.isEmpty {
-            let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-            addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
-            locationTextField.inputAccessoryView = addressInput
+//            let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+//            addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+//            locationTextField.inputAccessoryView = addressInput
+            
+            let addressInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+                       addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+                       locationTextField.inputAccessoryView = addressInput
+            
+            
         }
         if !defaults.username.isEmpty {
-            let hostInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-                hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
-                hostNameTextField.inputAccessoryView = hostInput
+//            let hostInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+//                hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+//                hostNameTextField.inputAccessoryView = hostInput
+            
+            let hostInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+            hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+            hostNameTextField.inputAccessoryView = hostInput
         }
     }
     

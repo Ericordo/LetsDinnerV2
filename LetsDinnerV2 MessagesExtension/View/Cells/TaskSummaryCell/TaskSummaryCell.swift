@@ -62,7 +62,6 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let taskCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.taskCVCell, for: indexPath) as! TaskCVCell
         let task = Event.shared.tasks[indexPath.row]
         let count = Int(indexPath.row) + 1

@@ -24,7 +24,7 @@ class TasksListViewController: UIViewController {
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .tasksListVC
@@ -45,7 +45,7 @@ class TasksListViewController: UIViewController {
     }
     
     private func prepareData() {
-        tasks = Event.shared.tasks
+//        tasks = Event.shared.tasks
         classifiedTasks.removeAll()
         expandableTasks.removeAll()
         sectionNames.removeAll()
@@ -108,6 +108,12 @@ class TasksListViewController: UIViewController {
     }
     
     
+    @IBAction func didTapSortButton(_ sender: UIButton) {
+        tasks = tasks.sorted(by: { $0.taskState.rawValue < $1.taskState.rawValue } )
+        prepareData()
+        tasksTableView.reloadData()
+    }
+    
 }
 
 extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
@@ -153,82 +159,114 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
       }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            
-            let headerView = UIView()
-            headerView.backgroundColor = .white
-            
-            let collapseButton : UIButton = {
-                let button = UIButton()
-                button.setImage(UIImage(named: "collapse"), for: .normal)
-                if !expandableTasks[section].isExpanded {
-                    button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
-                }
-                button.tag = section
-                button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
-                return button
-            }()
-            
-            let nameLabel : UILabel = {
-                let label = UILabel()
-                label.text = sectionNames[section]
-                return label
-            }()
-            
-            let separator : UIView = {
-                let view = UIView()
-                view.backgroundColor = UIColor.lightGray
-                return view
-            }()
-            
-            let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
-         
-            
-            headerView.addSubview(collapseButton)
-            headerView.addSubview(progressCircle)
-            headerView.addSubview(nameLabel)
-            headerView.addSubview(separator)
-            
-            
-            collapseButton.translatesAutoresizingMaskIntoConstraints = false
-            collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-            collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
-            collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
-            collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
-            
-            progressCircle.translatesAutoresizingMaskIntoConstraints = false
-            progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
-            progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
-            progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-            progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
-           
-            
-            nameLabel.translatesAutoresizingMaskIntoConstraints = false
-            nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
-            nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0).isActive = true
-            nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
-            nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
-            
-            separator.translatesAutoresizingMaskIntoConstraints = false
-            separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
-            separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0).isActive = true
-            separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0).isActive = true
-            separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
-            
-    //        number of completed task in section / number of task in section
-            var numberOfCompletedTasks = 0
-            expandableTasks[section].tasks.forEach { task in
-                if task.taskState == .completed {
-                    numberOfCompletedTasks += 1
-                }
+        
+        let headerView = UIView()
+        headerView.backgroundColor = .white
+        
+        let collapseButton : UIButton = {
+            let button = UIButton()
+            button.setImage(UIImage(named: "collapse"), for: .normal)
+            if !expandableTasks[section].isExpanded {
+                button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
             }
-            let percentage : Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
-            progressCircle.animate(percentage: percentage)
-            
-            return headerView
+            button.tag = section
+            button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
+            return button
+        }()
+        
+        let nameLabel : UILabel = {
+            let label = UILabel()
+            label.text = sectionNames[section]
+            return label
+        }()
+        
+        let separator : UIView = {
+            let view = UIView()
+            view.backgroundColor = UIColor.lightGray
+            return view
+        }()
+        
+        let progressLabel : UILabel = {
+            let label = UILabel()
+            label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+            label.textColor = .systemGray
+            return label
+        }()
+        
+        let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+        
+        
+        headerView.addSubview(collapseButton)
+        headerView.addSubview(progressCircle)
+        headerView.addSubview(nameLabel)
+        headerView.addSubview(progressLabel)
+        headerView.addSubview(separator)
+        
+        
+        collapseButton.translatesAutoresizingMaskIntoConstraints = false
+        collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
+        collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
+        collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+        
+        progressCircle.translatesAutoresizingMaskIntoConstraints = false
+        progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
+        
+        
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 5).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//        nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
+        
+        progressLabel.translatesAutoresizingMaskIntoConstraints = false
+        progressLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
+        progressLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
+//        progressLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0).isActive = true
+        progressLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        progressLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -5).isActive = true
+        
+        
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0).isActive = true
+        separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0).isActive = true
+        separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
+        
+        //        number of completed task in section / number of task in section
+        var numberOfCompletedTasks = 0
+        expandableTasks[section].tasks.forEach { task in
+            if task.taskState == .completed {
+                numberOfCompletedTasks += 1
+            }
         }
+        let percentage : Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
+        progressCircle.animate(percentage: percentage)
+        
+        var numberOfUnassignedTasks = 0
+        expandableTasks[section].tasks.forEach { task in
+            if task.taskState == .unassigned {
+                numberOfUnassignedTasks += 1
+            }
+        }
+        
+        if numberOfUnassignedTasks == 0 {
+            progressLabel.text = "All items assigned"
+        } else if numberOfUnassignedTasks == 1 {
+            progressLabel.text = "\(numberOfUnassignedTasks) item unassigned"
+        } else {
+            progressLabel.text = "\(numberOfUnassignedTasks) items unassigned"
+        }
+        
+        return headerView
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 60
     }
     
     @objc func handleCloseCollapse(button: UIButton) {
