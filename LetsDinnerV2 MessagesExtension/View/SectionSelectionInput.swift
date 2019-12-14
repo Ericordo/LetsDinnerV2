@@ -52,27 +52,15 @@ class SectionSelectionInput : UIView {
         sectionsCollectionView.delegate = self
         sectionsCollectionView.register(UINib(nibName: CellNibs.sectionInputCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.sectionInputCell)
         
-        
-        addSubview(arrowImage)
-        
-        arrowImage.translatesAutoresizingMaskIntoConstraints = false
-        arrowImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        arrowImage.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        arrowImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        arrowImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
-        
-        addSubview(sectionsCollectionView)
-        sectionsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        sectionsCollectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        sectionsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        sectionsCollectionView.leadingAnchor.constraint(equalTo: arrowImage.trailingAnchor, constant: 10).isActive = true
-        sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
-    // Maybe these two lines fix bug where the toolbar wasn't always there
+// These 2 lines did not fix the bug of the toolbar not always appearing
       self.sizeToFit()
       self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    
     }
     
     override func layoutSubviews() {
+    // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
+        addConstraints()
         sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .left)
     }
     
@@ -82,6 +70,22 @@ class SectionSelectionInput : UIView {
                 self.sections.append(section)
             }
         }
+    }
+    
+    private func addConstraints() {
+        addSubview(arrowImage)
+        arrowImage.translatesAutoresizingMaskIntoConstraints = false
+        arrowImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        arrowImage.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        arrowImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        arrowImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
+
+        addSubview(sectionsCollectionView)
+        sectionsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        sectionsCollectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+        sectionsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        sectionsCollectionView.leadingAnchor.constraint(equalTo: arrowImage.trailingAnchor, constant: 10).isActive = true
+        sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
     }
     
     

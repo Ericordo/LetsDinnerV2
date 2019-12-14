@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,13 +22,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-LT-H4I">
-                    <rect key="frame" x="17" y="10" width="50" height="22"/>
+                    <rect key="frame" x="17" y="10" width="51" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="j08-na-hUB"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <state key="normal" title=" Back" image="chevronLeft">
-                        <color key="titleColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </state>
                     <connections>
                         <action selector="didTapBack:" destination="-1" eventType="touchUpInside" id="Vqj-PY-8le"/>
@@ -52,16 +52,33 @@
                     <rect key="frame" x="0.0" y="47" width="375" height="560"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manage Things" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEt-6s-AWz">
+                    <rect key="frame" x="126" y="10.5" width="123" height="21"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYB-Y0-w4c">
+                    <rect key="frame" x="336" y="9.5" width="22" height="23"/>
+                    <state key="normal" image="sortButton"/>
+                    <connections>
+                        <action selector="didTapSortButton:" destination="-1" eventType="touchUpInside" id="1Fi-xd-9Uo"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6yV-pe-gC2" secondAttribute="trailing" id="6HE-47-rvh"/>
                 <constraint firstItem="6yV-pe-gC2" firstAttribute="top" secondItem="Vbd-LT-H4I" secondAttribute="bottom" constant="15" id="93T-Br-owy"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XYB-Y0-w4c" secondAttribute="trailing" constant="17" id="CFs-Zb-za9"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="PWb-FZ-4In" secondAttribute="bottom" id="FI4-Qe-iEq"/>
                 <constraint firstItem="PWb-FZ-4In" firstAttribute="top" secondItem="6yV-pe-gC2" secondAttribute="bottom" constant="10" id="Fi7-Lp-cUT"/>
+                <constraint firstItem="XYB-Y0-w4c" firstAttribute="centerY" secondItem="Vbd-LT-H4I" secondAttribute="centerY" id="KXG-io-739"/>
                 <constraint firstItem="Vbd-LT-H4I" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="QXS-1i-fBM"/>
                 <constraint firstItem="Vbd-LT-H4I" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="bWv-q8-v7m"/>
                 <constraint firstItem="6yV-pe-gC2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="jo7-U7-S6e"/>
+                <constraint firstItem="sEt-6s-AWz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qLo-MC-vEe"/>
+                <constraint firstItem="sEt-6s-AWz" firstAttribute="centerY" secondItem="Vbd-LT-H4I" secondAttribute="centerY" id="uf0-Va-RIk"/>
                 <constraint firstItem="PWb-FZ-4In" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="wjQ-jb-ysX"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -70,5 +87,6 @@
     </objects>
     <resources>
         <image name="chevronLeft" width="7" height="12"/>
+        <image name="sortButton" width="22" height="23"/>
     </resources>
 </document>

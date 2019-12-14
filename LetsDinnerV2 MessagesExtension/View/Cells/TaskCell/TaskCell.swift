@@ -40,6 +40,7 @@ class TaskCell: UITableViewCell {
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             task.taskState = .assigned
             personLabel.text = MessagesToDisplay.assignedToYourself
+            delegate?.taskCellUpdateProgress(indexPath: indexPath)
         case .assigned:
             if Event.shared.currentUser?.identifier == task.assignedPersonUid {
                 task.taskState = .completed

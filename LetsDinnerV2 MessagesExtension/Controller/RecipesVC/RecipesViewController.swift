@@ -9,6 +9,8 @@
 import UIKit
 import RealmSwift
 
+import SafariServices
+
 protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapNext(controller: RecipesViewController)
         func recipeVCDidTapPrevious(controller: RecipesViewController)
@@ -342,10 +344,11 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         switch searchType {
         case .apiRecipes:
             let recipe = searchResults[indexPath.section]
-            let recipeDetailsVC = RecipeDetailsViewController()
-            recipeDetailsVC.selectedRecipe = recipe
-            recipeDetailsVC.delegate = self
-            present(recipeDetailsVC, animated: true, completion: nil)
+//            let recipeDetailsVC = RecipeDetailsViewController()
+//            recipeDetailsVC.selectedRecipe = recipe
+//            recipeDetailsVC.delegate = self
+//            present(recipeDetailsVC, animated: true, completion: nil)
+            openRecipeInSafari(recipe: recipe)
         case .customRecipes:
             guard let recipes = customRecipes else { return }
             let recipe = recipes[indexPath.section]
@@ -353,6 +356,15 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             customRecipeDetailsVC.selectedRecipe = recipe
             customRecipeDetailsVC.customRecipeDetailsDelegate = self
             present(customRecipeDetailsVC, animated: true, completion: nil)
+        }
+    }
+    
+    private func openRecipeInSafari(recipe: Recipe) {
+        guard let sourceUrl = recipe.sourceUrl else { return }
+        if let url = URL(string: sourceUrl) {
+            let vc = SFSafariViewController(url: url)
+            vc.preferredControlTintColor = Colors.newGradientRed
+            present(vc, animated: true, completion: nil)
         }
     }
     
