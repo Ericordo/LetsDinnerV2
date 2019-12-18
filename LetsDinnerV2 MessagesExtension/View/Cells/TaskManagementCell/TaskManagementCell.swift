@@ -17,6 +17,7 @@ class TaskManagementCell: UITableViewCell {
     @IBOutlet weak var taskStatusButton: TaskStatusButton!
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var personLabel: TaskPersonLabel!
+    @IBOutlet weak var seperatorLine: UIView!
     
     var task: Task?
     
@@ -49,7 +50,10 @@ class TaskManagementCell: UITableViewCell {
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
             personLabel.text = MessagesToDisplay.noAssignment
                }
-               taskStatusButton.isUserInteractionEnabled = false
+        
+        taskStatusButton.isUserInteractionEnabled = false
+        
+        seperatorLine.backgroundColor = Colors.paleGray
     }
     
     func didTapTaskStatusButton(indexPath: IndexPath) {

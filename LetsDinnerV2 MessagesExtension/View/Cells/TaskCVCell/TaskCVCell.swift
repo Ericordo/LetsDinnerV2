@@ -57,6 +57,8 @@ class TaskCVCell: UICollectionViewCell {
         
         // For deleting the line for the bottom last cell
         seperatorLine.isHidden = false
+        seperatorLine.backgroundColor = Colors.paleGray
+        
         if count % 3 == 0 {
             seperatorLine.isHidden = true
         }
