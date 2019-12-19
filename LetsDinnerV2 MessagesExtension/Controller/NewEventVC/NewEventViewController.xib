@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,7 +40,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ed6-pw-dxQ">
-                    <rect key="frame" x="17" y="10" width="33" height="33"/>
+                    <rect key="frame" x="15" y="10" width="33" height="33"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="33" id="Tkb-Yf-mwj"/>
                         <constraint firstAttribute="width" constant="33" id="f43-Dz-Evd"/>
@@ -143,7 +143,7 @@
                     <rect key="frame" x="0.0" y="60" width="375" height="60"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a new event" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
-                            <rect key="frame" x="16" y="0.0" width="343" height="40"/>
+                            <rect key="frame" x="20" y="0.0" width="335" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="bo0-Vf-SyB"/>
                             </constraints>
@@ -155,8 +155,8 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="top" secondItem="pMm-EY-3vN" secondAttribute="top" id="FME-Am-bup"/>
-                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="leading" secondItem="pMm-EY-3vN" secondAttribute="leading" constant="16" id="G7C-NI-gFU"/>
-                        <constraint firstAttribute="trailing" secondItem="DdJ-Rh-Nv7" secondAttribute="trailing" constant="16" id="UGx-6e-4tk"/>
+                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="leading" secondItem="pMm-EY-3vN" secondAttribute="leading" constant="20" id="G7C-NI-gFU"/>
+                        <constraint firstAttribute="trailing" secondItem="DdJ-Rh-Nv7" secondAttribute="trailing" constant="20" id="UGx-6e-4tk"/>
                         <constraint firstAttribute="height" constant="60" id="igi-JG-FoI"/>
                     </constraints>
                 </view>
@@ -169,7 +169,7 @@
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
-                <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="W00-lv-t0a"/>
+                <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="W00-lv-t0a"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pMm-EY-3vN" secondAttribute="trailing" id="bMp-1W-dCE"/>
                 <constraint firstItem="OxX-0E-huw" firstAttribute="centerY" secondItem="ed6-pw-dxQ" secondAttribute="centerY" id="bwn-4m-w08"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fxe-NH-i0K"/>

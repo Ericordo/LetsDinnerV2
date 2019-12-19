@@ -37,7 +37,7 @@ class TasksListViewController: UIViewController {
     }
     
     func setupUI() {
-        backButton.setTitle(" \(Event.shared.dinnerName)", for: .normal)
+//        backButton.setTitle(" \(Event.shared.dinnerName)", for: .normal)
         submitButton.layer.masksToBounds = true
         submitButton.alpha = 0.5
         submitButton.layer.cornerRadius = 12
@@ -140,7 +140,7 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-         return UITableView.automaticDimension
+         return 80
      }
      
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

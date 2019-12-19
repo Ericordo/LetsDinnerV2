@@ -215,7 +215,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     }
       
       func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-           return UITableView.automaticDimension
+           return 80
        }
     
 // MARK: Add for task management
@@ -338,7 +338,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
         separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0).isActive = true
-        separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0).isActive = true
+        separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
         separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         
 //        number of completed task in section / number of task in section
@@ -355,7 +355,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 50
     }
     
     @objc func handleCloseCollapse(button: UIButton) {
