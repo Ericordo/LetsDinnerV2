@@ -49,7 +49,7 @@ class TaskManagementCell: UITableViewCell {
                } else {
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
             personLabel.text = MessagesToDisplay.noAssignment
-               }
+        }
         
         taskStatusButton.isUserInteractionEnabled = false
         

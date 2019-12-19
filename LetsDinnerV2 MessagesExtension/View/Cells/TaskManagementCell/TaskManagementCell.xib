@@ -70,7 +70,7 @@
                 <outlet property="taskNameLabel" destination="VGK-zY-Dgl" id="ra8-kj-8lA"/>
                 <outlet property="taskStatusButton" destination="Edz-w5-mYL" id="SqO-Nq-7uI"/>
             </connections>
-            <point key="canvasLocation" x="132" y="153"/>
+            <point key="canvasLocation" x="-370" y="29"/>
         </tableViewCell>
     </objects>
     <resources>
