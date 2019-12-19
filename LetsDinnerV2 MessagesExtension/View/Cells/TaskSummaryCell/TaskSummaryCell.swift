@@ -34,6 +34,7 @@ class TaskSummaryCell: UITableViewCell {
         tasksCollectionView.delegate = self
         tasksCollectionView.dataSource = self
         tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
+        tasksCollectionView.contentOffset.x = 25
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         seeAllButton.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
         seeAllBeforeCreateEvent.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
@@ -75,7 +76,7 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
 extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
+         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
      }
 
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -85,50 +86,31 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 330, height: 80)
     }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        let pageWidth: CGFloat = 200 // The width your page should have (plus a possible margin)
-        let proportionalOffset = tasksCollectionView.contentOffset.x / pageWidth
-        indexOfCellBeforeDragging = Int(round(proportionalOffset))
-    }
 
-
+    // Pagination
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        // Stop scrolling
-        targetContentOffset.pointee = scrollView.contentOffset
-
-        // Calculate conditions
-        let pageWidth: CGFloat = 200 // The width your page should have (plus a possible margin)
-        let collectionViewItemCount = Event.shared.tasks.count // The number of items in this section
-        let proportionalOffset = tasksCollectionView.contentOffset.x / pageWidth
-        let indexOfMajorCell = Int(round(proportionalOffset))
-        let swipeVelocityThreshold: CGFloat = 0.5
-        let hasEnoughVelocityToSlideToTheNextCell = indexOfCellBeforeDragging + 1 < collectionViewItemCount && velocity.x > swipeVelocityThreshold
-        let hasEnoughVelocityToSlideToThePreviousCell = indexOfCellBeforeDragging - 1 >= 0 && velocity.x < -swipeVelocityThreshold
-        let majorCellIsTheCellBeforeDragging = indexOfMajorCell == indexOfCellBeforeDragging
-        let didUseSwipeToSkipCell = majorCellIsTheCellBeforeDragging && (hasEnoughVelocityToSlideToTheNextCell || hasEnoughVelocityToSlideToThePreviousCell)
-
-        if didUseSwipeToSkipCell {
-            // Animate so that swipe is just continued
-            let snapToIndex = indexOfCellBeforeDragging + (hasEnoughVelocityToSlideToTheNextCell ? 1 : -1)
-            let toValue = pageWidth * CGFloat(snapToIndex)
-            UIView.animate(
-                withDuration: 0.3,
-                delay: 0,
-                usingSpringWithDamping: 1,
-                initialSpringVelocity: velocity.x,
-                options: .allowUserInteraction,
-                animations: {
-                    scrollView.contentOffset = CGPoint(x: toValue, y: 0)
-                    scrollView.layoutIfNeeded()
-                },
-                completion: nil
-            )
-        } else {
-            // Pop back (against velocity)
-            let indexPath = IndexPath(row: indexOfMajorCell, section: 0)
-            tasksCollectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+        let pageWidth: Float = 330 //Cell width
+        // width + space
+        let currentOffset: Float = Float(scrollView.contentOffset.x)
+        let targetOffset: Float = Float(targetContentOffset.pointee.x)
+        var newTargetOffset: Float = 0
+        if targetOffset > currentOffset {
+            newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth
         }
+        else {
+            newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth
+        }
+        if newTargetOffset < 0 {
+            newTargetOffset = 0
+        }
+        else if (newTargetOffset > Float(scrollView.contentSize.width)){
+            newTargetOffset = Float(Float(scrollView.contentSize.width))
+        }
+
+        targetContentOffset.pointee.x = CGFloat(currentOffset)
+        scrollView.setContentOffset(CGPoint(x: CGFloat(newTargetOffset), y: scrollView.contentOffset.y), animated: true)
+
     }
+    
     
 }
