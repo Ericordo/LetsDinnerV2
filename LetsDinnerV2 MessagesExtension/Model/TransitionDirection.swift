@@ -11,5 +11,7 @@ import Foundation
 enum TransitionDirection {
     case noTransition
     case VCGoBack
-    case VCGoFoward
+    case VCGoForward
+    case VCGoUp
+    case VCGoDown
 }
