@@ -15,8 +15,6 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
 }
 
-
-
 private enum RowItemNumber: Int, CaseIterable {
     case title = 0
     case answerCell = 1
@@ -126,11 +124,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.hostInfo.rawValue:
             if let user = user {
                 if user.hasAccepted == .accepted {
+                    infoCell.isSelected = true
                     infoCell.titleLabel.text = LabelStrings.eventInfo
                     infoCell.infoLabel.text = Event.shared.hostName + " "
-                    let rightArrow = UIImage(named: "chevronRight")
-                    infoCell.accessoryView = UIImageView(image: rightArrow)
-                    infoCell.accessoryView?.tintColor = Colors.paleGray
+                    infoCell.accessoryType = .disclosureIndicator
                 } else {
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
@@ -245,19 +242,19 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard Event.shared.currentUser?.hasAccepted == .accepted else {return}
+        guard Event.shared.currentUser?.hasAccepted == .accepted else { return }
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
             self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
         }
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.row == RowItemNumber.hostInfo.rawValue {
-            return true
-        } else {
-            return false
-        }
-    }
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        if indexPath.row == RowItemNumber.hostInfo.rawValue {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
     // MARK: - Other Function
     
@@ -325,10 +322,6 @@ extension EventSummaryViewController: AnswerCellDelegate {
     func didTapAccept() {
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
     }
-    
-//    func didTapDecline() {
-//        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
-//    }
     
     func addToCalendarAlert() {
         let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
