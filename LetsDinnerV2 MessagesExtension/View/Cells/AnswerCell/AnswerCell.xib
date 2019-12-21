@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="ne0-5I-8q4">
-                        <rect key="frame" x="30" y="10" width="315" height="42"/>
+                        <rect key="frame" x="30" y="47.5" width="315" height="42"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zlw-9x-gVF">
                                 <rect key="frame" x="0.0" y="0.0" width="55.5" height="42"/>
@@ -60,18 +60,17 @@
                         </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do you want to accept this invite?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV8-Y4-RUA">
-                        <rect key="frame" x="59" y="62" width="257" height="38"/>
+                        <rect key="frame" x="59" y="15" width="257" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="ne0-5I-8q4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="F10-QC-8n4"/>
+                    <constraint firstItem="NV8-Y4-RUA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="BV4-Ma-TN3"/>
                     <constraint firstItem="NV8-Y4-RUA" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Sfn-CH-Bb8"/>
+                    <constraint firstItem="ne0-5I-8q4" firstAttribute="top" secondItem="NV8-Y4-RUA" secondAttribute="bottom" constant="12" id="Tny-rP-mWL"/>
                     <constraint firstItem="ne0-5I-8q4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="VOU-Mj-Zaz"/>
-                    <constraint firstItem="NV8-Y4-RUA" firstAttribute="top" secondItem="ne0-5I-8q4" secondAttribute="bottom" constant="10" id="j2X-JN-nID"/>
-                    <constraint firstAttribute="bottom" secondItem="NV8-Y4-RUA" secondAttribute="bottom" constant="20" id="rMD-cn-drf"/>
                     <constraint firstAttribute="trailing" secondItem="ne0-5I-8q4" secondAttribute="trailing" constant="30" id="uIP-In-XCy"/>
                 </constraints>
             </tableViewCellContentView>

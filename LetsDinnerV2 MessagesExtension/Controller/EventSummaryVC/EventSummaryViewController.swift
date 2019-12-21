@@ -112,12 +112,15 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             // Check the currentUser has accepted or not
             if let user = user {
                 if user.hasAccepted == .declined {
+                    answerDeclinedCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
                     return answerDeclinedCell
                 } else if user.hasAccepted == .accepted {
+                    answerAcceptedCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
                     return answerAcceptedCell
                 }
             }
-                
+            
+            answerCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
             answerCell.delegate = self
             return answerCell
 
