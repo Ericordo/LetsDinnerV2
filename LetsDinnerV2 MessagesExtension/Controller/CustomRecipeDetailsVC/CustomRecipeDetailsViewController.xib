@@ -62,7 +62,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHB-Lw-4fG">
-                    <rect key="frame" x="70" y="16" width="200" height="21"/>
+                    <rect key="frame" x="70" y="16" width="235" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -228,7 +228,6 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="uzg-cE-3VE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="1cg-4A-KWa"/>
-                <constraint firstItem="sTL-uv-Asu" firstAttribute="leading" secondItem="bHB-Lw-4fG" secondAttribute="trailing" constant="8" id="2U4-86-Uen"/>
                 <constraint firstItem="pLJ-eD-KGQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="33I-sA-voW"/>
                 <constraint firstItem="sTL-uv-Asu" firstAttribute="centerY" secondItem="obb-9V-9cI" secondAttribute="centerY" id="62d-IV-tsl"/>
                 <constraint firstItem="h5t-w7-DtE" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="70z-Fa-9VO"/>
@@ -238,6 +237,7 @@
                 <constraint firstItem="obb-9V-9cI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="InL-JR-FnK"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sTL-uv-Asu" secondAttribute="trailing" constant="17" id="Mhj-Tc-Jvo"/>
                 <constraint firstItem="8gT-hO-Zv7" firstAttribute="centerY" secondItem="sTL-uv-Asu" secondAttribute="centerY" id="OXQ-el-z17"/>
+                <constraint firstItem="bHB-Lw-4fG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Pr5-n5-0Nl"/>
                 <constraint firstItem="h5t-w7-DtE" firstAttribute="top" secondItem="obb-9V-9cI" secondAttribute="bottom" constant="10" id="Rkc-70-TZj"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pLJ-eD-KGQ" secondAttribute="trailing" id="alu-JX-Xae"/>
                 <constraint firstItem="h5t-w7-DtE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hJ5-EK-9QG"/>

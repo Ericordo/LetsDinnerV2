@@ -106,15 +106,16 @@ class EventDescriptionViewController: UIViewController {
     @IBAction func didTapNext(_ sender: UIButton) {
            guard let text = descriptionTextView.text else { return }
              if text.isEmpty {
-                 let refreshAlert = UIAlertController(title: MessagesToDisplay.descriptionPrompt, message: "", preferredStyle: UIAlertController.Style.alert)
-                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-                     self.descriptionTextView.becomeFirstResponder()
-                 }))
-                 present(refreshAlert, animated: true, completion: nil)
+//                 let refreshAlert = UIAlertController(title: MessagesToDisplay.descriptionPrompt, message: "", preferredStyle: UIAlertController.Style.alert)
+//                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+//                     self.descriptionTextView.becomeFirstResponder()
+//                 }))
+//                 present(refreshAlert, animated: true, completion: nil)
+                Event.shared.eventDescription = ""
              } else {
                  Event.shared.eventDescription = text
-                 delegate?.eventDescriptionVCDidTapFinish(controller: self)
              }
+        delegate?.eventDescriptionVCDidTapFinish(controller: self)
     }
     
     

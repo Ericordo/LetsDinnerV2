@@ -37,7 +37,6 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     
     var selectedRecipe: CustomRecipe?
-    var existingEvent = false
     
     let realm = try! Realm()
     
@@ -109,12 +108,10 @@ class CustomRecipeDetailsViewController: UIViewController {
             commentsLabel.text = comments
         }
         
-        if existingEvent {
-            chosenButton.isEnabled = false
-            chooseButton.isEnabled = false
-            chooseButton.alpha = 0
-            chosenButton.alpha = 0
-        }
+        chosenButton.isHidden = true
+        chooseButton.isHidden = true
+        
+        
     }
     
     
@@ -146,6 +143,17 @@ class CustomRecipeDetailsViewController: UIViewController {
             }
         customRecipeDetailsDelegate?.didDeleteCustomRecipe()
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    private func editRecipe() {
+        guard let recipe = self.selectedRecipe else { return }
+        let editingVC = RecipeCreationViewController()
+        editingVC.modalPresentationStyle = .fullScreen
+        editingVC.recipeCreationVCUpdateDelegate = self
+        editingVC.recipeToEdit = recipe
+        editingVC.editingMode = true
+        self.present(editingVC, animated: true, completion: nil)
+        
     }
     
     @objc private func closeVC() {
@@ -189,7 +197,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         alert.popoverPresentationController?.sourceRect = editButton.bounds
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let edit = UIAlertAction(title: "Edit", style: .default) { action in
-            
+            self.editRecipe()
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
             self.deleteRecipe()
@@ -253,4 +261,17 @@ extension CustomRecipeDetailsViewController: UIScrollViewDelegate {
             heightConstraint.constant = topViewMinHeight
         }
     }
+}
+
+extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
+    func recipeCreationVCDidUpdateRecipe() {
+        setupUI()
+        stepsTableView.reloadData()
+        ingredientsTableView.reloadData()
+        if selectedRecipe?.downloadUrl == nil {
+            recipeImageView.image = UIImage(named: "imagePlaceholder")
+        }
+    }
+    
+    
 }

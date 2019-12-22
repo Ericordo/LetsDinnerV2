@@ -8,9 +8,14 @@
 
 import UIKit
 import RealmSwift
+import Kingfisher
 
 protocol RecipeCreationVCDelegate: class {
     func recipeCreationVCDidTapDone()
+}
+
+protocol RecipeCreationVCUpdateDelegate: class {
+    func recipeCreationVCDidUpdateRecipe()
 }
 
 struct TemporaryIngredient {
@@ -64,6 +69,7 @@ class RecipeCreationViewController: UIViewController {
     private let customRecipe = CustomRecipe()
     
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
+    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
     private var temporaryIngredients = [TemporaryIngredient]() {
         didSet {
@@ -86,10 +92,16 @@ class RecipeCreationViewController: UIViewController {
                servingsLabel.text = "For \(servings) people"
            }
        }
+    
+    var recipeToEdit: CustomRecipe?
+    var editingMode = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        if editingMode {
+            setupEditingUI()
+        }
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
         amountTextField.delegate = self
@@ -126,6 +138,44 @@ class RecipeCreationViewController: UIViewController {
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
+    }
+    
+    private func setupEditingUI() {
+        guard let recipe = recipeToEdit else { return }
+        headerLabel.text = recipe.title
+        if let downloadUrl = recipe.downloadUrl {
+            recipeImageView.kf.indicatorType = .activity
+            recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholder")) { result in
+                switch result {
+                case .success:
+                    self.addImageButton.setTitle("Modify image", for: .normal)
+                    self.imageState = .deleteOrModifyPic
+                case .failure:
+                    let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+        
+        recipeNameTextField.text = recipe.title
+        servingsLabel.text = "For \(recipe.servings) people"
+        servingsStepper.value = Double(recipe.servings)
+        
+        recipe.ingredients.forEach { customIngredient in
+            let temporaryIngredient = TemporaryIngredient(name: customIngredient.name, amount: customIngredient.amount.value ?? 0, unit: customIngredient.unit ?? "")
+            temporaryIngredients.append(temporaryIngredient)
+        }
+        
+        recipe.cookingSteps.forEach { step in
+            temporarySteps.append(step)
+        }
+        
+        if let comments = recipe.comments {
+            commentsTextView.text = comments
+        }
+        
+        
     }
     
     private func presentPicker() {
@@ -188,6 +238,54 @@ class RecipeCreationViewController: UIViewController {
         }
     }
     
+    private func updateRecipeInRealm(recipe: CustomRecipe, completion: @escaping (Result<Bool, Error>) -> Void) {
+        do {
+            try self.realm.write {
+                let customIngredients = List<CustomIngredient>()
+                if let recipeTitle = recipeNameTextField.text {
+                    recipe.title = recipeTitle
+                }
+                if let downloadUrl = self.downloadUrl {
+                    recipe.downloadUrl = downloadUrl
+                } else {
+                    recipe.downloadUrl = nil
+                }
+                recipe.servings = servings
+                temporaryIngredients.forEach { temporaryIngredient in
+                    let customIngredient = CustomIngredient()
+                    customIngredient.name = temporaryIngredient.name
+                    if let amount = temporaryIngredient.amount {
+                        customIngredient.amount.value = amount
+                    }
+                    if let unit = temporaryIngredient.unit {
+                        customIngredient.unit = unit
+                    }
+                    customIngredients.append(customIngredient)
+                }
+                recipe.ingredients.removeAll()
+                recipe.ingredients.append(objectsIn: customIngredients)
+                if let comments = commentsTextView.text {
+                    recipe.comments = comments
+                }
+                let cookingSteps = List<String>()
+                temporarySteps.forEach { step in
+                    cookingSteps.append(step)
+                }
+                recipe.cookingSteps.removeAll()
+                recipe.cookingSteps.append(objectsIn: cookingSteps)
+            }
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        } catch {
+            print(error)
+            
+            DispatchQueue.main.async {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     private func verifyInformation() -> Bool {
         if let recipeName = recipeNameTextField.text {
             if recipeName.isEmpty {
@@ -208,19 +306,38 @@ class RecipeCreationViewController: UIViewController {
     
     @IBAction func didTapDone(_ sender: Any) {
         if verifyInformation() {
-            saveRecipeToRealm { [weak self] result in
-                switch result {
-                case .success:
-                    self?.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
-                    self?.dismiss(animated: true, completion: nil)
-                case .failure(let error):
-                    // To modify
-                    let alert = UIAlertController(title: "\(error)", message: "\(error.localizedDescription)", preferredStyle: .alert)
-                    let action = UIAlertAction(title: "ok", style: .default, handler: nil)
-                    alert.addAction(action)
-                    self?.present(alert, animated: true, completion: nil)
+            
+            if editingMode {
+                guard let recipeToEdit = recipeToEdit else { return }
+                updateRecipeInRealm(recipe: recipeToEdit) { [weak self] result in
+                    switch result {
+                    case .success:
+                        self?.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
+                        self?.dismiss(animated: true, completion: nil)
+                    case .failure:
+                        // To modify
+                        let alert = UIAlertController(title: "Error", message: "Error while updating your recipe", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                        alert.addAction(action)
+                        self?.present(alert, animated: true, completion: nil)
+                    }
+                }
+            } else {
+                saveRecipeToRealm { [weak self] result in
+                    switch result {
+                    case .success:
+                        self?.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                        self?.dismiss(animated: true, completion: nil)
+                    case .failure:
+                        // To modify
+                        let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                        alert.addAction(action)
+                        self?.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
+            
         }
         
     }
@@ -313,13 +430,13 @@ extension RecipeCreationViewController: UITextFieldDelegate {
 extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        recipeImageView.image = imageEdited
-        recipeImage = imageEdited
-        
         guard let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         recipeImageView.image = imageOriginal
         recipeImage = imageOriginal
+        
+        guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        recipeImageView.image = imageEdited
+        recipeImage = imageEdited
         
         imageState = .deleteOrModifyPic
         addImageButton.setTitle("Modify image", for: .normal)

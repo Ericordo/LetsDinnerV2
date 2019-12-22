@@ -172,37 +172,53 @@ class Event {
                     }
                 }
                 let customRecipeChild = childUid.child("customRecipes").childByAutoId()
+                var parameters : [String : Any] = ["title" : customRecipe.title,
+                                                   "ingredients" : ingredients,
+                                                   "id" : customRecipe.id,
+                                                   "servings" : customRecipe.servings]
+//                if let downloadUrl = customRecipe.downloadUrl {
+//                    let parameters : [String : Any] = ["title" : customRecipe.title,
+//                                                       "downloadUrl" : downloadUrl,
+//                                                       "ingredients" : ingredients,
+//                                                       "id" : customRecipe.id,
+//                                                       "servings" : customRecipe.servings]
+//                    customRecipeChild.setValue(parameters)
+//                } else {
+//                    let parameters : [String : Any] = ["title" : customRecipe.title,
+//                                                       "ingredients" : ingredients,
+//                                                       "id" : customRecipe.id,
+//                                                       "servings" : customRecipe.servings]
+//                    customRecipeChild.setValue(parameters)
+//                }
                 if let downloadUrl = customRecipe.downloadUrl {
-                    let parameters : [String : Any] = ["title" : customRecipe.title,
-                                                       "downloadUrl" : downloadUrl,
-                                                       "ingredients" : ingredients,
-                                                       "id" : customRecipe.id,
-                                                       "servings" : customRecipe.servings]
-                    customRecipeChild.setValue(parameters)
-                } else {
-                    let parameters : [String : Any] = ["title" : customRecipe.title,
-                                                       "ingredients" : ingredients,
-                                                       "id" : customRecipe.id,
-                                                       "servings" : customRecipe.servings]
-                    customRecipeChild.setValue(parameters)
+                    parameters["downloadUrl"] = downloadUrl
                 }
-
+                var cookingSteps = [String]()
+                customRecipe.cookingSteps.forEach { cookingStep in
+                    cookingSteps.append(cookingStep)
+                }
+                if !cookingSteps.isEmpty {
+                    parameters["cookingSteps"] = cookingSteps
+                }
+                if let comments = customRecipe.comments {
+                    parameters["comments"] = comments
+                }
+                customRecipeChild.setValue(parameters)
+                
             }
         }
             
         if !tasks.isEmpty {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
-                if let amount = task.metricAmount, let unit = task.metricUnit {
-                    let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe, "metricAmount" : amount, "metricUnit" : unit]
-                    taskChild.setValue(parameters)
-                } else if let amount = task.metricAmount {
-                    let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe, "metricAmount" : amount]
-                    taskChild.setValue(parameters)
-                } else {
-                    let parameters : [String : Any ] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
-                    taskChild.setValue(parameters)
+                var parameters : [String : Any] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
+                if let amount = task.metricAmount {
+                    parameters["metricAmount"] = amount
                 }
+                if let unit = task.metricUnit {
+                    parameters["metricUnit"] = unit
+                }
+                taskChild.setValue(parameters)
             }
         }
 
@@ -213,8 +229,14 @@ class Event {
        
 //        currentUser?.hasAccepted = .accepted
         childUid.child("participants").child(userID).setValue(participantsParameters)
-        self.firebaseEventUid = childUid.key!
-        return childUid.key!
+        
+        if let key = childUid.key {
+            self.firebaseEventUid = key
+            return key
+        } else {
+            return "error"
+        }
+        
       }
     
     
@@ -364,6 +386,14 @@ class Event {
                     }
                     if let downloadUrl = dict["downloadUrl"] as? String {
                         customRecipe.downloadUrl = downloadUrl
+                    }
+                    if let cookingSteps = dict["cookingSteps"] as? [String] {
+                        cookingSteps.forEach { cookingStep in
+                            customRecipe.cookingSteps.append(cookingStep)
+                        }
+                    }
+                    if let comments = dict["comments"] as? String {
+                        customRecipe.comments = comments
                     }
                     customRecipes.append(customRecipe)
                 }
