@@ -168,6 +168,7 @@ class RecipesViewController: UIViewController {
     
     @IBAction func didTapCreateRecipe(_ sender: UIButton) {
         let recipeCreationVC = RecipeCreationViewController()
+        recipeCreationVC.modalPresentationStyle = .fullScreen
         recipeCreationVC.recipeCreationVCDelegate = self
         present(recipeCreationVC, animated: true, completion: nil)
     }
@@ -277,7 +278,9 @@ class RecipesViewController: UIViewController {
                 let task = Task(taskName: customIngredient.name, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName)
                 task.metricUnit = customIngredient.unit
                 if let amount = customIngredient.amount.value {
-                    task.metricAmount = (amount * 2) / servings
+                    if Int(amount) != 0 {
+                        task.metricAmount = (amount * 2) / servings
+                    }
                 }
                 task.servings = 2
                 Event.shared.tasks.append(task)
@@ -353,6 +356,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             guard let recipes = customRecipes else { return }
             let recipe = recipes[indexPath.section]
             let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+            customRecipeDetailsVC.modalPresentationStyle = .fullScreen
             customRecipeDetailsVC.selectedRecipe = recipe
             customRecipeDetailsVC.customRecipeDetailsDelegate = self
             present(customRecipeDetailsVC, animated: true, completion: nil)

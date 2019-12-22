@@ -23,17 +23,17 @@ class InfoInputView : UIView {
     private var infoLabelText = String()
     private var selectedTextField = UITextField()
     
-    private let infoLabel : UILabel = {
+     let infoLabel : UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
         return label
     }()
     
-    private let addButton : UIButton = {
+    let addButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
         button.setImage(UIImage(named: "addButton"), for: .normal)
-        button.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         return button
     }()
     
@@ -64,8 +64,8 @@ class InfoInputView : UIView {
         
     }
     
-    @objc private func didTapAdd() {
-        selectedTextField.text = infoLabel.text
+    @objc func didTapAdd() {
+
     }
     
     func assignInfoInput(textField: UITextField, info: String) {

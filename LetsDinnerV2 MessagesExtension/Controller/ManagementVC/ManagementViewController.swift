@@ -24,6 +24,12 @@ class ManagementViewController: UIViewController {
     @IBOutlet private weak var servingsStepper: UIStepper!
     @IBOutlet weak var separatorView: UIView!
     
+    @IBOutlet weak var addThingView: UIView!
+    @IBOutlet weak var newThingTextField: UITextField!
+    @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sectionSelectionInput: SectionSelectionInput!
+    
+    
     weak var delegate: ManagementViewControllerDelegate?
     
     private var tasks = Event.shared.tasks
@@ -49,6 +55,13 @@ class ManagementViewController: UIViewController {
         servings = Event.shared.servings
         setupUI()
         updateServings(servings: servings)
+        newThingTextField.delegate = self
+        
+        sectionSelectionInput.configureInput(sections: self.sectionNames)
+        sectionSelectionInput.sectionSelectionInputDelegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func setupUI() {
@@ -129,36 +142,38 @@ class ManagementViewController: UIViewController {
     }
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
-        
-        var textField = UITextField()
-        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
-        let add = UIAlertAction(title: MessagesToDisplay.add, style: .default) { action in
-            if !textField.text!.isEmpty {
-            let newTask = Task(taskName: textField.text!,
-                               assignedPersonUid: "nil",
-                               taskState: TaskState.unassigned.rawValue,
-                               taskUid: "nil",
-                               assignedPersonName: "nil",
-                               isCustom: true,
-                               parentRecipe: self.selectedSection ?? "Miscellaneous")
-            Event.shared.tasks.append(newTask)
-            self.prepareData()
-            self.tasksTableView.reloadData()
-            }
-        }
-        let cancel = UIAlertAction(title: MessagesToDisplay.cancel, style: .cancel, handler: nil)
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = MessagesToDisplay.thingToAdd
-            textField = alertTextField
-            let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
-            input.configureInput(sections: self.sectionNames)
-            input.sectionSelectionInputDelegate = self
-            self.selectedSection = "Miscellaneous"
-            textField.inputAccessoryView = input
-        }
-        alert.addAction(add)
-        alert.addAction(cancel)
-        present(alert, animated: true, completion: nil)
+        self.selectedSection = "Miscellaneous"
+        newThingTextField.becomeFirstResponder()
+ 
+//        var textField = UITextField()
+//        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
+//        let add = UIAlertAction(title: MessagesToDisplay.add, style: .default) { action in
+//            if !textField.text!.isEmpty {
+//            let newTask = Task(taskName: textField.text!,
+//                               assignedPersonUid: "nil",
+//                               taskState: TaskState.unassigned.rawValue,
+//                               taskUid: "nil",
+//                               assignedPersonName: "nil",
+//                               isCustom: true,
+//                               parentRecipe: self.selectedSection ?? "Miscellaneous")
+//            Event.shared.tasks.append(newTask)
+//            self.prepareData()
+//            self.tasksTableView.reloadData()
+//            }
+//        }
+//        let cancel = UIAlertAction(title: MessagesToDisplay.cancel, style: .cancel, handler: nil)
+//        alert.addTextField { (alertTextField) in
+//            alertTextField.placeholder = MessagesToDisplay.thingToAdd
+//            textField = alertTextField
+//            let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
+//            input.configureInput(sections: self.sectionNames)
+//            input.sectionSelectionInputDelegate = self
+//            self.selectedSection = "Miscellaneous"
+//            textField.inputAccessoryView = input
+//        }
+//        alert.addAction(add)
+//        alert.addAction(cancel)
+//        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func didTapStepper(_ sender: UIStepper) {
@@ -181,6 +196,27 @@ class ManagementViewController: UIViewController {
         
         prepareData()
         tasksTableView.reloadData()
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 1) {
+            self.addThingViewBottomConstraint.constant = keyboardFrame.height
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.view.layoutIfNeeded()
+         UIView.animate(withDuration: 1) {
+             self.addThingViewBottomConstraint.constant = -80
+             self.view.layoutIfNeeded()
+         }
+        
     }
     
 
@@ -399,5 +435,28 @@ extension ManagementViewController: SectionSelectionInputDelegate {
         self.selectedSection = sectionName
     }
     
+    
+}
+
+extension ManagementViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if !newThingTextField.text!.isEmpty {
+            let newTask = Task(taskName: textField.text!,
+                               assignedPersonUid: "nil",
+                               taskState: TaskState.unassigned.rawValue,
+                               taskUid: "nil",
+                               assignedPersonName: "nil",
+                               isCustom: true,
+                               parentRecipe: self.selectedSection ?? "Miscellaneous")
+            Event.shared.tasks.append(newTask)
+            self.prepareData()
+            self.tasksTableView.reloadData()
+        }
+        newThingTextField.text = ""
+        return newThingTextField.resignFirstResponder()
+        
+    }
     
 }

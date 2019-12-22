@@ -69,8 +69,6 @@
 		883A29FA2371D15D0099ECDF /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 883A29F92371D15D0099ECDF /* Readme.md */; };
 		883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */; };
 		883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */; };
-		883A2A022372D5520099ECDF /* EventDescriptionViewControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A2A002372D5520099ECDF /* EventDescriptionViewControllerOld.swift */; };
-		883A2A032372D5520099ECDF /* EventDescriptionViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A012372D5520099ECDF /* EventDescriptionViewControllerOld.xib */; };
 		883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A052372E9910099ECDF /* GoogleService-Info.plist */; };
 		8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */; };
 		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
@@ -222,8 +220,6 @@
 		883A29F92371D15D0099ECDF /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsViewController.swift; sourceTree = "<group>"; };
 		883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeDetailsViewController.xib; sourceTree = "<group>"; };
-		883A2A002372D5520099ECDF /* EventDescriptionViewControllerOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewControllerOld.swift; sourceTree = "<group>"; };
-		883A2A012372D5520099ECDF /* EventDescriptionViewControllerOld.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDescriptionViewControllerOld.xib; sourceTree = "<group>"; };
 		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		885C6096237F6E6000ED3A17 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
@@ -534,7 +530,6 @@
 				88C95B30239863DD000E750A /* RecipeCreationVC */,
 				88A362E0237EA8B6005B6B81 /* ManagementVC */,
 				885C60BF23809F5500ED3A17 /* EventDescriptionVC */,
-				883A2A042372D5560099ECDF /* EventDescriptionVCOld */,
 				885C60C92380BA9500ED3A17 /* ReviewVC */,
 				880B133223736D3C003E29AC /* EventSummaryVC */,
 				B86F7006238435830010AB7C /* EventInfoVC */,
@@ -634,15 +629,6 @@
 				883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */,
 			);
 			path = RecipeDetailsVC;
-			sourceTree = "<group>";
-		};
-		883A2A042372D5560099ECDF /* EventDescriptionVCOld */ = {
-			isa = PBXGroup;
-			children = (
-				883A2A002372D5520099ECDF /* EventDescriptionViewControllerOld.swift */,
-				883A2A012372D5520099ECDF /* EventDescriptionViewControllerOld.xib */,
-			);
-			path = EventDescriptionVCOld;
 			sourceTree = "<group>";
 		};
 		885C60B8238030EC00ED3A17 /* TaskManagementCell */ = {
@@ -887,7 +873,6 @@
 				885C60CD2380BABB00ED3A17 /* EventInfoViewController.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
-				883A2A032372D5520099ECDF /* EventDescriptionViewControllerOld.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F3A237043BB002A1879 /* RecipesViewController.xib in Resources */,
 				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
@@ -1015,7 +1000,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				883A2A022372D5520099ECDF /* EventDescriptionViewControllerOld.swift in Sources */,
 				885C61142384B6D600ED3A17 /* UITextField.swift in Sources */,
 				88349F25236E20CF002A1879 /* UIView.swift in Sources */,
 				88B7832E23717D84009E4F3C /* UIColor.swift in Sources */,

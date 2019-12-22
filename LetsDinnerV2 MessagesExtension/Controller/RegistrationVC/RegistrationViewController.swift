@@ -49,6 +49,8 @@ class RegistrationViewController: UIViewController {
     private let topViewMinHeight: CGFloat = 90
     private let topViewMaxHeight: CGFloat = 170
     
+    private var activeField: UITextField?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,6 +65,9 @@ class RegistrationViewController: UIViewController {
         lastNameTextField.delegate = self
         addressTextField.delegate = self
         scrollView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupUI() {
@@ -251,6 +256,10 @@ class RegistrationViewController: UIViewController {
 }
 
 extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeField = textField
+    }
+    
     func textFieldDidChangeSelection(_ textField: UITextField) {
         updateInitials()
     }
@@ -274,13 +283,13 @@ extension RegistrationViewController: UITextFieldDelegate {
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        profileImage = imageEdited
-        userPic.image = imageEdited
-        
         guard let imageOriginal = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         profileImage = imageOriginal
         userPic.image = imageOriginal
+        
+        guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
+        profileImage = imageEdited
+        userPic.image = imageEdited
         
         imageState = .deleteOrModifyPic
         addPicButton.setTitle("Modify image", for: .normal)
@@ -307,6 +316,34 @@ extension RegistrationViewController: UIScrollViewDelegate {
         } else {
             addPicButton.alpha = 0
         }
+    }
+    
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        var rectangle = self.view.frame
+        rectangle.size.height -= keyboardFrame.height
+        
+        if let activeField = activeField {
+            if !rectangle.contains(activeField.frame.origin) {
+                scrollView.scrollRectToVisible(activeField.frame, animated: true)
+            }
+        }
+        
+        
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+ 
     }
     
 }

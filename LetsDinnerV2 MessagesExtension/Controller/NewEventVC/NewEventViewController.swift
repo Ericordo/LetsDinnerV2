@@ -28,6 +28,9 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var infoInput: InfoInputView!
+    @IBOutlet weak var infoInputBottomConstraint: NSLayoutConstraint!
+    
     
     
     @IBOutlet weak var testButton: UIButton!
@@ -49,6 +52,7 @@ class NewEventViewController: UIViewController {
             textField!.delegate = self
         }
         scrollView.delegate = self
+        infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -71,26 +75,28 @@ class NewEventViewController: UIViewController {
         
         
         
-        if !defaults.address.isEmpty {
-//            let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-//            addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
-//            locationTextField.inputAccessoryView = addressInput
-            
-            let addressInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-                       addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
-                       locationTextField.inputAccessoryView = addressInput
-            
-            
-        }
-        if !defaults.username.isEmpty {
-//            let hostInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-//                hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
-//                hostNameTextField.inputAccessoryView = hostInput
-            
-            let hostInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-            hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
-            hostNameTextField.inputAccessoryView = hostInput
-        }
+//        if !defaults.address.isEmpty {
+////            let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+////            addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+////            locationTextField.inputAccessoryView = addressInput
+//
+//            let addressInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+//                       addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+//                       locationTextField.inputAccessoryView = addressInput
+//
+//
+//
+//        }
+//        if !defaults.username.isEmpty {
+////            let hostInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+////                hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+////                hostNameTextField.inputAccessoryView = hostInput
+//
+//            let hostInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
+//            hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+//            hostNameTextField.inputAccessoryView = hostInput
+//        }
+        
     }
     
     @IBAction func DidTapTestButton(_ sender: Any) {
@@ -189,6 +195,9 @@ class NewEventViewController: UIViewController {
         delegate?.newEventVCDdidTapProfile(controller: self)
     }
     
+    @objc private func didTapAdd() {
+        activeField?.text = infoInput.infoLabel.text
+    }
     
     
 }
@@ -197,8 +206,31 @@ extension NewEventViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         activeField = textField
-        if textField == dateTextField {
+//        if textField == dateTextField {
+//            presentDatePicker()
+//        }
+        switch textField {
+        case dinnerNameTextField:
+            infoInput.isHidden = true
+        case hostNameTextField:
+            if !defaults.username.isEmpty {
+                infoInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+                infoInput.isHidden = false
+            } else {
+                infoInput.isHidden = true
+            }
+        case locationTextField:
+            if !defaults.address.isEmpty {
+                infoInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+                infoInput.isHidden = false
+            } else {
+                infoInput.isHidden = true
+            }
+        case dateTextField:
+            infoInput.isHidden = true
             presentDatePicker()
+        default:
+            break
         }
     }
     
@@ -226,7 +258,6 @@ extension NewEventViewController: UITextFieldDelegate {
    func textFieldDidChangeSelection(_ textField: UITextField) {
         switch textField {
         case dinnerNameTextField:
-            
             Event.shared.dinnerName = textField.text ?? ""
         case hostNameTextField:
             Event.shared.hostName = textField.text ?? ""
@@ -261,15 +292,31 @@ extension NewEventViewController: UIScrollViewDelegate {
                 scrollView.scrollRectToVisible(activeField.frame, animated: true)
             }
         }
-    
+        if activeField == locationTextField || activeField == hostNameTextField {
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 1) {
+                self.infoInputBottomConstraint.constant = keyboardFrame.height
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 1) {
+            self.infoInputBottomConstraint.constant = -41
+            self.view.layoutIfNeeded()
+        }
     }
     
 }
+
+
 
 
 

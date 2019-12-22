@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,9 +11,13 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManagementViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
                 <outlet property="addButton" destination="oS0-MV-xiC" id="SOW-Ac-v2g"/>
+                <outlet property="addThingView" destination="JOb-Ql-hbj" id="jkv-P8-dFA"/>
+                <outlet property="addThingViewBottomConstraint" destination="HfC-bK-eHS" id="pPW-gM-oLB"/>
                 <outlet property="backButton" destination="hfU-Un-jAU" id="k6Y-mn-IJ6"/>
+                <outlet property="newThingTextField" destination="Zu2-hA-LyP" id="Ja7-aV-oaz"/>
                 <outlet property="nextButton" destination="haE-7o-ScL" id="OsG-bD-HEw"/>
                 <outlet property="progressView" destination="OCo-s0-ErQ" id="GAJ-PJ-p0v"/>
+                <outlet property="sectionSelectionInput" destination="XFi-HJ-Qmd" id="E31-6l-djZ"/>
                 <outlet property="separatorView" destination="b48-qc-gPw" id="1dF-Qo-RDr"/>
                 <outlet property="servingsLabel" destination="0C6-a0-T8D" id="m7j-mw-SPR"/>
                 <outlet property="servingsStepper" destination="4kC-yC-Std" id="Muj-cV-JGR"/>
@@ -89,6 +93,48 @@
                         <constraint firstAttribute="height" constant="1" id="m12-Ei-D6k"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOb-Ql-hbj">
+                    <rect key="frame" x="0.0" y="668" width="375" height="79"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New thing" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zu2-hA-LyP">
+                            <rect key="frame" x="10" y="1" width="355" height="34"/>
+                            <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="Wi0-Y3-bId"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFi-HJ-Qmd" customClass="SectionSelectionInput" customModule="Let_s_Dinner_" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="35" width="375" height="44"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="60e-iY-h7I"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pDr-9e-p6s">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                            <color key="backgroundColor" white="0.67222281678082196" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="9si-0w-rFb"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="pDr-9e-p6s" secondAttribute="trailing" id="Ad8-sj-Bj8"/>
+                        <constraint firstItem="XFi-HJ-Qmd" firstAttribute="top" secondItem="Zu2-hA-LyP" secondAttribute="bottom" id="J0j-rl-3Qz"/>
+                        <constraint firstAttribute="width" constant="375" id="JUB-Q8-KR0"/>
+                        <constraint firstAttribute="trailing" secondItem="XFi-HJ-Qmd" secondAttribute="trailing" id="Vca-Va-gwS"/>
+                        <constraint firstItem="pDr-9e-p6s" firstAttribute="leading" secondItem="JOb-Ql-hbj" secondAttribute="leading" id="fQO-iM-hO1"/>
+                        <constraint firstAttribute="trailing" secondItem="Zu2-hA-LyP" secondAttribute="trailing" constant="10" id="fhx-pL-8FD"/>
+                        <constraint firstItem="Zu2-hA-LyP" firstAttribute="leading" secondItem="JOb-Ql-hbj" secondAttribute="leading" constant="10" id="jEf-SS-t9I"/>
+                        <constraint firstItem="Zu2-hA-LyP" firstAttribute="top" secondItem="pDr-9e-p6s" secondAttribute="bottom" id="jl1-eb-aHe"/>
+                        <constraint firstAttribute="bottom" secondItem="XFi-HJ-Qmd" secondAttribute="bottom" id="lim-Lx-CVc"/>
+                        <constraint firstItem="XFi-HJ-Qmd" firstAttribute="leading" secondItem="JOb-Ql-hbj" secondAttribute="leading" id="uNb-tt-9bG"/>
+                        <constraint firstAttribute="height" constant="79" id="xLi-dn-Zy4"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -103,6 +149,7 @@
                 <constraint firstItem="b48-qc-gPw" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FO5-bI-k41"/>
                 <constraint firstItem="c6c-yo-AdS" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="FVb-nf-QJu"/>
                 <constraint firstItem="c6c-yo-AdS" firstAttribute="top" secondItem="b48-qc-gPw" secondAttribute="bottom" id="GrZ-dU-ZE5"/>
+                <constraint firstAttribute="bottom" secondItem="JOb-Ql-hbj" secondAttribute="bottom" constant="-80" id="HfC-bK-eHS"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="haE-7o-ScL" secondAttribute="trailing" constant="17" id="I57-Ia-UAS"/>
                 <constraint firstItem="OCo-s0-ErQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IgC-7n-eeF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4kC-yC-Std" secondAttribute="trailing" constant="17" id="M5R-j7-CpB"/>
@@ -112,6 +159,8 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="b48-qc-gPw" secondAttribute="trailing" id="aK2-yS-SHP"/>
                 <constraint firstItem="OCo-s0-ErQ" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="dS2-gC-CYg"/>
                 <constraint firstItem="4kC-yC-Std" firstAttribute="top" secondItem="haE-7o-ScL" secondAttribute="bottom" constant="20" id="ebY-4K-NyN"/>
+                <constraint firstItem="JOb-Ql-hbj" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="gUj-fY-oAy"/>
+                <constraint firstItem="JOb-Ql-hbj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="iHK-Ik-cjh"/>
                 <constraint firstItem="oS0-MV-xiC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="rFW-bF-yhc"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="oS0-MV-xiC" secondAttribute="bottom" constant="10" id="tlx-OI-5Nt"/>
                 <constraint firstItem="4kC-yC-Std" firstAttribute="leading" secondItem="0C6-a0-T8D" secondAttribute="trailing" constant="10" id="wnh-62-n8W"/>
