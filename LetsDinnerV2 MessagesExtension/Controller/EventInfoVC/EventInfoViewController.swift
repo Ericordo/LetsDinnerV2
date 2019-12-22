@@ -16,8 +16,8 @@ class EventInfoViewController: UIViewController {
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var eventInfoTableView: UITableView!
-    @IBOutlet weak var calendarButton: PrimaryButton!
-    @IBOutlet weak var reminderButton: PrimaryButton!
+    @IBOutlet weak var calendarButton: UIButton!
+    @IBOutlet weak var reminderButton: UIButton!
     
     weak var delegate: EventInfoViewControllerDelegate?
     
@@ -36,7 +36,6 @@ class EventInfoViewController: UIViewController {
     
     func setupUI() {
         eventInfoTableView.tableFooterView = UIView()
-
     }
     
     private func registerCell(_ nibName: String) {
@@ -45,6 +44,21 @@ class EventInfoViewController: UIViewController {
     
     @IBAction func backButtonDidTap(_ sender: Any) {
         self.delegate?.eventInfoVCDidTapBackButton(controller: self)
+    }
+    
+    @IBAction func calendarButtonDidTap(_ sender: Any) {
+        let title = Event.shared.dinnerName
+        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+        let location = Event.shared.dinnerLocation
+        
+        calendarManager.addEventToCalendar(view: self,
+                                           with: title,
+                                           forDate: date,
+                                           location: location)
+    }
+    
+    @IBAction func remindersButtonDidTap(_ sender: Any) {
+        
     }
 }
 
@@ -88,7 +102,6 @@ extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource {
             default:
             return UITableView.automaticDimension
         }
-        
     }
     
     
