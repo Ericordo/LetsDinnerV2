@@ -31,6 +31,11 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
+        gradientLayers?.first?.frame = view.bounds
+    }
+    
     // MARK: - Conversation Handling
     
     override func willBecomeActive(with conversation: MSConversation) {
@@ -503,7 +508,11 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapSend(controller: ReviewViewController) {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-        sendMessage(message: message)
+        if Event.shared.firebaseEventUid == "error" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UploadError"), object: nil)
+        } else {
+            sendMessage(message: message)
+        }
     }
     
     func reviewVCBackToManagementVC(controller: ReviewViewController) {

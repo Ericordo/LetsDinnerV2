@@ -50,6 +50,8 @@ class ReviewViewController: UIViewController {
         registerCell(CellNibs.taskSummaryCell)
 
         setupUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showUploadFail), name: Notification.Name(rawValue: "UploadError"), object: nil)
     }
     
 
@@ -171,6 +173,13 @@ class ReviewViewController: UIViewController {
             self.sendButton.setTitleColor(Colors.customBlue, for: .normal)
             self.sendButton.backgroundColor = Colors.paleGray
         })
+    }
+    
+    @objc private func showUploadFail() {
+        let alert = UIAlertController(title: "Error", message: "There was a problem uploading your event, please try again", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
  
 }

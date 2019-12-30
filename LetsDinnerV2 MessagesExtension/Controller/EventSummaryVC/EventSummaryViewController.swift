@@ -55,11 +55,20 @@ class EventSummaryViewController: UIViewController {
         if !Event.shared.participants.isEmpty {
             summaryTableView.isHidden = false
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
     }
     
     @objc func updateTable() {
         summaryTableView.reloadData()
         summaryTableView.isHidden = false
+    }
+    
+    @objc private func showDownloadFail() {
+        let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func setupTableView() {

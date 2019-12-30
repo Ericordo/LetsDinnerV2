@@ -26,12 +26,16 @@ class IdleViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
-
     
+    override func viewDidLayoutSubviews() {
+        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
+        gradientLayers?.first?.frame = view.bounds
+    }
+
     func setupUI() {
-        view.setGradientToValue(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed, value: 0.4)
         continueButton.layer.cornerRadius = 8.0
         newDinnerButton.layer.cornerRadius = 8.0
+        view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
     }
     
     @IBAction func didTapContinue(_ sender: UIButton) {
