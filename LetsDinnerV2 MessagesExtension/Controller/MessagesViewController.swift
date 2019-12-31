@@ -24,11 +24,22 @@ class MessagesViewController: MSMessagesAppViewController {
                FirebaseApp.configure()
         }
         
+        Auth.auth().signInAnonymously { (authResult, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        
         do {
             _ = try Realm()
         } catch {
             print("ERROR", error, error.localizedDescription)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
+        gradientLayers?.first?.frame = view.bounds
     }
     
     // MARK: - Conversation Handling
@@ -503,7 +514,11 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapSend(controller: ReviewViewController) {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-        sendMessage(message: message)
+        if Event.shared.firebaseEventUid == "error" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UploadError"), object: nil)
+        } else {
+            sendMessage(message: message)
+        }
     }
     
     func reviewVCBackToManagementVC(controller: ReviewViewController) {

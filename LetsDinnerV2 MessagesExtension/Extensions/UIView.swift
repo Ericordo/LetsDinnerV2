@@ -31,4 +31,17 @@ extension UIView {
          layer.insertSublayer(gradientLayer, at: 0)
      }
     
+    func rotate() {
+        if self.transform == .identity {
+            UIView.animate(withDuration: 0.2) {
+                self.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+            }
+        } else {
+            UIView.animate(withDuration: 0.2) {
+                self.transform = .identity
+            }
+        }
+    }
+
+    
 }

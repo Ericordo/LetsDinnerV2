@@ -27,9 +27,15 @@ class InitialViewController: UIViewController {
         setupUI()
     }
     
+    //    To fix bug with gradient not updating when rotating device
+    override func viewDidLayoutSubviews() {
+        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
+        gradientLayers?.first?.frame = view.bounds
+    }
+    
     func setupUI() {
-        backgroundView.setGradientToValue(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed, value: 0.4)
         newDinnerButton.layer.cornerRadius = 8.0
+        view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
     }
     
     @IBAction func didTapInfo(_ sender: UIButton) {
@@ -40,7 +46,7 @@ class InitialViewController: UIViewController {
     @IBAction func didTapNewDinner(_ sender: Any) {
         delegate?.initialVCDidTapStartButton(controller: self)
     }
-    
+     
 
 
 

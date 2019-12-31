@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 protocol TasksListViewControllerDelegate: class {
     func tasksListVCDidTapBackButton(controller: TasksListViewController)
@@ -17,6 +18,7 @@ class TasksListViewController: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var tasksTableView: UITableView!
+    @IBOutlet weak var onlineAlertHeightConstraint: NSLayoutConstraint!
     
     weak var delegate: TasksListViewControllerDelegate?
     
@@ -34,6 +36,20 @@ class TasksListViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
         prepareData()
         tasksTableView.reloadData()
+        
+        Database.database().reference().child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
+            guard let value = snapshot.value as? Int else { return }
+            self.updateOnlineAlert(value)
+        }
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        Event.shared.addOnlineUser()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Event.shared.removeOnlineUser()
     }
     
     func setupUI() {
@@ -42,6 +58,22 @@ class TasksListViewController: UIViewController {
         submitButton.alpha = 0.5
         submitButton.layer.cornerRadius = 12
         submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+    }
+    
+    func updateOnlineAlert(_ value: Int) {
+        if value < 2 {
+            view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.2) {
+                self.onlineAlertHeightConstraint.constant = 0
+                self.view.layoutIfNeeded()
+            }
+        } else if value > 1 {
+            view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.2) {
+                self.onlineAlertHeightConstraint.constant = 40
+                self.view.layoutIfNeeded()
+            }
+        }
     }
     
     private func prepareData() {
@@ -85,7 +117,6 @@ class TasksListViewController: UIViewController {
             alert.addAction(UIAlertAction(title: MessagesToDisplay.no, style: .destructive, handler: { action in
                 var newTasks = [Task]()
                 Event.shared.currentConversationTaskStates.forEach { task in
-                    
                     let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName, isCustom: task.isCustom, parentRecipe: task.parentRecipe)
                     if let amount = task.metricAmount, let unit = task.metricUnit {
                         newTask.metricAmount = amount
@@ -162,16 +193,29 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         
         let headerView = UIView()
         headerView.backgroundColor = .white
+        headerView.tag = section
+        headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
         
-        let collapseButton : UIButton = {
-            let button = UIButton()
-            button.setImage(UIImage(named: "collapse"), for: .normal)
+//        let collapseButton : UIButton = {
+//            let button = UIButton()
+//            button.setImage(UIImage(named: "collapse"), for: .normal)
+//            if !expandableTasks[section].isExpanded {
+//                button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+//            }
+//            button.tag = section
+//            button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
+//            return button
+//        }()
+        
+        let collapseImage : UIImageView = {
+            let image = UIImageView()
+            image.image = UIImage(named: "collapse")
+            image.contentMode = .scaleAspectFit
             if !expandableTasks[section].isExpanded {
-                button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+                image.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
             }
-            button.tag = section
-            button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
-            return button
+            image.restorationIdentifier = "collapse"
+            return image
         }()
         
         let nameLabel : UILabel = {
@@ -196,24 +240,32 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
         
         
-        headerView.addSubview(collapseButton)
+//        headerView.addSubview(collapseButton)
+        headerView.addSubview(collapseImage)
         headerView.addSubview(progressCircle)
         headerView.addSubview(nameLabel)
         headerView.addSubview(progressLabel)
         headerView.addSubview(separator)
         
         
-        collapseButton.translatesAutoresizingMaskIntoConstraints = false
-        collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
-        collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
-        collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+//        collapseButton.translatesAutoresizingMaskIntoConstraints = false
+//        collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+//        collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
+//        collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
+//        collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+        
+        collapseImage.translatesAutoresizingMaskIntoConstraints = false
+        collapseImage.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        collapseImage.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        collapseImage.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10).isActive = true
+        collapseImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
         
         progressCircle.translatesAutoresizingMaskIntoConstraints = false
         progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
         progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
         progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
+//        progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
+        progressCircle.trailingAnchor.constraint(equalTo: collapseImage.leadingAnchor, constant: -5).isActive = true
         
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -269,18 +321,41 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         return 60
     }
     
-    @objc func handleCloseCollapse(button: UIButton) {
-        button.rotate()
-        let section = button.tag
+//    @objc func handleCloseCollapse(button: UIButton) {
+//        button.rotate()
+//        let section = button.tag
+//        var indexPaths = [IndexPath]()
+//        for row in expandableTasks[section].tasks.indices {
+//            let indexPath = IndexPath(row: row, section: section)
+//            indexPaths.append(indexPath)
+//        }
+//
+//        let isExpanded = expandableTasks[section].isExpanded
+//        expandableTasks[section].isExpanded = !isExpanded
+//
+//        if isExpanded {
+//            tasksTableView.deleteRows(at: indexPaths, with: .fade)
+//        } else {
+//            tasksTableView.insertRows(at: indexPaths, with: .fade)
+//        }
+//    }
+    
+    @objc func handleCloseCollapse(sender: UITapGestureRecognizer) {
+        let section = sender.view!.tag
+        sender.view?.subviews.forEach({ subview in
+            if subview.restorationIdentifier == "collapse" {
+                subview.rotate()
+            }
+        })
         var indexPaths = [IndexPath]()
         for row in expandableTasks[section].tasks.indices {
             let indexPath = IndexPath(row: row, section: section)
             indexPaths.append(indexPath)
         }
-        
+
         let isExpanded = expandableTasks[section].isExpanded
         expandableTasks[section].isExpanded = !isExpanded
-        
+
         if isExpanded {
             tasksTableView.deleteRows(at: indexPaths, with: .fade)
         } else {

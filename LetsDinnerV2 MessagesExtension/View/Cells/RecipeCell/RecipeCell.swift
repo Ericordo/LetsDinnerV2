@@ -53,6 +53,7 @@ class RecipeCell: UITableViewCell {
             recipeImageView.kf.setImage(with: imageURL)
             backgroundImageView.kf.setImage(with: imageURL)
         }
+        recipeImageView.isHidden = false
         self.searchType = searchType
         recipeNameLabel.text = recipe.title!
         selectedRecipe = recipe
@@ -63,14 +64,15 @@ class RecipeCell: UITableViewCell {
     
     func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
         if let downloadUrl = customRecipe.downloadUrl {
-                  recipeImageView.kf.setImage(with: URL(string: downloadUrl))
-                  backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
-              
+            recipeImageView.kf.setImage(with: URL(string: downloadUrl))
+            backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
+            recipeImageView.isHidden = false
 //        if let imageData = customRecipe.imageData {
 //            recipeImageView.image = UIImage(data: imageData)
 //            backgroundImageView.image = UIImage(data: imageData)
         } else {
-            recipeImageView.image = UIImage(named: "imagePlaceholder")
+           recipeImageView.isHidden = true
+//            recipeImageView.image = UIImage(named: "imagePlaceholder")
             backgroundImageView.image = nil
             backgroundImageView.backgroundColor = .white
         }
