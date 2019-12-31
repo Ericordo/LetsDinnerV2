@@ -180,6 +180,12 @@ class Event {
 //        currentUser?.hasAccepted = .accepted
         childUid.child("participants").child(userID).setValue(participantsParameters)
         
+        let onlineUsersChild = childUid.child("onlineUsers")
+        onlineUsersChild.setValue(0)
+        
+//        let onlineParticipantsParameters : [String : Int] = ["onlineUsers" : 0]
+//        childUid.setValue(onlineParticipantsParameters)
+        
         if let key = childUid.key {
             self.firebaseEventUid = key
             return key
@@ -658,6 +664,28 @@ class Event {
                   }
               }
     }
+    
+    func getNumberOfOnlineUsers(completion: @escaping (Int) -> Void) {
+        Database.database().reference().child("Events").child(firebaseEventUid).child("onlineUsers").observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value as? Int else { return }
+            completion(value)
+        }
+    }
+    
+    func addOnlineUser() {
+        getNumberOfOnlineUsers { number in
+            let updatedOnlineUsers = number + 1
+            Database.database().reference().child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
+        }
+    }
+    
+    func removeOnlineUser() {
+        getNumberOfOnlineUsers { number in
+            let updatedOnlineUsers = number - 1
+            Database.database().reference().child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
+        }
+    }
+    
        
  
     func deleteUserPicOnFirebase() {}

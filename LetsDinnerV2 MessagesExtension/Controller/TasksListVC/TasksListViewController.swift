@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 protocol TasksListViewControllerDelegate: class {
     func tasksListVCDidTapBackButton(controller: TasksListViewController)
@@ -17,6 +18,7 @@ class TasksListViewController: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var tasksTableView: UITableView!
+    @IBOutlet weak var onlineAlertHeightConstraint: NSLayoutConstraint!
     
     weak var delegate: TasksListViewControllerDelegate?
     
@@ -34,6 +36,20 @@ class TasksListViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
         prepareData()
         tasksTableView.reloadData()
+        
+        Database.database().reference().child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
+            guard let value = snapshot.value as? Int else { return }
+            self.updateOnlineAlert(value)
+        }
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        Event.shared.addOnlineUser()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Event.shared.removeOnlineUser()
     }
     
     func setupUI() {
@@ -42,6 +58,22 @@ class TasksListViewController: UIViewController {
         submitButton.alpha = 0.5
         submitButton.layer.cornerRadius = 12
         submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+    }
+    
+    func updateOnlineAlert(_ value: Int) {
+        if value < 2 {
+            view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.2) {
+                self.onlineAlertHeightConstraint.constant = 0
+                self.view.layoutIfNeeded()
+            }
+        } else if value > 1 {
+            view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.2) {
+                self.onlineAlertHeightConstraint.constant = 40
+                self.view.layoutIfNeeded()
+            }
+        }
     }
     
     private func prepareData() {
@@ -85,7 +117,6 @@ class TasksListViewController: UIViewController {
             alert.addAction(UIAlertAction(title: MessagesToDisplay.no, style: .destructive, handler: { action in
                 var newTasks = [Task]()
                 Event.shared.currentConversationTaskStates.forEach { task in
-                    
                     let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName, isCustom: task.isCustom, parentRecipe: task.parentRecipe)
                     if let amount = task.metricAmount, let unit = task.metricUnit {
                         newTask.metricAmount = amount

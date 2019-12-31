@@ -24,6 +24,12 @@ class MessagesViewController: MSMessagesAppViewController {
                FirebaseApp.configure()
         }
         
+        Auth.auth().signInAnonymously { (authResult, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        
         do {
             _ = try Realm()
         } catch {
