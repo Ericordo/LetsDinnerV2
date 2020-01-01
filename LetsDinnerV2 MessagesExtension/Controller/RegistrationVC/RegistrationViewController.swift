@@ -248,7 +248,9 @@ class RegistrationViewController: UIViewController {
             if !firstName.isEmpty && !lastName.isEmpty {
                 defaults.username = firstName.capitalized + " " + lastName.capitalized
                 errorLabel.isHidden = true
-                delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep!)
+                if let previousStep = previousStep {
+                    delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep)
+                }
             }
         }
     }

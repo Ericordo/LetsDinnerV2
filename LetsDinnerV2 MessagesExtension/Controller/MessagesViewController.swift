@@ -173,7 +173,7 @@ class MessagesViewController: MSMessagesAppViewController {
             // Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
-                controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep!)
+                controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep ?? StepTracking.eventSummaryVC)
             } else {
                 if conversation.selectedMessage?.url != nil {
                     guard let message = conversation.selectedMessage else { return }
@@ -399,8 +399,14 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
             StepStatus.currentStep = .newEventVC
             guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
             presentViewController(for: conversation, with: .expanded)
+        } else if previousStep == .eventSummaryVC {
+            StepStatus.currentStep = .eventSummaryVC
+            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+            presentViewController(for: conversation, with: .expanded)
         } else {
-            requestPresentationStyle(.compact)
+            StepStatus.currentStep = .newEventVC
+            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+            presentViewController(for: conversation, with: .expanded)
         }
     }
     
