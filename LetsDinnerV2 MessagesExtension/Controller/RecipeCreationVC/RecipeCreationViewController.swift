@@ -93,6 +93,8 @@ class RecipeCreationViewController: UIViewController {
            }
        }
     
+    private var placeholderLabel = UILabel()
+    
     var recipeToEdit: CustomRecipe?
     var editingMode = false
 
@@ -138,6 +140,14 @@ class RecipeCreationViewController: UIViewController {
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
+        commentsTextView.tintColor = Colors.newGradientRed
+        placeholderLabel.text = LabelStrings.cookingTipsPlaceholder
+        placeholderLabel.sizeToFit()
+        commentsTextView.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
+        placeholderLabel.textColor = Colors.customGray
+        placeholderLabel.font = UIFont.systemFont(ofSize: 14)
+        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
     }
     
     private func setupEditingUI() {
@@ -572,6 +582,10 @@ extension RecipeCreationViewController: UITextViewDelegate {
            commentsTextView.resignFirstResponder()
            return true
        }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
           super.touchesBegan(touches, with: event)

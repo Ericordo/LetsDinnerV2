@@ -112,4 +112,5 @@ enum LabelStrings {
     static let readyToSend = "Ready to send your invite?"
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create one!"
+    static let cookingTipsPlaceholder = "Any tips about this recipe?"
 }
