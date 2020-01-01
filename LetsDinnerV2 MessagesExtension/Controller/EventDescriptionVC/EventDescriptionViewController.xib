@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventDescriptionViewControllerBis" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
                 <outlet property="cookLabel" destination="MWM-v9-fEr" id="D7t-Vz-i7C"/>
-                <outlet property="counterLabel" destination="Jv5-nC-J1E" id="qaC-FZ-LTH"/>
                 <outlet property="descriptionLabel" destination="31L-Nu-POD" id="tPV-ba-x0C"/>
                 <outlet property="descriptionTextView" destination="Jby-tb-pOQ" id="05P-7A-JMX"/>
                 <outlet property="nextButton" destination="nAa-f6-PpW" id="xqE-7P-FHn"/>
@@ -84,12 +83,6 @@
                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jv5-nC-J1E">
-                    <rect key="frame" x="283.5" y="129.5" width="19.5" height="12"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jby-tb-pOQ">
                     <rect key="frame" x="12" y="151.5" width="291" height="396.5"/>
                     <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -112,7 +105,6 @@
                 <constraint firstItem="xCd-kk-Y52" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="D9b-6A-4Rv"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="1me-Lx-1fO" secondAttribute="trailing" constant="17" id="DBG-jF-j6a"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="UEu-C9-OVF" secondAttribute="trailing" id="GjY-a8-1iL"/>
-                <constraint firstItem="Jv5-nC-J1E" firstAttribute="bottom" secondItem="1me-Lx-1fO" secondAttribute="bottom" id="JzG-1D-Nuy"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MWM-v9-fEr" secondAttribute="trailing" constant="17" id="L9Z-dR-S6g"/>
                 <constraint firstItem="UEu-C9-OVF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="Yhf-Nt-Mhf"/>
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerY" secondItem="xCd-kk-Y52" secondAttribute="centerY" id="cHT-R3-YQe"/>
@@ -120,7 +112,6 @@
                 <constraint firstItem="MWM-v9-fEr" firstAttribute="top" secondItem="31L-Nu-POD" secondAttribute="bottom" constant="20" id="dyZ-61-LJV"/>
                 <constraint firstItem="I9B-ix-rpP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="e6c-Bh-E9G"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Jby-tb-pOQ" secondAttribute="trailing" constant="17" id="gJv-IS-U5S"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Jv5-nC-J1E" secondAttribute="trailing" constant="17" id="iDw-cK-Z9S"/>
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pN3-wr-fCv"/>
                 <constraint firstItem="xCd-kk-Y52" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="qsb-kk-wc6"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Jby-tb-pOQ" secondAttribute="bottom" constant="20" id="ueo-ZD-qca"/>

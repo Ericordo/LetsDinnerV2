@@ -20,7 +20,6 @@ class EventDescriptionViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var cookLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var recipesCollectionView: UICollectionView!
@@ -64,7 +63,6 @@ class EventDescriptionViewController: UIViewController {
         placeholderLabel.sizeToFit()
         
         checkForExistingDescription()
-        checkRemainingChars()
         
         descriptionTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
@@ -82,13 +80,6 @@ class EventDescriptionViewController: UIViewController {
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             cookLabel.isHidden = true
         }
-    }
-    
-    private func checkRemainingChars() {
-        let allowedChars = 500
-        let charsInTextView = -descriptionTextView.text.count
-        let remainingChars = allowedChars + charsInTextView
-        counterLabel.text = String(remainingChars)
     }
     
     private func checkForExistingDescription() {
@@ -158,7 +149,6 @@ extension EventDescriptionViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         Event.shared.eventDescription = descriptionTextView.text ?? ""
-        checkRemainingChars()
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
