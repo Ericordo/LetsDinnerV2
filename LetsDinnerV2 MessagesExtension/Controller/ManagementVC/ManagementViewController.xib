@@ -51,7 +51,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manage Things" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YIB-AR-09T">
-                    <rect key="frame" x="126.5" y="16" width="122.5" height="21"/>
+                    <rect key="frame" x="126" y="16" width="123" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -124,7 +124,6 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="pDr-9e-p6s" secondAttribute="trailing" id="Ad8-sj-Bj8"/>
                         <constraint firstItem="XFi-HJ-Qmd" firstAttribute="top" secondItem="Zu2-hA-LyP" secondAttribute="bottom" id="J0j-rl-3Qz"/>
-                        <constraint firstAttribute="width" constant="375" id="JUB-Q8-KR0"/>
                         <constraint firstAttribute="trailing" secondItem="XFi-HJ-Qmd" secondAttribute="trailing" id="Vca-Va-gwS"/>
                         <constraint firstItem="pDr-9e-p6s" firstAttribute="leading" secondItem="JOb-Ql-hbj" secondAttribute="leading" id="fQO-iM-hO1"/>
                         <constraint firstAttribute="trailing" secondItem="Zu2-hA-LyP" secondAttribute="trailing" constant="10" id="fhx-pL-8FD"/>
