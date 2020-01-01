@@ -36,7 +36,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PWb-FZ-4In">
-                    <rect key="frame" x="61" y="617" width="253" height="50"/>
+                    <rect key="frame" x="61" y="607" width="253" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="5RY-0t-Nks"/>
                         <constraint firstAttribute="width" constant="253" id="yHU-4s-q97"/>
@@ -50,7 +50,7 @@
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6yV-pe-gC2">
-                    <rect key="frame" x="0.0" y="82" width="375" height="525"/>
+                    <rect key="frame" x="0.0" y="82" width="375" height="515"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manage Things" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEt-6s-AWz">
@@ -101,7 +101,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6yV-pe-gC2" secondAttribute="trailing" id="6HE-47-rvh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XYB-Y0-w4c" secondAttribute="trailing" constant="17" id="CFs-Zb-za9"/>
                 <constraint firstItem="zDy-8X-CR3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Ef4-hf-G8X"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="PWb-FZ-4In" secondAttribute="bottom" id="FI4-Qe-iEq"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="PWb-FZ-4In" secondAttribute="bottom" constant="10" id="FI4-Qe-iEq"/>
                 <constraint firstItem="PWb-FZ-4In" firstAttribute="top" secondItem="6yV-pe-gC2" secondAttribute="bottom" constant="10" id="Fi7-Lp-cUT"/>
                 <constraint firstItem="XYB-Y0-w4c" firstAttribute="centerY" secondItem="Vbd-LT-H4I" secondAttribute="centerY" id="KXG-io-739"/>
                 <constraint firstItem="Vbd-LT-H4I" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="QXS-1i-fBM"/>
