@@ -68,6 +68,8 @@ class RecipeCreationViewController: UIViewController {
     
     private let customRecipe = CustomRecipe()
     
+    private var imageDeletedWhileEditing = false
+    
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
     weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
@@ -167,7 +169,7 @@ class RecipeCreationViewController: UIViewController {
                 }
             }
         }
-        
+        downloadUrl = recipe.downloadUrl
         recipeNameTextField.text = recipe.title
         servingsLabel.text = "For \(recipe.servings) people"
         servingsStepper.value = Double(recipe.servings)
@@ -255,11 +257,12 @@ class RecipeCreationViewController: UIViewController {
                 if let recipeTitle = recipeNameTextField.text {
                     recipe.title = recipeTitle
                 }
-                if let downloadUrl = self.downloadUrl {
-                    recipe.downloadUrl = downloadUrl
-                } else {
-                    recipe.downloadUrl = nil
-                }
+//                if let downloadUrl = self.downloadUrl {
+//                    recipe.downloadUrl = downloadUrl
+//                } else {
+//                    recipe.downloadUrl = nil
+//                }
+                recipe.downloadUrl = downloadUrl
                 recipe.servings = servings
                 temporaryIngredients.forEach { temporaryIngredient in
                     let customIngredient = CustomIngredient()
