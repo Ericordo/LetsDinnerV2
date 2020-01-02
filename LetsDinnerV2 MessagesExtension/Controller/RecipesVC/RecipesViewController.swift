@@ -49,8 +49,8 @@ class RecipesViewController: UIViewController {
     
     private var customRecipes : Results<CustomRecipe>?
     
-    private var previouslySelectedRecipes = [Recipe]()
-    private var previouslySelectedCustomRecipes = [CustomRecipe]()
+     var previouslySelectedRecipes = [Recipe]()
+    var previouslySelectedCustomRecipes = [CustomRecipe]()
     
     private var searchType: SearchType = .apiRecipes {
         didSet {
@@ -73,7 +73,10 @@ class RecipesViewController: UIViewController {
         
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        prepareTasks()
     }
     
     private func setupUI() {
@@ -92,7 +95,7 @@ class RecipesViewController: UIViewController {
         progressView.progress = 1/5
         progressView.setProgress(2/5, animated: true)
     }
-    
+        
     private func updateUI() {
         switch searchType {
         case .apiRecipes:
@@ -118,7 +121,6 @@ class RecipesViewController: UIViewController {
         } else {
             nextButton.setTitle("Next (\(count))", for: .normal)
         }
-//        prepareTasks()
     }
     
     private func loadRecipes() {
@@ -157,12 +159,13 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = !bool
     }
     
+    
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.recipeVCDidTapPrevious(controller: self)
     }
     
     @IBAction func didTapNext(_ sender: Any) {
-        prepareTasks()
+//        prepareTasks()
         delegate?.recipeVCDidTapNext(controller: self)
     }
     
@@ -231,8 +234,6 @@ class RecipesViewController: UIViewController {
             
         }
         
-        
-
 //        let recipes = Event.shared.selectedRecipes
 //        recipes.forEach { recipe in
         newRecipes.forEach { recipe in
@@ -347,10 +348,6 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         switch searchType {
         case .apiRecipes:
             let recipe = searchResults[indexPath.section]
-//            let recipeDetailsVC = RecipeDetailsViewController()
-//            recipeDetailsVC.selectedRecipe = recipe
-//            recipeDetailsVC.delegate = self
-//            present(recipeDetailsVC, animated: true, completion: nil)
             openRecipeInSafari(recipe: recipe)
         case .customRecipes:
             guard let recipes = customRecipes else { return }
