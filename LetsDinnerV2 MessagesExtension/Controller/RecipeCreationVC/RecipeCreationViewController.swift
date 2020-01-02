@@ -129,6 +129,8 @@ class RecipeCreationViewController: UIViewController {
     }
     
     private func setupUI() {
+        ingredientsTableView.isEditing = true
+        stepsTableView.isEditing = true
         recipeImageView.layer.cornerRadius = 17
         ingredientsTableView.rowHeight = rowHeight
         stepsTableView.rowHeight = rowHeight
@@ -186,6 +188,7 @@ class RecipeCreationViewController: UIViewController {
         if let comments = recipe.comments {
             commentsTextView.text = comments
         }
+        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
         
         
     }
@@ -493,7 +496,6 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
         
-    
 //        return ingredientCell
         switch tableView {
         case ingredientsTableView:
@@ -526,6 +528,21 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             }
         }
     
+    
+     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        switch tableView {
+        case ingredientsTableView:
+            let movedObject = temporaryIngredients[sourceIndexPath.row]
+            temporaryIngredients.remove(at: sourceIndexPath.row)
+            temporaryIngredients.insert(movedObject, at: destinationIndexPath.row)
+        case stepsTableView:
+            let movedObject = temporarySteps[sourceIndexPath.row]
+            temporarySteps.remove(at: sourceIndexPath.row)
+            temporarySteps.insert(movedObject, at: destinationIndexPath.row)
+        default:
+            break
+        }
+    }
     
 }
 
