@@ -115,7 +115,7 @@ DEPENDENCIES:
   - RealmSwift
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Crashlytics
     - Fabric
     - Firebase
@@ -167,4 +167,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a7f57c1f85b8bf56fd9d128eda14f35bf97f0016
 
-COCOAPODS: 1.7.0.rc.2
+COCOAPODS: 1.8.4

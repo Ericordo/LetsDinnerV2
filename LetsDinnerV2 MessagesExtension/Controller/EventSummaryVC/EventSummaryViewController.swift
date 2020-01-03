@@ -31,7 +31,7 @@ class EventSummaryViewController: UIViewController {
     @IBOutlet weak var summaryTableView: UITableView!
     
     // MARKS: - Variable
-    var user: User? {
+    var user: User? { // User Status should be fetched from here
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]
             return user
@@ -134,17 +134,21 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return answerCell
 
         case RowItemNumber.hostInfo.rawValue:
+            
             if let user = user {
                 if user.hasAccepted == .accepted {
-                    infoCell.isSelected = true
-                    infoCell.titleLabel.text = LabelStrings.eventInfo
-                    infoCell.infoLabel.text = Event.shared.hostName + " "
-                    infoCell.accessoryType = .disclosureIndicator
-                } else {
-                    infoCell.titleLabel.text = LabelStrings.host
-                    infoCell.infoLabel.text = Event.shared.hostName
+                        infoCell.titleLabel.text = LabelStrings.eventInfo
+                        infoCell.infoLabel.text = Event.shared.hostName + " "
+                        infoCell.accessoryType = .disclosureIndicator
+                } else if user.hasAccepted == .declined {
+                        infoCell.titleLabel.text = LabelStrings.host
+                        infoCell.infoLabel.text = Event.shared.hostName
                 }
+            } else {
+                infoCell.titleLabel.text = LabelStrings.host
+                infoCell.infoLabel.text = Event.shared.hostName
             }
+            
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -254,19 +258,14 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard Event.shared.currentUser?.hasAccepted == .accepted else { return }
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
-            self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
+            guard let user = user else { return }
+            if user.hasAccepted == .accepted {
+                self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
+            }
         }
     }
     
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        if indexPath.row == RowItemNumber.hostInfo.rawValue {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
     
     // MARK: - Other Function
     

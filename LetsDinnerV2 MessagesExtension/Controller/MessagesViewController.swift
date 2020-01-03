@@ -10,6 +10,7 @@ import UIKit
 import Messages
 import Firebase
 import RealmSwift
+import FirebaseAuth
 
 class MessagesViewController: MSMessagesAppViewController {
     
@@ -28,7 +29,7 @@ class MessagesViewController: MSMessagesAppViewController {
             if let error = error {
                 print(error.localizedDescription)
             }
-        }
+    }
         
         do {
             _ = try Realm()
@@ -482,14 +483,10 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    // For TestCase
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
-//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-//        sendMessage(message: message)
         let controller = instantiateReviewViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
 
