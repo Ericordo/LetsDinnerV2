@@ -46,6 +46,7 @@ class EventSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
+//        Event.shared.isAcceptingStatusChanged = false
                 
         self.setupTableView()
         self.registerCells()
@@ -327,10 +328,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func declineInvitation() {
+        Event.shared.isAcceptingStatusChanged = true
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
     }
     
     func didTapAccept() {
+        Event.shared.isAcceptingStatusChanged = true
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
     }
     

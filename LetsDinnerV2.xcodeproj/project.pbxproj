@@ -118,7 +118,7 @@
 		B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F7001238430DC0010AB7C /* ReviewViewController.xib */; };
 		B86F700B238521810010AB7C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* PrimaryButton.swift */; };
 		B86F700D238525A60010AB7C /* StandardTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700C238525A60010AB7C /* StandardTableView.swift */; };
-		B8AC7CB8239AA95C0079EADB /* TransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* TransitionDirection.swift */; };
+		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
 		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
@@ -266,7 +266,7 @@
 		B86F700723843C6B0010AB7C /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
 		B86F700A238521810010AB7C /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		B86F700C238525A60010AB7C /* StandardTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTableView.swift; sourceTree = "<group>"; };
-		B8AC7CB7239AA95C0079EADB /* TransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionDirection.swift; sourceTree = "<group>"; };
+		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
@@ -490,7 +490,7 @@
 				885C60BD23805A3D00ED3A17 /* StepTracking.swift */,
 				885C60D12381DD9A00ED3A17 /* ApiError.swift */,
 				885C61412388852D00ED3A17 /* ExpandableTasks.swift */,
-				B8AC7CB7239AA95C0079EADB /* TransitionDirection.swift */,
+				B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1005,7 +1005,7 @@
 				88B7832E23717D84009E4F3C /* UIColor.swift in Sources */,
 				88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */,
 				B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */,
-				B8AC7CB8239AA95C0079EADB /* TransitionDirection.swift in Sources */,
+				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
 				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,

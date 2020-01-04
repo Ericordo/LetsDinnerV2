@@ -114,22 +114,26 @@ class MessagesViewController: MSMessagesAppViewController {
         // Auto Accept the dinner for host creating event
         guard let currentUser = Event.shared.currentUser else {return}
         
+        // First Time Create Event session
         if !Event.shared.isHostRegistered {
-            // Create Event session
             if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-            
-            //Testing case: accept or decline
-            currentUser.hasAccepted = .accepted
-            
-//            Event.shared.hostIdentifier = currentUser.identifier
-            Event.shared.isHostRegistered = true
-
+                // To identify the first participant (Host)
+                currentUser.hasAccepted = .accepted
+                Event.shared.isAcceptingStatusChanged = true
+                Event.shared.isHostRegistered = true
             }
-        } else {
-            Event.shared.updateFirebaseTasks()
         }
         
-        Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+        // Update Invitation State
+        if Event.shared.isAcceptingStatusChanged {
+            Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+        }
+        
+        // Call When update on tasklistVC
+        if Event.shared.isTaskUpdated || Event.shared.isRecipeUpdated {
+            // Need to identify all situation for using updateFireBaseTask
+            Event.shared.updateFirebaseTasks()
+        }
     
     }
     
@@ -225,7 +229,7 @@ class MessagesViewController: MSMessagesAppViewController {
         addChildViewController(controller: controller)
     }
     
-    func addChildViewController(controller: UIViewController, transition: TransitionDirection = .noTransition) {
+    func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
         addChild(controller)
         
         controller.view.frame = view.bounds
