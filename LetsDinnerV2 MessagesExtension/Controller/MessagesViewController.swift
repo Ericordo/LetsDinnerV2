@@ -81,7 +81,7 @@ class MessagesViewController: MSMessagesAppViewController {
             // Need to guard when user already in the group
             guard isAlreadyReply() == false else { return }
             
-            // Initiate a new user
+            // Initiate a new user (Here is the only place to have a pending status)
             Event.shared.currentUser = User(identifier: currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)

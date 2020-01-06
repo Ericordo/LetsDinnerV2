@@ -385,9 +385,9 @@ extension EventSummaryViewController: CalendarCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
-    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
-        // Hidden
-    }
+//    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
+//        // Hidden
+//    }
     
     func taskSummaryCellDidTapSeeAll() {
         if let user = user {

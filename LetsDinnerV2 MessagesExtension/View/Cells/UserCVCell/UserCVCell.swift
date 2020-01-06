@@ -25,6 +25,7 @@ class UserCVCell: UICollectionViewCell {
         } else if user.hasAccepted == .declined {
             strokeColor = Colors.hasDeclined
         } else if user.hasAccepted == .pending {
+            // For Testing
             strokeColor = .darkGray
         }
         
