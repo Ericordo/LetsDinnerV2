@@ -26,16 +26,15 @@ class TaskSummaryCell: UITableViewCell {
     
     weak var delegate: TaskSummaryCellDelegate?
     weak var reviewVCDelegate: TaskSummaryCellInReviewVCDelegate?
-    
-    private var indexOfCellBeforeDragging = 0
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         tasksCollectionView.delegate = self
         tasksCollectionView.dataSource = self
         tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
-        tasksCollectionView.contentOffset.x = 25
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
+        
+        
         seeAllButton.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
         seeAllBeforeCreateEvent.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
     }
@@ -46,7 +45,6 @@ class TaskSummaryCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
@@ -74,11 +72,11 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
 }
 
 extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
+        // For the pagination
+         return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 60)
      }
-
+    
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
          return 0
      }
@@ -89,21 +87,22 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
 
     // Pagination
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let pageWidth: Float = 330 //Cell width
+        let pageWidth: Float = 330
         // width + space
         let currentOffset: Float = Float(scrollView.contentOffset.x)
         let targetOffset: Float = Float(targetContentOffset.pointee.x)
         var newTargetOffset: Float = 0
+        
+        // Drag
         if targetOffset > currentOffset {
             newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth
-        }
-        else {
+        } else if targetOffset < currentOffset {
             newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth
         }
+        
         if newTargetOffset < 0 {
             newTargetOffset = 0
-        }
-        else if (newTargetOffset > Float(scrollView.contentSize.width)){
+        } else if (newTargetOffset > Float(scrollView.contentSize.width)){
             newTargetOffset = Float(Float(scrollView.contentSize.width))
         }
 
@@ -111,6 +110,5 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
         scrollView.setContentOffset(CGPoint(x: CGFloat(newTargetOffset), y: scrollView.contentOffset.y), animated: true)
 
     }
-    
     
 }

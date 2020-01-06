@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TransitionDirection {
+enum VCTransitionDirection {
     case noTransition
     case VCGoBack
     case VCGoForward

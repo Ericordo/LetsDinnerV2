@@ -135,6 +135,7 @@ class TasksListViewController: UIViewController {
     }
     
     @IBAction func didTapSubmit(_ sender: UIButton) {
+        Event.shared.isTaskUpdated = true
         delegate?.tasksListVCDidTapSubmit(controller: self)
     }
     

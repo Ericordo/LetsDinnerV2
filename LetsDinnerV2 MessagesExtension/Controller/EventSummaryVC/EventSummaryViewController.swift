@@ -31,7 +31,7 @@ class EventSummaryViewController: UIViewController {
     @IBOutlet weak var summaryTableView: UITableView!
     
     // MARKS: - Variable
-    var user: User? {
+    var user: User? { // User Status should be fetched from here
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]
             return user
@@ -46,6 +46,7 @@ class EventSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
+//        Event.shared.isAcceptingStatusChanged = false
                 
         self.setupTableView()
         self.registerCells()
@@ -134,17 +135,21 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             return answerCell
 
         case RowItemNumber.hostInfo.rawValue:
+            
             if let user = user {
                 if user.hasAccepted == .accepted {
-                    infoCell.isSelected = true
-                    infoCell.titleLabel.text = LabelStrings.eventInfo
-                    infoCell.infoLabel.text = Event.shared.hostName + " "
-                    infoCell.accessoryType = .disclosureIndicator
-                } else {
-                    infoCell.titleLabel.text = LabelStrings.host
-                    infoCell.infoLabel.text = Event.shared.hostName
+                        infoCell.titleLabel.text = LabelStrings.eventInfo
+                        infoCell.infoLabel.text = Event.shared.hostName + " "
+                        infoCell.accessoryType = .disclosureIndicator
+                } else if user.hasAccepted == .declined {
+                        infoCell.titleLabel.text = LabelStrings.host
+                        infoCell.infoLabel.text = Event.shared.hostName
                 }
+            } else {
+                infoCell.titleLabel.text = LabelStrings.host
+                infoCell.infoLabel.text = Event.shared.hostName
             }
+            
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -254,72 +259,67 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard Event.shared.currentUser?.hasAccepted == .accepted else { return }
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
-            self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
-        }
-    }
-    
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        if indexPath.row == RowItemNumber.hostInfo.rawValue {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
-    
-    // MARK: - Other Function
-    
-    func addEventToCalendar(with title: String, forDate eventStartDate: Date, location: String) {
-        
-        store.requestAccess(to: .event) { (success, error) in
-            if error == nil {
-                let event = EKEvent.init(eventStore: self.store)
-                event.title = title
-                event.calendar = self.store.defaultCalendarForNewEvents
-                event.startDate = eventStartDate
-                event.endDate = Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)
-                event.location = location
-                
-                let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
-                event.addAlarm(alarm)
-                
-                let predicate = self.store.predicateForEvents(withStart: eventStartDate, end: Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)! , calendars: nil)
-                let existingEvents = self.store.events(matching: predicate)
-                let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
-                    existingEvent.title == title && existingEvent.startDate == eventStartDate
-                }
-                
-                if eventAlreadyAdded {
-                    let alert = UIAlertController(title: MessagesToDisplay.eventExists,
-                                                  message: "",
-                                                  preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK",
-                                                  style: .default,
-                                                  handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    
-                    do {
-                        try self.store.save(event, span: .thisEvent)
-                        DispatchQueue.main.async {
-                            let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert,
-                                                              message: "",
-                                                              preferredStyle: .alert)
-                            doneAlert.addAction(UIAlertAction(title: "OK",
-                                                              style: .default,
-                                                              handler: nil))
-                            self.present(doneAlert, animated: true, completion: nil)
-                        }
-                    } catch let error {
-                        print("failed to save event", error)
-                    }
-                }
-            } else {
-                print("error = \(String(describing: error?.localizedDescription))")
+            guard let user = user else { return }
+            if user.hasAccepted == .accepted {
+                self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
             }
         }
     }
+    
+    
+    // MARK: - Other Function
+    
+//    func addEventToCalendar(with title: String, forDate eventStartDate: Date, location: String) {
+//
+//        store.requestAccess(to: .event) { (success, error) in
+//            if error == nil {
+//                let event = EKEvent.init(eventStore: self.store)
+//                event.title = title
+//                event.calendar = self.store.defaultCalendarForNewEvents
+//                event.startDate = eventStartDate
+//                event.endDate = Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)
+//                event.location = location
+//
+//                let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
+//                event.addAlarm(alarm)
+//
+//                let predicate = self.store.predicateForEvents(withStart: eventStartDate, end: Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)! , calendars: nil)
+//                let existingEvents = self.store.events(matching: predicate)
+//                let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
+//                    existingEvent.title == title && existingEvent.startDate == eventStartDate
+//                }
+//
+//                if eventAlreadyAdded {
+//                    let alert = UIAlertController(title: MessagesToDisplay.eventExists,
+//                                                  message: "",
+//                                                  preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "OK",
+//                                                  style: .default,
+//                                                  handler: nil))
+//                    self.present(alert, animated: true, completion: nil)
+//                } else {
+//
+//                    do {
+//                        try self.store.save(event, span: .thisEvent)
+//                        DispatchQueue.main.async {
+//                            let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert,
+//                                                              message: "",
+//                                                              preferredStyle: .alert)
+//                            doneAlert.addAction(UIAlertAction(title: "OK",
+//                                                              style: .default,
+//                                                              handler: nil))
+//                            self.present(doneAlert, animated: true, completion: nil)
+//                        }
+//                    } catch let error {
+//                        print("failed to save event", error)
+//                    }
+//                }
+//            } else {
+//                print("error = \(String(describing: error?.localizedDescription))")
+//            }
+//        }
+//    }
     
     
 }
@@ -328,10 +328,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func declineInvitation() {
+        Event.shared.isAcceptingStatusChanged = true
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
     }
     
     func didTapAccept() {
+        Event.shared.isAcceptingStatusChanged = true
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
     }
     
@@ -374,7 +376,7 @@ extension EventSummaryViewController: CalendarCellDelegate {
         let title = Event.shared.dinnerName
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation
-        addEventToCalendar(with: title, forDate: date, location: location)
+        calendarManager.addEventToCalendar(view: self, with: title, forDate: date, location: location)
         
         self.didTapAccept()
     }
@@ -383,9 +385,9 @@ extension EventSummaryViewController: CalendarCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
-    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
-        // Hidden
-    }
+//    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
+//        // Hidden
+//    }
     
     func taskSummaryCellDidTapSeeAll() {
         if let user = user {

@@ -45,9 +45,11 @@ class Event {
 //          return titles.joined(separator:", ")
 //    }
     
-    // Helpful Variable
+    // Helpful variable
     var isHostRegistered = false
-
+    var isAcceptingStatusChanged = false
+    var isTaskUpdated = false
+    var isRecipeUpdated = false
     
     var servings = 2
 
@@ -73,6 +75,9 @@ class Event {
         hostIdentifier.removeAll()
         participants.removeAll()
         isHostRegistered = false
+        isAcceptingStatusChanged = false
+        isTaskUpdated = false
+        isRecipeUpdated = false
         servings = 2
     }
     
@@ -563,7 +568,7 @@ class Event {
         guard let currentUser = currentUser else {return}
         let identifier = currentUser.identifier
 
-        let participantsParameters: [String: Any] = ["fullName":                                     defaults.username,
+        let participantsParameters: [String: Any] = ["fullName": defaults.username,
                                                      "hasAccepted": currentUser.hasAccepted.rawValue,
                                                      "profilePicUrl" : defaults.profilePicUrl]
         Database.database().reference().child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)

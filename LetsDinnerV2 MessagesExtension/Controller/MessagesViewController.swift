@@ -10,6 +10,7 @@ import UIKit
 import Messages
 import Firebase
 import RealmSwift
+import FirebaseAuth
 
 class MessagesViewController: MSMessagesAppViewController {
     
@@ -28,7 +29,7 @@ class MessagesViewController: MSMessagesAppViewController {
             if let error = error {
                 print(error.localizedDescription)
             }
-        }
+    }
         
         do {
             _ = try Realm()
@@ -80,7 +81,7 @@ class MessagesViewController: MSMessagesAppViewController {
             // Need to guard when user already in the group
             guard isAlreadyReply() == false else { return }
             
-            // Initiate a new user
+            // Initiate a new user (Here is the only place to have a pending status)
             Event.shared.currentUser = User(identifier: currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
@@ -113,22 +114,26 @@ class MessagesViewController: MSMessagesAppViewController {
         // Auto Accept the dinner for host creating event
         guard let currentUser = Event.shared.currentUser else {return}
         
+        // First Time Create Event session
         if !Event.shared.isHostRegistered {
-            // Create Event session
             if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-            
-            //Testing case: accept or decline
-            currentUser.hasAccepted = .accepted
-            
-//            Event.shared.hostIdentifier = currentUser.identifier
-            Event.shared.isHostRegistered = true
-
+                // To identify the first participant (Host)
+                currentUser.hasAccepted = .accepted
+                Event.shared.isAcceptingStatusChanged = true
+                Event.shared.isHostRegistered = true
             }
-        } else {
-            Event.shared.updateFirebaseTasks()
         }
         
-        Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+        // Update Invitation State
+        if Event.shared.isAcceptingStatusChanged {
+            Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+        }
+        
+        // Call When update on tasklistVC
+        if Event.shared.isTaskUpdated || Event.shared.isRecipeUpdated {
+            // Need to identify all situation for using updateFireBaseTask
+            Event.shared.updateFirebaseTasks()
+        }
     
     }
     
@@ -224,7 +229,7 @@ class MessagesViewController: MSMessagesAppViewController {
         addChildViewController(controller: controller)
     }
     
-    func addChildViewController(controller: UIViewController, transition: TransitionDirection = .noTransition) {
+    func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
         addChild(controller)
         
         controller.view.frame = view.bounds
@@ -482,14 +487,10 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    // For TestCase
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
-//        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-//        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-//        sendMessage(message: message)
         let controller = instantiateReviewViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller)
+        addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
 
