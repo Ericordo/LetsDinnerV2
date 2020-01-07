@@ -34,7 +34,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="1yn-Qt-YLB">
-                        <rect key="frame" x="30" y="65" width="345" height="22"/>
+                        <rect key="frame" x="0.0" y="65" width="375" height="22"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="e1C-3i-GZY"/>
@@ -52,8 +52,8 @@
                     </collectionView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="C6Y-bU-jKk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hvm-oW-UkS" secondAttribute="bottom" constant="20" id="2jN-ng-fKp"/>
-                    <constraint firstItem="1yn-Qt-YLB" firstAttribute="leading" secondItem="hvm-oW-UkS" secondAttribute="leading" id="31C-Vy-HwY"/>
+                    <constraint firstItem="C6Y-bU-jKk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hvm-oW-UkS" secondAttribute="bottom" constant="15" id="2jN-ng-fKp"/>
+                    <constraint firstItem="1yn-Qt-YLB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Bh3-oF-cab"/>
                     <constraint firstItem="C6Y-bU-jKk" firstAttribute="top" secondItem="1yn-Qt-YLB" secondAttribute="bottom" constant="20" id="GsT-zm-gzG"/>
                     <constraint firstAttribute="trailing" secondItem="1yn-Qt-YLB" secondAttribute="trailing" id="LVS-zo-ypX"/>
                     <constraint firstItem="hvm-oW-UkS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="Wam-se-RFs"/>

@@ -30,10 +30,9 @@ class TasksListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .tasksListVC
+        
         setupUI()
-        tasksTableView.delegate = self
-        tasksTableView.dataSource = self
-        tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
+        setupTableView()
         prepareData()
         tasksTableView.reloadData()
         
@@ -58,6 +57,12 @@ class TasksListViewController: UIViewController {
         submitButton.alpha = 0.5
         submitButton.layer.cornerRadius = 12
         submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+    }
+    
+    func setupTableView() {
+        tasksTableView.delegate = self
+        tasksTableView.dataSource = self
+        tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
     }
     
     func updateOnlineAlert(_ value: Int) {

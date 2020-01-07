@@ -34,9 +34,14 @@ class TaskSummaryCell: UITableViewCell {
         tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
+        if Event.shared.tasks.count != 0 {
+            seeAllButton.setTitle("See All that's needed for \(Event.shared.servings)!", for: .normal)
+            seeAllBeforeCreateEvent.setTitle("See All that's needed for \(Event.shared.servings)!", for: .normal)
+        } else {
+            seeAllButton.setTitle("Add some tasks here!", for: .normal)
+            seeAllBeforeCreateEvent.setTitle("Add some tasks Here!", for: .normal)
+        }
         
-        seeAllButton.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
-        seeAllBeforeCreateEvent.setTitle("See what is needed for \(Event.shared.servings)!", for: .normal)
     }
     
     @objc func updateTable() {
@@ -108,7 +113,6 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
 
         targetContentOffset.pointee.x = CGFloat(currentOffset)
         scrollView.setContentOffset(CGPoint(x: CGFloat(newTargetOffset), y: scrollView.contentOffset.y), animated: true)
-
     }
     
 }

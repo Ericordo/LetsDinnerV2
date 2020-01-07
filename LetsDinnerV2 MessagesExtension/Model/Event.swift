@@ -52,7 +52,6 @@ class Event {
     var isRecipeUpdated = false
     
     var servings = 2
-
     var hostIdentifier = ""
 
     var participants = [User]()
