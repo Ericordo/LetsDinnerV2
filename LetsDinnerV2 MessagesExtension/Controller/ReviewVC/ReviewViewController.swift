@@ -242,7 +242,12 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         case 1, 2, 3:
             return 52
         case 5:
-            return 350
+            if Event.shared.tasks.count != 0 {
+                return 350
+            } else {
+                return 100
+            }
+            
         default:
             return UITableView.automaticDimension
         }
