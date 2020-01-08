@@ -37,6 +37,7 @@ class EventDescriptionViewController: UIViewController {
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
         recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
+        
         selectedRecipes.forEach { recipe in
             allRecipesTitles.append(recipe.title ?? "")
         }
@@ -44,6 +45,7 @@ class EventDescriptionViewController: UIViewController {
             allRecipesTitles.append(customRecipe.title)
         }
         setupUI()
+        setupSwipeGesture()
     }
     
     private func setupUI() {
@@ -79,8 +81,17 @@ class EventDescriptionViewController: UIViewController {
         
         cookLabel.text = "COOKING FOR \(Event.shared.servings)"
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            cookLabel.isHidden = true
+//            cookLabel.isHidden = true
+//            recipesCollectionView.isHidden = true
+            cookLabel.removeFromSuperview()
+            recipesCollectionView.removeFromSuperview()
+            
+            titleLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 25).isActive = true
         }
+    }
+    
+    private func setupSwipeGesture() {
+        self.view.addSwipeGestureRecognizer(action: {self.delegate?.eventDescriptionVCDidTapPrevious(controller: self)})
     }
     
     private func checkForExistingDescription() {

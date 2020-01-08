@@ -109,6 +109,7 @@
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
 		B85071D12391690600632026 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestCase.swift */; };
 		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
+		B8652A2A23C5FC4F00F176CC /* RemoveConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
 		B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */; };
@@ -258,6 +259,7 @@
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
 		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
+		B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveConstraints.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
 		B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerAcceptedCell.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				88FE71A523901E2A00652429 /* InfoInput.swift */,
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
+				B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -596,8 +599,12 @@
 			children = (
 				8822490B239D79C20054C24E /* IngredientCell */,
 				88C9650B239A9BEB00CFC710 /* SectionInputCell */,
+				880B133723737605003E29AC /* AnswerCell */,
+				880B133823737619003E29AC /* InfoCell */,
 				885C60C423809F9300ED3A17 /* RecipeCVCell */,
+				88349F3E2370D0C9002A1879 /* RecipeCell */,
 				B8E4CA7923812174006DD095 /* TitleCell */,
+				880B133923737622003E29AC /* DescriptionCell */,
 				885C60B8238030EC00ED3A17 /* TaskManagementCell */,
 				880B136B2374C6AD003E29AC /* TaskCell */,
 				880B135D2374B06B003E29AC /* TaskCVCell */,
@@ -605,10 +612,6 @@
 				880B133C2373763D003E29AC /* CalendarCell */,
 				880B133B23737635003E29AC /* UserCell */,
 				880B1370237571FF003E29AC /* UserCVCell */,
-				880B133923737622003E29AC /* DescriptionCell */,
-				880B133823737619003E29AC /* InfoCell */,
-				880B133723737605003E29AC /* AnswerCell */,
-				88349F3E2370D0C9002A1879 /* RecipeCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1006,6 +1009,7 @@
 				88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */,
 				B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */,
 				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
+				B8652A2A23C5FC4F00F176CC /* RemoveConstraints.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
 				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,
@@ -1220,7 +1224,7 @@
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.14;
-				DEVELOPMENT_TEAM = DNB5G735SM;
+				DEVELOPMENT_TEAM = 3M89YG2JX8;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1242,7 +1246,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.14;
-				DEVELOPMENT_TEAM = DNB5G735SM;
+				DEVELOPMENT_TEAM = 3M89YG2JX8;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1266,7 +1270,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.14;
-				DEVELOPMENT_TEAM = DNB5G735SM;
+				DEVELOPMENT_TEAM = 3M89YG2JX8;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1291,7 +1295,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.14;
-				DEVELOPMENT_TEAM = DNB5G735SM;
+				DEVELOPMENT_TEAM = 3M89YG2JX8;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
