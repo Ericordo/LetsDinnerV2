@@ -26,6 +26,8 @@ class TaskSummaryCell: UITableViewCell {
     
     weak var delegate: TaskSummaryCellDelegate?
     weak var reviewVCDelegate: TaskSummaryCellInReviewVCDelegate?
+    
+    let sortedTasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +43,7 @@ class TaskSummaryCell: UITableViewCell {
             seeAllButton.setTitle("Add some tasks here!", for: .normal)
             seeAllBeforeCreateEvent.setTitle("Add some tasks Here!", for: .normal)
         }
+        
         
     }
     
@@ -64,12 +67,12 @@ class TaskSummaryCell: UITableViewCell {
 
 extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Event.shared.tasks.count
+        return self.sortedTasks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let taskCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.taskCVCell, for: indexPath) as! TaskCVCell
-        let task = Event.shared.tasks[indexPath.row]
+        let task = self.sortedTasks[indexPath.row]
         let count = Int(indexPath.row) + 1
         taskCVCell.configureCell(task: task, count: count)
         return taskCVCell

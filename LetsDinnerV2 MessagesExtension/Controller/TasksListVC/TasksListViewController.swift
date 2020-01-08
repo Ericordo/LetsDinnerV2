@@ -22,7 +22,8 @@ class TasksListViewController: UIViewController {
     
     weak var delegate: TasksListViewControllerDelegate?
     
-    private var tasks = Event.shared.tasks
+    private var tasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+//    private var sortedTasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()

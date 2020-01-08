@@ -44,7 +44,7 @@ class CalendarManager {
                     let alert = UIAlertController(title: MessagesToDisplay.eventExists,
                                                   message: "",
                                                   preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK",
+                    alert.addAction(UIAlertAction(title: "Dismiss",
                                                   style: .default,
                                                   handler: nil))
                     
@@ -59,7 +59,7 @@ class CalendarManager {
                             let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert,
                                                               message: "",
                                                               preferredStyle: .alert)
-                            doneAlert.addAction(UIAlertAction(title: "OK",
+                            doneAlert.addAction(UIAlertAction(title: "Done",
                                                               style: .default,
                                                               handler: nil))
                             view.present(doneAlert, animated: true, completion: nil)

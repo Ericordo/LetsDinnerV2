@@ -46,7 +46,6 @@ class EventSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
-//        Event.shared.isAcceptingStatusChanged = false
                 
         self.setupTableView()
         self.registerCells()
@@ -67,7 +66,7 @@ class EventSummaryViewController: UIViewController {
     
     @objc private func showDownloadFail() {
         let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
@@ -389,10 +388,6 @@ extension EventSummaryViewController: CalendarCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
-//    func taskSummaryDidTapSeeAllBeforeCreateEvent() {
-//        // Hidden
-//    }
-    
     func taskSummaryCellDidTapSeeAll() {
         if let user = user {
             if user.hasAccepted == .accepted {
