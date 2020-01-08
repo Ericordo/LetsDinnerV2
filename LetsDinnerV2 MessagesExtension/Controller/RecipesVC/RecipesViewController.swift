@@ -67,9 +67,8 @@ class RecipesViewController: UIViewController {
         searchBar.delegate = self
         
         setupUI()
+        setupSwipeGesture()
         loadRecipes()
-        
-        self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
         
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
@@ -94,6 +93,10 @@ class RecipesViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 1/5
         progressView.setProgress(2/5, animated: true)
+    }
+    
+    private func setupSwipeGesture() {
+        self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
     }
         
     private func updateUI() {

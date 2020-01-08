@@ -54,6 +54,8 @@ class ManagementViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         servings = Event.shared.servings
         setupUI()
+        setupSwipeGesture()
+        
         updateServings(servings: servings)
         newThingTextField.delegate = self
         
@@ -82,7 +84,10 @@ class ManagementViewController: UIViewController {
             servingsStepper.isHidden = true
             separatorView.isHidden = true
         }
-        
+    }
+    
+    private func setupSwipeGesture() {
+        self.view.addSwipeGestureRecognizer(action: {self.delegate?.managementVCDidTapBack(controller: self)})
     }
     
     private func prepareData() {

@@ -51,7 +51,7 @@ extension UIView {
         if sender.direction == .right {
             if let action = self.GestureRecognizerAction {
                 action?()
-                print("Slide RIght and go back")
+                print("Slide Right and go back")
             } else {
                 print("no action")
             }
