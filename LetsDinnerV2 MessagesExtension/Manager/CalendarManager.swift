@@ -34,7 +34,9 @@ class CalendarManager {
                 let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
                 event.addAlarm(alarm)
                 
-                let predicate = self.store.predicateForEvents(withStart: eventStartDate, end: Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)! , calendars: nil)
+                let predicate = self.store.predicateForEvents(withStart: eventStartDate,
+                                                              end: Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)! ,
+                                                              calendars: nil)
                 let existingEvents = self.store.events(matching: predicate)
                 let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
                     existingEvent.title == title && existingEvent.startDate == eventStartDate
@@ -52,7 +54,6 @@ class CalendarManager {
                         view.present(alert, animated: true)
                     })
                 } else {
-
                     do {
                         try self.store.save(event, span: .thisEvent)
                         DispatchQueue.main.async {
