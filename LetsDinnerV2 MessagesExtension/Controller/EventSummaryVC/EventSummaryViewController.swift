@@ -40,6 +40,7 @@ class EventSummaryViewController: UIViewController {
         }
     }
     let store = EKEventStore()
+    
     weak var delegate: EventSummaryViewControllerDelegate?
     
     // BUG: Running two times
@@ -323,6 +324,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 //            }
 //        }
 //    }
+    
+    
     
     
 }

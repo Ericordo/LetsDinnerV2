@@ -560,7 +560,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
         let controller = instantiateEventInfoViewController()
-        removeAllChildViewControllers()
+//        removeAllChildViewControllers()
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }

@@ -110,6 +110,7 @@
 		B85071D12391690600632026 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestCase.swift */; };
 		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
 		B8652A2A23C5FC4F00F176CC /* RemoveConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */; };
+		B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2B23C729B300F176CC /* ReminderManager.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
 		B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */; };
@@ -260,6 +261,7 @@
 		B85071D02391690600632026 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
 		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
 		B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveConstraints.swift; sourceTree = "<group>"; };
+		B8652A2B23C729B300F176CC /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
 		B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerAcceptedCell.swift; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 			children = (
 				B85071D02391690600632026 /* TestCase.swift */,
 				B8AED7D2239E357F00F2F633 /* CalendarManager.swift */,
+				B8652A2B23C729B300F176CC /* ReminderManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -858,21 +861,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
 				B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */,
 				B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */,
 				B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */,
-				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
 				88C95B3423986413000E750A /* RecipeCreationViewController.xib in Resources */,
 				88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */,
 				880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */,
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
-				885C60C323809F7900ED3A17 /* EventDescriptionViewController.xib in Resources */,
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
 				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
+				885C60C323809F7900ED3A17 /* EventDescriptionViewController.xib in Resources */,
 				885C60CD2380BABB00ED3A17 /* EventInfoViewController.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
@@ -1009,6 +1012,7 @@
 				88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */,
 				B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */,
 				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
+				B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */,
 				B8652A2A23C5FC4F00F176CC /* RemoveConstraints.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,

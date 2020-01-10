@@ -166,7 +166,12 @@ class Event {
         if !tasks.isEmpty {
             tasks.forEach { task in
                 let taskChild = childUid.child("tasks").childByAutoId()
-                var parameters : [String : Any] = ["title" : task.taskName, "ownerName" : task.assignedPersonName, "ownerUid" : task.assignedPersonUid ?? "nil", "state": task.taskState.rawValue, "isCustom" : task.isCustom, "parentRecipe" : task.parentRecipe]
+                var parameters : [String : Any] = ["title" : task.taskName,
+                                                   "ownerName" : task.assignedPersonName,
+                                                   "ownerUid" : task.assignedPersonUid ?? "nil",
+                                                   "state": task.taskState.rawValue,
+                                                   "isCustom" : task.isCustom,
+                                                   "parentRecipe" : task.parentRecipe]
                 if let amount = task.metricAmount {
                     parameters["metricAmount"] = amount
                 }
@@ -689,9 +694,7 @@ class Event {
             Database.database().reference().child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
         }
     }
-    
-       
- 
+        
     func deleteUserPicOnFirebase() {}
     func updateUserPicOnFirebase() {}
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 protocol EventInfoViewControllerDelegate: class {
     func eventInfoVCDidTapBackButton(controller: EventInfoViewController)
@@ -21,6 +22,8 @@ class EventInfoViewController: UIViewController {
     
     weak var delegate: EventInfoViewControllerDelegate?
     
+//    var calendars: Array<EKCalendar> = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventInfoVC
@@ -58,8 +61,9 @@ class EventInfoViewController: UIViewController {
     }
     
     @IBAction func remindersButtonDidTap(_ sender: Any) {
-        
+        reminderManager.addToReminder(view: self)
     }
+    
 }
 
 extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource {

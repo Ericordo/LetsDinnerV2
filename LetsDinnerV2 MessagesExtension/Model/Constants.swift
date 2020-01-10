@@ -96,6 +96,7 @@ enum MessagesToDisplay {
     static let decodingFailed = "Failed to load recipes"
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
+    static let addToRemindersMessage = "Your tasks now added to Reminders!"
 }
 
 enum LabelStrings {
