@@ -26,10 +26,20 @@ class TaskCVCell: UICollectionViewCell {
         
         self.isUserInteractionEnabled = false
         self.task = task
-        if let amount = task.metricAmount, let unit = task.metricUnit {
-            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
-        } else if let amount = task.metricAmount {
-            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+        if let amount = task.metricAmount {
+            if amount.truncatingRemainder(dividingBy: 1) == 0.0 {
+                if let unit = task.metricUnit {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount)) \(unit)"
+                } else {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount))"
+                }
+            } else {
+                if let unit = task.metricUnit {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+                } else {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+                }
+            }
         } else {
             taskNameLabel.text = task.taskName
         }
@@ -39,6 +49,7 @@ class TaskCVCell: UICollectionViewCell {
             if Event.shared.currentUser?.identifier != task.assignedPersonUid {
                 personLabel.text = task.assignedPersonName
                 personLabel.setTextAttributes(taskIsOwnedByUser: false)
+                taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.taskState)
             } else {
                 // My Task
                 if task.taskState == .completed {
@@ -47,6 +58,7 @@ class TaskCVCell: UICollectionViewCell {
                     personLabel.text = MessagesToDisplay.assignedToMyself
                 }
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
+                taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
             }
             
         } else {

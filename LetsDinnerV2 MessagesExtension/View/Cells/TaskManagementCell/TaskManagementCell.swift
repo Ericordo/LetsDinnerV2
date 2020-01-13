@@ -25,10 +25,20 @@ class TaskManagementCell: UITableViewCell {
     
     func configureCell(task: Task) {
         self.task = task
-        if let amount = task.metricAmount, let unit = task.metricUnit {
-            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
-        } else if let amount = task.metricAmount {
-            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+        if let amount = task.metricAmount {
+            if amount.truncatingRemainder(dividingBy: 1) == 0.0 {
+                if let unit = task.metricUnit {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount)) \(unit)"
+                } else {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount))"
+                }
+            } else {
+                if let unit = task.metricUnit {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+                } else {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+                }
+            }
         } else {
             taskNameLabel.text = task.taskName
         }

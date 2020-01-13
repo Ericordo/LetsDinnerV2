@@ -47,6 +47,8 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
+    var existingEvent = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ingredientsTableView.delegate = self
@@ -110,6 +112,10 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         chosenButton.isHidden = true
         chooseButton.isHidden = true
+        
+        if existingEvent {
+            editButton.isHidden = true
+        }
         
         
     }

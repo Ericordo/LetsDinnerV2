@@ -396,10 +396,10 @@ class RecipeCreationViewController: UIViewController {
             if name.isEmpty {
                 addButton.shake()
             } else if !amount.isEmpty && !unit.isEmpty {
-                let ingredient = TemporaryIngredient(name: name, amount: Double(amount), unit: unit)
+                let ingredient = TemporaryIngredient(name: name, amount: amount.doubleValue, unit: unit)
                 temporaryIngredients.append(ingredient)
             } else if !amount.isEmpty && unit.isEmpty {
-                let ingredient = TemporaryIngredient(name: name, amount: Double(amount), unit: nil)
+                let ingredient = TemporaryIngredient(name: name, amount: amount.doubleValue, unit: nil)
                 temporaryIngredients.append(ingredient)
             } else if amount.isEmpty {
                 let ingredient = TemporaryIngredient(name: name, amount: nil, unit: nil)
