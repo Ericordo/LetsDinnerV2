@@ -70,10 +70,20 @@ class TaskCell: UITableViewCell {
     func configureCell(task: Task, indexPath: Int) {
         self.task = task
         self.indexPath = indexPath
-        if let amount = task.metricAmount, let unit = task.metricUnit {
-            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
-        } else if let amount = task.metricAmount {
-            taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+                if let amount = task.metricAmount {
+            if amount.truncatingRemainder(dividingBy: 1) == 0.0 {
+                if let unit = task.metricUnit {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount)) \(unit)"
+                } else {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount))"
+                }
+            } else {
+                if let unit = task.metricUnit {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+                } else {
+                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+                }
+            }
         } else {
             taskNameLabel.text = task.taskName
         }
@@ -82,6 +92,7 @@ class TaskCell: UITableViewCell {
             if Event.shared.currentUser?.identifier != task.assignedPersonUid {
                 personLabel.text = task.assignedPersonName
                 personLabel.setTextAttributes(taskIsOwnedByUser: false)
+                taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.taskState)
             } else {
                 if task.taskState == .completed {
                     personLabel.text = MessagesToDisplay.completed
@@ -89,6 +100,7 @@ class TaskCell: UITableViewCell {
                     personLabel.text = MessagesToDisplay.assignedToMyself
                 }
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
+                taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
             }
         } else {
             personLabel.setTextAttributes(taskIsOwnedByUser: false)

@@ -25,6 +25,10 @@ class IngredientCell: UITableViewCell {
         }
         
     }
+    
+    func configureCellWithStep(name: String, step: Int) {
+        ingredientLabel.text = "\(step). \(name)"
+    }
 
 
     

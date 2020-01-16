@@ -47,6 +47,8 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
+    var existingEvent = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ingredientsTableView.delegate = self
@@ -110,6 +112,10 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         chosenButton.isHidden = true
         chooseButton.isHidden = true
+        
+        if existingEvent {
+            editButton.isHidden = true
+        }
         
         
     }
@@ -235,7 +241,8 @@ extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewD
             }
         case stepsTableView:
             if let cookingStep = selectedRecipe?.cookingSteps[indexPath.row] {
-                cell.configureCell(name: cookingStep, amount: 0, unit: "")
+                //                cell.configureCell(name: cookingStep, amount: 0, unit: "")
+                cell.configureCellWithStep(name: cookingStep, step: indexPath.row + 1)
             }
         default:
             return UITableViewCell()

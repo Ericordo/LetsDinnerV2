@@ -164,7 +164,7 @@
                                         <constraint firstAttribute="height" constant="24" id="7yi-3N-KGE"/>
                                         <constraint firstAttribute="width" constant="24" id="dKq-gY-0gW"/>
                                     </constraints>
-                                    <state key="normal" image="addButton"/>
+                                    <state key="normal" image="addButtonGreen"/>
                                     <connections>
                                         <action selector="didTapAddIngredient:" destination="-1" eventType="touchUpInside" id="kU9-IW-57K"/>
                                     </connections>
@@ -247,7 +247,7 @@
                                         <constraint firstAttribute="height" constant="24" id="v0I-ko-Vla"/>
                                         <constraint firstAttribute="width" constant="24" id="xPQ-gy-col"/>
                                     </constraints>
-                                    <state key="normal" image="addButton"/>
+                                    <state key="normal" image="addButtonGreen"/>
                                     <connections>
                                         <action selector="didTapAddStep:" destination="-1" eventType="touchUpInside" id="OuV-m2-86U"/>
                                     </connections>
@@ -445,7 +445,7 @@
         </view>
     </objects>
     <resources>
-        <image name="addButton" width="24" height="24"/>
+        <image name="addButtonGreen" width="23" height="22"/>
         <image name="imagePlaceholder" width="150" height="117"/>
     </resources>
 </document>

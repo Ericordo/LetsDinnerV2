@@ -99,6 +99,9 @@ class RecipeCreationViewController: UIViewController {
     
     var recipeToEdit: CustomRecipe?
     var editingMode = false
+    
+    private var selectedRowIngredient: Int?
+    private var selectedRowStep: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,6 +134,8 @@ class RecipeCreationViewController: UIViewController {
     private func setupUI() {
         ingredientsTableView.isEditing = true
         stepsTableView.isEditing = true
+        ingredientsTableView.allowsSelectionDuringEditing = true
+        stepsTableView.allowsSelectionDuringEditing = true
         recipeImageView.layer.cornerRadius = 17
         ingredientsTableView.rowHeight = rowHeight
         stepsTableView.rowHeight = rowHeight
@@ -392,35 +397,53 @@ class RecipeCreationViewController: UIViewController {
     }
     
     private func addIngredient() {
+        var ingredient: TemporaryIngredient
         if let name = ingredientTextField.text, let amount = amountTextField.text, let unit = unitTextField.text {
             if name.isEmpty {
                 addButton.shake()
-            } else if !amount.isEmpty && !unit.isEmpty {
-                let ingredient = TemporaryIngredient(name: name, amount: Double(amount), unit: unit)
-                temporaryIngredients.append(ingredient)
-            } else if !amount.isEmpty && unit.isEmpty {
-                let ingredient = TemporaryIngredient(name: name, amount: Double(amount), unit: nil)
-                temporaryIngredients.append(ingredient)
-            } else if amount.isEmpty {
-                let ingredient = TemporaryIngredient(name: name, amount: nil, unit: nil)
-                temporaryIngredients.append(ingredient)
+                return
+            } else {
+                if !amount.isEmpty && !unit.isEmpty {
+                    ingredient = TemporaryIngredient(name: name, amount: amount.doubleValue, unit: unit)
+                } else if !amount.isEmpty && unit.isEmpty {
+                    ingredient = TemporaryIngredient(name: name, amount: amount.doubleValue, unit: nil)
+                } else {
+                    ingredient = TemporaryIngredient(name: name, amount: nil, unit: nil)
+                }
+
+                if let row = selectedRowIngredient {
+                    temporaryIngredients.remove(at: row)
+                    temporaryIngredients.insert(ingredient, at: row)
+                    selectedRowIngredient = nil
+                } else {
+                    temporaryIngredients.append(ingredient)
+                }
             }
         }
+        
         ingredientTextField.text = ""
         amountTextField.text = ""
         unitTextField.text = ""
+
     }
-    
     
     @IBAction func didTapAddStep(_ sender: UIButton) {
         if let step = stepTextField.text {
             if step.isEmpty {
                 addStepButton.shake()
+                return
             } else {
-                temporarySteps.append(step)
+                if let row = selectedRowStep {
+                    temporarySteps.remove(at: row)
+                    temporarySteps.insert(step, at: row)
+                    selectedRowStep = nil
+                } else {
+                    temporarySteps.append(step)
+                }
             }
         }
         stepTextField.text = ""
+        
     }
     
 
@@ -504,7 +527,8 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             return ingredientCell
         case stepsTableView:
             let step = temporarySteps[indexPath.row]
-            ingredientCell.configureCell(name: step, amount: 0, unit: "")
+//            ingredientCell.configureCell(name: step, amount: 0, unit: "")
+            ingredientCell.configureCellWithStep(name: step, step: indexPath.row + 1)
             return ingredientCell
         default:
             return UITableViewCell()
@@ -539,6 +563,28 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             let movedObject = temporarySteps[sourceIndexPath.row]
             temporarySteps.remove(at: sourceIndexPath.row)
             temporarySteps.insert(movedObject, at: destinationIndexPath.row)
+        default:
+            break
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch tableView {
+        case ingredientsTableView:
+            selectedRowIngredient = indexPath.row
+            let selectedIngredient = temporaryIngredients[indexPath.row]
+            ingredientTextField.text = selectedIngredient.name
+            if let amount = selectedIngredient.amount {
+                amountTextField.text = String(amount)
+            }
+            if let unit = selectedIngredient.unit {
+                unitTextField.text = unit
+            }
+        case stepsTableView:
+            selectedRowStep = indexPath.row
+            let selectedStep = temporarySteps[indexPath.row]
+            stepTextField.text = selectedStep
+            
         default:
             break
         }

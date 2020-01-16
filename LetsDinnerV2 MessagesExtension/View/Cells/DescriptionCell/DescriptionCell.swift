@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -67,5 +68,42 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell
      }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recipeName = allRecipesTitles[indexPath.row]
+        
+        let index = selectedRecipes.firstIndex { recipe -> Bool in
+            recipe.title == recipeName
+        }
+        
+        let customIndex = selectedCustomRecipes.firstIndex { customRecipe -> Bool in
+            customRecipe.title == recipeName
+        }
+        
+        if let index = index {
+            let selectedRecipe = selectedRecipes[index]
+            openRecipeInSafari(recipe: selectedRecipe)
+        }
+        
+        if let customIndex = customIndex {
+            let selectedCustomRecipe = selectedCustomRecipes[customIndex]
+            let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+            customRecipeDetailsVC.modalPresentationStyle = .fullScreen
+            customRecipeDetailsVC.selectedRecipe = selectedCustomRecipe
+            customRecipeDetailsVC.existingEvent = true
+            self.window?.rootViewController?.present(customRecipeDetailsVC, animated: true, completion: nil)
+        }
+    }
+    
+    private func openRecipeInSafari(recipe: Recipe) {
+        guard let sourceUrl = recipe.sourceUrl else { return }
+        if let url = URL(string: sourceUrl) {
+            let vc = SFSafariViewController(url: url)
+            vc.preferredControlTintColor = Colors.newGradientRed
+            self.window?.rootViewController?.present(vc, animated: true, completion: nil)
+            
+            
+        }
+    }
     
 }
