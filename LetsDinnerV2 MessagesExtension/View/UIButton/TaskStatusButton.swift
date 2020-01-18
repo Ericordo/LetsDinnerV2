@@ -12,7 +12,7 @@ class TaskStatusButton: UIButton {
     let unassignedImage = UIImage(named: "checkboxOutlined")
     let assignedImage = UIImage(named: "checkboxAssignedOutlined")
     let completedImage = UIImage(named: "checkboxAssignedCompleted")
-    let completedByOtherImage = UIImage(named: "checkboxCompleted")
+    let completedByOtherImage = UIImage(named: "checkBoxCompleted")
 
     func setState(state: TaskState) {
         switch state {
