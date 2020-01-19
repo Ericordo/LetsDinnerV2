@@ -48,14 +48,18 @@ class ReminderManager {
                     }
                 }
                 
-                // Go ahead if task is not nil
-                guard Event.shared.tasks.count != 0 else { return } // No Tasks, return alert
+                // Filter Assigned Tasks
+                guard Event.shared.tasks.count != 0 else { return self.alertNoTask(view: view) }
+                let assignedTask = self.filterAssignedTask()
+                
+                // Go ahead if Assignedtask is not nil
+                guard assignedTask.count != 0 else {return self.alertNoTask(view: view) } // No Tasks, return alert
 
                 // Delete Task if any
                 self.deleteExistingTasks()
                 
                 // Export tasks
-                let existingTasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+                let existingTasks = assignedTask.sorted { $0.taskName < $1.taskName } // TO BE EDIT
                 existingTasks.forEach { task in
                     do {
                         try self.importTasksToReminders(bundleList: bundleList, task: task)
@@ -74,7 +78,7 @@ class ReminderManager {
     
     func createNewList(bundleName: String) throws -> EKCalendar {
         let calendar = EKCalendar(for: .reminder, eventStore: self.reminderStore)
-        calendar.title = bundleName // Dinner title
+        calendar.title = bundleName + " - Things To Buy" // Dinner title
         calendar.source = self.reminderStore.defaultCalendarForNewReminders()?.source
 
         if #available(iOSApplicationExtension 13.0, *) {
@@ -83,6 +87,13 @@ class ReminderManager {
         
         try self.reminderStore.saveCalendar(calendar, commit: true)
         return calendar
+    }
+    
+    func filterAssignedTask() -> [Task] {
+        // Filter only Assigned and Incomplete Tasks
+        var resultArray = [Task]()
+        resultArray = Event.shared.tasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier && $0.taskState == .assigned}
+        return resultArray
     }
     
     func importTasksToReminders(bundleList: EKCalendar, task: Task) throws {
@@ -143,16 +154,31 @@ class ReminderManager {
     }
     
     func alertSuccessPopup(view: UIViewController) {
-        let alert = UIAlertController(title: MessagesToDisplay.addToRemindersMessage,
-                                      message: "",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Done",
-                                      style: .default,
-                                      handler: nil))
-        
-        DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: MessagesToDisplay.addToRemindersMessage,
+                                          message: "",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Done",
+                                          style: .default,
+                                          handler: nil))
             view.present(alert, animated: true)
-        })
+            print(Thread.isMainThread)
+        }
+    }
+    
+    func alertNoTask(view: UIViewController) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: MessagesToDisplay.reminderNoTaskMessage,
+                                          message: "",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss",
+                                          style: .cancel,
+                                          handler: nil))
+            view.present(alert, animated: true)
+
+        }
+//        DispatchQueue.main.async(execute: {
+//        })
     }
     
     
