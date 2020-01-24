@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
@@ -13,6 +13,8 @@
                 <outlet property="dateTextField" destination="izn-km-xnC" id="qlG-n1-ciW"/>
                 <outlet property="dinnerNameTextField" destination="MuM-gh-UoV" id="EXm-sF-LWS"/>
                 <outlet property="errorLabel" destination="Bm6-vG-axt" id="VQn-UO-ldq"/>
+                <outlet property="eventInput" destination="sm4-gG-DV1" id="5Pf-So-QEN"/>
+                <outlet property="eventInputBottomConstraint" destination="R3y-lA-2Ef" id="jJJ-QF-gzb"/>
                 <outlet property="hostNameTextField" destination="Opz-v8-87p" id="cYr-QZ-7WR"/>
                 <outlet property="infoInput" destination="WlK-s2-aiJ" id="20e-1e-4uj"/>
                 <outlet property="infoInputBottomConstraint" destination="Fa8-Of-oVZ" id="vTF-DH-I7Q"/>
@@ -141,6 +143,13 @@
                     <viewLayoutGuide key="contentLayoutGuide" id="TuT-MS-pgV"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="Xqy-96-MG1"/>
                 </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sm4-gG-DV1" customClass="EventInputView" customModule="Let_s_Dinner_" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="658" width="375" height="50"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Yrm-WZ-i4i"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WlK-s2-aiJ" customClass="InfoInputView" customModule="Let_s_Dinner_" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="668" width="375" height="40"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -174,10 +183,12 @@
             <constraints>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0yP-mT-SmG"/>
                 <constraint firstAttribute="trailing" secondItem="fj6-OV-3pu" secondAttribute="trailing" id="AEK-pT-e7b"/>
+                <constraint firstItem="sm4-gG-DV1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DYE-QZ-bhY"/>
                 <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-41" id="Fa8-Of-oVZ"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="FoN-rl-Gu4"/>
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>
+                <constraint firstAttribute="bottom" secondItem="sm4-gG-DV1" secondAttribute="bottom" constant="-41" id="R3y-lA-2Ef"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WlK-s2-aiJ" secondAttribute="trailing" id="UkO-pg-kkj"/>
                 <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="W00-lv-t0a"/>
@@ -187,6 +198,7 @@
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ixo-gi-hjD"/>
                 <constraint firstItem="WlK-s2-aiJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="lsT-Nj-mAl"/>
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="oAM-6r-ZU3"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sm4-gG-DV1" secondAttribute="trailing" id="ogs-0L-Qcx"/>
                 <constraint firstItem="OxX-0E-huw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="rqg-tu-5S6"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ste-iq-Z3t"/>
             </constraints>
