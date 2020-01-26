@@ -25,7 +25,7 @@ class MessagesViewController: MSMessagesAppViewController {
                FirebaseApp.configure()
         }
         
-        Database.database().isPersistenceEnabled = true
+//        Database.database().isPersistenceEnabled = true
         
         Auth.auth().signInAnonymously { (authResult, error) in
             if let error = error {
