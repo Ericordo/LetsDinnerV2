@@ -37,11 +37,11 @@ class TaskSummaryCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
         if Event.shared.tasks.count != 0 {
-            seeAllButton.setTitle("See All that's needed for \(Event.shared.servings)!", for: .normal)
-            seeAllBeforeCreateEvent.setTitle("See All that's needed for \(Event.shared.servings)!", for: .normal)
+            seeAllButton.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
+            seeAllBeforeCreateEvent.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
         } else {
             seeAllButton.setTitle("Add some tasks here!", for: .normal)
-            seeAllBeforeCreateEvent.setTitle("Add some tasks Here!", for: .normal)
+            seeAllBeforeCreateEvent.setTitle("Add some tasks here!", for: .normal)
         }
         
         
