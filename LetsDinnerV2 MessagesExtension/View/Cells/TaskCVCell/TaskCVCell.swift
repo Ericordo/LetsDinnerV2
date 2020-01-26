@@ -24,7 +24,7 @@ class TaskCVCell: UICollectionViewCell {
     
     func configureCell(task: Task, count: Int) {
         
-        self.isUserInteractionEnabled = false
+        self.isUserInteractionEnabled = true
         self.task = task
         if let amount = task.metricAmount {
             if amount.truncatingRemainder(dividingBy: 1) == 0.0 {

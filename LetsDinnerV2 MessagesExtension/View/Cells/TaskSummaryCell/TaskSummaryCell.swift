@@ -77,6 +77,12 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
         taskCVCell.configureCell(task: task, count: count)
         return taskCVCell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !Event.shared.firebaseEventUid.isEmpty {
+            delegate?.taskSummaryCellDidTapSeeAll()
+        }
+    }
 }
 
 extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
