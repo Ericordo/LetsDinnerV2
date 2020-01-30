@@ -117,12 +117,12 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let currentUser = Event.shared.currentUser else {return}
         
         // First Time Create Event session
-        if !Event.shared.isHostRegistered {
+        if !Event.shared.isHostRegistering {
             if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
                 // To identify the first participant (Host)
                 currentUser.hasAccepted = .accepted
                 Event.shared.isAcceptingStatusChanged = true
-                Event.shared.isHostRegistered = true
+                Event.shared.isHostRegistering = true
             }
         }
         

@@ -138,12 +138,15 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             
             if let user = user {
                 if user.hasAccepted == .accepted {
-                        infoCell.titleLabel.text = LabelStrings.eventInfo
-                        infoCell.infoLabel.text = Event.shared.hostName + " "
-                        infoCell.accessoryType = .disclosureIndicator
+                    infoCell.titleLabel.text = LabelStrings.eventInfo
+                    infoCell.infoLabel.text = Event.shared.hostName + " "
+                    infoCell.accessoryType = .disclosureIndicator
                 } else if user.hasAccepted == .declined {
-                        infoCell.titleLabel.text = LabelStrings.host
-                        infoCell.infoLabel.text = Event.shared.hostName
+                    infoCell.titleLabel.text = LabelStrings.host
+                    infoCell.infoLabel.text = Event.shared.hostName
+                } else if user.hasAccepted == .pending {
+                    infoCell.titleLabel.text = LabelStrings.host
+                    infoCell.infoLabel.text = Event.shared.hostName
                 }
             } else {
                 infoCell.titleLabel.text = LabelStrings.host
@@ -236,7 +239,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 case RowItemNumber.taskInfo.rawValue:
                     return 0
                 case RowItemNumber.userInfo.rawValue:
-                    return 150
+                    return 160
                 default:
                     return UITableView.automaticDimension
                 }
@@ -255,7 +258,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.taskInfo.rawValue:
             return 0
         case RowItemNumber.userInfo.rawValue:
-            return 150
+            return 160
         default:
             return UITableView.automaticDimension
         }

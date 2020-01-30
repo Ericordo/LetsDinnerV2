@@ -98,6 +98,7 @@ enum MessagesToDisplay {
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
     static let addToRemindersMessage = "Your tasks now added to Reminders!"
+    static let reminderNoTaskMessage = "You have no assigned task at the moment."
 }
 
 enum LabelStrings {

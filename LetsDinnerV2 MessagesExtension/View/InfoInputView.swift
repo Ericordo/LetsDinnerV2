@@ -26,6 +26,7 @@ class InfoInputView : UIView {
      let infoLabel : UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
+        label.textAlignment = .center
         return label
     }()
     
@@ -59,8 +60,8 @@ class InfoInputView : UIView {
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
         infoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        infoLabel.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -10).isActive = true
+        infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20).isActive = true
+        infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20).isActive = true
         
     }
     
