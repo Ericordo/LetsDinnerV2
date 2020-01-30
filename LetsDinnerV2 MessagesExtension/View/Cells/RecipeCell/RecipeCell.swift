@@ -12,6 +12,7 @@ import Kingfisher
 protocol RecipeCellDelegate: class {
     func recipeCellDidSelectRecipe(recipe: Recipe)
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe)
+    func recipeCellDidSelectView()
 }
 
 
@@ -22,6 +23,7 @@ class RecipeCell: UITableViewCell {
     @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var chosenButton: UIButton!
     @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var viewButton: UIButton!
     
     var selectedRecipe = Recipe(dict: [:])
     var selectedCustomRecipe = CustomRecipe()
@@ -104,6 +106,11 @@ class RecipeCell: UITableViewCell {
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
     }
+    
+    @IBAction func didTapViewButton(_ sender: Any) {
+        recipeCellDelegate?.recipeCellDidSelectView()
+    }
+    
     
     
 }
