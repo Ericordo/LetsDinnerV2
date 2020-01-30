@@ -272,6 +272,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
             }
         }
+        if indexPath.row == RowItemNumber.taskInfo.rawValue && !Event.shared.firebaseEventUid.isEmpty {
+            guard let user = user else { return }
+            if user.hasAccepted == .accepted {
+                delegate?.eventSummaryVCOpenTasksList(controller: self)
+            }
+        }
     }
     
     

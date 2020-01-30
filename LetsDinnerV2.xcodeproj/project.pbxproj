@@ -105,6 +105,7 @@
 		88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C9650C239A9C3600CFC710 /* SectionInputCell.swift */; };
 		88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88C9650D239A9C3600CFC710 /* SectionInputCell.xib */; };
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
+		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
 		B85071D12391690600632026 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestCase.swift */; };
@@ -255,6 +256,7 @@
 		88C9650C239A9C3600CFC710 /* SectionInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionInputCell.swift; sourceTree = "<group>"; };
 		88C9650D239A9C3600CFC710 /* SectionInputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionInputCell.xib; sourceTree = "<group>"; };
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
+		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
 				B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */,
+				88E203C423D33C6200514972 /* EventInputView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1035,6 +1038,7 @@
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,
 				880B134F23737700003E29AC /* UserCell.swift in Sources */,
 				88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */,
+				88E203C523D33C6200514972 /* EventInputView.swift in Sources */,
 				882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,

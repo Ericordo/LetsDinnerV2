@@ -29,7 +29,10 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var infoInput: InfoInputView!
+    @IBOutlet weak var eventInput: EventInputView!
+    
     @IBOutlet weak var infoInputBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var eventInputBottomConstraint: NSLayoutConstraint!
     
     
     
@@ -73,6 +76,9 @@ class NewEventViewController: UIViewController {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
+        eventInput.lunchButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
+        eventInput.dinnerButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         
         
         
@@ -138,6 +144,10 @@ class NewEventViewController: UIViewController {
           formatter.dateFormat = "MMM d, h:mm a"
           dateTextField.text = formatter.string(from: datePicker.date)
       }
+    
+    @objc func didTapEvent(sender: UIButton) {
+        dinnerNameTextField.text = sender.titleLabel?.text
+    }
     
 //    @objc func didTapDonePicker() {
 //        let formatter = DateFormatter()
@@ -214,7 +224,9 @@ extension NewEventViewController: UITextFieldDelegate {
         switch textField {
         case dinnerNameTextField:
             infoInput.isHidden = true
+            eventInput.isHidden = false
         case hostNameTextField:
+            eventInput.isHidden = true
             if !defaults.username.isEmpty {
                 infoInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
                 infoInput.isHidden = false
@@ -222,6 +234,7 @@ extension NewEventViewController: UITextFieldDelegate {
                 infoInput.isHidden = true
             }
         case locationTextField:
+            eventInput.isHidden = true
             if !defaults.address.isEmpty {
                 infoInput.assignInfoInput(textField: locationTextField, info: defaults.address)
                 infoInput.isHidden = false
@@ -229,6 +242,7 @@ extension NewEventViewController: UITextFieldDelegate {
                 infoInput.isHidden = true
             }
         case dateTextField:
+            eventInput.isHidden = true
             infoInput.isHidden = true
             presentDatePicker()
         default:
@@ -300,6 +314,12 @@ extension NewEventViewController: UIScrollViewDelegate {
                 self.infoInputBottomConstraint.constant = keyboardFrame.height
                 self.view.layoutIfNeeded()
             }
+        } else if activeField == dinnerNameTextField {
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 1) {
+                self.eventInputBottomConstraint.constant = keyboardFrame.height
+                self.view.layoutIfNeeded()
+            }
         }
         
         
@@ -311,7 +331,10 @@ extension NewEventViewController: UIScrollViewDelegate {
         
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
-            self.infoInputBottomConstraint.constant = -51
+
+           self.infoInputBottomConstraint.constant = -51
+          self.eventInputBottomConstraint.constant = -41
+
             self.view.layoutIfNeeded()
         }
     }
