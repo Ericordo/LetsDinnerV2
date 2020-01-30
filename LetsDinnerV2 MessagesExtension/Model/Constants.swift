@@ -110,7 +110,7 @@ enum LabelStrings {
     static let addToCalendar = "Add to Calendar"
     static let noTaskTitle = "There is nothing to do for your event"
     static let noTaskMessage = "You can add things, they will appear here"
-    static let whatsThePlan = "So, what's the plan?"
+    static let whatsThePlan = "Would you like to add an invitation message? More information? Anything else?"
     static let nothingToDo = "There is nothing to do!"
     static let readyToSend = "Ready to send your invite?"
     static let noCustomRecipeTitle = "No recipe"

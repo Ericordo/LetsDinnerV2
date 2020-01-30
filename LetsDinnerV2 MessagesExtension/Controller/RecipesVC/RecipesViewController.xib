@@ -96,20 +96,28 @@
                     <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="bjE-MD-C37">
-                            <rect key="frame" x="17" y="15" width="341" height="20"/>
+                            <rect key="frame" x="17" y="15" width="341" height="33"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulB-lg-UUU">
-                                    <rect key="frame" x="0.0" y="0.0" width="93" height="20"/>
-                                    <state key="normal" title="Create recipe">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulB-lg-UUU">
+                                    <rect key="frame" x="0.0" y="0.0" width="33" height="33"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="33" id="hg0-Rt-MnD"/>
+                                        <constraint firstAttribute="height" constant="33" id="kqB-qi-a4u"/>
+                                    </constraints>
+                                    <state key="normal" image="addButtonOutlined">
                                         <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </state>
                                     <connections>
                                         <action selector="didTapCreateRecipe:" destination="-1" eventType="touchUpInside" id="XUB-HP-Ovh"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
-                                    <rect key="frame" x="266" y="0.0" width="75" height="20"/>
-                                    <state key="normal" title="My recipes">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
+                                    <rect key="frame" x="308" y="0.0" width="33" height="33"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="33" id="6P7-P6-P7e"/>
+                                        <constraint firstAttribute="height" constant="33" id="x3d-49-kdp"/>
+                                    </constraints>
+                                    <state key="normal" image="recipeBookOutlined">
                                         <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </state>
                                     <connections>
@@ -118,7 +126,7 @@
                                 </button>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="T6a-Gl-Wf1"/>
+                                <constraint firstAttribute="height" constant="33" id="T6a-Gl-Wf1"/>
                             </constraints>
                         </stackView>
                     </subviews>
@@ -177,4 +185,8 @@
             <point key="canvasLocation" x="132" y="136.28185907046478"/>
         </view>
     </objects>
+    <resources>
+        <image name="addButtonOutlined" width="22" height="23"/>
+        <image name="recipeBookOutlined" width="22" height="20"/>
+    </resources>
 </document>

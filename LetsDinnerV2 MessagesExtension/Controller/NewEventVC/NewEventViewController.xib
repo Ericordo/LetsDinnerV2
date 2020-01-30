@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
-
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -69,10 +67,10 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hsj-1b-iz7">
-                                    <rect key="frame" x="30" y="10" width="315" height="196"/>
+                                    <rect key="frame" x="25" y="10" width="320" height="196"/>
                                     <subviews>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of your Event" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="MuM-gh-UoV">
-                                            <rect key="frame" x="0.0" y="0.0" width="315" height="34"/>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Dinner title" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="MuM-gh-UoV">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="tY6-Cj-sOM"/>
@@ -81,7 +79,7 @@
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Host" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Opz-v8-87p">
-                                            <rect key="frame" x="0.0" y="54" width="315" height="34"/>
+                                            <rect key="frame" x="0.0" y="54" width="320" height="34"/>
                                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="34" id="ALp-HB-UhT"/>
@@ -89,20 +87,20 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-bJ-rKC">
-                                            <rect key="frame" x="0.0" y="108" width="315" height="34"/>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="izn-km-xnC">
+                                            <rect key="frame" x="0.0" y="108" width="320" height="34"/>
                                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="34" id="MOd-AH-NjR"/>
+                                                <constraint firstAttribute="height" constant="34" id="mm7-rb-96n"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date and Time" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="izn-km-xnC">
-                                            <rect key="frame" x="0.0" y="162" width="315" height="34"/>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-bJ-rKC">
+                                            <rect key="frame" x="0.0" y="162" width="320" height="34"/>
                                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="34" id="mm7-rb-96n"/>
+                                                <constraint firstAttribute="height" constant="34" id="MOd-AH-NjR"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -129,7 +127,7 @@
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="15" id="Cnd-MC-PIY"/>
                                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="top" secondItem="ogw-Df-oMa" secondAttribute="top" constant="10" id="DG7-jB-btf"/>
                                 <constraint firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="V95-Am-Xeq"/>
-                                <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="30" id="ZfY-43-yv0"/>
+                                <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="ZfY-43-yv0"/>
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="ogw-Df-oMa" secondAttribute="centerX" id="cTZ-Ya-4Xp"/>
                                 <constraint firstAttribute="height" constant="607" id="pEI-qd-AgH"/>
                             </constraints>
@@ -162,7 +160,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMm-EY-3vN" userLabel="HeaderView">
                     <rect key="frame" x="0.0" y="60" width="375" height="60"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a new event" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Event Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
                             <rect key="frame" x="20" y="0.0" width="335" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="bo0-Vf-SyB"/>
@@ -185,11 +183,8 @@
             <constraints>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0yP-mT-SmG"/>
                 <constraint firstAttribute="trailing" secondItem="fj6-OV-3pu" secondAttribute="trailing" id="AEK-pT-e7b"/>
-
-
-              <constraint firstItem="sm4-gG-DV1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DYE-QZ-bhY"/>
-
-              <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-51" id="Fa8-Of-oVZ"/>
+                <constraint firstItem="sm4-gG-DV1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DYE-QZ-bhY"/>
+                <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-51" id="Fa8-Of-oVZ"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="FoN-rl-Gu4"/>
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>

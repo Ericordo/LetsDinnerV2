@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-
 import SafariServices
 
 protocol RecipesViewControllerDelegate: class {
@@ -104,14 +103,16 @@ class RecipesViewController: UIViewController {
         case .apiRecipes:
             headerLabel.text = "DISCOVER THESE RECIPES"
             searchBar.placeholder = "Search 360K+ recipes"
-            recipeToggle.setTitle("My recipes", for: .normal)
+            recipeToggle.setImage(UIImage(named: "recipeBookOutlined.png"), for: .normal)
+//            recipeToggle.setTitle("My recipes", for: .normal)
             resultsLabel.isHidden = true
             loadRecipes()
             
         case .customRecipes:
             headerLabel.text = "MY RECIPES"
             searchBar.placeholder = "Search my recipes"
-            recipeToggle.setTitle("All recipes", for: .normal)
+            recipeToggle.setImage(UIImage(named: "globeIconOutlined.png"), for: .normal)
+//            recipeToggle.setTitle("All recipes", for: .normal)
             loadCustomRecipes()
             resultsLabel.isHidden = true
         }
@@ -396,6 +397,10 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension RecipesViewController: RecipeCellDelegate {
+    func recipeCellDidSelectView() {
+        
+    }
+    
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
             Event.shared.selectedCustomRecipes.remove(at: index)
