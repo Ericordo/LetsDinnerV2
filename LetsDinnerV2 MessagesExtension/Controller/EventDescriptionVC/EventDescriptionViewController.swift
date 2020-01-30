@@ -63,6 +63,7 @@ class EventDescriptionViewController: UIViewController {
         descriptionTextView.bounds.inset(by: UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0))
         
         placeholderLabel.text = LabelStrings.whatsThePlan
+        placeholderLabel.numberOfLines = 0
         placeholderLabel.sizeToFit()
         
         checkForExistingDescription()
@@ -79,7 +80,7 @@ class EventDescriptionViewController: UIViewController {
         progressView.progress = 3/5
         progressView.setProgress(4/5, animated: true)
         
-        cookLabel.text = "COOKING FOR \(Event.shared.servings)"
+        cookLabel.text = "\(Event.shared.servings) SERVINGS OF"
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
 //            cookLabel.isHidden = true
 //            recipesCollectionView.isHidden = true

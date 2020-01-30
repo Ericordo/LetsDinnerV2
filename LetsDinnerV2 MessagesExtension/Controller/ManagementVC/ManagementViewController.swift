@@ -38,7 +38,7 @@ class ManagementViewController: UIViewController {
     private var sectionNames = [String]()
     private var servings : Int = 2 {
         didSet {
-            servingsLabel.text = "Cooking for \(servings)"
+            servingsLabel.text = "How many servings?  \(servings)"
             Event.shared.servings = servings
         }
     }
@@ -73,7 +73,7 @@ class ManagementViewController: UIViewController {
         progressView.progress = 2/5
         progressView.setProgress(3/5, animated: true)
         tasksTableView.tableFooterView = UIView()
-        servingsLabel.text = "Cooking for \(servings)"
+        servingsLabel.text = "How many servings?  \(servings)"
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1

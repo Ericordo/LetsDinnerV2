@@ -58,14 +58,14 @@
                         <constraint firstAttribute="height" constant="2" id="TU0-vh-Z9x"/>
                     </constraints>
                 </progressView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TO COOK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWM-v9-fEr">
-                    <rect key="frame" x="17" y="57" width="286" height="14.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 SERVINGS OF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWM-v9-fEr">
+                    <rect key="frame" x="17" y="67" width="286" height="15"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="UEu-C9-OVF">
-                    <rect key="frame" x="0.0" y="81.5" width="320" height="22"/>
+                    <rect key="frame" x="0.0" y="92" width="320" height="22"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="6TP-Db-qDe"/>
@@ -77,24 +77,24 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EVENT DESCRIPTION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1me-Lx-1fO">
-                    <rect key="frame" x="17" y="133.5" width="286" height="14"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WHAT'S THE PLAN?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1me-Lx-1fO">
+                    <rect key="frame" x="17" y="154" width="286" height="15"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jby-tb-pOQ">
-                    <rect key="frame" x="12" y="157.5" width="291" height="390.5"/>
+                    <rect key="frame" x="12" y="179" width="291" height="369"/>
                     <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="1me-Lx-1fO" firstAttribute="top" secondItem="UEu-C9-OVF" secondAttribute="bottom" constant="30" id="0mc-JC-eek"/>
+                <constraint firstItem="1me-Lx-1fO" firstAttribute="top" secondItem="UEu-C9-OVF" secondAttribute="bottom" constant="40" id="0mc-JC-eek"/>
                 <constraint firstItem="MWM-v9-fEr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="23I-7Z-AgF"/>
                 <constraint firstAttribute="trailing" secondItem="I9B-ix-rpP" secondAttribute="trailing" id="2Hs-2O-ofW"/>
                 <constraint firstItem="1me-Lx-1fO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="4Kb-XH-Z2a"/>
@@ -109,7 +109,7 @@
                 <constraint firstItem="UEu-C9-OVF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Yhf-Nt-Mhf"/>
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerY" secondItem="xCd-kk-Y52" secondAttribute="centerY" id="cHT-R3-YQe"/>
                 <constraint firstItem="UEu-C9-OVF" firstAttribute="top" secondItem="MWM-v9-fEr" secondAttribute="bottom" constant="10" id="cI0-Wm-YR3"/>
-                <constraint firstItem="MWM-v9-fEr" firstAttribute="top" secondItem="31L-Nu-POD" secondAttribute="bottom" constant="20" id="dyZ-61-LJV"/>
+                <constraint firstItem="MWM-v9-fEr" firstAttribute="top" secondItem="31L-Nu-POD" secondAttribute="bottom" constant="30" id="dyZ-61-LJV"/>
                 <constraint firstItem="I9B-ix-rpP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="e6c-Bh-E9G"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Jby-tb-pOQ" secondAttribute="trailing" constant="17" id="gJv-IS-U5S"/>
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pN3-wr-fCv"/>

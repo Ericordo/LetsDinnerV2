@@ -71,8 +71,8 @@
                         <action selector="didTapStepper:" destination="-1" eventType="valueChanged" id="ZDz-Av-6fX"/>
                     </connections>
                 </stepper>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cooking for 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0C6-a0-T8D">
-                    <rect key="frame" x="17" y="69" width="237" height="20.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many servings?  2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0C6-a0-T8D">
+                    <rect key="frame" x="17" y="68.5" width="237" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                     <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -87,7 +87,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOb-Ql-hbj">
                     <rect key="frame" x="0.0" y="668" width="375" height="79"/>
                     <subviews>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New thing" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zu2-hA-LyP">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What's missing?" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zu2-hA-LyP">
                             <rect key="frame" x="10" y="1" width="355" height="34"/>
                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
