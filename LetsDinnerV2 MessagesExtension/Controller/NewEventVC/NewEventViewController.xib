@@ -185,7 +185,7 @@
             <constraints>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0yP-mT-SmG"/>
                 <constraint firstAttribute="trailing" secondItem="fj6-OV-3pu" secondAttribute="trailing" id="AEK-pT-e7b"/>
-                <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-41" id="Fa8-Of-oVZ"/>
+
 
               <constraint firstItem="sm4-gG-DV1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DYE-QZ-bhY"/>
 
