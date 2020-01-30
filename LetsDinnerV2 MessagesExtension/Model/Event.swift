@@ -46,7 +46,7 @@ class Event {
 //    }
     
     // Helpful variable
-    var isHostRegistered = false
+    var isHostRegistering = false
     var isAcceptingStatusChanged = false
     var isTaskUpdated = false
     var isRecipeUpdated = false
@@ -73,7 +73,7 @@ class Event {
         currentSession = nil
         hostIdentifier.removeAll()
         participants.removeAll()
-        isHostRegistered = false
+        isHostRegistering = false
         isAcceptingStatusChanged = false
         isTaskUpdated = false
         isRecipeUpdated = false

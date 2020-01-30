@@ -142,10 +142,10 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="Xqy-96-MG1"/>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WlK-s2-aiJ" customClass="InfoInputView" customModule="Let_s_Dinner_" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="668" width="375" height="40"/>
+                    <rect key="frame" x="0.0" y="668" width="375" height="50"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="WFj-cG-oVr"/>
+                        <constraint firstAttribute="height" constant="50" id="WFj-cG-oVr"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMm-EY-3vN" userLabel="HeaderView">
@@ -174,7 +174,7 @@
             <constraints>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0yP-mT-SmG"/>
                 <constraint firstAttribute="trailing" secondItem="fj6-OV-3pu" secondAttribute="trailing" id="AEK-pT-e7b"/>
-                <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-41" id="Fa8-Of-oVZ"/>
+                <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-51" id="Fa8-Of-oVZ"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="FoN-rl-Gu4"/>
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>

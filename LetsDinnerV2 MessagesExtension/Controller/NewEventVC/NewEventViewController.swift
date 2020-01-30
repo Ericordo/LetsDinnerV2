@@ -47,6 +47,7 @@ class NewEventViewController: UIViewController {
         super.viewDidLoad()
         StepStatus.currentStep = .newEventVC
         setupUI()
+        
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
             textField!.delegate = self
@@ -197,6 +198,7 @@ class NewEventViewController: UIViewController {
     
     @objc private func didTapAdd() {
         activeField?.text = infoInput.infoLabel.text
+        infoInput.isHidden = true
     }
     
     
@@ -309,7 +311,7 @@ extension NewEventViewController: UIScrollViewDelegate {
         
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
-            self.infoInputBottomConstraint.constant = -41
+            self.infoInputBottomConstraint.constant = -51
             self.view.layoutIfNeeded()
         }
     }

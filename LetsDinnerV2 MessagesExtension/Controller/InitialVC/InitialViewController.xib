@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -37,14 +37,14 @@
                             </connections>
                         </button>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="appIconWhite" translatesAutoresizingMaskIntoConstraints="NO" id="I2d-j5-BN2">
-                            <rect key="frame" x="164" y="70" width="47" height="36"/>
+                            <rect key="frame" x="164" y="55" width="47" height="36"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="09y-nN-nXD"/>
                                 <constraint firstAttribute="width" constant="47" id="qvE-gR-PWR"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's Dinner!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Di-Pk-WPi">
-                            <rect key="frame" x="139.5" y="112" width="96" height="22"/>
+                            <rect key="frame" x="139.5" y="97" width="96" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="96" id="NdP-gl-Uae"/>
                                 <constraint firstAttribute="height" constant="22" id="ile-na-1Hd"/>
@@ -54,7 +54,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Organize an event and cook with your friends!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uz0-h7-atq">
-                            <rect key="frame" x="58" y="142" width="259.5" height="20"/>
+                            <rect key="frame" x="58" y="127" width="259" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="Tfx-Bd-eXy"/>
                             </constraints>
@@ -63,7 +63,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="42m-dd-eb3">
-                            <rect key="frame" x="120.5" y="176" width="134" height="34"/>
+                            <rect key="frame" x="120.5" y="161" width="134" height="34"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="34" id="S2T-Qd-nfN"/>
@@ -85,7 +85,7 @@
                         <constraint firstItem="I2d-j5-BN2" firstAttribute="centerX" secondItem="067-Ls-Y8h" secondAttribute="centerX" id="OYx-AK-Xx1"/>
                         <constraint firstItem="42m-dd-eb3" firstAttribute="centerX" secondItem="067-Ls-Y8h" secondAttribute="centerX" id="RMk-fs-y6q"/>
                         <constraint firstItem="42m-dd-eb3" firstAttribute="top" secondItem="Uz0-h7-atq" secondAttribute="bottom" constant="14" id="Xma-Sj-Ne6"/>
-                        <constraint firstItem="I2d-j5-BN2" firstAttribute="top" secondItem="067-Ls-Y8h" secondAttribute="top" constant="70" id="ij1-dW-eHP"/>
+                        <constraint firstItem="I2d-j5-BN2" firstAttribute="top" secondItem="067-Ls-Y8h" secondAttribute="top" multiplier="1.5" constant="55" id="ij1-dW-eHP"/>
                         <constraint firstItem="Uz0-h7-atq" firstAttribute="top" secondItem="7Di-Pk-WPi" secondAttribute="bottom" constant="8" id="l6e-0j-7u1"/>
                         <constraint firstItem="Uz0-h7-atq" firstAttribute="centerX" secondItem="067-Ls-Y8h" secondAttribute="centerX" id="phI-FG-mlc"/>
                         <constraint firstAttribute="trailing" secondItem="hZA-WH-Xen" secondAttribute="trailing" constant="20" id="rca-Xa-ml9"/>
@@ -93,7 +93,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="067-Ls-Y8h" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="dGU-Zl-AvT"/>
                 <constraint firstAttribute="trailing" secondItem="067-Ls-Y8h" secondAttribute="trailing" id="gQE-bT-RNM"/>
