@@ -110,14 +110,14 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
         // Drag
         if targetOffset > currentOffset {
             newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth
-        } else if targetOffset < currentOffset {
+        } else { //if targetOffset < currentOffset
             newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth
         }
         
         if newTargetOffset < 0 {
             newTargetOffset = 0
         } else if (newTargetOffset > Float(scrollView.contentSize.width)){
-            newTargetOffset = Float(Float(scrollView.contentSize.width))
+            newTargetOffset = Float(scrollView.contentSize.width)
         }
 
         targetContentOffset.pointee.x = CGFloat(currentOffset)
