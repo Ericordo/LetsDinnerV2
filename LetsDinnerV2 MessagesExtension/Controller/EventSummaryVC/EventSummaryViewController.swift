@@ -13,6 +13,8 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController)
     func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController)
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
+    func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController)
+    func eventSummaryVCDidCancelEvent(controller: EventSummaryViewController)
 }
 
 private enum RowItemNumber: Int, CaseIterable {
@@ -40,6 +42,11 @@ class EventSummaryViewController: UIViewController {
         }
     }
     let store = EKEventStore()
+    
+    let darkView = UIView()
+    let rescheduleView = RescheduleView()
+    lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
+    var selectedDate: Double?
     
     weak var delegate: EventSummaryViewControllerDelegate?
     
@@ -91,6 +98,7 @@ class EventSummaryViewController: UIViewController {
         registerCell(CellNibs.descriptionCell)
         registerCell(CellNibs.taskSummaryCell)
         registerCell(CellNibs.userCell)
+        registerCell(CellNibs.cancelCell)
     }
 }
 
@@ -110,27 +118,35 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         let userCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.userCell) as! UserCell
+        let cancelCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.cancelCell) as! CancelCell
+        
+        let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
         
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
             titleCell.titleLabel.text = Event.shared.dinnerName
-            titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+            titleCell.separatorInset = separatorInset
             return titleCell
             
         case RowItemNumber.answerCell.rawValue:
             
+            
             // Check the currentUser has accepted or not
             if let user = user {
-                if user.hasAccepted == .declined {
-                    answerDeclinedCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+                if user.identifier == Event.shared.hostIdentifier {
+                    cancelCell.separatorInset = separatorInset
+                    cancelCell.delegate = self
+                    return cancelCell
+                } else if user.hasAccepted == .declined {
+                    answerDeclinedCell.separatorInset = separatorInset
                     return answerDeclinedCell
                 } else if user.hasAccepted == .accepted {
-                    answerAcceptedCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+                    answerAcceptedCell.separatorInset = separatorInset
                     return answerAcceptedCell
                 }
             }
             
-            answerCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+            answerCell.separatorInset = separatorInset
             answerCell.delegate = self
             return answerCell
 
@@ -207,7 +223,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 // Accept or Host
                 switch indexPath.row {
                 case RowItemNumber.answerCell.rawValue:
-                    return 80
+                     if Event.shared.isCancelled {
+                                   return 0
+                               } else {
+                                   return 80
+                               }
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -230,7 +250,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 // Decline Status
                 switch indexPath.row {
                 case RowItemNumber.answerCell.rawValue:
-                    return 80
+                     if Event.shared.isCancelled {
+                                   return 0
+                               } else {
+                                   return 80
+                               }
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -249,7 +273,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // Netural - Pending
         switch indexPath.row {
         case RowItemNumber.answerCell.rawValue:
-            return 120
+            if Event.shared.isCancelled {
+                return 0
+            } else {
+                return 120
+            }
         case RowItemNumber.hostInfo.rawValue:
             return 52
         case RowItemNumber.dateInfo.rawValue,
@@ -421,4 +449,92 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
                                       handler: nil))
         present(alert, animated: true, completion: nil)
     }
+}
+
+// MARK: - TaskSummary Cell Delegate
+
+extension EventSummaryViewController: CancelCellDelegate {
+    
+    
+    func postponeEvent() {
+        prepareViewForReschedule()
+    }
+    
+    func cancelEvent() {
+        let alert = UIAlertController(title: "Cancel Event", message: "Are you sure about cancelling your event?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "Yes", style: .destructive) { action in
+            self.delegate?.eventSummaryVCDidCancelEvent(controller: self)
+        }
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func prepareViewForReschedule() {
+        darkView.frame = self.view.frame
+        darkView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        darkView.alpha = 0.1
+        darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelReschedule)))
+        self.view.addSubview(darkView)
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.darkView.alpha = 1
+        }) { (_) in
+            self.showRescheduleView()
+        }
+    }
+    
+    private func showRescheduleView() {
+        view.addSubview(rescheduleView)
+        rescheduleView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            rescheduleViewBottomConstraint,
+            rescheduleView.heightAnchor.constraint(equalToConstant: 350),
+            rescheduleView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            rescheduleView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.rescheduleViewBottomConstraint = self.rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+            self.rescheduleViewBottomConstraint.isActive = true
+            self.view.layoutIfNeeded()
+        }) { (_) in
+        }
+        rescheduleView.resetPicker()
+        rescheduleView.datePicker.addTarget(self, action: #selector(didSelectDate), for: .valueChanged)
+        rescheduleView.updateButton.addTarget(self, action: #selector(didConfirmDate), for: .touchUpInside)
+    }
+    
+    @objc private func cancelReschedule() {
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.darkView.alpha = 0.1
+            self.rescheduleViewBottomConstraint.isActive = false
+            self.rescheduleViewBottomConstraint = self.rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
+            self.rescheduleViewBottomConstraint.isActive = true
+            self.view.layoutIfNeeded()
+        }) { (_) in
+            self.darkView.removeFromSuperview()
+            self.rescheduleView.removeFromSuperview()
+        }
+    }
+    
+    @objc private func didSelectDate(sender: UIDatePicker) {
+        let selectedDate = sender.date.timeIntervalSince1970
+        if selectedDate != Event.shared.dateTimestamp {
+            rescheduleView.updateButton.alpha = 1
+            rescheduleView.updateButton.isEnabled = true
+        } else {
+            rescheduleView.updateButton.alpha = 0.5
+            rescheduleView.updateButton.isEnabled = false
+        }
+        self.selectedDate = selectedDate
+    }
+    
+    @objc private func didConfirmDate() {
+        guard let selectedDate = selectedDate else { return }
+        delegate?.eventSummaryVCDidUpdateDate(date: selectedDate, controller: self)
+    }
+    
+    
 }

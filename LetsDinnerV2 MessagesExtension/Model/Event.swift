@@ -56,6 +56,7 @@ class Event {
 
     var participants = [User]()
     var tasks = [Task]()
+    var isCancelled = false
     
     // MARKS: - Functions
     
@@ -78,6 +79,7 @@ class Event {
         isTaskUpdated = false
         isRecipeUpdated = false
         servings = 2
+        isCancelled = false
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
@@ -191,6 +193,8 @@ class Event {
         
         let onlineUsersChild = childUid.child("onlineUsers")
         onlineUsersChild.setValue(0)
+        let isCancelledChild = childUid.child("isCancelled")
+        isCancelledChild.setValue(isCancelled)
         
 //        let onlineParticipantsParameters : [String : Int] = ["onlineUsers" : 0]
 //        childUid.setValue(onlineParticipantsParameters)
@@ -378,6 +382,10 @@ class Event {
             guard let hostID = value["hostID"] as? String else { return }
             self.hostIdentifier = hostID
             
+            if let isCancelled = value["isCancelled"] as? Bool {
+                self.isCancelled = isCancelled
+            }
+            
             var users = [User]()
             guard let participants = value["participants"] as? [String : Any] else { return }
             
@@ -544,6 +552,28 @@ class Event {
                 
             })
         }
+    }
+    
+    func updateFirebaseDate(_ dateTimestamp: Double) {
+        self.dateTimestamp = dateTimestamp
+        let parameters: [String : Any] = ["dateTimestamp" : dateTimestamp]
+        let childUid = Database.database().reference().child("Events").child(firebaseEventUid)
+        childUid.updateChildValues(parameters) { (error, reference) in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                self.resetEvent()
+            }
+        }
+    }
+    
+    func cancelFirebaseEvent() {
+        let cancelName = "Canceled: " + self.dinnerName
+        self.dinnerName = cancelName
+        self.tasks = []
+        Database.database().reference().child("Events").child(self.firebaseEventUid).child("isCancelled").setValue(true)
+        Database.database().reference().child("Events").child(self.firebaseEventUid).child("dinnerName").setValue(cancelName)
+        Database.database().reference().child("Events").child(self.firebaseEventUid).child("tasks").setValue([:])
     }
     
     func getAssignedNewTasks() -> Int {

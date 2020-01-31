@@ -40,7 +40,7 @@ class TaskSummaryCell: UITableViewCell {
             seeAllButton.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
             seeAllBeforeCreateEvent.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
         } else {
-            seeAllButton.setTitle("Add some tasks here!", for: .normal)
+            seeAllButton.setTitle("There is nothing to do!", for: .normal)
             seeAllBeforeCreateEvent.setTitle("Add some tasks here!", for: .normal)
         }
         

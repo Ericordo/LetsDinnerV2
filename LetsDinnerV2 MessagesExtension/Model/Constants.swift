@@ -44,6 +44,7 @@ enum CellNibs {
     static let recipeCVCell = "RecipeCVCell"
     static let sectionInputCell = "SectionInputCell"
     static let ingredientCell = "IngredientCell"
+    static let cancelCell = "CancelCell"
 }
 
 enum ApiKeys {
@@ -101,4 +102,6 @@ enum LabelStrings {
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
     static let cookingTipsPlaceholder = "Any tips about this recipe?"
+    static let update = "Update"
+    static let selectNewDate = "Select a new date for your event:"
 }
