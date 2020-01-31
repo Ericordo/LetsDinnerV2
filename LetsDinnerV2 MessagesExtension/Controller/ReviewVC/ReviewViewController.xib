@@ -15,6 +15,7 @@
                 <outlet property="progressView" destination="Uwl-PZ-Jns" id="tml-4x-oUb"/>
                 <outlet property="sendButton" destination="aI0-Jh-k9M" id="b2v-Zi-o8Q"/>
                 <outlet property="sendButtonLeadingConstraint" destination="AFb-Hv-JC5" id="WFY-61-DnF"/>
+                <outlet property="seperatorLine" destination="ohJ-Y0-Tgc" id="icI-E4-NrF"/>
                 <outlet property="summaryTableView" destination="ojl-GP-L7P" id="uzw-Cw-VGN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -39,8 +40,15 @@
                         <constraint firstAttribute="height" constant="2" id="LYj-YD-udi"/>
                     </constraints>
                 </progressView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohJ-Y0-Tgc" userLabel="Seperator View">
+                    <rect key="frame" x="0.0" y="131" width="375" height="0.5"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="0.29999999999999999" id="jo2-TA-GRl"/>
+                    </constraints>
+                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ojl-GP-L7P">
-                    <rect key="frame" x="0.0" y="125" width="375" height="542"/>
+                    <rect key="frame" x="0.0" y="132.5" width="375" height="534.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
@@ -85,21 +93,24 @@
             <constraints>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="62i-i4-u99"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="BS3-z2-vKD"/>
-                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="10" id="BWQ-Oi-giM"/>
                 <constraint firstItem="bga-3P-lPr" firstAttribute="top" secondItem="7B7-Wv-GEu" secondAttribute="bottom" constant="10" id="Cd3-Je-R2a"/>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Fn1-JD-TEI"/>
                 <constraint firstItem="7B7-Wv-GEu" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="IXz-kQ-egB"/>
+                <constraint firstItem="ohJ-Y0-Tgc" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="16" id="IsF-F5-HKs"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bga-3P-lPr" secondAttribute="trailing" constant="30" id="MSB-Ue-twj"/>
                 <constraint firstItem="7B7-Wv-GEu" firstAttribute="top" secondItem="Uwl-PZ-Jns" secondAttribute="bottom" constant="20" id="RnW-8O-cZA"/>
                 <constraint firstItem="bga-3P-lPr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="amQ-tE-tuZ"/>
                 <constraint firstAttribute="trailing" secondItem="Uwl-PZ-Jns" secondAttribute="trailing" id="eT7-A3-m3p"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ojl-GP-L7P" secondAttribute="trailing" id="fod-eh-eTU"/>
                 <constraint firstItem="bga-3P-lPr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="hgi-IL-04v"/>
+                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="ohJ-Y0-Tgc" secondAttribute="bottom" constant="1" id="lsA-Gd-pTX"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ohJ-Y0-Tgc" secondAttribute="trailing" id="nKt-lE-kwQ"/>
+                <constraint firstItem="ohJ-Y0-Tgc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="u7I-9a-jQ4"/>
                 <constraint firstAttribute="bottom" secondItem="ojl-GP-L7P" secondAttribute="bottom" id="uj3-h1-efv"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="w40-TZ-dZ6"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="132" y="153"/>
+            <point key="canvasLocation" x="132" y="152.47376311844079"/>
         </view>
     </objects>
 </document>
