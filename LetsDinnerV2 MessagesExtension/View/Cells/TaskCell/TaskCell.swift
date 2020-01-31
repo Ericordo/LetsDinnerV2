@@ -107,7 +107,7 @@ class TaskCell: UITableViewCell {
             personLabel.text = MessagesToDisplay.noAssignment
         }
         taskStatusButton.isUserInteractionEnabled = false
-        seperatorLine.backgroundColor = Colors.paleGray
+        seperatorLine.backgroundColor = Colors.seperatorGrey
     }
     
 }
