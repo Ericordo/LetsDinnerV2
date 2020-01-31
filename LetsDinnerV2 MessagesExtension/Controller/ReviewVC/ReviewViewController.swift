@@ -23,6 +23,7 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var summaryTableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var seperatorLine: UIView!
     
     weak var delegate: ReviewViewControllerDelegate?
     
@@ -62,6 +63,7 @@ class ReviewViewController: UIViewController {
         progressView.progress = 4/5
         progressView.setProgress(1, animated: true)
         
+        seperatorLine.backgroundColor = Colors.dullGray
         summaryTableView.tableFooterView = UIView()
         
         sendButtonLeadingConstraint.isActive = false
