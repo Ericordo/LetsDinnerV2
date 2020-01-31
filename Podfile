@@ -25,7 +25,7 @@ target 'LetsDinnerV2 MessagesExtension' do
   pod 'Crashlytics', '~> 3.14.0'
   pod 'RealmSwift'
   pod 'Firebase/Auth'
-
+  pod "GMStepper"
 
 end
 

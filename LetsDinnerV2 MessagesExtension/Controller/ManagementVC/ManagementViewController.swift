@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GMStepper
 
 protocol ManagementViewControllerDelegate: class {
     func managementVCDidTapBack(controller: ManagementViewController)
@@ -21,14 +22,14 @@ class ManagementViewController: UIViewController {
     @IBOutlet private weak var tasksTableView: UITableView!
     @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var servingsLabel: UILabel!
-    @IBOutlet private weak var servingsStepper: UIStepper!
+    @IBOutlet private weak var servingsStepperOld: UIStepper!
+    @IBOutlet private weak var servingsStepper: GMStepper!
     @IBOutlet weak var separatorView: UIView!
     
     @IBOutlet weak var addThingView: UIView!
     @IBOutlet weak var newThingTextField: UITextField!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var sectionSelectionInput: SectionSelectionInput!
-    
     
     weak var delegate: ManagementViewControllerDelegate?
     
@@ -38,7 +39,7 @@ class ManagementViewController: UIViewController {
     private var sectionNames = [String]()
     private var servings : Int = 2 {
         didSet {
-            servingsLabel.text = "How many servings?  \(servings)"
+            servingsLabel.text = "How many servings?"
             Event.shared.servings = servings
         }
     }
@@ -78,10 +79,28 @@ class ManagementViewController: UIViewController {
         servingsLabel.text = "How many servings?  \(servings)"
         servingsLabel.textColor = Colors.textGrey
         
+//        servingsStepperOld.minimumValue = 2
+//        servingsStepperOld.maximumValue = 12
+//        servingsStepperOld.stepValue = 1
+//        servingsStepperOld.value = Double(servings)
+        
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
+        servingsStepper.autorepeat = false
+        servingsStepper.cornerRadius = 8.0
+        servingsStepper.buttonsFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
+        servingsStepper.buttonsTextColor = Colors.highlightRed
+        servingsStepper.buttonsBackgroundColor = Colors.allWhite
+        servingsStepper.labelFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+        servingsStepper.labelTextColor = Colors.textGrey
+        servingsStepper.labelBackgroundColor = Colors.allWhite
+        servingsStepper.borderWidth = 0
+        servingsStepper.borderColor = Colors.highlightRed
+        servingsStepper.labelWidthWeight = 0.4
+        servingsStepper.limitHitAnimationColor = Colors.paleGray
+        
         separatorView.backgroundColor = Colors.seperatorGrey
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
@@ -186,9 +205,12 @@ class ManagementViewController: UIViewController {
 //        alert.addAction(cancel)
 //        present(alert, animated: true, completion: nil)
     }
+    @IBAction func didTapStepper2(_ sender: GMStepper) {
+        updateServings(servings: Int(sender.value))
+    }
     
     @IBAction func didTapStepper(_ sender: UIStepper) {
-        updateServings(servings: Int(sender.value))
+//        updateServings(servings: Int(sender.value))
     }
     
     private func updateServings(servings: Int) {
