@@ -13,6 +13,8 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController)
     func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController)
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
+    func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController)
+    func eventSummaryVCDidCancelEvent(controller: EventSummaryViewController)
 }
 
 private enum RowItemNumber: Int, CaseIterable {
@@ -44,6 +46,7 @@ class EventSummaryViewController: UIViewController {
     let darkView = UIView()
     let rescheduleView = RescheduleView()
     lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
+    var selectedDate: Double?
     
     weak var delegate: EventSummaryViewControllerDelegate?
     
@@ -217,7 +220,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 // Accept or Host
                 switch indexPath.row {
                 case RowItemNumber.answerCell.rawValue:
-                    return 80
+                     if Event.shared.isCancelled {
+                                   return 0
+                               } else {
+                                   return 80
+                               }
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -240,7 +247,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 // Decline Status
                 switch indexPath.row {
                 case RowItemNumber.answerCell.rawValue:
-                    return 80
+                     if Event.shared.isCancelled {
+                                   return 0
+                               } else {
+                                   return 80
+                               }
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -259,7 +270,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // Netural - Pending
         switch indexPath.row {
         case RowItemNumber.answerCell.rawValue:
-            return 120
+            if Event.shared.isCancelled {
+                return 0
+            } else {
+                return 120
+            }
         case RowItemNumber.hostInfo.rawValue:
             return 52
         case RowItemNumber.dateInfo.rawValue,
@@ -436,12 +451,21 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: CancelCellDelegate {
+    
+    
     func postponeEvent() {
         prepareViewForReschedule()
-        }
-        
+    }
+    
     func cancelEvent() {
-        
+        let alert = UIAlertController(title: "Cancel Event", message: "Are you sure about cancelling your event?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        let confirm = UIAlertAction(title: "Yes", style: .destructive) { action in
+            self.delegate?.eventSummaryVCDidCancelEvent(controller: self)
+        }
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func prepareViewForReschedule() {
@@ -501,10 +525,12 @@ extension EventSummaryViewController: CancelCellDelegate {
             rescheduleView.updateButton.alpha = 0.5
             rescheduleView.updateButton.isEnabled = false
         }
+        self.selectedDate = selectedDate
     }
     
     @objc private func didConfirmDate() {
-        
+        guard let selectedDate = selectedDate else { return }
+        delegate?.eventSummaryVCDidUpdateDate(date: selectedDate, controller: self)
     }
     
     

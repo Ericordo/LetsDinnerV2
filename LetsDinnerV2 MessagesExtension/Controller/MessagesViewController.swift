@@ -361,6 +361,16 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         self.dismiss()
     }
+    
+    private func sendMessageDirectly(message: MSMessage) {
+        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+        conversation.send(message) {error in
+            if let error = error {
+                print(error)
+            }
+        }
+        self.dismiss()
+    }
 }
 
     // MARK: Delegations
@@ -538,6 +548,22 @@ extension MessagesViewController: ReviewViewControllerDelegate {
 }
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
+    func eventSummaryVCDidCancelEvent(controller: EventSummaryViewController) {
+        Event.shared.cancelFirebaseEvent()
+        Event.shared.summary = "\(defaults.username) canceled the event."
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        sendMessageDirectly(message: message)
+    }
+    
+    func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController) {
+        Event.shared.updateFirebaseDate(date)
+        Event.shared.summary = "\(defaults.username) changed the date!"
+        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        sendMessageDirectly(message: message)
+    }
+    
     
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
         let controller = instantiateTasksListViewController()
