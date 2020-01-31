@@ -33,7 +33,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         self.recipesCollectionView.collectionViewLayout = layout
         
         self.descriptionLabel.backgroundColor = nil
-        self.descriptionLabel.textColor = Colors.dullGray
+        self.descriptionLabel.textColor = Colors.dullGrey
         
         if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty {
             recipesCollectionView.removeFromSuperview()

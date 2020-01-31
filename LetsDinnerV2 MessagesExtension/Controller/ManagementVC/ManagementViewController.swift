@@ -72,12 +72,17 @@ class ManagementViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.progress = 2/5
         progressView.setProgress(3/5, animated: true)
+        
         tasksTableView.tableFooterView = UIView()
+        
         servingsLabel.text = "How many servings?  \(servings)"
+        servingsLabel.textColor = Colors.textGrey
+        
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
+        separatorView.backgroundColor = Colors.seperatorGrey
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             servingsLabel.isHidden = true

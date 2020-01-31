@@ -30,10 +30,12 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfU-Un-jAU">
-                    <rect key="frame" x="17" y="10" width="66" height="33"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="Previous">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfU-Un-jAU">
+                    <rect key="frame" x="17" y="10" width="82" height="33"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="33" id="aLg-xz-W2s"/>
+                    </constraints>
+                    <state key="normal" title=" Recipes" image="chevronLeft">
                         <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </state>
                     <connections>
@@ -182,5 +184,6 @@
     </objects>
     <resources>
         <image name="addButton" width="24" height="24"/>
+        <image name="chevronLeft" width="13" height="23"/>
     </resources>
 </document>

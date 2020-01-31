@@ -63,7 +63,7 @@ class TaskManagementCell: UITableViewCell {
         
         taskStatusButton.isUserInteractionEnabled = false
         
-        seperatorLine.backgroundColor = Colors.paleGray
+        seperatorLine.backgroundColor = Colors.seperatorGrey
     }
     
     func didTapTaskStatusButton(indexPath: IndexPath) {

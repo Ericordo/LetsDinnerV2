@@ -107,10 +107,10 @@
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
+		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B8384BFD238A8481005B25E9 /* GreyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8384BFC238A8481005B25E9 /* GreyButton.swift */; };
 		B85071D12391690600632026 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestCase.swift */; };
 		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
-		B8652A2A23C5FC4F00F176CC /* RemoveConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */; };
 		B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2B23C729B300F176CC /* ReminderManager.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
@@ -258,10 +258,10 @@
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
 		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
+		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B8384BFC238A8481005B25E9 /* GreyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreyButton.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
 		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
-		B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveConstraints.swift; sourceTree = "<group>"; };
 		B8652A2B23C729B300F176CC /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
 		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
@@ -481,6 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				88349F1C236DEF15002A1879 /* Constants.swift */,
+				B815358623E3FE2000BBD5FB /* Colors.swift */,
 				88349F342370388C002A1879 /* Event.swift */,
 				88349F3B2370525D002A1879 /* DataHelper - Edamam.swift */,
 				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
@@ -515,7 +516,6 @@
 				88FE71A523901E2A00652429 /* InfoInput.swift */,
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
-				B8652A2923C5FC4F00F176CC /* RemoveConstraints.swift */,
 				88E203C423D33C6200514972 /* EventInputView.swift */,
 			);
 			path = View;
@@ -602,10 +602,10 @@
 				8822490B239D79C20054C24E /* IngredientCell */,
 				88C9650B239A9BEB00CFC710 /* SectionInputCell */,
 				880B133723737605003E29AC /* AnswerCell */,
-				880B133823737619003E29AC /* InfoCell */,
 				885C60C423809F9300ED3A17 /* RecipeCVCell */,
 				88349F3E2370D0C9002A1879 /* RecipeCell */,
 				B8E4CA7923812174006DD095 /* TitleCell */,
+				880B133823737619003E29AC /* InfoCell */,
 				880B133923737622003E29AC /* DescriptionCell */,
 				885C60B8238030EC00ED3A17 /* TaskManagementCell */,
 				880B136B2374C6AD003E29AC /* TaskCell */,
@@ -1013,7 +1013,6 @@
 				B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */,
 				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
 				B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */,
-				B8652A2A23C5FC4F00F176CC /* RemoveConstraints.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
 				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,
@@ -1075,6 +1074,7 @@
 				B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */,
 				880B13312372FA08003E29AC /* User.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
+				B815358723E3FE2000BBD5FB /* Colors.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
 				88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */,
 				B85071D12391690600632026 /* TestCase.swift in Sources */,
