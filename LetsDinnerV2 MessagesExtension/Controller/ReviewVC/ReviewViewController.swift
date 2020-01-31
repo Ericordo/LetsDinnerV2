@@ -63,7 +63,7 @@ class ReviewViewController: UIViewController {
         progressView.progress = 4/5
         progressView.setProgress(1, animated: true)
         
-        seperatorLine.backgroundColor = Colors.dullGray
+        seperatorLine.backgroundColor = Colors.seperatorGrey
         summaryTableView.tableFooterView = UIView()
         
         sendButtonLeadingConstraint.isActive = false
