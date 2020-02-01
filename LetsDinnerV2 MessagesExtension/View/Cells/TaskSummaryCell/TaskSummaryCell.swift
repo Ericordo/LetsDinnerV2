@@ -114,6 +114,7 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
             newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth
         }
         
+        // and targetoffset is not over certain page
         if newTargetOffset < 0 {
             newTargetOffset = 0
         } else if (newTargetOffset > Float(scrollView.contentSize.width)){

@@ -29,7 +29,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 100)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 17)
         self.recipesCollectionView.collectionViewLayout = layout
         
         self.descriptionLabel.backgroundColor = nil
@@ -101,8 +101,6 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             let vc = SFSafariViewController(url: url)
             vc.preferredControlTintColor = Colors.newGradientRed
             self.window?.rootViewController?.present(vc, animated: true, completion: nil)
-            
-            
         }
     }
     
