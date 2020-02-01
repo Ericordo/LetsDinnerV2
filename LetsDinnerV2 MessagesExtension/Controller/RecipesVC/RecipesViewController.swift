@@ -43,12 +43,11 @@ class RecipesViewController: UIViewController {
             recipesTableView.reloadData()
         }
     }
-    
+        
     private var customSearchResults: Results<CustomRecipe>?
-    
     private var customRecipes : Results<CustomRecipe>?
     
-     var previouslySelectedRecipes = [Recipe]()
+    var previouslySelectedRecipes = [Recipe]()
     var previouslySelectedCustomRecipes = [CustomRecipe]()
     
     private var searchType: SearchType = .apiRecipes {
@@ -348,20 +347,23 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch searchType {
-        case .apiRecipes:
-            let recipe = searchResults[indexPath.section]
-            openRecipeInSafari(recipe: recipe)
-        case .customRecipes:
-            guard let recipes = customRecipes else { return }
-            let recipe = recipes[indexPath.section]
-            let customRecipeDetailsVC = CustomRecipeDetailsViewController()
-            customRecipeDetailsVC.modalPresentationStyle = .fullScreen
-            customRecipeDetailsVC.selectedRecipe = recipe
-            customRecipeDetailsVC.customRecipeDetailsDelegate = self
-            present(customRecipeDetailsVC, animated: true, completion: nil)
-        }
+            
+//        switch searchType {
+//        case .apiRecipes:
+//            let recipe = searchResults[indexPath.section]
+//            openRecipeInSafari(recipe: recipe)
+//        case .customRecipes:
+//            guard let recipes = customRecipes else { return }
+//            let recipe = recipes[indexPath.section]
+//            let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+//            customRecipeDetailsVC.modalPresentationStyle = .fullScreen
+//            customRecipeDetailsVC.selectedRecipe = recipe
+//            customRecipeDetailsVC.customRecipeDetailsDelegate = self
+//            present(customRecipeDetailsVC, animated: true, completion: nil)
+//        }
     }
     
     private func openRecipeInSafari(recipe: Recipe) {
@@ -397,8 +399,16 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension RecipesViewController: RecipeCellDelegate {
-    func recipeCellDidSelectView() {
-        
+    func recipeCellDidSelectView(recipe: Recipe) {
+        openRecipeInSafari(recipe: recipe)
+    }
+    
+    func recipeCellDidSelectCustomRecipeView(customRecipe: CustomRecipe) {
+        let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+        customRecipeDetailsVC.modalPresentationStyle = .fullScreen
+        customRecipeDetailsVC.selectedRecipe = customRecipe
+        customRecipeDetailsVC.customRecipeDetailsDelegate = self
+        present(customRecipeDetailsVC, animated: true, completion: nil)
     }
     
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
@@ -506,8 +516,4 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
         recipesTableView.reloadData()
         configureNextButton()
     }
-    
-
-
-    
 }

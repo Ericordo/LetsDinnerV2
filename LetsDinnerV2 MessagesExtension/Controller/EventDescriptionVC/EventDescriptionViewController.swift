@@ -52,13 +52,13 @@ class EventDescriptionViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 17, bottom: 0, right: 100)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 17, bottom: 0, right: 17)
         recipesCollectionView.collectionViewLayout = layout
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        descriptionTextView.tintColor = Colors.customPink
+        descriptionTextView.tintColor = Colors.highlightRed
         descriptionTextView.backgroundColor = nil
         descriptionTextView.bounds.inset(by: UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0))
         
@@ -69,9 +69,10 @@ class EventDescriptionViewController: UIViewController {
         checkForExistingDescription()
         
         descriptionTextView.addSubview(placeholderLabel)
+        
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = Colors.customGray
-        placeholderLabel.font = UIFont.systemFont(ofSize: 14)
+        placeholderLabel.textColor = Colors.seperatorGrey
+        placeholderLabel.font = UIFont.systemFont(ofSize: 16)
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()
         
