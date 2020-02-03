@@ -59,9 +59,6 @@ class NewEventViewController: UIViewController  {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -17,7 +17,11 @@ class MessagesViewController: MSMessagesAppViewController {
     var newNameRequested = false
     
     var progressBarHeight: CGFloat = 0
-    var isProgressBarExist = false
+    var isProgressBarExist = false {
+        didSet {
+            progressBarHeight = isProgressBarExist ? 2 : 0
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,7 +139,7 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         // Call When update on tasklistVC
-        if Event.shared.isTaskUpdated || Event.shared.isRecipeUpdated {
+        if Event.shared.isTaskUpdated {
             // Need to identify all situation for using updateFireBaseTask
             Event.shared.updateFirebaseTasks()
         }
@@ -246,18 +250,22 @@ class MessagesViewController: MSMessagesAppViewController {
         // Transition animation
         if transition != .noTransition {
             let transitionAnimation = CATransition()
-            transitionAnimation.duration = 0.3
+            transitionAnimation.duration = 0.2
             transitionAnimation.type = CATransitionType.push
             
-            if transition == .VCGoBack {
+            switch transition {
+            case .VCGoBack:
                 transitionAnimation.subtype = CATransitionSubtype.fromLeft
-            } else if transition == .VCGoForward {
+            case .VCGoForward:
                 transitionAnimation.subtype = CATransitionSubtype.fromRight
-            } else if transition == .VCGoUp {
+            case .VCGoUp:
                 transitionAnimation.subtype = CATransitionSubtype.fromTop
-            } else if transition == .VCGoDown {
+            case .VCGoDown:
                 transitionAnimation.subtype = CATransitionSubtype.fromBottom
+            default:
+                break
             }
+            
             controller.view.layer.add(transitionAnimation, forKey: nil)
         }
         
@@ -292,11 +300,18 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func removeAllChildViewControllers() {
-        
-        
+    
         for child in children {
             child.willMove(toParent: nil)
-            child.view.removeFromSuperview()
+            
+            // Temp use
+            UIView.transition(with: self.view,
+                              duration: 0.2,
+                              options: .transitionCrossDissolve,
+                              animations: {child.view.removeFromSuperview()},
+                              completion: nil)
+
+//            child.view.removeFromSuperview()
             child.removeFromParent()
         }
     }
@@ -321,6 +336,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
+        isProgressBarExist = false
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
         controller.previousStep = previousStep
         controller.delegate = self
@@ -328,8 +344,6 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        
-        progressBarHeight = 2
         if !isProgressBarExist {
             addProgressViewController()
         }
@@ -364,6 +378,11 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
+        if !isProgressBarExist { // I need the White Background
+            addProgressViewController()
+            progressBarHeight = 0
+        }
+        
         let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
         controller.delegate = self
         return controller
@@ -617,7 +636,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
         let controller = instantiateEventInfoViewController()
-//        removeAllChildViewControllers()
+        removeAllChildViewControllers()
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
