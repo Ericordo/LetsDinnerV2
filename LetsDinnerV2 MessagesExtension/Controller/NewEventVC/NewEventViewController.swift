@@ -16,8 +16,9 @@ protocol NewEventViewControllerDelegate: class {
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
-class NewEventViewController: UIViewController {
-    
+class NewEventViewController: UIViewController  {
+
+
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dinnerNameTextField: UITextField!
@@ -33,8 +34,6 @@ class NewEventViewController: UIViewController {
     
     @IBOutlet weak var infoInputBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var eventInputBottomConstraint: NSLayoutConstraint!
-    
-    
     
     @IBOutlet weak var testButton: UIButton!
     
@@ -60,15 +59,22 @@ class NewEventViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
     }
     
     func setupUI() {
         errorLabel.isHidden = true
         checkForExistingEvent()
-        progressView.progressTintColor = Colors.newGradientRed
-        progressView.trackTintColor = .white
-        progressView.progress = 0
-        progressView.setProgress(1/5, animated: true)
+//        progressView.progressTintColor = Colors.newGradientRed
+//        progressView.trackTintColor = .green
+//        progressView.progress = 0
+//        progressView.setProgress(1/5, animated: true)
         dinnerNameTextField.setLeftView(image: UIImage(named: "titleIcon")!)
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)

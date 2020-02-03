@@ -125,6 +125,8 @@
 		B86F700B238521810010AB7C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* PrimaryButton.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
+		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
+		B8C4E82623E5ACDF00D752F1 /* ProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
 		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
 /* End PBXBuildFile section */
@@ -278,6 +280,8 @@
 		B86F700A238521810010AB7C /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
+		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
+		B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressViewController.xib; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.release.xcconfig"; sourceTree = "<group>"; };
@@ -534,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				88349F08236DE9FC002A1879 /* MessagesViewController.swift */,
+				B8C4E82023E5AB5500D752F1 /* ProgressVC */,
 				882C4C14237AEA470039B55F /* IdleVC */,
 				88349F23236E1B67002A1879 /* InitialVC */,
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
@@ -766,6 +771,15 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		B8C4E82023E5AB5500D752F1 /* ProgressVC */ = {
+			isa = PBXGroup;
+			children = (
+				B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */,
+				B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */,
+			);
+			path = ProgressVC;
+			sourceTree = "<group>";
+		};
 		B8E4CA7923812174006DD095 /* TitleCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -895,6 +909,7 @@
 				882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
+				B8C4E82623E5ACDF00D752F1 /* ProgressViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
@@ -1085,6 +1100,7 @@
 				B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */,
 				B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */,
 				880B13312372FA08003E29AC /* User.swift in Sources */,
+				B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
 				B815358723E3FE2000BBD5FB /* Colors.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,

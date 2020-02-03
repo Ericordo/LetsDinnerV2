@@ -10,6 +10,7 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
+
 enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
@@ -24,6 +25,7 @@ enum VCNibs {
     static let idleViewController = "IdleViewController"
     static let reviewViewController = "ReviewViewController"
     static let eventInfoViewController = "EventInfoViewController"
+    static let progressViewController = "ProgressViewController"
 }
 
 enum CellNibs {

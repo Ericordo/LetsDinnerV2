@@ -70,6 +70,11 @@ class RecipesViewController: UIViewController {
         
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,10 +92,10 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = true
         resultsLabel.isHidden = true
         
-        progressView.progressTintColor = Colors.newGradientRed
-        progressView.trackTintColor = .white
-        progressView.progress = 1/5
-        progressView.setProgress(2/5, animated: true)
+//        progressView.progressTintColor = Colors.newGradientRed
+//        progressView.trackTintColor = .white
+//        progressView.progress = 1/5
+//        progressView.setProgress(2/5, animated: true)
     }
     
     private func setupSwipeGesture() {

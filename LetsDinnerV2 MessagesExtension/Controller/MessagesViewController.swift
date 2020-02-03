@@ -16,6 +16,9 @@ class MessagesViewController: MSMessagesAppViewController {
     
     var newNameRequested = false
     
+    var progressBarHeight: CGFloat = 0
+    var isProgressBarExist = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
@@ -177,6 +180,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 controller = instantiateIdleViewController()
             }
         } else {
+            
             // Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
@@ -229,6 +233,8 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         addChildViewController(controller: controller)
+        
+
     }
     
     func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
@@ -252,7 +258,7 @@ class MessagesViewController: MSMessagesAppViewController {
             } else if transition == .VCGoDown {
                 transitionAnimation.subtype = CATransitionSubtype.fromBottom
             }
-            view.layer.add(transitionAnimation, forKey: nil)
+            controller.view.layer.add(transitionAnimation, forKey: nil)
         }
         
         view.addSubview(controller.view)
@@ -260,16 +266,34 @@ class MessagesViewController: MSMessagesAppViewController {
         NSLayoutConstraint.activate([
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
             controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+            controller.view.topAnchor.constraint(equalTo: view.topAnchor, constant: progressBarHeight),
             controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         
         controller.didMove(toParent: self)
         
-
+    }
+        
+    private func addProgressViewController() {
+        let controller = ProgressViewController(nibName: VCNibs.progressViewController, bundle: nil)
+        controller.view.frame = view.bounds
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(controller.view)
+        
+        isProgressBarExist = true
+        
+        NSLayoutConstraint.activate([
+        controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+        controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+        controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+        controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     private func removeAllChildViewControllers() {
+        
+        
         for child in children {
             child.willMove(toParent: nil)
             child.view.removeFromSuperview()
@@ -278,6 +302,11 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: Init the VC
+    
+    private func instantiateProgressViewController() -> UIViewController {
+        let controller = ProgressViewController(nibName: VCNibs.progressViewController, bundle: nil)
+        return controller
+    }
     
     private func instantiateInitialViewController() -> UIViewController {
         let controller = InitialViewController(nibName: VCNibs.initialViewController, bundle: nil)
@@ -299,6 +328,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
+        
+        progressBarHeight = 2
+        if !isProgressBarExist {
+            addProgressViewController()
+        }
+        
         let controller = NewEventViewController(nibName: VCNibs.newEventViewController, bundle: nil)
         controller.delegate = self
         return controller
@@ -315,12 +350,6 @@ class MessagesViewController: MSMessagesAppViewController {
         controller.delegate = self
         return controller
     }
-    
-//    private func instantiateEventDescriptionViewControllerOld() -> UIViewController {
-//        let controller = EventDescriptionViewControllerBis(nibName: VCNibs.eventDescriptionViewControllerOld, bundle: nil)
-//        controller.delegate = self
-//        return controller
-//    }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)

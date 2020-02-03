@@ -56,9 +56,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="I9B-ix-rpP">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="2"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="2" id="TU0-vh-Z9x"/>
+                        <constraint firstAttribute="height" id="TU0-vh-Z9x"/>
                     </constraints>
                 </progressView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 SERVINGS OF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWM-v9-fEr">
