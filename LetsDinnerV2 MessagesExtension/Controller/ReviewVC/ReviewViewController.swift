@@ -59,9 +59,7 @@ class ReviewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
          NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 5])
     }
-    
 
-    
     private func setupUI() {
 //        progressView.progressTintColor = Colors.newGradientRed
 //        progressView.trackTintColor = .white
@@ -160,9 +158,9 @@ class ReviewViewController: UIViewController {
     
     private func sendInvitation() {
         darkView.removeFromSuperview()
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.summaryTableView.alpha = 0.65
-            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 20)
+            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 30)
         }) { (_) in
             self.isChecking = false
             self.delegate?.reviewVCDidTapSend(controller: self)
