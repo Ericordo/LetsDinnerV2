@@ -53,15 +53,20 @@ class ReviewViewController: UIViewController {
         setupUI()
         
         NotificationCenter.default.addObserver(self, selector: #selector(showUploadFail), name: Notification.Name(rawValue: "UploadError"), object: nil)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 5])
     }
     
 
     
     private func setupUI() {
-        progressView.progressTintColor = Colors.newGradientRed
-        progressView.trackTintColor = .white
-        progressView.progress = 4/5
-        progressView.setProgress(1, animated: true)
+//        progressView.progressTintColor = Colors.newGradientRed
+//        progressView.trackTintColor = .white
+//        progressView.progress = 4/5
+//        progressView.setProgress(1, animated: true)
         
         seperatorLine.backgroundColor = Colors.seperatorGrey
         summaryTableView.tableFooterView = UIView()

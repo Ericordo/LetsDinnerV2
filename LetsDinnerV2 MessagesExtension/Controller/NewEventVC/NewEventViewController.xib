@@ -55,9 +55,9 @@
                     </connections>
                 </button>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fj6-OV-3pu">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="2" id="ALc-em-yM9"/>
+                        <constraint firstAttribute="height" id="ALc-em-yM9"/>
                     </constraints>
                 </progressView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pqs-d3-vr7">
