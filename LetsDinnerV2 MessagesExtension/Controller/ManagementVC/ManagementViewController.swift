@@ -50,6 +50,10 @@ class ManagementViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
+        
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+        
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)

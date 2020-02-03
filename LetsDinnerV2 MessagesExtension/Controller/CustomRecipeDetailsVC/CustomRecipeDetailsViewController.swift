@@ -51,6 +51,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ingredientsTableView.delegate = self
         ingredientsTableView.dataSource = self
         stepsTableView.delegate = self
@@ -60,6 +61,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         scrollView.delegate = self
         
         setupUI()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
         
     }

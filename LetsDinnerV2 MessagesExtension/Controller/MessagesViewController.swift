@@ -250,7 +250,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Transition animation
         if transition != .noTransition {
             let transitionAnimation = CATransition()
-            transitionAnimation.duration = 0.2
+            transitionAnimation.duration = 0.3
             transitionAnimation.type = CATransitionType.push
             
             switch transition {
@@ -337,6 +337,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
         isProgressBarExist = false
+        
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
         controller.previousStep = previousStep
         controller.delegate = self
@@ -354,24 +355,40 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
+        if !isProgressBarExist {
+            addProgressViewController()
+        }
+        
         let controller = RecipesViewController(nibName: VCNibs.recipesViewController, bundle: nil)
         controller.delegate = self
          return controller
      }
     
     private func instantiateManagementViewController() -> UIViewController {
+        if !isProgressBarExist {
+            addProgressViewController()
+        }
+        
         let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
+        if !isProgressBarExist {
+            addProgressViewController()
+        }
+        
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
     
     private func instantiateReviewViewController() -> UIViewController {
+        if !isProgressBarExist {
+            addProgressViewController()
+        }
+        
         let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
         controller.delegate = self
         return controller 

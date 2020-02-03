@@ -35,7 +35,9 @@ class EventDescriptionViewController: UIViewController {
         StepStatus.currentStep = .eventDescriptionVC
         
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
-
+        
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGesture)
         
         descriptionTextView.delegate = self
         recipesCollectionView.delegate = self
