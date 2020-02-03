@@ -109,6 +109,10 @@ class RecipeCreationViewController: UIViewController {
         if editingMode {
             setupEditingUI()
         }
+        
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+        
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
         amountTextField.delegate = self
