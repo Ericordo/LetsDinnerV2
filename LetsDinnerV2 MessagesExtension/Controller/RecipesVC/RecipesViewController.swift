@@ -191,8 +191,19 @@ class RecipesViewController: UIViewController {
     @IBAction func didTapRecipeToggle(_ sender: UIButton) {
         if searchType == .apiRecipes {
             searchType = .customRecipes
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
+            
         } else {
             searchType = .apiRecipes
+            UIView.transition(with: self.view,
+                                duration: 0.3,
+                                options: .transitionCrossDissolve,
+                                animations: nil,
+                                completion: nil)
         }
     }
     

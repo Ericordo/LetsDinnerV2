@@ -269,13 +269,11 @@ extension NewEventViewController: UITextFieldDelegate {
               case dinnerNameTextField:
                   hostNameTextField.becomeFirstResponder()
               case hostNameTextField:
-                  dateTextField.becomeFirstResponder()
-              case dateTextField:
                   locationTextField.becomeFirstResponder()
+              case dateTextField:
+                textField.resignFirstResponder()
               case locationTextField:
-                    textField.resignFirstResponder()
-              
-
+                dateTextField.becomeFirstResponder()
               default:
                   break
               }

@@ -61,7 +61,7 @@ class InfoInputView : UIView {
         infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
         infoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20).isActive = true
-        infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20).isActive = true
+        infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40).isActive = true
         
     }
     
