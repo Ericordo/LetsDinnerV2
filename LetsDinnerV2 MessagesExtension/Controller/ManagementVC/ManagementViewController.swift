@@ -51,8 +51,8 @@ class ManagementViewController: UIViewController {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
         
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGesture)
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
         
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
