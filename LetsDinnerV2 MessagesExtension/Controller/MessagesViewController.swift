@@ -17,9 +17,9 @@ class MessagesViewController: MSMessagesAppViewController {
     var newNameRequested = false
     
     var progressBarHeight: CGFloat = 0
-    var isProgressBarExist = false {
+    var isProgressBarExisted = false {
         didSet {
-            progressBarHeight = isProgressBarExist ? 2 : 0
+            progressBarHeight = isProgressBarExisted ? 2 : 0
         }
     }
     
@@ -289,7 +289,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         view.addSubview(controller.view)
         
-        isProgressBarExist = true
+        isProgressBarExisted = true
         
         NSLayoutConstraint.activate([
         controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -336,7 +336,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        isProgressBarExist = false
+        isProgressBarExisted = false
         
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
         controller.previousStep = previousStep
@@ -345,7 +345,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        if !isProgressBarExist {
+        if !isProgressBarExisted {
             addProgressViewController()
         }
         
@@ -355,7 +355,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        if !isProgressBarExist {
+        if !isProgressBarExisted {
             addProgressViewController()
         }
         
@@ -365,7 +365,7 @@ class MessagesViewController: MSMessagesAppViewController {
      }
     
     private func instantiateManagementViewController() -> UIViewController {
-        if !isProgressBarExist {
+        if !isProgressBarExisted {
             addProgressViewController()
         }
         
@@ -375,7 +375,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        if !isProgressBarExist {
+        if !isProgressBarExisted {
             addProgressViewController()
         }
         
@@ -385,7 +385,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        if !isProgressBarExist {
+        if !isProgressBarExisted {
             addProgressViewController()
         }
         
@@ -395,7 +395,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        if !isProgressBarExist { // I need the White Background
+        if !isProgressBarExisted { // I need the White Background
             addProgressViewController()
             progressBarHeight = 0
         }
