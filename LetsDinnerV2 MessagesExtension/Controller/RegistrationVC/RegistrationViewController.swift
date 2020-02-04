@@ -91,6 +91,7 @@ class RegistrationViewController: UIViewController {
         
         if !defaults.address.isEmpty {
             addressTextField.text = defaults.address
+            locationButton.isHidden = true
         }
         
         
