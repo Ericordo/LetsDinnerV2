@@ -49,7 +49,6 @@ class Event {
     var isHostRegistering = false
     var isAcceptingStatusChanged = false
     var isTaskUpdated = false
-    var isRecipeUpdated = false
     
     var servings = 2
     var hostIdentifier = ""
@@ -77,7 +76,6 @@ class Event {
         isHostRegistering = false
         isAcceptingStatusChanged = false
         isTaskUpdated = false
-        isRecipeUpdated = false
         servings = 2
         isCancelled = false
     }

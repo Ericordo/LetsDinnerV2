@@ -299,6 +299,7 @@ extension NewEventViewController: UITextFieldDelegate {
     
     
     
+    
 }
 
 extension NewEventViewController: UIScrollViewDelegate {
@@ -311,6 +312,7 @@ extension NewEventViewController: UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
+        //Ipad have different frame height?
         var rectangle = self.view.frame
         rectangle.size.height -= keyboardFrame.height
         

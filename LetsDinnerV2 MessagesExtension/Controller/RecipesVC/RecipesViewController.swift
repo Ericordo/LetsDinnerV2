@@ -171,6 +171,8 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = !bool
     }
     
+    // MARK: Button Tapped
+    
     
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.recipeVCDidTapPrevious(controller: self)

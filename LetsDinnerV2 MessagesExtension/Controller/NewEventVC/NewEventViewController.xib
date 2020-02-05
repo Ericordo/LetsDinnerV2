@@ -113,10 +113,9 @@
                                     <color key="textColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
-                                    <rect key="frame" x="152" y="370" width="71" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="TestCase1"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
+                                    <rect key="frame" x="25" y="281" width="100" height="30"/>
+                                    <state key="normal" title="ImmediateTest"/>
                                     <connections>
                                         <action selector="DidTapTestButton:" destination="-1" eventType="touchUpInside" id="rJa-bi-kly"/>
                                     </connections>
@@ -129,7 +128,9 @@
                                 <constraint firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="V95-Am-Xeq"/>
                                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="ZfY-43-yv0"/>
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="ogw-Df-oMa" secondAttribute="centerX" id="cTZ-Ya-4Xp"/>
+                                <constraint firstItem="RG3-GD-eao" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="75" id="eH2-gF-a94"/>
                                 <constraint firstAttribute="height" constant="607" id="pEI-qd-AgH"/>
+                                <constraint firstItem="RG3-GD-eao" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="vcR-ii-iQe"/>
                             </constraints>
                         </view>
                     </subviews>
