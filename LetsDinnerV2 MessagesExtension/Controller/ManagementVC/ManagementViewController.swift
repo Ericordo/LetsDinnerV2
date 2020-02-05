@@ -46,13 +46,13 @@ class ManagementViewController: UIViewController {
     
     private var selectedSection : String?
     
-        
+    var tapGestureToHideKeyboard = UITapGestureRecognizer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
         
-        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
@@ -183,6 +183,8 @@ class ManagementViewController: UIViewController {
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
         newThingTextField.becomeFirstResponder()
+        
+
  
 //        var textField = UITextField()
 //        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
@@ -250,6 +252,9 @@ class ManagementViewController: UIViewController {
             self.addThingViewBottomConstraint.constant = keyboardFrame.height
             self.view.layoutIfNeeded()
         }
+        
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -258,6 +263,8 @@ class ManagementViewController: UIViewController {
              self.addThingViewBottomConstraint.constant = -80
              self.view.layoutIfNeeded()
          }
+        
+        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
         
     }
     
