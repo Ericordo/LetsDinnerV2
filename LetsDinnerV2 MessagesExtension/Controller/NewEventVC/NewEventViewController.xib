@@ -144,7 +144,7 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="Xqy-96-MG1"/>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sm4-gG-DV1" customClass="EventInputView" customModule="Let_s_Dinner_" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="658" width="375" height="50"/>
+                    <rect key="frame" x="0.0" y="668" width="375" height="50"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Yrm-WZ-i4i"/>
@@ -188,7 +188,7 @@
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="FoN-rl-Gu4"/>
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>
-                <constraint firstAttribute="bottom" secondItem="sm4-gG-DV1" secondAttribute="bottom" constant="-41" id="R3y-lA-2Ef"/>
+                <constraint firstAttribute="bottom" secondItem="sm4-gG-DV1" secondAttribute="bottom" constant="-51" id="R3y-lA-2Ef"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WlK-s2-aiJ" secondAttribute="trailing" id="UkO-pg-kkj"/>
                 <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="W00-lv-t0a"/>

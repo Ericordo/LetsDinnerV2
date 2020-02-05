@@ -94,7 +94,7 @@
                         <constraint firstAttribute="height" id="h1a-Zr-n1g"/>
                     </constraints>
                 </progressView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bv3-Vn-pnT">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bv3-Vn-pnT" userLabel="BottomView">
                     <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="bjE-MD-C37">
@@ -150,7 +150,6 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="bv3-Vn-pnT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0PF-MO-L27"/>
                 <constraint firstItem="kjK-VE-8qe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2z6-CD-9Pb"/>
