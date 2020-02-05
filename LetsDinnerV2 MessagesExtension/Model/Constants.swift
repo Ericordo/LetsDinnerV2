@@ -103,7 +103,7 @@ enum LabelStrings {
     static let readyToSend = "Ready to send your invite?"
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
-    static let cookingTipsPlaceholder = "Any tips about this recipe?"
+    static let cookingTipsPlaceholder = "Anything else you want to mention?"
     static let update = "Update"
     static let selectNewDate = "Select a new date for your event:"
 }

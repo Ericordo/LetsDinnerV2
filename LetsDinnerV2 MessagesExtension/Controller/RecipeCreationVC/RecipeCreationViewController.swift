@@ -158,8 +158,8 @@ class RecipeCreationViewController: UIViewController {
         placeholderLabel.sizeToFit()
         commentsTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = Colors.customGray
-        placeholderLabel.font = UIFont.systemFont(ofSize: 14)
+        placeholderLabel.textColor = Colors.seperatorGrey
+        placeholderLabel.font = UIFont.systemFont(ofSize: 17)
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
     }
     
@@ -320,7 +320,17 @@ class RecipeCreationViewController: UIViewController {
                 return true
             }
         }
+        if recipeImage == nil {
+            // setup an default image
+            recipeImage = createDefaultImage()
+        }
         return false
+    }
+    
+    private func createDefaultImage() -> UIImage {
+        let imageName = "emptyPlate"
+        let image = UIImage(named: imageName)
+        return image!
     }
     
     

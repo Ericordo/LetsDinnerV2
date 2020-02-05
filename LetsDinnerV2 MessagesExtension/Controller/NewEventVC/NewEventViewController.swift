@@ -83,9 +83,11 @@ class NewEventViewController: UIViewController  {
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
+        
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
         eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.lunchButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.dinnerButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
@@ -157,6 +159,7 @@ class NewEventViewController: UIViewController  {
     
     @objc func didTapEvent(sender: UIButton) {
         dinnerNameTextField.text = sender.titleLabel?.text
+        eventInput.isHidden = true
     }
     
 //    @objc func didTapDonePicker() {
@@ -342,8 +345,8 @@ extension NewEventViewController: UIScrollViewDelegate {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
 
-           self.infoInputBottomConstraint.constant = -51
-          self.eventInputBottomConstraint.constant = -41
+            self.infoInputBottomConstraint.constant = -51
+            self.eventInputBottomConstraint.constant = -51
 
             self.view.layoutIfNeeded()
         }
