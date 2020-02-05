@@ -62,6 +62,8 @@ class NewEventViewController: UIViewController  {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
     }
     
 //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -69,7 +71,7 @@ class NewEventViewController: UIViewController  {
 //    }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
+
     }
     
     func setupUI() {
