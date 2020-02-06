@@ -143,6 +143,10 @@ class MessagesViewController: MSMessagesAppViewController {
             // Need to identify all situation for using updateFireBaseTask
             Event.shared.updateFirebaseTasks()
         }
+        
+        if Event.shared.servingsNeedUpdate {
+            Event.shared.updateFirebaseServings()
+        }
     
     }
     
@@ -473,38 +477,23 @@ extension MessagesViewController: IdleViewControllerDelegate {
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
     func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking) {
+        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         if previousStep == .newEventVC {
             StepStatus.currentStep = .newEventVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         } else if previousStep == .initialVC {
             StepStatus.currentStep = .newEventVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         } else if previousStep == .eventSummaryVC {
             StepStatus.currentStep = .eventSummaryVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         } else {
             StepStatus.currentStep = .newEventVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         }
+        presentViewController(for: conversation, with: .expanded)
     }
     
     func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
         newNameRequested = false
-//          let controller = instantiateInitialViewController()
-            requestPresentationStyle(.compact)
-//              removeAllChildViewControllers()
-//              addChildViewController(controller: controller)
+        requestPresentationStyle(.compact)
     }
-    
-//    func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
-//        StepStatus.currentStep = .newEventVC
-//        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-//        presentViewController(for: conversation, with: .expanded)
-//    }
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
@@ -570,23 +559,6 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
-
-//extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
-//    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
-//        let controller = instantiateManagementViewController()
-//        removeAllChildViewControllers()
-//        addChildViewController(controller: controller, transition: .VCGoBack)
-//    }
-//    
-//    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
-////        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-////        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-////        sendMessage(message: message)
-//        let controller = instantiateReviewViewController()
-//        removeAllChildViewControllers()
-//        addChildViewController(controller: controller)
-//    }
-//}
 
 extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapPrevious(controller: ReviewViewController) {

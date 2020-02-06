@@ -424,8 +424,8 @@ extension EventSummaryViewController: CancelCellDelegate {
         darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelReschedule)))
         self.view.addSubview(darkView)
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-            self.darkView.alpha = 1
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.darkView.alpha = 0.8
         }) { (_) in
             self.showRescheduleView()
         }
