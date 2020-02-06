@@ -31,10 +31,17 @@ class TaskSummaryCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        configureUI()
         tasksCollectionView.delegate = self
         tasksCollectionView.dataSource = self
         tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
+    }
+    
+    private func configureUI() {
+        seeAllButton.titleLabel?.textColor = Colors.highlightRed
+        seeAllBeforeCreateEvent.titleLabel?.textColor = Colors.highlightRed
         
         if Event.shared.tasks.count != 0 {
             seeAllButton.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
@@ -43,8 +50,6 @@ class TaskSummaryCell: UITableViewCell {
             seeAllButton.setTitle("There is nothing to do!", for: .normal)
             seeAllBeforeCreateEvent.setTitle("Add some tasks here!", for: .normal)
         }
-        
-        
     }
     
     @objc func updateTable() {

@@ -59,6 +59,10 @@ class RecipesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .recipesVC
+        
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil), forCellReuseIdentifier: CellNibs.recipeCell)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
@@ -70,6 +74,11 @@ class RecipesViewController: UIViewController {
         
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,10 +96,10 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = true
         resultsLabel.isHidden = true
         
-        progressView.progressTintColor = Colors.newGradientRed
-        progressView.trackTintColor = .white
-        progressView.progress = 1/5
-        progressView.setProgress(2/5, animated: true)
+//        progressView.progressTintColor = Colors.newGradientRed
+//        progressView.trackTintColor = .white
+//        progressView.progress = 1/5
+//        progressView.setProgress(2/5, animated: true)
     }
     
     private func setupSwipeGesture() {
@@ -162,6 +171,8 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = !bool
     }
     
+    // MARK: Button Tapped
+    
     
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.recipeVCDidTapPrevious(controller: self)
@@ -182,8 +193,19 @@ class RecipesViewController: UIViewController {
     @IBAction func didTapRecipeToggle(_ sender: UIButton) {
         if searchType == .apiRecipes {
             searchType = .customRecipes
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
+            
         } else {
             searchType = .apiRecipes
+            UIView.transition(with: self.view,
+                                duration: 0.3,
+                                options: .transitionCrossDissolve,
+                                animations: nil,
+                                completion: nil)
         }
     }
     

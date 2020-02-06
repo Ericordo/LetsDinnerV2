@@ -25,3 +25,12 @@ enum StepTracking {
 class StepStatus {
     static var currentStep: StepTracking?
 }
+
+
+enum ProgressVC: Int {
+    case registrationViewController = 1
+    case recipesViewController = 2
+    case managementViewController = 3
+    case eventDescriptionViewController = 4
+    case reviewViewController = 5
+}

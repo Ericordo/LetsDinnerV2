@@ -33,6 +33,12 @@ class EventDescriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventDescriptionVC
+        
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
+        
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         descriptionTextView.delegate = self
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
@@ -58,6 +64,8 @@ class EventDescriptionViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        
+        
         descriptionTextView.tintColor = Colors.highlightRed
         descriptionTextView.backgroundColor = nil
         descriptionTextView.bounds.inset(by: UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0))
@@ -76,10 +84,10 @@ class EventDescriptionViewController: UIViewController {
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()
         
-        progressView.progressTintColor = Colors.newGradientRed
-        progressView.trackTintColor = .white
-        progressView.progress = 3/5
-        progressView.setProgress(4/5, animated: true)
+//        progressView.progressTintColor = Colors.newGradientRed
+//        progressView.trackTintColor = .white
+//        progressView.progress = 3/5
+//        progressView.setProgress(4/5, animated: true)
         
         cookLabel.text = "\(Event.shared.servings) SERVINGS OF"
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
@@ -90,6 +98,10 @@ class EventDescriptionViewController: UIViewController {
             
             titleLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 25).isActive = true
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
     }
     
     private func setupSwipeGesture() {

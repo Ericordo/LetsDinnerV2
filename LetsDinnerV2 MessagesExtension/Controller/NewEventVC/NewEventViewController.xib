@@ -55,9 +55,9 @@
                     </connections>
                 </button>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fj6-OV-3pu">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="2" id="ALc-em-yM9"/>
+                        <constraint firstAttribute="height" id="ALc-em-yM9"/>
                     </constraints>
                 </progressView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pqs-d3-vr7">
@@ -87,20 +87,20 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="izn-km-xnC">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-bJ-rKC">
                                             <rect key="frame" x="0.0" y="108" width="320" height="34"/>
                                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="34" id="mm7-rb-96n"/>
+                                                <constraint firstAttribute="height" constant="34" id="MOd-AH-NjR"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-bJ-rKC">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="izn-km-xnC">
                                             <rect key="frame" x="0.0" y="162" width="320" height="34"/>
                                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="34" id="MOd-AH-NjR"/>
+                                                <constraint firstAttribute="height" constant="34" id="mm7-rb-96n"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -113,10 +113,9 @@
                                     <color key="textColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
-                                    <rect key="frame" x="152" y="370" width="71" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="TestCase1"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
+                                    <rect key="frame" x="25" y="281" width="100" height="30"/>
+                                    <state key="normal" title="ImmediateTest"/>
                                     <connections>
                                         <action selector="DidTapTestButton:" destination="-1" eventType="touchUpInside" id="rJa-bi-kly"/>
                                     </connections>
@@ -129,7 +128,9 @@
                                 <constraint firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="V95-Am-Xeq"/>
                                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="ZfY-43-yv0"/>
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="ogw-Df-oMa" secondAttribute="centerX" id="cTZ-Ya-4Xp"/>
+                                <constraint firstItem="RG3-GD-eao" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="75" id="eH2-gF-a94"/>
                                 <constraint firstAttribute="height" constant="607" id="pEI-qd-AgH"/>
+                                <constraint firstItem="RG3-GD-eao" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="vcR-ii-iQe"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -144,7 +145,7 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="Xqy-96-MG1"/>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sm4-gG-DV1" customClass="EventInputView" customModule="Let_s_Dinner_" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="658" width="375" height="50"/>
+                    <rect key="frame" x="0.0" y="668" width="375" height="50"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Yrm-WZ-i4i"/>
@@ -188,7 +189,7 @@
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="FoN-rl-Gu4"/>
                 <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
                 <constraint firstItem="fj6-OV-3pu" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Qb3-6A-ii5"/>
-                <constraint firstAttribute="bottom" secondItem="sm4-gG-DV1" secondAttribute="bottom" constant="-41" id="R3y-lA-2Ef"/>
+                <constraint firstAttribute="bottom" secondItem="sm4-gG-DV1" secondAttribute="bottom" constant="-51" id="R3y-lA-2Ef"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WlK-s2-aiJ" secondAttribute="trailing" id="UkO-pg-kkj"/>
                 <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="W00-lv-t0a"/>

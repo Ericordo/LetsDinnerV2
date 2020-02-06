@@ -16,8 +16,9 @@ protocol NewEventViewControllerDelegate: class {
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
-class NewEventViewController: UIViewController {
-    
+class NewEventViewController: UIViewController  {
+
+
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dinnerNameTextField: UITextField!
@@ -34,8 +35,6 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var infoInputBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var eventInputBottomConstraint: NSLayoutConstraint!
     
-    
-    
     @IBOutlet weak var testButton: UIButton!
     
     weak var delegate: NewEventViewControllerDelegate?
@@ -51,6 +50,9 @@ class NewEventViewController: UIViewController {
         StepStatus.currentStep = .newEventVC
         setupUI()
         
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
             textField!.delegate = self
@@ -60,22 +62,30 @@ class NewEventViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
     }
     
     func setupUI() {
         errorLabel.isHidden = true
         checkForExistingEvent()
-        progressView.progressTintColor = Colors.newGradientRed
-        progressView.trackTintColor = .white
-        progressView.progress = 0
-        progressView.setProgress(1/5, animated: true)
+//        progressView.progressTintColor = Colors.newGradientRed
+//        progressView.trackTintColor = .green
+//        progressView.progress = 0
+//        progressView.setProgress(1/5, animated: true)
         dinnerNameTextField.setLeftView(image: UIImage(named: "titleIcon")!)
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
+        
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
         eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.lunchButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.dinnerButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
@@ -147,6 +157,7 @@ class NewEventViewController: UIViewController {
     
     @objc func didTapEvent(sender: UIButton) {
         dinnerNameTextField.text = sender.titleLabel?.text
+        eventInput.isHidden = true
     }
     
 //    @objc func didTapDonePicker() {
@@ -259,13 +270,11 @@ extension NewEventViewController: UITextFieldDelegate {
               case dinnerNameTextField:
                   hostNameTextField.becomeFirstResponder()
               case hostNameTextField:
-                  dateTextField.becomeFirstResponder()
-              case dateTextField:
                   locationTextField.becomeFirstResponder()
+              case dateTextField:
+                textField.resignFirstResponder()
               case locationTextField:
-                    textField.resignFirstResponder()
-              
-
+                dateTextField.becomeFirstResponder()
               default:
                   break
               }
@@ -290,6 +299,7 @@ extension NewEventViewController: UITextFieldDelegate {
     
     
     
+    
 }
 
 extension NewEventViewController: UIScrollViewDelegate {
@@ -302,6 +312,7 @@ extension NewEventViewController: UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
+        //Ipad have different frame height?
         var rectangle = self.view.frame
         rectangle.size.height -= keyboardFrame.height
         
@@ -334,8 +345,8 @@ extension NewEventViewController: UIScrollViewDelegate {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
 
-           self.infoInputBottomConstraint.constant = -51
-          self.eventInputBottomConstraint.constant = -41
+            self.infoInputBottomConstraint.constant = -51
+            self.eventInputBottomConstraint.constant = -51
 
             self.view.layoutIfNeeded()
         }
