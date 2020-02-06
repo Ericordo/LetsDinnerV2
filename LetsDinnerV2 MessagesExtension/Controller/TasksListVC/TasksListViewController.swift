@@ -19,6 +19,10 @@ class TasksListViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var tasksTableView: UITableView!
     @IBOutlet weak var onlineAlertHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var servingsViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var servingsLabel: UILabel!
+    @IBOutlet weak var servingsStepper: UIStepper!
+    @IBOutlet weak var servingsSeparator: UIView!
     
     weak var delegate: TasksListViewControllerDelegate?
     
@@ -27,21 +31,18 @@ class TasksListViewController: UIViewController {
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .tasksListVC
-        
         setupUI()
         setupTableView()
         prepareData()
         tasksTableView.reloadData()
-        
         Database.database().reference().child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
             guard let value = snapshot.value as? Int else { return }
             self.updateOnlineAlert(value)
         }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,16 +55,75 @@ class TasksListViewController: UIViewController {
     
     func setupUI() {
 //        backButton.setTitle(" \(Event.shared.dinnerName)", for: .normal)
-        submitButton.layer.masksToBounds = true
-        submitButton.alpha = 0.5
-        submitButton.layer.cornerRadius = 12
-        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        setupUpdateButton()
+        setupServingsView()
     }
     
     func setupTableView() {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
+    }
+    
+    private func setupUpdateButton() {
+        submitButton.layer.masksToBounds = true
+        submitButton.alpha = 0.5
+        submitButton.layer.cornerRadius = 12
+        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        submitButton.isEnabled = false
+        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
+            submitButton.isHidden = true
+        }
+    }
+    
+    private func updateUpdateButton() {
+        if !Event.shared.isTaskUpdated && !Event.shared.servingsNeedUpdate {
+            submitButton.isEnabled = false
+            submitButton.alpha = 0.5
+        } else {
+            submitButton.isEnabled = true
+            submitButton.alpha = 1.0
+        }
+    }
+    
+    private func updateSummaryText() {
+        let summaryForServings = "\(defaults.username) updated the servings!"
+        let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
+        let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName) and the servings!"
+        let tasksUpdate = Event.shared.isTaskUpdated
+        let servingsUpdate = Event.shared.servingsNeedUpdate
+        if tasksUpdate && servingsUpdate {
+            Event.shared.summary = summaryForTasksAndServings
+        } else if tasksUpdate && !servingsUpdate {
+            Event.shared.summary = summaryForTasks
+        } else if !tasksUpdate && servingsUpdate {
+            Event.shared.summary = summaryForServings
+        }
+    }
+    
+    private func setupServingsView() {
+        if Event.shared.currentUser?.identifier == Event.shared.hostIdentifier {
+            servingsViewHeightConstraint.constant = 45
+        } else {
+            servingsViewHeightConstraint.constant = 0
+            servingsLabel.isHidden = true
+            servingsStepper.isHidden = true
+        }
+        
+        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
+            servingsViewHeightConstraint.constant = 0
+            servingsLabel.isHidden = true
+            servingsStepper.isHidden = true
+            servingsSeparator.isHidden = true
+        }
+        
+        servingsLabel.text = "Update servings? \(Event.shared.servings)"
+        servingsLabel.textColor = Colors.textGrey
+        
+        servingsStepper.minimumValue = 2
+        servingsStepper.maximumValue = 12
+        servingsStepper.stepValue = 1
+        servingsStepper.value = Double(Event.shared.servings)
     }
     
     func updateOnlineAlert(_ value: Int) {
@@ -114,6 +174,9 @@ class TasksListViewController: UIViewController {
 
 
     @IBAction func didTapBack(_ sender: UIButton) {
+        Event.shared.servings = Event.shared.currentConversationServings
+        Event.shared.servingsNeedUpdate = false
+        updateSummaryText()
         let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
         if !difference.isEmpty {
             let alert = UIAlertController(title: MessagesToDisplay.unsubmittedTasks, message: MessagesToDisplay.submitQuestion, preferredStyle: .alert)
@@ -152,17 +215,44 @@ class TasksListViewController: UIViewController {
         tasksTableView.reloadData()
     }
     
+    @IBAction func didTapStepper(_ sender: UIStepper) {
+        updateServings(servings: Int(sender.value))
+    }
+    
+    private func updateServings(servings: Int) {
+        let oldServings = Event.shared.servings
+        Event.shared.servings = servings
+        servingsLabel.text = "Update servings? \(servings)"
+        Event.shared.tasks.forEach { task in
+            if !task.isCustom {
+                if let amount = task.metricAmount {
+                    task.metricAmount = (amount * Double(servings)) / Double(oldServings)
+                    task.servings = servings
+                }
+            }
+        }
+        prepareData()
+        tasksTableView.reloadData()
+        
+        if Event.shared.servings != Event.shared.currentConversationServings {
+            servingsLabel.textColor = Colors.highlightRed
+            Event.shared.servingsNeedUpdate = true
+        } else {
+            servingsLabel.textColor = .systemGray
+            Event.shared.servingsNeedUpdate = false
+        }
+        updateUpdateButton()
+        updateSummaryText()
+    }
 }
 
 extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if Event.shared.tasks.count == 0 {
             tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
         } else {
             tableView.restore()
         }
-        
         if !expandableTasks[section].isExpanded {
             return 0
         }
@@ -187,14 +277,13 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
      }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-          if Event.shared.tasks.count == 0 {
-                    tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
-                } else {
-                tableView.restore()
-                }
-          
-          return expandableTasks.count
-      }
+        if Event.shared.tasks.count == 0 {
+            tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
+        } else {
+            tableView.restore()
+        }
+        return expandableTasks.count
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -202,17 +291,6 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         headerView.backgroundColor = .white
         headerView.tag = section
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
-        
-//        let collapseButton : UIButton = {
-//            let button = UIButton()
-//            button.setImage(UIImage(named: "collapse"), for: .normal)
-//            if !expandableTasks[section].isExpanded {
-//                button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
-//            }
-//            button.tag = section
-//            button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
-//            return button
-//        }()
         
         let collapseImage : UIImageView = {
             let image = UIImageView()
@@ -246,20 +324,11 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         
         let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
         
-        
-//        headerView.addSubview(collapseButton)
         headerView.addSubview(collapseImage)
         headerView.addSubview(progressCircle)
         headerView.addSubview(nameLabel)
         headerView.addSubview(progressLabel)
         headerView.addSubview(separator)
-        
-        
-//        collapseButton.translatesAutoresizingMaskIntoConstraints = false
-//        collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-//        collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
-//        collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
-//        collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
         
         collapseImage.translatesAutoresizingMaskIntoConstraints = false
         collapseImage.widthAnchor.constraint(equalToConstant: 15).isActive = true
@@ -271,21 +340,17 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
         progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
         progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-//        progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
         progressCircle.trailingAnchor.constraint(equalTo: collapseImage.leadingAnchor, constant: -5).isActive = true
-        
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
         nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 5).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-//        nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
         progressLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
         progressLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
-//        progressLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0).isActive = true
         progressLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         progressLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -5).isActive = true
         
@@ -296,7 +361,6 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0).isActive = true
         separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         
-        //        number of completed task in section / number of task in section
         var numberOfCompletedTasks = 0
         expandableTasks[section].tasks.forEach { task in
             if task.taskState == .completed {
@@ -328,25 +392,6 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         return 60
     }
     
-//    @objc func handleCloseCollapse(button: UIButton) {
-//        button.rotate()
-//        let section = button.tag
-//        var indexPaths = [IndexPath]()
-//        for row in expandableTasks[section].tasks.indices {
-//            let indexPath = IndexPath(row: row, section: section)
-//            indexPaths.append(indexPath)
-//        }
-//
-//        let isExpanded = expandableTasks[section].isExpanded
-//        expandableTasks[section].isExpanded = !isExpanded
-//
-//        if isExpanded {
-//            tasksTableView.deleteRows(at: indexPaths, with: .fade)
-//        } else {
-//            tasksTableView.insertRows(at: indexPaths, with: .fade)
-//        }
-//    }
-    
     @objc func handleCloseCollapse(sender: UITapGestureRecognizer) {
         let section = sender.view!.tag
         sender.view?.subviews.forEach({ subview in
@@ -370,7 +415,6 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
 }
 
 extension TasksListViewController: TaskCellDelegate {
@@ -385,14 +429,12 @@ extension TasksListViewController: TaskCellDelegate {
     func taskCellDidTapTaskStatusButton() {
         let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
         if !difference.isEmpty {
-            submitButton.isEnabled = true
-            submitButton.alpha = 1.0
+            Event.shared.isTaskUpdated = true
         } else {
-            submitButton.isEnabled = false
-            submitButton.alpha = 0.5
+            Event.shared.isTaskUpdated = false
         }
-        Event.shared.summary = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
+        updateUpdateButton()
+        updateSummaryText()
     }
-    
     
 }
