@@ -111,10 +111,11 @@ class TasksListViewController: UIViewController {
         }
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            servingsViewHeightConstraint.constant = 0
-            servingsLabel.isHidden = true
-            servingsStepper.isHidden = true
-            servingsSeparator.isHidden = true
+            hideServingsView()
+        }
+        
+        if Event.shared.isCancelled {
+            hideServingsView()
         }
         
         servingsLabel.text = "Update servings? \(Event.shared.servings)"
@@ -124,6 +125,13 @@ class TasksListViewController: UIViewController {
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(Event.shared.servings)
+    }
+    
+    private func hideServingsView() {
+        servingsViewHeightConstraint.constant = 0
+        servingsLabel.isHidden = true
+        servingsStepper.isHidden = true
+        servingsSeparator.isHidden = true
     }
     
     func updateOnlineAlert(_ value: Int) {

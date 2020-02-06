@@ -226,6 +226,10 @@ class Event {
             if let isCancelled = value["isCancelled"] as? Bool {
                 self.isCancelled = isCancelled
             }
+            if let servings = value["servings"] as? Int {
+                self.servings = servings
+                self.currentConversationServings = servings
+            }
             
             var users = [User]()
             guard let participants = value["participants"] as? [String : Any] else { return }
