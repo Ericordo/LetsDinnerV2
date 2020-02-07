@@ -19,6 +19,7 @@ class ReminderManager {
     }
     
     let reminderStore = EKEventStore()
+    let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     
     func addToReminder(view: UIViewController) {
           
@@ -31,17 +32,16 @@ class ReminderManager {
             } else if (granted) && (error == nil) {
 
                 let calendars = self.reminderStore.calendars(for: .reminder)
-                let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
                 let bundleList: EKCalendar
 
                 // Create List if if list not exist
-                if let bundleCalendar = calendars.first(where: {$0.title == bundleName}) {
+                if let bundleCalendar = calendars.first(where: {$0.title == (self.bundleName + " - Things To Buy")}) {
                 // If Exist
                     bundleList = bundleCalendar
                 } else {
                     // Create List
                     do {
-                        bundleList = try self.createNewList(bundleName: bundleName)
+                        bundleList = try self.createNewList(bundleName: self.bundleName)
                     } catch {
                         print("Cannot create new list")
                         return
@@ -122,21 +122,29 @@ class ReminderManager {
     
     func deleteExistingTasks() {
         // If not nil, then clear ALL
+        
         let predicate: NSPredicate? = reminderStore.predicateForReminders(in: nil)
         
         if let predicate = predicate {
             reminderStore.fetchReminders(matching: predicate) { foundReminders in
-                
+    
                 guard let foundReminders = foundReminders else { return }
+                
                 let remindersToDelete = !foundReminders.isEmpty
                 for reminder in foundReminders {
-                    do {
-                        try self.reminderStore.remove(reminder, commit: false)
-                    } catch {
-                        print("cannot remove")
-                        return
+                    
+                    // *** Remove only the lets dinner reminder *** Important
+                    if reminder.calendar.title == self.bundleName + " - Things To Buy" {
+                        do {
+                            try self.reminderStore.remove(reminder, commit: false)
+                        } catch {
+                            print("cannot remove")
+                            return
+                        }
                     }
+                    
                 }
+                
                 if remindersToDelete {
                     do {
                         try self.reminderStore.commit()
@@ -177,8 +185,7 @@ class ReminderManager {
             view.present(alert, animated: true)
 
         }
-//        DispatchQueue.main.async(execute: {
-//        })
+
     }
     
     
