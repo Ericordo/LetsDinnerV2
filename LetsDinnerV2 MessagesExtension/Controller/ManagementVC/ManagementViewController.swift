@@ -52,23 +52,25 @@ class ManagementViewController: UIViewController {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
         
+        // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         
+        tapGestureToHideKeyboard.delegate = self
+        newThingTextField.delegate = self
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         servings = Event.shared.servings
+        
         setupUI()
         setupSwipeGesture()
         
         updateServings(servings: servings)
-        newThingTextField.delegate = self
         
         sectionSelectionInput.configureInput(sections: self.sectionNames)
         sectionSelectionInput.sectionSelectionInputDelegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     
     }
@@ -549,5 +551,14 @@ extension ManagementViewController: UITextFieldDelegate {
         return newThingTextField.resignFirstResponder()
         
     }
-    
+}
+
+extension ManagementViewController: UIGestureRecognizerDelegate {
+    // To prevent touch in "Add Thing" View
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view!.isDescendant(of: addThingView) {
+            return false
+        }
+        return true
+    }
 }
