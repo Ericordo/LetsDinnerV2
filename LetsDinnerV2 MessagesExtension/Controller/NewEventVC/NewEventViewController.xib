@@ -85,7 +85,7 @@
                                                 <constraint firstAttribute="height" constant="34" id="ALp-HB-UhT"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <textInputTraits key="textInputTraits"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="0Qf-bJ-rKC">
                                             <rect key="frame" x="0.0" y="108" width="320" height="34"/>

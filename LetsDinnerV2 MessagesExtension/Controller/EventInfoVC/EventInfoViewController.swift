@@ -22,8 +22,6 @@ class EventInfoViewController: UIViewController {
     
     weak var delegate: EventInfoViewControllerDelegate?
     
-//    var calendars: Array<EKCalendar> = []
-
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventInfoVC
@@ -35,10 +33,15 @@ class EventInfoViewController: UIViewController {
         registerCell(CellNibs.descriptionCell)
         
         setupUI()
+        setupSwipeGesture()
     }
     
     func setupUI() {
         eventInfoTableView.tableFooterView = UIView()
+    }
+    
+    private func setupSwipeGesture() {
+        self.view.addSwipeGestureRecognizer(action: {self.delegate?.eventInfoVCDidTapBackButton(controller: self)})
     }
     
     private func registerCell(_ nibName: String) {
