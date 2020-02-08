@@ -54,7 +54,7 @@ class TaskSummaryCell: UITableViewCell {
     
     @objc func updateTable() {
            tasksCollectionView.reloadData()
-       }
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
