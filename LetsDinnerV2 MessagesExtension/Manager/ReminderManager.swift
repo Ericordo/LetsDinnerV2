@@ -170,7 +170,6 @@ class ReminderManager {
                                           style: .default,
                                           handler: nil))
             view.present(alert, animated: true)
-            print(Thread.isMainThread)
         }
     }
     
@@ -183,7 +182,6 @@ class ReminderManager {
                                           style: .cancel,
                                           handler: nil))
             view.present(alert, animated: true)
-
         }
 
     }

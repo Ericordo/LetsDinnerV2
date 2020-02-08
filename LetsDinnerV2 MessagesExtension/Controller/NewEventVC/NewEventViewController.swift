@@ -56,12 +56,14 @@ class NewEventViewController: UIViewController  {
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
             textField!.delegate = self
+            textField!.autocapitalizationType = .sentences
         }
         scrollView.delegate = self
         infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         
 
     }
@@ -78,9 +80,12 @@ class NewEventViewController: UIViewController  {
 //        progressView.progress = 0
 //        progressView.setProgress(1/5, animated: true)
         dinnerNameTextField.setLeftView(image: UIImage(named: "titleIcon")!)
+        
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
+        
+        
         
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
@@ -232,6 +237,8 @@ extension NewEventViewController: UITextFieldDelegate {
 //        if textField == dateTextField {
 //            presentDatePicker()
 //        }
+        
+        
         switch textField {
         case dinnerNameTextField:
             infoInput.isHidden = true
@@ -312,9 +319,10 @@ extension NewEventViewController: UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
-        //Ipad have different frame height?
+        //Ipad have different frame height? UITextInputAssistantItem?
         var rectangle = self.view.frame
         rectangle.size.height -= keyboardFrame.height
+        
         
         if let activeField = activeField {
             if !rectangle.contains(activeField.frame.origin) {
@@ -322,15 +330,27 @@ extension NewEventViewController: UIScrollViewDelegate {
             }
         }
         if activeField == locationTextField || activeField == hostNameTextField {
+            
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 1) {
                 self.infoInputBottomConstraint.constant = keyboardFrame.height
+                
+                // Temp use:
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    self.infoInputBottomConstraint.constant += 24
+                }
+                
                 self.view.layoutIfNeeded()
             }
         } else if activeField == dinnerNameTextField {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 1) {
                 self.eventInputBottomConstraint.constant = keyboardFrame.height
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    self.eventInputBottomConstraint.constant += 24
+                }
+                
                 self.view.layoutIfNeeded()
             }
         }

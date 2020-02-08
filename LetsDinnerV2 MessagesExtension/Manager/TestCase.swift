@@ -33,6 +33,7 @@ class testCase {
                           array = Array(event.selectedRecipes[0...0])
                           event.selectedRecipes = array
                                   
+                print(Thread.isMainThread)
                           
                           event.selectedRecipes.forEach { recipe in
                               let recipeName = recipe.title ?? ""
