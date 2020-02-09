@@ -73,8 +73,10 @@ class RecipeCell: UITableViewCell {
 //            recipeImageView.image = UIImage(data: imageData)
 //            backgroundImageView.image = UIImage(data: imageData)
         } else {
+            // For nil Image
             recipeImageView.isHidden = false
-            recipeImageView.image = UIImage(named: "imagePlaceholder")
+            recipeImageView.image = UIImage(named: "mealPlaceholderImage")
+            recipeImageView.alpha = 0.8
             backgroundImageView.image = nil
             backgroundImageView.backgroundColor = .white
         }
