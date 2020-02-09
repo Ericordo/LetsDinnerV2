@@ -335,7 +335,7 @@ extension NewEventViewController: UIScrollViewDelegate {
             UIView.animate(withDuration: 1) {
                 self.infoInputBottomConstraint.constant = keyboardFrame.height
                 
-                // Temp use:
+                // Temp solve:
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     self.infoInputBottomConstraint.constant += 24
                 }
