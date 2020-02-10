@@ -34,6 +34,9 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var createRecipeButton: UIButton!
     @IBOutlet weak var recipeToggle: UIButton!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
+    
     
     weak var delegate: RecipesViewControllerDelegate?
     private let realm = try! Realm()
@@ -96,10 +99,10 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = true
         resultsLabel.isHidden = true
         
-//        progressView.progressTintColor = Colors.newGradientRed
-//        progressView.trackTintColor = .white
-//        progressView.progress = 1/5
-//        progressView.setProgress(2/5, animated: true)
+        if UIDevice.current.hasHomeButton {
+            bottomViewHeightConstraint.constant = 60
+            self.bottomView.layoutIfNeeded()
+        }
     }
     
     private func setupSwipeGesture() {

@@ -10,7 +10,6 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
-
 enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
@@ -106,4 +105,6 @@ enum LabelStrings {
     static let cookingTipsPlaceholder = "Anything else you want to mention?"
     static let update = "Update"
     static let selectNewDate = "Select a new date for your event:"
+    static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
+    static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
 }

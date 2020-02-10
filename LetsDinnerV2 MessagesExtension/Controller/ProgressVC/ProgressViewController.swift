@@ -44,7 +44,7 @@ class ProgressViewController: UIViewController {
 
             let progressFloat = Float(self.progress.fractionCompleted)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Execute after Page animation
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Execute after Page animation
                 self.progressView.setProgress(progressFloat, animated: true)
             }
 
