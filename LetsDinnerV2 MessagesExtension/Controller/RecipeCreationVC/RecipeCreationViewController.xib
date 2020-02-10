@@ -169,8 +169,8 @@
                                         <action selector="didTapAddIngredient:" destination="-1" eventType="touchUpInside" id="kU9-IW-57K"/>
                                     </connections>
                                 </button>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add an ingredient" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-Z2-qAd">
-                                    <rect key="frame" x="64" y="184" width="186" height="44"/>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Milk" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-Z2-qAd">
+                                    <rect key="frame" x="64" y="184" width="191" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="yuM-hI-d0H"/>
@@ -185,7 +185,7 @@
                                         <constraint firstAttribute="height" constant="1" id="zBH-PH-bbO"/>
                                     </constraints>
                                 </view>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Unit" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="4Rb-1T-tkm">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mL" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="4Rb-1T-tkm">
                                     <rect key="frame" x="320" y="184" width="40" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
@@ -194,11 +194,11 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Amount" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="0og-0o-pkv">
-                                    <rect key="frame" x="250" y="184" width="70" height="44"/>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="30" textAlignment="right" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="0og-0o-pkv">
+                                    <rect key="frame" x="255" y="184" width="65" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="70" id="oxK-kq-t0H"/>
+                                        <constraint firstAttribute="width" constant="65" id="oxK-kq-t0H"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -252,7 +252,7 @@
                                         <action selector="didTapAddStep:" destination="-1" eventType="touchUpInside" id="OuV-m2-86U"/>
                                     </connections>
                                 </button>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add Step 1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdW-3C-FYb">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Step 1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdW-3C-FYb">
                                     <rect key="frame" x="64" y="391" width="311" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>

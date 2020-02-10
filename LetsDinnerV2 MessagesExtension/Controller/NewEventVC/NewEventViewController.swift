@@ -57,6 +57,7 @@ class NewEventViewController: UIViewController  {
         textFields.forEach { textField in
             textField!.delegate = self
             textField!.autocapitalizationType = .sentences
+            textField!.autocorrectionType = .no
         }
         scrollView.delegate = self
         infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
@@ -319,10 +320,8 @@ extension NewEventViewController: UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
-        //Ipad have different frame height? UITextInputAssistantItem?
         var rectangle = self.view.frame
         rectangle.size.height -= keyboardFrame.height
-        
         
         if let activeField = activeField {
             if !rectangle.contains(activeField.frame.origin) {

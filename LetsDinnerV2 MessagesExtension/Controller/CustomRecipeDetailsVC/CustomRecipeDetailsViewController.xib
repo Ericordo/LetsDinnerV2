@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomRecipeDetailsViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
+                <outlet property="bottomView" destination="fl5-Xs-l0q" id="sYN-Uf-avw"/>
+                <outlet property="bottomViewHeightConstraint" destination="hRQ-1Q-ng7" id="dgf-GI-oLC"/>
                 <outlet property="chooseButton" destination="sTL-uv-Asu" id="mZj-6R-pVs"/>
                 <outlet property="chosenButton" destination="8gT-hO-Zv7" id="Yrt-l4-ECQ"/>
                 <outlet property="commentsLabel" destination="HA5-xu-nuh" id="2BV-yn-XQo"/>
@@ -200,7 +202,7 @@
                     <rect key="frame" x="0.0" y="634" width="375" height="83"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uzg-cE-3VE">
-                            <rect key="frame" x="18" y="18" width="30" height="33"/>
+                            <rect key="frame" x="18" y="13" width="30" height="33"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="Edit">
                                 <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -212,9 +214,9 @@
                     </subviews>
                     <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="83" id="dSh-ee-R2J"/>
+                        <constraint firstAttribute="height" constant="83" id="hRQ-1Q-ng7"/>
                         <constraint firstItem="uzg-cE-3VE" firstAttribute="leading" secondItem="fl5-Xs-l0q" secondAttribute="leading" constant="18" id="k2p-xg-Kds"/>
-                        <constraint firstItem="uzg-cE-3VE" firstAttribute="top" secondItem="fl5-Xs-l0q" secondAttribute="top" constant="18" id="loj-ub-euV"/>
+                        <constraint firstItem="uzg-cE-3VE" firstAttribute="top" secondItem="fl5-Xs-l0q" secondAttribute="top" constant="13" id="loj-ub-euV"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pLJ-eD-KGQ" userLabel="HeaderView">

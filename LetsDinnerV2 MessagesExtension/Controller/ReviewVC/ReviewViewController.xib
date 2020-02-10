@@ -17,6 +17,7 @@
                 <outlet property="sendButtonLeadingConstraint" destination="AFb-Hv-JC5" id="WFY-61-DnF"/>
                 <outlet property="seperatorLine" destination="ohJ-Y0-Tgc" id="icI-E4-NrF"/>
                 <outlet property="summaryTableView" destination="ojl-GP-L7P" id="uzw-Cw-VGN"/>
+                <outlet property="topSendingLabel" destination="7B7-Wv-GEu" id="pmI-hY-O9f"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,7 +26,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're all set now! 🦾 Ready to send your invite?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7B7-Wv-GEu">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're all set now! 💪 Ready to send your invite?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7B7-Wv-GEu">
                     <rect key="frame" x="77.5" y="20" width="220" height="41"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="220" id="BVf-bU-Drd"/>
