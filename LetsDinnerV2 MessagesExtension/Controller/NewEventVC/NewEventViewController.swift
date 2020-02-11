@@ -224,7 +224,7 @@ class NewEventViewController: UIViewController  {
     }
     
     @objc private func didTapAdd() {
-        activeField?.text = infoInput.infoLabel.text
+        activeField?.text = infoInput.addButton.title(for: .normal)
         infoInput.isHidden = true
     }
     
@@ -336,7 +336,7 @@ extension NewEventViewController: UIScrollViewDelegate {
                 
                 // Temp solve:
                 if UIDevice.current.userInterfaceIdiom == .pad {
-                    self.infoInputBottomConstraint.constant += 24
+                    self.infoInputBottomConstraint.constant += 20
                 }
                 
                 self.view.layoutIfNeeded()
@@ -347,7 +347,7 @@ extension NewEventViewController: UIScrollViewDelegate {
                 self.eventInputBottomConstraint.constant = keyboardFrame.height
                 
                 if UIDevice.current.userInterfaceIdiom == .pad {
-                    self.eventInputBottomConstraint.constant += 24
+                    self.eventInputBottomConstraint.constant += 20
                 }
                 
                 self.view.layoutIfNeeded()

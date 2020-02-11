@@ -102,6 +102,7 @@ class EventInputView: UIView {
             stackView.addArrangedSubview(dinnerButton)
             dinnerButton.translatesAutoresizingMaskIntoConstraints = false
             dinnerButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
+            
             NSLayoutConstraint.activate([
                 separatorOne.widthAnchor.constraint(equalToConstant: 1),
                 separatorOne.topAnchor.constraint(equalTo: self.topAnchor, constant: 14),
