@@ -15,6 +15,7 @@ import FirebaseAuth
 class MessagesViewController: MSMessagesAppViewController {
     
     var newNameRequested = false
+    var isEventnotExpired = false
     
     var progressBarHeight: CGFloat = 0
     var isProgressBarExist = false {
@@ -383,9 +384,35 @@ class MessagesViewController: MSMessagesAppViewController {
             progressBarHeight = 0
         }
         
-        let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        //    MARK: Current Date
+        let date = Date()
+        let format = DateFormatter()
+        format.dateFormat = "MMM d, h:mm a"
+        let formattedDate = format.string(from: date)
+        print(formattedDate)
+        print(Event.shared.dinnerDate)
+//        if Event.shared.dinnerDate < formattedDate{
+//            isEventnotExpired = false
+//            let controller = ExpiredEventViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
+//            controller.delegate = self
+//            print(isEventnotExpired)
+//            return controller
+//        } else {
+//            isEventnotExpired = true
+//            let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
+//            controller.delegate = self
+//            print(isEventnotExpired)
+//            return controller
+//        }
+//        print(isEventnotExpired)
+//        controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
+//        controller.delegate = self
+//        return controller
+        isEventnotExpired = false
+                   let controller = ExpiredEventViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
+                   controller.delegate = self
+                   print(isEventnotExpired)
+                   return controller
     }
     
     private func instantiateTasksListViewController() -> UIViewController {

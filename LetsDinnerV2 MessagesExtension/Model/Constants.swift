@@ -47,6 +47,7 @@ enum CellNibs {
     static let sectionInputCell = "SectionInputCell"
     static let ingredientCell = "IngredientCell"
     static let cancelCell = "CancelCell"
+    static let expiredEventCell = "ExpiredEventCell"
 }
 
 enum ApiKeys {

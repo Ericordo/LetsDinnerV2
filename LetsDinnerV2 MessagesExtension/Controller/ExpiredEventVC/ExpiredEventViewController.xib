@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ExpiredEventViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
+            <connections>
+                <outlet property="eventInfoTableView" destination="uDX-Pq-j4m" id="fof-Ve-7ei"/>
+                <outlet property="reminderButton" destination="ByE-Vf-qVV" id="izS-OI-lqL"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="SgG-6D-ha7">
+                    <rect key="frame" x="0.0" y="100" width="375" height="547"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uDX-Pq-j4m">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="487"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="487" id="IFN-Dp-OC0"/>
+                            </constraints>
+                        </tableView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ByE-Vf-qVV">
+                            <rect key="frame" x="120.5" y="513" width="134" height="34"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="9dH-ag-hvJ"/>
+                                <constraint firstAttribute="width" constant="134" id="HZm-pS-FSI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <state key="normal" title="New Event">
+                                <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="uDX-Pq-j4m" firstAttribute="leading" secondItem="SgG-6D-ha7" secondAttribute="leading" id="cBl-mB-HIq"/>
+                        <constraint firstAttribute="trailing" secondItem="uDX-Pq-j4m" secondAttribute="trailing" id="cOm-KH-Wqw"/>
+                        <constraint firstItem="uDX-Pq-j4m" firstAttribute="top" secondItem="SgG-6D-ha7" secondAttribute="top" id="xSx-bZ-XHD"/>
+                    </constraints>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IT IS WORKING" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5fO-Gt-Etk">
+                    <rect key="frame" x="54" y="0.0" width="266" height="94"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="SgG-6D-ha7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="TxK-bB-dhT"/>
+                <constraint firstAttribute="trailing" secondItem="SgG-6D-ha7" secondAttribute="trailing" id="chi-iy-MPC"/>
+                <constraint firstItem="SgG-6D-ha7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="fID-tj-hH0"/>
+                <constraint firstAttribute="bottom" secondItem="SgG-6D-ha7" secondAttribute="bottom" constant="20" id="nPI-cG-h8O"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="138.40000000000001" y="120.98950524737631"/>
+        </view>
+    </objects>
+</document>
