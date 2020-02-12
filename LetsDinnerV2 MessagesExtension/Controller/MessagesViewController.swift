@@ -15,7 +15,7 @@ import FirebaseAuth
 class MessagesViewController: MSMessagesAppViewController {
     
     var newNameRequested = false
-    var isEventnotExpired = false
+//    var isEventnotExpired = false
     
     var progressBarHeight: CGFloat = 0
     var isProgressBarExist = false {
@@ -408,10 +408,10 @@ class MessagesViewController: MSMessagesAppViewController {
 //        controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
 //        controller.delegate = self
 //        return controller
-        isEventnotExpired = false
+        Event.shared.eventIsExpired = true
                    let controller = ExpiredEventViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
                    controller.delegate = self
-                   print(isEventnotExpired)
+        print(Event.shared.eventIsExpired)
                    return controller
     }
     

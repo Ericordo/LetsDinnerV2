@@ -24,6 +24,7 @@ class Event {
     var currentConversationTaskStates = [Task]()
     var firebaseEventUid = ""
     var summary = ""
+    var eventIsExpired = false
     
     // Event Details
     var dinnerName = ""

@@ -17,61 +17,50 @@
                 <rect key="frame" x="0.0" y="0.0" width="370" height="205"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="AhV-mH-NFL">
-                        <rect key="frame" x="30" y="15" width="295" height="149.5"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="5Pc-rJ-KX4">
-                                <rect key="frame" x="0.0" y="0.0" width="295" height="57.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4k6-a4-wOn">
-                                        <rect key="frame" x="0.0" y="0.0" width="108.5" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="q8u-V0-drH"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like this event is in the past. 🤔" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KU8-3X-O8M">
-                                        <rect key="frame" x="0.0" y="37" width="287.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Rkb-vs-6qc">
-                                <rect key="frame" x="0.0" y="78.5" width="295" height="71"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="But don't fret!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EwH-wf-Y9g">
-                                        <rect key="frame" x="0.0" y="0.0" width="142" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="kjd-X8-SAE"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCi-3l-wnX">
-                                        <rect key="frame" x="0.0" y="30" width="295" height="41"/>
-                                        <string key="text">Cooking is still better together. 😌
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4k6-a4-wOn">
+                        <rect key="frame" x="30" y="30" width="108.5" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="q8u-V0-drH"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="But don't fret!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EwH-wf-Y9g">
+                        <rect key="frame" x="30" y="89" width="142" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="kjd-X8-SAE"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCi-3l-wnX">
+                        <rect key="frame" x="30" y="115" width="295" height="41"/>
+                        <string key="text">Cooking is still better together. 😌
 Create a new event and send an invite!</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                    </stackView>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like this event is in the past. 🤔" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KU8-3X-O8M">
+                        <rect key="frame" x="30" y="57" width="287.5" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="AhV-mH-NFL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="Irz-x3-4O7"/>
+                    <constraint firstItem="mCi-3l-wnX" firstAttribute="top" secondItem="EwH-wf-Y9g" secondAttribute="bottom" constant="-4" id="AHA-sF-ERB"/>
+                    <constraint firstItem="KU8-3X-O8M" firstAttribute="leading" secondItem="4k6-a4-wOn" secondAttribute="leading" id="HoQ-nb-Aoa"/>
+                    <constraint firstItem="mCi-3l-wnX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="RR6-Zp-wMW"/>
+                    <constraint firstItem="EwH-wf-Y9g" firstAttribute="top" secondItem="KU8-3X-O8M" secondAttribute="bottom" constant="11.5" id="STh-7l-2eG"/>
+                    <constraint firstItem="4k6-a4-wOn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="kDY-fb-BLu"/>
+                    <constraint firstItem="4k6-a4-wOn" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="mni-XJ-98p"/>
+                    <constraint firstItem="EwH-wf-Y9g" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="u8x-nK-cz5"/>
+                    <constraint firstItem="KU8-3X-O8M" firstAttribute="top" secondItem="4k6-a4-wOn" secondAttribute="top" constant="27" id="w3L-oC-Hz5"/>
                 </constraints>
             </tableViewCellContentView>
-            <constraints>
-                <constraint firstItem="AhV-mH-NFL" firstAttribute="top" secondItem="njF-e1-oar" secondAttribute="top" constant="15" id="Nqx-hh-12E"/>
-            </constraints>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <point key="canvasLocation" x="173.91304347826087" y="174.44196428571428"/>
         </tableViewCell>
