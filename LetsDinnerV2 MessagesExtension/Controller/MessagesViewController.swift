@@ -682,6 +682,6 @@ extension MessagesViewController: ExpiredEventViewControllerDelegate {
         Event.shared.resetEvent()
         let controller = instantiateNewEventViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: .VCGoBack)
+        addChildViewController(controller: controller)
     }
 }

@@ -27,20 +27,20 @@ class ExpiredEventViewController: UIViewController {
     @IBOutlet weak var expiredEventTableView: UITableView!
     
     // MARKS: - Variable
-    var user: User? { // User Status should be fetched from here
-        if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-            let user = Event.shared.participants[index]
-            return user
-        } else {
-            return nil
-        }
-    }
-    let store = EKEventStore()
+//    var user: User? { // User Status should be fetched from here
+//        if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
+//            let user = Event.shared.participants[index]
+//            return user
+//        } else {
+//            return nil
+//        }
+//    }
+//    let store = EKEventStore()
     
-    let darkView = UIView()
-    let rescheduleView = RescheduleView()
-    lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
-    var selectedDate: Double?
+//    let darkView = UIView()
+//    let rescheduleView = RescheduleView()
+//    lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
+//    var selectedDate: Double?
     
     weak var delegate: ExpiredEventViewControllerDelegate?
     
@@ -52,27 +52,19 @@ class ExpiredEventViewController: UIViewController {
         
         self.setupTableView()
         self.registerCells()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-        
-        if !Event.shared.participants.isEmpty {
-            expiredEventTableView.isHidden = false
-        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
     }
     
-    @objc func updateTable() {
-        expiredEventTableView.reloadData()
-        expiredEventTableView.isHidden = false
-    }
+//    @objc func updateTable() {
+//        expiredEventTableView.reloadData()
+//        expiredEventTableView.isHidden = false
+//    }
     
-    @objc private func showDownloadFail() {
-        let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-    }
+//    @objc private func showDownloadFail() {
+//        let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
+//        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(action)
+//        self.present(alert, animated: true, completion: nil)
+//    }
     
     func setupTableView() {
         expiredEventTableView.delegate = self
@@ -125,21 +117,21 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
             
         case RowItemNumber.hostInfo.rawValue:
             
-            if let user = user {
-                if user.hasAccepted == .accepted {
-                    infoCell.titleLabel.text = LabelStrings.eventInfo
-                    infoCell.infoLabel.text = Event.shared.hostName + " "
-                } else if user.hasAccepted == .declined {
-                    infoCell.titleLabel.text = LabelStrings.host
-                    infoCell.infoLabel.text = Event.shared.hostName
-                } else if user.hasAccepted == .pending {
-                    infoCell.titleLabel.text = LabelStrings.host
-                    infoCell.infoLabel.text = Event.shared.hostName
-                }
-            } else {
+//            if let user = user {
+//                if user.hasAccepted == .accepted {
+//                    infoCell.titleLabel.text = LabelStrings.eventInfo
+//                    infoCell.infoLabel.text = Event.shared.hostName + " "
+//                } else if user.hasAccepted == .declined {
+//                    infoCell.titleLabel.text = LabelStrings.host
+//                    infoCell.infoLabel.text = Event.shared.hostName
+//                } else if user.hasAccepted == .pending {
+//                    infoCell.titleLabel.text = LabelStrings.host
+//                    infoCell.infoLabel.text = Event.shared.hostName
+//                }
+//            } else {
                 infoCell.titleLabel.text = LabelStrings.host
                 infoCell.infoLabel.text = Event.shared.hostName
-            }
+//            }
             
             return infoCell
             
