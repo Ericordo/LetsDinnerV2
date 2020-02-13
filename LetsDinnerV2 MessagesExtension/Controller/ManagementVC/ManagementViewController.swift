@@ -92,6 +92,7 @@ class ManagementViewController: UIViewController {
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
         
+        servingsFancyStepper.isHidden = true
 //        servingsStepper.minimumValue = 2
 //        servingsStepper.maximumValue = 12
 //        servingsStepper.stepValue = 1
