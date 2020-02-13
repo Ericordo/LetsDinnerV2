@@ -41,6 +41,7 @@
 		8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88224909239D67FC0054C24E /* AmountPicker.swift */; };
 		8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8822490C239D7AAF0054C24E /* IngredientCell.swift */; };
 		8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8822490D239D7AAF0054C24E /* IngredientCell.xib */; };
+		8827BB2623F4A91400DEDC39 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8827BB2523F4A91400DEDC39 /* CloudKit.framework */; };
 		882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC523998738001634D9 /* CustomRecipe.swift */; };
 		882B9CC82399A0BD001634D9 /* CustomIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC72399A0BD001634D9 /* CustomIngredient.swift */; };
 		882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882C4C17237AEA900039B55F /* IdleViewController.swift */; };
@@ -196,6 +197,7 @@
 		88224909239D67FC0054C24E /* AmountPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountPicker.swift; sourceTree = "<group>"; };
 		8822490C239D7AAF0054C24E /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
 		8822490D239D7AAF0054C24E /* IngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IngredientCell.xib; sourceTree = "<group>"; };
+		8827BB2523F4A91400DEDC39 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		882B9CC523998738001634D9 /* CustomRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipe.swift; sourceTree = "<group>"; };
 		882B9CC72399A0BD001634D9 /* CustomIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIngredient.swift; sourceTree = "<group>"; };
 		882C4C17237AEA900039B55F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8827BB2623F4A91400DEDC39 /* CloudKit.framework in Frameworks */,
 				8858BF302371CAFD00133877 /* Messages.framework in Frameworks */,
 				8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */,
 			);
@@ -467,6 +470,7 @@
 		88349F04236DE9FC002A1879 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8827BB2523F4A91400DEDC39 /* CloudKit.framework */,
 				88349F05236DE9FC002A1879 /* Messages.framework */,
 				4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */,
 				DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */,
