@@ -17,9 +17,14 @@ private enum RowItemNumber: Int, CaseIterable {
     case expiredEventInfo = 4
 }
 
+protocol ExpiredEventViewControllerDelegate: class {
+    func expiredEventVCDidTapCreateNewEvent(controller : ExpiredEventViewController)
+}
+
 class ExpiredEventViewController: UIViewController {
     
-    @IBOutlet weak var summaryTableView: UITableView!
+    @IBOutlet weak var createNewEventButton: UIButton!
+    @IBOutlet weak var expiredEventTableView: UITableView!
     
     // MARKS: - Variable
     var user: User? { // User Status should be fetched from here
@@ -37,12 +42,13 @@ class ExpiredEventViewController: UIViewController {
     lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
     var selectedDate: Double?
     
-    weak var delegate: EventSummaryViewControllerDelegate?
+    weak var delegate: ExpiredEventViewControllerDelegate?
     
     // BUG: Running two times
     override func viewDidLoad() {
         super.viewDidLoad()
-        StepStatus.currentStep = .eventSummaryVC
+        StepStatus.currentStep = .expiredEventVC
+        setupUI()
         
         self.setupTableView()
         self.registerCells()
@@ -50,15 +56,15 @@ class ExpiredEventViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         
         if !Event.shared.participants.isEmpty {
-            summaryTableView.isHidden = false
+            expiredEventTableView.isHidden = false
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
     }
     
     @objc func updateTable() {
-        summaryTableView.reloadData()
-        summaryTableView.isHidden = false
+        expiredEventTableView.reloadData()
+        expiredEventTableView.isHidden = false
     }
     
     @objc private func showDownloadFail() {
@@ -69,19 +75,31 @@ class ExpiredEventViewController: UIViewController {
     }
     
     func setupTableView() {
-        summaryTableView.delegate = self
-        summaryTableView.dataSource = self
-        summaryTableView.tableFooterView = UIView()
+        expiredEventTableView.delegate = self
+        expiredEventTableView.dataSource = self
+        expiredEventTableView.tableFooterView = UIView()
     }
     
     func registerCells() {
         func registerCell(_ nibName: String) {
-            summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+            expiredEventTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
         }
         
         registerCell(CellNibs.titleCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.expiredEventCell)
+    }
+    
+     func setupUI() {
+            createNewEventButton.layer.masksToBounds = true
+            createNewEventButton.alpha = 1
+            createNewEventButton.layer.cornerRadius = 12
+            createNewEventButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        }
+    
+    
+    @IBAction func didTapCreateNewEvent(_ sender: UIButton) {
+        delegate?.expiredEventVCDidTapCreateNewEvent(controller: self)
     }
 }
 

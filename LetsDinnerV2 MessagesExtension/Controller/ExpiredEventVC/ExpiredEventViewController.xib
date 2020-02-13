@@ -10,8 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ExpiredEventViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
-                <outlet property="eventInfoTableView" destination="uDX-Pq-j4m" id="fof-Ve-7ei"/>
-                <outlet property="reminderButton" destination="ByE-Vf-qVV" id="izS-OI-lqL"/>
+                <outlet property="createNewEventButton" destination="wYP-VM-aGb" id="ZF9-zz-ItG"/>
+                <outlet property="expiredEventTableView" destination="5R7-uv-S6Z" id="BEw-I4-WfI"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,33 +20,33 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uDX-Pq-j4m">
-                    <rect key="frame" x="0.0" y="90" width="375" height="200"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5R7-uv-S6Z">
+                    <rect key="frame" x="0.0" y="0.0" width="389" height="372"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="200" id="IFN-Dp-OC0"/>
-                    </constraints>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ByE-Vf-qVV">
-                    <rect key="frame" x="120.5" y="315" width="134" height="34"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYP-VM-aGb">
+                    <rect key="frame" x="61" y="583" width="253" height="50"/>
+                    <color key="backgroundColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="34" id="Cdv-ir-LmG"/>
-                        <constraint firstAttribute="width" constant="134" id="gvU-cH-FL3"/>
+                        <constraint firstAttribute="height" constant="50" id="869-Nw-h82"/>
+                        <constraint firstAttribute="width" constant="253" id="bTK-S8-3os"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="New Event">
-                        <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="didTapCreateNewEvent:" destination="-1" eventType="touchUpInside" id="Sjz-mg-XMv"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="ByE-Vf-qVV" firstAttribute="top" secondItem="uDX-Pq-j4m" secondAttribute="bottom" constant="25" id="2Ni-B5-sPN"/>
-                <constraint firstItem="uDX-Pq-j4m" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="90" id="7xq-nc-Vq3"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="uDX-Pq-j4m" secondAttribute="trailing" id="Tcs-eL-GFQ"/>
-                <constraint firstItem="uDX-Pq-j4m" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="lIB-Yx-cvG"/>
-                <constraint firstItem="ByE-Vf-qVV" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="vur-vf-lph"/>
+                <constraint firstItem="5R7-uv-S6Z" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="KJx-Eb-kLr"/>
+                <constraint firstItem="wYP-VM-aGb" firstAttribute="top" secondItem="5R7-uv-S6Z" secondAttribute="bottom" constant="211" id="T6l-mr-aW7"/>
+                <constraint firstItem="5R7-uv-S6Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="14" id="cpm-6S-th7"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wYP-VM-aGb" secondAttribute="bottom" constant="34" id="sGy-bO-y5h"/>
+                <constraint firstItem="wYP-VM-aGb" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tem-LV-ZIg"/>
+                <constraint firstItem="5R7-uv-S6Z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zfe-nk-UfP"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="138.40000000000001" y="120.98950524737631"/>
