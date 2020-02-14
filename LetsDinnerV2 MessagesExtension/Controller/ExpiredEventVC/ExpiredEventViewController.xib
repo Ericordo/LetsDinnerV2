@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,16 +21,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5R7-uv-S6Z">
-                    <rect key="frame" x="0.0" y="0.0" width="389" height="401"/>
+                    <rect key="frame" x="0.0" y="0.0" width="389" height="597"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYP-VM-aGb">
-                    <rect key="frame" x="61" y="612" width="253" height="50"/>
+                    <rect key="frame" x="61" y="607" width="253" height="50"/>
                     <color key="backgroundColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="869-Nw-h82"/>
                         <constraint firstAttribute="width" constant="253" id="bTK-S8-3os"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                     <state key="normal" title="Create a new Event">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -42,9 +43,9 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="5R7-uv-S6Z" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="KJx-Eb-kLr"/>
-                <constraint firstItem="wYP-VM-aGb" firstAttribute="top" secondItem="5R7-uv-S6Z" secondAttribute="bottom" constant="211" id="T6l-mr-aW7"/>
+                <constraint firstItem="wYP-VM-aGb" firstAttribute="top" secondItem="5R7-uv-S6Z" secondAttribute="bottom" constant="10" id="T6l-mr-aW7"/>
                 <constraint firstItem="5R7-uv-S6Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="14" id="cpm-6S-th7"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wYP-VM-aGb" secondAttribute="bottom" constant="5" id="sGy-bO-y5h"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wYP-VM-aGb" secondAttribute="bottom" constant="10" id="sGy-bO-y5h"/>
                 <constraint firstItem="wYP-VM-aGb" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tem-LV-ZIg"/>
                 <constraint firstItem="5R7-uv-S6Z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zfe-nk-UfP"/>
             </constraints>
