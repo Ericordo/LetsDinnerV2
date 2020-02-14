@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import EventKit
 
 private enum RowItemNumber: Int, CaseIterable {
     case title = 0
@@ -27,20 +26,6 @@ class ExpiredEventViewController: UIViewController {
     @IBOutlet weak var expiredEventTableView: UITableView!
     
     // MARKS: - Variable
-//    var user: User? { // User Status should be fetched from here
-//        if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-//            let user = Event.shared.participants[index]
-//            return user
-//        } else {
-//            return nil
-//        }
-//    }
-//    let store = EKEventStore()
-    
-//    let darkView = UIView()
-//    let rescheduleView = RescheduleView()
-//    lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
-//    var selectedDate: Double?
     
     weak var delegate: ExpiredEventViewControllerDelegate?
     
@@ -54,23 +39,10 @@ class ExpiredEventViewController: UIViewController {
         self.registerCells()
     }
     
-//    @objc func updateTable() {
-//        expiredEventTableView.reloadData()
-//        expiredEventTableView.isHidden = false
-//    }
-    
-//    @objc private func showDownloadFail() {
-//        let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
-//        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        alert.addAction(action)
-//        self.present(alert, animated: true, completion: nil)
-//    }
-    
     func setupTableView() {
         expiredEventTableView.delegate = self
         expiredEventTableView.dataSource = self
-        expiredEventTableView.tableFooterView = UIView()
-    }
+        expiredEventTableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))    }
     
     func registerCells() {
         func registerCell(_ nibName: String) {
@@ -82,19 +54,17 @@ class ExpiredEventViewController: UIViewController {
         registerCell(CellNibs.expiredEventCell)
     }
     
-     func setupUI() {
-            createNewEventButton.layer.masksToBounds = true
-            createNewEventButton.alpha = 1
-            createNewEventButton.layer.cornerRadius = 12
-            createNewEventButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-        }
-    
+    func setupUI() {
+        createNewEventButton.layer.masksToBounds = true
+        createNewEventButton.alpha = 1
+        createNewEventButton.layer.cornerRadius = 12
+        createNewEventButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+    }
     
     @IBAction func didTapCreateNewEvent(_ sender: UIButton) {
         delegate?.expiredEventVCDidTapCreateNewEvent(controller: self)
     }
 }
-
 
 extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -106,8 +76,6 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let expiredEventCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.expiredEventCell) as! ExpiredEventCell
         let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
-        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 1))
-
         
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
@@ -116,23 +84,8 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
             return titleCell
             
         case RowItemNumber.hostInfo.rawValue:
-            
-//            if let user = user {
-//                if user.hasAccepted == .accepted {
-//                    infoCell.titleLabel.text = LabelStrings.eventInfo
-//                    infoCell.infoLabel.text = Event.shared.hostName + " "
-//                } else if user.hasAccepted == .declined {
-//                    infoCell.titleLabel.text = LabelStrings.host
-//                    infoCell.infoLabel.text = Event.shared.hostName
-//                } else if user.hasAccepted == .pending {
-//                    infoCell.titleLabel.text = LabelStrings.host
-//                    infoCell.infoLabel.text = Event.shared.hostName
-//                }
-//            } else {
-                infoCell.titleLabel.text = LabelStrings.host
-                infoCell.infoLabel.text = Event.shared.hostName
-//            }
-            
+            infoCell.titleLabel.text = LabelStrings.host
+            infoCell.infoLabel.text = Event.shared.hostName
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -147,7 +100,7 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
             
         case RowItemNumber.expiredEventInfo.rawValue:
             return expiredEventCell
-
+            
         default:
             break
         }
@@ -170,7 +123,7 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
             return UITableView.automaticDimension
         }
     }
-
+    
     // MARK: - Other Function
     
     

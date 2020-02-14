@@ -225,7 +225,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     case .none:
                         controller = instantiateNewEventViewController()
                     case .expiredEventVC:
-                        controller = instantiateNewEventViewController()
+                        controller = instantiateExpiredEventViewController()
                         
                     }
                     //                    if Event.shared.dinnerName.isEmpty {
