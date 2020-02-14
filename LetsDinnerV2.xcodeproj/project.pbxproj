@@ -42,6 +42,7 @@
 		8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8822490C239D7AAF0054C24E /* IngredientCell.swift */; };
 		8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8822490D239D7AAF0054C24E /* IngredientCell.xib */; };
 		8827BB2623F4A91400DEDC39 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8827BB2523F4A91400DEDC39 /* CloudKit.framework */; };
+		8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */; };
 		882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC523998738001634D9 /* CustomRecipe.swift */; };
 		882B9CC82399A0BD001634D9 /* CustomIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC72399A0BD001634D9 /* CustomIngredient.swift */; };
 		882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882C4C17237AEA900039B55F /* IdleViewController.swift */; };
@@ -198,6 +199,7 @@
 		8822490C239D7AAF0054C24E /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
 		8822490D239D7AAF0054C24E /* IngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IngredientCell.xib; sourceTree = "<group>"; };
 		8827BB2523F4A91400DEDC39 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		882B9CC523998738001634D9 /* CustomRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipe.swift; sourceTree = "<group>"; };
 		882B9CC72399A0BD001634D9 /* CustomIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIngredient.swift; sourceTree = "<group>"; };
 		882C4C17237AEA900039B55F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
@@ -774,6 +776,7 @@
 				B85071D02391690600632026 /* TestCase.swift */,
 				B8AED7D2239E357F00F2F633 /* CalendarManager.swift */,
 				B8652A2B23C729B300F176CC /* ReminderManager.swift */,
+				8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1053,6 +1056,7 @@
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
+				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,
 				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,
 				88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */,
 				882B9CC82399A0BD001634D9 /* CustomIngredient.swift in Sources */,

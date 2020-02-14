@@ -56,6 +56,15 @@ enum ApiKeys {
         static let backUpKey = "b07aca6301b44075ac9b4c9b09a2b3ac"
 }
 
+enum Keys {
+    static let username = "username"
+    static let profilePicUrl = "profilePicUrl"
+    static let address = "address"
+    static let measurementSystem = "measurementSystem"
+    static let hasAccepted = "hasAccepted"
+    static let hasDeclined = "hasDeclined"
+}
+
 enum MessagesToDisplay {
     static let calendarAlert = "This event was successfully added to your calendar."
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
