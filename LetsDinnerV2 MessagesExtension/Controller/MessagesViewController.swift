@@ -605,7 +605,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
         let controller = instantiateTasksListViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: .VCGoUp)
+        addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
     func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
@@ -634,7 +634,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
     func tasksListVCDidTapBackButton(controller: TasksListViewController) {
         let controller = instantiateEventSummaryViewController()
               removeAllChildViewControllers()
-              addChildViewController(controller: controller, transition: .VCGoDown)
+              addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func tasksListVCDidTapSubmit(controller: TasksListViewController) {
