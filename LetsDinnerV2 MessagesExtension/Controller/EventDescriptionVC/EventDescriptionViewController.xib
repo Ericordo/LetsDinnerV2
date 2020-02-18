@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +16,6 @@
                 <outlet property="descriptionTextView" destination="Jby-tb-pOQ" id="05P-7A-JMX"/>
                 <outlet property="nextButton" destination="nAa-f6-PpW" id="xqE-7P-FHn"/>
                 <outlet property="previousButton" destination="xCd-kk-Y52" id="Grb-Ac-IRp"/>
-                <outlet property="progressView" destination="I9B-ix-rpP" id="Pef-no-8ni"/>
                 <outlet property="recipesCollectionView" destination="UEu-C9-OVF" id="SDW-7R-fhB"/>
                 <outlet property="titleLabel" destination="1me-Lx-1fO" id="Uis-Hc-Tww"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -27,13 +27,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCd-kk-Y52">
-                    <rect key="frame" x="17" y="10" width="70" height="33"/>
+                    <rect key="frame" x="17" y="10" width="83" height="33"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="33" id="IJP-Sn-SDo"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title=" Things" image="chevronLeft">
-                        <color key="titleColor" red="0.87843137979507446" green="0.38823533058166504" blue="0.34901964664459229" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" name="highlightRed"/>
                     </state>
                     <connections>
                         <action selector="didTapPrevious:" destination="-1" eventType="touchUpInside" id="yMo-4p-2k7"/>
@@ -43,7 +43,7 @@
                     <rect key="frame" x="267" y="10" width="36" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Next">
-                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" name="highlightRed"/>
                     </state>
                     <connections>
                         <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="AQR-pN-hhe"/>
@@ -52,15 +52,9 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31L-Nu-POD">
                     <rect key="frame" x="96" y="16" width="128.5" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" name="labelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="I9B-ix-rpP">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
-                    <constraints>
-                        <constraint firstAttribute="height" id="TU0-vh-Z9x"/>
-                    </constraints>
-                </progressView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 SERVINGS OF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWM-v9-fEr">
                     <rect key="frame" x="17" y="67" width="286" height="15"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
@@ -88,18 +82,17 @@
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jby-tb-pOQ">
                     <rect key="frame" x="12" y="169" width="291" height="379"/>
-                    <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" name="labelColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="1me-Lx-1fO" firstAttribute="top" secondItem="UEu-C9-OVF" secondAttribute="bottom" constant="40" id="0mc-JC-eek"/>
                 <constraint firstItem="MWM-v9-fEr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="23I-7Z-AgF"/>
-                <constraint firstAttribute="trailing" secondItem="I9B-ix-rpP" secondAttribute="trailing" id="2Hs-2O-ofW"/>
                 <constraint firstItem="1me-Lx-1fO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="17" id="4Kb-XH-Z2a"/>
                 <constraint firstItem="nAa-f6-PpW" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="6Zz-Vb-7rl"/>
                 <constraint firstItem="Jby-tb-pOQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="12" id="7UA-wv-Ad5"/>
@@ -113,12 +106,10 @@
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerY" secondItem="xCd-kk-Y52" secondAttribute="centerY" id="cHT-R3-YQe"/>
                 <constraint firstItem="UEu-C9-OVF" firstAttribute="top" secondItem="MWM-v9-fEr" secondAttribute="bottom" constant="5" id="cI0-Wm-YR3"/>
                 <constraint firstItem="MWM-v9-fEr" firstAttribute="top" secondItem="31L-Nu-POD" secondAttribute="bottom" constant="30" id="dyZ-61-LJV"/>
-                <constraint firstItem="I9B-ix-rpP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="e6c-Bh-E9G"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Jby-tb-pOQ" secondAttribute="trailing" constant="17" id="gJv-IS-U5S"/>
                 <constraint firstItem="31L-Nu-POD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pN3-wr-fCv"/>
                 <constraint firstItem="xCd-kk-Y52" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="qsb-kk-wc6"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Jby-tb-pOQ" secondAttribute="bottom" constant="20" id="ueo-ZD-qca"/>
-                <constraint firstItem="I9B-ix-rpP" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wqf-ng-qhV"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="139" y="153"/>
@@ -126,5 +117,14 @@
     </objects>
     <resources>
         <image name="chevronLeft" width="13" height="23"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="highlightRed">
+            <color red="0.94901960784313721" green="0.34901960784313724" blue="0.32156862745098036" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

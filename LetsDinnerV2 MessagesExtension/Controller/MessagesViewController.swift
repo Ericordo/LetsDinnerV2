@@ -45,6 +45,11 @@ class MessagesViewController: MSMessagesAppViewController {
         } catch {
             print("ERROR", error, error.localizedDescription)
         }
+        
+        if #available(iOSApplicationExtension 13.0, *) {
+            overrideUserInterfaceStyle = .dark
+        } 
+        
     }
     
     override func viewDidLayoutSubviews() {

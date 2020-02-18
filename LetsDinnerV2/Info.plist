@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -24,13 +26,9 @@
 	<string>Please give access to select your profile picture. </string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>We need access to your calendar to add events. </string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To input your location automatically</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>To input your location automatically</string>
-	<key>NSLocationUsageDescription</key>
-	<string>-</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To input your location automatically</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To input your location automatically</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please give access to select your profile picture. </string>

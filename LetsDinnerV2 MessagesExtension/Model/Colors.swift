@@ -8,10 +8,6 @@
 
 import UIKit
 
-enum ColorPalette {
-    
-}
-
 enum Colors {
     // New Color
     static let soBlack = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)

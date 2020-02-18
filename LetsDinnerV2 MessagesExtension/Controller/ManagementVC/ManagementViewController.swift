@@ -370,7 +370,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = UIView()
-        headerView.backgroundColor = Colors.allWhite
+        headerView.backgroundColor = UIColor.backgroundColor
         headerView.tag = section
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
         

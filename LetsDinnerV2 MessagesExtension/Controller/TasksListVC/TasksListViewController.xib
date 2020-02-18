@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,13 +28,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-LT-H4I">
-                    <rect key="frame" x="17" y="10" width="56" height="22"/>
+                    <rect key="frame" x="17" y="10" width="69" height="22"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="22" id="j08-na-hUB"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title=" Back" image="chevronLeft">
-                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" name="highlightRed"/>
                     </state>
                     <connections>
                         <action selector="didTapBack:" destination="-1" eventType="touchUpInside" id="Vqj-PY-8le"/>
@@ -60,11 +61,11 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manage Things" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEt-6s-AWz">
                     <rect key="frame" x="126" y="10.5" width="123" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" name="labelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYB-Y0-w4c">
-                    <rect key="frame" x="336" y="9.5" width="22" height="23"/>
+                    <rect key="frame" x="314" y="-2" width="44" height="46"/>
                     <state key="normal" image="sortButton"/>
                     <connections>
                         <action selector="didTapSortButton:" destination="-1" eventType="touchUpInside" id="1Fi-xd-9Uo"/>
@@ -76,7 +77,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Others guests are selecting tasks now, your choices may be overwritten, you may want to come back later." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmG-ac-MiS">
                             <rect key="frame" x="10" y="0.0" width="355" height="39"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" name="labelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="85A-gc-Ztf">
@@ -87,7 +88,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="85A-gc-Ztf" secondAttribute="bottom" id="8ta-4a-K4d"/>
                         <constraint firstAttribute="trailing" secondItem="NmG-ac-MiS" secondAttribute="trailing" constant="10" id="H3C-wA-oCW"/>
@@ -105,7 +106,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update servings?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n8u-bt-4hf">
                             <rect key="frame" x="17" y="12" width="238" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" name="dullGrey"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="thi-oR-r4H">
@@ -139,7 +140,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6yV-pe-gC2" secondAttribute="trailing" id="6HE-47-rvh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XYB-Y0-w4c" secondAttribute="trailing" constant="17" id="CFs-Zb-za9"/>
@@ -167,5 +168,17 @@
     <resources>
         <image name="chevronLeft" width="13" height="23"/>
         <image name="sortButton" width="22" height="23"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dullGrey">
+            <color red="0.54117647058823526" green="0.54117647058823526" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="highlightRed">
+            <color red="0.94901960784313721" green="0.34901960784313724" blue="0.32156862745098036" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

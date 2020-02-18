@@ -191,7 +191,7 @@ class ReviewViewController: UIViewController {
  
 }
 
-// MARKS: - TableViewSetup
+// MARK: - TableViewSetup
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6

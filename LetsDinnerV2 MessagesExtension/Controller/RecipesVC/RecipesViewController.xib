@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,12 +34,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tff-p2-emW">
-                    <rect key="frame" x="17" y="10" width="73" height="33"/>
+                    <rect key="frame" x="17" y="10" width="86" height="33"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="33" id="KUv-U2-EZH"/>
                     </constraints>
                     <state key="normal" title=" Details" image="chevronLeft">
-                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" name="highlightRed"/>
                     </state>
                     <connections>
                         <action selector="didTapPrevious:" destination="-1" eventType="touchUpInside" id="gCa-2p-xHu"/>
@@ -48,7 +49,7 @@
                     <rect key="frame" x="324" y="10" width="34" height="33"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="Skip">
-                        <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="titleColor" name="highlightRed"/>
                     </state>
                     <connections>
                         <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="7Jl-Ed-Gxa"/>
@@ -57,7 +58,7 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Recipes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nph-G5-JAT">
                     <rect key="frame" x="123.5" y="16.5" width="128.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" name="labelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <searchBar contentMode="redraw" text="" placeholder="Search 360K+ recipes" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-Jk-kjP" customClass="CustomSearchBar" customModule="Let_s_Dinner_" customModuleProvider="target">
@@ -67,7 +68,7 @@
                         <constraint firstAttribute="height" constant="40" id="LHK-34-xfR"/>
                     </constraints>
                     <color key="tintColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="barTintColor" name="backgroundColor"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="foA-gA-QWG">
@@ -148,10 +149,11 @@
                         <constraint firstAttribute="height" constant="18" id="1QH-QR-94a"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                    <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" name="dullGrey"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="bv3-Vn-pnT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0PF-MO-L27"/>
                 <constraint firstItem="kjK-VE-8qe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2z6-CD-9Pb"/>
@@ -192,5 +194,17 @@
         <image name="addButtonOutlined" width="22" height="23"/>
         <image name="chevronLeft" width="13" height="23"/>
         <image name="recipeBookOutlined" width="22" height="20"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dullGrey">
+            <color red="0.54117647058823526" green="0.54117647058823526" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="highlightRed">
+            <color red="0.94901960784313721" green="0.34901960784313724" blue="0.32156862745098036" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

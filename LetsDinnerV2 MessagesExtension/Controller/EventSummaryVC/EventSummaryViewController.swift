@@ -32,7 +32,7 @@ class EventSummaryViewController: UIViewController {
     
     @IBOutlet weak var summaryTableView: UITableView!
     
-    // MARKS: - Variable
+    // MARK: - Variable
     var user: User? { // User Status should be fetched from here
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]

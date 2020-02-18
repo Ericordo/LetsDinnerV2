@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -41,14 +42,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="827"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOy-Oe-3gA" userLabel="Menu">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOy-Oe-3gA" userLabel="Navigation Bar">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OUl-sh-wYc">
                             <rect key="frame" x="17" y="11.5" width="53" height="33"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="Cancel">
-                                <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="titleColor" name="highlightRed"/>
                             </state>
                             <connections>
                                 <action selector="didTapCancel:" destination="-1" eventType="touchUpInside" id="vFp-6e-7SG"/>
@@ -58,7 +59,7 @@
                             <rect key="frame" x="321" y="11.5" width="37" height="33"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="Save">
-                                <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="titleColor" name="highlightRed"/>
                             </state>
                             <connections>
                                 <action selector="didTapDone:" destination="-1" eventType="touchUpInside" id="7y5-wC-mlW"/>
@@ -67,15 +68,15 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create new recipe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIc-KY-GlN">
                             <rect key="frame" x="115" y="17.5" width="145" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" name="labelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5LB-52-4BR">
                             <rect key="frame" x="329.5" y="18" width="20" height="20"/>
-                            <color key="color" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <color key="color" name="highlightRed"/>
                         </activityIndicatorView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstItem="OUl-sh-wYc" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="18a-7S-5cU"/>
                         <constraint firstItem="UEw-H2-uNc" firstAttribute="centerY" secondItem="HOy-Oe-3gA" secondAttribute="centerY" id="EV4-OE-ySJ"/>
@@ -109,7 +110,7 @@
                                         <constraint firstAttribute="height" constant="16" id="7Qf-wV-tOA"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-if-lec">
@@ -148,7 +149,7 @@
                                         <constraint firstAttribute="height" constant="16" id="KMN-f5-iUF"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-kE-tot">
@@ -231,7 +232,7 @@
                                         <constraint firstAttribute="height" constant="16" id="Dtx-sZ-2eu"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCW-X4-FRP">
@@ -281,7 +282,7 @@
                                         <constraint firstAttribute="height" constant="16" id="GsH-lB-RaV"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-nx-uSZ">
@@ -401,14 +402,14 @@
                             <rect key="frame" x="30" y="142" width="315" height="3"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="Add image">
-                                <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="titleColor" name="highlightRed"/>
                             </state>
                             <connections>
                                 <action selector="didTapAddImage:" destination="-1" eventType="touchUpInside" id="yaM-Hg-iZt"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="LAq-Zi-jDD" secondAttribute="bottom" constant="33" id="X7P-Fe-AKd"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" constant="30" id="f1c-gw-dJf"/>
@@ -422,7 +423,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="fSk-3d-IZu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0aG-mC-5wp"/>
                 <constraint firstItem="IX3-8C-tjn" firstAttribute="top" secondItem="fSk-3d-IZu" secondAttribute="bottom" id="4ul-sJ-iVZ"/>
@@ -447,5 +448,17 @@
     <resources>
         <image name="addButtonGreen" width="23" height="22"/>
         <image name="imagePlaceholder" width="150" height="117"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="dullGrey">
+            <color red="0.54117647058823526" green="0.54117647058823526" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="highlightRed">
+            <color red="0.94901960784313721" green="0.34901960784313724" blue="0.32156862745098036" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
