@@ -143,6 +143,10 @@ class MessagesViewController: MSMessagesAppViewController {
             Event.shared.updateFirebaseTasks()
         }
         
+        if Event.shared.servingsNeedUpdate {
+            Event.shared.updateFirebaseServings()
+        }
+        
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -490,17 +494,8 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
     
     func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
         newNameRequested = false
-        //          let controller = instantiateInitialViewController()
         requestPresentationStyle(.compact)
-        //              removeAllChildViewControllers()
-        //              addChildViewController(controller: controller)
     }
-    
-    //    func registrationVCDidTapSaveButton(controller: RegistrationViewController) {
-    //        StepStatus.currentStep = .newEventVC
-    //        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-    //        presentViewController(for: conversation, with: .expanded)
-    //    }
 }
 
 extension MessagesViewController: NewEventViewControllerDelegate {
@@ -658,7 +653,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
     func tasksListVCDidTapBackButton(controller: TasksListViewController) {
         let controller = instantiateEventSummaryViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: .VCGoDown)
+        addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func tasksListVCDidTapSubmit(controller: TasksListViewController) {
