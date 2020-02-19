@@ -362,42 +362,42 @@ class RecipeCreationViewController: UIViewController {
                     guard let self = self else { return }
                     switch result {
                     case .success:
-//                        self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
-//                        self.dismiss(animated: true, completion: nil)
-                        self.doneButton.isHidden = true
-                        self.activityIndicator.startAnimating()
-                        CloudManager.shared.saveCustomRecipeOnCloud(customRecipe: self.customRecipe) { [weak self] result in
-                            guard let self = self else { return }
-                            self.activityIndicator.stopAnimating()
-                            self.doneButton.isHidden = false
-                            switch result {
-                            case .success(let recordId):
-                                self.doneButton.isHidden = true
-                                self.activityIndicator.startAnimating()
-                                CloudManager.shared.saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: recordId, ingredients: self.temporaryIngredients) { [weak self] result in
-                                    guard let self = self else { return }
-                                    self.activityIndicator.stopAnimating()
-                                    self.doneButton.isHidden = false
-                                    switch result {
-                                    case .success:
-                                        let alert = UIAlertController(title: "Recipe saved", message: "", preferredStyle: .alert)
-                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                                        alert.addAction(action)
-                                        self.present(alert, animated: true, completion: nil)
-                                    case .failure(let error):
-                                        let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
-                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                                        alert.addAction(action)
-                                        self.present(alert, animated: true, completion: nil)
-                                    }
-                                }
-                            case.failure(let error):
-                                let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
-                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                                alert.addAction(action)
-                                self.present(alert, animated: true, completion: nil)
-                            }
-                        }
+                        self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                        self.dismiss(animated: true, completion: nil)
+//                        self.doneButton.isHidden = true
+//                        self.activityIndicator.startAnimating()
+//                        CloudManager.shared.saveCustomRecipeOnCloud(customRecipe: self.customRecipe) { [weak self] result in
+//                            guard let self = self else { return }
+//                            self.activityIndicator.stopAnimating()
+//                            self.doneButton.isHidden = false
+//                            switch result {
+//                            case .success(let recordId):
+//                                self.doneButton.isHidden = true
+//                                self.activityIndicator.startAnimating()
+//                                CloudManager.shared.saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: recordId, ingredients: self.temporaryIngredients) { [weak self] result in
+//                                    guard let self = self else { return }
+//                                    self.activityIndicator.stopAnimating()
+//                                    self.doneButton.isHidden = false
+//                                    switch result {
+//                                    case .success:
+//                                        let alert = UIAlertController(title: "Recipe saved", message: "", preferredStyle: .alert)
+//                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                        alert.addAction(action)
+//                                        self.present(alert, animated: true, completion: nil)
+//                                    case .failure(let error):
+//                                        let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
+//                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                        alert.addAction(action)
+//                                        self.present(alert, animated: true, completion: nil)
+//                                    }
+//                                }
+//                            case.failure(let error):
+//                                let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
+//                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                alert.addAction(action)
+//                                self.present(alert, animated: true, completion: nil)
+//                            }
+//                        }
                     case .failure:
                         // To modify
                         let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
