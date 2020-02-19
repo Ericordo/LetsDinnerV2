@@ -16,14 +16,15 @@ class MessagesViewController: MSMessagesAppViewController {
     
     var newNameRequested = false    
     var progressBarHeight: CGFloat = 0
-    var isProgressBarExist = false {
+    var isProgressBarExisted = false {
         didSet {
-            progressBarHeight = isProgressBarExist ? 2 : 0
+            progressBarHeight = isProgressBarExisted ? 2 : 0
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ViewDidLoad")
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
@@ -44,7 +45,14 @@ class MessagesViewController: MSMessagesAppViewController {
         } catch {
             print("ERROR", error, error.localizedDescription)
         }
+        
+//        CloudManager.shared.checkUserCloudStatus {
+//                    CloudManager.shared.retrieveProfileInfo()
+//                }
+        CloudManager.shared.retrieveProfileInfo()
+        
     }
+
     
     override func viewDidLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
@@ -64,6 +72,10 @@ class MessagesViewController: MSMessagesAppViewController {
         // After you just created event, this seesion will run one more time, after this, you will run message sent
         
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
+        
+        if CloudManager.shared.retrieveUserIdOnCloud() == nil {
+            CloudManager.shared.saveUserInfoOnCloud(currentUserUid, key: Keys.userUid)
+        }
         
         func isAlreadyReply() -> Bool {
             if currentUserUid == Event.shared.hostIdentifier {
@@ -90,7 +102,8 @@ class MessagesViewController: MSMessagesAppViewController {
             guard isAlreadyReply() == false else { return }
             
             // Initiate a new user (Here is the only place to have a pending status)
-            Event.shared.currentUser = User(identifier: currentUserUid,
+            
+            Event.shared.currentUser = User(identifier: CloudManager.shared.retrieveUserIdOnCloud() ?? currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
         } else {
@@ -146,7 +159,6 @@ class MessagesViewController: MSMessagesAppViewController {
         if Event.shared.servingsNeedUpdate {
             Event.shared.updateFirebaseServings()
         }
-        
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -260,7 +272,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Transition animation
         if transition != .noTransition {
             let transitionAnimation = CATransition()
-            transitionAnimation.duration = 0.2
+            transitionAnimation.duration = 0.3
             transitionAnimation.type = CATransitionType.push
             
             switch transition {
@@ -299,7 +311,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         view.addSubview(controller.view)
         
-        isProgressBarExist = true
+        isProgressBarExisted = true
         
         NSLayoutConstraint.activate([
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -346,7 +358,8 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        isProgressBarExist = false
+        isProgressBarExisted = false
+        
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
         controller.previousStep = previousStep
         controller.delegate = self
@@ -354,7 +367,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        if !isProgressBarExist {
+        if !isProgressBarExisted {
             addProgressViewController()
         }
         
@@ -364,31 +377,47 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
+        if !isProgressBarExisted {
+            addProgressViewController()
+        }
+        
         let controller = RecipesViewController(nibName: VCNibs.recipesViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
     
     private func instantiateManagementViewController() -> UIViewController {
+        if !isProgressBarExisted {
+            addProgressViewController()
+        }
+        
         let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
+        if !isProgressBarExisted {
+            addProgressViewController()
+        }
+        
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
     
     private func instantiateReviewViewController() -> UIViewController {
+        if !isProgressBarExisted {
+            addProgressViewController()
+        }
+        
         let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
         controller.delegate = self
         return controller 
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        if !isProgressBarExist { // I need the White Background
+        if !isProgressBarExisted { // I need the White Background
             addProgressViewController()
             progressBarHeight = 0
         }
@@ -473,23 +502,17 @@ extension MessagesViewController: IdleViewControllerDelegate {
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
     func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking) {
+        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         if previousStep == .newEventVC {
             StepStatus.currentStep = .newEventVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         } else if previousStep == .initialVC {
             StepStatus.currentStep = .newEventVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         } else if previousStep == .eventSummaryVC {
             StepStatus.currentStep = .eventSummaryVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         } else {
             StepStatus.currentStep = .newEventVC
-            guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-            presentViewController(for: conversation, with: .expanded)
         }
+        presentViewController(for: conversation, with: .expanded)
     }
     
     func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
@@ -562,23 +585,6 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
     }
 }
 
-//extension MessagesViewController: EventDescriptionViewControllerDelegateOld {
-//    func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewControllerOld) {
-//        let controller = instantiateManagementViewController()
-//        removeAllChildViewControllers()
-//        addChildViewController(controller: controller, transition: .VCGoBack)
-//    }
-//    
-//    func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewControllerOld) {
-////        let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-////        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
-////        sendMessage(message: message)
-//        let controller = instantiateReviewViewController()
-//        removeAllChildViewControllers()
-//        addChildViewController(controller: controller)
-//    }
-//}
-
 extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapPrevious(controller: ReviewViewController) {
         let controller = instantiateEventDescriptionViewController()
@@ -624,7 +630,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
         let controller = instantiateTasksListViewController()
         removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: .VCGoUp)
+        addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
     func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
@@ -652,8 +658,8 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
 extension MessagesViewController: TasksListViewControllerDelegate {
     func tasksListVCDidTapBackButton(controller: TasksListViewController) {
         let controller = instantiateEventSummaryViewController()
-        removeAllChildViewControllers()
-        addChildViewController(controller: controller, transition: .VCGoBack)
+              removeAllChildViewControllers()
+              addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func tasksListVCDidTapSubmit(controller: TasksListViewController) {

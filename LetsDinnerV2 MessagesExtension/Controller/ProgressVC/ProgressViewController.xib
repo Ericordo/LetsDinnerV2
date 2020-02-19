@@ -19,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="Sr6-bH-VHY">
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sr6-bH-VHY">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="2" id="59I-Rh-sFc"/>
@@ -28,9 +28,9 @@
             </subviews>
             <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
-                <constraint firstItem="Sr6-bH-VHY" firstAttribute="leading" secondItem="GBb-ja-E4v" secondAttribute="leading" constant="20" symbolic="YES" id="ASW-wP-2sj"/>
+                <constraint firstItem="Sr6-bH-VHY" firstAttribute="leading" secondItem="GBb-ja-E4v" secondAttribute="leading" symbolic="YES" id="ASW-wP-2sj"/>
                 <constraint firstItem="Sr6-bH-VHY" firstAttribute="top" secondItem="GBb-ja-E4v" secondAttribute="top" id="PZd-GB-RKE"/>
-                <constraint firstItem="GBb-ja-E4v" firstAttribute="trailing" secondItem="Sr6-bH-VHY" secondAttribute="trailing" constant="20" symbolic="YES" id="bQa-HM-MPe"/>
+                <constraint firstItem="GBb-ja-E4v" firstAttribute="trailing" secondItem="Sr6-bH-VHY" secondAttribute="trailing" symbolic="YES" id="bQa-HM-MPe"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="GBb-ja-E4v"/>
             <point key="canvasLocation" x="-346.39999999999998" y="-310.79460269865069"/>

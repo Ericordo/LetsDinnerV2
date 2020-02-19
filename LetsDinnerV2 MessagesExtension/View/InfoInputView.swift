@@ -23,23 +23,25 @@ class InfoInputView : UIView {
     private var infoLabelText = String()
     private var selectedTextField = UITextField()
     
-     let infoLabel : UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        return label
-    }()
+//     let infoLabel : UILabel = {
+//        let label = UILabel()
+//        label.backgroundColor = .clear
+//        label.textAlignment = .center
+//        return label
+//    }()
     
     let addButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setImage(UIImage(named: "addButton"), for: .normal)
+        button.setTitleColor(Colors.soBlack, for: .normal)
+        button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
+//        button.setImage(UIImage(named: "addButton"), for: .normal)
 //        button.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         return button
     }()
     
     private func configureView() {
-        self.backgroundColor = Colors.paleGray
+        self.backgroundColor = Colors.inputGray
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
@@ -51,17 +53,20 @@ class InfoInputView : UIView {
     private func addConstraints() {
         addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        addButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        addButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+//        addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+//        addButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+//        addButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        addButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20).isActive = true
+        addButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20).isActive = true
         addButton.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
+        addButton.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
         
-        addSubview(infoLabel)
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
-        infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        infoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20).isActive = true
-        infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20).isActive = true
+//        addSubview(infoLabel)
+//        infoLabel.translatesAutoresizingMaskIntoConstraints = false
+//        infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
+//        infoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+//        infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20).isActive = true
+//        infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40).isActive = true
         
     }
     
@@ -70,7 +75,8 @@ class InfoInputView : UIView {
     }
     
     func assignInfoInput(textField: UITextField, info: String) {
-        infoLabel.text = info
+//        infoLabel.text = info
+        addButton.setTitle(info, for: .normal)
         selectedTextField = textField
     }
     

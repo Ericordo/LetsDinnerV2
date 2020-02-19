@@ -50,15 +50,23 @@ class NewEventViewController: UIViewController  {
         StepStatus.currentStep = .newEventVC
         setupUI()
         
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
             textField!.delegate = self
+            textField!.autocapitalizationType = .sentences
+            textField!.autocorrectionType = .no
         }
         scrollView.delegate = self
         infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,12 +81,17 @@ class NewEventViewController: UIViewController  {
 //        progressView.progress = 0
 //        progressView.setProgress(1/5, animated: true)
         dinnerNameTextField.setLeftView(image: UIImage(named: "titleIcon")!)
+        
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
+        
+        
+        
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
         eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.lunchButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.dinnerButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
@@ -150,6 +163,7 @@ class NewEventViewController: UIViewController  {
     
     @objc func didTapEvent(sender: UIButton) {
         dinnerNameTextField.text = sender.titleLabel?.text
+        eventInput.isHidden = true
     }
     
 //    @objc func didTapDonePicker() {
@@ -210,7 +224,7 @@ class NewEventViewController: UIViewController  {
     }
     
     @objc private func didTapAdd() {
-        activeField?.text = infoInput.infoLabel.text
+        activeField?.text = infoInput.addButton.title(for: .normal)
         infoInput.isHidden = true
     }
     
@@ -224,6 +238,8 @@ extension NewEventViewController: UITextFieldDelegate {
 //        if textField == dateTextField {
 //            presentDatePicker()
 //        }
+        
+        
         switch textField {
         case dinnerNameTextField:
             infoInput.isHidden = true
@@ -262,13 +278,11 @@ extension NewEventViewController: UITextFieldDelegate {
               case dinnerNameTextField:
                   hostNameTextField.becomeFirstResponder()
               case hostNameTextField:
-                  dateTextField.becomeFirstResponder()
-              case dateTextField:
                   locationTextField.becomeFirstResponder()
+              case dateTextField:
+                textField.resignFirstResponder()
               case locationTextField:
-                    textField.resignFirstResponder()
-              
-
+                dateTextField.becomeFirstResponder()
               default:
                   break
               }
@@ -293,6 +307,7 @@ extension NewEventViewController: UITextFieldDelegate {
     
     
     
+    
 }
 
 extension NewEventViewController: UIScrollViewDelegate {
@@ -314,15 +329,27 @@ extension NewEventViewController: UIScrollViewDelegate {
             }
         }
         if activeField == locationTextField || activeField == hostNameTextField {
+            
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 1) {
                 self.infoInputBottomConstraint.constant = keyboardFrame.height
+                
+                // Temp solve:
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    self.infoInputBottomConstraint.constant += 20
+                }
+                
                 self.view.layoutIfNeeded()
             }
         } else if activeField == dinnerNameTextField {
             self.view.layoutIfNeeded()
             UIView.animate(withDuration: 1) {
                 self.eventInputBottomConstraint.constant = keyboardFrame.height
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    self.eventInputBottomConstraint.constant += 20
+                }
+                
                 self.view.layoutIfNeeded()
             }
         }
@@ -337,8 +364,8 @@ extension NewEventViewController: UIScrollViewDelegate {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
 
-           self.infoInputBottomConstraint.constant = -51
-          self.eventInputBottomConstraint.constant = -41
+            self.infoInputBottomConstraint.constant = -51
+            self.eventInputBottomConstraint.constant = -51
 
             self.view.layoutIfNeeded()
         }

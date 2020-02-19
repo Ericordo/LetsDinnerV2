@@ -11,6 +11,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecipesViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="Ciq-25-awl" id="BfY-Mq-1MU"/>
+                <outlet property="bottomView" destination="bv3-Vn-pnT" id="cfI-Pe-Npq"/>
+                <outlet property="bottomViewHeightConstraint" destination="8DC-4H-tf8" id="ehf-gA-yM7"/>
                 <outlet property="createRecipeButton" destination="ulB-lg-UUU" id="qfd-vy-ZfB"/>
                 <outlet property="headerLabel" destination="Ay0-eE-nWy" id="BCc-Et-Wxz"/>
                 <outlet property="nextButton" destination="lhc-Ek-PZ3" id="GWK-61-TJ2"/>
@@ -94,11 +96,11 @@
                         <constraint firstAttribute="height" id="h1a-Zr-n1g"/>
                     </constraints>
                 </progressView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bv3-Vn-pnT">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bv3-Vn-pnT" userLabel="BottomView">
                     <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="bjE-MD-C37">
-                            <rect key="frame" x="17" y="15" width="341" height="33"/>
+                            <rect key="frame" x="17" y="13" width="341" height="33"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulB-lg-UUU">
                                     <rect key="frame" x="0.0" y="0.0" width="33" height="33"/>
@@ -136,8 +138,8 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="83" id="8DC-4H-tf8"/>
                         <constraint firstAttribute="trailing" secondItem="bjE-MD-C37" secondAttribute="trailing" constant="17" id="KlV-gs-dd9"/>
+                        <constraint firstItem="bjE-MD-C37" firstAttribute="top" secondItem="bv3-Vn-pnT" secondAttribute="top" constant="13" id="TBe-Bf-Ces"/>
                         <constraint firstItem="bjE-MD-C37" firstAttribute="leading" secondItem="bv3-Vn-pnT" secondAttribute="leading" constant="17" id="Two-Hl-1cc"/>
-                        <constraint firstItem="bjE-MD-C37" firstAttribute="top" secondItem="bv3-Vn-pnT" secondAttribute="top" constant="15" id="vEu-1A-nfX"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISCOVER THESE RECIPES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ay0-eE-nWy">
@@ -150,7 +152,6 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="bv3-Vn-pnT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0PF-MO-L27"/>
                 <constraint firstItem="kjK-VE-8qe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2z6-CD-9Pb"/>

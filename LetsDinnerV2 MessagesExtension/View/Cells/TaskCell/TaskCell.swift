@@ -42,25 +42,27 @@ class TaskCell: UITableViewCell {
             task.taskState = .assigned
             personLabel.text = MessagesToDisplay.assignedToMyself
             delegate?.taskCellUpdateProgress(indexPath: indexPath)
+            taskStatusButton.setState(state: task.taskState)
         case .assigned:
             if Event.shared.currentUser?.identifier == task.assignedPersonUid {
                 task.taskState = .completed
                 task.assignedPersonName = defaults.username
                 task.assignedPersonUid = Event.shared.currentUser?.identifier
                 personLabel.text = MessagesToDisplay.completed
+                taskStatusButton.setState(state: task.taskState)
                 delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
         case .completed:
-             if Event.shared.currentUser?.identifier == task.assignedPersonUid {
-            task.taskState = .unassigned
-            task.assignedPersonName = "nil"
-            task.assignedPersonUid = "nil"
-            personLabel.text = ""
+            if Event.shared.currentUser?.identifier == task.assignedPersonUid {
+                task.taskState = .unassigned
+                task.assignedPersonName = "nil"
+                task.assignedPersonUid = "nil"
+                personLabel.text = ""
+                taskStatusButton.setState(state: task.taskState)
                 delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
         
         }
-        taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskUid == task.taskUid }) {
             Event.shared.tasks[index] = task
         }

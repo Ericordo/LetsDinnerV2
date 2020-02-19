@@ -10,7 +10,6 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
-
 enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
@@ -59,6 +58,17 @@ enum ApiKeys {
         static let backUpKey = "b07aca6301b44075ac9b4c9b09a2b3ac"
 }
 
+enum Keys {
+    static let username = "username"
+    static let profilePicUrl = "profilePicUrl"
+    static let address = "address"
+    static let measurementSystem = "measurementSystem"
+//    static let accepted = "Accepted"
+//    static let declined = "Declined"
+    static let userUid = "userUid"
+    
+}
+
 enum MessagesToDisplay {
     static let calendarAlert = "This event was successfully added to your calendar."
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
@@ -105,7 +115,9 @@ enum LabelStrings {
     static let readyToSend = "Ready to send your invite?"
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
-    static let cookingTipsPlaceholder = "Any tips about this recipe?"
+    static let cookingTipsPlaceholder = "Anything else you want to mention?"
     static let update = "Update"
     static let selectNewDate = "Select a new date for your event:"
+    static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
+    static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
 }

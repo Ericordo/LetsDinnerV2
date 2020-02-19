@@ -34,7 +34,8 @@ class CustomRecipeDetailsViewController: UIViewController {
     @IBOutlet weak var ingredientsHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepsHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
     var selectedRecipe: CustomRecipe?
     
@@ -51,6 +52,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         ingredientsTableView.delegate = self
         ingredientsTableView.dataSource = self
         stepsTableView.delegate = self
@@ -60,6 +62,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         scrollView.delegate = self
         
         setupUI()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
         
     }
@@ -84,6 +87,12 @@ class CustomRecipeDetailsViewController: UIViewController {
         stepsTableView.estimatedRowHeight = rowHeight
         ingredientsHeightConstraint.constant = CGFloat(recipe.ingredients.count) * rowHeight
         let isSelected = Event.shared.selectedCustomRecipes.contains(where: { $0.title == recipe.title })
+        
+        if UIDevice.current.hasHomeButton {
+            bottomViewHeightConstraint.constant = 60
+            self.bottomView.layoutIfNeeded()
+        }
+        
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
         recipeImageView.layer.cornerRadius = 17

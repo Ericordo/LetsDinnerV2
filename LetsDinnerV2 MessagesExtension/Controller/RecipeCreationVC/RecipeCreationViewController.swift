@@ -109,6 +109,10 @@ class RecipeCreationViewController: UIViewController {
         if editingMode {
             setupEditingUI()
         }
+        
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
         amountTextField.delegate = self
@@ -154,8 +158,8 @@ class RecipeCreationViewController: UIViewController {
         placeholderLabel.sizeToFit()
         commentsTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = Colors.customGray
-        placeholderLabel.font = UIFont.systemFont(ofSize: 14)
+        placeholderLabel.textColor = Colors.seperatorGrey
+        placeholderLabel.font = UIFont.systemFont(ofSize: 17)
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
     }
     
@@ -316,7 +320,17 @@ class RecipeCreationViewController: UIViewController {
                 return true
             }
         }
+        if recipeImage == nil {
+            // setup an default image
+            recipeImage = createDefaultImage()
+        }
         return false
+    }
+    
+    private func createDefaultImage() -> UIImage {
+        let imageName = "emptyPlate"
+        let image = UIImage(named: imageName)
+        return image!
     }
     
     
@@ -345,16 +359,51 @@ class RecipeCreationViewController: UIViewController {
                 }
             } else {
                 saveRecipeToRealm { [weak self] result in
+                    guard let self = self else { return }
                     switch result {
                     case .success:
-                        self?.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
-                        self?.dismiss(animated: true, completion: nil)
+                        self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                        self.dismiss(animated: true, completion: nil)
+//                        self.doneButton.isHidden = true
+//                        self.activityIndicator.startAnimating()
+//                        CloudManager.shared.saveCustomRecipeOnCloud(customRecipe: self.customRecipe) { [weak self] result in
+//                            guard let self = self else { return }
+//                            self.activityIndicator.stopAnimating()
+//                            self.doneButton.isHidden = false
+//                            switch result {
+//                            case .success(let recordId):
+//                                self.doneButton.isHidden = true
+//                                self.activityIndicator.startAnimating()
+//                                CloudManager.shared.saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: recordId, ingredients: self.temporaryIngredients) { [weak self] result in
+//                                    guard let self = self else { return }
+//                                    self.activityIndicator.stopAnimating()
+//                                    self.doneButton.isHidden = false
+//                                    switch result {
+//                                    case .success:
+//                                        let alert = UIAlertController(title: "Recipe saved", message: "", preferredStyle: .alert)
+//                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                        alert.addAction(action)
+//                                        self.present(alert, animated: true, completion: nil)
+//                                    case .failure(let error):
+//                                        let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
+//                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                        alert.addAction(action)
+//                                        self.present(alert, animated: true, completion: nil)
+//                                    }
+//                                }
+//                            case.failure(let error):
+//                                let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
+//                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                alert.addAction(action)
+//                                self.present(alert, animated: true, completion: nil)
+//                            }
+//                        }
                     case .failure:
                         // To modify
                         let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
                         let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
                         alert.addAction(action)
-                        self?.present(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }

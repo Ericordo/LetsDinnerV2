@@ -16,20 +16,21 @@ protocol ManagementViewControllerDelegate: class {
 
 class ManagementViewController: UIViewController {
     
-    @IBOutlet private weak var progressView: UIProgressView!
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var nextButton: UIButton!
     @IBOutlet private weak var tasksTableView: UITableView!
     @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var servingsLabel: UILabel!
-    @IBOutlet private weak var servingsStepperOld: UIStepper!
-    @IBOutlet private weak var servingsStepper: GMStepper!
+    @IBOutlet private weak var servingsStepper: UIStepper!
+    @IBOutlet private weak var servingsFancyStepper: GMStepper!
     @IBOutlet weak var separatorView: UIView!
     
     @IBOutlet weak var addThingView: UIView!
     @IBOutlet weak var newThingTextField: UITextField!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var sectionSelectionInput: SectionSelectionInput!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
     weak var delegate: ManagementViewControllerDelegate?
     
@@ -39,32 +40,38 @@ class ManagementViewController: UIViewController {
     private var sectionNames = [String]()
     private var servings : Int = 2 {
         didSet {
-            servingsLabel.text = "How many servings?"
+            servingsLabel.text = "How many servings?  \(servings)"
             Event.shared.servings = servings
         }
     }
     
     private var selectedSection : String?
     
-        
+    var tapGestureToHideKeyboard = UITapGestureRecognizer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
+        
+        // Should only tap on the view not on the keyboard
+        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        
+        tapGestureToHideKeyboard.delegate = self
+        newThingTextField.delegate = self
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         servings = Event.shared.servings
+        
         setupUI()
         setupSwipeGesture()
         
         updateServings(servings: servings)
-        newThingTextField.delegate = self
         
         sectionSelectionInput.configureInput(sections: self.sectionNames)
         sectionSelectionInput.sectionSelectionInputDelegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     
     }
@@ -74,37 +81,34 @@ class ManagementViewController: UIViewController {
     }
     
     private func setupUI() {
-//        progressView.progressTintColor = Colors.newGradientRed
-//        progressView.trackTintColor = .white
-//        progressView.progress = 2/5
-//        progressView.setProgress(3/5, animated: true)
         
         tasksTableView.tableFooterView = UIView()
         
         servingsLabel.text = "How many servings?  \(servings)"
         servingsLabel.textColor = Colors.textGrey
         
-//        servingsStepperOld.minimumValue = 2
-//        servingsStepperOld.maximumValue = 12
-//        servingsStepperOld.stepValue = 1
-//        servingsStepperOld.value = Double(servings)
-        
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
-        servingsStepper.autorepeat = false
-        servingsStepper.cornerRadius = 8.0
-        servingsStepper.buttonsFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
-        servingsStepper.buttonsTextColor = Colors.highlightRed
-        servingsStepper.buttonsBackgroundColor = Colors.allWhite
-        servingsStepper.labelFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
-        servingsStepper.labelTextColor = Colors.textGrey
-        servingsStepper.labelBackgroundColor = Colors.allWhite
-        servingsStepper.borderWidth = 0
-        servingsStepper.borderColor = Colors.highlightRed
-        servingsStepper.labelWidthWeight = 0.4
-        servingsStepper.limitHitAnimationColor = Colors.paleGray
+        
+        servingsFancyStepper.isHidden = true
+//        servingsStepper.minimumValue = 2
+//        servingsStepper.maximumValue = 12
+//        servingsStepper.stepValue = 1
+//        servingsStepper.value = Double(servings)
+//        servingsStepper.autorepeat = false
+//        servingsStepper.cornerRadius = 8.0
+//        servingsStepper.buttonsFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
+//        servingsStepper.buttonsTextColor = Colors.highlightRed
+//        servingsStepper.buttonsBackgroundColor = Colors.allWhite
+//        servingsStepper.labelFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
+//        servingsStepper.labelTextColor = Colors.textGrey
+//        servingsStepper.labelBackgroundColor = Colors.allWhite
+//        servingsStepper.borderWidth = 0
+//        servingsStepper.borderColor = Colors.highlightRed
+//        servingsStepper.labelWidthWeight = 0.4
+//        servingsStepper.limitHitAnimationColor = Colors.paleGray
         
         separatorView.backgroundColor = Colors.seperatorGrey
         
@@ -113,6 +117,12 @@ class ManagementViewController: UIViewController {
             servingsStepper.isHidden = true
             separatorView.isHidden = true
         }
+        
+        if UIDevice.current.hasHomeButton {
+            bottomViewHeightConstraint.constant = 60
+            self.bottomView.layoutIfNeeded()
+        }
+        
     }
     
     private func setupSwipeGesture() {
@@ -179,6 +189,8 @@ class ManagementViewController: UIViewController {
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
         newThingTextField.becomeFirstResponder()
+        
+
  
 //        var textField = UITextField()
 //        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
@@ -211,11 +223,11 @@ class ManagementViewController: UIViewController {
 //        present(alert, animated: true, completion: nil)
     }
     @IBAction func didTapStepper2(_ sender: GMStepper) {
-        updateServings(servings: Int(sender.value))
+//        updateServings(servings: Int(sender.value))
     }
     
     @IBAction func didTapStepper(_ sender: UIStepper) {
-//        updateServings(servings: Int(sender.value))
+        updateServings(servings: Int(sender.value))
     }
     
     private func updateServings(servings: Int) {
@@ -246,6 +258,9 @@ class ManagementViewController: UIViewController {
             self.addThingViewBottomConstraint.constant = keyboardFrame.height
             self.view.layoutIfNeeded()
         }
+        
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -254,6 +269,8 @@ class ManagementViewController: UIViewController {
              self.addThingViewBottomConstraint.constant = -80
              self.view.layoutIfNeeded()
          }
+        
+        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
         
     }
     
@@ -538,5 +555,14 @@ extension ManagementViewController: UITextFieldDelegate {
         return newThingTextField.resignFirstResponder()
         
     }
-    
+}
+
+extension ManagementViewController: UIGestureRecognizerDelegate {
+    // To prevent touch in "Add Thing" View
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view!.isDescendant(of: addThingView) {
+            return false
+        }
+        return true
+    }
 }

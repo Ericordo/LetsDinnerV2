@@ -37,12 +37,17 @@ class ProgressViewController: UIViewController {
     
     @objc func stepProgressing(_ notification: Notification) {
         // Run twice sometimes (example: when it goes back from 5 to 4)
+        
         if let data = notification.userInfo as? [String: Int] {
             let step = data["step"]
             progress.completedUnitCount = Int64(step!)
-            progressView.progress = Float(step!)
+
             let progressFloat = Float(self.progress.fractionCompleted)
-            progressView.setProgress(progressFloat, animated: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Execute after Page animation
+                self.progressView.setProgress(progressFloat, animated: true)
+            }
+
         }
     }
     

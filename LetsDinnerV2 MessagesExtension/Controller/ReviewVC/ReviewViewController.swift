@@ -24,6 +24,7 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var topSendingLabel: UILabel!
     
     weak var delegate: ReviewViewControllerDelegate?
     
@@ -53,25 +54,24 @@ class ReviewViewController: UIViewController {
         setupUI()
         
         NotificationCenter.default.addObserver(self, selector: #selector(showUploadFail), name: Notification.Name(rawValue: "UploadError"), object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
          NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 5])
     }
-    
 
-    
     private func setupUI() {
-//        progressView.progressTintColor = Colors.newGradientRed
-//        progressView.trackTintColor = .white
-//        progressView.progress = 4/5
-//        progressView.setProgress(1, animated: true)
-        
         seperatorLine.backgroundColor = Colors.seperatorGrey
         summaryTableView.tableFooterView = UIView()
         
         sendButtonLeadingConstraint.isActive = false
+        
+        if #available(iOS 13.2, *) {
+            topSendingLabel.text = LabelStrings.readyToSend2
+        } else {
+            topSendingLabel.text = LabelStrings.readyToSend1
+        }
+
     }
     
     private func registerCell(_ nibName: String) {
@@ -160,9 +160,9 @@ class ReviewViewController: UIViewController {
     
     private func sendInvitation() {
         darkView.removeFromSuperview()
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.summaryTableView.alpha = 0.65
-            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 20)
+            self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 30)
         }) { (_) in
             self.isChecking = false
             self.delegate?.reviewVCDidTapSend(controller: self)

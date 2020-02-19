@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
 protocol RegistrationViewControllerDelegate : class {
         func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking)
@@ -29,6 +31,7 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var addressTextField: UITextField!
+    @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var metricImageView: UIImageView!
@@ -39,6 +42,8 @@ class RegistrationViewController: UIViewController {
     weak var delegate: RegistrationViewControllerDelegate?
     
     private let picturePicker = UIImagePickerController()
+    private let locationManager = CLLocationManager()
+    private var didFindLocation = false
     
     private var profileImage: UIImage?
     
@@ -58,6 +63,9 @@ class RegistrationViewController: UIViewController {
             StepStatus.currentStep = .registrationVC
         }
         
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         setupUI()
 
         picturePicker.delegate = self
@@ -70,6 +78,7 @@ class RegistrationViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+
     func setupUI() {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
@@ -82,7 +91,9 @@ class RegistrationViewController: UIViewController {
         
         if !defaults.address.isEmpty {
             addressTextField.text = defaults.address
+            locationButton.isHidden = true
         }
+        
         
         let tapGestureMetric = UITapGestureRecognizer(target: self, action: #selector(setupMetricSystem))
         let tapGestureImperial = UITapGestureRecognizer(target: self, action: #selector(setupImperialSystem))
@@ -100,7 +111,7 @@ class RegistrationViewController: UIViewController {
             userPic.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholder")) { result in
                 switch result {
                 case .success:
-                    self.addPicButton.setTitle("Modify image", for: .normal)
+                    self.addPicButton.setTitle("Edit image", for: .normal)
                     self.imageState = .deleteOrModifyPic
                 case .failure:
                     let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
@@ -132,12 +143,14 @@ class RegistrationViewController: UIViewController {
         imperialImageView.image = UIImage(named: "checkmark")
         metricImageView.image = nil
         defaults.measurementSystem = "imperial"
+        CloudManager.shared.saveUserInfoOnCloud("imperial", key: Keys.measurementSystem)
     }
     
     @objc private func setupMetricSystem() {
         imperialImageView.image = nil
         metricImageView.image = UIImage(named: "checkmark")
         defaults.measurementSystem = "metric"
+        CloudManager.shared.saveUserInfoOnCloud("metric", key: Keys.measurementSystem)
     }
 
     @IBAction func didTapSave(_ sender: UIButton) {
@@ -148,6 +161,7 @@ class RegistrationViewController: UIViewController {
                 case .success(let url):
                     Event.shared.currentUser?.profilePicUrl = url
                     defaults.profilePicUrl = url
+                    CloudManager.shared.saveUserInfoOnCloud(url, key: Keys.profilePicUrl)
                 case .failure:
                     let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -185,6 +199,26 @@ class RegistrationViewController: UIViewController {
             alert.addAction(change)
             alert.addAction(delete)
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func tapLocationButton(_ sender: Any) {
+        findCurrentLocation()
+    }
+    
+    private func findCurrentLocation() {
+        // Ask for Authorisation from the User.
+        locationManager.requestAlwaysAuthorization()
+
+        // For use in foreground
+//        self.locationManager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            
+//            guard didFindLocation == false else { return }
+            locationManager.startUpdatingLocation()
         }
     }
     
@@ -228,6 +262,7 @@ class RegistrationViewController: UIViewController {
         
         if let address = addressTextField.text {
             defaults.address = address
+            CloudManager.shared.saveUserInfoOnCloud(address, key: Keys.address)
         }
         
         if let firstName = firstNameTextField.text {
@@ -246,7 +281,9 @@ class RegistrationViewController: UIViewController {
         
         if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
             if !firstName.isEmpty && !lastName.isEmpty {
-                defaults.username = firstName.capitalized + " " + lastName.capitalized
+                let username = firstName.capitalized + " " + lastName.capitalized
+                defaults.username = username
+                CloudManager.shared.saveUserInfoOnCloud(username, key: Keys.username)
                 errorLabel.isHidden = true
                 if let previousStep = previousStep {
                     delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep)
@@ -278,6 +315,23 @@ extension RegistrationViewController: UITextFieldDelegate {
             break
         }
         textField.resignFirstResponder()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if addressTextField.text!.count > 20 {
+            locationButton.isHidden = true
+        } else {
+            locationButton.isHidden = false
+        }
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        if addressTextField.isEditing {
+            locationButton.isHidden = false
+        }
+
         return true
     }
 }
@@ -337,15 +391,49 @@ extension RegistrationViewController: UIScrollViewDelegate {
                 scrollView.scrollRectToVisible(activeField.frame, animated: true)
             }
         }
-        
-        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
-        
- 
     }
     
 }
+
+extension RegistrationViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // Prevent didUpdateLocations run multiple time
+        locationManager.stopUpdatingLocation()
+//        locationManager.delegate = nil
+        
+        // Get User Location
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        let address = CLGeocoder.init()
+        address.reverseGeocodeLocation(CLLocation.init(latitude: locValue.latitude, longitude:locValue.longitude)) { (places, error) in
+            if error == nil {
+                if let place = places {
+                    let location = place[0]
+                    
+                    if let name = location.name,
+                        var country = location.country,
+                        var adminstrationArea = location.administrativeArea,
+                        var subArea = location.subAdministrativeArea {
+                        
+                        subArea = " " + subArea
+                        adminstrationArea = " " + adminstrationArea
+                        country = " " + country
+                        
+                        self.addressTextField.text = name + subArea + adminstrationArea + country
+                        self.locationButton.isHidden = true
+//                        print(name + subArea + adminstrationArea + country)
+                    }
+                }
+            } else {
+                print("Location cannot be found")
+            }
+        }
+    }
+}
+

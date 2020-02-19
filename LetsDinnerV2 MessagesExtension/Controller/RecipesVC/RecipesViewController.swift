@@ -34,6 +34,9 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var createRecipeButton: UIButton!
     @IBOutlet weak var recipeToggle: UIButton!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
+    
     
     weak var delegate: RecipesViewControllerDelegate?
     private let realm = try! Realm()
@@ -59,6 +62,10 @@ class RecipesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .recipesVC
+        
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil), forCellReuseIdentifier: CellNibs.recipeCell)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
@@ -92,10 +99,10 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = true
         resultsLabel.isHidden = true
         
-//        progressView.progressTintColor = Colors.newGradientRed
-//        progressView.trackTintColor = .white
-//        progressView.progress = 1/5
-//        progressView.setProgress(2/5, animated: true)
+        if UIDevice.current.hasHomeButton {
+            bottomViewHeightConstraint.constant = 60
+            self.bottomView.layoutIfNeeded()
+        }
     }
     
     private func setupSwipeGesture() {
@@ -167,6 +174,8 @@ class RecipesViewController: UIViewController {
         searchLabel.isHidden = !bool
     }
     
+    // MARK: Button Tapped
+    
     
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.recipeVCDidTapPrevious(controller: self)
@@ -187,8 +196,19 @@ class RecipesViewController: UIViewController {
     @IBAction func didTapRecipeToggle(_ sender: UIButton) {
         if searchType == .apiRecipes {
             searchType = .customRecipes
+            UIView.transition(with: self.view,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
+            
         } else {
             searchType = .apiRecipes
+            UIView.transition(with: self.view,
+                                duration: 0.3,
+                                options: .transitionCrossDissolve,
+                                animations: nil,
+                                completion: nil)
         }
     }
     
@@ -375,6 +395,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
             let vc = SFSafariViewController(url: url)
+            vc.registerForNotification()
             vc.preferredControlTintColor = Colors.newGradientRed
             vc.modalPresentationStyle = .overFullScreen
             present(vc, animated: true, completion: nil)

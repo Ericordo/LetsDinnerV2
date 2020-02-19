@@ -15,22 +15,18 @@ extension UserDefaults {
     }
     
     var profilePicUrl: String {
-        get { return string(forKey: "profilePicUrl") ?? "" }
-        set { set(newValue, forKey: "profilePicUrl") }
+        get { return string(forKey: Keys.profilePicUrl) ?? "" }
+        set { set(newValue, forKey: Keys.profilePicUrl) }
     }
     
     var address: String {
-        get { return string(forKey: "address") ?? "" }
-        set { set(newValue, forKey: "address") }
+        get { return string(forKey: Keys.address) ?? "" }
+        set { set(newValue, forKey: Keys.address) }
     }
     
     var measurementSystem: String {
-        get { return string(forKey: "measurementSystem") ?? "" }
-        set { set(newValue, forKey: "measurementSystem") }
+        get { return string(forKey: Keys.measurementSystem) ?? "" }
+        set { set(newValue, forKey: Keys.measurementSystem) }
     }
     
-    var hasAccepted: String {
-        get { return string(forKey: "hasAccepted") ?? ""}
-        set { set(newValue, forKey: "hasAccepted")}
-    }
 }
