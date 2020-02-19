@@ -25,6 +25,7 @@ enum VCNibs {
     static let reviewViewController = "ReviewViewController"
     static let eventInfoViewController = "EventInfoViewController"
     static let progressViewController = "ProgressViewController"
+    static let expiredEventViewController = "ExpiredEventViewController"
 }
 
 enum CellNibs {
@@ -46,6 +47,7 @@ enum CellNibs {
     static let sectionInputCell = "SectionInputCell"
     static let ingredientCell = "IngredientCell"
     static let cancelCell = "CancelCell"
+    static let expiredEventCell = "ExpiredEventCell"
 }
 
 enum ApiKeys {

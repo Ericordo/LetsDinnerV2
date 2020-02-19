@@ -37,6 +37,12 @@ class Event {
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
+    
+    var eventIsExpired: Bool {
+        let currentDateTimestamp = Date().timeIntervalSince1970
+        return dateTimestamp < currentDateTimestamp
+    }
+    
     var eventDescription = String()
     var selectedRecipes = [Recipe]()
     var selectedCustomRecipes = [CustomRecipe]()
