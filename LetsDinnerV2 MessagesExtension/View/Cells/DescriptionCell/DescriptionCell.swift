@@ -100,6 +100,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         if let url = URL(string: sourceUrl) {
             let vc = SFSafariViewController(url: url)
             vc.preferredControlTintColor = Colors.newGradientRed
+            vc.registerForNotification()
             self.window?.rootViewController?.present(vc, animated: true, completion: nil)
         }
     }

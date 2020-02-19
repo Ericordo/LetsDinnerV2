@@ -143,12 +143,14 @@ class RegistrationViewController: UIViewController {
         imperialImageView.image = UIImage(named: "checkmark")
         metricImageView.image = nil
         defaults.measurementSystem = "imperial"
+        CloudManager.shared.saveUserInfoOnCloud("imperial", key: Keys.measurementSystem)
     }
     
     @objc private func setupMetricSystem() {
         imperialImageView.image = nil
         metricImageView.image = UIImage(named: "checkmark")
         defaults.measurementSystem = "metric"
+        CloudManager.shared.saveUserInfoOnCloud("metric", key: Keys.measurementSystem)
     }
 
     @IBAction func didTapSave(_ sender: UIButton) {
@@ -159,6 +161,7 @@ class RegistrationViewController: UIViewController {
                 case .success(let url):
                     Event.shared.currentUser?.profilePicUrl = url
                     defaults.profilePicUrl = url
+                    CloudManager.shared.saveUserInfoOnCloud(url, key: Keys.profilePicUrl)
                 case .failure:
                     let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -259,6 +262,7 @@ class RegistrationViewController: UIViewController {
         
         if let address = addressTextField.text {
             defaults.address = address
+            CloudManager.shared.saveUserInfoOnCloud(address, key: Keys.address)
         }
         
         if let firstName = firstNameTextField.text {
@@ -277,7 +281,9 @@ class RegistrationViewController: UIViewController {
         
         if let firstName = firstNameTextField.text, let lastName = lastNameTextField.text {
             if !firstName.isEmpty && !lastName.isEmpty {
-                defaults.username = firstName.capitalized + " " + lastName.capitalized
+                let username = firstName.capitalized + " " + lastName.capitalized
+                defaults.username = username
+                CloudManager.shared.saveUserInfoOnCloud(username, key: Keys.username)
                 errorLabel.isHidden = true
                 if let previousStep = previousStep {
                     delegate?.registrationVCDidTapSaveButton(controller: self, previousStep: previousStep)

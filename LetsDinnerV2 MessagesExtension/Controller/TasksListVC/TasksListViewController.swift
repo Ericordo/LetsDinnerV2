@@ -39,9 +39,12 @@ class TasksListViewController: UIViewController {
         setupTableView()
         prepareData()
         tasksTableView.reloadData()
-        Database.database().reference().child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
-            guard let value = snapshot.value as? Int else { return }
-            self.updateOnlineAlert(value)
+       
+        if let userID = Event.shared.currentUser?.identifier {
+            Database.database().reference().child(userID).child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
+                guard let value = snapshot.value as? Int else { return }
+                self.updateOnlineAlert(value)
+            }
         }
     }
     
