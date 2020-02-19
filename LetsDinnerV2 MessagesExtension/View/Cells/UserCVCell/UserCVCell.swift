@@ -29,17 +29,33 @@ class UserCVCell: UICollectionViewCell {
             strokeColor = .darkGray
         }
         
-        if let imageURL = URL(string: user.profilePicUrl!) {
+        func setUserPicWithInitials() {
+            userPicture.setImage(string: user.fullName.initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+        }
+        
+        if let profilePicUrl = user.profilePicUrl, let imageURL = URL(string: profilePicUrl) {
             userPicture.layer.cornerRadius = userPicture.frame.height/2
             userPicture.clipsToBounds = true
             userPicture.layer.borderWidth = 2.0
             userPicture.layer.borderColor = strokeColor.cgColor
             userPicture.kf.setImage(with: imageURL)
+            userPicture.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholder")) { result in
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    setUserPicWithInitials()
+                }
+            }
         } else {
-            userPicture.setImage(string: user.fullName.initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+            setUserPicWithInitials()
         }
         
         nameLabel.text = user.fullName
+        
+        
     }
+    
+
 
 }

@@ -68,16 +68,13 @@ class RecipeCell: UITableViewCell {
         if let downloadUrl = customRecipe.downloadUrl {
             recipeImageView.kf.setImage(with: URL(string: downloadUrl))
             backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
-            recipeImageView.isHidden = false
 //        if let imageData = customRecipe.imageData {
 //            recipeImageView.image = UIImage(data: imageData)
 //            backgroundImageView.image = UIImage(data: imageData)
         } else {
             // For nil Image
-            recipeImageView.isHidden = false
             recipeImageView.image = UIImage(named: "mealPlaceholderImage")
             recipeImageView.alpha = 0.8
-            backgroundImageView.image = nil
             backgroundImageView.backgroundColor = .white
         }
         self.searchType = searchType

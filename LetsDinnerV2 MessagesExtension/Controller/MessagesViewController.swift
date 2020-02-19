@@ -25,6 +25,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ViewDidLoad")
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
@@ -45,7 +46,14 @@ class MessagesViewController: MSMessagesAppViewController {
         } catch {
             print("ERROR", error, error.localizedDescription)
         }
+        
+//        CloudManager.shared.checkUserCloudStatus {
+//                    CloudManager.shared.retrieveProfileInfo()
+//                }
+        CloudManager.shared.retrieveProfileInfo()
+        
     }
+
     
     override func viewDidLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
@@ -65,6 +73,10 @@ class MessagesViewController: MSMessagesAppViewController {
         // After you just created event, this seesion will run one more time, after this, you will run message sent
 
         guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
+        
+        if CloudManager.shared.retrieveUserIdOnCloud() == nil {
+            CloudManager.shared.saveUserInfoOnCloud(currentUserUid, key: Keys.userUid)
+        }
         
         func isAlreadyReply() -> Bool {
             if currentUserUid == Event.shared.hostIdentifier {
@@ -91,7 +103,8 @@ class MessagesViewController: MSMessagesAppViewController {
             guard isAlreadyReply() == false else { return }
             
             // Initiate a new user (Here is the only place to have a pending status)
-            Event.shared.currentUser = User(identifier: currentUserUid,
+            
+            Event.shared.currentUser = User(identifier: CloudManager.shared.retrieveUserIdOnCloud() ?? currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
         } else {

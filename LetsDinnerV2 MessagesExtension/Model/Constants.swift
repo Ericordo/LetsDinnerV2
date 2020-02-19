@@ -61,8 +61,10 @@ enum Keys {
     static let profilePicUrl = "profilePicUrl"
     static let address = "address"
     static let measurementSystem = "measurementSystem"
-    static let hasAccepted = "hasAccepted"
-    static let hasDeclined = "hasDeclined"
+//    static let accepted = "Accepted"
+//    static let declined = "Declined"
+    static let userUid = "userUid"
+    
 }
 
 enum MessagesToDisplay {
