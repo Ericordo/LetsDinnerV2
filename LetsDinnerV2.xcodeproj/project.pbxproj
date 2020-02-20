@@ -259,6 +259,7 @@
 		886EB36723DDFF11002CFCB5 /* CancelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCell.swift; sourceTree = "<group>"; };
 		886EB36823DDFF11002CFCB5 /* CancelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CancelCell.xib; sourceTree = "<group>"; };
 		886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescheduleView.swift; sourceTree = "<group>"; };
+		887BE71823FEFA7C006619C7 /* Let's Dinner!Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Release.entitlements"; sourceTree = "<group>"; };
 		88A362DE237C3F8C005B6B81 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
 		88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManagementViewController.xib; sourceTree = "<group>"; };
@@ -511,6 +512,7 @@
 		88349F07236DE9FC002A1879 /* LetsDinnerV2 MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
+				887BE71823FEFA7C006619C7 /* Let's Dinner!Release.entitlements */,
 				880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */,
 				B8BEEAE823A23C28009DC2DB /* Manager */,
 				88349F19236DEEEB002A1879 /* Model */,
@@ -1303,7 +1305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.17;
+				CURRENT_PROJECT_VERSION = 1.0.19;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1324,8 +1326,9 @@
 			baseConfigurationReference = 4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.17;
+				CURRENT_PROJECT_VERSION = 1.0.19;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1349,7 +1352,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.17;
+				CURRENT_PROJECT_VERSION = 1.0.19;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1374,7 +1377,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.17;
+				CURRENT_PROJECT_VERSION = 1.0.19;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
