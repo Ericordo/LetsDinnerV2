@@ -105,7 +105,13 @@ class Event {
         message.md.set(value: dinnerLocation, forKey: "dinnerLocation")
         message.md.set(value: eventDescription, forKey: "eventDescription")
         message.md.set(value: dateTimestamp, forKey: "dateTimestamp")
-        
+        if eventCreation {
+            if let hostID = currentUser?.identifier {
+                message.md.set(value: hostID, forKey: "hostID")
+            }
+        } else {
+            message.md.set(value: hostIdentifier, forKey: "hostID")
+        }
         if eventCreation {
             let firebaseChildUid = uploadEventToFirebase()
             message.md.set(value: firebaseChildUid, forKey: "firebaseEventUid")
@@ -191,10 +197,13 @@ class Event {
                 taskChild.setValue(parameters)
             }
         }
-
+ /// Commented out on 20.02.2020 because Host was pending even though he is the host... Means the currentUser had a pending status
+//        let participantsParameters : [String : Any] = ["fullName" :                                                         defaults.username,
+//                                                       "hasAccepted" : currentUser?.hasAccepted.rawValue ?? "",
+//                                                       "profilePicUrl" : defaults.profilePicUrl]
         let participantsParameters : [String : Any] = ["fullName" :                                                         defaults.username,
-                                                       "hasAccepted" : currentUser?.hasAccepted.rawValue ?? "",
-                                                       "profilePicUrl" : defaults.profilePicUrl]
+                                                       "hasAccepted" : Invitation.accepted.rawValue,
+                                                         "profilePicUrl" : defaults.profilePicUrl]
        
 //        currentUser?.hasAccepted = .accepted
         childUid.child("participants").child(userID).setValue(participantsParameters)
@@ -224,8 +233,7 @@ class Event {
         // Run Two times when click on the event in message bubble
         
         // Initiate user
-        guard let userID = currentUser?.identifier else { return }
-        Database.database().reference().child(userID).child("Events").child(firebaseEventUid).observeSingleEvent(of: .value, with: { (snapshot) in
+        Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let value = snapshot.value as? [String : Any] else { return }
             guard let hostID = value["hostID"] as? String else { return }
             self.hostIdentifier = hostID
@@ -360,12 +368,14 @@ class Event {
         if let firebaseEventUid = message.md.string(forKey: "firebaseEventUid") {
             self.firebaseEventUid = firebaseEventUid
         }
+        if let hostIdentifier = message.md.string(forKey: "hostID") {
+            self.hostIdentifier = hostIdentifier
+        }
         observeEvent()
     }
     
 
     func updateFirebaseTasks() {
-        guard let userID = currentUser?.identifier else { return }
         tasks.forEach { task in
 //            Added isCustom in the parameters
             var parameters: [String : Any] = ["title" : task.taskName,
@@ -381,7 +391,7 @@ class Event {
                 parameters["metricUnit"] = unit
             }
                         
-            let childUid = Database.database().reference().child(userID).child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
+            let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
             childUid.updateChildValues(parameters, withCompletionBlock: { (error, reference) in
                 if error != nil {
                     print(error!.localizedDescription)
@@ -394,10 +404,9 @@ class Event {
     }
     
     func updateFirebaseDate(_ dateTimestamp: Double) {
-        guard let userID = currentUser?.identifier else { return }
         self.dateTimestamp = dateTimestamp
         let parameters: [String : Any] = ["dateTimestamp" : dateTimestamp]
-        let childUid = Database.database().reference().child(userID).child("Events").child(firebaseEventUid)
+        let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid)
         childUid.updateChildValues(parameters) { (error, reference) in
             if error != nil {
                 print(error!.localizedDescription)
@@ -408,9 +417,8 @@ class Event {
     }
     
     func updateFirebaseServings() {
-        guard let userID = currentUser?.identifier else { return }
         let parameters: [String : Any] = ["servings" : servings]
-        let childUid = Database.database().reference().child(userID).child("Events").child(firebaseEventUid)
+        let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid)
         childUid.updateChildValues(parameters) { (error, reference) in
             if error != nil {
                 print(error!.localizedDescription)
@@ -421,13 +429,12 @@ class Event {
     }
     
     func cancelFirebaseEvent() {
-        guard let userID = currentUser?.identifier else { return }
         let cancelName = "Canceled: " + self.dinnerName
         self.dinnerName = cancelName
         self.tasks = []
-        Database.database().reference().child(userID).child("Events").child(self.firebaseEventUid).child("isCancelled").setValue(true)
-        Database.database().reference().child(userID).child("Events").child(self.firebaseEventUid).child("dinnerName").setValue(cancelName)
-        Database.database().reference().child(userID).child("Events").child(self.firebaseEventUid).child("tasks").setValue([:])
+        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("isCancelled").setValue(true)
+        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("dinnerName").setValue(cancelName)
+        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("tasks").setValue([:])
     }
     
     func getAssignedNewTasks() -> Int {
@@ -453,14 +460,13 @@ class Event {
     }
     
     func updateAcceptStateToFirebase(hasAccepted: Invitation) {
-        guard let userID = currentUser?.identifier else { return }
         guard let currentUser = currentUser else {return}
         let identifier = currentUser.identifier
 
         let participantsParameters: [String: Any] = ["fullName": defaults.username,
                                                      "hasAccepted": currentUser.hasAccepted.rawValue,
                                                      "profilePicUrl" : defaults.profilePicUrl]
-        Database.database().reference().child(userID).child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
+        Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
         
     }
     
@@ -560,26 +566,23 @@ class Event {
     }
     
     func getNumberOfOnlineUsers(completion: @escaping (Int) -> Void) {
-        guard let userID = currentUser?.identifier else { return }
-Database.database().reference().child(userID).child("Events").child(firebaseEventUid).child("onlineUsers").observeSingleEvent(of: .value) { snapshot in
+Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("onlineUsers").observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? Int else { return }
             completion(value)
         }
     }
     
     func addOnlineUser() {
-        guard let userID = currentUser?.identifier else { return }
         getNumberOfOnlineUsers { number in
             let updatedOnlineUsers = number + 1
-            Database.database().reference().child(userID).child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
+            Database.database().reference().child(self.hostIdentifier).child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
         }
     }
     
     func removeOnlineUser() {
-        guard let userID = currentUser?.identifier else { return }
         getNumberOfOnlineUsers { number in
             let updatedOnlineUsers = number - 1
-            Database.database().reference().child(userID).child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
+            Database.database().reference().child(self.hostIdentifier).child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
         }
     }
         
