@@ -85,7 +85,7 @@ class ManagementViewController: UIViewController {
         tasksTableView.tableFooterView = UIView()
         
         servingsLabel.text = "How many servings?  \(servings)"
-        servingsLabel.textColor = Colors.textGrey
+        servingsLabel.textColor = UIColor.secondaryTextLabel
         
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
@@ -110,7 +110,7 @@ class ManagementViewController: UIViewController {
 //        servingsStepper.labelWidthWeight = 0.4
 //        servingsStepper.limitHitAnimationColor = Colors.paleGray
         
-        separatorView.backgroundColor = Colors.seperatorGrey
+        separatorView.backgroundColor = UIColor.viewSeparatorLine
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             servingsLabel.isHidden = true
@@ -122,7 +122,6 @@ class ManagementViewController: UIViewController {
             bottomViewHeightConstraint.constant = 60
             self.bottomView.layoutIfNeeded()
         }
-        
     }
     
     private func setupSwipeGesture() {
@@ -370,7 +369,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = UIView()
-        headerView.backgroundColor = Colors.allWhite
+        headerView.backgroundColor = UIColor.backgroundColor
         headerView.tag = section
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
         
@@ -404,7 +403,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         
         let separator : UIView = {
             let view = UIView()
-            view.backgroundColor = UIColor.lightGray
+            view.backgroundColor = UIColor.cellSeparatorLine
             return view
         }()
         

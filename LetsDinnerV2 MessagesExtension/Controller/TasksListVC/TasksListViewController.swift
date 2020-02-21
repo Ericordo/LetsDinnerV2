@@ -120,7 +120,7 @@ class TasksListViewController: UIViewController {
         }
         
         servingsLabel.text = "Update servings? \(Event.shared.servings)"
-        servingsLabel.textColor = Colors.textGrey
+        servingsLabel.textColor = UIColor.secondaryTextLabel
         
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
@@ -297,7 +297,7 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = UIView()
-        headerView.backgroundColor = .white
+        headerView.backgroundColor = .backgroundColor
         headerView.tag = section
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
         
@@ -320,7 +320,7 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         
         let separator : UIView = {
             let view = UIView()
-            view.backgroundColor = UIColor.lightGray
+            view.backgroundColor = UIColor.cellSeparatorLine
             return view
         }()
         

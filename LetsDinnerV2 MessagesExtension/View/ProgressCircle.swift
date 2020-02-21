@@ -66,7 +66,7 @@ class ProgressCircle: UIView {
         
         outsideCircle.path = outsidePath.cgPath
 //        outsideCircle.strokeColor = UIColor.lightGray.cgColor
-        outsideCircle.strokeColor = UIColor.black.cgColor
+        outsideCircle.strokeColor = UIColor.textLabel.cgColor
         outsideCircle.fillColor = UIColor.clear.cgColor
         outsideCircle.lineWidth = 1
         self.layer.addSublayer(outsideCircle)
@@ -77,7 +77,7 @@ class ProgressCircle: UIView {
         
         innerCircle.path = innerPath.cgPath
 //        innerCircle.strokeColor = UIColor.lightGray.cgColor
-        innerCircle.strokeColor = UIColor.black.cgColor
+        innerCircle.strokeColor = UIColor.textLabel.cgColor
         innerCircle.fillColor = UIColor.clear.cgColor
         innerCircle.lineWidth = innerRadius
         innerCircle.strokeEnd = 0

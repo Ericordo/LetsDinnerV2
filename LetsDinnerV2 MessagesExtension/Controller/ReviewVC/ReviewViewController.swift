@@ -23,7 +23,7 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var summaryTableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var separatorLine: UIView!
     @IBOutlet weak var topSendingLabel: UILabel!
     
     weak var delegate: ReviewViewControllerDelegate?
@@ -61,9 +61,7 @@ class ReviewViewController: UIViewController {
     }
 
     private func setupUI() {
-        seperatorLine.backgroundColor = Colors.seperatorGrey
         summaryTableView.tableFooterView = UIView()
-        
         sendButtonLeadingConstraint.isActive = false
         
         if #available(iOS 13.2, *) {
@@ -139,14 +137,20 @@ class ReviewViewController: UIViewController {
     
     private func reviewBeforeSending() {
         darkView.frame = self.view.frame
-        darkView.backgroundColor = UIColor(white: 0, alpha: 0.1)
-        darkView.alpha = 0
+        darkView.backgroundColor = UIColor.backgroundMirroredColor.withAlphaComponent(0.5)
+        darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)
         self.view.bringSubviewToFront(self.buttonStackView)
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-            self.darkView.alpha = 1
+        
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveLinear,
+                       animations: {
+                        self.darkView.alpha = 0.8
             self.sendButtonLeadingConstraint =  self.sendButton.leadingAnchor.constraint(equalTo: self.buttonStackView.leadingAnchor, constant: 0)
             self.sendButtonLeadingConstraint.isActive = true
             self.view.layoutIfNeeded()
@@ -191,7 +195,7 @@ class ReviewViewController: UIViewController {
  
 }
 
-// MARKS: - TableViewSetup
+// MARK: - TableViewSetup
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6

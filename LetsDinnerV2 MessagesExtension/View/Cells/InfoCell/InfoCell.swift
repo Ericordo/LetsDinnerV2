@@ -16,7 +16,7 @@ class InfoCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
-        infoLabel.textColor = Colors.textGrey
+        infoLabel.textColor = .secondaryTextLabel
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

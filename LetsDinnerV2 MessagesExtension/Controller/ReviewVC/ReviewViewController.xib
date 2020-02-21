@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +16,7 @@
                 <outlet property="progressView" destination="Uwl-PZ-Jns" id="tml-4x-oUb"/>
                 <outlet property="sendButton" destination="aI0-Jh-k9M" id="b2v-Zi-o8Q"/>
                 <outlet property="sendButtonLeadingConstraint" destination="AFb-Hv-JC5" id="WFY-61-DnF"/>
-                <outlet property="seperatorLine" destination="ohJ-Y0-Tgc" id="icI-E4-NrF"/>
+                <outlet property="separatorLine" destination="ohJ-Y0-Tgc" id="icI-E4-NrF"/>
                 <outlet property="summaryTableView" destination="ojl-GP-L7P" id="uzw-Cw-VGN"/>
                 <outlet property="topSendingLabel" destination="7B7-Wv-GEu" id="pmI-hY-O9f"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -32,7 +33,7 @@
                         <constraint firstAttribute="width" constant="220" id="BVf-bU-Drd"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" name="labelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Uwl-PZ-Jns">
@@ -41,9 +42,9 @@
                         <constraint firstAttribute="height" id="LYj-YD-udi"/>
                     </constraints>
                 </progressView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohJ-Y0-Tgc" userLabel="Seperator View">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohJ-Y0-Tgc" userLabel="Section Separator">
                     <rect key="frame" x="0.0" y="129" width="375" height="0.5"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="sectionSeparatorLine"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="0.29999999999999999" id="jo2-TA-GRl"/>
                     </constraints>
@@ -51,6 +52,7 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ojl-GP-L7P">
                     <rect key="frame" x="0.0" y="130.5" width="375" height="536.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="separatorColor" name="cellSeperatorLine"/>
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="bga-3P-lPr">
@@ -90,7 +92,7 @@
                     </constraints>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="Uwl-PZ-Jns" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="62i-i4-u99"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="BS3-z2-vKD"/>
@@ -114,4 +116,18 @@
             <point key="canvasLocation" x="132" y="152.47376311844079"/>
         </view>
     </objects>
+    <resources>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="cellSeperatorLine">
+            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="sectionSeparatorLine">
+            <color red="0.54117647058823526" green="0.54117647058823526" blue="0.55686274509803924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

@@ -17,7 +17,7 @@ class TaskManagementCell: UITableViewCell {
     @IBOutlet weak var taskStatusButton: TaskStatusButton!
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var personLabel: TaskPersonLabel!
-    @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var separatorLine: UIView!
     
     var task: Task?
     
@@ -63,7 +63,7 @@ class TaskManagementCell: UITableViewCell {
         
         taskStatusButton.isUserInteractionEnabled = false
         
-        seperatorLine.backgroundColor = Colors.seperatorGrey
+        separatorLine.backgroundColor = UIColor.cellSeparatorLine
     }
     
     func didTapTaskStatusButton(indexPath: IndexPath) {

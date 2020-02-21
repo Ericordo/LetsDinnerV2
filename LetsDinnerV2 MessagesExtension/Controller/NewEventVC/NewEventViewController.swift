@@ -27,7 +27,6 @@ class NewEventViewController: UIViewController  {
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var profileButton: UIButton!
-    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var infoInput: InfoInputView!
     @IBOutlet weak var eventInput: EventInputView!
@@ -58,15 +57,15 @@ class NewEventViewController: UIViewController  {
             textField!.delegate = self
             textField!.autocapitalizationType = .sentences
             textField!.autocorrectionType = .no
+            
         }
+        
         scrollView.delegate = self
         infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         
+        // Keyboard Observer
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,18 +75,12 @@ class NewEventViewController: UIViewController  {
     func setupUI() {
         errorLabel.isHidden = true
         checkForExistingEvent()
-//        progressView.progressTintColor = Colors.newGradientRed
-//        progressView.trackTintColor = .green
-//        progressView.progress = 0
-//        progressView.setProgress(1/5, animated: true)
+
         dinnerNameTextField.setLeftView(image: UIImage(named: "titleIcon")!)
-        
         locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
         hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
-        
-        
-        
+                
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
@@ -197,10 +190,12 @@ class NewEventViewController: UIViewController  {
         }
     }
     
+    // MARK: - Button Clicked
     
     @IBAction func didTapNext(_ sender: UIButton) {
         
         if !allFieldsAreFilled() {
+            
             dinnerNameTextField.animateEmpty()
             hostNameTextField.animateEmpty()
             locationTextField.animateEmpty()
@@ -230,6 +225,8 @@ class NewEventViewController: UIViewController  {
     
     
 }
+
+// MARK: - TextFieldDelegate
 
 extension NewEventViewController: UITextFieldDelegate {
     
@@ -305,10 +302,9 @@ extension NewEventViewController: UITextFieldDelegate {
         }
     }
     
-    
-    
-    
 }
+
+// MARK: - ScrollViewDelegate
 
 extension NewEventViewController: UIScrollViewDelegate {
     

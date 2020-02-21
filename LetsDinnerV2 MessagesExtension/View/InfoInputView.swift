@@ -33,7 +33,7 @@ class InfoInputView : UIView {
     let addButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitleColor(Colors.soBlack, for: .normal)
+        button.setTitleColor(UIColor.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
 //        button.setImage(UIImage(named: "addButton"), for: .normal)
 //        button.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
@@ -41,7 +41,7 @@ class InfoInputView : UIView {
     }()
     
     private func configureView() {
-        self.backgroundColor = Colors.inputGray
+        self.backgroundColor = UIColor.keyboardBackground
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }

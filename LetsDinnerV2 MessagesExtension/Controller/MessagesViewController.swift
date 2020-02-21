@@ -46,10 +46,16 @@ class MessagesViewController: MSMessagesAppViewController {
             print("ERROR", error, error.localizedDescription)
         }
         
+
 //        CloudManager.shared.checkUserCloudStatus {
 //                    CloudManager.shared.retrieveProfileInfo()
 //                }
         CloudManager.shared.retrieveProfileInfo()
+
+//        if #available(iOSApplicationExtension 13.0, *) {
+//            overrideUserInterfaceStyle = .dark
+//        }
+
         
     }
 
@@ -314,9 +320,11 @@ class MessagesViewController: MSMessagesAppViewController {
         isProgressBarExisted = true
         
         NSLayoutConstraint.activate([
+
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
             controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
             controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+
             controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }

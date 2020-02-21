@@ -18,7 +18,7 @@ class TaskCell: UITableViewCell {
     @IBOutlet weak var taskStatusButton: TaskStatusButton!
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var personLabel: TaskPersonLabel!
-    @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var separatorLine: UIView!
     
     var task: Task?
     var indexPath = 0
@@ -109,7 +109,7 @@ class TaskCell: UITableViewCell {
             personLabel.text = MessagesToDisplay.noAssignment
         }
         taskStatusButton.isUserInteractionEnabled = false
-        seperatorLine.backgroundColor = Colors.seperatorGrey
+        separatorLine.backgroundColor = UIColor.cellSeparatorLine
     }
     
 }

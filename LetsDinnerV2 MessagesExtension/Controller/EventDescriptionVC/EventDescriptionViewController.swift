@@ -79,7 +79,7 @@ class EventDescriptionViewController: UIViewController {
         descriptionTextView.addSubview(placeholderLabel)
         
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (descriptionTextView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = Colors.seperatorGrey
+        placeholderLabel.textColor = UIColor.placeholderText
         placeholderLabel.font = UIFont.systemFont(ofSize: 16)
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()

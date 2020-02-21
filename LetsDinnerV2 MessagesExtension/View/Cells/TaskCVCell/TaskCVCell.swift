@@ -13,7 +13,7 @@ class TaskCVCell: UICollectionViewCell {
     @IBOutlet weak var taskStatusButton: TaskStatusButton!
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var personLabel: TaskPersonLabel!
-    @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var separatorLine: UIView!
     
     var task: Task?
     var count : Int = 0
@@ -68,11 +68,11 @@ class TaskCVCell: UICollectionViewCell {
         }
         
         // For deleting the line for the bottom last cell
-        seperatorLine.isHidden = false
-        seperatorLine.backgroundColor = Colors.seperatorGrey
+        separatorLine.isHidden = false
+        separatorLine.backgroundColor = UIColor.cellSeparatorLine
         
         if count % 3 == 0 {
-            seperatorLine.isHidden = true
+            separatorLine.isHidden = true
         }
         
         

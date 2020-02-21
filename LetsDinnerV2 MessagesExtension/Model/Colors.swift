@@ -8,10 +8,6 @@
 
 import UIKit
 
-enum ColorPalette {
-    
-}
-
 enum Colors {
     // New Color
     static let soBlack = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
@@ -31,7 +27,7 @@ enum Colors {
     static let dullGrey = UIColor(red: 138/255, green: 138/255, blue: 142/255, alpha: 1.0)
     static let defaultGrey = UIColor(red: 220/255, green: 220/255, blue: 221/255, alpha: 1.0)
     static let paleGray = UIColor(red: 242/255, green: 242/255, blue: 247/255, alpha: 1.0)
-    static let seperatorGrey = UIColor(red: 60/255, green: 60/255, blue: 67/255, alpha: 0.3)
+    static let separatorGrey = UIColor(red: 60/255, green: 60/255, blue: 67/255, alpha: 0.3)
     static let textGrey = UIColor(red: 60/255, green: 60/255, blue: 67/255, alpha: 0.7)
     
     static let darkStoneGrey = UIColor(red: 101/255, green: 101/255, blue: 106/255, alpha: 1.0)

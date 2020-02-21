@@ -65,7 +65,7 @@ class Event {
     var tasks = [Task]()
     var isCancelled = false
     
-    // MARKS: - Functions
+    // MARK: - Functions
     
     func resetEvent() {
         dinnerName.removeAll()
