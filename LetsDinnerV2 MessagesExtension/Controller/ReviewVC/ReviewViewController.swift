@@ -23,7 +23,7 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var summaryTableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var separatorLine: UIView!
     @IBOutlet weak var topSendingLabel: UILabel!
     
     weak var delegate: ReviewViewControllerDelegate?
@@ -61,9 +61,7 @@ class ReviewViewController: UIViewController {
     }
 
     private func setupUI() {
-        seperatorLine.backgroundColor = Colors.seperatorGrey
         summaryTableView.tableFooterView = UIView()
-        
         sendButtonLeadingConstraint.isActive = false
         
         if #available(iOS 13.2, *) {
@@ -139,7 +137,7 @@ class ReviewViewController: UIViewController {
     
     private func reviewBeforeSending() {
         darkView.frame = self.view.frame
-        darkView.backgroundColor = UIColor(white: 0, alpha: 0.1)
+        darkView.backgroundColor = UIColor.textLabel.withAlphaComponent(0.1)
         darkView.alpha = 0
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)

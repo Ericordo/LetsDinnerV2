@@ -24,10 +24,10 @@ class DatePicker: UIDatePicker {
     
     func setupPicker() {
         datePickerMode = .dateAndTime
-        backgroundColor = .white
+        backgroundColor = UIColor.backgroundColor
         locale = Locale(identifier: "en_GB")
         minimumDate = Date()
-        tintColor = UIColor(red:0.84, green:0.10, blue:0.25, alpha:1.0)
+        tintColor = UIColor.textLabel
         
         toolbar.sizeToFit()
         toolbar.tintColor = UIColor(red:0.84, green:0.10, blue:0.25, alpha:1.0)

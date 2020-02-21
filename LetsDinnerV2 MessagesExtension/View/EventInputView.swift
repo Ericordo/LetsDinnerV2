@@ -25,7 +25,7 @@ class EventInputView: UIView {
         let button = UIButton()
         button.backgroundColor = .clear
         button.setTitle("Breakfast", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
         return button
     }()
@@ -34,7 +34,7 @@ class EventInputView: UIView {
         let button = UIButton()
         button.backgroundColor = .clear
         button.setTitle("Lunch", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
         return button
     }()
@@ -43,20 +43,20 @@ class EventInputView: UIView {
         let button = UIButton()
         button.backgroundColor = .clear
         button.setTitle("Dinner", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
         return button
     }()
     
     let separatorOne : UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 186/255, green: 191/255, blue: 197/255, alpha: 1.0)
+        view.backgroundColor = UIColor.keyboardSeparator
         return view
     }()
     
     let separatorTwo : UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 186/255, green: 191/255, blue: 197/255, alpha: 1.0)
+        view.backgroundColor = UIColor.keyboardSeparator
         return view
     }()
     
@@ -69,7 +69,7 @@ class EventInputView: UIView {
     }()
     
         private func configureView() {
-            self.backgroundColor = Colors.inputGray
+            self.backgroundColor = UIColor.keyboardBackground
             self.sizeToFit()
             self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }

@@ -79,7 +79,7 @@ class RegistrationViewController: UIViewController {
     }
     
 
-    func setupUI() {
+    private func setupUI() {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset

@@ -23,6 +23,7 @@ class RecipeCell: UITableViewCell {
     @IBOutlet weak var chooseButton: UIButton!
     @IBOutlet weak var chosenButton: UIButton!
     @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var viewButton: UIButton!
     
     var selectedRecipe = Recipe(dict: [:])
@@ -39,7 +40,7 @@ class RecipeCell: UITableViewCell {
     func setupCell() {
         backgroundCellView.clipsToBounds = true
         backgroundCellView.layer.cornerRadius = 10
-        backgroundCellView.backgroundColor = Colors.paleGray
+        backgroundCellView.backgroundColor = UIColor.secondaryTextLabel
         
         chooseButton.clipsToBounds = true
         chooseButton.layer.cornerRadius = 10
@@ -62,6 +63,15 @@ class RecipeCell: UITableViewCell {
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
         recipeNameLabel.sizeToFit()
+        
+        if #available(iOSApplicationExtension 12.0, *) {
+            if self.traitCollection.userInterfaceStyle == .dark {
+                let blurEffect = UIBlurEffect(style: .dark)
+                self.visualEffectView.effect = blurEffect
+            }
+        }
+        
+        
     }
     
     func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
@@ -78,7 +88,7 @@ class RecipeCell: UITableViewCell {
             recipeImageView.image = UIImage(named: "mealPlaceholderImage")
             recipeImageView.alpha = 0.8
             backgroundImageView.image = nil
-            backgroundImageView.backgroundColor = .white
+            backgroundImageView.backgroundColor = .backgroundColor
         }
         self.searchType = searchType
         recipeNameLabel.text = customRecipe.title

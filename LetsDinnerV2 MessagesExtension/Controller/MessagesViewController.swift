@@ -304,7 +304,8 @@ class MessagesViewController: MSMessagesAppViewController {
         controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
         controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
         controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-        controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        controller.view.heightAnchor.constraint(equalToConstant: 2)
+            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     

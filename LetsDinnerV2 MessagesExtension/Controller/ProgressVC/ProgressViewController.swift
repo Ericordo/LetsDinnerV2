@@ -30,9 +30,9 @@ class ProgressViewController: UIViewController {
     }
         
     private func configureUI() {
-        self.view.backgroundColor = Colors.allWhite
-        progressView.progressTintColor = Colors.highlightRed
-        progressView.trackTintColor = Colors.paleGray
+        self.view.backgroundColor = UIColor.backgroundColor
+        progressView.progressTintColor = UIColor.activeButton
+        progressView.trackTintColor = UIColor.inactiveButton
     }
     
     @objc func stepProgressing(_ notification: Notification) {

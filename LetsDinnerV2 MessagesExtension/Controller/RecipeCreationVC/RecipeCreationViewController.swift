@@ -158,7 +158,7 @@ class RecipeCreationViewController: UIViewController {
         placeholderLabel.sizeToFit()
         commentsTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = Colors.seperatorGrey
+        placeholderLabel.textColor = Colors.separatorGrey
         placeholderLabel.font = UIFont.systemFont(ofSize: 17)
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
     }

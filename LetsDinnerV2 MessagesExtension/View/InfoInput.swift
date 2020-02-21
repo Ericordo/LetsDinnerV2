@@ -25,7 +25,7 @@ class InfoInput : UIToolbar {
     
     private let infoLabel : UILabel = {
         let label = UILabel()
-        label.backgroundColor = .clear
+        label.backgroundColor = UIColor.backgroundColor
         return label
     }()
     

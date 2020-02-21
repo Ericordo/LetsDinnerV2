@@ -41,13 +41,13 @@ class SectionSelectionInput : UIView {
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .white
+        cv.backgroundColor = .backgroundColor
         cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
     private func configureView() {
-        self.backgroundColor = .white
+        self.backgroundColor = .backgroundColor
         sectionsCollectionView.dataSource = self
         sectionsCollectionView.delegate = self
         sectionsCollectionView.register(UINib(nibName: CellNibs.sectionInputCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.sectionInputCell)

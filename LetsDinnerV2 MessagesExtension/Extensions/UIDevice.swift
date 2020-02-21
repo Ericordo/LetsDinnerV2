@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public extension UIDevice {
+extension UIDevice {
 
     enum `Type` {
         case iPad

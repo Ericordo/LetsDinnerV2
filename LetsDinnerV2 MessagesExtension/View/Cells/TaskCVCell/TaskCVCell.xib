@@ -44,9 +44,9 @@
                                 <color key="textColor" name="stoneGrey"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tR9-y2-rz7" userLabel="Seperator Line">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tR9-y2-rz7" userLabel="Cell Separator">
                                 <rect key="frame" x="38" y="78.5" width="287" height="0.5"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="cellSeparatorLine"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="0.5" id="cdD-nG-Q9t"/>
                                     <constraint firstAttribute="height" constant="0.5" id="cnv-jg-Peb"/>
@@ -82,7 +82,7 @@
             <size key="customSize" width="293" height="90"/>
             <connections>
                 <outlet property="personLabel" destination="8p6-Ng-yx3" id="NMf-TR-DfE"/>
-                <outlet property="seperatorLine" destination="tR9-y2-rz7" id="cSD-Ie-VH6"/>
+                <outlet property="separatorLine" destination="tR9-y2-rz7" id="cSD-Ie-VH6"/>
                 <outlet property="taskNameLabel" destination="PF3-TD-4UY" id="pSN-jy-GOD"/>
                 <outlet property="taskStatusButton" destination="sLG-tV-Afa" id="ZWh-xQ-dss"/>
             </connections>
@@ -91,11 +91,14 @@
     </objects>
     <resources>
         <image name="unassignedTask" width="24" height="24"/>
+        <namedColor name="cellSeparatorLine">
+            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="stoneGrey">
-            <color red="0.76862745098039209" green="0.76862745098039209" blue="0.77647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.77600002288818359" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

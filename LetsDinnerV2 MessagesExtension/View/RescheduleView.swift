@@ -22,6 +22,7 @@ class RescheduleView: UIView {
         label.text = LabelStrings.selectNewDate
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = UIColor.textLabel
         return label
     }()
     
@@ -62,7 +63,7 @@ class RescheduleView: UIView {
     
     
     private func setupView() {
-        self.backgroundColor = .white
+        self.backgroundColor = .backgroundColor
         self.addSubview(updateButton)
         self.addSubview(titleLabel)
         self.addSubview(datePicker)

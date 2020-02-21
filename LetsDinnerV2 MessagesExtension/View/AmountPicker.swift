@@ -33,10 +33,10 @@ class AmountPicker: UIPickerView {
     }
     
     func setupPicker() {
-        backgroundColor = .white
+        backgroundColor = .backgroundColor
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
-        toolbar.tintColor = .black
+        toolbar.tintColor = .textLabel
         toolbar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneTapped))

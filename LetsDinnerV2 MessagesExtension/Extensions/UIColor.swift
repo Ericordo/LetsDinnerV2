@@ -29,6 +29,15 @@ extension UIColor {
         } else { return Colors.soBlack }
     }
     
+    static var secondaryTextLabel: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.darkStoneGrey
+                } else { return Colors.stoneGrey }}
+        } else { return Colors.stoneGrey }
+    }
+    
     static var navigationTitle: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -51,9 +60,9 @@ extension UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return Colors.allWhite
-                } else { return Colors.soBlack }}
-        } else { return Colors.soBlack }
+                    return Colors.darkDefaultGrey
+                } else { return Colors.defaultGrey }}
+        } else { return Colors.defaultGrey }
     }
     
     static var activeButton: UIColor {
@@ -65,6 +74,15 @@ extension UIColor {
         } else { return Colors.highlightRed }
     }
     
+    static var inactiveButton: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.darkDefaultGrey
+                } else { return Colors.defaultGrey }}
+        } else { return Colors.defaultGrey }
+    }
+    
     static var link: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -74,22 +92,40 @@ extension UIColor {
         } else { return Colors.soBlack }
     }
     
-    static var cellSeperatorLine: UIColor {
+    static var cellSeparatorLine: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return Colors.allWhite
-                } else { return Colors.soBlack }}
-        } else { return Colors.soBlack }
+                    return Colors.darkDullGrey
+                } else { return Colors.dullGrey }}
+        } else { return Colors.dullGrey }
     }
     
-    static var viewSeperatorLine: UIColor {
+    static var viewSeparatorLine: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return Colors.allWhite
-                } else { return Colors.soBlack }}
-        } else { return Colors.soBlack }
+                    return Colors.darkDefaultGrey
+                } else { return Colors.defaultGrey }}
+        } else { return Colors.defaultGrey }
+    }
+    
+    static var keyboardBackground: UIColor {
+           if #available(iOS 13, *) {
+               return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                   if traitCollection.userInterfaceStyle == .dark {
+                       return UIColor(red: 27/255, green: 27/255, blue: 27/255, alpha: 1)
+                   } else { return UIColor(red: 210/255, green: 211/255, blue: 217/255, alpha: 1) }}
+           } else { return UIColor(red: 210/255, green: 211/255, blue: 217/255, alpha: 1) }
+       }
+    
+    static var keyboardSeparator: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 47/255, green: 47/255, blue: 47/255, alpha: 1)
+                } else { return UIColor(red: 190/255, green: 192/255, blue: 196/255, alpha: 1) }}
+        } else { return UIColor(red: 190/255, green: 192/255, blue: 196/255, alpha: 1) }
     }
     
     // MARK: - Functions
