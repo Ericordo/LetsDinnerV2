@@ -15,14 +15,14 @@ class SectionInputCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
 //            sectionLabel.font = isSelected ? UIFont.systemFont(ofSize: 16, weight: .semibold) : UIFont.systemFont(ofSize: 16, weight: .bold)
-            sectionLabel.backgroundColor = isSelected ? Colors.paleGray : .backgroundColor
-            self.backgroundColor = isSelected ? Colors.paleGray : .backgroundColor
+//            sectionLabel.backgroundColor = isSelected ? UIColor.cellSeparatorLine : .clear
+            self.backgroundColor = isSelected ? UIColor.cellSeparatorLine : .backgroundColor
         }
     }
     
     func setupCell() {
         self.layer.cornerRadius = 8
-        sectionLabel.backgroundColor = .backgroundColor
+        sectionLabel.backgroundColor = .clear
         sectionLabel.textAlignment = .center
         sectionLabel.layer.cornerRadius = 8
         sectionLabel.textColor = .textLabel

@@ -395,7 +395,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
             let vc = SFSafariViewController(url: url)
-            vc.preferredControlTintColor = Colors.newGradientRed
+            vc.preferredControlTintColor = UIColor.activeButton
             vc.modalPresentationStyle = .overFullScreen
             present(vc, animated: true, completion: nil)
         }

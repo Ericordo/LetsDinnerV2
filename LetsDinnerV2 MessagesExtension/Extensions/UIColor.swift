@@ -20,6 +20,15 @@ extension UIColor {
         } else { return Colors.allWhite }
     }
     
+    static var backgroundMirroredColor: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.allWhite
+                } else { return Colors.soBlack }}
+        } else { return Colors.soBlack }
+    }
+    
     static var textLabel: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -92,7 +101,7 @@ extension UIColor {
         } else { return Colors.soBlack }
     }
     
-    static var cellSeparatorLine: UIColor {
+    static var viewSeparatorLine: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
@@ -101,7 +110,7 @@ extension UIColor {
         } else { return Colors.dullGrey }
     }
     
-    static var viewSeparatorLine: UIColor {
+    static var cellSeparatorLine: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {

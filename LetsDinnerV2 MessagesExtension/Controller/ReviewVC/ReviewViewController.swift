@@ -137,14 +137,20 @@ class ReviewViewController: UIViewController {
     
     private func reviewBeforeSending() {
         darkView.frame = self.view.frame
-        darkView.backgroundColor = UIColor.textLabel.withAlphaComponent(0.1)
-        darkView.alpha = 0
+        darkView.backgroundColor = UIColor.backgroundMirroredColor.withAlphaComponent(0.5)
+        darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)
         self.view.bringSubviewToFront(self.buttonStackView)
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-            self.darkView.alpha = 1
+        
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveLinear,
+                       animations: {
+                        self.darkView.alpha = 0.8
             self.sendButtonLeadingConstraint =  self.sendButton.leadingAnchor.constraint(equalTo: self.buttonStackView.leadingAnchor, constant: 0)
             self.sendButtonLeadingConstraint.isActive = true
             self.view.layoutIfNeeded()

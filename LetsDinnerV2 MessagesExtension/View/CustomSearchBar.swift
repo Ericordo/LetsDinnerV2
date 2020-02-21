@@ -20,18 +20,24 @@ class CustomSearchBar: UISearchBar {
         setupSearchBar()
     }
     
-    
-    
+
     private func setupSearchBar() {
-        self.layer.borderWidth = 0.1
-        self.layer.borderColor = UIColor(red:1 , green:1 , blue:1, alpha:1.0).cgColor
-        let image = UIColor(red:1, green:1, blue:1, alpha:1.0).image()
-        self.setBackgroundImage(image, for: .any, barMetrics: .default)
-        self.scopeBarBackgroundImage = image
-        self.barTintColor = .clear
-        self.backgroundColor = .clear
+//        self.layer.borderWidth = 0.1
+//        self.layer.borderColor = UIColor(red:1 , green:1 , blue:1, alpha:1.0).cgColor
+//        let image = UIColor(red:1, green:1, blue:1, alpha:1.0).image()
+//        self.setBackgroundImage(image, for: .any, barMetrics: .default)
+//        self.scopeBarBackgroundImage = image
+        
+        self.searchBarStyle = .minimal
+        self.barTintColor = .backgroundColor
+        self.backgroundColor = .backgroundColor
         self.isTranslucent = true
-        self.searchBarStyle = .prominent
+        
+        if #available(iOS 13.0, *) {
+            if self.traitCollection.userInterfaceStyle == .dark {
+                self.searchTextField.backgroundColor = UIColor.backgroundColor.withAlphaComponent(1.0)
+            }
+        }
     }
 
 }

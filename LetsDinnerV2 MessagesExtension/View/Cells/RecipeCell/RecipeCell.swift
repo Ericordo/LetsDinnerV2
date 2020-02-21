@@ -64,7 +64,7 @@ class RecipeCell: UITableViewCell {
         chosenButton.isHidden = !isSelected
         recipeNameLabel.sizeToFit()
         
-        if #available(iOSApplicationExtension 12.0, *) {
+        if #available(iOSApplicationExtension 13.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
                 let blurEffect = UIBlurEffect(style: .dark)
                 self.visualEffectView.effect = blurEffect
@@ -87,8 +87,9 @@ class RecipeCell: UITableViewCell {
             recipeImageView.isHidden = false
             recipeImageView.image = UIImage(named: "mealPlaceholderImage")
             recipeImageView.alpha = 0.8
+            
             backgroundImageView.image = nil
-            backgroundImageView.backgroundColor = .backgroundColor
+            backgroundImageView.backgroundColor = UIColor.backgroundColor.withAlphaComponent(1.0)
         }
         self.searchType = searchType
         recipeNameLabel.text = customRecipe.title

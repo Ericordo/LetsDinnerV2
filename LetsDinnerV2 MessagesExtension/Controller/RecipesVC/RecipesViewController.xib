@@ -61,14 +61,13 @@
                     <color key="textColor" name="labelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <searchBar contentMode="redraw" text="" placeholder="Search 360K+ recipes" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-Jk-kjP" customClass="CustomSearchBar" customModule="Let_s_Dinner_" customModuleProvider="target">
+                <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search 360K+ recipes" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-Jk-kjP" customClass="CustomSearchBar" customModule="Let_s_Dinner_" customModuleProvider="target">
                     <rect key="frame" x="8" y="52" width="359" height="40"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="LHK-34-xfR"/>
                     </constraints>
                     <color key="tintColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <color key="barTintColor" name="backgroundColor"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="foA-gA-QWG">
@@ -78,13 +77,13 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeB-1L-5bN">
                     <rect key="frame" x="146.5" y="363.5" width="82.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="textColor" name="stoneGrey"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3EZ-7s-2av">
                     <rect key="frame" x="142" y="323.5" width="91" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="textColor" name="stoneGrey"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ciq-25-awl">
@@ -135,7 +134,7 @@
                             </constraints>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" name="bottomViewColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="83" id="8DC-4H-tf8"/>
                         <constraint firstAttribute="trailing" secondItem="bjE-MD-C37" secondAttribute="trailing" constant="17" id="KlV-gs-dd9"/>
@@ -197,6 +196,9 @@
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="bottomViewColor">
+            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="dullGrey">
             <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -205,6 +207,9 @@
         </namedColor>
         <namedColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="stoneGrey">
+            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.77600002288818359" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

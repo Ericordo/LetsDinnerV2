@@ -16,7 +16,7 @@ extension UITableView {
         
         let titleLabel : UILabel = {
             let label = UILabel()
-            label.textColor = UIColor.black
+            label.textColor = UIColor.textLabel
             label.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
             label.text = title
             return label
@@ -24,7 +24,7 @@ extension UITableView {
         
         let messageLabel : UILabel = {
             let label = UILabel()
-            label.textColor = UIColor.lightGray
+            label.textColor = UIColor.secondaryTextLabel
             label.font = UIFont(name: "HelveticaNeue-Regular", size: 17)
             label.text = message
             label.numberOfLines = 0

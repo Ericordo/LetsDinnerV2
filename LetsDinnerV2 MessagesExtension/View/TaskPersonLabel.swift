@@ -11,10 +11,10 @@ import UIKit
 class TaskPersonLabel: UILabel {
     
     let taskIsOwnedByUserFont = UIFont.systemFont(ofSize: 13, weight: .regular)
-    let taskIsOwnedByUserTextColor = Colors.newGradientRed
+    let taskIsOwnedByUserTextColor = UIColor.activeButton
     
     let regularFont = UIFont.systemFont(ofSize: 13)
-    let regularTextColor = Colors.customGray
+    let regularTextColor = UIColor.secondaryTextLabel
 
     func setTextAttributes(taskIsOwnedByUser: Bool) {
         switch taskIsOwnedByUser {

@@ -63,6 +63,8 @@ class RescheduleView: UIView {
     
     
     private func setupView() {
+        self.layer.cornerRadius = 20
+        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         self.backgroundColor = .backgroundColor
         self.addSubview(updateButton)
         self.addSubview(titleLabel)

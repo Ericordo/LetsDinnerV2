@@ -9,12 +9,12 @@
 import UIKit
 
 class UserCVCell: UICollectionViewCell {
+    
     @IBOutlet weak var userPicture: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     func configureCell(user: User) {
@@ -25,7 +25,7 @@ class UserCVCell: UICollectionViewCell {
         } else if user.hasAccepted == .declined {
             strokeColor = Colors.hasDeclined
         } else if user.hasAccepted == .pending {
-            // For Testing
+            // For Internal Testing
             strokeColor = .darkGray
         }
         
@@ -36,7 +36,12 @@ class UserCVCell: UICollectionViewCell {
             userPicture.layer.borderColor = strokeColor.cgColor
             userPicture.kf.setImage(with: imageURL)
         } else {
-            userPicture.setImage(string: user.fullName.initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+            userPicture.setImage(string: user.fullName.initials,
+                                 color: UIColor.secondaryTextLabel,
+                                 circular: true,
+                                 stroke: true,
+                                 strokeColor: strokeColor,
+                                 textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
         }
         
         nameLabel.text = user.fullName

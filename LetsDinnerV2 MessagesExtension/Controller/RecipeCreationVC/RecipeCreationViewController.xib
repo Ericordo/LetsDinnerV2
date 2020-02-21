@@ -113,9 +113,9 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-if-lec">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-if-lec" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="31" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.67492508561643838" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="LRr-4L-whY"/>
                                     </constraints>
@@ -129,16 +129,16 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yH8-oq-wFL">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yH8-oq-wFL" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="76" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.66663099315068497" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="kGF-zI-pfF"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="if1-uB-ttS">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="if1-uB-ttS" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="121" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.66692529965753422" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Drc-8q-hHV"/>
                                     </constraints>
@@ -152,9 +152,9 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-kE-tot">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-kE-tot" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="183" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.67136665239726023" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="iHO-t0-VmJ"/>
                                     </constraints>
@@ -179,9 +179,9 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textField>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-X9-9R9">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-X9-9R9" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="228" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.6740421660958904" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="zBH-PH-bbO"/>
                                     </constraints>
@@ -235,9 +235,9 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCW-X4-FRP">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCW-X4-FRP" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="390" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.6698148544520548" alpha="0.4960134845890411" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="sVu-ev-nyt"/>
                                     </constraints>
@@ -262,9 +262,9 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textField>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljr-Ze-0NW">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljr-Ze-0NW" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="435" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.6720355308219178" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="TOk-Gq-MoO"/>
                                     </constraints>
@@ -285,16 +285,16 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-nx-uSZ">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-nx-uSZ" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="597" width="345" height="1"/>
-                                    <color key="backgroundColor" white="0.67053724315068497" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Uqv-xc-WcH"/>
                                     </constraints>
                                 </view>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hMw-Vr-xbb">
                                     <rect key="frame" x="26" y="598" width="349" height="100"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="ZHX-zp-go9"/>
@@ -304,7 +304,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" name="backgroundColor"/>
                             <constraints>
                                 <constraint firstItem="MAi-Z2-qAd" firstAttribute="leading" secondItem="qC2-gT-3zx" secondAttribute="trailing" constant="10" id="0Xz-mH-ejk"/>
                                 <constraint firstAttribute="trailing" secondItem="cbH-if-lec" secondAttribute="trailing" id="0jN-8D-Zzi"/>
@@ -450,6 +450,9 @@
         <image name="imagePlaceholder" width="150" height="117"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="cellSeparatorLine">
+            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="dullGrey">
             <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

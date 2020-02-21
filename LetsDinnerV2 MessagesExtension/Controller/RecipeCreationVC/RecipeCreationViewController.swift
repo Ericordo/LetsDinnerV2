@@ -153,12 +153,12 @@ class RecipeCreationViewController: UIViewController {
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
-        commentsTextView.tintColor = Colors.newGradientRed
+        commentsTextView.tintColor = Colors.highlightRed
         placeholderLabel.text = LabelStrings.cookingTipsPlaceholder
         placeholderLabel.sizeToFit()
         commentsTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = Colors.separatorGrey
+        placeholderLabel.textColor = UIColor.placeholderText
         placeholderLabel.font = UIFont.systemFont(ofSize: 17)
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
     }
