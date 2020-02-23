@@ -131,6 +131,7 @@
 		B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700723843C6B0010AB7C /* EventInfoViewController.swift */; };
 		B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F7001238430DC0010AB7C /* ReviewViewController.xib */; };
 		B86F700B238521810010AB7C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* PrimaryButton.swift */; };
+		B87C10382402A8E6004AD951 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10372402A8E6004AD951 /* Date.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -296,6 +297,7 @@
 		B86F7001238430DC0010AB7C /* ReviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewViewController.xib; sourceTree = "<group>"; };
 		B86F700723843C6B0010AB7C /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
 		B86F700A238521810010AB7C /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		B87C10372402A8E6004AD951 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -612,6 +614,7 @@
 				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				88B7832F23717E3E009E4F3C /* String.swift */,
 				880B135923747578003E29AC /* Array.swift */,
+				B87C10372402A8E6004AD951 /* Date.swift */,
 				880B135B2374758F003E29AC /* TaskExtension.swift */,
 				8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */,
 			);
@@ -1085,6 +1088,7 @@
 				88B7832E23717D84009E4F3C /* UIColor.swift in Sources */,
 				88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */,
 				B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */,
+				B87C10382402A8E6004AD951 /* Date.swift in Sources */,
 				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
 				B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
@@ -1332,7 +1336,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-
 				CURRENT_PROJECT_VERSION = 1.0.20;
 				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
@@ -1357,10 +1360,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-
 				CURRENT_PROJECT_VERSION = 1.0.20;
 				DEVELOPMENT_TEAM = DNB5G735SM;
-
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1386,7 +1387,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.20;
 				DEVELOPMENT_TEAM = DNB5G735SM;
-
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
