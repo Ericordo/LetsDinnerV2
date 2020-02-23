@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TaskSummaryCell" rowHeight="299" id="KGk-i7-Jjw" customClass="TaskSummaryCell" customModule="Let_s_Dinner_" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TaskSummaryCell" rowHeight="299" id="KGk-i7-Jjw" customClass="TaskSummaryCell" customModule="Let_s_Dinner_" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="299"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -60,8 +60,8 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="chevronRight" translatesAutoresizingMaskIntoConstraints="NO" id="RBf-9W-U2S">
-                        <rect key="frame" x="245" y="49" width="13" height="15"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevronRight" translatesAutoresizingMaskIntoConstraints="NO" id="RBf-9W-U2S">
+                        <rect key="frame" x="245" y="49" width="15" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="Mxg-dM-e4m"/>
                             <constraint firstAttribute="width" constant="15" id="zbD-fW-feL"/>
