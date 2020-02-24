@@ -10,6 +10,9 @@ import UIKit
 
 class InfoInputView : UIView {
     
+    private var infoLabelText = String()
+    private var selectedTextField = UITextField()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -19,10 +22,7 @@ class InfoInputView : UIView {
         super.init(coder: aDecoder)
         configureView()
     }
-    
-    private var infoLabelText = String()
-    private var selectedTextField = UITextField()
-    
+
 //     let infoLabel : UILabel = {
 //        let label = UILabel()
 //        label.backgroundColor = .clear

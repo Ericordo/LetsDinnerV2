@@ -82,7 +82,7 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         // Internal checking
-        func isAlreadyReplied() -> Bool {
+        func isUserAlreadyReplied() -> Bool {
             if currentUserUid == Event.shared.hostIdentifier {
                 print("I am Host")
                 return true
@@ -105,7 +105,7 @@ class MessagesViewController: MSMessagesAppViewController {
             
             // Initiate as a new user (Here is the only place to have a pending status)
             // Need to guard when user has already been in the group
-            guard isAlreadyReplied() == false else { return }
+            guard isUserAlreadyReplied() == false else { return }
             Event.shared.currentUser = User(identifier: CloudManager.shared.retrieveUserIdOnCloud() ?? currentUserUid,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)

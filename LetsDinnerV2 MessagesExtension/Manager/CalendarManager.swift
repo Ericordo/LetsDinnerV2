@@ -24,6 +24,8 @@ class CalendarManager {
         
         store.requestAccess(to: .event) { (success, error) in
             if error == nil {
+                
+                // Event Information
                 let event = EKEvent.init(eventStore: self.store)
                 event.title = title
                 event.calendar = self.store.defaultCalendarForNewEvents
@@ -43,28 +45,17 @@ class CalendarManager {
                 }
                 
                 if eventAlreadyAdded {
-                    let alert = UIAlertController(title: MessagesToDisplay.eventExists,
-                                                  message: "",
-                                                  preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss",
-                                                  style: .default,
-                                                  handler: nil))
+                    self.showEventAlreadyAddedAlert(view: view)
                     
-                    DispatchQueue.main.async(execute: {
-                        view.present(alert, animated: true)
-                    })
                 } else {
+                    
                     do {
                         try self.store.save(event, span: .thisEvent)
+                        
                         DispatchQueue.main.async {
-                            let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert,
-                                                              message: "",
-                                                              preferredStyle: .alert)
-                            doneAlert.addAction(UIAlertAction(title: "Done",
-                                                              style: .default,
-                                                              handler: nil))
-                            view.present(doneAlert, animated: true, completion: nil)
+                            self.showEventSucessfullySavedAlert(view: view)
                         }
+                        
                     } catch let error {
                         print("failed to save event", error)
                     }
@@ -73,6 +64,29 @@ class CalendarManager {
                 print("error = \(String(describing: error?.localizedDescription))")
             }
         }
+    }
+    
+    private func showEventAlreadyAddedAlert(view: UIViewController) {
+        let alert = UIAlertController(title: MessagesToDisplay.eventExisted,
+                                      message: "",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss",
+                                      style: .default,
+                                      handler: nil))
+        
+        DispatchQueue.main.async(execute: {
+            view.present(alert, animated: true)
+        })
+    }
+    
+    private func showEventSucessfullySavedAlert(view: UIViewController) {
+        let doneAlert = UIAlertController(title: MessagesToDisplay.calendarAlert,
+                                          message: "",
+                                          preferredStyle: .alert)
+        doneAlert.addAction(UIAlertAction(title: "Done",
+                                          style: .default,
+                                          handler: nil))
+        view.present(doneAlert, animated: true, completion: nil)
     }
     
 }
