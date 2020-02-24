@@ -441,7 +441,7 @@ extension EventSummaryViewController: CancelCellDelegate {
         rescheduleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             rescheduleViewBottomConstraint,
-            rescheduleView.heightAnchor.constraint(equalToConstant: 350),
+            rescheduleView.heightAnchor.constraint(equalToConstant: 390),
             rescheduleView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             rescheduleView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
@@ -462,7 +462,7 @@ extension EventSummaryViewController: CancelCellDelegate {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
             self.darkView.alpha = 0.1
             self.rescheduleViewBottomConstraint.isActive = false
-            self.rescheduleViewBottomConstraint = self.rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
+            self.rescheduleViewBottomConstraint = self.rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 390)
             self.rescheduleViewBottomConstraint.isActive = true
             self.view.layoutIfNeeded()
         }) { (_) in
