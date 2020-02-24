@@ -36,9 +36,6 @@ class EventDescriptionViewController: UIViewController {
         
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
         
-        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        
         descriptionTextView.delegate = self
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
@@ -51,7 +48,11 @@ class EventDescriptionViewController: UIViewController {
             allRecipesTitles.append(customRecipe.title)
         }
         setupUI()
-        setupSwipeGesture()
+        setupGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
     }
     
     private func setupUI() {
@@ -63,8 +64,6 @@ class EventDescriptionViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
         
         descriptionTextView.tintColor = Colors.highlightRed
         descriptionTextView.backgroundColor = nil
@@ -84,11 +83,6 @@ class EventDescriptionViewController: UIViewController {
         placeholderLabel.isHidden = !descriptionTextView.text.isEmpty
         descriptionTextView.becomeFirstResponder()
         
-//        progressView.progressTintColor = Colors.newGradientRed
-//        progressView.trackTintColor = .white
-//        progressView.progress = 3/5
-//        progressView.setProgress(4/5, animated: true)
-        
         cookLabel.text = "\(Event.shared.servings) SERVINGS OF"
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
 //            cookLabel.isHidden = true
@@ -100,12 +94,10 @@ class EventDescriptionViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
-    }
-    
-    private func setupSwipeGesture() {
+    private func setupGesture() {
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.eventDescriptionVCDidTapPrevious(controller: self)})
+        
+        self.view.addTapGestureToHideKeyboard()
     }
     
     private func checkForExistingDescription() {
@@ -114,8 +106,6 @@ class EventDescriptionViewController: UIViewController {
         }
     }
     
-    
-
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.eventDescriptionVCDidTapPrevious(controller: self)
     }
@@ -150,16 +140,12 @@ extension EventDescriptionViewController: UICollectionViewDelegate, UICollection
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell
     }
-    
-    
 }
 
 extension EventDescriptionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
           return 30
       }
-    
-    
 }
 
 extension EventDescriptionViewController: UITextViewDelegate {
@@ -206,6 +192,5 @@ extension EventDescriptionViewController: UITextViewDelegate {
         let selectedRange = descriptionTextView.selectedRange
         descriptionTextView.scrollRangeToVisible(selectedRange)
     }
-    
 }
 

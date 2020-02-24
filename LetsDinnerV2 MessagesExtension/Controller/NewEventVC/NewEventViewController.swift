@@ -44,12 +44,12 @@ class NewEventViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         StepStatus.currentStep = .newEventVC
+        
         setupUI()
-        
-        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        
+        setupGesture()
+
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
             textField!.delegate = self
@@ -111,6 +111,10 @@ class NewEventViewController: UIViewController  {
 //            hostNameTextField.inputAccessoryView = hostInput
 //        }
         
+    }
+    
+    private func setupGesture() {
+        self.view.addTapGestureToHideKeyboard()
     }
     
     @IBAction func DidTapTestButton(_ sender: Any) {

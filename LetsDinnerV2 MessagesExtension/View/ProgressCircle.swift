@@ -97,6 +97,7 @@ class ProgressCircle: UIView {
     
     @objc func animate(percentage: Double) {
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+
         basicAnimation.toValue = roundUp(percentage, toNearest: 0.1)
         basicAnimation.duration = 2 * percentage
         basicAnimation.fillMode = .forwards
