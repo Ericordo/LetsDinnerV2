@@ -30,7 +30,6 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var resultsLabel: UILabel!
     @IBOutlet weak var searchLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var createRecipeButton: UIButton!
     @IBOutlet weak var recipeToggle: UIButton!
@@ -62,17 +61,14 @@ class RecipesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .recipesVC
-        
-        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        
+
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil), forCellReuseIdentifier: CellNibs.recipeCell)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
         searchBar.delegate = self
         
         setupUI()
-        setupSwipeGesture()
+        setupGesture()
         loadRecipes()
         
         previouslySelectedRecipes = Event.shared.selectedRecipes
@@ -105,8 +101,10 @@ class RecipesViewController: UIViewController {
         }
     }
     
-    private func setupSwipeGesture() {
+    private func setupGesture() {
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
+        
+        self.view.addTapGestureToHideKeyboard()
     }
         
     private func updateUI() {

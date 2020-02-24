@@ -12,12 +12,10 @@ protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
     
-    // For TestCase
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
 class NewEventViewController: UIViewController  {
-
 
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -46,12 +44,12 @@ class NewEventViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         StepStatus.currentStep = .newEventVC
+        
         setupUI()
-        
-        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        
+        setupGesture()
+
         let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
         textFields.forEach { textField in
             textField!.delegate = self
@@ -113,6 +111,10 @@ class NewEventViewController: UIViewController  {
 //            hostNameTextField.inputAccessoryView = hostInput
 //        }
         
+    }
+    
+    private func setupGesture() {
+        self.view.addTapGestureToHideKeyboard()
     }
     
     @IBAction func DidTapTestButton(_ sender: Any) {

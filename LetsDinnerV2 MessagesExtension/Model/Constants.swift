@@ -70,12 +70,13 @@ enum Keys {
 }
 
 enum MessagesToDisplay {
+    
     static let calendarAlert = "This event was successfully added to your calendar."
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
     static let userHasDeclinedAlert = "You declined the invitation, you can not manage the tasks."
     static let acceptedInvitation = " accepted the invitation"
     static let declinedInvitation = " declined the invitation"
-    static let eventExists = "This event is already in your calendar"
+    static let eventExisted = "This event is already in your calendar"
     static let completed = "Completed"
     static let assignedToMyself = "Assigned to myself"
     static let noAssignment = "No Assignment"

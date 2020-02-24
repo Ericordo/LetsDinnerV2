@@ -51,4 +51,10 @@ class ProgressViewController: UIViewController {
         }
     }
     
+    func removeViewController() {
+        print("RemoveViewController")
+//        self.removeFromParent()
+//        self.view.removeFromSuperview()
+    }
+    
 }

@@ -43,6 +43,14 @@ extension UIView {
         self.addGestureRecognizer(swipeGestureRecognizer)
     }
     
+    public func addTapGestureToHideKeyboard() {
+        self.isUserInteractionEnabled = true
+        
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self, action: #selector(self.endEditing(_:)))
+        
+        self.addGestureRecognizer(tapGestureToHideKeyboard)
+    }
+    
     // Every time the user taps on the UIImageView, this function gets called,
     // which triggers the closure we stored
     

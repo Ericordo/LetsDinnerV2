@@ -78,11 +78,15 @@ class RegistrationViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 0])
+    }
+    
     private func setupUI() {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
         if !defaults.username.isEmpty {
             let usernameArray = defaults.username.split(separator: " ")
             firstNameTextField.text = String(usernameArray.first!)
@@ -93,7 +97,6 @@ class RegistrationViewController: UIViewController {
             addressTextField.text = defaults.address
             locationButton.isHidden = true
         }
-        
         
         let tapGestureMetric = UITapGestureRecognizer(target: self, action: #selector(setupMetricSystem))
         let tapGestureImperial = UITapGestureRecognizer(target: self, action: #selector(setupImperialSystem))

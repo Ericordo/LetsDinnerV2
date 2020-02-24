@@ -20,7 +20,6 @@ class CustomSearchBar: UISearchBar {
         setupSearchBar()
     }
     
-
     private func setupSearchBar() {
 //        self.layer.borderWidth = 0.1
 //        self.layer.borderColor = UIColor(red:1 , green:1 , blue:1, alpha:1.0).cgColor
