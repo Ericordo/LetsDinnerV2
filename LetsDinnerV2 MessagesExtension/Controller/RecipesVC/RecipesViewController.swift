@@ -58,6 +58,9 @@ class RecipesViewController: UIViewController {
         }
     }
     
+    var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .recipesVC
@@ -74,6 +77,34 @@ class RecipesViewController: UIViewController {
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
         
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        view.addGestureRecognizer(panGesture)
+        
+    }
+    
+    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+        let touchPoint = sender.location(in: self.view?.window)
+        let percent = max(sender.translation(in: view).x, 0) / view.frame.width
+        let velocity = sender.velocity(in: view).x
+
+        if sender.state == UIGestureRecognizer.State.began {
+            initialTouchPoint = touchPoint
+        } else if sender.state == UIGestureRecognizer.State.changed {
+            if touchPoint.x - initialTouchPoint.x > 0 {
+                self.view.frame = CGRect(x: touchPoint.x - initialTouchPoint.x, y: 2, width: self.view.frame.size.width, height: self.view.frame.size.height)
+            }
+        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
+
+            if percent > 0.5 || velocity > 1000 {
+//                navigationController?.popViewController(animated: true)
+                self.delegate?.recipeVCDidTapPrevious(controller: self)
+            } else {
+                // Back to origin point
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+                })
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,7 +134,6 @@ class RecipesViewController: UIViewController {
     
     private func setupGesture() {
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.recipeVCDidTapPrevious(controller: self)})
-        
         self.view.addTapGestureToHideKeyboard()
     }
         

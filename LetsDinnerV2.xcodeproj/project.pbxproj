@@ -132,6 +132,7 @@
 		B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F7001238430DC0010AB7C /* ReviewViewController.xib */; };
 		B86F700B238521810010AB7C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* PrimaryButton.swift */; };
 		B87C10382402A8E6004AD951 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10372402A8E6004AD951 /* Date.swift */; };
+		B87C103A2403E607004AD951 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10392403E607004AD951 /* UIViewController.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -298,6 +299,7 @@
 		B86F700723843C6B0010AB7C /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
 		B86F700A238521810010AB7C /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		B87C10372402A8E6004AD951 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		B87C10392403E607004AD951 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 				880B135523746A5D003E29AC /* UIButton.swift */,
 				88B7832D23717D84009E4F3C /* UIColor.swift */,
 				B8D1CC9523F1309000E54E26 /* UIDevice.swift */,
+				B87C10392403E607004AD951 /* UIViewController.swift */,
 				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				88B7832F23717E3E009E4F3C /* String.swift */,
 				880B135923747578003E29AC /* Array.swift */,
@@ -1106,6 +1109,7 @@
 				880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
 				88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */,
+				B87C103A2403E607004AD951 /* UIViewController.swift in Sources */,
 				882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */,
 				880B135323737711003E29AC /* CalendarCell.swift in Sources */,
 				885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */,
