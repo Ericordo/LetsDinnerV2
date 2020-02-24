@@ -113,7 +113,7 @@ class MessagesViewController: MSMessagesAppViewController {
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
         } else {
-            // Guard first time to create event (Temp Use)
+            // Guard first time to create event
             guard !Event.shared.hostIdentifier.isEmpty else { return }
             print("hostID: \(Event.shared.hostIdentifier)")
             
@@ -215,11 +215,13 @@ class MessagesViewController: MSMessagesAppViewController {
                     guard let message = conversation.selectedMessage else { return }
                     Event.shared.currentSession = message.session
                     Event.shared.parseMessage(message: message)
+                    
                     if Event.shared.eventIsExpired {
                         controller = instantiateExpiredEventViewController()
                     } else {
                         controller = instantiateEventSummaryViewController()
                     }
+                    
                 } else {
                     switch StepStatus.currentStep {
                     case .initialVC:
@@ -320,21 +322,18 @@ class MessagesViewController: MSMessagesAppViewController {
         isProgressBarExisted = true
         
         NSLayoutConstraint.activate([
-
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
             controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
             controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-
             controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+        
     private func removeAllChildViewControllers() {
         
         for child in children {
             child.willMove(toParent: nil)
             
-            // Temp use
             UIView.transition(with: self.view,
                               duration: 0.2,
                               options: .transitionCrossDissolve,
@@ -344,6 +343,10 @@ class MessagesViewController: MSMessagesAppViewController {
             //            child.view.removeFromSuperview()
             child.removeFromParent()
         }
+    }
+    
+    private func removeProgressViewController() {
+        
     }
     
     // MARK: Init the VC

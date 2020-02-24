@@ -12,12 +12,10 @@ protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
     
-    // For TestCase
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
 class NewEventViewController: UIViewController  {
-
 
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
