@@ -78,7 +78,7 @@ class TasksListViewController: UIViewController {
     }
     
     private func updateUpdateButton() {
-        if !Event.shared.isTaskUpdated && !Event.shared.servingsNeedUpdate {
+        if !Event.shared.tasksNeedUpdate && !Event.shared.servingsNeedUpdate {
             submitButton.isEnabled = false
             submitButton.alpha = 0.5
         } else {
@@ -91,7 +91,7 @@ class TasksListViewController: UIViewController {
         let summaryForServings = "\(defaults.username) updated the servings!"
         let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
         let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName) and the servings!"
-        let tasksUpdate = Event.shared.isTaskUpdated
+        let tasksUpdate = Event.shared.tasksNeedUpdate
         let servingsUpdate = Event.shared.servingsNeedUpdate
         if tasksUpdate && servingsUpdate {
             Event.shared.summary = summaryForTasksAndServings
@@ -213,7 +213,7 @@ class TasksListViewController: UIViewController {
     }
     
     @IBAction func didTapSubmit(_ sender: UIButton) {
-        Event.shared.isTaskUpdated = true
+        Event.shared.tasksNeedUpdate = true
         delegate?.tasksListVCDidTapSubmit(controller: self)
     }
     
@@ -438,9 +438,9 @@ extension TasksListViewController: TaskCellDelegate {
     func taskCellDidTapTaskStatusButton() {
         let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
         if !difference.isEmpty {
-            Event.shared.isTaskUpdated = true
+            Event.shared.tasksNeedUpdate = true
         } else {
-            Event.shared.isTaskUpdated = false
+            Event.shared.tasksNeedUpdate = false
         }
         updateUpdateButton()
         updateSummaryText()

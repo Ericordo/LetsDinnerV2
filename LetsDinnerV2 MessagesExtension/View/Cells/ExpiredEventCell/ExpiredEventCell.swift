@@ -9,17 +9,27 @@
 import UIKit
 
 class ExpiredEventCell: UITableViewCell {
-
+    
+    private let infoLabel = LDLabel()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        setupCell()
     }
     
+    private func setupCell() {
+        if Event.shared.eventIsExpired {
+            infoLabel.configureText(title: LabelStrings.pastEventTitle, text: LabelStrings.pastEventDescription)
+        } else if Event.shared.isCancelled {
+            infoLabel.configureText(title: LabelStrings.canceledEventTitle, text: LabelStrings.canceledEventDescription)
+        }
+        addSubview(infoLabel)
+        infoLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+            infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
+            infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40)
+        ])
+    }
 }
 

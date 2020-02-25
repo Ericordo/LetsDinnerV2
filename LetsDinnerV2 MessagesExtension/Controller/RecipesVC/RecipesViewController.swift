@@ -108,10 +108,12 @@ class RecipesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
          NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         prepareTasks()
     }
     
@@ -401,9 +403,8 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            
+    // TODO: - Delete before release if we decide to keep the View button
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        switch searchType {
 //        case .apiRecipes:
 //            let recipe = searchResults[indexPath.section]
@@ -417,7 +418,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
 //            customRecipeDetailsVC.customRecipeDetailsDelegate = self
 //            present(customRecipeDetailsVC, animated: true, completion: nil)
 //        }
-    }
+//    }
     
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }

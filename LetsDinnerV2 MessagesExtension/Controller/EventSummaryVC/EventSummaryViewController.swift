@@ -318,12 +318,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func declineInvitation() {
-        Event.shared.isAcceptingStatusChanged = true
+        Event.shared.statusNeedUpdate = true
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
     }
     
     func didTapAccept() {
-        Event.shared.isAcceptingStatusChanged = true
+        Event.shared.statusNeedUpdate = true
         delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
     }
     
