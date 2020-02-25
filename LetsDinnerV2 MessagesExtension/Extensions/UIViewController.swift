@@ -13,7 +13,7 @@ extension UIViewController {
 
     func presentDetail(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()
-        transition.duration = 0.25
+        transition.duration = 0.3
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromRight
         self.view.layer.add(transition, forKey: kCATransition)
