@@ -102,7 +102,13 @@ class MessagesViewController: MSMessagesAppViewController {
             // Initiate as a new user (Here is the only place to have a pending status)
             // Need to guard when user has already been in the group
             guard userHasReplied() == false else { return }
-            Event.shared.currentUser = User(identifier: CloudManager.shared.retrieveUserIdOnCloud() ?? currentUserUid,
+            var identifier = String()
+            if let cloudID = CloudManager.shared.retrieveUserIdOnCloud(), !cloudID.isEmpty {
+                identifier = cloudID
+            } else {
+                identifier = currentUserUid
+            }
+            Event.shared.currentUser = User(identifier: identifier,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
         } else {
@@ -142,7 +148,6 @@ class MessagesViewController: MSMessagesAppViewController {
             if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
                 // To identify the first participant (Host)
                 currentUser.hasAccepted = .accepted
-                Event.shared.statusNeedUpdate = true
                 Event.shared.hostIsRegistered = true
             }
         }
@@ -150,6 +155,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Update Invitation State
         if Event.shared.statusNeedUpdate {
             Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+            Event.shared.statusNeedUpdate = false
         }
         
         // Call When update on tasklistVC
@@ -212,7 +218,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     Event.shared.currentSession = message.session
                     Event.shared.parseMessage(message: message)
                     
-                    if Event.shared.eventIsExpired {
+                    if Event.shared.eventIsExpired || Event.shared.isCancelled {
                         controller = instantiateExpiredEventViewController()
                     } else {
                         controller = instantiateEventSummaryViewController()
