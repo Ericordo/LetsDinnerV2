@@ -18,7 +18,6 @@
                 <outlet property="headerLabel" destination="Ay0-eE-nWy" id="BCc-Et-Wxz"/>
                 <outlet property="nextButton" destination="lhc-Ek-PZ3" id="GWK-61-TJ2"/>
                 <outlet property="previousButton" destination="Tff-p2-emW" id="72z-uY-8dF"/>
-                <outlet property="progressView" destination="kjK-VE-8qe" id="Hcl-Jd-zKH"/>
                 <outlet property="recipeToggle" destination="xua-kE-1gq" id="tir-kT-n7n"/>
                 <outlet property="recipesTableView" destination="foA-gA-QWG" id="MWL-Ab-q23"/>
                 <outlet property="resultsLabel" destination="qeB-1L-5bN" id="AnK-lT-0f0"/>
@@ -90,12 +89,6 @@
                     <rect key="frame" x="118" y="323.5" width="20" height="20"/>
                     <color key="color" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 </activityIndicatorView>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kjK-VE-8qe">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
-                    <constraints>
-                        <constraint firstAttribute="height" id="h1a-Zr-n1g"/>
-                    </constraints>
-                </progressView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bv3-Vn-pnT" userLabel="BottomView">
                     <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
@@ -155,7 +148,6 @@
             <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="bv3-Vn-pnT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0PF-MO-L27"/>
-                <constraint firstItem="kjK-VE-8qe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2z6-CD-9Pb"/>
                 <constraint firstItem="lhc-Ek-PZ3" firstAttribute="top" secondItem="Tff-p2-emW" secondAttribute="top" id="36t-eR-ubz"/>
                 <constraint firstItem="JSv-Jk-kjP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="6PT-Vd-73X"/>
                 <constraint firstItem="3EZ-7s-2av" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AsH-bm-bBt"/>
@@ -170,8 +162,6 @@
                 <constraint firstItem="Ay0-eE-nWy" firstAttribute="top" secondItem="JSv-Jk-kjP" secondAttribute="bottom" constant="15" id="ZQu-GY-h6v"/>
                 <constraint firstItem="3EZ-7s-2av" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="b6D-zc-4J1"/>
                 <constraint firstItem="bv3-Vn-pnT" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="bHG-4y-c9X"/>
-                <constraint firstItem="kjK-VE-8qe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="c2x-KN-ghr"/>
-                <constraint firstAttribute="trailing" secondItem="kjK-VE-8qe" secondAttribute="trailing" id="cfp-B2-rrL"/>
                 <constraint firstItem="foA-gA-QWG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="dQH-db-Zr2"/>
                 <constraint firstItem="foA-gA-QWG" firstAttribute="top" secondItem="Ay0-eE-nWy" secondAttribute="bottom" constant="6" id="eHs-gO-c3N"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bv3-Vn-pnT" secondAttribute="trailing" id="ey0-sG-DiJ"/>
@@ -197,7 +187,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="bottomViewColor">
-            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="0.80000001192092896" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="dullGrey">
             <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
