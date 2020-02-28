@@ -15,12 +15,8 @@ import FirebaseAuth
 class MessagesViewController: MSMessagesAppViewController {
     
     private var newNameRequested = false
-    private var progressBarHeight: CGFloat = 0
-    private var isProgressBarInited = false {
-        didSet { progressBarHeight = isProgressBarInited ? 0 : 0 }
-    }
+    private var isProgressBarVCInitiated = false
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -304,7 +300,7 @@ class MessagesViewController: MSMessagesAppViewController {
         NSLayoutConstraint.activate([
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
             controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-            controller.view.topAnchor.constraint(equalTo: view.topAnchor, constant: progressBarHeight),
+            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
             controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
@@ -339,7 +335,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         view.addSubview(controller.view)
         
-        isProgressBarInited = true
+        isProgressBarVCInitiated = true
         
         NSLayoutConstraint.activate([
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -376,9 +372,7 @@ class MessagesViewController: MSMessagesAppViewController {
         }
     }
     
-
-    
-    private func removeProgressViewController() {
+    private func removeAllSubviews() {
         for view in self.view.subviews {
             view.removeFromSuperview()
         }
@@ -405,7 +399,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        isProgressBarInited = false
+        isProgressBarVCInitiated = false
         // Visually correct but have extra layers
         
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
@@ -415,7 +409,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        if !isProgressBarInited {
+        if !isProgressBarVCInitiated {
             addProgressViewController()
         }
         
@@ -425,7 +419,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        if !isProgressBarInited {
+        if !isProgressBarVCInitiated {
             addProgressViewController()
         }
         
@@ -435,7 +429,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-        if !isProgressBarInited {
+        if !isProgressBarVCInitiated {
             addProgressViewController()
         }
         
@@ -445,7 +439,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        if !isProgressBarInited {
+        if !isProgressBarVCInitiated {
             addProgressViewController()
         }
         
@@ -455,7 +449,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        if !isProgressBarInited {
+        if !isProgressBarVCInitiated {
             addProgressViewController()
         }
         
@@ -465,9 +459,8 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        if !isProgressBarInited { // I need the White Background
+        if !isProgressBarVCInitiated { // I need the White Background
             addProgressViewController()
-            progressBarHeight = 0
         }
         
         let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
