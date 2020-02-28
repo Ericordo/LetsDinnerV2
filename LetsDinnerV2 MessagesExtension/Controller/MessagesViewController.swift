@@ -17,12 +17,13 @@ class MessagesViewController: MSMessagesAppViewController {
     private var newNameRequested = false
     private var progressBarHeight: CGFloat = 0
     private var needsProgressBar = false {
-        didSet { progressBarHeight = needsProgressBar ? 2 : 0 }
+        didSet { progressBarHeight = needsProgressBar ? 0 : 0 }
     }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
@@ -54,9 +55,18 @@ class MessagesViewController: MSMessagesAppViewController {
 //        }
     }
 
-    override func viewDidLayoutSubviews() {
-        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
-        gradientLayers?.first?.frame = view.bounds
+    override func viewWillLayoutSubviews() {
+//        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
+        let gradientLayers = view.layer.sublayers
+        
+        // Need to remove the layer when min
+        
+        if gradientLayers!.count > 1 {
+            gradientLayers![1].frame = view.bounds
+        } else {
+            gradientLayers?.first?.frame = view.bounds
+        }
+
     }
     
     // MARK: - Conversation Handling
@@ -177,10 +187,12 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.willTransition(to: presentationStyle)
+                
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTransition"), object: nil)
-        removeChildViewController()
         
+        self.view.addBackground()
         
+        removeViewController()
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
@@ -196,7 +208,7 @@ class MessagesViewController: MSMessagesAppViewController {
     private func presentViewController(for conversation: MSConversation, with presentationStyle: MSMessagesAppPresentationStyle) {
         
         // Remove any child view controllers that have been presented.
-        removeChildViewController()
+        removeViewController()
         
         let controller: UIViewController
         
@@ -276,6 +288,7 @@ class MessagesViewController: MSMessagesAppViewController {
             controller.view.layer.add(configureTransitionAnimation(transition: transition), forKey: nil)
         }
         
+//        self.view.insertSubview(controller.view, at: 1)
         view.addSubview(controller.view)
         
         NSLayoutConstraint.activate([
@@ -326,18 +339,19 @@ class MessagesViewController: MSMessagesAppViewController {
         ])
     }
         
-    private func removeChildViewController(transition: VCTransitionDirection = .noTransition) {
+    private func removeViewController(transition: VCTransitionDirection = .noTransition) {
         
         var timeDelay = 0.0
         
         for child in children {
             
             if transition != .noTransition {
-                timeDelay = 0.25
+                timeDelay = 0.3
                 child.configureDismissVCTransitionAnimation(transition: transition)
             }
+            
             child.willMove(toParent: nil)
-                                    
+
             UIView.transition(with: self.view,
                               duration: 0.2,
                               options: .transitionCrossDissolve,
@@ -556,19 +570,19 @@ extension MessagesViewController: NewEventViewControllerDelegate {
 
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController) {
         let controller = instantiateReviewViewController()
-        removeChildViewController()
+        removeViewController()
         addChildViewController(controller: controller)
     }
     
     func newEventVCDdidTapProfile(controller: NewEventViewController) {
         let controller = instantiateRegistrationViewController(previousStep: .newEventVC)
-        removeChildViewController()
+        removeViewController()
         addChildViewController(controller: controller) 
     }
     
     func newEventVCDidTapNext(controller: NewEventViewController) {
         let controller = instantiateRecipesViewController()
-        removeChildViewController(transition: .VCGoForward)
+        removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
@@ -576,13 +590,13 @@ extension MessagesViewController: NewEventViewControllerDelegate {
 extension MessagesViewController: RecipesViewControllerDelegate {
     func recipeVCDidTapNext(controller: RecipesViewController) {
         let controller = instantiateManagementViewController()
-        removeChildViewController(transition: .VCGoForward)
+        removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
     func recipeVCDidTapPrevious(controller: RecipesViewController) {
         let controller = instantiateNewEventViewController()
-        removeChildViewController(transition: .VCGoBack)
+        removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
 }
@@ -590,13 +604,13 @@ extension MessagesViewController: RecipesViewControllerDelegate {
 extension MessagesViewController: ManagementViewControllerDelegate {
     func managementVCDidTapBack(controller: ManagementViewController) {
         let controller = instantiateRecipesViewController()
-        removeChildViewController(transition: .VCGoBack)
+        removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func managementVCDdidTapNext(controller: ManagementViewController) {
         let controller = instantiateEventDescriptionViewController()
-        removeChildViewController(transition: .VCGoForward)
+        removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
@@ -604,13 +618,13 @@ extension MessagesViewController: ManagementViewControllerDelegate {
 extension MessagesViewController: EventDescriptionViewControllerDelegate {
     func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController) {
         let controller = instantiateManagementViewController()
-        removeChildViewController(transition: .VCGoBack)
+        removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController) {
         let controller = instantiateReviewViewController()
-        removeChildViewController(transition: .VCGoForward)
+        removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
@@ -618,7 +632,7 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
 extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapPrevious(controller: ReviewViewController) {
         let controller = instantiateEventDescriptionViewController()
-        removeChildViewController(transition: .VCGoBack)
+        removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
@@ -634,7 +648,7 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     
     func reviewVCBackToManagementVC(controller: ReviewViewController) {
         let controller = instantiateManagementViewController()
-        removeChildViewController(transition: .VCGoBack)
+        removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
 }
@@ -659,7 +673,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
         let controller = instantiateTasksListViewController()
-        removeChildViewController()
+        removeViewController()
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
@@ -680,7 +694,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     
     func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
         let controller = instantiateEventInfoViewController()
-        removeChildViewController(transition: .VCGoForward)
+        removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
@@ -688,7 +702,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
 extension MessagesViewController: TasksListViewControllerDelegate {
     func tasksListVCDidTapBackButton(controller: TasksListViewController) {
         let controller = instantiateEventSummaryViewController()
-              removeChildViewController(transition: .VCGoBack)
+              removeViewController(transition: .VCGoBack)
               addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
@@ -702,7 +716,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
 extension MessagesViewController: EventInfoViewControllerDelegate {
     func eventInfoVCDidTapBackButton(controller: EventInfoViewController) {
         let controller = instantiateEventSummaryViewController()
-        removeChildViewController(transition: .VCGoBack)
+        removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
@@ -712,7 +726,7 @@ extension MessagesViewController: ExpiredEventViewControllerDelegate {
     func expiredEventVCDidTapCreateNewEvent(controller: ExpiredEventViewController) {
         Event.shared.resetEvent()
         let controller = instantiateNewEventViewController()
-        removeChildViewController()
+        removeViewController()
         addChildViewController(controller: controller)
     }
 }

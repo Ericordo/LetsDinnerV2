@@ -30,7 +30,7 @@ class ProgressViewController: UIViewController {
     }
         
     private func configureUI() {
-        self.view.backgroundColor = UIColor.backgroundColor
+        self.view.backgroundColor = .clear
         progressView.progressTintColor = UIColor.activeButton
         progressView.trackTintColor = UIColor.inactiveButton
     }

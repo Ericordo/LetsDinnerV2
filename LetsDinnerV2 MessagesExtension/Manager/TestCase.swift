@@ -33,7 +33,6 @@ class testCase {
             DispatchQueue.global().async {
                 DataHelper.shared.loadPredefinedRecipes { recipes in
                     
-                    //On Main Thread
                     event.selectedRecipes = recipes
                       
                     var array = [Recipe]()

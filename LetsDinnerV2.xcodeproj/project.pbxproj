@@ -134,6 +134,7 @@
 		B86F700B238521810010AB7C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* PrimaryButton.swift */; };
 		B87C10382402A8E6004AD951 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10372402A8E6004AD951 /* Date.swift */; };
 		B87C103A2403E607004AD951 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10392403E607004AD951 /* UIViewController.swift */; };
+		B87C103F2408E9AC004AD951 /* Thread.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C103E2408E9AC004AD951 /* Thread.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -302,6 +303,7 @@
 		B86F700A238521810010AB7C /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		B87C10372402A8E6004AD951 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		B87C10392403E607004AD951 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		B87C103E2408E9AC004AD951 /* Thread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thread.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 				880B135923747578003E29AC /* Array.swift */,
 				B87C10372402A8E6004AD951 /* Date.swift */,
 				880B135B2374758F003E29AC /* TaskExtension.swift */,
+				B87C103E2408E9AC004AD951 /* Thread.swift */,
 				8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */,
 			);
 			path = Extensions;
@@ -1167,6 +1170,7 @@
 				880B13312372FA08003E29AC /* User.swift in Sources */,
 				B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
+				B87C103F2408E9AC004AD951 /* Thread.swift in Sources */,
 				B815358723E3FE2000BBD5FB /* Colors.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
 				88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */,

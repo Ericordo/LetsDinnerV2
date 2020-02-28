@@ -81,7 +81,7 @@ class NewEventViewController: UIViewController  {
         dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
                 
         scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
@@ -316,7 +316,7 @@ extension NewEventViewController: UIScrollViewDelegate {
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
         
-        scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         var rectangle = self.view.frame
@@ -357,7 +357,7 @@ extension NewEventViewController: UIScrollViewDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsets(top: headerViewHeight, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         self.view.layoutIfNeeded()
