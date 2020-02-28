@@ -339,7 +339,7 @@ class MessagesViewController: MSMessagesAppViewController {
             child.willMove(toParent: nil)
                                     
             UIView.transition(with: self.view,
-                              duration: 0.1,
+                              duration: 0.2,
                               options: .transitionCrossDissolve,
                               animations: nil,
                               completion: nil)

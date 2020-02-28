@@ -57,9 +57,8 @@ class RecipesViewController: UIViewController {
             updateUI()
         }
     }
-    
-    var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
 
+    // MARK: - Setup
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,44 +76,16 @@ class RecipesViewController: UIViewController {
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
         
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-        view.addGestureRecognizer(panGesture)
-        
     }
-    
-    @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        let touchPoint = sender.location(in: self.view?.window)
-        let percent = max(sender.translation(in: view).x, 0) / view.frame.width
-        let velocity = sender.velocity(in: view).x
 
-        if sender.state == UIGestureRecognizer.State.began {
-            initialTouchPoint = touchPoint
-        } else if sender.state == UIGestureRecognizer.State.changed {
-            if touchPoint.x - initialTouchPoint.x > 0 {
-                self.view.frame = CGRect(x: touchPoint.x - initialTouchPoint.x, y: 2, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            }
-        } else if sender.state == UIGestureRecognizer.State.ended || sender.state == UIGestureRecognizer.State.cancelled {
-
-            if percent > 0.5 || velocity > 1000 {
-//                navigationController?.popViewController(animated: true)
-                self.delegate?.recipeVCDidTapPrevious(controller: self)
-            } else {
-                // Back to origin point
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-                })
-            }
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
          NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        prepareTasks()
+          super.viewWillDisappear(animated)
+//        prepareTasks()
     }
     
     private func setupUI() {
@@ -171,14 +142,19 @@ class RecipesViewController: UIViewController {
     private func loadRecipes() {
         searchResults.removeAll()
         DataHelper.shared.loadPredefinedRecipes { recipes in
-            self.searchResults = recipes
-            Event.shared.selectedRecipes.forEach { recipe in
-                if !self.searchResults.contains(where: { comparedRecipe -> Bool in
-                          comparedRecipe.id == recipe.id
-                      }) {
-                        self.searchResults.append(recipe)
+            
+            DispatchQueue.main.async {
+                self.searchResults = recipes
+                Event.shared.selectedRecipes.forEach { recipe in
+                    
+                    if !self.searchResults.contains(where: { comparedRecipe -> Bool in
+                              comparedRecipe.id == recipe.id
+                          }) {
+                            self.searchResults.append(recipe)
+                          }
                       }
-                  }
+            }
+
         }
     }
     
@@ -212,7 +188,9 @@ class RecipesViewController: UIViewController {
     }
     
     @IBAction func didTapNext(_ sender: Any) {
-//        prepareTasks()
+        // Bug: After comes back from managementVC and add ingredient in Custom Recipe, it then does not update in managmentVC after clicking NEXT button
+        prepareTasks()
+        
         delegate?.recipeVCDidTapNext(controller: self)
     }
     
@@ -265,7 +243,9 @@ class RecipesViewController: UIViewController {
             }
         }
         
+        // New Recipes
         var newRecipes = [Recipe]()
+        
         if previouslySelectedRecipes.count == 0 {
             newRecipes = Event.shared.selectedRecipes
         } else {

@@ -42,7 +42,6 @@ class CustomRecipeDetailsViewController: UIViewController {
     let realm = try! Realm()
     
     private let rowHeight : CGFloat = 44
-    
     private let topViewMinHeight: CGFloat = 80
     private let topViewMaxHeight: CGFloat = 140
     

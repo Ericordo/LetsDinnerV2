@@ -77,6 +77,7 @@ class ManagementViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
          NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 3])
     }
     
@@ -177,6 +178,8 @@ class ManagementViewController: UIViewController {
         expandedStatus.removeAll()
     }
     
+    // MARK: Button Tapped
+    
     @IBAction private func didTapBack(_ sender: UIButton) {
         delegate?.managementVCDidTapBack(controller: self)
     }
@@ -229,6 +232,8 @@ class ManagementViewController: UIViewController {
         updateServings(servings: Int(sender.value))
     }
     
+    // MARK: Other function
+    
     private func updateServings(servings: Int) {
       
         self.servings = servings
@@ -275,6 +280,8 @@ class ManagementViewController: UIViewController {
     
 
 }
+
+// MARK: TableView setup
 
 extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

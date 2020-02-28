@@ -140,9 +140,10 @@ class DataHelper {
                     recipes.append(recipe)
             }
             
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 completion(recipes)
-            }
+//            }
+            
         } catch let error {
             print("JSON decoding failed", error)
         }
