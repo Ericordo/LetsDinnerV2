@@ -121,4 +121,11 @@ enum LabelStrings {
     static let selectNewDate = "Select a new date for your event:"
     static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
     static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
+    static let rescheduleTitle = "Need to reschedule?"
+    static let rescheduleText = "No problem, simply choose another date! 😅👌"
+    static let pastEventTitle = "Past Event"
+    static let canceledEventTitle = "Canceled Event"
+    static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    static let canceledEventDescription = "Looks like the host has canceled this event but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    
 }

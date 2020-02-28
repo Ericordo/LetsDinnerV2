@@ -14,16 +14,15 @@ import FirebaseAuth
 
 class MessagesViewController: MSMessagesAppViewController {
     
-    var newNameRequested = false    
-    var progressBarHeight: CGFloat = 0
-    var isProgressBarExisted = false {
-        didSet { progressBarHeight = isProgressBarExisted ? 2 : 0 }
+    private var newNameRequested = false
+    private var progressBarHeight: CGFloat = 0
+    private var needsProgressBar = false {
+        didSet { progressBarHeight = needsProgressBar ? 2 : 0 }
     }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewDidLoad")
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
@@ -44,7 +43,6 @@ class MessagesViewController: MSMessagesAppViewController {
         } catch {
             print("ERROR", error, error.localizedDescription)
         }
-        
 
 //        CloudManager.shared.checkUserCloudStatus {
 //                    CloudManager.shared.retrieveProfileInfo()
@@ -54,8 +52,6 @@ class MessagesViewController: MSMessagesAppViewController {
 //        if #available(iOSApplicationExtension 13.0, *) {
 //            overrideUserInterfaceStyle = .dark
 //        }
-
-        
     }
 
     override func viewDidLayoutSubviews() {
@@ -82,7 +78,7 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         // Internal checking
-        func isUserAlreadyReplied() -> Bool {
+        func userHasReplied() -> Bool {
             if currentUserUid == Event.shared.hostIdentifier {
                 print("I am Host")
                 return true
@@ -105,8 +101,14 @@ class MessagesViewController: MSMessagesAppViewController {
             
             // Initiate as a new user (Here is the only place to have a pending status)
             // Need to guard when user has already been in the group
-            guard isUserAlreadyReplied() == false else { return }
-            Event.shared.currentUser = User(identifier: CloudManager.shared.retrieveUserIdOnCloud() ?? currentUserUid,
+            guard userHasReplied() == false else { return }
+            var identifier = String()
+            if let cloudID = CloudManager.shared.retrieveUserIdOnCloud(), !cloudID.isEmpty {
+                identifier = cloudID
+            } else {
+                identifier = currentUserUid
+            }
+            Event.shared.currentUser = User(identifier: identifier,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
         } else {
@@ -142,22 +144,22 @@ class MessagesViewController: MSMessagesAppViewController {
         guard let currentUser = Event.shared.currentUser else {return}
         
         // First Time Create Event session
-        if !Event.shared.isHostRegistering {
+        if !Event.shared.hostIsRegistered {
             if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
                 // To identify the first participant (Host)
                 currentUser.hasAccepted = .accepted
-                Event.shared.isAcceptingStatusChanged = true
-                Event.shared.isHostRegistering = true
+                Event.shared.hostIsRegistered = true
             }
         }
         
         // Update Invitation State
-        if Event.shared.isAcceptingStatusChanged {
+        if Event.shared.statusNeedUpdate {
             Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
+            Event.shared.statusNeedUpdate = false
         }
         
         // Call When update on tasklistVC
-        if Event.shared.isTaskUpdated {
+        if Event.shared.tasksNeedUpdate {
             // Need to identify all situation for using updateFireBaseTask
             Event.shared.updateFirebaseTasks()
         }
@@ -216,7 +218,7 @@ class MessagesViewController: MSMessagesAppViewController {
                     Event.shared.currentSession = message.session
                     Event.shared.parseMessage(message: message)
                     
-                    if Event.shared.eventIsExpired {
+                    if Event.shared.eventIsExpired || Event.shared.isCancelled {
                         controller = instantiateExpiredEventViewController()
                     } else {
                         controller = instantiateEventSummaryViewController()
@@ -252,20 +254,10 @@ class MessagesViewController: MSMessagesAppViewController {
                         controller = instantiateExpiredEventViewController()
                         
                     }
-                    //                    if Event.shared.dinnerName.isEmpty {
-                    //                        controller = instantiateNewEventViewController()
-                    //                    } else if Event.shared.selectedRecipes.isEmpty {
-                    //                        controller = instantiateRecipesViewController()
-                    //                    } else if Event.shared.eventDescription.isEmpty {
-                    //                        controller = instantiateEventDescriptionViewController()
-                    //                    } else {
-                    //                        controller = instantiateNewEventViewController()
-                    //                    }
                 }
                 
             }
         }
-        
         addChildViewController(controller: controller)
         
         
@@ -324,7 +316,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         view.addSubview(controller.view)
         
-        isProgressBarExisted = true
+        needsProgressBar = true
         
         NSLayoutConstraint.activate([
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -396,7 +388,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        isProgressBarExisted = false
+        needsProgressBar = false
         // Visually correct but have extra layers
         
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
@@ -406,7 +398,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        if !isProgressBarExisted {
+        if !needsProgressBar {
             addProgressViewController()
         }
         
@@ -416,7 +408,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        if !isProgressBarExisted {
+        if !needsProgressBar {
             addProgressViewController()
         }
         
@@ -426,7 +418,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-        if !isProgressBarExisted {
+        if !needsProgressBar {
             addProgressViewController()
         }
         
@@ -436,7 +428,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        if !isProgressBarExisted {
+        if !needsProgressBar {
             addProgressViewController()
         }
         
@@ -446,7 +438,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        if !isProgressBarExisted {
+        if !needsProgressBar {
             addProgressViewController()
         }
         
@@ -456,7 +448,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        if !isProgressBarExisted { // I need the White Background
+        if !needsProgressBar { // I need the White Background
             addProgressViewController()
             progressBarHeight = 0
         }

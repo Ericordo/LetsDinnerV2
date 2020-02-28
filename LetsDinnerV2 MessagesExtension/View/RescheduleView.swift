@@ -17,12 +17,17 @@ class RescheduleView: UIView {
         return dp
     }()
     
-    let titleLabel : UILabel = {
-        let label = UILabel()
-        label.text = LabelStrings.selectNewDate
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.textColor = UIColor.textLabel
+//    let titleLabel : UILabel = {
+//        let label = UILabel()
+//        label.text = LabelStrings.selectNewDate
+//        label.textAlignment = .center
+//        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+//        label.textColor = UIColor.textLabel
+//        return label
+//    }()
+//
+    let titleLabel : LDLabel = {
+        let label = LDLabel(title: LabelStrings.rescheduleTitle, text: LabelStrings.rescheduleText)
         return label
     }()
     
@@ -90,9 +95,9 @@ class RescheduleView: UIView {
 //            datePicker.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             datePicker.bottomAnchor.constraint(equalTo: updateButton.topAnchor, constant: -5),
             
-            titleLabel.heightAnchor.constraint(equalToConstant: 30),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+            titleLabel.heightAnchor.constraint(equalToConstant: 75),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -25),
 //            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
             titleLabel.bottomAnchor.constraint(equalTo: datePicker.topAnchor, constant: -5)
             

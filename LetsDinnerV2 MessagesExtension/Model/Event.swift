@@ -52,9 +52,9 @@ class Event {
 //    }
     
     // Helpful variable
-    var isHostRegistering = false
-    var isAcceptingStatusChanged = false
-    var isTaskUpdated = false
+    var hostIsRegistered = false
+    var statusNeedUpdate = false
+    var tasksNeedUpdate = false
     var servingsNeedUpdate = false
     
     var servings = 2
@@ -81,9 +81,9 @@ class Event {
         currentSession = nil
         hostIdentifier.removeAll()
         participants.removeAll()
-        isHostRegistering = false
-        isAcceptingStatusChanged = false
-        isTaskUpdated = false
+        hostIsRegistered = false
+        statusNeedUpdate = false
+        tasksNeedUpdate = false
         servings = 2
         currentConversationServings = 2
         servingsNeedUpdate = false
