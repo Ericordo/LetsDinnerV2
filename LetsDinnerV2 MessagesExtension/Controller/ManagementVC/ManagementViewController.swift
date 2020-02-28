@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GMStepper
 
 protocol ManagementViewControllerDelegate: class {
     func managementVCDidTapBack(controller: ManagementViewController)
@@ -22,7 +21,6 @@ class ManagementViewController: UIViewController {
     @IBOutlet private weak var addButton: UIButton!
     @IBOutlet private weak var servingsLabel: UILabel!
     @IBOutlet private weak var servingsStepper: UIStepper!
-    @IBOutlet private weak var servingsFancyStepper: GMStepper!
     @IBOutlet weak var separatorView: UIView!
     
     @IBOutlet weak var addThingView: UIView!
@@ -86,14 +84,14 @@ class ManagementViewController: UIViewController {
         tasksTableView.tableFooterView = UIView()
         
         servingsLabel.text = "How many servings?  \(servings)"
-        servingsLabel.textColor = UIColor.secondaryTextLabel
+        servingsLabel.textColor = UIColor.textLabel
         
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
         
-        servingsFancyStepper.isHidden = true
+//        servingsFancyStepper.isHidden = true
 //        servingsStepper.minimumValue = 2
 //        servingsStepper.maximumValue = 12
 //        servingsStepper.stepValue = 1
@@ -224,10 +222,7 @@ class ManagementViewController: UIViewController {
 //        alert.addAction(cancel)
 //        present(alert, animated: true, completion: nil)
     }
-    @IBAction func didTapStepper2(_ sender: GMStepper) {
-//        updateServings(servings: Int(sender.value))
-    }
-    
+
     @IBAction func didTapStepper(_ sender: UIStepper) {
         updateServings(servings: Int(sender.value))
     }

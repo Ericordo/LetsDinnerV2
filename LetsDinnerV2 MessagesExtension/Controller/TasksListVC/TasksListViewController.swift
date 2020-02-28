@@ -44,6 +44,7 @@ class TasksListViewController: UIViewController {
             guard let value = snapshot.value as? Int else { return }
             self.updateOnlineAlert(value)
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +59,10 @@ class TasksListViewController: UIViewController {
 //        backButton.setTitle(" \(Event.shared.dinnerName)", for: .normal)
         setupUpdateButton()
         setupServingsView()
+        
+        // Should hide it at the first time opening the VC
+        view.layoutIfNeeded()
+        onlineAlertHeightConstraint.constant = 0
     }
     
     func setupTableView() {
@@ -138,6 +143,8 @@ class TasksListViewController: UIViewController {
     func updateOnlineAlert(_ value: Int) {
         if value < 2 {
             view.layoutIfNeeded()
+            
+            // Hide with animation should not appear at the first time
             UIView.animate(withDuration: 0.2) {
                 self.onlineAlertHeightConstraint.constant = 0
                 self.view.layoutIfNeeded()

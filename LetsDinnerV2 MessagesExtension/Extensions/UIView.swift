@@ -31,6 +31,12 @@ extension UIView {
          layer.insertSublayer(gradientLayer, at: 0)
      }
     
+    func addBackground() {
+        let background = CALayer()
+        background.backgroundColor = UIColor.backgroundColor.cgColor
+        layer.insertSublayer(background, at: 1)
+    }
+    
     func rotate() {
         if self.transform == .identity {
             UIView.animate(withDuration: 0.2) {
@@ -43,5 +49,4 @@ extension UIView {
         }
     }
 
-    
 }

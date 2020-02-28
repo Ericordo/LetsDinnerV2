@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Messages
 
 class ProgressViewController: UIViewController {
 
@@ -26,11 +27,17 @@ class ProgressViewController: UIViewController {
                                                 object: nil,
                                                 queue: nil,
                                                 using: stepProgressing(_:))
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name("ProgressBarWillTransition"),
+                                                object: nil,
+                                                queue: nil,
+                                                using: hideProgressBar(_:))
 
     }
-        
+    
+
     private func configureUI() {
-        self.view.backgroundColor = UIColor.backgroundColor
+        self.view.backgroundColor = .backgroundColor
         progressView.progressTintColor = UIColor.activeButton
         progressView.trackTintColor = UIColor.inactiveButton
     }
@@ -51,10 +58,32 @@ class ProgressViewController: UIViewController {
         }
     }
     
-    func removeViewController() {
-        print("RemoveViewController")
-//        self.removeFromParent()
-//        self.view.removeFromSuperview()
+    @objc func hideProgressBar(_ notification: Notification) {
+        
+        if let data = notification.userInfo as? [String: Int] {
+            let style = data["style"]
+            
+            if style == 1 {
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    UIView.transition(with: self.view,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: {
+                                        self.progressView.isHidden = false
+                    })
+                }
+                
+                
+                
+            } else if style == 0 {
+                // to compact mode
+                progressView.isHidden = true
+            }
+        }
+        
+
+        
     }
     
 }

@@ -33,35 +33,56 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OxX-0E-huw">
-                    <rect key="frame" x="322" y="10" width="36" height="33"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="Next">
-                        <color key="titleColor" name="highlightRed"/>
-                    </state>
-                    <connections>
-                        <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="dOP-M9-h5q"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ed6-pw-dxQ">
-                    <rect key="frame" x="15" y="10" width="33" height="33"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbB-Nv-CLP" userLabel="Navigation View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OxX-0E-huw">
+                            <rect key="frame" x="322" y="5" width="36" height="33"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Next">
+                                <color key="titleColor" name="highlightRed"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapNext:" destination="-1" eventType="touchUpInside" id="dOP-M9-h5q"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Event Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
+                            <rect key="frame" x="117.5" y="11.5" width="140.5" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <color key="textColor" name="labelColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ed6-pw-dxQ">
+                            <rect key="frame" x="17" y="5" width="33" height="33"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="33" id="Tkb-Yf-mwj"/>
+                                <constraint firstAttribute="width" constant="33" id="f43-Dz-Evd"/>
+                            </constraints>
+                            <state key="normal" image="profileButtonOutlined"/>
+                            <connections>
+                                <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="xQe-Ks-qif"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="33" id="Tkb-Yf-mwj"/>
-                        <constraint firstAttribute="width" constant="33" id="f43-Dz-Evd"/>
+                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="centerY" secondItem="ed6-pw-dxQ" secondAttribute="centerY" id="LcL-1c-29i"/>
+                        <constraint firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="P4e-4K-G7T"/>
+                        <constraint firstAttribute="height" constant="43" id="djL-Rn-anK"/>
+                        <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="pbB-Nv-CLP" secondAttribute="leading" constant="17" id="kyM-Nt-HW6"/>
+                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="centerX" secondItem="pbB-Nv-CLP" secondAttribute="centerX" id="rEr-qK-SX6"/>
+                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="centerY" secondItem="pbB-Nv-CLP" secondAttribute="centerY" id="tcP-fK-xBl"/>
+                        <constraint firstItem="OxX-0E-huw" firstAttribute="centerY" secondItem="DdJ-Rh-Nv7" secondAttribute="centerY" id="y1X-2i-zIJ"/>
                     </constraints>
-                    <state key="normal" image="profileButtonOutlined"/>
-                    <connections>
-                        <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="xQe-Ks-qif"/>
-                    </connections>
-                </button>
+                </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pqs-d3-vr7">
-                    <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                    <rect key="frame" x="0.0" y="45" width="375" height="622"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogw-Df-oMa" userLabel="ContentView">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hsj-1b-iz7">
-                                    <rect key="frame" x="25" y="10" width="320" height="196"/>
+                                    <rect key="frame" x="25" y="33" width="320" height="196"/>
                                     <subviews>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Dinner title" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="MuM-gh-UoV">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
@@ -106,23 +127,23 @@
                                     </subviews>
                                 </stackView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All fields are required" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bm6-vG-axt">
-                                    <rect key="frame" x="127.5" y="221" width="120.5" height="14.5"/>
+                                    <rect key="frame" x="127.5" y="244" width="120.5" height="14.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" name="highlightRed"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
-                                    <rect key="frame" x="25" y="281" width="71" height="30"/>
+                                    <rect key="frame" x="25" y="304" width="71" height="30"/>
                                     <state key="normal" title="TestCase1"/>
                                     <connections>
                                         <action selector="DidTapTestButton:" destination="-1" eventType="touchUpInside" id="rJa-bi-kly"/>
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" name="backgroundColor"/>
                             <constraints>
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="15" id="Cnd-MC-PIY"/>
-                                <constraint firstItem="Hsj-1b-iz7" firstAttribute="top" secondItem="ogw-Df-oMa" secondAttribute="top" constant="10" id="DG7-jB-btf"/>
+                                <constraint firstItem="Hsj-1b-iz7" firstAttribute="top" secondItem="ogw-Df-oMa" secondAttribute="top" constant="33" id="DG7-jB-btf"/>
                                 <constraint firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="V95-Am-Xeq"/>
                                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="ZfY-43-yv0"/>
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="ogw-Df-oMa" secondAttribute="centerX" id="cTZ-Ya-4Xp"/>
@@ -132,6 +153,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstItem="ogw-Df-oMa" firstAttribute="top" secondItem="TuT-MS-pgV" secondAttribute="top" id="7CQ-N4-jmD"/>
                         <constraint firstItem="ogw-Df-oMa" firstAttribute="bottom" secondItem="TuT-MS-pgV" secondAttribute="bottom" id="BPA-lB-EGj"/>
@@ -156,46 +178,21 @@
                         <constraint firstAttribute="height" constant="50" id="WFj-cG-oVr"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMm-EY-3vN" userLabel="HeaderView">
-                    <rect key="frame" x="0.0" y="60" width="375" height="60"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Event Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DdJ-Rh-Nv7">
-                            <rect key="frame" x="20" y="0.0" width="335" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="bo0-Vf-SyB"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
-                            <color key="textColor" name="labelColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <constraints>
-                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="top" secondItem="pMm-EY-3vN" secondAttribute="top" id="FME-Am-bup"/>
-                        <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="leading" secondItem="pMm-EY-3vN" secondAttribute="leading" constant="20" id="G7C-NI-gFU"/>
-                        <constraint firstAttribute="trailing" secondItem="DdJ-Rh-Nv7" secondAttribute="trailing" constant="20" id="UGx-6e-4tk"/>
-                        <constraint firstAttribute="height" constant="60" id="igi-JG-FoI"/>
-                    </constraints>
-                </view>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0yP-mT-SmG"/>
                 <constraint firstItem="sm4-gG-DV1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DYE-QZ-bhY"/>
                 <constraint firstAttribute="bottom" secondItem="WlK-s2-aiJ" secondAttribute="bottom" constant="-51" id="Fa8-Of-oVZ"/>
-                <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="FoN-rl-Gu4"/>
-                <constraint firstItem="pMm-EY-3vN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Jb0-KR-M3L"/>
+                <constraint firstItem="Pqs-d3-vr7" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="45" id="FoN-rl-Gu4"/>
+                <constraint firstItem="pbB-Nv-CLP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GzR-CZ-9PY"/>
                 <constraint firstAttribute="bottom" secondItem="sm4-gG-DV1" secondAttribute="bottom" constant="-51" id="R3y-lA-2Ef"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="THc-PS-pO0"/>
+                <constraint firstAttribute="trailing" secondItem="pbB-Nv-CLP" secondAttribute="trailing" id="UZh-tA-pMs"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WlK-s2-aiJ" secondAttribute="trailing" id="UkO-pg-kkj"/>
-                <constraint firstItem="ed6-pw-dxQ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="W00-lv-t0a"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="pMm-EY-3vN" secondAttribute="trailing" id="bMp-1W-dCE"/>
-                <constraint firstItem="OxX-0E-huw" firstAttribute="centerY" secondItem="ed6-pw-dxQ" secondAttribute="centerY" id="bwn-4m-w08"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fxe-NH-i0K"/>
                 <constraint firstItem="WlK-s2-aiJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="lsT-Nj-mAl"/>
-                <constraint firstItem="pMm-EY-3vN" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="60" id="oAM-6r-ZU3"/>
+                <constraint firstItem="pbB-Nv-CLP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="m7V-Ps-Tsh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sm4-gG-DV1" secondAttribute="trailing" id="ogs-0L-Qcx"/>
-                <constraint firstItem="OxX-0E-huw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="rqg-tu-5S6"/>
                 <constraint firstItem="Pqs-d3-vr7" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ste-iq-Z3t"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -204,6 +201,9 @@
     </objects>
     <resources>
         <image name="profileButtonOutlined" width="22" height="22"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="highlightRed">
             <color red="0.94900000095367432" green="0.34900000691413879" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
