@@ -89,14 +89,14 @@ class ReminderManager {
         return calendar
     }
     
-    func filterAssignedTask() -> [Task] {
+    private func filterAssignedTask() -> [Task] {
         // Filter only Assigned and Incomplete Tasks
         var resultArray = [Task]()
         resultArray = Event.shared.tasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier && $0.taskState == .assigned}
         return resultArray
     }
     
-    func importTasksToReminders(bundleList: EKCalendar, task: Task) throws {
+    private func importTasksToReminders(bundleList: EKCalendar, task: Task) throws {
         let reminder: EKReminder = EKReminder(eventStore: self.reminderStore)
         
         if let amount = task.metricAmount, let unit = task.metricUnit {
