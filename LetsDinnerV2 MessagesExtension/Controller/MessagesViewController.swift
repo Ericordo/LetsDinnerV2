@@ -16,8 +16,8 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private var newNameRequested = false
     private var progressBarHeight: CGFloat = 0
-    private var needsProgressBar = false {
-        didSet { progressBarHeight = needsProgressBar ? 0 : 0 }
+    private var isProgressBarInited = false {
+        didSet { progressBarHeight = isProgressBarInited ? 0 : 0 }
     }
 
     
@@ -56,16 +56,18 @@ class MessagesViewController: MSMessagesAppViewController {
     }
 
     override func viewWillLayoutSubviews() {
-//        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
-        let gradientLayers = view.layer.sublayers
+        let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         
-        // Need to remove the layer when min
+        gradientLayers?.first?.frame = view.bounds
+
         
-        if gradientLayers!.count > 1 {
-            gradientLayers![1].frame = view.bounds
-        } else {
-            gradientLayers?.first?.frame = view.bounds
-        }
+//        let gradientLayers = view.layer.sublayers
+
+//        if gradientLayers!.count > 1 {
+//            gradientLayers![1].frame = view.bounds
+//        } else {
+//            gradientLayers?.first?.frame = view.bounds
+//        }
 
     }
     
@@ -90,7 +92,7 @@ class MessagesViewController: MSMessagesAppViewController {
         // Internal checking
         func userHasReplied() -> Bool {
             if currentUserUid == Event.shared.hostIdentifier {
-                print("I am Host")
+                print("I am the Host")
                 return true
             } else {
                 for participant in Event.shared.participants {
@@ -187,10 +189,18 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.willTransition(to: presentationStyle)
-                
+        
+        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTransition"), object: nil)
         
-        self.view.addBackground()
+        // For Hiding ProgressBar
+        let presentationStyle:[String: Int] = ["style": Int(presentationStyle.rawValue)]
+
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ProgressBarWillTransition"), object: nil, userInfo:  presentationStyle)
+        
+//        if self.view.layer.sublayers!.count < 1 {
+//            self.view.addBackground()
+//        }
         
         removeViewController()
     }
@@ -329,7 +339,7 @@ class MessagesViewController: MSMessagesAppViewController {
         
         view.addSubview(controller.view)
         
-        needsProgressBar = true
+        isProgressBarInited = true
         
         NSLayoutConstraint.activate([
             controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -350,35 +360,27 @@ class MessagesViewController: MSMessagesAppViewController {
                 child.configureDismissVCTransitionAnimation(transition: transition)
             }
             
-            child.willMove(toParent: nil)
-
             UIView.transition(with: self.view,
                               duration: 0.2,
                               options: .transitionCrossDissolve,
                               animations: nil,
                               completion: nil)
             
+            child.willMove(toParent: nil)
+
             DispatchQueue.main.asyncAfter(deadline: .now() + timeDelay) { //
                 child.view.removeFromSuperview()
                 child.removeFromParent()
             }
 
         }
-            
-        
     }
     
+
+    
     private func removeProgressViewController() {
-        if self.children.count > 0 {
-            let viewControllers:[UIViewController] = self.children
-            
-            for viewController in viewControllers {
-                if viewController is ProgressViewController {
-                    viewController.willMove(toParent: nil)
-                    viewController.view.removeFromSuperview()
-                    viewController.removeFromParent()
-                }
-            }
+        for view in self.view.subviews {
+            view.removeFromSuperview()
         }
     }
     
@@ -396,13 +398,14 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateIdleViewController() -> UIViewController {
+
         let controller = IdleViewController(nibName: VCNibs.idleViewController, bundle: nil)
         controller.delegate = self
         return controller
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        needsProgressBar = false
+        isProgressBarInited = false
         // Visually correct but have extra layers
         
         let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
@@ -412,7 +415,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        if !needsProgressBar {
+        if !isProgressBarInited {
             addProgressViewController()
         }
         
@@ -422,7 +425,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        if !needsProgressBar {
+        if !isProgressBarInited {
             addProgressViewController()
         }
         
@@ -432,7 +435,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-        if !needsProgressBar {
+        if !isProgressBarInited {
             addProgressViewController()
         }
         
@@ -442,7 +445,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        if !needsProgressBar {
+        if !isProgressBarInited {
             addProgressViewController()
         }
         
@@ -452,7 +455,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        if !needsProgressBar {
+        if !isProgressBarInited {
             addProgressViewController()
         }
         
@@ -462,7 +465,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        if !needsProgressBar { // I need the White Background
+        if !isProgressBarInited { // I need the White Background
             addProgressViewController()
             progressBarHeight = 0
         }
