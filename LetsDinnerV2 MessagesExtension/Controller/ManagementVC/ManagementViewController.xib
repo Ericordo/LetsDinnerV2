@@ -42,7 +42,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfU-Un-jAU">
-                            <rect key="frame" x="9" y="5" width="95" height="33"/>
+                            <rect key="frame" x="9" y="5" width="82" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="33" id="aLg-xz-W2s"/>
                             </constraints>
@@ -76,7 +76,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fDS-c8-pKI" userLabel="Content View">
-                    <rect key="frame" x="0.0" y="45" width="375" height="552"/>
+                    <rect key="frame" x="0.0" y="45" width="375" height="539"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dc8-Qe-sNb" userLabel="Top View">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -116,7 +116,7 @@
                             </constraints>
                         </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="c6c-yo-AdS">
-                            <rect key="frame" x="0.0" y="61" width="375" height="491"/>
+                            <rect key="frame" x="0.0" y="61" width="375" height="478"/>
                         </tableView>
                     </subviews>
                     <color key="backgroundColor" name="backgroundColor"/>
@@ -175,10 +175,10 @@
                     </constraints>
                 </view>
                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d66-0o-BnV">
-                    <rect key="frame" x="0.0" y="597" width="375" height="70"/>
+                    <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS0-MV-xiC">
-                            <rect key="frame" x="20" y="15" width="141" height="48"/>
+                            <rect key="frame" x="20" y="15" width="117" height="24"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" title="  Add Thing" image="addButton">
                                 <color key="titleColor" name="highlightRed"/>
@@ -192,7 +192,7 @@
                     <constraints>
                         <constraint firstItem="oS0-MV-xiC" firstAttribute="leading" secondItem="d66-0o-BnV" secondAttribute="leading" constant="20" id="4h7-Lm-Wsn"/>
                         <constraint firstItem="oS0-MV-xiC" firstAttribute="top" secondItem="d66-0o-BnV" secondAttribute="top" constant="15" id="97B-Tl-gMd"/>
-                        <constraint firstAttribute="height" constant="70" id="HKD-88-rap"/>
+                        <constraint firstAttribute="height" constant="83" id="HKD-88-rap"/>
                     </constraints>
                 </view>
             </subviews>
@@ -223,7 +223,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="bottomViewColor">
-            <color red="0.89999997615814209" green="0.91299998760223389" blue="0.91699999570846558" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="0.93999999999999995" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="highlightRed">
             <color red="0.94900000095367432" green="0.34900000691413879" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -232,7 +232,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sectionSeparatorLine">
-            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

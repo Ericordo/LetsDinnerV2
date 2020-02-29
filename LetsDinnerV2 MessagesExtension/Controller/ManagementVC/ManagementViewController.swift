@@ -34,15 +34,7 @@ class ManagementViewController: UIViewController {
     
     private var tasks = Event.shared.tasks {
         didSet {
-            if tasks.isEmpty {
-                servingsLabel.isHidden = true
-                servingsStepper.isHidden = true
-                separatorView.isHidden = true
-            } else {
-                servingsLabel.isHidden = false
-                servingsStepper.isHidden = false
-                separatorView.isHidden = false
-            }
+            hideServingView()
         }
     }
     private var classifiedTasks = [[Task]]()
@@ -54,7 +46,7 @@ class ManagementViewController: UIViewController {
             Event.shared.servings = servings
         }
     }
-    
+
     private var selectedSection : String?
     
     var tapGestureToHideKeyboard = UITapGestureRecognizer()
@@ -76,7 +68,7 @@ class ManagementViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         servings = Event.shared.servings
         
-        updateServings(servings: servings)
+        self.updateServings(servings: servings)
         
         sectionSelectionInput.configureInput(sections: self.sectionNames)
         sectionSelectionInput.sectionSelectionInputDelegate = self
@@ -93,7 +85,6 @@ class ManagementViewController: UIViewController {
     
   
     private func configureUI() {
-        
         tasksTableView.tableFooterView = UIView()
         
         servingsLabel.text = "\(servings) Servings"
@@ -187,6 +178,11 @@ class ManagementViewController: UIViewController {
     
     // MARK: Button Tapped
     
+    
+    @IBAction func didTapStepper(_ sender: UIStepper) {
+        updateServings(servings: Int(sender.value))
+    }
+    
     @IBAction private func didTapBack(_ sender: UIButton) {
         delegate?.managementVCDidTapBack(controller: self)
     }
@@ -231,11 +227,20 @@ class ManagementViewController: UIViewController {
 //        present(alert, animated: true, completion: nil)
     }
 
-    @IBAction func didTapStepper(_ sender: UIStepper) {
-        updateServings(servings: Int(sender.value))
-    }
     
-    // MARK: Other function
+    // MARK: Other functions
+    
+    private func hideServingView() {
+        if tasks.isEmpty {
+            servingsLabel.isHidden = true
+            servingsStepper.isHidden = true
+            separatorView.isHidden = true
+        } else {
+            servingsLabel.isHidden = false
+            servingsStepper.isHidden = false
+            separatorView.isHidden = false
+        }
+    }
     
     private func updateServings(servings: Int) {
       
@@ -263,6 +268,11 @@ class ManagementViewController: UIViewController {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
             self.addThingViewBottomConstraint.constant = keyboardFrame.height
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.addThingViewBottomConstraint.constant += 20
+            }
+            
             self.view.layoutIfNeeded()
         }
         
@@ -355,14 +365,9 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
                 let indexSet = NSMutableIndexSet()
                 indexSet.add(indexPath.section)
                 tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
-               
-                
             }
 //            prepareData()
-     
-      
         }
-        
     }
     
 // MARK: Add for sections and collapsable rows
