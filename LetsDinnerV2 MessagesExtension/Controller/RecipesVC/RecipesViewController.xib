@@ -126,6 +126,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZuC-Rc-984" userLabel="Content View">
                     <rect key="frame" x="0.0" y="45" width="375" height="539"/>
                     <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" style="plain" separatorStyle="default" rowHeight="1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="foA-gA-QWG">
+                            <rect key="frame" x="16" y="90" width="343" height="449"/>
+                            <color key="backgroundColor" name="backgroundColor"/>
+                        </tableView>
                         <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search 360K+ recipes" translatesAutoresizingMaskIntoConstraints="NO" id="JSv-Jk-kjP" customClass="CustomSearchBar" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="7" y="10" width="361" height="40"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -133,7 +137,7 @@
                                 <constraint firstAttribute="height" constant="40" id="LHK-34-xfR"/>
                             </constraints>
                             <color key="tintColor" red="0.83529411764705885" green="0.10196078431372549" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="yes" returnKeyType="search"/>
                         </searchBar>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISCOVER THESE RECIPES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ay0-eE-nWy">
                             <rect key="frame" x="17" y="67" width="159.5" height="18"/>
@@ -144,8 +148,8 @@
                             <color key="textColor" name="dullGrey"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeB-1L-5bN">
-                            <rect key="frame" x="146.5" y="259.5" width="82.5" height="20.5"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qeB-1L-5bN">
+                            <rect key="frame" x="120" y="259.5" width="135" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" name="stoneGrey"/>
                             <nil key="highlightedColor"/>
@@ -160,10 +164,6 @@
                             <rect key="frame" x="118" y="259.5" width="20" height="20"/>
                             <color key="color" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </activityIndicatorView>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" style="plain" separatorStyle="default" rowHeight="1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="foA-gA-QWG">
-                            <rect key="frame" x="16" y="90" width="343" height="449"/>
-                            <color key="backgroundColor" name="backgroundColor"/>
-                        </tableView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>

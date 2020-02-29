@@ -15,6 +15,7 @@ protocol NewEventViewControllerDelegate: class {
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
+
 class NewEventViewController: UIViewController  {
 
     @IBOutlet weak var nextButton: UIButton!
@@ -39,7 +40,7 @@ class NewEventViewController: UIViewController  {
     let datePicker = DatePicker()
     
     private var activeField: UITextField?
-    
+
     private let headerViewHeight: CGFloat = 60
     
     override func viewDidLoad() {
@@ -49,18 +50,8 @@ class NewEventViewController: UIViewController  {
         
         setupUI()
         setupGesture()
-
-        let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
-        textFields.forEach { textField in
-            textField!.delegate = self
-            textField!.autocapitalizationType = .sentences
-            textField!.autocorrectionType = .no
-            
-        }
-        
         scrollView.delegate = self
-        infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
-        
+
         // Keyboard Observer
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -71,7 +62,7 @@ class NewEventViewController: UIViewController  {
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
     }
     
-    func setupUI() {
+    private func setupUI() {
         errorLabel.isHidden = true
         checkForExistingEvent()
 
@@ -84,10 +75,20 @@ class NewEventViewController: UIViewController  {
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
+        // Dinner Title Textfield
         eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.lunchButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         eventInput.dinnerButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
         
+        infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
+        
+        let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
+         textFields.forEach { textField in
+             textField!.delegate = self
+             textField!.autocapitalizationType = .sentences
+             textField!.autocorrectionType = .no
+             
+         }
         
         
 //        if !defaults.address.isEmpty {
@@ -160,6 +161,9 @@ class NewEventViewController: UIViewController  {
     @objc func didTapEvent(sender: UIButton) {
         dinnerNameTextField.text = sender.titleLabel?.text
         eventInput.isHidden = true
+        
+        // Go to Next textfield
+        hostNameTextField.becomeFirstResponder()
     }
     
 //    @objc func didTapDonePicker() {
@@ -206,6 +210,7 @@ class NewEventViewController: UIViewController  {
             errorLabel.isHidden = false
             view.endEditing(true)
             print("fields not filled")
+            
         } else {
             guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text else { return }
             Event.shared.hostName = host
@@ -224,6 +229,13 @@ class NewEventViewController: UIViewController  {
     @objc private func didTapAdd() {
         activeField?.text = infoInput.addButton.title(for: .normal)
         infoInput.isHidden = true
+        
+        // Go to next textField
+        if hostNameTextField.isEditing {
+            locationTextField.becomeFirstResponder()
+        } else if locationTextField.isEditing {
+            dateTextField.becomeFirstResponder()
+        }
     }
     
     

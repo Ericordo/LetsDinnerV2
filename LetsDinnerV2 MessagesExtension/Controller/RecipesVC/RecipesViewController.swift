@@ -141,6 +141,7 @@ class RecipesViewController: UIViewController {
     
     private func loadRecipes() {
         searchResults.removeAll()
+        
         DataHelper.shared.loadPredefinedRecipes { recipes in
             
             DispatchQueue.main.async {
@@ -369,6 +370,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
                 isSelected = true
             }
             cell.configureCell(recipe: recipe, isSelected: isSelected, searchType: searchType)
+            
         case .customRecipes:
             if let customRecipe = customRecipes?[indexPath.section] {
                 var isSelected = false
@@ -414,6 +416,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func loadSearchResult(recipeId: Int) {
+        
         DataHelper.shared.loadSearchResults(recipeId: recipeId, display: showSearchProgress(_:)) { [weak self] result in
             switch result {
             case.success(let recipe):
@@ -490,6 +493,8 @@ extension RecipesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        resultsLabel.isHidden = true
+
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
         
         switch searchType {

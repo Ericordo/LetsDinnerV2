@@ -42,9 +42,9 @@ extension UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return Colors.darkStoneGrey
-                } else { return Colors.stoneGrey }}
-        } else { return Colors.stoneGrey }
+                    return Colors.darkDullGrey
+                } else { return Colors.dullGrey }}
+        } else { return Colors.dullGrey }
     }
     
     static var navigationTitle: UIColor {
@@ -101,13 +101,13 @@ extension UIColor {
         } else { return Colors.soBlack }
     }
     
-    static var viewSeparatorLine: UIColor {
+    static var sectionSeparatorLine: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return Colors.darkDullGrey
-                } else { return Colors.dullGrey }}
-        } else { return Colors.dullGrey }
+                    return Colors.darkDefaultGrey
+                } else { return Colors.defaultGrey }}
+        } else { return Colors.defaultGrey }
     }
     
     static var cellSeparatorLine: UIColor {

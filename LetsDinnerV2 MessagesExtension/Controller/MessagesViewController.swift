@@ -53,12 +53,10 @@ class MessagesViewController: MSMessagesAppViewController {
 
     override func viewWillLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
-        
         gradientLayers?.first?.frame = view.bounds
 
         
 //        let gradientLayers = view.layer.sublayers
-
 //        if gradientLayers!.count > 1 {
 //            gradientLayers![1].frame = view.bounds
 //        } else {
