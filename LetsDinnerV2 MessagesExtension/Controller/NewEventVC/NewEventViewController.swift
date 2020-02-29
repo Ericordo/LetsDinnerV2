@@ -202,7 +202,6 @@ class NewEventViewController: UIViewController  {
     @IBAction func didTapNext(_ sender: UIButton) {
         
         if !allFieldsAreFilled() {
-            
             dinnerNameTextField.animateEmpty()
             hostNameTextField.animateEmpty()
             locationTextField.animateEmpty()
@@ -342,7 +341,7 @@ extension NewEventViewController: UIScrollViewDelegate {
         if activeField == locationTextField || activeField == hostNameTextField {
             
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                 self.infoInputBottomConstraint.constant = keyboardFrame.height
                 
                 // Temp solve:
@@ -354,7 +353,7 @@ extension NewEventViewController: UIScrollViewDelegate {
             }
         } else if activeField == dinnerNameTextField {
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                 self.eventInputBottomConstraint.constant = keyboardFrame.height
                 
                 if UIDevice.current.userInterfaceIdiom == .pad {

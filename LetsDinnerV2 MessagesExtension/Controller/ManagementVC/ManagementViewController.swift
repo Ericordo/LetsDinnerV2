@@ -32,7 +32,19 @@ class ManagementViewController: UIViewController {
     
     weak var delegate: ManagementViewControllerDelegate?
     
-    private var tasks = Event.shared.tasks
+    private var tasks = Event.shared.tasks {
+        didSet {
+            if tasks.isEmpty {
+                servingsLabel.isHidden = true
+                servingsStepper.isHidden = true
+                separatorView.isHidden = true
+            } else {
+                servingsLabel.isHidden = false
+                servingsStepper.isHidden = false
+                separatorView.isHidden = false
+            }
+        }
+    }
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()
@@ -51,7 +63,7 @@ class ManagementViewController: UIViewController {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
         
-        setupUI()
+        configureUI()
         setupSwipeGesture()
         
         // Should only tap on the view not on the keyboard
@@ -79,36 +91,19 @@ class ManagementViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 3])
     }
     
-    private func setupUI() {
+  
+    private func configureUI() {
         
         tasksTableView.tableFooterView = UIView()
         
-        servingsLabel.text = "How many servings?  \(servings)"
+        servingsLabel.text = "\(servings) Servings"
         servingsLabel.textColor = UIColor.textLabel
         
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
-        
-//        servingsFancyStepper.isHidden = true
-//        servingsStepper.minimumValue = 2
-//        servingsStepper.maximumValue = 12
-//        servingsStepper.stepValue = 1
-//        servingsStepper.value = Double(servings)
-//        servingsStepper.autorepeat = false
-//        servingsStepper.cornerRadius = 8.0
-//        servingsStepper.buttonsFont = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
-//        servingsStepper.buttonsTextColor = Colors.highlightRed
-//        servingsStepper.buttonsBackgroundColor = Colors.allWhite
-//        servingsStepper.labelFont = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
-//        servingsStepper.labelTextColor = Colors.textGrey
-//        servingsStepper.labelBackgroundColor = Colors.allWhite
-//        servingsStepper.borderWidth = 0
-//        servingsStepper.borderColor = Colors.highlightRed
-//        servingsStepper.labelWidthWeight = 0.4
-//        servingsStepper.limitHitAnimationColor = Colors.paleGray
-        
+
         separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
@@ -121,6 +116,19 @@ class ManagementViewController: UIViewController {
             bottomViewHeightConstraint.constant = 60
             self.bottomView.layoutIfNeeded()
         }
+        
+        newThingTextField.returnKeyType = .go
+        addShadowOnUIView(view: addThingView)
+    }
+    
+    private func addShadowOnUIView(view: UIView) {
+        view.layer.shadowColor = UIColor.secondaryTextLabel.cgColor
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 5
+        view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
     }
     
     private func setupSwipeGesture() {
@@ -140,6 +148,7 @@ class ManagementViewController: UIViewController {
         
         expandableTasks.removeAll()
         sectionNames.removeAll()
+        
         tasks.forEach { task in
             if classifiedTasks.contains(where: { subTasks -> Bool in
                 subTasks.contains { (individualTask) -> Bool in
@@ -191,7 +200,6 @@ class ManagementViewController: UIViewController {
         newThingTextField.becomeFirstResponder()
         
 
- 
 //        var textField = UITextField()
 //        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
 //        let add = UIAlertAction(title: MessagesToDisplay.add, style: .default) { action in
@@ -284,7 +292,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         if Event.shared.tasks.count == 0 {
             tableView.setEmptyView(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage)
         } else {
-        tableView.restore()
+            tableView.restore()
         }
         
         if !expandableTasks[section].isExpanded {
@@ -324,6 +332,8 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
             }
             
             Event.shared.tasks.remove(at: index!)
+            tasks = Event.shared.tasks
+            
             expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
             if expandableTasks[indexPath.section].tasks.count == 0 {
                 expandableTasks.remove(at: indexPath.section)
@@ -446,8 +456,9 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
         nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
         
+        //separator Height
         separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        separator.heightAnchor.constraint(equalToConstant: 0.7).isActive = true
         separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0).isActive = true
         separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
         separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
@@ -538,6 +549,7 @@ extension ManagementViewController: SectionSelectionInputDelegate {
 
 extension ManagementViewController: UITextFieldDelegate {
     
+    // Add things
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if !newThingTextField.text!.isEmpty {

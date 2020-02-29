@@ -667,7 +667,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
         let controller = instantiateTasksListViewController()
-        removeViewController()
+        removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
     

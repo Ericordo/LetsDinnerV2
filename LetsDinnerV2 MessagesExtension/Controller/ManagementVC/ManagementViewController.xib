@@ -99,7 +99,7 @@
                                     </connections>
                                 </stepper>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" name="backgroundColor"/>
                             <constraints>
                                 <constraint firstItem="0C6-a0-T8D" firstAttribute="leading" secondItem="Dc8-Qe-sNb" secondAttribute="leading" constant="18" id="4n5-ho-Eex"/>
                                 <constraint firstAttribute="trailing" secondItem="4kC-yC-Std" secondAttribute="trailing" constant="18" id="J7z-ac-gCI"/>
@@ -178,8 +178,8 @@
                     <rect key="frame" x="0.0" y="597" width="375" height="70"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS0-MV-xiC">
-                            <rect key="frame" x="20" y="15" width="144" height="48"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <rect key="frame" x="20" y="15" width="141" height="48"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" title="  Add Thing" image="addButton">
                                 <color key="titleColor" name="highlightRed"/>
                             </state>
