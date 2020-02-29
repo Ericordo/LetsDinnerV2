@@ -26,8 +26,6 @@ class LDLabel: UILabel {
         configureText(title: title, text: text)
     }
     
-
-    
     private func configure() {
         numberOfLines = 0
     }

@@ -31,9 +31,9 @@
             </subviews>
             <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
-                <constraint firstItem="Sr6-bH-VHY" firstAttribute="leading" secondItem="GBb-ja-E4v" secondAttribute="leading" symbolic="YES" id="ASW-wP-2sj"/>
+                <constraint firstItem="Sr6-bH-VHY" firstAttribute="leading" secondItem="Olb-oE-lJP" secondAttribute="leading" id="ASW-wP-2sj"/>
                 <constraint firstItem="Sr6-bH-VHY" firstAttribute="top" secondItem="GBb-ja-E4v" secondAttribute="top" constant="43" id="PZd-GB-RKE"/>
-                <constraint firstItem="GBb-ja-E4v" firstAttribute="trailing" secondItem="Sr6-bH-VHY" secondAttribute="trailing" symbolic="YES" id="bQa-HM-MPe"/>
+                <constraint firstAttribute="trailing" secondItem="Sr6-bH-VHY" secondAttribute="trailing" id="bQa-HM-MPe"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="GBb-ja-E4v"/>
             <point key="canvasLocation" x="-346.39999999999998" y="-310.79460269865069"/>

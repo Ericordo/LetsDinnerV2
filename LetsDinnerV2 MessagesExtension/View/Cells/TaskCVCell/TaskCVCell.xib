@@ -41,7 +41,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Assignment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8p6-Ng-yx3" customClass="TaskPersonLabel" customModule="Let_s_Dinner_" customModuleProvider="target">
                                 <rect key="frame" x="38" y="54" width="292" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" name="stoneGrey"/>
+                                <color key="textColor" name="secondLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tR9-y2-rz7" userLabel="Cell Separator">
@@ -97,8 +97,8 @@
         <namedColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="stoneGrey">
-            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.77600002288818359" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="secondLabelColor">
+            <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

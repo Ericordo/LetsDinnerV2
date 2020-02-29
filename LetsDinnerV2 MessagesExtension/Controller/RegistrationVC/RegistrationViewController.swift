@@ -206,6 +206,7 @@ class RegistrationViewController: UIViewController {
         }
     }
     
+    // MARK: Location (Address)
     @IBAction func tapLocationButton(_ sender: Any) {
         findCurrentLocation()
     }
@@ -260,8 +261,6 @@ class RegistrationViewController: UIViewController {
         }
     }
     
-    
-    
     private func verifyEachTextFieldAndProceed() {
         
         if let address = addressTextField.text {
@@ -298,6 +297,7 @@ class RegistrationViewController: UIViewController {
     
 }
 
+// MARK: TextFieldDelegate
 extension RegistrationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         activeField = textField

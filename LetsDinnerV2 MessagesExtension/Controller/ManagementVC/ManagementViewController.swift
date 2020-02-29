@@ -38,7 +38,7 @@ class ManagementViewController: UIViewController {
     private var sectionNames = [String]()
     private var servings : Int = 2 {
         didSet {
-            servingsLabel.text = "How many servings?  \(servings)"
+            servingsLabel.text = "\(servings) Servings"
             Event.shared.servings = servings
         }
     }
@@ -51,6 +51,9 @@ class ManagementViewController: UIViewController {
         super.viewDidLoad()
         StepStatus.currentStep = .managementVC
         
+        setupUI()
+        setupSwipeGesture()
+        
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         
@@ -60,9 +63,6 @@ class ManagementViewController: UIViewController {
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         servings = Event.shared.servings
-        
-        setupUI()
-        setupSwipeGesture()
         
         updateServings(servings: servings)
         
@@ -76,7 +76,7 @@ class ManagementViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 3])
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 3])
     }
     
     private func setupUI() {
@@ -109,7 +109,7 @@ class ManagementViewController: UIViewController {
 //        servingsStepper.labelWidthWeight = 0.4
 //        servingsStepper.limitHitAnimationColor = Colors.paleGray
         
-        separatorView.backgroundColor = UIColor.viewSeparatorLine
+        separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             servingsLabel.isHidden = true

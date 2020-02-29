@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRa-hc-m98">
-                    <rect key="frame" x="17" y="10" width="71" height="46"/>
+                    <rect key="frame" x="17" y="10" width="58" height="23"/>
                     <state key="normal" title=" Back" image="chevronLeft">
                         <color key="titleColor" name="highlightRed"/>
                     </state>
@@ -33,7 +33,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-zH-lka">
-                    <rect key="frame" x="147.5" y="23" width="80" height="20.5"/>
+                    <rect key="frame" x="147.5" y="11.5" width="80" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <color key="textColor" name="labelColor"/>
                     <nil key="highlightedColor"/>
@@ -45,27 +45,13 @@
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wVf-mM-zx0" userLabel="Top View">
-                    <rect key="frame" x="0.0" y="49" width="375" height="110"/>
+                    <rect key="frame" x="16" y="49" width="343" height="110"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="jCZ-wU-rPm">
-                            <rect key="frame" x="18" y="56.5" width="339" height="42"/>
+                            <rect key="frame" x="18" y="56.5" width="307" height="42"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" userLabel="Calendar Button" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="154.5" height="42"/>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="42" id="zL8-oA-Xr8"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="Calendar">
-                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="calendarButtonDidTap:" destination="-1" eventType="touchUpInside" id="UwW-OQ-Ieo"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AS3-Sj-gsz" userLabel="Reminder Button" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
-                                    <rect key="frame" x="184.5" y="0.0" width="154.5" height="42"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="138.5" height="42"/>
                                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="42" id="7sm-H2-Zka"/>
@@ -78,12 +64,26 @@
                                         <action selector="remindersButtonDidTap:" destination="-1" eventType="touchUpInside" id="4tn-je-k9B"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" userLabel="Calendar Button" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
+                                    <rect key="frame" x="168.5" y="0.0" width="138.5" height="42"/>
+                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="42" id="zL8-oA-Xr8"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <state key="normal" title="Calendar">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="calendarButtonDidTap:" destination="-1" eventType="touchUpInside" id="UwW-OQ-Ieo"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can sync those things assigned to you with Reminders and add the event to your Calendar." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GR4-2h-ARV">
-                            <rect key="frame" x="30" y="10" width="315" height="31.5"/>
+                            <rect key="frame" x="15" y="10" width="313" height="31.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" name="stoneGrey"/>
+                            <color key="textColor" name="secondLabelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
@@ -93,10 +93,10 @@
                         <constraint firstItem="jCZ-wU-rPm" firstAttribute="top" secondItem="GR4-2h-ARV" secondAttribute="bottom" constant="15" id="6JP-r3-9J5"/>
                         <constraint firstItem="GR4-2h-ARV" firstAttribute="centerX" secondItem="wVf-mM-zx0" secondAttribute="centerX" id="6dX-fk-9Oj"/>
                         <constraint firstAttribute="height" constant="110" id="Aot-cL-Q7N"/>
-                        <constraint firstItem="GR4-2h-ARV" firstAttribute="leading" secondItem="wVf-mM-zx0" secondAttribute="leading" constant="30" id="DEE-fn-soM"/>
+                        <constraint firstItem="GR4-2h-ARV" firstAttribute="leading" secondItem="wVf-mM-zx0" secondAttribute="leading" constant="15" id="DEE-fn-soM"/>
                         <constraint firstAttribute="trailing" secondItem="jCZ-wU-rPm" secondAttribute="trailing" constant="18" id="Eee-0x-mYt"/>
                         <constraint firstItem="jCZ-wU-rPm" firstAttribute="centerX" secondItem="wVf-mM-zx0" secondAttribute="centerX" id="Yez-mx-vV5"/>
-                        <constraint firstAttribute="trailing" secondItem="GR4-2h-ARV" secondAttribute="trailing" constant="30" id="mjg-AJ-Ld4"/>
+                        <constraint firstAttribute="trailing" secondItem="GR4-2h-ARV" secondAttribute="trailing" constant="15" id="mjg-AJ-Ld4"/>
                         <constraint firstItem="jCZ-wU-rPm" firstAttribute="leading" secondItem="wVf-mM-zx0" secondAttribute="leading" constant="18" id="q0A-7h-unx"/>
                     </constraints>
                 </view>
@@ -111,8 +111,8 @@
                 <constraint firstItem="eZR-zH-lka" firstAttribute="centerY" secondItem="tRa-hc-m98" secondAttribute="centerY" id="nJY-LT-VhG"/>
                 <constraint firstItem="tRa-hc-m98" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="tOD-le-hIQ"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="wVf-mM-zx0" secondAttribute="bottom" constant="8" symbolic="YES" id="xjT-Hc-oN7"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wVf-mM-zx0" secondAttribute="trailing" id="yID-nq-xNA"/>
-                <constraint firstItem="wVf-mM-zx0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zAK-gw-8rb"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wVf-mM-zx0" secondAttribute="trailing" constant="16" id="yID-nq-xNA"/>
+                <constraint firstItem="wVf-mM-zx0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="zAK-gw-8rb"/>
                 <constraint firstItem="wVf-mM-zx0" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="49" id="zjK-gu-h7s"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
@@ -133,8 +133,8 @@
         <namedColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="stoneGrey">
-            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.77600002288818359" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="secondLabelColor">
+            <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

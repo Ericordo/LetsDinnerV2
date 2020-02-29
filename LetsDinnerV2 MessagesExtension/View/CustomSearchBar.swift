@@ -32,6 +32,7 @@ class CustomSearchBar: UISearchBar {
         self.backgroundColor = .backgroundColor
         self.isTranslucent = true
         
+        
         if #available(iOS 13.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
                 self.searchTextField.backgroundColor = UIColor.backgroundColor.withAlphaComponent(1.0)
