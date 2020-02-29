@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="activityIndicator" destination="Ciq-25-awl" id="BfY-Mq-1MU"/>
                 <outlet property="bottomView" destination="bv3-Vn-pnT" id="cfI-Pe-Npq"/>
+                <outlet property="bottomViewHeightConstraint" destination="Arm-8Q-ZEV" id="M37-PT-DMH"/>
                 <outlet property="createRecipeButton" destination="ulB-lg-UUU" id="qfd-vy-ZfB"/>
                 <outlet property="headerLabel" destination="Ay0-eE-nWy" id="BCc-Et-Wxz"/>
                 <outlet property="nextButton" destination="lhc-Ek-PZ3" id="GWK-61-TJ2"/>
@@ -211,7 +212,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="bottomViewColor">
-            <color red="0.89999996423721318" green="0.91299997568130498" blue="0.91699998378753667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89999997615814209" green="0.91299998760223389" blue="0.91699999570846558" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="dullGrey">
             <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

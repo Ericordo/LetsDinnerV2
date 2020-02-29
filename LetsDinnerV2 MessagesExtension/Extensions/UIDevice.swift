@@ -42,7 +42,7 @@ extension UIDevice {
             case 1792: return .iPhone_Xr_11
             case 2426: return .iPhone_11_Pro
             default: return .iPhone_unknown
-        }
+            }
         }
         return .iPad
    }
