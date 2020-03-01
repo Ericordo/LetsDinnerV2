@@ -12,9 +12,9 @@ protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
     
+    //For TestCase
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
-
 
 class NewEventViewController: UIViewController  {
 
@@ -34,14 +34,14 @@ class NewEventViewController: UIViewController  {
     @IBOutlet weak var eventInputBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var testButton: UIButton!
+    @IBOutlet weak var fillInQuickButton: UIButton!
     
     weak var delegate: NewEventViewControllerDelegate?
     
     let datePicker = DatePicker()
-    
     private var activeField: UITextField?
-
     private let headerViewHeight: CGFloat = 60
+    private var isInputViewShown = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +60,9 @@ class NewEventViewController: UIViewController  {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
+        
+        // For the NEXT button  
+        _ = allFieldsAreFilled()
     }
     
     private func setupUI() {
@@ -87,6 +90,9 @@ class NewEventViewController: UIViewController  {
              textField!.delegate = self
              textField!.autocapitalizationType = .sentences
              textField!.autocorrectionType = .no
+            
+            // To check if all the Fields are filled
+            textField!.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
              
          }
         
@@ -118,24 +124,7 @@ class NewEventViewController: UIViewController  {
     private func setupGesture() {
         self.view.addTapGestureToHideKeyboard()
     }
-    
-    @IBAction func DidTapTestButton(_ sender: Any) {
-        
-        // Initiate TestCase
-        let event = testCase.createCaseOne()
-        Event.shared.dinnerName = event.dinnerName
-        Event.shared.hostName = event.hostName
-        Event.shared.eventDescription = event.eventDescription
-        Event.shared.dinnerLocation = event.dinnerLocation
-        Event.shared.dateTimestamp = event.dateTimestamp
-        // Remove Child Controller
-        
-        delegate?.eventDescriptionVCDidTapFinish(controller: self)
-        
-        print(Event.shared)
-        // Go to Review VC
-    }
-    
+
     func presentDatePicker() {
       
 //        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.width, height: CGFloat(44))))
@@ -152,19 +141,9 @@ class NewEventViewController: UIViewController  {
 
     }
     
-    @objc func didSelectDate() {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "MMM d, h:mm a"
-          dateTextField.text = formatter.string(from: datePicker.date)
-      }
+
     
-    @objc func didTapEvent(sender: UIButton) {
-        dinnerNameTextField.text = sender.titleLabel?.text
-        eventInput.isHidden = true
-        
-        // Go to Next textfield
-        hostNameTextField.becomeFirstResponder()
-    }
+    
     
 //    @objc func didTapDonePicker() {
 //        let formatter = DateFormatter()
@@ -190,19 +169,21 @@ class NewEventViewController: UIViewController  {
         guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text, let date = dateTextField.text else {
             return false
         }
+        
         if !host.isEmpty && !dinner.isEmpty && !location.isEmpty && !date.isEmpty {
+            nextButton.setTitleColor(UIColor.activeButton, for: .normal)
             return true
         } else {
+            nextButton.setTitleColor(UIColor.inactiveButton, for: .normal)
             return false
         }
     }
     
-    // MARK: - Button Clicked
+    // MARK: - did Button Tapped or Selected
     
     @IBAction func didTapNext(_ sender: UIButton) {
         
         if !allFieldsAreFilled() {
-            
             dinnerNameTextField.animateEmpty()
             hostNameTextField.animateEmpty()
             locationTextField.animateEmpty()
@@ -229,6 +210,7 @@ class NewEventViewController: UIViewController  {
     @objc private func didTapAdd() {
         activeField?.text = infoInput.addButton.title(for: .normal)
         infoInput.isHidden = true
+        _ = allFieldsAreFilled()
         
         // Go to next textField
         if hostNameTextField.isEditing {
@@ -238,6 +220,49 @@ class NewEventViewController: UIViewController  {
         }
     }
     
+    @objc func didTapEvent(sender: UIButton) {
+        dinnerNameTextField.text = sender.titleLabel?.text
+        eventInput.isHidden = true
+        _ = allFieldsAreFilled()
+
+        // Go to Next textfield
+        hostNameTextField.becomeFirstResponder()
+    }
+    
+    @objc func didSelectDate() {
+          let formatter = DateFormatter()
+          formatter.dateFormat = "MMM d, h:mm a"
+          dateTextField.text = formatter.string(from: datePicker.date)
+        _ = allFieldsAreFilled()
+
+      }
+    
+    @IBAction func DidTapTestButton(_ sender: Any) {
+        
+        // Initiate TestCase
+        let event = testCase.createCaseOne()
+        Event.shared.dinnerName = event.dinnerName
+        Event.shared.hostName = event.hostName
+        Event.shared.eventDescription = event.eventDescription
+        Event.shared.dinnerLocation = event.dinnerLocation
+        Event.shared.dateTimestamp = event.dateTimestamp
+        // Remove Child Controller
+        
+        delegate?.eventDescriptionVCDidTapFinish(controller: self)
+        
+        // Go to Review VC
+    }
+    
+    @IBAction func DidTapFillInQuick(_ sender: Any) {
+        let event = testCase.quickFillIn()
+        Event.shared.dinnerName = event.dinnerName
+        Event.shared.hostName = event.hostName
+        Event.shared.eventDescription = event.eventDescription
+        Event.shared.dinnerLocation = event.dinnerLocation
+        Event.shared.dateTimestamp = event.dateTimestamp
+        
+        delegate?.newEventVCDidTapNext(controller: self)
+    }
     
 }
 
@@ -250,7 +275,6 @@ extension NewEventViewController: UITextFieldDelegate {
 //        if textField == dateTextField {
 //            presentDatePicker()
 //        }
-        
         
         switch textField {
         case dinnerNameTextField:
@@ -317,6 +341,9 @@ extension NewEventViewController: UITextFieldDelegate {
         }
     }
     
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        _ = allFieldsAreFilled()
+    }
 }
 
 // MARK: - ScrollViewDelegate
@@ -324,6 +351,7 @@ extension NewEventViewController: UITextFieldDelegate {
 extension NewEventViewController: UIScrollViewDelegate {
     
     @objc func keyboardWillShow(notification: NSNotification) {
+        
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
@@ -339,33 +367,33 @@ extension NewEventViewController: UIScrollViewDelegate {
                 scrollView.scrollRectToVisible(activeField.frame, animated: true)
             }
         }
+        
         if activeField == locationTextField || activeField == hostNameTextField {
             
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 1) {
-                self.infoInputBottomConstraint.constant = keyboardFrame.height
-                
-                // Temp solve:
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    self.infoInputBottomConstraint.constant += 20
+            
+            if !isInputViewShown {
+                UIView.animate(withDuration: 0.5) {
+                    self.showInputView(keyboardFrame: keyboardFrame)
+                    self.isInputViewShown = true
                 }
-                
-                self.view.layoutIfNeeded()
+            } else {
+                showInputView(keyboardFrame: keyboardFrame)
             }
+            
+            
         } else if activeField == dinnerNameTextField {
             self.view.layoutIfNeeded()
-            UIView.animate(withDuration: 1) {
-                self.eventInputBottomConstraint.constant = keyboardFrame.height
-                
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    self.eventInputBottomConstraint.constant += 20
+            
+            if !isInputViewShown {
+                UIView.animate(withDuration: 0.5) {
+                    self.showInputView(keyboardFrame: keyboardFrame)
+                    self.isInputViewShown = true
                 }
-                
-                self.view.layoutIfNeeded()
+            } else {
+                showInputView(keyboardFrame: keyboardFrame)
             }
         }
-        
-        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -373,13 +401,24 @@ extension NewEventViewController: UIScrollViewDelegate {
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.5) {
 
             self.infoInputBottomConstraint.constant = -51
             self.eventInputBottomConstraint.constant = -51
+            self.isInputViewShown = false
 
             self.view.layoutIfNeeded()
         }
+    }
+    
+    private func showInputView(keyboardFrame: CGRect) {
+        self.eventInputBottomConstraint.constant = keyboardFrame.height
+        self.infoInputBottomConstraint.constant = keyboardFrame.height
+        // Temp solve:
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.eventInputBottomConstraint.constant += 20
+        }
+        self.view.layoutIfNeeded()
     }
     
 }
