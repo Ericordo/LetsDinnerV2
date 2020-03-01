@@ -12,6 +12,7 @@ protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
     
+    //For TestCase
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
@@ -33,6 +34,7 @@ class NewEventViewController: UIViewController  {
     @IBOutlet weak var eventInputBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var testButton: UIButton!
+    @IBOutlet weak var fillInQuickButton: UIButton!
     
     weak var delegate: NewEventViewControllerDelegate?
     
@@ -248,10 +250,19 @@ class NewEventViewController: UIViewController  {
         
         delegate?.eventDescriptionVCDidTapFinish(controller: self)
         
-        print(Event.shared)
         // Go to Review VC
     }
     
+    @IBAction func DidTapFillInQuick(_ sender: Any) {
+        let event = testCase.quickFillIn()
+        Event.shared.dinnerName = event.dinnerName
+        Event.shared.hostName = event.hostName
+        Event.shared.eventDescription = event.eventDescription
+        Event.shared.dinnerLocation = event.dinnerLocation
+        Event.shared.dateTimestamp = event.dateTimestamp
+        
+        delegate?.newEventVCDidTapNext(controller: self)
+    }
     
 }
 

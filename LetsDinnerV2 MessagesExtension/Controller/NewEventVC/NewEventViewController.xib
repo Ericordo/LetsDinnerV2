@@ -16,6 +16,7 @@
                 <outlet property="errorLabel" destination="Bm6-vG-axt" id="VQn-UO-ldq"/>
                 <outlet property="eventInput" destination="sm4-gG-DV1" id="5Pf-So-QEN"/>
                 <outlet property="eventInputBottomConstraint" destination="R3y-lA-2Ef" id="jJJ-QF-gzb"/>
+                <outlet property="fillInQuickButton" destination="rbC-IJ-MJP" id="2Gm-JV-ubb"/>
                 <outlet property="hostNameTextField" destination="Opz-v8-87p" id="cYr-QZ-7WR"/>
                 <outlet property="infoInput" destination="WlK-s2-aiJ" id="20e-1e-4uj"/>
                 <outlet property="infoInputBottomConstraint" destination="Fa8-Of-oVZ" id="vTF-DH-I7Q"/>
@@ -129,14 +130,22 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All fields required" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bm6-vG-axt">
                                     <rect key="frame" x="138" y="244" width="99" height="14.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" name="highlightRed"/>
+                                    <color key="textColor" name="justNoRed"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RG3-GD-eao">
-                                    <rect key="frame" x="25" y="304" width="71" height="30"/>
+                                    <rect key="frame" x="25" y="429" width="71" height="30"/>
                                     <state key="normal" title="TestCase1"/>
                                     <connections>
                                         <action selector="DidTapTestButton:" destination="-1" eventType="touchUpInside" id="rJa-bi-kly"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rbC-IJ-MJP" userLabel="QuickFillIn Button">
+                                    <rect key="frame" x="25" y="372" width="149" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Fill in Quick (For Test)"/>
+                                    <connections>
+                                        <action selector="DidTapFillInQuick:" destination="-1" eventType="touchUpInside" id="096-Dy-Yd5"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -147,7 +156,7 @@
                                 <constraint firstAttribute="trailing" secondItem="Hsj-1b-iz7" secondAttribute="trailing" constant="30" id="V95-Am-Xeq"/>
                                 <constraint firstItem="Hsj-1b-iz7" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="ZfY-43-yv0"/>
                                 <constraint firstItem="Bm6-vG-axt" firstAttribute="centerX" secondItem="ogw-Df-oMa" secondAttribute="centerX" id="cTZ-Ya-4Xp"/>
-                                <constraint firstItem="RG3-GD-eao" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="75" id="eH2-gF-a94"/>
+                                <constraint firstItem="RG3-GD-eao" firstAttribute="top" secondItem="Hsj-1b-iz7" secondAttribute="bottom" constant="200" id="eH2-gF-a94"/>
                                 <constraint firstAttribute="height" constant="607" id="pEI-qd-AgH"/>
                                 <constraint firstItem="RG3-GD-eao" firstAttribute="leading" secondItem="ogw-Df-oMa" secondAttribute="leading" constant="25" id="vcR-ii-iQe"/>
                             </constraints>
@@ -207,8 +216,8 @@
         <namedColor name="defaultGrey">
             <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="highlightRed">
-            <color red="0.94900000095367432" green="0.34900000691413879" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="justNoRed">
+            <color red="1" green="0.23100000619888306" blue="0.18799999356269836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

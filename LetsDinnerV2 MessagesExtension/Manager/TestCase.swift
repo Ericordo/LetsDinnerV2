@@ -83,5 +83,17 @@ class testCase {
     }
     
     
+    static func quickFillIn() -> Event {
+        let event = Event()
+        
+        event.dinnerName = "Quick Dinner (Finish in 10 mins)"
+        event.hostName = "Obama"
+        event.eventDescription = "Oh no. I love monopoly"
+        event.dinnerLocation = "TBC"
+        event.dateTimestamp = Double(Date.currentTimeStamp)
+        
+        return event
+    }
+    
 }
 
