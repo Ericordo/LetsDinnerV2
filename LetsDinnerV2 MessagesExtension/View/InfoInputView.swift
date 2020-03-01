@@ -70,9 +70,6 @@ class InfoInputView : UIView {
         
     }
     
-    @objc func didTapAdd() {
-
-    }
     
     func assignInfoInput(textField: UITextField, info: String) {
 //        infoLabel.text = info

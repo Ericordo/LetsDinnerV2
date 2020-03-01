@@ -116,7 +116,7 @@ class ManagementViewController: UIViewController {
         view.layer.shadowColor = UIColor.secondaryTextLabel.cgColor
         view.layer.shadowOpacity = 1
         view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 5
+        view.layer.shadowRadius = 3
         view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = UIScreen.main.scale
@@ -290,8 +290,6 @@ class ManagementViewController: UIViewController {
         self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
         
     }
-    
-
 }
 
 // MARK: TableView setup
