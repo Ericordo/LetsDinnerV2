@@ -20,4 +20,19 @@ public class PrimaryButton: UIButton {
     }
 }
 
+public class SecondaryButton: UIButton {
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 8.0
+        self.backgroundColor = UIColor.backgroundColor
+        self.setTitleColor(UIColor.textLabel, for: .normal)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(greaterThanOrEqualToConstant: 96).isActive = true
+    }
+}
+
 

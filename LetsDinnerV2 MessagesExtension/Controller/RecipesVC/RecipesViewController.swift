@@ -68,7 +68,7 @@ class RecipesViewController: UIViewController {
         recipesTableView.dataSource = self
         searchBar.delegate = self
 
-        setupUI()
+        configureUI()
         setupGesture()
         loadRecipes()
         
@@ -86,7 +86,7 @@ class RecipesViewController: UIViewController {
 //        prepareTasks()
     }
     
-    private func setupUI() {
+    private func configureUI() {
         configureNextButton()
         
         recipesTableView.tableFooterView = UIView()
@@ -181,13 +181,11 @@ class RecipesViewController: UIViewController {
     
     // MARK: Button Tapped
     
-    
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.recipeVCDidTapPrevious(controller: self)
     }
     
     @IBAction func didTapNext(_ sender: Any) {
-        // Bug: After comes back from managementVC and add ingredient in Custom Recipe, it then does not update in managmentVC after clicking NEXT button
         prepareTasks()
         
         delegate?.recipeVCDidTapNext(controller: self)
@@ -218,6 +216,16 @@ class RecipesViewController: UIViewController {
                                 completion: nil)
         }
     }
+    
+    @IBAction func didTapSelectedRecipes(_ sender: Any) {
+        let selectedRecipesVC = SelectedRecipesViewController()
+        selectedRecipesVC.modalPresentationStyle = .fullScreen
+        // Delegate
+        present(selectedRecipesVC, animated: true, completion: nil)
+    }
+    
+    
+    
     
     private func prepareTasks() {
 //        Event.shared.tasks.forEach { task in
@@ -342,6 +350,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
+    // Header View
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear

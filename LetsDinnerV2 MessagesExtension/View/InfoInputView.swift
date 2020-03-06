@@ -41,7 +41,7 @@ class InfoInputView : UIView {
     }()
     
     private func configureView() {
-        self.backgroundColor = UIColor.keyboardBackground
+        self.backgroundColor = UIColor.backgroundColor.withAlphaComponent(0.5)
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
