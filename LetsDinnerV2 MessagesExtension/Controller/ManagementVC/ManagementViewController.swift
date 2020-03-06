@@ -98,9 +98,7 @@ class ManagementViewController: UIViewController {
         separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            servingsLabel.isHidden = true
-            servingsStepper.isHidden = true
-            separatorView.isHidden = true
+            hideServingView()
         }
         
         if UIDevice.current.hasHomeButton {

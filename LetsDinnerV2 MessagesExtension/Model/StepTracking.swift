@@ -25,6 +25,7 @@ enum StepTracking {
 
 class StepStatus {
     static var currentStep: StepTracking?
+    static var currentRecipeMenu: SearchType?
 }
 
 

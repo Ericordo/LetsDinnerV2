@@ -23,6 +23,7 @@
                 <outlet property="resultsLabel" destination="qeB-1L-5bN" id="AnK-lT-0f0"/>
                 <outlet property="searchBar" destination="JSv-Jk-kjP" id="o0y-8Q-pWH"/>
                 <outlet property="searchLabel" destination="3EZ-7s-2av" id="F1f-Va-qQ1"/>
+                <outlet property="selectedRecipeButton" destination="rx3-1u-1bt" id="zUL-95-haJ"/>
                 <outlet property="titleLabel" destination="nph-G5-JAT" id="xGG-v2-FaQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -161,7 +162,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
-                                    <rect key="frame" x="151" y="0.0" width="33" height="33"/>
+                                    <rect key="frame" x="149.5" y="0.0" width="33" height="33"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="33" id="6P7-P6-P7e"/>
                                         <constraint firstAttribute="height" constant="33" id="x3d-49-kdp"/>
@@ -174,8 +175,14 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx3-1u-1bt">
-                                    <rect key="frame" x="295" y="0.0" width="46" height="33"/>
-                                    <state key="normal" title="Button"/>
+                                    <rect key="frame" x="290" y="0.0" width="51" height="33"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="33" id="UGQ-4j-6wF"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <state key="normal" title="Button">
+                                        <color key="titleColor" name="highlightRed"/>
+                                    </state>
                                     <connections>
                                         <action selector="didTapSelectedRecipes:" destination="-1" eventType="touchUpInside" id="Vhb-V2-9Om"/>
                                     </connections>
