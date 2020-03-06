@@ -15,7 +15,6 @@ protocol CustomRecipeDetailsVCDelegate : class {
     func customrecipeDetailsVCShouldDismiss()
 }
 
-
 class CustomRecipeDetailsViewController: UIViewController {
 
     @IBOutlet weak var doneButton: UIButton!
@@ -59,6 +58,8 @@ class CustomRecipeDetailsViewController: UIViewController {
         ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         scrollView.delegate = self
+        
+
         
         setupUI()
         
@@ -161,13 +162,13 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     private func editRecipe() {
         guard let recipe = self.selectedRecipe else { return }
+        
         let editingVC = RecipeCreationViewController()
         editingVC.modalPresentationStyle = .fullScreen
         editingVC.recipeCreationVCUpdateDelegate = self
         editingVC.recipeToEdit = recipe
         editingVC.editingMode = true
         self.present(editingVC, animated: true, completion: nil)
-        
     }
     
     @objc private func closeVC() {
@@ -286,6 +287,56 @@ extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
         if selectedRecipe?.downloadUrl == nil {
             recipeImageView.image = UIImage(named: "imagePlaceholder")
         }
+        
+        // Edge Case: Add the newly added ingredients to tasks (need to make sure the recipe name are unique)
+        if let selectedRecipe = selectedRecipe {
+//            let newIngredientNameList = ingredients.map{$0.name}
+            
+            Event.shared.selectedCustomRecipes.forEach({ customRecipe in
+                // find the selected one
+                if customRecipe.id == selectedRecipe.id {
+                    // compare the ingredients name between tempIngr and orginal
+                    let customRecipeNameList: [String] = customRecipe.ingredients.map({$0.name})
+                    
+                    // compare the list
+//                    print(newIngredientNameList)
+//                    print(customRecipeNameList)
+                    
+                    // Remove the old task under the parent name
+                    let tasks = Event.shared.tasks.filter {$0.parentRecipe != selectedRecipe.title}
+                    Event.shared.tasks = tasks
+                    
+                    // Add back the task
+                    let recipeName = customRecipe.title
+                    let servings = Double(customRecipe.servings)
+                    let customIngredients = customRecipe.ingredients
+                    
+                    customIngredients.forEach { customIngredient in
+                        let task = Task(taskName: customIngredient.name,
+                                        assignedPersonUid: "nil",
+                                        taskState: TaskState.unassigned.rawValue,
+                                        taskUid: "nil",
+                                        assignedPersonName: "nil",
+                                        isCustom: false, parentRecipe: recipeName)
+                        task.metricUnit = customIngredient.unit
+                        if let amount = customIngredient.amount.value {
+                            if Int(amount) != 0 {
+                                task.metricAmount = (amount * 2) / servings
+                            }
+                        }
+                        task.servings = 2
+                        Event.shared.tasks.append(task)
+                    }
+                    
+                    
+  
+                    
+                    
+                    
+                }
+            })
+        }
+        
     }
     
     

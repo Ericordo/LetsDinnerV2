@@ -28,9 +28,9 @@ class RecipeCell: UITableViewCell {
     
     var selectedRecipe = Recipe(dict: [:])
     var selectedCustomRecipe = CustomRecipe()
-    weak var recipeCellDelegate: RecipeCellDelegate?
-    
     var searchType: SearchType = .apiRecipes
+
+    weak var recipeCellDelegate: RecipeCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()

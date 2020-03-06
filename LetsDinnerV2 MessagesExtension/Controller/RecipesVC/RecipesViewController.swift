@@ -36,7 +36,6 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
-    
     weak var delegate: RecipesViewControllerDelegate?
     private let realm = try! Realm()
     
@@ -68,14 +67,13 @@ class RecipesViewController: UIViewController {
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
         searchBar.delegate = self
-        
+
         setupUI()
         setupGesture()
         loadRecipes()
         
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -247,7 +245,7 @@ class RecipesViewController: UIViewController {
         // New Recipes
         var newRecipes = [Recipe]()
         
-        if previouslySelectedRecipes.count == 0 {
+        if previouslySelectedRecipes.isEmpty {
             newRecipes = Event.shared.selectedRecipes
         } else {
             Event.shared.selectedRecipes.forEach { recipe in
@@ -259,18 +257,21 @@ class RecipesViewController: UIViewController {
             }
         }
         
+
+    
         var newCustomRecipes = [CustomRecipe]()
-        if previouslySelectedCustomRecipes.count == 0 {
+                
+        if previouslySelectedCustomRecipes.isEmpty {
             newCustomRecipes = Event.shared.selectedCustomRecipes
         } else {
             Event.shared.selectedCustomRecipes.forEach { recipe in
+
                 if !previouslySelectedCustomRecipes.contains(where: { comparedRecipe -> Bool in
                     recipe.id == comparedRecipe.id
                 }) {
                     newCustomRecipes.append(recipe)
                 }
             }
-            
         }
         
 //        let recipes = Event.shared.selectedRecipes
@@ -314,8 +315,14 @@ class RecipesViewController: UIViewController {
             let recipeName = customRecipe.title
             let servings = Double(customRecipe.servings)
             let customIngredients = customRecipe.ingredients
+            
             customIngredients.forEach { customIngredient in
-                let task = Task(taskName: customIngredient.name, assignedPersonUid: "nil", taskState: TaskState.unassigned.rawValue, taskUid: "nil", assignedPersonName: "nil", isCustom: false, parentRecipe: recipeName)
+                let task = Task(taskName: customIngredient.name,
+                                assignedPersonUid: "nil",
+                                taskState: TaskState.unassigned.rawValue,
+                                taskUid: "nil",
+                                assignedPersonName: "nil",
+                                isCustom: false, parentRecipe: recipeName)
                 task.metricUnit = customIngredient.unit
                 if let amount = customIngredient.amount.value {
                     if Int(amount) != 0 {
@@ -448,10 +455,12 @@ extension RecipesViewController: RecipeCellDelegate {
         customRecipeDetailsVC.modalPresentationStyle = .fullScreen
         customRecipeDetailsVC.selectedRecipe = customRecipe
         customRecipeDetailsVC.customRecipeDetailsDelegate = self
+
         present(customRecipeDetailsVC, animated: true, completion: nil)
     }
     
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
+        
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
             Event.shared.selectedCustomRecipes.remove(at: index)
         } else {

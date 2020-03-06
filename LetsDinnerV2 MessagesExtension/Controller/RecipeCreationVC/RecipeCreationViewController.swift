@@ -66,7 +66,7 @@ class RecipeCreationViewController: UIViewController {
     
     private var activeField: UITextField?
     
-    private let customRecipe = CustomRecipe()
+    let customRecipe = CustomRecipe()
     
     private var imageDeletedWhileEditing = false
     
@@ -347,7 +347,13 @@ class RecipeCreationViewController: UIViewController {
                 updateRecipeInRealm(recipe: recipeToEdit) { [weak self] result in
                     switch result {
                     case .success:
+                       // pass the tasks has been edited and the recipe is selected
                         self?.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
+                        
+                        
+                        
+                        
+                        
                         self?.dismiss(animated: true, completion: nil)
                     case .failure:
                         // To modify

@@ -14,4 +14,12 @@ extension Array where Element: Hashable {
         let otherSet = Set(other)
         return Array(thisSet.symmetricDifference(otherSet))
     }
+    
 }
+
+extension Array where Element: Comparable {
+    func containsSameElements(as other: [Element]) -> Bool {
+        return self.count == other.count && self.sorted() == other.sorted()
+    }
+}
+
