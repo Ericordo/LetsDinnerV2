@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lp5-gd-jQ7" userLabel="BackGround View">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                        <rect key="frame" x="0.0" y="5" width="375" height="110"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F8x-ME-HEw">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
@@ -108,13 +108,13 @@
                             <constraint firstAttribute="trailing" secondItem="F8x-ME-HEw" secondAttribute="trailing" id="1ow-s8-gbm"/>
                             <constraint firstAttribute="trailing" secondItem="Krg-bf-o6z" secondAttribute="trailing" constant="15" id="3Jc-CM-Di3"/>
                             <constraint firstItem="FI7-dc-TJe" firstAttribute="leading" secondItem="ARN-iG-m3N" secondAttribute="trailing" constant="15" id="DZW-Ek-urU"/>
-                            <constraint firstItem="F8x-ME-HEw" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" id="GaA-YB-LBF"/>
                             <constraint firstItem="c6s-SQ-gPs" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" id="MPQ-W7-g8t"/>
                             <constraint firstItem="FI7-dc-TJe" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" constant="10" id="OEa-Bo-POp"/>
                             <constraint firstItem="c6s-SQ-gPs" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" id="OeQ-G2-Hyf"/>
                             <constraint firstItem="SAw-8F-1lh" firstAttribute="leading" secondItem="ARN-iG-m3N" secondAttribute="trailing" constant="15" id="Wpd-45-Db2"/>
                             <constraint firstItem="ARN-iG-m3N" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" constant="10" id="ZK8-Mm-UHV"/>
                             <constraint firstAttribute="bottom" secondItem="F8x-ME-HEw" secondAttribute="bottom" id="brk-Wn-u8C"/>
+                            <constraint firstItem="F8x-ME-HEw" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" id="crl-RU-Mov"/>
                             <constraint firstAttribute="bottom" secondItem="JWa-be-hue" secondAttribute="bottom" constant="10" id="dYR-l9-o4L"/>
                             <constraint firstAttribute="bottom" secondItem="c6s-SQ-gPs" secondAttribute="bottom" id="ffp-zt-lVc"/>
                             <constraint firstItem="F8x-ME-HEw" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" id="gMk-td-zTE"/>
@@ -131,8 +131,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="lp5-gd-jQ7" secondAttribute="trailing" id="0Vw-hR-694"/>
                     <constraint firstItem="lp5-gd-jQ7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="7UU-Zp-lZM"/>
-                    <constraint firstItem="lp5-gd-jQ7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="IZ1-Eo-tFw"/>
-                    <constraint firstAttribute="bottom" secondItem="lp5-gd-jQ7" secondAttribute="bottom" constant="10" id="nDh-fD-x36"/>
+                    <constraint firstItem="lp5-gd-jQ7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BPB-h2-HWf"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

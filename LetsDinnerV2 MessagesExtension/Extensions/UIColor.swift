@@ -15,7 +15,7 @@ extension UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return Colors.soBlack
+                    return Colors.darkBlackground
                 } else { return Colors.allWhite }}
         } else { return Colors.allWhite }
     }
@@ -25,8 +25,8 @@ extension UIColor {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
                     return Colors.allWhite
-                } else { return Colors.soBlack }}
-        } else { return Colors.soBlack }
+                } else { return Colors.darkBlackground }}
+        } else { return Colors.darkBlackground }
     }
     
     static var textLabel: UIColor {

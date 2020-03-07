@@ -110,6 +110,7 @@ class ManagementViewController: UIViewController {
         addShadowOnUIView(view: addThingView)
     }
     
+    
     private func addShadowOnUIView(view: UIView) {
         view.layer.shadowColor = UIColor.secondaryTextLabel.cgColor
         view.layer.shadowOpacity = 1

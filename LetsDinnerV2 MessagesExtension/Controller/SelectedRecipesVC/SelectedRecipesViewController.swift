@@ -24,6 +24,7 @@ class SelectedRecipesViewController: UIViewController {
         }
     }
     
+    weak var dismissDelegate: ModalHandler?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,15 +32,16 @@ class SelectedRecipesViewController: UIViewController {
         configureUI()
         configureTableView()
         
-        previouslySelectedRecipes = Event.shared.selectedRecipes
-        previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
-            
+        updateLocalVariable()
+        updateNumberOfTotalRecipe()
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        totalNumberOfSelectedRecipes = calculateNumberOfTotalRecipe()
+        updateLocalVariable()
+        updateNumberOfTotalRecipe()
         recipesTableView.reloadData()
     }
     
@@ -47,8 +49,13 @@ class SelectedRecipesViewController: UIViewController {
 
     }
     
-    private func calculateNumberOfTotalRecipe() -> Int {
-        return previouslySelectedRecipes.count + previouslySelectedCustomRecipes.count
+    private func updateNumberOfTotalRecipe() {
+        self.totalNumberOfSelectedRecipes = previouslySelectedRecipes.count + previouslySelectedCustomRecipes.count
+    }
+    
+    private func updateLocalVariable() {
+        previouslySelectedRecipes = Event.shared.selectedRecipes
+        previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
     }
     
     private func updateHeaderLabel() {
@@ -121,31 +128,50 @@ class SelectedRecipesViewController: UIViewController {
     }
 
     @IBAction func didTapDone(_ sender: Any) {
+        self.dismissDelegate?.reloadTableAfterModalDismissed()
         self.dismiss(animated: true, completion: nil)
     }
     
 
 }
 
+// MARK: TableView Configuration
+
 extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSource  {
-
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        if totalNumberOfSelectedRecipes == 0 {
+               tableView.setEmptyView(title: "No Recipes selected", message: "Go Back to add some!")
+           } else {
+               tableView.restore()
+           }
+        
         return totalNumberOfSelectedRecipes
     }
     
+    // Header View (For Spacing)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.clear
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10
+    }
+ 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = recipesTableView.dequeueReusableCell(withIdentifier: CellNibs.recipeCell, for: indexPath) as! RecipeCell
         
         // Present Custom Recipes First
         if !previouslySelectedCustomRecipes.isEmpty || !previouslySelectedRecipes.isEmpty {
-            
-            
+
             if indexPath.section < previouslySelectedCustomRecipes.count {
                 let recipe = previouslySelectedCustomRecipes[indexPath.section]
                 cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
@@ -164,9 +190,69 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         }
     }
     
+    // Editing row
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    // Apirecipe index number = self + customrecipe index
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, complete in
+//            self.Items.remove(at: indexPath.row)
+            let cell = tableView.cellForRow(at: indexPath) as! RecipeCell
+            
+
+            switch cell.searchType {
+            case .customRecipes:
+                if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == cell.selectedCustomRecipe.id }) {
+                    
+                    Event.shared.selectedCustomRecipes.remove(at: index)
+                    self.updateLocalVariable()
+                    self.updateNumberOfTotalRecipe()
+                    
+                    
+//                    self.recipesTableView.reloadData()
+                    // Animation needed
+                    
+//                    self.recipesTableView.deleteRows(at: [indexPath], with: .automatic)
+                    UIView.animate(withDuration: 0.4,
+                                   delay: 0.0, options: .transitionCrossDissolve,
+                                   animations: { cell.alpha = 0.3 },
+                                   completion: { finished in self.recipesTableView.reloadData()})
+                    }
+                    
+            case .apiRecipes:
+                if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == cell.selectedRecipe.id }) {
+                    Event.shared.selectedRecipes.remove(at: index)
+                    self.updateLocalVariable()
+                    self.updateNumberOfTotalRecipe()
+//                    self.recipesTableView.reloadData()
+                    
+                    UIView.animate(withDuration: 0.4,
+                                   delay: 0.0, options: .transitionCrossDissolve,
+                                   animations: { cell.alpha = 0.3 },
+                                   completion: { finished in self.recipesTableView.reloadData()})
+                }
+  
+            }
+            
+            complete(true)
+        }
+        
+
+        deleteAction.image = UIImage(named: "deleteBin")
+        deleteAction.backgroundColor = .backgroundColor
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+
 }
-// -> Delegate for recipeVC
+    
+// MARK: Delegate for recipeVC
 
 extension SelectedRecipesViewController: RecipeCellDelegate {
     func recipeCellDidSelectRecipe(recipe: Recipe) {
@@ -175,8 +261,6 @@ extension SelectedRecipesViewController: RecipeCellDelegate {
         } else {
             Event.shared.selectedRecipes.append(recipe)
         }
-        
-        // Also for the RecipeVC
     }
     
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
@@ -189,7 +273,6 @@ extension SelectedRecipesViewController: RecipeCellDelegate {
     
     func recipeCellDidSelectView(recipe: Recipe) {
         openRecipeInSafari(recipe: recipe)
-
     }
     
     func recipeCellDidSelectCustomRecipeView(customRecipe: CustomRecipe) {

@@ -15,6 +15,10 @@ protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapPrevious(controller: RecipesViewController)
 }
 
+protocol ModalHandler: class {
+    func reloadTableAfterModalDismissed()
+}
+
 enum SearchType {
     case apiRecipes
     case customRecipes
@@ -38,6 +42,7 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var selectedRecipeButton: UIButton!
     
     weak var delegate: RecipesViewControllerDelegate?
+    
     private let realm = try! Realm()
     
     private var searchResults = [Recipe]() {
@@ -80,6 +85,8 @@ class RecipesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+    
+        
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
         
         // Remember which searchtype before leaving
@@ -118,8 +125,6 @@ class RecipesViewController: UIViewController {
     }
         
     private func updateUI() {
-
-        
         switch searchType {
         case .apiRecipes:
             headerLabel.text = "DISCOVER THESE RECIPES"
@@ -130,7 +135,7 @@ class RecipesViewController: UIViewController {
             loadRecipes()
             
         case .customRecipes:
-            headerLabel.text = "MY RECIPES"
+            headerLabel.text = "YOUR RECIPES"
             searchBar.placeholder = "Search my recipes"
             recipeToggle.setImage(UIImage(named: "globeIconOutlined.png"), for: .normal)
 //            recipeToggle.setTitle("All recipes", for: .normal)
@@ -144,16 +149,16 @@ class RecipesViewController: UIViewController {
         if count == 0 {
             nextButton.setTitle("Skip", for: .normal)
         } else {
-            nextButton.setTitle("Next (\(count))", for: .normal)
+            nextButton.setTitle("Next", for: .normal)
         }
     }
     
     private func configureSelectedRecipeButton() {
         let count = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
         if count == 0 {
-            selectedRecipeButton.setTitle("But", for: .normal)
+            selectedRecipeButton.setTitle("", for: .normal)
         } else {
-            selectedRecipeButton.setTitle("(\(count))", for: .normal)
+            selectedRecipeButton.setTitle(" (\(count))", for: .normal)
         }
     }
     
@@ -207,7 +212,6 @@ class RecipesViewController: UIViewController {
     
     @IBAction func didTapNext(_ sender: Any) {
         prepareTasks()
-        
         delegate?.recipeVCDidTapNext(controller: self)
     }
     
@@ -244,13 +248,9 @@ class RecipesViewController: UIViewController {
     @IBAction func didTapSelectedRecipes(_ sender: Any) {
         let selectedRecipesVC = SelectedRecipesViewController()
         selectedRecipesVC.modalPresentationStyle = .fullScreen
-        
-        // Delegate
+        selectedRecipesVC.dismissDelegate = self
         present(selectedRecipesVC, animated: true, completion: nil)
     }
-    
-    
-    
     
     private func prepareTasks() {
 //        Event.shared.tasks.forEach { task in
@@ -602,6 +602,14 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     }
     
     func didDeleteCustomRecipe() {
+        recipesTableView.reloadData()
+        configureNextButton()
+        configureSelectedRecipeButton()
+    }
+}
+
+extension RecipesViewController: ModalHandler {
+    func reloadTableAfterModalDismissed() {
         recipesTableView.reloadData()
         configureNextButton()
         configureSelectedRecipeButton()

@@ -162,7 +162,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
-                                    <rect key="frame" x="149.5" y="0.0" width="33" height="33"/>
+                                    <rect key="frame" x="137" y="0.0" width="33" height="33"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="33" id="6P7-P6-P7e"/>
                                         <constraint firstAttribute="height" constant="33" id="x3d-49-kdp"/>
@@ -174,13 +174,12 @@
                                         <action selector="didTapRecipeToggle:" destination="-1" eventType="touchUpInside" id="YNp-Os-CJm"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx3-1u-1bt">
-                                    <rect key="frame" x="290" y="0.0" width="51" height="33"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx3-1u-1bt">
+                                    <rect key="frame" x="239" y="0.0" width="102" height="33"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="33" id="UGQ-4j-6wF"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="Button">
+                                    <state key="normal" title="Button" image="checkedButton">
                                         <color key="titleColor" name="highlightRed"/>
                                     </state>
                                     <connections>
@@ -220,6 +219,7 @@
     </objects>
     <resources>
         <image name="addButtonOutlined" width="22" height="23"/>
+        <image name="checkedButton" width="24" height="24"/>
         <image name="chevronLeft" width="13" height="23"/>
         <image name="recipeBookOutlined" width="22" height="20"/>
         <namedColor name="backgroundColor">

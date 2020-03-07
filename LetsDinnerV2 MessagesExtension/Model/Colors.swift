@@ -12,6 +12,7 @@ enum Colors {
     // New Color
     static let soBlack = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
     static let allWhite = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
+    static let darkBlackground = UIColor(red: 44/255, green: 44/255, blue: 46/255, alpha: 1.0)
     
     // Red
     static let highlightRed = UIColor(red: 242/255, green: 89/255, blue: 82/255, alpha: 1.0)
