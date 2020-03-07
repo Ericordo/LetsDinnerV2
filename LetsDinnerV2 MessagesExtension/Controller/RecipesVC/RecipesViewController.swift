@@ -15,6 +15,10 @@ protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapPrevious(controller: RecipesViewController)
 }
 
+protocol ModalHandler: class {
+    func reloadTableAfterModalDismissed()
+}
+
 enum SearchType {
     case apiRecipes
     case customRecipes
@@ -35,8 +39,10 @@ class RecipesViewController: UIViewController {
     @IBOutlet weak var recipeToggle: UIButton!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var selectedRecipeButton: UIButton!
     
     weak var delegate: RecipesViewControllerDelegate?
+    
     private let realm = try! Realm()
     
     private var searchResults = [Recipe]() {
@@ -68,7 +74,7 @@ class RecipesViewController: UIViewController {
         recipesTableView.dataSource = self
         searchBar.delegate = self
 
-        setupUI()
+        configureUI()
         setupGesture()
         loadRecipes()
         
@@ -78,7 +84,16 @@ class RecipesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
+        
+    
+        
+        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
+        
+        // Remember which searchtype before leaving
+        if let currentRecipeMenu = StepStatus.currentRecipeMenu {
+            searchType = currentRecipeMenu
+        }
+        updateUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,8 +101,9 @@ class RecipesViewController: UIViewController {
 //        prepareTasks()
     }
     
-    private func setupUI() {
+    private func configureUI() {
         configureNextButton()
+        configureSelectedRecipeButton()
         
         recipesTableView.tableFooterView = UIView()
         recipesTableView.separatorStyle = .none
@@ -119,7 +135,7 @@ class RecipesViewController: UIViewController {
             loadRecipes()
             
         case .customRecipes:
-            headerLabel.text = "MY RECIPES"
+            headerLabel.text = "YOUR RECIPES"
             searchBar.placeholder = "Search my recipes"
             recipeToggle.setImage(UIImage(named: "globeIconOutlined.png"), for: .normal)
 //            recipeToggle.setTitle("All recipes", for: .normal)
@@ -133,7 +149,16 @@ class RecipesViewController: UIViewController {
         if count == 0 {
             nextButton.setTitle("Skip", for: .normal)
         } else {
-            nextButton.setTitle("Next (\(count))", for: .normal)
+            nextButton.setTitle("Next", for: .normal)
+        }
+    }
+    
+    private func configureSelectedRecipeButton() {
+        let count = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
+        if count == 0 {
+            selectedRecipeButton.setTitle("", for: .normal)
+        } else {
+            selectedRecipeButton.setTitle(" (\(count))", for: .normal)
         }
     }
     
@@ -181,15 +206,12 @@ class RecipesViewController: UIViewController {
     
     // MARK: Button Tapped
     
-    
     @IBAction func didTapPrevious(_ sender: UIButton) {
         delegate?.recipeVCDidTapPrevious(controller: self)
     }
     
     @IBAction func didTapNext(_ sender: Any) {
-        // Bug: After comes back from managementVC and add ingredient in Custom Recipe, it then does not update in managmentVC after clicking NEXT button
         prepareTasks()
-        
         delegate?.recipeVCDidTapNext(controller: self)
     }
     
@@ -203,6 +225,8 @@ class RecipesViewController: UIViewController {
     @IBAction func didTapRecipeToggle(_ sender: UIButton) {
         if searchType == .apiRecipes {
             searchType = .customRecipes
+            StepStatus.currentRecipeMenu = .customRecipes
+            
             UIView.transition(with: self.view,
                               duration: 0.3,
                               options: .transitionCrossDissolve,
@@ -211,12 +235,21 @@ class RecipesViewController: UIViewController {
             
         } else {
             searchType = .apiRecipes
+            StepStatus.currentRecipeMenu = .apiRecipes
+            
             UIView.transition(with: self.view,
                                 duration: 0.3,
                                 options: .transitionCrossDissolve,
                                 animations: nil,
                                 completion: nil)
         }
+    }
+    
+    @IBAction func didTapSelectedRecipes(_ sender: Any) {
+        let selectedRecipesVC = SelectedRecipesViewController()
+        selectedRecipesVC.modalPresentationStyle = .fullScreen
+        selectedRecipesVC.dismissDelegate = self
+        present(selectedRecipesVC, animated: true, completion: nil)
     }
     
     private func prepareTasks() {
@@ -342,6 +375,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
+    // Header View
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear
@@ -467,6 +501,7 @@ extension RecipesViewController: RecipeCellDelegate {
             Event.shared.selectedCustomRecipes.append(customRecipe)
         }
         configureNextButton()
+        configureSelectedRecipeButton()
     }
     
     func recipeCellDidSelectRecipe(recipe: Recipe) {
@@ -476,6 +511,7 @@ extension RecipesViewController: RecipeCellDelegate {
             Event.shared.selectedRecipes.append(recipe)
         }
         configureNextButton()
+        configureSelectedRecipeButton()
     }
 }
 
@@ -545,6 +581,7 @@ extension RecipesViewController: RecipeDetailsViewControllerDelegate {
     func recipeDetailsVCShouldDismiss(_ controller: RecipeDetailsViewController) {
         recipesTableView.reloadData()
         configureNextButton()
+        configureSelectedRecipeButton()
         StepStatus.currentStep = .recipesVC
      
     }
@@ -560,11 +597,21 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     func customrecipeDetailsVCShouldDismiss() {
         recipesTableView.reloadData()
         configureNextButton()
+        configureSelectedRecipeButton()
         StepStatus.currentStep = .recipesVC
     }
     
     func didDeleteCustomRecipe() {
         recipesTableView.reloadData()
         configureNextButton()
+        configureSelectedRecipeButton()
+    }
+}
+
+extension RecipesViewController: ModalHandler {
+    func reloadTableAfterModalDismissed() {
+        recipesTableView.reloadData()
+        configureNextButton()
+        configureSelectedRecipeButton()
     }
 }

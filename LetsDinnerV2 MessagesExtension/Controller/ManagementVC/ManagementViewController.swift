@@ -98,9 +98,7 @@ class ManagementViewController: UIViewController {
         separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            servingsLabel.isHidden = true
-            servingsStepper.isHidden = true
-            separatorView.isHidden = true
+            hideServingView()
         }
         
         if UIDevice.current.hasHomeButton {
@@ -111,6 +109,7 @@ class ManagementViewController: UIViewController {
         newThingTextField.returnKeyType = .go
         addShadowOnUIView(view: addThingView)
     }
+    
     
     private func addShadowOnUIView(view: UIView) {
         view.layer.shadowColor = UIColor.secondaryTextLabel.cgColor

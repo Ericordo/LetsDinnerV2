@@ -36,6 +36,8 @@ class RecipeCell: UITableViewCell {
         super.awakeFromNib()
         setupCell()
     }
+    
+    
 
     func setupCell() {
         backgroundCellView.clipsToBounds = true
@@ -70,8 +72,6 @@ class RecipeCell: UITableViewCell {
                 self.visualEffectView.effect = blurEffect
             }
         }
-        
-        
     }
     
     func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
@@ -129,6 +129,11 @@ class RecipeCell: UITableViewCell {
         
     }
     
-    
+    // For TableViewCell Editing
+    override func layoutSubviews() {
+        super.layoutSubviews()
+//        cellActionButtonLabel?.textColor = .activeButton
+
+    }
     
 }

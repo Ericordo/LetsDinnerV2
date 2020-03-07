@@ -49,6 +49,15 @@ extension UIView {
         }
     }
     
+    func addBlurEffect() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.bounds
+
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
+        self.addSubview(blurEffectView)
+    }
+    
     public func removeAllConstraints() {
         var _superview = self.superview
 
@@ -70,5 +79,7 @@ extension UIView {
         self.removeConstraints(self.constraints)
         self.translatesAutoresizingMaskIntoConstraints = true
     }
+    
+
 
 }
