@@ -79,9 +79,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-bf-o6z">
-                                <rect key="frame" x="312" y="73" width="48" height="24"/>
+                                <rect key="frame" x="329" y="69.5" width="31" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="pj0-C6-cC5"/>
+                                    <constraint firstAttribute="height" constant="31" id="pj0-C6-cC5"/>
                                 </constraints>
                                 <state key="normal" image="checkedButton"/>
                                 <connections>
@@ -115,7 +115,7 @@
                             <constraint firstItem="ARN-iG-m3N" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" constant="10" id="ZK8-Mm-UHV"/>
                             <constraint firstAttribute="bottom" secondItem="F8x-ME-HEw" secondAttribute="bottom" id="brk-Wn-u8C"/>
                             <constraint firstItem="F8x-ME-HEw" firstAttribute="top" secondItem="lp5-gd-jQ7" secondAttribute="top" id="crl-RU-Mov"/>
-                            <constraint firstAttribute="bottom" secondItem="JWa-be-hue" secondAttribute="bottom" constant="10" id="dYR-l9-o4L"/>
+                            <constraint firstItem="JWa-be-hue" firstAttribute="centerY" secondItem="SAw-8F-1lh" secondAttribute="centerY" id="fQB-oK-gqc"/>
                             <constraint firstAttribute="bottom" secondItem="c6s-SQ-gPs" secondAttribute="bottom" id="ffp-zt-lVc"/>
                             <constraint firstItem="F8x-ME-HEw" firstAttribute="leading" secondItem="lp5-gd-jQ7" secondAttribute="leading" id="gMk-td-zTE"/>
                             <constraint firstAttribute="trailing" secondItem="JWa-be-hue" secondAttribute="trailing" constant="15" id="hHv-kO-l4w"/>
@@ -149,7 +149,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="checkedButton" width="24" height="24"/>
+        <image name="checkedButton" width="31" height="31"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

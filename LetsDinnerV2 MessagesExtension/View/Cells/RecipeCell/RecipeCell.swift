@@ -87,7 +87,7 @@ class RecipeCell: UITableViewCell {
             recipeImageView.alpha = 0.8
 
             backgroundImageView.image = nil
-            backgroundImageView.backgroundColor = UIColor.backgroundColor.withAlphaComponent(1.0)
+            backgroundImageView.backgroundColor = Colors.paleGray.withAlphaComponent(1.0)
 
         }
         self.searchType = searchType

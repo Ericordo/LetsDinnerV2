@@ -130,7 +130,6 @@ class RecipesViewController: UIViewController {
             headerLabel.text = "DISCOVER THESE RECIPES"
             searchBar.placeholder = "Search 360K+ recipes"
             recipeToggle.setImage(UIImage(named: "recipeBookOutlined.png"), for: .normal)
-//            recipeToggle.setTitle("My recipes", for: .normal)
             resultsLabel.isHidden = true
             loadRecipes()
             
@@ -138,7 +137,6 @@ class RecipesViewController: UIViewController {
             headerLabel.text = "YOUR RECIPES"
             searchBar.placeholder = "Search my recipes"
             recipeToggle.setImage(UIImage(named: "globeIconOutlined.png"), for: .normal)
-//            recipeToggle.setTitle("All recipes", for: .normal)
             loadCustomRecipes()
             resultsLabel.isHidden = true
         }
@@ -155,6 +153,7 @@ class RecipesViewController: UIViewController {
     
     private func configureSelectedRecipeButton() {
         let count = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
+        selectedRecipeButton.contentVerticalAlignment = .center
         if count == 0 {
             selectedRecipeButton.setTitle("", for: .normal)
         } else {

@@ -140,14 +140,7 @@ class SelectedRecipesViewController: UIViewController {
 extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSource  {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        if totalNumberOfSelectedRecipes == 0 {
-               tableView.setEmptyView(title: "No Recipes selected", message: "Go Back to add some!")
-           } else {
-               tableView.restore()
-           }
-        
-        return totalNumberOfSelectedRecipes
+        return 1
     }
     
     // Header View (For Spacing)
@@ -158,11 +151,17 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 10
+        return 5
     }
  
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if totalNumberOfSelectedRecipes == 0 {
+               tableView.setEmptyView(title: "No Recipes selected", message: "Go Back to add some!")
+           } else {
+               tableView.restore()
+           }
+        
+        return totalNumberOfSelectedRecipes
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
