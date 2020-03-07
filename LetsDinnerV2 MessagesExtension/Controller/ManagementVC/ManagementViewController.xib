@@ -42,7 +42,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hfU-Un-jAU">
-                            <rect key="frame" x="9" y="5" width="95" height="33"/>
+                            <rect key="frame" x="9" y="5" width="93" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="33" id="aLg-xz-W2s"/>
                             </constraints>
@@ -178,9 +178,9 @@
                     <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS0-MV-xiC">
-                            <rect key="frame" x="20" y="15" width="141" height="48"/>
+                            <rect key="frame" x="20" y="15" width="137" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <state key="normal" title="  Add Thing" image="addButton">
+                            <state key="normal" title="  Add Thing" image="addButtonOutlined">
                                 <color key="titleColor" name="highlightRed"/>
                             </state>
                             <connections>
@@ -217,8 +217,8 @@
         </view>
     </objects>
     <resources>
-        <image name="addButton" width="24" height="24"/>
-        <image name="chevronLeft" width="13" height="23"/>
+        <image name="addButtonOutlined" width="22" height="22"/>
+        <image name="chevronLeft" width="12" height="22"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

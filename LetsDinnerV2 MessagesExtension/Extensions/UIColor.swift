@@ -92,6 +92,24 @@ extension UIColor {
         } else { return Colors.defaultGrey }
     }
     
+    static var secondaryButtonBackground: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.darkButtonGrey
+                } else { return Colors.paleGray }}
+        } else { return Colors.paleGray }
+    }
+    
+    static var tertiaryButtonBackground: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.darkStoneGrey
+                } else { return Colors.allWhite }}
+        } else { return Colors.allWhite }
+    }
+    
     static var link: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in

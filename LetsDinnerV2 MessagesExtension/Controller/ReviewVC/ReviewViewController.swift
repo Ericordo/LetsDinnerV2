@@ -17,8 +17,8 @@ protocol ReviewViewControllerDelegate: class {
 
 class ReviewViewController: UIViewController {
     
-    @IBOutlet weak var editButton: GreyButton!
-    @IBOutlet weak var sendButton: GreyButton!
+    @IBOutlet weak var editButton: SecondaryButton!
+    @IBOutlet weak var sendButton: SecondaryButton!
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var summaryTableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
