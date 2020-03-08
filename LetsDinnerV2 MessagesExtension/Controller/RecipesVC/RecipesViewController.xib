@@ -161,19 +161,6 @@
                                         <action selector="didTapCreateRecipe:" destination="-1" eventType="touchUpInside" id="XUB-HP-Ovh"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
-                                    <rect key="frame" x="151.5" y="0.0" width="33" height="33"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="33" id="6P7-P6-P7e"/>
-                                        <constraint firstAttribute="height" constant="33" id="x3d-49-kdp"/>
-                                    </constraints>
-                                    <state key="normal" image="recipeBookOutlined">
-                                        <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="didTapRecipeToggle:" destination="-1" eventType="touchUpInside" id="YNp-Os-CJm"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx3-1u-1bt">
                                     <rect key="frame" x="297" y="0.0" width="44" height="33"/>
                                     <constraints>
@@ -192,13 +179,28 @@
                                 <constraint firstAttribute="height" constant="33" id="T6a-Gl-Wf1"/>
                             </constraints>
                         </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xua-kE-1gq">
+                            <rect key="frame" x="171" y="13" width="33" height="33"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="33" id="6P7-P6-P7e"/>
+                                <constraint firstAttribute="height" constant="33" id="x3d-49-kdp"/>
+                            </constraints>
+                            <state key="normal" image="recipeBookOutlined">
+                                <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapRecipeToggle:" destination="-1" eventType="touchUpInside" id="YNp-Os-CJm"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" name="bottomViewColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="83" id="Arm-8Q-ZEV"/>
                         <constraint firstAttribute="trailing" secondItem="bjE-MD-C37" secondAttribute="trailing" constant="17" id="KlV-gs-dd9"/>
                         <constraint firstItem="bjE-MD-C37" firstAttribute="leading" secondItem="bv3-Vn-pnT" secondAttribute="leading" constant="17" id="Two-Hl-1cc"/>
+                        <constraint firstItem="xua-kE-1gq" firstAttribute="top" secondItem="bv3-Vn-pnT" secondAttribute="top" constant="13" id="Zm4-U7-Ouy"/>
                         <constraint firstItem="bjE-MD-C37" firstAttribute="top" secondItem="bv3-Vn-pnT" secondAttribute="top" constant="13" id="kBD-tf-AkB"/>
+                        <constraint firstItem="xua-kE-1gq" firstAttribute="centerX" secondItem="bv3-Vn-pnT" secondAttribute="centerX" id="l91-2H-frw"/>
                     </constraints>
                 </view>
             </subviews>

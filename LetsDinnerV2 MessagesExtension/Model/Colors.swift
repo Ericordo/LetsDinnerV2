@@ -34,6 +34,7 @@ enum Colors {
     static let darkStoneGrey = UIColor(red: 101/255, green: 101/255, blue: 106/255, alpha: 1.0)
     static let darkDullGrey = UIColor(red: 158/255, green: 158/255, blue: 165/255, alpha: 1.0)
     static let darkDefaultGrey = UIColor(red: 117/255, green: 117/255, blue: 117/255, alpha: 1.0)
+    static let darkButtonGrey = UIColor(red: 69/255, green: 69/255, blue: 69/255, alpha: 1.0)
     
     // Green
     static let addGreen = UIColor(red: 52/255, green: 199/255, blue: 89/255, alpha: 1.0)

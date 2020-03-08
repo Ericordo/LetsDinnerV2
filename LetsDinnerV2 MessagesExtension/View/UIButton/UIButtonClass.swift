@@ -26,7 +26,18 @@ public class SecondaryButton: UIButton {
 
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 8.0
-        self.backgroundColor = UIColor.backgroundColor
+        self.backgroundColor = UIColor.secondaryButtonBackground
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+    }
+}
+
+public class TertiaryButton: UIButton {
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 8.0
+        self.backgroundColor = UIColor.tertiaryButtonBackground
         self.setTitleColor(UIColor.textLabel, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         

@@ -64,7 +64,7 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAw-8F-1lh" customClass="SecondaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAw-8F-1lh" customClass="TertiaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                                 <rect key="frame" x="115" y="70" width="38" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -79,7 +79,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Krg-bf-o6z">
-                                <rect key="frame" x="329" y="69.5" width="31" height="31"/>
+                                <rect key="frame" x="298" y="69.5" width="62" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="pj0-C6-cC5"/>
                                 </constraints>
@@ -88,7 +88,7 @@
                                     <action selector="didTapChosenButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="FUh-So-YZp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWa-be-hue" customClass="SecondaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWa-be-hue" customClass="TertiaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                                 <rect key="frame" x="330" y="70" width="30" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>

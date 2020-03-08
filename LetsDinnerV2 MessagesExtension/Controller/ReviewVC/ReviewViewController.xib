@@ -58,7 +58,7 @@
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="bga-3P-lPr">
                     <rect key="frame" x="30" y="71" width="315" height="42"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDO-Rx-trL" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDO-Rx-trL" customClass="SecondaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="141.5" height="42"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -72,7 +72,7 @@
                                 <action selector="didTapEditButton:" destination="-1" eventType="touchUpInside" id="Lkq-01-wLK"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" customClass="GreyButton" customModule="Let_s_Dinner_" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aI0-Jh-k9M" customClass="SecondaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="173.5" y="0.0" width="141.5" height="42"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -127,7 +127,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sectionSeparatorLine">
-            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
