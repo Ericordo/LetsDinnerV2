@@ -137,6 +137,7 @@
 		B87C106424126B39004AD951 /* SelectedRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106224126B38004AD951 /* SelectedRecipesViewController.swift */; };
 		B87C106524126B39004AD951 /* SelectedRecipesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106324126B38004AD951 /* SelectedRecipesViewController.xib */; };
 		B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C1067241387E6004AD951 /* UITableViewCell.swift */; };
+		B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -308,6 +309,7 @@
 		B87C106224126B38004AD951 /* SelectedRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedRecipesViewController.swift; sourceTree = "<group>"; };
 		B87C106324126B38004AD951 /* SelectedRecipesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedRecipesViewController.xib; sourceTree = "<group>"; };
 		B87C1067241387E6004AD951 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
+		B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTaskHeader.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 				88FE71A523901E2A00652429 /* InfoInput.swift */,
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
+				B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */,
 				88E203C423D33C6200514972 /* EventInputView.swift */,
 				886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */,
 				887BE720240470F6006619C7 /* LDLabel.swift */,
@@ -957,10 +960,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
-				B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */,
 				B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */,
 				B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */,
 				886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */,
+				B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */,
 				88C95B3423986413000E750A /* RecipeCreationViewController.xib in Resources */,
 				88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */,
 				B87C106524126B39004AD951 /* SelectedRecipesViewController.xib in Resources */,
@@ -1137,6 +1140,7 @@
 				886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */,
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
 				880B1358237474A4003E29AC /* Task.swift in Sources */,
+				B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
 				88349F3C2370525D002A1879 /* DataHelper - Edamam.swift in Sources */,
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,

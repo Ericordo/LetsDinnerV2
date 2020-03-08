@@ -429,7 +429,7 @@ extension RegistrationViewController: CLLocationManagerDelegate {
                         adminstrationArea = " " + adminstrationArea
                         country = " " + country
                         
-                        self.addressTextField.text = name + subArea + adminstrationArea + country
+                        self.addressTextField.text = name + subArea + adminstrationArea
                         self.locationButton.isHidden = true
 //                        print(name + subArea + adminstrationArea + country)
                     }

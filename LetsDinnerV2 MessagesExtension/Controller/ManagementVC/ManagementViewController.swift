@@ -382,104 +382,17 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.backgroundColor
+        let headerView = ExpandableTaskHeaderView(expandableTasks: expandableTasks,
+                                                  section: section,
+                                                  sectionNames: sectionNames)
         headerView.tag = section
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
-        
-//        let collapseButton : UIButton = {
-//            let button = UIButton()
-//            button.setImage(UIImage(named: "collapse"), for: .normal)
-//            if !expandableTasks[section].isExpanded {
-//                button.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
-//            }
-//            button.tag = section
-//            button.addTarget(self, action: #selector(handleCloseCollapse), for: .touchUpInside)
-//            return button
-//        }()
-        
-        let collapseImage : UIImageView = {
-            let image = UIImageView()
-            image.image = UIImage(named: "collapse")
-            image.contentMode = .scaleAspectFit
-            if !expandableTasks[section].isExpanded {
-                image.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
-            }
-            image.restorationIdentifier = "collapse"
-            return image
-        }()
-        
-        let nameLabel : UILabel = {
-            let label = UILabel()
-            label.text = sectionNames[section]
-            return label
-        }()
-        
-        let separator : UIView = {
-            let view = UIView()
-            view.backgroundColor = UIColor.cellSeparatorLine
-            return view
-        }()
-        
-        let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
-     
-        
-//        headerView.addSubview(collapseButton)
-        headerView.addSubview(collapseImage)
-        headerView.addSubview(progressCircle)
-        headerView.addSubview(nameLabel)
-        headerView.addSubview(separator)
-        
-//        collapseButton.translatesAutoresizingMaskIntoConstraints = false
-//        collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-//        collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
-//        collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
-//        collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
-        
-        collapseImage.translatesAutoresizingMaskIntoConstraints = false
-        collapseImage.widthAnchor.constraint(equalToConstant: 15).isActive = true
-        collapseImage.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        collapseImage.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -10).isActive = true
-        collapseImage.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
-        
-        progressCircle.translatesAutoresizingMaskIntoConstraints = false
-        progressCircle.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        progressCircle.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        progressCircle.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-//        progressCircle.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
-//        progressCircle.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
-//        progressCircle.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -5).isActive = true
-        progressCircle.trailingAnchor.constraint(equalTo: collapseImage.leadingAnchor, constant: -5).isActive = true
-       
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 0).isActive = true
-//        nameLabel.trailingAnchor.constraint(equalTo: collapseButton.leadingAnchor, constant: -10).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
-        nameLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
-        
-        //separator Height
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.heightAnchor.constraint(equalToConstant: 0.7).isActive = true
-        separator.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0).isActive = true
-        separator.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16).isActive = true
-        separator.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 0).isActive = true
-        
-//        number of completed task in section / number of task in section
-        var numberOfCompletedTasks = 0
-        expandableTasks[section].tasks.forEach { task in
-            if task.taskState == .completed {
-                numberOfCompletedTasks += 1
-            }
-        }
-        let percentage : Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
-        progressCircle.animate(percentage: percentage)
-        
+
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 60
     }
     
 //    @objc func handleCloseCollapse(button: UIButton) {
@@ -537,8 +450,6 @@ extension ManagementViewController: TaskManagementCellDelegate {
             self.tasksTableView.reloadSections(indexSet as IndexSet, with: .none)
         }
     }
-    
-    
 }
 
 extension ManagementViewController: SectionSelectionInputDelegate {
@@ -573,6 +484,7 @@ extension ManagementViewController: UITextFieldDelegate {
 }
 
 extension ManagementViewController: UIGestureRecognizerDelegate {
+    
     // To prevent touch in "Add Thing" View
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if touch.view!.isDescendant(of: addThingView) {
