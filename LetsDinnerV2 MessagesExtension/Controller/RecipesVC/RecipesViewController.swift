@@ -387,7 +387,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if searchType == .customRecipes && customRecipes?.count == 0 {
-            tableView.setEmptyView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
+            tableView.setEmptyViewForRecipeView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
         } else {
             tableView.restore()
         }

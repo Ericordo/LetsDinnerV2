@@ -144,7 +144,7 @@ class ExpandableTaskHeaderView: UIView {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: progressCircle.leadingAnchor, constant: 0).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -156,9 +156,9 @@ class ExpandableTaskHeaderView: UIView {
         
         
         separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true
         separator.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
-        separator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
+        separator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         separator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
     }

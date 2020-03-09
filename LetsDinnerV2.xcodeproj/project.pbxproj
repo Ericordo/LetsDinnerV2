@@ -79,7 +79,7 @@
 		883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A052372E9910099ECDF /* GoogleService-Info.plist */; };
 		8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */; };
 		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
-		885C6097237F6E6000ED3A17 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C6096237F6E6000ED3A17 /* UITableView.swift */; };
+		885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */; };
 		885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60B92380311100ED3A17 /* TaskManagementCell.swift */; };
 		885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60BA2380311100ED3A17 /* TaskManagementCell.xib */; };
 		885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60BD23805A3D00ED3A17 /* StepTracking.swift */; };
@@ -251,7 +251,7 @@
 		883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsViewController.swift; sourceTree = "<group>"; };
 		883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeDetailsViewController.xib; sourceTree = "<group>"; };
 		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		885C6096237F6E6000ED3A17 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+EmptyScreen.swift"; sourceTree = "<group>"; };
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
 		885C60BA2380311100ED3A17 /* TaskManagementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskManagementCell.xib; sourceTree = "<group>"; };
 		885C60BD23805A3D00ED3A17 /* StepTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracking.swift; sourceTree = "<group>"; };
@@ -581,8 +581,8 @@
 				88A362DE237C3F8C005B6B81 /* ProgressBar.swift */,
 				88FE71A523901E2A00652429 /* InfoInput.swift */,
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
-				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
 				B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */,
+				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
 				88E203C423D33C6200514972 /* EventInputView.swift */,
 				886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */,
 				887BE720240470F6006619C7 /* LDLabel.swift */,
@@ -620,7 +620,7 @@
 			children = (
 				88349F24236E20CF002A1879 /* UIView.swift */,
 				880B1375237576C3003E29AC /* UIImageView.swift */,
-				885C6096237F6E6000ED3A17 /* UITableView.swift */,
+				885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */,
 				B8630E3B23FFF6AB00E48A38 /* UIImage.swift */,
 				885C61132384B6D600ED3A17 /* UITextField.swift */,
 				880B135523746A5D003E29AC /* UIButton.swift */,
@@ -1172,7 +1172,7 @@
 				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
 				B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */,
 				88349F332370302E002A1879 /* DatePicker.swift in Sources */,
-				885C6097237F6E6000ED3A17 /* UITableView.swift in Sources */,
+				885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */,
 				880B133F237376C7003E29AC /* AnswerCell.swift in Sources */,
 				88C95B3323986413000E750A /* RecipeCreationViewController.swift in Sources */,
 				880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */,

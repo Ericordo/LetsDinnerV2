@@ -16,7 +16,7 @@ class SectionInputCell: UICollectionViewCell {
         didSet {
 //            sectionLabel.font = isSelected ? UIFont.systemFont(ofSize: 16, weight: .semibold) : UIFont.systemFont(ofSize: 16, weight: .bold)
 //            sectionLabel.backgroundColor = isSelected ? UIColor.cellSeparatorLine : .clear
-            self.backgroundColor = isSelected ? UIColor.cellSeparatorLine : .backgroundColor
+            self.backgroundColor = isSelected ? UIColor.secondaryButtonBackground : .backgroundColor
         }
     }
     

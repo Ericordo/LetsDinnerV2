@@ -156,7 +156,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
  
     func numberOfSections(in tableView: UITableView) -> Int {
         if totalNumberOfSelectedRecipes == 0 {
-               tableView.setEmptyView(title: "No Recipes selected", message: "Go Back to add some!")
+            tableView.setEmptyViewForRecipeView(title: LabelStrings.noRecipeTitle, message: LabelStrings.noRecipeMessage)
            } else {
                tableView.restore()
            }
