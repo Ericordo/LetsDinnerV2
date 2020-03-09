@@ -129,14 +129,14 @@ class RecipesViewController: UIViewController {
         case .apiRecipes:
             headerLabel.text = "DISCOVER THESE RECIPES"
             searchBar.placeholder = "Search 360K+ recipes"
-            recipeToggle.setImage(UIImage(named: "recipeBookOutlined.png"), for: .normal)
+            recipeToggle.setImage(UIImage(named: "recipeBookButtonOutlined.png"), for: .normal)
             resultsLabel.isHidden = true
             loadRecipes()
             
         case .customRecipes:
             headerLabel.text = "YOUR RECIPES"
             searchBar.placeholder = "Search my recipes"
-            recipeToggle.setImage(UIImage(named: "globeIconOutlined.png"), for: .normal)
+            recipeToggle.setImage(UIImage(named: "discoverButtonOutlined.png"), for: .normal)
             loadCustomRecipes()
             resultsLabel.isHidden = true
         }

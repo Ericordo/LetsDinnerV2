@@ -31,7 +31,7 @@
                                 <constraint firstAttribute="width" constant="34" id="e7x-9y-lyP"/>
                             </constraints>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" image="profileButtonWhite"/>
+                            <state key="normal" image="settingsButtonOutlinedWhite"/>
                             <connections>
                                 <action selector="didTapInfo:" destination="-1" eventType="touchUpInside" id="7Ux-P3-HmO"/>
                             </connections>
@@ -69,7 +69,7 @@
                                 <constraint firstAttribute="height" constant="34" id="S2T-Qd-nfN"/>
                                 <constraint firstAttribute="width" constant="134" id="Uki-2w-4uQ"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" title="New Event">
                                 <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
@@ -105,7 +105,7 @@
         </view>
     </objects>
     <resources>
-        <image name="appIconWhite" width="45" height="33"/>
-        <image name="profileButtonWhite" width="22" height="22"/>
+        <image name="appIconWhite" width="49" height="36"/>
+        <image name="settingsButtonOutlinedWhite" width="30" height="30"/>
     </resources>
 </document>

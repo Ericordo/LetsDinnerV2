@@ -224,7 +224,7 @@
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uj5-wm-Dyd">
-                                    <rect key="frame" x="311" y="126" width="34" height="36"/>
+                                    <rect key="frame" x="311" y="127" width="34" height="34"/>
                                     <color key="tintColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <state key="normal" backgroundImage="locationIcon"/>
                                     <connections>
@@ -353,9 +353,9 @@
         </view>
     </objects>
     <resources>
-        <image name="addButton" width="24" height="24"/>
+        <image name="addButton" width="22" height="22"/>
         <image name="checkmark" width="15" height="15"/>
-        <image name="locationIcon" width="17" height="18"/>
+        <image name="locationIcon" width="17" height="17"/>
         <image name="profilePlaceholder" width="130" height="130"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -103,7 +103,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         if let downloadUrl = recipe.downloadUrl {
              recipeImageView.kf.indicatorType = .activity
-             recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholder")) { result in
+             recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholderBig.png")) { result in
                  switch result {
                  case .success:
                     break
@@ -285,7 +285,7 @@ extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
         stepsTableView.reloadData()
         ingredientsTableView.reloadData()
         if selectedRecipe?.downloadUrl == nil {
-            recipeImageView.image = UIImage(named: "imagePlaceholder")
+            recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
         }
         
         // Edge Case: Add the newly added ingredients to tasks (need to make sure the recipe name are unique)

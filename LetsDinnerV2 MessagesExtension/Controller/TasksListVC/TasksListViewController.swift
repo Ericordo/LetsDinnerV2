@@ -125,7 +125,7 @@ class TasksListViewController: UIViewController {
         }
         
         servingsLabel.text = "Update servings? \(Event.shared.servings)"
-        servingsLabel.textColor = UIColor.secondaryTextLabel
+        servingsLabel.textColor = UIColor.textLabel
         
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
