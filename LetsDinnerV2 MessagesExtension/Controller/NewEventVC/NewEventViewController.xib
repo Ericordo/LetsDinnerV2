@@ -59,7 +59,7 @@
                                 <constraint firstAttribute="height" constant="33" id="Tkb-Yf-mwj"/>
                                 <constraint firstAttribute="width" constant="33" id="f43-Dz-Evd"/>
                             </constraints>
-                            <state key="normal" image="profileButtonOutlined"/>
+                            <state key="normal" image="settingsButtonOutlined"/>
                             <connections>
                                 <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="xQe-Ks-qif"/>
                             </connections>
@@ -209,7 +209,7 @@
         </view>
     </objects>
     <resources>
-        <image name="profileButtonOutlined" width="22" height="22"/>
+        <image name="settingsButtonOutlined" width="22" height="22"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

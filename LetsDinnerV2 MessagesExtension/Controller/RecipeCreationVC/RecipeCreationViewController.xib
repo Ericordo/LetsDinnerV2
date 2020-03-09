@@ -165,7 +165,7 @@
                                         <constraint firstAttribute="height" constant="24" id="7yi-3N-KGE"/>
                                         <constraint firstAttribute="width" constant="24" id="dKq-gY-0gW"/>
                                     </constraints>
-                                    <state key="normal" image="addButtonGreen"/>
+                                    <state key="normal" image="addButton"/>
                                     <connections>
                                         <action selector="didTapAddIngredient:" destination="-1" eventType="touchUpInside" id="kU9-IW-57K"/>
                                     </connections>
@@ -248,7 +248,7 @@
                                         <constraint firstAttribute="height" constant="24" id="v0I-ko-Vla"/>
                                         <constraint firstAttribute="width" constant="24" id="xPQ-gy-col"/>
                                     </constraints>
-                                    <state key="normal" image="addButtonGreen"/>
+                                    <state key="normal" image="addButton"/>
                                     <connections>
                                         <action selector="didTapAddStep:" destination="-1" eventType="touchUpInside" id="OuV-m2-86U"/>
                                     </connections>
@@ -392,7 +392,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NMe-Pr-15z" userLabel="HeaderView">
                     <rect key="frame" x="0.0" y="56" width="375" height="160"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="LAq-Zi-jDD">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholderBig" translatesAutoresizingMaskIntoConstraints="NO" id="LAq-Zi-jDD">
                             <rect key="frame" x="112.5" y="10" width="150" height="117"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="LAq-Zi-jDD" secondAttribute="height" multiplier="50:39" id="Aom-1J-949"/>
@@ -446,8 +446,8 @@
         </view>
     </objects>
     <resources>
-        <image name="addButtonGreen" width="23" height="22"/>
-        <image name="imagePlaceholder" width="150" height="117"/>
+        <image name="addButton" width="22" height="22"/>
+        <image name="imagePlaceholderBig" width="150" height="117"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

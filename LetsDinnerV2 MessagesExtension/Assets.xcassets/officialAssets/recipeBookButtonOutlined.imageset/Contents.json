@@ -7,12 +7,45 @@
     },
     {
       "idiom" : "universal",
+      "filename" : "darkRecipeBookButtonOutlined.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
       "filename" : "recipeBookButtonOutlined@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "darkRecipeBookButtonOutlined@2x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
       "filename" : "recipeBookButtonOutlined@3x.png",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "darkRecipeBookButtonOutlined@3x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "scale" : "3x"
     }
   ],

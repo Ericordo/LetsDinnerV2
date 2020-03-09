@@ -168,7 +168,7 @@ class RecipeCreationViewController: UIViewController {
         headerLabel.text = recipe.title
         if let downloadUrl = recipe.downloadUrl {
             recipeImageView.kf.indicatorType = .activity
-            recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholder")) { result in
+            recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholderBig.png")) { result in
                 switch result {
                 case .success:
                     self.addImageButton.setTitle("Modify image", for: .normal)
@@ -434,7 +434,7 @@ class RecipeCreationViewController: UIViewController {
                 self.presentPicker()
             }
             let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
-                self.recipeImageView.image = UIImage(named: "imagePlaceholder")
+                self.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
                 self.addImageButton.setTitle("Add image", for: .normal)
                 self.imageState = .addPic
                 self.downloadUrl = nil
@@ -550,7 +550,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
                     let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                     self?.present(alert, animated: true, completion: nil)
-                    self?.recipeImageView.image = UIImage(named: "imagePlaceholder")
+                    self?.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
                 }
             }
         }

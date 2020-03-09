@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="55.5" height="42"/>
                                 <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <state key="normal" title=" Decline" image="no">
+                                <state key="normal" title=" Decline" image="warning">
                                     <color key="titleColor" red="0.81568627450980391" green="0.0078431372549019607" blue="0.10588235294117647" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
@@ -42,7 +42,7 @@
                                 <rect key="frame" x="173" y="0.0" width="55.5" height="42"/>
                                 <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <state key="normal" title=" Accept" image="yes">
+                                <state key="normal" title=" Accept" image="checkmark">
                                     <color key="titleColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
@@ -89,7 +89,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="no" width="13" height="13"/>
-        <image name="yes" width="15" height="12"/>
+        <image name="checkmark" width="15" height="15"/>
+        <image name="warning" width="14" height="14"/>
     </resources>
 </document>

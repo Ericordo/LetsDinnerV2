@@ -81,7 +81,7 @@ class ExpandableTaskHeaderView: UIView {
     
     let collapseImage : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "collapse")
+        image.image = UIImage(named: "chevronDisclosureCollapsed")
         image.contentMode = .scaleAspectFit
 //        if !expandableTasks[section].isExpanded {
 //            image.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))

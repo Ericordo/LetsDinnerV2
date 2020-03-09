@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -79,7 +79,7 @@
                         <constraint firstAttribute="width" constant="34" id="9lk-Eb-6lm"/>
                         <constraint firstAttribute="height" constant="34" id="n2s-ki-7x1"/>
                     </constraints>
-                    <state key="normal" image="profileButtonWhite"/>
+                    <state key="normal" image="settingsButtonOutlinedWhite"/>
                     <connections>
                         <action selector="didTapProfileButton:" destination="-1" eventType="touchUpInside" id="bjs-EQ-Ih5"/>
                     </connections>
@@ -100,7 +100,7 @@
         </view>
     </objects>
     <resources>
-        <image name="appIconWhite" width="45" height="33"/>
-        <image name="profileButtonWhite" width="22" height="22"/>
+        <image name="appIconWhite" width="49" height="36"/>
+        <image name="settingsButtonOutlinedWhite" width="30" height="30"/>
     </resources>
 </document>

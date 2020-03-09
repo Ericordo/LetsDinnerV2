@@ -50,8 +50,8 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYB-Y0-w4c" userLabel="Sort Button">
-                            <rect key="frame" x="315" y="-1.5" width="44" height="46"/>
-                            <state key="normal" image="sortButton"/>
+                            <rect key="frame" x="315" y="-0.5" width="44" height="44"/>
+                            <state key="normal" image="sortButtonOutlined"/>
                             <connections>
                                 <action selector="didTapSortButton:" destination="-1" eventType="touchUpInside" id="1Fi-xd-9Uo"/>
                             </connections>
@@ -191,7 +191,7 @@
     </objects>
     <resources>
         <image name="chevronLeft" width="12" height="22"/>
-        <image name="sortButton" width="22" height="23"/>
+        <image name="sortButtonOutlined" width="22" height="22"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -27,7 +27,7 @@
                                     <constraint firstAttribute="width" constant="42" id="9nP-aB-XuE"/>
                                     <constraint firstAttribute="height" constant="42" id="xZf-wf-zt9"/>
                                 </constraints>
-                                <state key="normal" image="no">
+                                <state key="normal" image="warning">
                                     <color key="titleColor" red="0.81568627449999997" green="0.0078431372550000003" blue="0.1058823529" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
@@ -65,6 +65,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="no" width="13" height="13"/>
+        <image name="warning" width="14" height="14"/>
     </resources>
 </document>

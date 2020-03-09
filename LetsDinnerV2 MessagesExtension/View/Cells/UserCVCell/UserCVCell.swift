@@ -39,7 +39,7 @@ class UserCVCell: UICollectionViewCell {
             userPicture.layer.borderWidth = 2.0
             userPicture.layer.borderColor = strokeColor.cgColor
             userPicture.kf.setImage(with: imageURL)
-            userPicture.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholder")) { result in
+            userPicture.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholderBig.png")) { result in
                 switch result {
                 case .success:
                     break

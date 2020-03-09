@@ -112,7 +112,7 @@ class RegistrationViewController: UIViewController {
         if let imageURL = URL(string: defaults.profilePicUrl) {
             userPic.kf.indicatorType = .activity
             addPicButton.isHidden = true
-            userPic.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholder")) { result in
+            userPic.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholderBig.png")) { result in
                 switch result {
                 case .success:
                     self.addPicButton.setTitle("Edit image", for: .normal)
@@ -131,7 +131,7 @@ class RegistrationViewController: UIViewController {
             addPicButton.setTitle("Add image", for: .normal)
             imageState = .addPic
         } else {
-            userPic.image = UIImage(named: "profilePlaceholder")
+            userPic.image = UIImage(named: "profilePlaceholderBig.png")
             addPicButton.setTitle("Add image", for: .normal)
             imageState = .addPic
         }
@@ -240,7 +240,7 @@ class RegistrationViewController: UIViewController {
             userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
             addPicButton.setTitle("Add image", for: .normal)
         } else {
-            userPic.image = UIImage(named: "profilePlaceholder")
+            userPic.image = UIImage(named: "profilePlaceholderBig.png")
             addPicButton.setTitle("Add image", for: .normal)
         }
         imageState = .addPic
@@ -254,7 +254,7 @@ class RegistrationViewController: UIViewController {
                     userPic.setImage(string: firstName + " " + lastName, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
                     
                 } else {
-                    userPic.image = UIImage(named: "profilePlaceholder")
+                    userPic.image = UIImage(named: "profilePlaceholderBig.png")
                     
                 }
             }

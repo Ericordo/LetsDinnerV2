@@ -30,7 +30,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCd-kk-Y52">
-                            <rect key="frame" x="9" y="5" width="69" height="33"/>
+                            <rect key="frame" x="9" y="5" width="81" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="33" id="IJP-Sn-SDo"/>
                             </constraints>
