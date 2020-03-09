@@ -82,9 +82,7 @@ class EventInputView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         addConstraints()
-        
     }
     
     private func addConstraints() {

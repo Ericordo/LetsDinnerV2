@@ -109,8 +109,16 @@ enum LabelStrings {
     static let date = "Date"
     static let location = "Location"
     static let addToCalendar = "Add to Calendar"
-    static let noTaskTitle = "There is nothing to do for your event"
-    static let noTaskMessage = "You can add things, they will appear here"
+    
+    // RecipeVC
+    static let noRecipeTitle = "No recipes selected"
+    static let noRecipeMessage = "Go back and Add something!"
+    
+    // ManagementVC
+    static let noTaskTitle = "Nothing's missing? \nIn need of a helping plan?"
+    static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
+    static let noTaskMessage2 = "Start by tapping"
+    
     static let whatsThePlan = "Would you like to add an invitation message? \nMore information? Anything else?"
     static let nothingToDo = "There is nothing to do!"
     static let readyToSend = "Ready to send your invite?"

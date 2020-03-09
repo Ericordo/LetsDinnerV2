@@ -265,7 +265,7 @@ class TasksListViewController: UIViewController {
 extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if Event.shared.tasks.count == 0 {
-            tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
+            tableView.setEmptyViewForRecipeView(title: LabelStrings.nothingToDo, message: "")
         } else {
             tableView.restore()
         }
@@ -294,7 +294,7 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if Event.shared.tasks.count == 0 {
-            tableView.setEmptyView(title: LabelStrings.nothingToDo, message: "")
+            tableView.setEmptyViewForRecipeView(title: LabelStrings.nothingToDo, message: "")
         } else {
             tableView.restore()
         }

@@ -23,10 +23,17 @@ class ManagementViewController: UIViewController {
     @IBOutlet private weak var servingsStepper: UIStepper!
     @IBOutlet weak var separatorView: UIView!
     
+    // Add Things
+    @IBOutlet weak var addThingContainerView: UIView!
     @IBOutlet weak var addThingView: UIView!
-    @IBOutlet weak var newThingTextField: UITextField!
+    @IBOutlet weak var newThingNameTextField: UITextField!
+    @IBOutlet weak var amountTextField: UITextField!
+    @IBOutlet weak var unitTextField: UITextField!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var sectionSelectionInput: SectionSelectionInput!
+    
+    @IBOutlet var newThingTextFields: [UITextField]!
+    
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
@@ -56,18 +63,17 @@ class ManagementViewController: UIViewController {
         StepStatus.currentStep = .managementVC
         
         configureUI()
+        configureTableView()
+        configureAddThingView()
         setupSwipeGesture()
         
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         
         tapGestureToHideKeyboard.delegate = self
-        newThingTextField.delegate = self
-        tasksTableView.delegate = self
-        tasksTableView.dataSource = self
-        tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
+    
+        // update variable
         servings = Event.shared.servings
-        
         self.updateServings(servings: servings)
         
         sectionSelectionInput.configureInput(sections: self.sectionNames)
@@ -85,8 +91,6 @@ class ManagementViewController: UIViewController {
     
   
     private func configureUI() {
-        tasksTableView.tableFooterView = UIView()
-        
         servingsLabel.text = "\(servings) Servings"
         servingsLabel.textColor = UIColor.textLabel
         
@@ -105,17 +109,40 @@ class ManagementViewController: UIViewController {
             bottomViewHeightConstraint.constant = 60
             self.bottomView.layoutIfNeeded()
         }
+    }
+    
+    private func configureTableView() {
+        tasksTableView.tableFooterView = UIView()
+
+        tasksTableView.delegate = self
+        tasksTableView.dataSource = self
+        tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
+    }
+    
+    private func configureAddThingView() {
+
+        newThingTextFields.forEach { textField in
+            textField.delegate = self
+        }
         
-        newThingTextField.returnKeyType = .go
+        newThingNameTextField.tag = 10
+        amountTextField.tag = 20
+        unitTextField.tag = 30
+        
+        // Add things View
         addShadowOnUIView(view: addThingView)
+        addThingContainerView.roundCorners([.topLeft, .topRight], radius: 10)
+        newThingNameTextField.returnKeyType = .next
+        amountTextField.returnKeyType = .next
+        unitTextField.returnKeyType = .done
     }
     
     
     private func addShadowOnUIView(view: UIView) {
-        view.layer.shadowColor = UIColor.secondaryTextLabel.cgColor
-        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = Colors.separatorGrey.cgColor
+        view.layer.shadowOpacity = 0.7
         view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 3
+        view.layer.shadowRadius = 10
         view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = UIScreen.main.scale
@@ -192,7 +219,7 @@ class ManagementViewController: UIViewController {
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
-        newThingTextField.becomeFirstResponder()
+        newThingNameTextField.becomeFirstResponder()
         
 
 //        var textField = UITextField()
@@ -297,7 +324,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if Event.shared.tasks.count == 0 {
-            tableView.setEmptyView(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage)
+            tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage, message2: LabelStrings.noTaskMessage2)
         } else {
             tableView.restore()
         }
@@ -372,7 +399,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
      func numberOfSections(in tableView: UITableView) -> Int {
         
         if Event.shared.tasks.count == 0 {
-                  tableView.setEmptyView(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage)
+            tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage, message2: LabelStrings.noTaskMessage2)
               } else {
               tableView.restore()
               }
@@ -465,22 +492,71 @@ extension ManagementViewController: UITextFieldDelegate {
     // Add things
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if !newThingTextField.text!.isEmpty {
-            let newTask = Task(taskName: textField.text!,
+        switch textField {
+        case newThingNameTextField:
+            amountTextField.becomeFirstResponder()
+        case amountTextField:
+            unitTextField.becomeFirstResponder()
+        case unitTextField:
+            addThing(textField: textField)
+            textField.resignFirstResponder()
+        default:
+            break
+        }
+        return true
+
+//        return newThingNameTextField.resignFirstResponder()
+        
+    }
+    
+    private func addThing(textField: UITextField) {
+        if !newThingNameTextField.text!.isEmpty {
+            let newTask = Task(taskName: newThingNameTextField.text!,
                                assignedPersonUid: "nil",
                                taskState: TaskState.unassigned.rawValue,
                                taskUid: "nil",
                                assignedPersonName: "nil",
                                isCustom: true,
                                parentRecipe: self.selectedSection ?? "Miscellaneous")
+            
+            // If metricAmount has been inputted
+            if !amountTextField.text!.isEmpty && !unitTextField.text!.isEmpty {
+                newTask.metricUnit = unitTextField.text!
+                newTask.metricAmount = Double(amountTextField.text!)
+            }
             Event.shared.tasks.append(newTask)
             self.prepareData()
             self.tasksTableView.reloadData()
         }
-        newThingTextField.text = ""
-        return newThingTextField.resignFirstResponder()
         
+        newThingTextFields.forEach { textfield in
+            textfield.text = ""
+        }
     }
+    
+    // Check textField Length
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+        return false
+        }
+        
+        
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        
+        if textField.tag == 10 {
+            return count <= 30
+        } else if textField.tag == 20 {
+            return count <= 8
+        } else if textField.tag == 30 {
+            return count <= 10
+        } else {
+            return count <= 5
+        }
+    }
+    
+    
 }
 
 extension ManagementViewController: UIGestureRecognizerDelegate {
