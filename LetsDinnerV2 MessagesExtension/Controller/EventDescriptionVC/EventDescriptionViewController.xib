@@ -30,7 +30,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCd-kk-Y52">
-                            <rect key="frame" x="9" y="5" width="83" height="33"/>
+                            <rect key="frame" x="9" y="5" width="69" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="33" id="IJP-Sn-SDo"/>
                             </constraints>
@@ -99,7 +99,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Jby-tb-pOQ">
-                            <rect key="frame" x="11" y="122" width="364" height="480"/>
+                            <rect key="frame" x="11" y="122" width="348" height="480"/>
                             <color key="backgroundColor" name="backgroundColor"/>
                             <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <color key="textColor" name="labelColor"/>
@@ -110,7 +110,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <color key="tintColor" name="backgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="Jby-tb-pOQ" secondAttribute="trailing" id="2Nu-Mr-QA5"/>
+                        <constraint firstAttribute="trailing" secondItem="Jby-tb-pOQ" secondAttribute="trailing" constant="16" id="2Nu-Mr-QA5"/>
                         <constraint firstItem="UEu-C9-OVF" firstAttribute="top" secondItem="MWM-v9-fEr" secondAttribute="bottom" constant="5" id="4eX-wN-RNv"/>
                         <constraint firstItem="Jby-tb-pOQ" firstAttribute="top" secondItem="1me-Lx-1fO" secondAttribute="bottom" constant="5" id="5vh-wd-3wn"/>
                         <constraint firstAttribute="trailing" secondItem="UEu-C9-OVF" secondAttribute="trailing" id="9Wh-I1-Xeo"/>
@@ -118,6 +118,7 @@
                         <constraint firstItem="UEu-C9-OVF" firstAttribute="leading" secondItem="gB5-aC-LLb" secondAttribute="leading" id="ERB-Dr-oCX"/>
                         <constraint firstItem="MWM-v9-fEr" firstAttribute="leading" secondItem="gB5-aC-LLb" secondAttribute="leading" constant="16" id="Flb-4z-bel"/>
                         <constraint firstItem="MWM-v9-fEr" firstAttribute="top" secondItem="gB5-aC-LLb" secondAttribute="top" constant="20" id="cMF-GT-iLP"/>
+                        <constraint firstItem="1me-Lx-1fO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gB5-aC-LLb" secondAttribute="top" priority="750" constant="30" id="d7D-BU-ow0"/>
                         <constraint firstItem="1me-Lx-1fO" firstAttribute="leading" secondItem="gB5-aC-LLb" secondAttribute="leading" constant="16" id="if0-QL-TVt"/>
                         <constraint firstItem="Jby-tb-pOQ" firstAttribute="leading" secondItem="gB5-aC-LLb" secondAttribute="leading" constant="11" id="psm-JZ-d7m"/>
                         <constraint firstItem="1me-Lx-1fO" firstAttribute="top" secondItem="UEu-C9-OVF" secondAttribute="bottom" constant="40" id="tYe-Az-dIy"/>
@@ -139,7 +140,7 @@
         </view>
     </objects>
     <resources>
-        <image name="chevronLeft" width="13" height="23"/>
+        <image name="chevronLeft" width="12" height="22"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

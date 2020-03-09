@@ -222,6 +222,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             if user.hasAccepted == .accepted {
                 // Accept or Host
                 switch indexPath.row {
+                case RowItemNumber.title.rawValue:
+                    return 120
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
                                    return 0
@@ -249,6 +251,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             } else if user.hasAccepted == .declined {
                 // Decline Status
                 switch indexPath.row {
+                case RowItemNumber.title.rawValue:
+                    return 120
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
                                    return 0
@@ -272,6 +276,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         
         // Netural - Pending
         switch indexPath.row {
+        case RowItemNumber.title.rawValue:
+            return 120
         case RowItemNumber.answerCell.rawValue:
             if Event.shared.isCancelled {
                 return 0
