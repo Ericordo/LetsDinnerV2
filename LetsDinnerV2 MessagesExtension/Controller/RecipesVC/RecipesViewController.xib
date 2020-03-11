@@ -185,7 +185,7 @@
                                 <constraint firstAttribute="width" constant="33" id="6P7-P6-P7e"/>
                                 <constraint firstAttribute="height" constant="33" id="x3d-49-kdp"/>
                             </constraints>
-                            <state key="normal" image="recipeBookOutlined">
+                            <state key="normal" image="recipeBookButtonOutlined">
                                 <color key="titleColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                             <connections>
@@ -224,12 +224,12 @@
         <image name="addButtonOutlined" width="22" height="22"/>
         <image name="chevronLeft" width="12" height="22"/>
         <image name="listButtonOutlined" width="22" height="16"/>
-        <image name="recipeBookOutlined" width="22" height="20"/>
+        <image name="recipeBookButtonOutlined" width="23" height="19"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="bottomViewColor">
-            <color red="1" green="1" blue="1" alpha="0.95388925075531006" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="0.95399999618530273" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="highlightRed">
             <color red="0.94900000095367432" green="0.34900000691413879" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -25,7 +25,7 @@ class SectionSelectionInput : UIView {
     }
     
     
-    private var sections = ["Miscellaneous"]
+    var sections = ["Miscellaneous"]
     
     weak var sectionSelectionInputDelegate : SectionSelectionInputDelegate?
     
@@ -36,7 +36,7 @@ class SectionSelectionInput : UIView {
         return imageView
     }()
     
-    private let sectionsCollectionView : UICollectionView = {
+    let sectionsCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.scrollDirection = .horizontal

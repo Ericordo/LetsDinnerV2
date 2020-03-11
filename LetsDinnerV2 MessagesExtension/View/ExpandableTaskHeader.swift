@@ -26,11 +26,6 @@ class ExpandableTaskHeaderView: UIView {
 
     }
     
-//      Not necessary running
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//    }
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureView(expandableTasks: expandableTasks!, section: section!, sectionNames: sectionNames!)

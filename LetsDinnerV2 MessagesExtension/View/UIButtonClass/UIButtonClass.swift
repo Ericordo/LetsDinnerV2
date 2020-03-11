@@ -18,6 +18,8 @@ public class PrimaryButton: UIButton {
         self.setTitleColor(.white, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
+    
+    
 }
 
 public class SecondaryButton: UIButton {

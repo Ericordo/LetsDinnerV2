@@ -38,7 +38,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gT-hO-Zv7">
-                    <rect key="frame" x="310" y="2.5" width="48" height="48"/>
+                    <rect key="frame" x="296" y="-4.5" width="62" height="62"/>
                     <state key="normal" image="checkedButton"/>
                     <connections>
                         <action selector="didTapChosen:" destination="-1" eventType="touchUpInside" id="b1x-HL-xwo"/>
@@ -223,7 +223,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pLJ-eD-KGQ" userLabel="HeaderView">
                     <rect key="frame" x="0.0" y="53" width="375" height="140"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="8m4-Gy-WOP">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholderBig" translatesAutoresizingMaskIntoConstraints="NO" id="8m4-Gy-WOP">
                             <rect key="frame" x="110.5" y="10" width="154" height="120"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="8m4-Gy-WOP" secondAttribute="height" multiplier="50:39" id="3kB-Lc-nv8"/>
@@ -266,13 +266,13 @@
         </view>
     </objects>
     <resources>
-        <image name="checkedButton" width="24" height="24"/>
-        <image name="imagePlaceholder" width="150" height="117"/>
+        <image name="checkedButton" width="31" height="31"/>
+        <image name="imagePlaceholderBig" width="150" height="117"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="bottomViewColor">
-            <color red="1" green="1" blue="1" alpha="0.95388925075531006" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="0.95399999618530273" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="cellSeparatorLine">
             <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -73,9 +73,9 @@ class TasksListViewController: UIViewController {
     
     private func setupUpdateButton() {
         submitButton.layer.masksToBounds = true
-        submitButton.alpha = 0.5
         submitButton.layer.cornerRadius = 12
         submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        submitButton.alpha = 0.5
         submitButton.isEnabled = false
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             submitButton.isHidden = true
@@ -109,7 +109,7 @@ class TasksListViewController: UIViewController {
     
     private func setupServingsView() {
         if Event.shared.currentUser?.identifier == Event.shared.hostIdentifier {
-            servingsViewHeightConstraint.constant = 45
+            servingsViewHeightConstraint.constant = 60
         } else {
             servingsViewHeightConstraint.constant = 0
             servingsLabel.isHidden = true
@@ -193,6 +193,7 @@ class TasksListViewController: UIViewController {
         Event.shared.servings = Event.shared.currentConversationServings
         Event.shared.servingsNeedUpdate = false
         updateSummaryText()
+        
         let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
         if !difference.isEmpty {
             let alert = UIAlertController(title: MessagesToDisplay.unsubmittedTasks, message: MessagesToDisplay.submitQuestion, preferredStyle: .alert)

@@ -12,25 +12,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ManagementViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
                 <outlet property="addButton" destination="oS0-MV-xiC" id="SOW-Ac-v2g"/>
-                <outlet property="addThingContainerView" destination="UAE-iV-J7Y" id="NJU-ag-JpF"/>
                 <outlet property="addThingView" destination="JOb-Ql-hbj" id="jkv-P8-dFA"/>
                 <outlet property="addThingViewBottomConstraint" destination="HfC-bK-eHS" id="pPW-gM-oLB"/>
-                <outlet property="amountTextField" destination="jCh-bH-ahD" id="yAl-4H-zDl"/>
                 <outlet property="backButton" destination="hfU-Un-jAU" id="k6Y-mn-IJ6"/>
                 <outlet property="bottomView" destination="d66-0o-BnV" id="L96-hW-mJ1"/>
                 <outlet property="bottomViewHeightConstraint" destination="HKD-88-rap" id="p9T-2R-vCK"/>
-                <outlet property="newThingNameTextField" destination="Zu2-hA-LyP" id="Ja7-aV-oaz"/>
                 <outlet property="nextButton" destination="haE-7o-ScL" id="OsG-bD-HEw"/>
-                <outlet property="sectionSelectionInput" destination="XFi-HJ-Qmd" id="E31-6l-djZ"/>
                 <outlet property="separatorView" destination="b48-qc-gPw" id="1dF-Qo-RDr"/>
                 <outlet property="servingsLabel" destination="0C6-a0-T8D" id="m7j-mw-SPR"/>
                 <outlet property="servingsStepper" destination="4kC-yC-Std" id="Muj-cV-JGR"/>
                 <outlet property="tasksTableView" destination="c6c-yo-AdS" id="YCm-JD-WNM"/>
-                <outlet property="unitTextField" destination="kSj-Iu-tiH" id="t6K-ib-Nd4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outletCollection property="newThingTextFields" destination="Zu2-hA-LyP" collectionClass="NSMutableArray" id="jte-Hz-47D"/>
-                <outletCollection property="newThingTextFields" destination="jCh-bH-ahD" collectionClass="NSMutableArray" id="5NN-z4-XTY"/>
-                <outletCollection property="newThingTextFields" destination="kSj-Iu-tiH" collectionClass="NSMutableArray" id="D3D-v1-W9E"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -140,74 +132,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOb-Ql-hbj">
-                    <rect key="frame" x="0.0" y="655" width="375" height="92"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UAE-iV-J7Y" userLabel="Container View">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
-                            <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. Milk" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zu2-hA-LyP" userLabel="New Thing Textfield">
-                                    <rect key="frame" x="17" y="8" width="272" height="40"/>
-                                    <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="Wi0-Y3-bId"/>
-                                    </constraints>
-                                    <color key="textColor" name="labelColor"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="500" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jCh-bH-ahD" userLabel="Amount Textfield">
-                                    <rect key="frame" x="284" y="8" width="50" height="40"/>
-                                    <color key="tintColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="08U-ia-QpL"/>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="rQf-Kp-lJz"/>
-                                    </constraints>
-                                    <color key="textColor" name="labelColor"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
-                                </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ml" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kSj-Iu-tiH" userLabel="Unit Textfield">
-                                    <rect key="frame" x="338" y="8" width="20" height="40"/>
-                                    <color key="tintColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="7yy-TK-KHa"/>
-                                        <constraint firstAttribute="height" constant="40" id="dT6-B7-KuQ"/>
-                                    </constraints>
-                                    <color key="textColor" name="labelColor"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFi-HJ-Qmd" customClass="SectionSelectionInput" customModule="Let_s_Dinner_" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="48" width="375" height="44"/>
-                                    <color key="backgroundColor" name="backgroundColor"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="60e-iY-h7I"/>
-                                    </constraints>
-                                </view>
-                            </subviews>
-                            <color key="backgroundColor" name="backgroundColor"/>
-                            <constraints>
-                                <constraint firstItem="Zu2-hA-LyP" firstAttribute="leading" secondItem="UAE-iV-J7Y" secondAttribute="leading" constant="17" id="1hO-0n-TJb"/>
-                                <constraint firstAttribute="bottom" secondItem="XFi-HJ-Qmd" secondAttribute="bottom" id="57H-xE-wfG"/>
-                                <constraint firstAttribute="trailing" secondItem="XFi-HJ-Qmd" secondAttribute="trailing" id="CdZ-VN-qt3"/>
-                                <constraint firstItem="kSj-Iu-tiH" firstAttribute="leading" secondItem="jCh-bH-ahD" secondAttribute="trailing" constant="4" id="N2M-Rw-ZaO"/>
-                                <constraint firstItem="XFi-HJ-Qmd" firstAttribute="top" secondItem="Zu2-hA-LyP" secondAttribute="bottom" id="RAM-a9-Ohe"/>
-                                <constraint firstAttribute="trailing" secondItem="kSj-Iu-tiH" secondAttribute="trailing" constant="17" id="ZPS-68-7y4"/>
-                                <constraint firstItem="Zu2-hA-LyP" firstAttribute="top" secondItem="UAE-iV-J7Y" secondAttribute="top" constant="8" id="ZsI-KO-qOO"/>
-                                <constraint firstItem="kSj-Iu-tiH" firstAttribute="centerY" secondItem="Zu2-hA-LyP" secondAttribute="centerY" id="ctP-C2-6YT"/>
-                                <constraint firstItem="Zu2-hA-LyP" firstAttribute="trailing" secondItem="jCh-bH-ahD" secondAttribute="leading" constant="5" id="pRe-kb-3LE"/>
-                                <constraint firstItem="XFi-HJ-Qmd" firstAttribute="leading" secondItem="UAE-iV-J7Y" secondAttribute="leading" id="t14-XY-yh5"/>
-                                <constraint firstItem="jCh-bH-ahD" firstAttribute="centerY" secondItem="Zu2-hA-LyP" secondAttribute="centerY" id="zVQ-ns-ikw"/>
-                            </constraints>
-                        </view>
-                    </subviews>
+                    <rect key="frame" x="0.0" y="667" width="375" height="94"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="UAE-iV-J7Y" secondAttribute="bottom" id="0Rm-Mk-wVd"/>
-                        <constraint firstItem="UAE-iV-J7Y" firstAttribute="leading" secondItem="JOb-Ql-hbj" secondAttribute="leading" id="IF9-ej-Ne5"/>
-                        <constraint firstItem="UAE-iV-J7Y" firstAttribute="top" secondItem="JOb-Ql-hbj" secondAttribute="top" id="Mhh-tU-q97"/>
-                        <constraint firstAttribute="trailing" secondItem="UAE-iV-J7Y" secondAttribute="trailing" id="QsN-oY-Uan"/>
-                        <constraint firstAttribute="height" constant="92" id="xLi-dn-Zy4"/>
+                        <constraint firstAttribute="height" constant="94" id="xLi-dn-Zy4"/>
                     </constraints>
                 </view>
                 <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d66-0o-BnV">
@@ -234,7 +162,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="JOb-Ql-hbj" secondAttribute="bottom" constant="-80" id="HfC-bK-eHS"/>
+                <constraint firstAttribute="bottom" secondItem="JOb-Ql-hbj" secondAttribute="bottom" constant="-94" id="HfC-bK-eHS"/>
                 <constraint firstItem="dr3-SK-HIb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="L7g-c0-WZP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="d66-0o-BnV" secondAttribute="trailing" symbolic="YES" id="Qqw-6k-K7d"/>
                 <constraint firstAttribute="trailing" secondItem="fDS-c8-pKI" secondAttribute="trailing" id="SgV-kR-oe6"/>

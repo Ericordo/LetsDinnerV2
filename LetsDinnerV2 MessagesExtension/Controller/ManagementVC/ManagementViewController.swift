@@ -24,16 +24,9 @@ class ManagementViewController: UIViewController {
     @IBOutlet weak var separatorView: UIView!
     
     // Add Things
-    @IBOutlet weak var addThingContainerView: UIView!
     @IBOutlet weak var addThingView: UIView!
-    @IBOutlet weak var newThingNameTextField: UITextField!
-    @IBOutlet weak var amountTextField: UITextField!
-    @IBOutlet weak var unitTextField: UITextField!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var sectionSelectionInput: SectionSelectionInput!
-    
-    @IBOutlet var newThingTextFields: [UITextField]!
-    
+        
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
@@ -46,7 +39,11 @@ class ManagementViewController: UIViewController {
     }
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
-    private var sectionNames = [String]()
+    private var sectionNames = [String]() {
+        didSet {
+            newThingView!.sectionNames = self.sectionNames
+        }
+    }
     private var servings : Int = 2 {
         didSet {
             servingsLabel.text = "\(servings) Servings"
@@ -55,8 +52,9 @@ class ManagementViewController: UIViewController {
     }
 
     private var selectedSection : String?
-    
     var tapGestureToHideKeyboard = UITapGestureRecognizer()
+    
+    var newThingView: NewThingView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +62,7 @@ class ManagementViewController: UIViewController {
         
         configureUI()
         configureTableView()
-        configureAddThingView()
+        configureNewThingView()
         setupSwipeGesture()
         
         // Should only tap on the view not on the keyboard
@@ -72,15 +70,14 @@ class ManagementViewController: UIViewController {
         
         tapGestureToHideKeyboard.delegate = self
     
-        // update variable
+        // update variable and preparedata
         servings = Event.shared.servings
         self.updateServings(servings: servings)
         
-        sectionSelectionInput.configureInput(sections: self.sectionNames)
-        sectionSelectionInput.sectionSelectionInputDelegate = self
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name("keyboardWillShow"), object: nil)
     
     }
     
@@ -101,6 +98,8 @@ class ManagementViewController: UIViewController {
 
         separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
+        self.addShadowOnUIView(view: addThingView)
+
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             hideServingView()
         }
@@ -109,6 +108,32 @@ class ManagementViewController: UIViewController {
             bottomViewHeightConstraint.constant = 60
             self.bottomView.layoutIfNeeded()
         }
+        
+    }
+    
+    private func configureNewThingView() {
+        newThingView = NewThingView(sectionNames: sectionNames, selectedSection: selectedSection)
+        newThingView?.addThingDelegate = self
+        
+
+        addThingView.addSubview(newThingView!)
+        
+        newThingView!.translatesAutoresizingMaskIntoConstraints = false
+        
+        newThingView!.topAnchor.constraint(equalTo: addThingView.topAnchor).isActive = true
+        newThingView!.bottomAnchor.constraint(equalTo: addThingView.bottomAnchor).isActive = true
+        newThingView!.leadingAnchor.constraint(equalTo: addThingView.leadingAnchor).isActive = true
+        newThingView!.trailingAnchor.constraint(equalTo: addThingView.trailingAnchor).isActive = true
+    }
+    
+    func addShadowOnUIView(view: UIView) {
+        view.layer.shadowColor = Colors.separatorGrey.cgColor
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
+        view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
     }
     
     private func configureTableView() {
@@ -117,35 +142,6 @@ class ManagementViewController: UIViewController {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
-    }
-    
-    private func configureAddThingView() {
-
-        newThingTextFields.forEach { textField in
-            textField.delegate = self
-        }
-        
-        newThingNameTextField.tag = 10
-        amountTextField.tag = 20
-        unitTextField.tag = 30
-        
-        // Add things View
-        addShadowOnUIView(view: addThingView)
-        addThingContainerView.roundCorners([.topLeft, .topRight], radius: 10)
-        newThingNameTextField.returnKeyType = .next
-        amountTextField.returnKeyType = .next
-        unitTextField.returnKeyType = .done
-    }
-    
-    
-    private func addShadowOnUIView(view: UIView) {
-        view.layer.shadowColor = Colors.separatorGrey.cgColor
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 10
-        view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = UIScreen.main.scale
     }
     
     private func setupSwipeGesture() {
@@ -196,6 +192,8 @@ class ManagementViewController: UIViewController {
             expandableTasks.append(subExpandableTasks)
             if let sectionName = subtasks.first?.parentRecipe {
                 sectionNames.append(sectionName)
+                
+  
             }
         }
         
@@ -219,8 +217,11 @@ class ManagementViewController: UIViewController {
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
-        newThingNameTextField.becomeFirstResponder()
-        
+
+        newThingView?.newThingTitleTextField.becomeFirstResponder()
+        NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
+
+//
 
 //        var textField = UITextField()
 //        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
@@ -391,6 +392,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
                 tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
             }
 //            prepareData()
+            self.doneEditThing()
         }
     }
     
@@ -479,84 +481,13 @@ extension ManagementViewController: TaskManagementCellDelegate {
     }
 }
 
-extension ManagementViewController: SectionSelectionInputDelegate {
-    func updateSelectedSection(sectionName: String) {
-        self.selectedSection = sectionName
-    }
-    
-    
-}
+// MARK: Other Delegation
 
-extension ManagementViewController: UITextFieldDelegate {
-    
-    // Add things
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        switch textField {
-        case newThingNameTextField:
-            amountTextField.becomeFirstResponder()
-        case amountTextField:
-            unitTextField.becomeFirstResponder()
-        case unitTextField:
-            addThing(textField: textField)
-            textField.resignFirstResponder()
-        default:
-            break
-        }
-        return true
-
-//        return newThingNameTextField.resignFirstResponder()
-        
+extension ManagementViewController: AddThingDelegate {
+    func doneEditThing() {
+        self.prepareData()
+        self.tasksTableView.reloadData()
     }
-    
-    private func addThing(textField: UITextField) {
-        if !newThingNameTextField.text!.isEmpty {
-            let newTask = Task(taskName: newThingNameTextField.text!,
-                               assignedPersonUid: "nil",
-                               taskState: TaskState.unassigned.rawValue,
-                               taskUid: "nil",
-                               assignedPersonName: "nil",
-                               isCustom: true,
-                               parentRecipe: self.selectedSection ?? "Miscellaneous")
-            
-            // If metricAmount has been inputted
-            if !amountTextField.text!.isEmpty && !unitTextField.text!.isEmpty {
-                newTask.metricUnit = unitTextField.text!
-                newTask.metricAmount = Double(amountTextField.text!)
-            }
-            Event.shared.tasks.append(newTask)
-            self.prepareData()
-            self.tasksTableView.reloadData()
-        }
-        
-        newThingTextFields.forEach { textfield in
-            textfield.text = ""
-        }
-    }
-    
-    // Check textField Length
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let textFieldText = textField.text,
-            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
-        return false
-        }
-        
-        
-        let substringToReplace = textFieldText[rangeOfTextToReplace]
-        let count = textFieldText.count - substringToReplace.count + string.count
-        
-        if textField.tag == 10 {
-            return count <= 30
-        } else if textField.tag == 20 {
-            return count <= 8
-        } else if textField.tag == 30 {
-            return count <= 10
-        } else {
-            return count <= 5
-        }
-    }
-    
-    
 }
 
 extension ManagementViewController: UIGestureRecognizerDelegate {
