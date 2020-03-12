@@ -46,22 +46,14 @@ class MessagesViewController: MSMessagesAppViewController {
 //                }
         CloudManager.shared.retrieveProfileInfo()
 
-        if #available(iOSApplicationExtension 13.0, *) {
-            overrideUserInterfaceStyle = .dark
-        }
+//        if #available(iOSApplicationExtension 13.0, *) {
+//            overrideUserInterfaceStyle = .dark
+//        }
     }
 
     override func viewWillLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
-
-        
-//        let gradientLayers = view.layer.sublayers
-//        if gradientLayers!.count > 1 {
-//            gradientLayers![1].frame = view.bounds
-//        } else {
-//            gradientLayers?.first?.frame = view.bounds
-//        }
 
     }
     
