@@ -105,12 +105,19 @@ class NewThingView: UIView {
     }
     
     private func updateSectionSelectedInput() {
-        guard let sectionNames = self.sectionNames else { return }
+        guard var sectionNames = self.sectionNames else { return }
         
         // Remove duplication
-        if sectionNames.contains("Miscellaneous") {
-            self.sectionSelectionInput.sections.removeAll()
+        for (i , name) in sectionNames.enumerated() {
+            if name == "Miscellaneous" {
+                sectionNames.remove(at: i)
+            }
         }
+
+        self.sectionSelectionInput.sections.removeAll()
+        
+        // Recreate the sections everytime
+        self.sectionSelectionInput.sections.append("Miscellaneous")
         self.sectionSelectionInput.sections += sectionNames
         self.sectionSelectionInput.sectionsCollectionView.reloadData()
     }

@@ -113,6 +113,8 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
         
         // Netural - Pending
         switch indexPath.row {
+        case RowItemNumber.title.rawValue:
+            return 120
         case RowItemNumber.hostInfo.rawValue,
              RowItemNumber.dateInfo.rawValue,
              RowItemNumber.locationInfo.rawValue:

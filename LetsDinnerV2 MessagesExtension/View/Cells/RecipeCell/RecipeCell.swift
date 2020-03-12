@@ -36,8 +36,6 @@ class RecipeCell: UITableViewCell {
         super.awakeFromNib()
         setupCell()
     }
-    
-    
 
     func setupCell() {
         backgroundCellView.clipsToBounds = true
@@ -65,7 +63,8 @@ class RecipeCell: UITableViewCell {
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
         recipeNameLabel.sizeToFit()
-        
+        visualEffectView.isHidden = false
+
         if #available(iOSApplicationExtension 13.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
                 let blurEffect = UIBlurEffect(style: .dark)
@@ -87,7 +86,8 @@ class RecipeCell: UITableViewCell {
             recipeImageView.alpha = 0.8
 
             backgroundImageView.image = nil
-            backgroundImageView.backgroundColor = Colors.paleGray.withAlphaComponent(1.0)
+            backgroundImageView.backgroundColor = UIColor.customRecipeBackground
+            visualEffectView.isHidden = true
 
         }
         
