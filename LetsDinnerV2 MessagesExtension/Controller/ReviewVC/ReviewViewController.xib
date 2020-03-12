@@ -66,7 +66,7 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <state key="normal" title="Back">
-                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="titleColor" name="labelColor"/>
                             </state>
                             <connections>
                                 <action selector="didTapEditButton:" destination="-1" eventType="touchUpInside" id="Lkq-01-wLK"/>

@@ -14,6 +14,7 @@ class RecipeCVCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .backgroundColor
     }
     
     func configureCell(recipeTitle: String) {

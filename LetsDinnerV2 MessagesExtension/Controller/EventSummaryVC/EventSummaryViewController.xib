@@ -22,12 +22,12 @@
             <subviews>
                 <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cRb-al-aEj">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <color key="separatorColor" name="cellSeperatorLine"/>
                     <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="cRb-al-aEj" secondAttribute="trailing" id="AmN-hA-znY"/>
                 <constraint firstItem="cRb-al-aEj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="hbO-LC-ohU"/>
@@ -39,6 +39,9 @@
         </view>
     </objects>
     <resources>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="cellSeperatorLine">
             <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

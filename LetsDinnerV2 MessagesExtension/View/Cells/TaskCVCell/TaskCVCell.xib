@@ -53,7 +53,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" name="backgroundColor"/>
                         <constraints>
                             <constraint firstItem="PF3-TD-4UY" firstAttribute="top" secondItem="sLG-tV-Afa" secondAttribute="top" constant="1" id="IKm-dH-Ije"/>
                             <constraint firstItem="8p6-Ng-yx3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="PF3-TD-4UY" secondAttribute="bottom" constant="4" id="K8C-Gu-r4d"/>
@@ -86,11 +86,14 @@
                 <outlet property="taskNameLabel" destination="PF3-TD-4UY" id="pSN-jy-GOD"/>
                 <outlet property="taskStatusButton" destination="sLG-tV-Afa" id="ZWh-xQ-dss"/>
             </connections>
-            <point key="canvasLocation" x="-67.391304347826093" y="26.785714285714285"/>
+            <point key="canvasLocation" x="-68.115942028985515" y="26.785714285714285"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="checkboxOutlined" width="24" height="24"/>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="cellSeparatorLine">
             <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

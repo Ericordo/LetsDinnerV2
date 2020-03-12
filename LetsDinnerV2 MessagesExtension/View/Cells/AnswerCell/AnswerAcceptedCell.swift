@@ -16,6 +16,8 @@ class AnswerAcceptedCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.backgroundColor = .backgroundColor
+
         acceptIcon.clipsToBounds = true
         acceptIcon.layer.cornerRadius = acceptIcon.frame.height / 2
         

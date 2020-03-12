@@ -16,7 +16,7 @@ class SectionInputCell: UICollectionViewCell {
         didSet {
 //            sectionLabel.font = isSelected ? UIFont.systemFont(ofSize: 16, weight: .semibold) : UIFont.systemFont(ofSize: 16, weight: .bold)
 //            sectionLabel.backgroundColor = isSelected ? UIColor.cellSeparatorLine : .clear
-            self.backgroundColor = isSelected ? UIColor.secondaryButtonBackground : .backgroundColor
+            self.backgroundColor = isSelected ? UIColor.secondaryButtonBackground : .clear
         }
     }
     
@@ -27,7 +27,7 @@ class SectionInputCell: UICollectionViewCell {
         sectionLabel.layer.cornerRadius = 8
         sectionLabel.textColor = .textLabel
         sectionLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        self.backgroundColor = .backgroundColor
+        self.backgroundColor = .clear
     }
     
     func configureCell(sectionName: String) {

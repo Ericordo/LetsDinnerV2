@@ -30,6 +30,7 @@ class AnswerCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.backgroundColor = .backgroundColor
         //
         acceptButton.clipsToBounds = true
         acceptButton.layer.cornerRadius = 6

@@ -26,6 +26,8 @@ class CancelCell: UITableViewCell {
     }
     
     private func setupCell() {
+        self.backgroundColor = .backgroundColor
+
         postponeButton.layer.cornerRadius = 6
         cancelButton.layer.cornerRadius = 6
         postponeButton.backgroundColor = Colors.paleGray

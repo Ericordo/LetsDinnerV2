@@ -64,7 +64,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" name="backgroundColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="XYB-Y0-w4c" secondAttribute="trailing" constant="16" id="2D8-CL-vRV"/>
                         <constraint firstItem="Vbd-LT-H4I" firstAttribute="leading" secondItem="7Qz-jp-cup" secondAttribute="leading" constant="9" id="8tt-ya-cW0"/>
@@ -164,7 +164,7 @@
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6yV-pe-gC2">
                     <rect key="frame" x="0.0" y="163" width="375" height="434"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                 </tableView>
             </subviews>
             <color key="backgroundColor" name="backgroundColor"/>

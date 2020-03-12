@@ -49,13 +49,22 @@ extension UIView {
         }
     }
     
+    // MARK: Add Blur Effect
     func addBlurEffect() {
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+        
+        var blurEffect = UIBlurEffect(style: .light)
+            
+        if #available(iOS 13, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+                blurEffect = UIBlurEffect(style: .dark)
+            }
+        }
+        
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.bounds
 
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
-        self.addSubview(blurEffectView)
+        self.insertSubview(blurEffectView, at: 0)
     }
     
     public func removeAllConstraints() {

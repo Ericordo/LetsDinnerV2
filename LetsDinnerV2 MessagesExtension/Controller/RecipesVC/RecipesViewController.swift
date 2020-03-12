@@ -84,9 +84,7 @@ class RecipesViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-    
-        
+
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
         
         // Remember which searchtype before leaving
@@ -117,6 +115,9 @@ class RecipesViewController: UIViewController {
             bottomViewHeightConstraint.constant = 60
             self.bottomView.layoutIfNeeded()
         }
+        
+        bottomView.backgroundColor = UIColor.backgroundColor.withAlphaComponent(0.4)
+        bottomView.addBlurEffect()
     }
     
     private func setupGesture() {
@@ -377,7 +378,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     // Header View
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
+        headerView.backgroundColor = UIColor.backgroundColor
         return headerView
     }
     
@@ -445,12 +446,14 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
-            let vc = SFSafariViewController(url: url)
+            let vc = CustomSafariViewController(url: url)
 
-            vc.registerForNotification()
-            vc.preferredControlTintColor = UIColor.activeButton
-
-            vc.modalPresentationStyle = .overFullScreen
+//            vc.registerForNotification()
+//            vc.preferredControlTintColor = UIColor.activeButton
+//            vc.preferredBarTintColor = Colors.paleGray
+//            vc.dismissButtonStyle = .close
+//            vc.modalPresentationStyle = .overFullScreen
+            
             present(vc, animated: true, completion: nil)
         }
     }

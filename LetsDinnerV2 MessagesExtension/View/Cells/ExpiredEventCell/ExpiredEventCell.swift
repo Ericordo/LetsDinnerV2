@@ -18,6 +18,9 @@ class ExpiredEventCell: UITableViewCell {
     }
     
     private func setupCell() {
+        
+        self.backgroundColor = .backgroundColor
+
         if Event.shared.eventIsExpired {
             infoLabel.configureText(title: LabelStrings.pastEventTitle, text: LabelStrings.pastEventDescription)
         } else if Event.shared.isCancelled {
