@@ -16,6 +16,10 @@ class UserCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.backgroundColor = .backgroundColor
+        peopleCollectionView.backgroundColor = .backgroundColor
+
         peopleCollectionView.delegate = self
         peopleCollectionView.dataSource = self
         peopleCollectionView.register(UINib(nibName: CellNibs.userCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.userCVCell)

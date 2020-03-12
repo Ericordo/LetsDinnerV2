@@ -74,8 +74,7 @@ class TaskCVCell: UICollectionViewCell {
         if count % 3 == 0 {
             separatorLine.isHidden = true
         }
-        
-        
+
 //        guard let currentUser = Event.shared.currentUser else { return }
 //        if task.taskState == .assigned || task.taskState == .completed {
 //            isUserInteractionEnabled = task.assignedPersonUid == currentUser.identifier

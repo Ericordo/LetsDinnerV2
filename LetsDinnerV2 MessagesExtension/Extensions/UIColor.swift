@@ -29,6 +29,15 @@ extension UIColor {
         } else { return Colors.darkBlackground }
     }
     
+    static var backgroundSystemColor: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.soBlack
+                } else { return Colors.allWhite }}
+        } else { return Colors.allWhite }
+    }
+    
     static var textLabel: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -110,6 +119,15 @@ extension UIColor {
         } else { return Colors.allWhite }
     }
     
+    static var buttonTextBlue: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.darkOkayBlue
+                } else { return Colors.okayBlue }}
+            } else { return Colors.okayBlue }
+    }
+    
     static var link: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -150,7 +168,7 @@ extension UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                 if traitCollection.userInterfaceStyle == .dark {
-                    return UIColor(red: 47/255, green: 47/255, blue: 47/255, alpha: 1)
+                    return UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
                 } else { return UIColor(red: 190/255, green: 192/255, blue: 196/255, alpha: 1) }}
         } else { return UIColor(red: 190/255, green: 192/255, blue: 196/255, alpha: 1) }
     }

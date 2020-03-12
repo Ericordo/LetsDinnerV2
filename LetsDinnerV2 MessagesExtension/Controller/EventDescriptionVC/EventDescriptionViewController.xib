@@ -59,7 +59,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" name="backgroundColor"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="nAa-f6-PpW" firstAttribute="centerY" secondItem="31L-Nu-POD" secondAttribute="centerY" id="4Ph-WU-NTP"/>
                         <constraint firstAttribute="trailing" secondItem="nAa-f6-PpW" secondAttribute="trailing" constant="16" id="CNM-MW-tEI"/>
@@ -81,7 +81,7 @@
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="UEu-C9-OVF">
                             <rect key="frame" x="0.0" y="40" width="375" height="22"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <color key="backgroundColor" name="backgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="6TP-Db-qDe"/>
                             </constraints>
@@ -107,7 +107,7 @@
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <color key="tintColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Jby-tb-pOQ" secondAttribute="trailing" constant="16" id="2Nu-Mr-QA5"/>

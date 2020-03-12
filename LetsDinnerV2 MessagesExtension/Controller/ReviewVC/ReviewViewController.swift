@@ -62,8 +62,13 @@ class ReviewViewController: UIViewController {
     }
 
     private func setupUI() {
+        
+        self.view.backgroundColor = .backgroundColor
+        
         summaryTableView.tableFooterView = UIView()
+        summaryTableView.backgroundColor = .backgroundColor
         sendButtonLeadingConstraint.isActive = false
+        sendButton.setTitleColor(.buttonTextBlue, for: .normal)
         
         if #available(iOS 13.2, *) {
             topSendingLabel.text = LabelStrings.readyToSend2

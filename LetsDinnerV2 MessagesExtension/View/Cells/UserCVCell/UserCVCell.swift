@@ -15,9 +15,12 @@ class UserCVCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .backgroundColor
     }
     
     func configureCell(user: User) {
+        
+        
         var strokeColor = UIColor()
         
         if user.hasAccepted == .accepted {

@@ -14,7 +14,7 @@ class IngredientCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-      
+        self.backgroundColor = .backgroundColor
     }
     
     func configureCell(name: String, amount: Double, unit: String) {

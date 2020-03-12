@@ -21,6 +21,9 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.backgroundColor = .backgroundColor
+
         // Initialization code
         self.recipesCollectionView.dataSource = self
         self.recipesCollectionView.delegate = self

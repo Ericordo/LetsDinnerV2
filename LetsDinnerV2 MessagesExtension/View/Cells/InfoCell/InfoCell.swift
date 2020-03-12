@@ -17,6 +17,8 @@ class InfoCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         infoLabel.textColor = .secondaryTextLabel
+        self.backgroundColor = .backgroundColor
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -26,6 +26,7 @@ class TaskCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .backgroundColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

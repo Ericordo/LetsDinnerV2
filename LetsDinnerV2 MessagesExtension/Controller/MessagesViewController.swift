@@ -46,9 +46,9 @@ class MessagesViewController: MSMessagesAppViewController {
 //                }
         CloudManager.shared.retrieveProfileInfo()
 
-//        if #available(iOSApplicationExtension 13.0, *) {
-//            overrideUserInterfaceStyle = .dark
-//        }
+        if #available(iOSApplicationExtension 13.0, *) {
+            overrideUserInterfaceStyle = .dark
+        }
     }
 
     override func viewWillLayoutSubviews() {

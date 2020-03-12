@@ -63,6 +63,7 @@ class TaskManagementCell: UITableViewCell {
         
         taskStatusButton.isUserInteractionEnabled = false
         
+        self.backgroundColor = .backgroundColor
         separatorLine.backgroundColor = UIColor.cellSeparatorLine
     }
     

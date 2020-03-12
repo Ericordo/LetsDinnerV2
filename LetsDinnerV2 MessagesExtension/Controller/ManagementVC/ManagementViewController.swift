@@ -138,6 +138,7 @@ class ManagementViewController: UIViewController {
     
     private func configureTableView() {
         tasksTableView.tableFooterView = UIView()
+        tasksTableView.backgroundColor = .backgroundColor
 
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
@@ -310,7 +311,7 @@ class ManagementViewController: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.layoutIfNeeded()
          UIView.animate(withDuration: 1) {
-             self.addThingViewBottomConstraint.constant = -80
+             self.addThingViewBottomConstraint.constant = -100
              self.view.layoutIfNeeded()
          }
         

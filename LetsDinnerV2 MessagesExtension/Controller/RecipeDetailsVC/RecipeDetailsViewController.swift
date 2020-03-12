@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import SafariServices
 
+// Not using
 protocol RecipeDetailsViewControllerDelegate: class {
     func recipeDetailsVCShouldDismiss(_ controller: RecipeDetailsViewController)
 }

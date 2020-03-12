@@ -30,6 +30,7 @@ public class SecondaryButton: UIButton {
         self.layer.cornerRadius = 8.0
         self.backgroundColor = UIColor.secondaryButtonBackground
         self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        self.setTitleColor(.textLabel, for: .normal)
     }
 }
 

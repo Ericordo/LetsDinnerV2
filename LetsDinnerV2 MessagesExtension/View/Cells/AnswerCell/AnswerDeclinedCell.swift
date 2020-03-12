@@ -15,6 +15,8 @@ class AnswerDeclinedCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.backgroundColor = .backgroundColor
+        
         declineIcon.clipsToBounds = true
         declineIcon.layer.cornerRadius = declineIcon.frame.height / 2
     }

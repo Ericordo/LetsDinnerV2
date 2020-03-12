@@ -90,6 +90,7 @@ class RecipeCell: UITableViewCell {
             backgroundImageView.backgroundColor = Colors.paleGray.withAlphaComponent(1.0)
 
         }
+        
         self.searchType = searchType
         recipeNameLabel.text = customRecipe.title
         selectedCustomRecipe = customRecipe

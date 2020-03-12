@@ -33,6 +33,7 @@ class TaskSummaryCell: UITableViewCell {
         super.awakeFromNib()
         
         configureUI()
+        
         tasksCollectionView.delegate = self
         tasksCollectionView.dataSource = self
         tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
@@ -40,6 +41,10 @@ class TaskSummaryCell: UITableViewCell {
     }
     
     private func configureUI() {
+        
+        self.backgroundColor = .backgroundColor
+        tasksCollectionView.backgroundColor = .backgroundColor
+
         seeAllButton.titleLabel?.textColor = Colors.highlightRed
         seeAllBeforeCreateEvent.titleLabel?.textColor = Colors.highlightRed
         

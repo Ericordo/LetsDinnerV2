@@ -24,7 +24,7 @@ class NewThingView: UIView {
     
     let containerView: UIView = {
         let view = UIView(frame: CGRect.zero)
-        view.backgroundColor = .backgroundColor
+        view.backgroundColor = .backgroundSystemColor
         return view
     }()
     
