@@ -38,6 +38,7 @@ extension UIColor {
         } else { return Colors.allWhite }
     }
     
+    // MARK: Text Label Color
     static var textLabel: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -172,6 +173,17 @@ extension UIColor {
                 } else { return UIColor(red: 190/255, green: 192/255, blue: 196/255, alpha: 1) }}
         } else { return UIColor(red: 190/255, green: 192/255, blue: 196/255, alpha: 1) }
     }
+    
+    static var customRecipeBackground: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 1)
+                } else { return Colors.paleGray }}
+        } else { return Colors.paleGray }
+    }
+    
+    
     
     // MARK: - Functions
     
