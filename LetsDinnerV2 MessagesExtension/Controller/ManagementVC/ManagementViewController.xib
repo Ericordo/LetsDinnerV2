@@ -62,7 +62,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstItem="YIB-AR-09T" firstAttribute="centerY" secondItem="hfU-Un-jAU" secondAttribute="centerY" id="PG5-fI-oAa"/>
                         <constraint firstItem="YIB-AR-09T" firstAttribute="centerY" secondItem="dr3-SK-HIb" secondAttribute="centerY" id="SIB-nE-tWg"/>

@@ -11,7 +11,9 @@ import Foundation
 
 // Initate all variable for event
 
-class testCase {
+class TestManager {
+    
+    static var isDarkModeOn: Bool?
 
     static func createCaseOne() -> Event {
         let event = Event()

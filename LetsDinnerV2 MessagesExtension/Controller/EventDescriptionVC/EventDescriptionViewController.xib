@@ -59,7 +59,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstItem="nAa-f6-PpW" firstAttribute="centerY" secondItem="31L-Nu-POD" secondAttribute="centerY" id="4Ph-WU-NTP"/>
                         <constraint firstAttribute="trailing" secondItem="nAa-f6-PpW" secondAttribute="trailing" constant="16" id="CNM-MW-tEI"/>

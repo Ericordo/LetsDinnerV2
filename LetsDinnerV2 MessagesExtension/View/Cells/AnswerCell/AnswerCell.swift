@@ -24,20 +24,19 @@ class AnswerCell: UITableViewCell {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var declinedLabel: UILabel!
     
-    
     weak var delegate: AnswerCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.backgroundColor = .backgroundColor
-        //
+        
         acceptButton.clipsToBounds = true
         acceptButton.layer.cornerRadius = 6
-        acceptButton.backgroundColor = Colors.paleGray
+        acceptButton.backgroundColor = UIColor.secondaryButtonBackground
         declineButton.clipsToBounds = true
         declineButton.layer.cornerRadius = 6
-        declineButton.backgroundColor = Colors.paleGray
+        declineButton.backgroundColor = UIColor.secondaryButtonBackground
         acceptedLabel.isHidden = true
         declinedLabel.isHidden = true
         
@@ -60,6 +59,7 @@ class AnswerCell: UITableViewCell {
         self.declineButton.isHidden = true
         stackView.distribution = .fillProportionally
         acceptButton.translatesAutoresizingMaskIntoConstraints = false
+        
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.stackView.spacing = 10
             self.acceptButton.widthAnchor.constraint(equalToConstant: 42).isActive = true

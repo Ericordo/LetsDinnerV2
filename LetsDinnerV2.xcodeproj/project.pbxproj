@@ -120,7 +120,7 @@
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B842CE3C241A03F000380229 /* CustomSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B842CE3B241A03F000380229 /* CustomSafariViewController.swift */; };
-		B85071D12391690600632026 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestCase.swift */; };
+		B85071D12391690600632026 /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestManager.swift */; };
 		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
 		B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8630E3B23FFF6AB00E48A38 /* UIImage.swift */; };
 		B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2B23C729B300F176CC /* ReminderManager.swift */; };
@@ -296,7 +296,7 @@
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B842CE3B241A03F000380229 /* CustomSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSafariViewController.swift; sourceTree = "<group>"; };
-		B85071D02391690600632026 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
+		B85071D02391690600632026 /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
 		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
 		B8630E3B23FFF6AB00E48A38 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		B8652A2B23C729B300F176CC /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
@@ -855,7 +855,7 @@
 		B8BEEAE823A23C28009DC2DB /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				B85071D02391690600632026 /* TestCase.swift */,
+				B85071D02391690600632026 /* TestManager.swift */,
 				B8AED7D2239E357F00F2F633 /* CalendarManager.swift */,
 				B8652A2B23C729B300F176CC /* ReminderManager.swift */,
 				8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */,
@@ -1215,7 +1215,7 @@
 				B815358723E3FE2000BBD5FB /* Colors.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
 				88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */,
-				B85071D12391690600632026 /* TestCase.swift in Sources */,
+				B85071D12391690600632026 /* TestManager.swift in Sources */,
 				32B49DD823E87D1A0010669A /* ExpiredEventViewController.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,

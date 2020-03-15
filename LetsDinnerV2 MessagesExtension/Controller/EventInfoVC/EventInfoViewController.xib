@@ -49,7 +49,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstItem="eZR-zH-lka" firstAttribute="centerX" secondItem="itQ-Pa-8nL" secondAttribute="centerX" id="5Vs-D5-CU7"/>
                         <constraint firstAttribute="bottom" secondItem="Kgp-2C-eMv" secondAttribute="bottom" id="6No-2f-Ss0"/>

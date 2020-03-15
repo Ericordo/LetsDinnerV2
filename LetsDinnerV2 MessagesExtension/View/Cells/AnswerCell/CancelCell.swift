@@ -30,8 +30,8 @@ class CancelCell: UITableViewCell {
 
         postponeButton.layer.cornerRadius = 6
         cancelButton.layer.cornerRadius = 6
-        postponeButton.backgroundColor = Colors.paleGray
-        cancelButton.backgroundColor = Colors.paleGray
+        postponeButton.backgroundColor = UIColor.secondaryButtonBackground
+        cancelButton.backgroundColor = UIColor.secondaryButtonBackground
     }
     
     

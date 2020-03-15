@@ -65,7 +65,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstItem="DdJ-Rh-Nv7" firstAttribute="centerY" secondItem="ed6-pw-dxQ" secondAttribute="centerY" id="LcL-1c-29i"/>
                         <constraint firstAttribute="trailing" secondItem="OxX-0E-huw" secondAttribute="trailing" constant="17" id="P4e-4K-G7T"/>
