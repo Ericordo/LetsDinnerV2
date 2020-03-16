@@ -35,6 +35,7 @@ class TasksListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .tasksListVC
+        
         setupUI()
         setupTableView()
         prepareData()
@@ -152,7 +153,7 @@ class TasksListViewController: UIViewController {
         } else if value > 1 {
             view.layoutIfNeeded()
             UIView.animate(withDuration: 0.2) {
-                self.onlineAlertHeightConstraint.constant = 40
+                self.onlineAlertHeightConstraint.constant = 60
                 self.view.layoutIfNeeded()
             }
         }

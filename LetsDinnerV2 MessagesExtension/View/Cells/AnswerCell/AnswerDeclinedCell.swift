@@ -19,10 +19,11 @@ class AnswerDeclinedCell: UITableViewCell {
         
         declineIcon.clipsToBounds = true
         declineIcon.layer.cornerRadius = declineIcon.frame.height / 2
+        
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
-
         super.setSelected(selected, animated: animated)
     }
 }

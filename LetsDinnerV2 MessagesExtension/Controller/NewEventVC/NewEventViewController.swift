@@ -240,7 +240,7 @@ class NewEventViewController: UIViewController  {
     @IBAction func DidTapTestButton(_ sender: Any) {
         
         // Initiate TestCase
-        let event = testCase.createCaseOne()
+        let event = TestManager.createCaseOne()
         Event.shared.dinnerName = event.dinnerName
         Event.shared.hostName = event.hostName
         Event.shared.eventDescription = event.eventDescription
@@ -254,7 +254,7 @@ class NewEventViewController: UIViewController  {
     }
     
     @IBAction func DidTapFillInQuick(_ sender: Any) {
-        let event = testCase.quickFillIn()
+        let event = TestManager.quickFillIn()
         Event.shared.dinnerName = event.dinnerName
         Event.shared.hostName = event.hostName
         Event.shared.eventDescription = event.eventDescription

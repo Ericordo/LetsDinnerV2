@@ -13,7 +13,7 @@ import RealmSwift
 import FirebaseAuth
 
 class MessagesViewController: MSMessagesAppViewController {
-    
+        
     private var newNameRequested = false
     private var isProgressBarVCInitiated = false
 
@@ -45,16 +45,24 @@ class MessagesViewController: MSMessagesAppViewController {
 //                    CloudManager.shared.retrieveProfileInfo()
 //                }
         CloudManager.shared.retrieveProfileInfo()
-
-//        if #available(iOSApplicationExtension 13.0, *) {
-//            overrideUserInterfaceStyle = .dark
-//        }
+        
+        // Configure your testing condition in testManager
+        if testManager.isTesting {
+            overrideEnvironment()
+        }
     }
 
     override func viewWillLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
 
+    }
+    
+    private func overrideEnvironment() {
+        if testManager.isDarkModeOn {
+            testManager.darkModeOn(view: self)
+        }
+                
     }
     
     // MARK: - Conversation Handling
@@ -106,6 +114,7 @@ class MessagesViewController: MSMessagesAppViewController {
             } else {
                 identifier = currentUserUid
             }
+            
             Event.shared.currentUser = User(identifier: identifier,
                                             fullName: defaults.username,
                                             hasAccepted: .pending)
