@@ -7,13 +7,53 @@
 //
 
 import UIKit
-import Foundation
 
-// Initate all variable for event
+let testManager = TestManager.sharedInstance
+private var _SingletonSharedInstance = TestManager()
 
 class TestManager {
     
-    static var isDarkModeOn: Bool?
+    var isTesting = false
+
+    public class var sharedInstance: TestManager {
+        return _SingletonSharedInstance
+    }
+    
+    // ==========================================================================
+    
+    // MARK: Test Configuration
+    var isDarkModeOn = false
+    
+    var isHost = false
+    var isStatusPending = true // isHost need to be false
+    var isUserAcceptedEvent = true // isStatusPending need to be false
+    
+    // ===========================================================================
+    
+    func darkModeOn(view: UIViewController) {
+        if #available(iOSApplicationExtension 13.0, *) {
+            self.isDarkModeOn ? (view.overrideUserInterfaceStyle = .dark) : (view.overrideUserInterfaceStyle = .light)
+        }
+    }
+    
+    // For status
+    func createHostStatus() {
+        if self.isHost {
+//            Event.shared.hostIdentifier = user.indentifier
+        } else {
+            Event.shared.hostIdentifier = "123123"
+        }
+    }
+    
+    func createPendingStatus(user: User) {
+        if self.isStatusPending {
+            user.hasAccepted = .pending
+        }
+    }
+    
+    func createAcceptStatus(user: User) {
+        self.isUserAcceptedEvent ? (user.hasAccepted = .accepted) : (user.hasAccepted = .declined)
+    }
 
     static func createCaseOne() -> Event {
         let event = Event()

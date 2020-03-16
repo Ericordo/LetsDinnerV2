@@ -31,7 +31,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-LT-H4I">
-                            <rect key="frame" x="9" y="10.5" width="55" height="22"/>
+                            <rect key="frame" x="9" y="10.5" width="67" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="j08-na-hUB"/>
                             </constraints>
@@ -50,7 +50,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYB-Y0-w4c" userLabel="Sort Button">
-                            <rect key="frame" x="337" y="10.5" width="22" height="22"/>
+                            <rect key="frame" x="315" y="-0.5" width="44" height="44"/>
                             <state key="normal" image="sortButtonOutlined"/>
                             <connections>
                                 <action selector="didTapSortButton:" destination="-1" eventType="touchUpInside" id="1Fi-xd-9Uo"/>
@@ -81,7 +81,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zDy-8X-CR3" userLabel="Alert View">
                     <rect key="frame" x="0.0" y="43" width="375" height="60"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Others guests are selecting tasks now, your choices may be overwritten, please come back later." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmG-ac-MiS">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Others guests are selecting tasks now, your choices may be overwritten, please come back later." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmG-ac-MiS" userLabel="Okay">
                             <rect key="frame" x="17" y="0.0" width="341" height="59"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" name="labelColor"/>

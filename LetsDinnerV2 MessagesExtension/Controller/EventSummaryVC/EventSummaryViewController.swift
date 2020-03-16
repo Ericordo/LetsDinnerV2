@@ -42,7 +42,6 @@ class EventSummaryViewController: UIViewController {
         }
     }
     let store = EKEventStore()
-    
     let darkView = UIView()
     let rescheduleView = RescheduleView()
     lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
@@ -50,21 +49,17 @@ class EventSummaryViewController: UIViewController {
     
     weak var delegate: EventSummaryViewControllerDelegate?
     
-    // BUG: Running two times
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .eventSummaryVC
-                
+        
         self.setupTableView()
         self.registerCells()
             
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-        
-        if !Event.shared.participants.isEmpty {
-            summaryTableView.isHidden = false
-        }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
+        
+        self.testOverride()
     }
     
     @objc func updateTable() {
@@ -83,6 +78,10 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
         summaryTableView.tableFooterView = UIView()
+        
+        if !Event.shared.participants.isEmpty {
+            summaryTableView.isHidden = false
+        }
     }
     
     func registerCells() {
@@ -130,6 +129,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             
         case RowItemNumber.answerCell.rawValue:
             
+            self.testOverride()
             
             // Check the currentUser has accepted or not
             if let user = user {
@@ -222,8 +222,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             if user.hasAccepted == .accepted {
                 // Accept or Host
                 switch indexPath.row {
-                case RowItemNumber.title.rawValue:
-                    return 120
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
                                    return 0
@@ -251,8 +249,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             } else if user.hasAccepted == .declined {
                 // Decline Status
                 switch indexPath.row {
-                case RowItemNumber.title.rawValue:
-                    return 120
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
                                    return 0
@@ -276,8 +272,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         
         // Netural - Pending
         switch indexPath.row {
-        case RowItemNumber.title.rawValue:
-            return 120
         case RowItemNumber.answerCell.rawValue:
             if Event.shared.isCancelled {
                 return 0
@@ -495,4 +489,26 @@ extension EventSummaryViewController: CancelCellDelegate {
     }
     
     
+}
+
+// MARK: Test Control
+extension EventSummaryViewController {
+    
+    fileprivate func testOverride() {
+        // MARK: Test Use
+        if testManager.isTesting {
+            testManager.createHostStatus()
+            
+            if testManager.isHost == false {
+                if let user = user {
+                    testManager.createPendingStatus(user: user)
+                    
+                    if testManager.isStatusPending == false {
+                        testManager.createAcceptStatus(user: user)
+                    }
+                }
+            }
+            
+        }
+    }
 }
