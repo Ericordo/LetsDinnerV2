@@ -67,27 +67,7 @@ extension UIView {
         self.insertSubview(blurEffectView, at: 0)
     }
     
-    public func removeAllConstraints() {
-        var _superview = self.superview
-
-        while let superview = _superview {
-            for constraint in superview.constraints {
-
-                if let first = constraint.firstItem as? UIView, first == self {
-                    superview.removeConstraint(constraint)
-                }
-
-                if let second = constraint.secondItem as? UIView, second == self {
-                    superview.removeConstraint(constraint)
-                }
-            }
-
-            _superview = superview.superview
-        }
-
-        self.removeConstraints(self.constraints)
-        self.translatesAutoresizingMaskIntoConstraints = true
-    }
+    
     
     func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
         if #available(iOS 11.0, *) {
@@ -102,7 +82,7 @@ extension UIView {
         }
     }
     
-    // MARK: Autolayout constraint
+    // MARK: Autolayout Constraint
     
     func fillSuperview() {
         anchor(top: superview?.topAnchor, leading: superview?.leadingAnchor, bottom: superview?.bottomAnchor, trailing: superview?.trailingAnchor)
@@ -139,6 +119,28 @@ extension UIView {
         if size.height != 0 {
             heightAnchor.constraint(equalToConstant: size.height).isActive = true
         }
+    }
+    
+    func removeAllConstraints() {
+        var _superview = self.superview
+
+        while let superview = _superview {
+            for constraint in superview.constraints {
+
+                if let first = constraint.firstItem as? UIView, first == self {
+                    superview.removeConstraint(constraint)
+                }
+
+                if let second = constraint.secondItem as? UIView, second == self {
+                    superview.removeConstraint(constraint)
+                }
+            }
+
+            _superview = superview.superview
+        }
+
+        self.removeConstraints(self.constraints)
+        self.translatesAutoresizingMaskIntoConstraints = true
     }
     
     
