@@ -24,9 +24,9 @@
 	<string>Please give access to select your profile picture. </string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>We need access to your calendar to add events. </string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To input your location automatically</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To input your location automatically</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To input your location automatically</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Please give access to select your profile picture. </string>

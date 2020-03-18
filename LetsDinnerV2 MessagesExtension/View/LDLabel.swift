@@ -38,6 +38,14 @@ class LDLabel: UILabel {
         self.attributedText = attributedString
     }
     
+    func configureTextForWelcomeScreen(title: String, text: String) {
+        let attributedString = NSMutableAttributedString(string: "")
+        attributedString.append(NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
+        attributedString.append(NSAttributedString(string: "\n"))
+        attributedString.append(NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular), NSAttributedString.Key.foregroundColor: UIColor.secondaryTextLabel]))
+        self.attributedText = attributedString
+    }
+    
     
 
 }

@@ -44,6 +44,9 @@ extension UIViewController {
         dismiss(animated: false)
     }
     
+    @objc func closeVC() {
+        self.dismiss(animated: true, completion: nil)
+    }
     
 
     

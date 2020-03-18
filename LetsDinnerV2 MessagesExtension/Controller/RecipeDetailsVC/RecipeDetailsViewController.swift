@@ -50,10 +50,6 @@ class RecipeDetailsViewController: UIViewController {
         chosenButton.isHidden = !isSelected
     }
     
-    @objc private func closeVC() {
-        self.dismiss(animated: true, completion: nil)
-    }
-
     @IBAction func didTapDone(_ sender: UIButton) {
         delegate?.recipeDetailsVCShouldDismiss(self)
         dismiss(animated: true, completion: nil)

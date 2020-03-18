@@ -210,9 +210,6 @@ class RecipeCreationViewController: UIViewController {
         present(picturePicker, animated: true, completion: nil)
     }
     
-    @objc private func closeVC() {
-        self.dismiss(animated: true, completion: nil)
-    }
     
     private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
         do {
