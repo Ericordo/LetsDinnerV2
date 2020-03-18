@@ -14,10 +14,10 @@ extension SFSafariViewController {
     func registerForNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
     }
-    
-    @objc private func closeVC() {
-        dismiss(animated: true, completion: nil)
-    }
+//    
+//    @objc private func closeVC() {
+//        dismiss(animated: true, completion: nil)
+//    }
     
     
 }

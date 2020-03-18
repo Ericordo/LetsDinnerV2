@@ -58,6 +58,7 @@ class RegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presentWelcomeVCIfNeeded()
         
         if StepStatus.currentStep == .initialVC || StepStatus.currentStep == .newEventVC {
             StepStatus.currentStep = .registrationVC
@@ -81,6 +82,14 @@ class RegistrationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 0])
+    }
+    
+    private func presentWelcomeVCIfNeeded() {
+        if defaults.bool(forKey: Keys.onboardingComplete) != true {
+            let welcomeVC = WelcomeViewController()
+            welcomeVC.modalPresentationStyle = .overFullScreen
+            self.present(welcomeVC, animated: true, completion: nil)
+        }
     }
     
     private func setupUI() {

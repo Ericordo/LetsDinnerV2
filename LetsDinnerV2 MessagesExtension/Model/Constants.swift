@@ -66,6 +66,7 @@ enum Keys {
 //    static let accepted = "Accepted"
 //    static let declined = "Declined"
     static let userUid = "userUid"
+    static let onboardingComplete = "onboardingComplete"
     
 }
 
@@ -135,5 +136,23 @@ enum LabelStrings {
     static let canceledEventTitle = "Canceled Event"
     static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
     static let canceledEventDescription = "Looks like the host has canceled this event but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    static let welcome = NSLocalizedString("Welcome to\nLet's Dinner!", comment: "Welcome message")
     
+    static let and = NSLocalizedString("and", comment: "and")
+    static let termsService = NSLocalizedString("Terms of Service", comment: "Terms of Service")
+    static let policy = NSLocalizedString("Privacy Policy", comment: "Privacy Policy")
+    static let createEvents = NSLocalizedString("Create Events", comment: "in WelcomeVC")
+    static let recipesAndTasks = NSLocalizedString("Recipes and Tasks", comment: "in WelcomeVC")
+    static let neverLeave = NSLocalizedString("Never leave your Chat", comment: "in WelcomeVC")
+    static let createEventsDescription = NSLocalizedString("Cooking is better together! Invite your loved ones and enjoy some quality time", comment: "in WelcomeVC")
+    static let recipesAndTasksDescription = NSLocalizedString("Create your own or search among 360K+ recipes. Ingredients become tasks that your guests can pick to get everything ready!", comment: "in WelcomeVC")
+    static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶🍆💦", comment: "in WelcomeVC")
+    static let letsGo = "Ok, Let's go!"
+    
+}
+
+enum Images {
+    static let chatIcon = "chatIcon"
+    static let inviteIcon = "inviteIcon"
+    static let thingsIcon = "thingsIcon"
 }

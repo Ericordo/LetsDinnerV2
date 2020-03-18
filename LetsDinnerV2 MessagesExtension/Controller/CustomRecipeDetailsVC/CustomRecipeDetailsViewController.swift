@@ -171,9 +171,6 @@ class CustomRecipeDetailsViewController: UIViewController {
         self.present(editingVC, animated: true, completion: nil)
     }
     
-    @objc private func closeVC() {
-        self.dismiss(animated: true, completion: nil)
-    }
     
     @IBAction func didTapDone(_ sender: UIButton) {
         customRecipeDetailsDelegate?.customrecipeDetailsVCShouldDismiss()
