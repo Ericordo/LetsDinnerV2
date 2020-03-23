@@ -48,8 +48,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B8D0E6812421EBBD003B47EC"
-               BuildableName = "unittesting.xctest"
-               BlueprintName = "unittesting"
+               BuildableName = "UnitTests.xctest"
+               BlueprintName = "UnitTests"
                ReferencedContainer = "container:LetsDinnerV2.xcodeproj">
             </BuildableReference>
          </TestableReference>
