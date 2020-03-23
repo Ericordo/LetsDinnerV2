@@ -8,6 +8,8 @@
 
 import XCTest
 
+@testable import Let_s_Dinner_
+
 class EventTests: XCTestCase {
 
     override func setUp() {

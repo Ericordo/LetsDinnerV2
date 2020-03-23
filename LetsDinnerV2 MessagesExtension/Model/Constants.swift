@@ -115,7 +115,7 @@ enum LabelStrings {
     static let noRecipeMessage = "Go back and Add something!"
     
     // ManagementVC
-    static let noTaskTitle = "Nothing's missing? \nIn need of a helping plan?"
+    static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"
     static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
     static let noTaskMessage2 = "Start by tapping"
     
