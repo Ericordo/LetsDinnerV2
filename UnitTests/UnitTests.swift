@@ -7,13 +7,20 @@
 //
 
 import XCTest
+import UIKit
 
 @testable import Let_s_Dinner_
+@testable import Pods_LetsDinnerV2
+@testable import Pods_LetsDinnerV2_MessagesExtension
 
 class UnitTests: XCTestCase {
-
+    
+//    var controller: UIViewController!
+//    var event: Event!
+    
     override func setUp() {
         super.setUp()
+        
     }
 
     override func tearDown() {
@@ -21,10 +28,16 @@ class UnitTests: XCTestCase {
     }
 
     func sampleTest() {
+        let value = 3
+        let squaredValue = value.square()
+        XCTAssertEqual(squaredValue , 9)
+        
+    }
+    
+    func sampleTest2() {
         let a = 1
         let b = 1
-        
-        XCTAssertEqual(a, b)
+        XCTAssertEqual(a,b)
     }
 
 }

@@ -120,6 +120,9 @@
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
 		B802EF792428BF8200927649 /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802EF782428BF8200927649 /* UnitTests.swift */; };
+		B802EF7F2428C95800927649 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802EF7E2428C95800927649 /* Int.swift */; };
+		B802EF842428CDE700927649 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802EF7E2428C95800927649 /* Int.swift */; };
+		B802EF852428CE4C00927649 /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2B23C729B300F176CC /* ReminderManager.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B842CE3C241A03F000380229 /* CustomSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B842CE3B241A03F000380229 /* CustomSafariViewController.swift */; };
 		B85071D12391690600632026 /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestManager.swift */; };
@@ -302,6 +305,7 @@
 		B802EF762428BF8200927649 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B802EF782428BF8200927649 /* UnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTests.swift; sourceTree = "<group>"; };
 		B802EF7A2428BF8200927649 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B802EF7E2428C95800927649 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B842CE3B241A03F000380229 /* CustomSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSafariViewController.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
@@ -654,11 +658,12 @@
 				88B7832D23717D84009E4F3C /* UIColor.swift */,
 				B8D1CC9523F1309000E54E26 /* UIDevice.swift */,
 				B87C10392403E607004AD951 /* UIViewController.swift */,
-				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				B87C1067241387E6004AD951 /* UITableViewCell.swift */,
+				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				88B7832F23717E3E009E4F3C /* String.swift */,
 				880B135923747578003E29AC /* Array.swift */,
 				B87C10372402A8E6004AD951 /* Date.swift */,
+				B802EF7E2428C95800927649 /* Int.swift */,
 				880B135B2374758F003E29AC /* TaskExtension.swift */,
 				B87C103E2408E9AC004AD951 /* Thread.swift */,
 				8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */,
@@ -1182,7 +1187,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n";
+			shellScript = "
+";
 		};
 		88C95B2723982FDE000E750A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1261,6 +1267,7 @@
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
 				88349F3C2370525D002A1879 /* DataHelper - Edamam.swift in Sources */,
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,
+				B802EF7F2428C95800927649 /* Int.swift in Sources */,
 				880B134F23737700003E29AC /* UserCell.swift in Sources */,
 				8827BB2A23F875B600DEDC39 /* SFSafariViewController.swift in Sources */,
 				88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */,
@@ -1324,6 +1331,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B802EF852428CE4C00927649 /* ReminderManager.swift in Sources */,
+				B802EF842428CDE700927649 /* Int.swift in Sources */,
 				B802EF792428BF8200927649 /* UnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
