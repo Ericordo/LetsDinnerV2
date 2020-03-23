@@ -21,6 +21,7 @@ class ReminderManager {
     let reminderStore = EKEventStore()
     let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     
+    
     func addToReminder(view: UIViewController) {
           
           // Get permission
@@ -81,9 +82,11 @@ class ReminderManager {
         calendar.title = bundleName + " - Things To Buy" // Dinner title
         calendar.source = self.reminderStore.defaultCalendarForNewReminders()?.source
 
-        if #available(iOSApplicationExtension 13.0, *) {
-            calendar.cgColor = .init(srgbRed: 255, green: 0, blue: 0, alpha: 1)
-        }
+       
+            if #available(iOS 13.0, *) {
+                calendar.cgColor = .init(srgbRed: 255, green: 0, blue: 0, alpha: 1)
+
+            }
         
         try self.reminderStore.saveCalendar(calendar, commit: true)
         return calendar

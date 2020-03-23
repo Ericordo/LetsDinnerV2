@@ -65,12 +65,13 @@ class RecipeCell: UITableViewCell {
         recipeNameLabel.sizeToFit()
         visualEffectView.isHidden = false
 
-        if #available(iOSApplicationExtension 13.0, *) {
+        if #available(iOS 12.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
                 let blurEffect = UIBlurEffect(style: .dark)
                 self.visualEffectView.effect = blurEffect
             }
         }
+        
     }
     
     func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {

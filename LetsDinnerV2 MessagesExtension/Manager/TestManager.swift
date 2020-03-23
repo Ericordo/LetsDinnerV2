@@ -31,9 +31,10 @@ class TestManager {
     // ===========================================================================
     
     func darkModeOn(view: UIViewController) {
-        if #available(iOSApplicationExtension 13.0, *) {
-            self.isDarkModeOn ? (view.overrideUserInterfaceStyle = .dark) : (view.overrideUserInterfaceStyle = .light)
-        }
+            if #available(iOS 13.0, *) {
+                self.isDarkModeOn ? (view.overrideUserInterfaceStyle = .dark) : (view.overrideUserInterfaceStyle = .light)
+            }
+        
     }
     
     // For status
