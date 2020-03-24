@@ -69,6 +69,7 @@ class CustomRecipeDetailsViewController: UIViewController {
 
     private func setupUI() {
         chooseButton.layer.cornerRadius = 10
+        
         guard let recipe = selectedRecipe else { return }
         nameLabel.text = recipe.title
         ingredientsLabel.text = "INGREDIENTS FOR \(recipe.servings) PEOPLE"
@@ -78,6 +79,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         if recipe.ingredients.isEmpty {
             ingredientsHeightConstraint.constant = 0
         }
+        
         if recipe.cookingSteps.isEmpty {
             stepsHeightConstraint.constant = 0
         } else {

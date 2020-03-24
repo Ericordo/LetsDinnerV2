@@ -21,7 +21,6 @@ class ReminderManager {
     let reminderStore = EKEventStore()
     let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
     
-    
     func addToReminder(view: UIViewController) {
           
           // Get permission
@@ -51,7 +50,7 @@ class ReminderManager {
                 
                 // Filter Assigned Tasks
                 guard Event.shared.tasks.count != 0 else { return self.alertNoTask(view: view) }
-                let assignedTask = self.filterAssignedTask()
+                let assignedTask = self.filterAssignedIncompeledTask()
                 
                 // Go ahead if Assignedtask is not nil
                 guard assignedTask.count != 0 else {return self.alertNoTask(view: view) } // No Tasks, return alert
@@ -83,16 +82,15 @@ class ReminderManager {
         calendar.source = self.reminderStore.defaultCalendarForNewReminders()?.source
 
        
-            if #available(iOS 13.0, *) {
-                calendar.cgColor = .init(srgbRed: 255, green: 0, blue: 0, alpha: 1)
-
-            }
+        if #available(iOS 13.0, *) {
+            calendar.cgColor = .init(srgbRed: 255, green: 0, blue: 0, alpha: 1)
+        }
         
         try self.reminderStore.saveCalendar(calendar, commit: true)
         return calendar
     }
     
-    private func filterAssignedTask() -> [Task] {
+    private func filterAssignedIncompeledTask() -> [Task] {
         // Filter only Assigned and Incomplete Tasks
         var resultArray = [Task]()
         resultArray = Event.shared.tasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier && $0.taskState == .assigned}

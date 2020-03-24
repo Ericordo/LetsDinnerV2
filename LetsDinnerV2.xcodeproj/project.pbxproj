@@ -251,7 +251,6 @@
 		B802F01E2428D70400927649 /* NewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* NewThingView.swift */; };
 		B802F01F2428D70400927649 /* NewThingView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* NewThingView.xib */; };
 		B802F02C2428E99100927649 /* UnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802EF782428BF8200927649 /* UnitTests.swift */; };
-		B802F0302428EC1E00927649 /* NewEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F2E236F7A1D002A1879 /* NewEventViewController.xib */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B842CE3C241A03F000380229 /* CustomSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B842CE3B241A03F000380229 /* CustomSafariViewController.swift */; };
 		B85071D12391690600632026 /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestManager.swift */; };
@@ -1212,7 +1211,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B802F0302428EC1E00927649 /* NewEventViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
