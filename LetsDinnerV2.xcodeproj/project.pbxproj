@@ -580,7 +580,7 @@
 				88349F0A236DE9FC002A1879 /* MainInterface.storyboard */,
 				88349F3D2370D0C1002A1879 /* Cells */,
 				B8384BFE238A8503005B25E9 /* UIButtonClass */,
-				B87C107024176329004AD951 /* NewThingView */,
+				B87C107024176329004AD951 /* AddNewThingView */,
 				88349F322370302E002A1879 /* DatePicker.swift */,
 				88224909239D67FC0054C24E /* AmountPicker.swift */,
 				B85071D22392723D00632026 /* GestureRecognizer.swift */,
@@ -854,13 +854,13 @@
 			path = SelectedRecipesVC;
 			sourceTree = "<group>";
 		};
-		B87C107024176329004AD951 /* NewThingView */ = {
+		B87C107024176329004AD951 /* AddNewThingView */ = {
 			isa = PBXGroup;
 			children = (
 				B87C106E2417631F004AD951 /* AddNewThingView.swift */,
 				B87C106C24176309004AD951 /* AddNewThingView.xib */,
 			);
-			path = NewThingView;
+			path = AddNewThingView;
 			sourceTree = "<group>";
 		};
 		B8BEEAE823A23C28009DC2DB /* Manager */ = {

@@ -100,9 +100,6 @@ class RescheduleView: UIView {
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -25),
 //            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
             titleLabel.bottomAnchor.constraint(equalTo: datePicker.topAnchor, constant: -5)
-            
-            
-            
         ])
         
     }

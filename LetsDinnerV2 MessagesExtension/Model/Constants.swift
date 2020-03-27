@@ -71,24 +71,40 @@ enum Keys {
 }
 
 enum MessagesToDisplay {
-    
+    // Add to Calenedar Alert
     static let calendarAlert = "This event was successfully added to your calendar."
+    static let addToCalendarAlertTitle = "Add to calendar?"
+    static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
+    
+    // Accept Or Decline Alert
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
-    static let userHasDeclinedAlert = "You declined the invitation, you can not manage the tasks."
+    static let userHasDeclinedAlert = "You declined the invitation, you cannot manage the tasks."
     static let acceptedInvitation = " accepted the invitation"
     static let declinedInvitation = " declined the invitation"
+    
+    // Cancel Event Alert
+    static let cancelEventAlertTitle = "Cancel Event?"
+    static let cancelEventAlertMessage = "You are about to cancel this event, this action will delete the invitation you created. Are you sure you want to cancel the event?"
+    
+    // Add Reminder Alert
+    static let addToRemindersTitle = "Success"
+    static let addToRemindersMessage = "Your tasks now added to Reminders!"
+    static let remindersNoTaskTitle = "No updates"
+    static let remindersNoTaskMessage = "You have no assigned task at the moment."
+    
     static let eventExisted = "This event is already in your calendar"
     static let completed = "Completed"
     static let assignedToMyself = "Assigned to myself"
     static let noAssignment = "No Assignment"
     static let yes = "Yes"
     static let no = "No"
-    static let unsubmittedTasks = "You have unsubmitted tasks."
-    static let submitQuestion = "Do you want to submit them?"
+    
+    // TaskListVC Alert
+    static let unsubmittedTasks = "Dismiss changes?"
+    static let submitQuestion = "You made changes in this list. Would you like to update it?"
     static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
-    static let addToCalendarAlertTitle = "Add to calendar?"
-    static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
+    
     static let declineEventAlertTitle = "Do you want to decline?"
     static let declineEventAlertMessage = "By declining, you won't able to participate the event."
     static let cancel = "Cancel"
@@ -99,12 +115,14 @@ enum MessagesToDisplay {
     static let decodingFailed = "Failed to load recipes"
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
-    static let addToRemindersMessage = "Your tasks now added to Reminders!"
-    static let reminderNoTaskMessage = "You have no assigned task at the moment."
+
 }
 
 enum LabelStrings {
+    // StartVC
     static let getStarted = "Please enter your full name \n to get started."
+    
+    // NewEventVC
     static let host = "Host"
     static let eventInfo = "Event Info"
     static let date = "Date"
@@ -116,28 +134,39 @@ enum LabelStrings {
     static let noRecipeMessage = "Go back and Add something!"
     
     // ManagementVC
-    static let noTaskTitle = "Nothing's missing? \nIn need of a helping plan?"
+    static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"
     static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
     static let noTaskMessage2 = "Start by tapping"
     
+    // DescriptionVC
     static let whatsThePlan = "Would you like to add an invitation message? \nMore information? Anything else?"
     static let nothingToDo = "There is nothing to do!"
+    
+    // ReviewVC
     static let readyToSend = "Ready to send your invite?"
+    static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
+    static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
+    
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
     static let cookingTipsPlaceholder = "Anything else you want to mention?"
     static let update = "Update"
     static let selectNewDate = "Select a new date for your event:"
-    static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
-    static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
+    
+    // Reschedule
     static let rescheduleTitle = "Need to reschedule?"
     static let rescheduleText = "No problem, simply choose another date! 😅👌"
-    static let pastEventTitle = "Past Event"
-    static let canceledEventTitle = "Canceled Event"
-    static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
-    static let canceledEventDescription = "Looks like the host has canceled this event but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
-    static let welcome = NSLocalizedString("Welcome to\nLet's Dinner!", comment: "Welcome message")
     
+    // Past Event
+    static let pastEventTitle = "Past Event"
+    static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    
+    // Canceled Event
+    static let canceledEventTitle = "Canceled Event"
+    static let canceledEventDescription = "Looks like the host has canceled this event but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    
+    // Welcome
+    static let welcome = NSLocalizedString("Welcome to\nLet's Dinner!", comment: "Welcome message")
     static let and = NSLocalizedString("and", comment: "and")
     static let termsService = NSLocalizedString("Terms of Service", comment: "Terms of Service")
     static let policy = NSLocalizedString("Privacy Policy", comment: "Privacy Policy")

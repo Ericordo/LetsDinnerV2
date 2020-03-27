@@ -393,7 +393,7 @@ extension RegistrationViewController: UIScrollViewDelegate {
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
         
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight + 20, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         var rectangle = self.view.frame
@@ -413,6 +413,7 @@ extension RegistrationViewController: UIScrollViewDelegate {
     
 }
 
+// MARK: CLLocation
 extension RegistrationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Prevent didUpdateLocations run multiple time
