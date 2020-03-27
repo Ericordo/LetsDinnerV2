@@ -54,7 +54,7 @@ class ManagementViewController: UIViewController {
     private var selectedSection : String?
     var tapGestureToHideKeyboard = UITapGestureRecognizer()
     
-    var newThingView: NewThingView?
+    var newThingView: AddNewThingView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +112,7 @@ class ManagementViewController: UIViewController {
     }
     
     private func configureNewThingView() {
-        newThingView = NewThingView(sectionNames: sectionNames, selectedSection: selectedSection)
+        newThingView = AddNewThingView(sectionNames: sectionNames, selectedSection: selectedSection)
         newThingView?.addThingDelegate = self
         
 

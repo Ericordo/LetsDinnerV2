@@ -111,7 +111,7 @@ class SelectedRecipesViewController: UIViewController {
         let textLabel2: UILabel = {
             let label = UILabel()
             label.frame = CGRect(x: 0, y: 25, width: recipesTableView.frame.width , height: 15)
-            label.text = "To rearrange the order, tap and hold to move."
+//            label.text = "To rearrange the order, tap and hold to move."
             label.textColor = UIColor.secondaryTextLabel
             label.font = .systemFont(ofSize: 12)
             label.textAlignment = .center

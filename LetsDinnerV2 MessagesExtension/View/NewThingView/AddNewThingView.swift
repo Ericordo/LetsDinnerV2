@@ -12,7 +12,7 @@ protocol AddThingDelegate: class {
     func doneEditThing()
 }
 
-class NewThingView: UIView {
+class AddNewThingView: UIView {
     
     var sectionNames: [String]? {
         didSet {
@@ -123,7 +123,7 @@ class NewThingView: UIView {
     }
 }
 
-extension NewThingView: SectionSelectionInputDelegate {
+extension AddNewThingView: SectionSelectionInputDelegate {
     func updateSelectedSection(sectionName: String) {
         self.selectedSection = sectionName
     }
@@ -131,7 +131,7 @@ extension NewThingView: SectionSelectionInputDelegate {
     
 }
 
-extension NewThingView: UITextFieldDelegate {
+extension AddNewThingView: UITextFieldDelegate {
     
     // Add things
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -234,7 +234,7 @@ extension NewThingView: UITextFieldDelegate {
     
 }
 
-extension NewThingView {
+extension AddNewThingView {
     private func addConstraints() {
         self.addSubview(containerView)
         self.addSubview(newThingTitleTextField)
