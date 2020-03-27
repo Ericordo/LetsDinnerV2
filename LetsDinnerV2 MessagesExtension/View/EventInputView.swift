@@ -75,7 +75,7 @@ class EventInputView: UIView {
     }()
     
     private func configureView() {
-        self.backgroundColor = UIColor.backgroundColor.withAlphaComponent(0.5)
+        self.backgroundColor = UIColor.keyboardBackground
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }

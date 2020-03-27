@@ -156,11 +156,13 @@ extension UIColor {
         } else { return Colors.defaultGrey }
     }
     
+    // MARK: Keyboard
+    
     static var keyboardBackground: UIColor {
            if #available(iOS 13, *) {
                return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                    if traitCollection.userInterfaceStyle == .dark {
-                       return UIColor(red: 27/255, green: 27/255, blue: 27/255, alpha: 1)
+                       return UIColor(red: 31/255, green: 31/255, blue: 31/255, alpha: 1)
                    } else { return UIColor(red: 210/255, green: 211/255, blue: 217/255, alpha: 1) }}
            } else { return UIColor(red: 210/255, green: 211/255, blue: 217/255, alpha: 1) }
        }

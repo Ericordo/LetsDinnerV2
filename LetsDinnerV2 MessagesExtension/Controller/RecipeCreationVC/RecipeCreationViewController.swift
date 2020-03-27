@@ -432,7 +432,7 @@ class RecipeCreationViewController: UIViewController {
             }
             let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
                 self.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
-                self.addImageButton.setTitle("Add image", for: .normal)
+                self.addImageButton.setTitle("Add Image", for: .normal)
                 self.imageState = .addPic
                 self.downloadUrl = nil
             }
@@ -530,7 +530,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
         recipeImage = imageEdited
         
         imageState = .deleteOrModifyPic
-        addImageButton.setTitle("Modify image", for: .normal)
+        addImageButton.setTitle("Edit Image", for: .normal)
         
         picturePicker.dismiss(animated: true, completion: nil)
         

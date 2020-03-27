@@ -140,8 +140,8 @@
 		B87C106524126B39004AD951 /* SelectedRecipesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106324126B38004AD951 /* SelectedRecipesViewController.xib */; };
 		B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C1067241387E6004AD951 /* UITableViewCell.swift */; };
 		B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */; };
-		B87C106D24176309004AD951 /* NewThingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* NewThingView.xib */; };
-		B87C106F2417631F004AD951 /* NewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* NewThingView.swift */; };
+		B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* AddNewThingView.xib */; };
+		B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* AddNewThingView.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -316,8 +316,8 @@
 		B87C106324126B38004AD951 /* SelectedRecipesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedRecipesViewController.xib; sourceTree = "<group>"; };
 		B87C1067241387E6004AD951 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTaskHeader.swift; sourceTree = "<group>"; };
-		B87C106C24176309004AD951 /* NewThingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewThingView.xib; sourceTree = "<group>"; };
-		B87C106E2417631F004AD951 /* NewThingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewThingView.swift; sourceTree = "<group>"; };
+		B87C106C24176309004AD951 /* AddNewThingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewThingView.xib; sourceTree = "<group>"; };
+		B87C106E2417631F004AD951 /* AddNewThingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewThingView.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -857,8 +857,8 @@
 		B87C107024176329004AD951 /* NewThingView */ = {
 			isa = PBXGroup;
 			children = (
-				B87C106E2417631F004AD951 /* NewThingView.swift */,
-				B87C106C24176309004AD951 /* NewThingView.xib */,
+				B87C106E2417631F004AD951 /* AddNewThingView.swift */,
+				B87C106C24176309004AD951 /* AddNewThingView.xib */,
 			);
 			path = NewThingView;
 			sourceTree = "<group>";
@@ -1021,7 +1021,7 @@
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
 				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
 				880B135423737711003E29AC /* CalendarCell.xib in Resources */,
-				B87C106D24176309004AD951 /* NewThingView.xib in Resources */,
+				B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */,
 				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
@@ -1180,7 +1180,7 @@
 				88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */,
 				88E203C523D33C6200514972 /* EventInputView.swift in Sources */,
 				882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */,
-				B87C106F2417631F004AD951 /* NewThingView.swift in Sources */,
+				B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */,
 				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,

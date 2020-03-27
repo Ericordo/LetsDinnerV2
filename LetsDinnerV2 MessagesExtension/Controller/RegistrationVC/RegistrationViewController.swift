@@ -94,7 +94,7 @@ class RegistrationViewController: UIViewController {
     
     private func setupUI() {
         scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight + 20, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         if !defaults.username.isEmpty {
@@ -124,7 +124,7 @@ class RegistrationViewController: UIViewController {
             userPic.kf.setImage(with: imageURL, placeholder: UIImage(named: "profilePlaceholderBig.png")) { result in
                 switch result {
                 case .success:
-                    self.addPicButton.setTitle("Edit image", for: .normal)
+                    self.addPicButton.setTitle("Edit Image", for: .normal)
                     self.imageState = .deleteOrModifyPic
                 case .failure:
                     let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
@@ -137,11 +137,11 @@ class RegistrationViewController: UIViewController {
             }
         } else if !defaults.username.isEmpty {
             userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
-            addPicButton.setTitle("Add image", for: .normal)
+            addPicButton.setTitle("Add Image", for: .normal)
             imageState = .addPic
         } else {
             userPic.image = UIImage(named: "profilePlaceholderBig.png")
-            addPicButton.setTitle("Add image", for: .normal)
+            addPicButton.setTitle("Add Image", for: .normal)
             imageState = .addPic
         }
         
@@ -247,10 +247,10 @@ class RegistrationViewController: UIViewController {
     private func checkUsername() {
         if !defaults.username.isEmpty {
             userPic.setImage(string: defaults.username.initials, color: .lightGray, circular: true, stroke: true, strokeColor: Colors.customGray, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
-            addPicButton.setTitle("Add image", for: .normal)
+            addPicButton.setTitle("Add Image", for: .normal)
         } else {
             userPic.image = UIImage(named: "profilePlaceholderBig.png")
-            addPicButton.setTitle("Add image", for: .normal)
+            addPicButton.setTitle("Add Image", for: .normal)
         }
         imageState = .addPic
     }

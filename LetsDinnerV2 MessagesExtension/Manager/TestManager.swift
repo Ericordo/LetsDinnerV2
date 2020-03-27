@@ -22,10 +22,10 @@ class TestManager {
     // ==========================================================================
     
     // MARK: Test Configuration
-    var isDarkModeOn = false
+    var isDarkModeOn = true
     
-    var isHost = false
-    var isStatusPending = true // isHost need to be false
+    var isHost = true
+    var isStatusPending = false // isHost need to be false
     var isUserAcceptedEvent = true // isStatusPending need to be false
     
     // ===========================================================================
