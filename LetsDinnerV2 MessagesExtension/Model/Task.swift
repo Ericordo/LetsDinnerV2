@@ -44,8 +44,6 @@ class Task: Hashable {
         self.isCustom = isCustom
         self.parentRecipe = parentRecipe
     }
-    
-    
 }
 
 enum TaskState: Int {

@@ -101,7 +101,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
-            let vc = CustomSafariViewController(url: url)
+            let vc = CustomSafariVC(url: url)
 //            vc.preferredControlTintColor = Colors.newGradientRed
 //            vc.registerForNotification()
             self.window?.rootViewController?.present(vc, animated: true, completion: nil)

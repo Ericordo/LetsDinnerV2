@@ -102,12 +102,16 @@ enum MessagesToDisplay {
     // TaskListVC Alert
     static let unsubmittedTasks = "Dismiss changes?"
     static let submitQuestion = "You made changes in this list. Would you like to update it?"
+    static let synchTitle = "Things synchronisation"
+    static let synchMessage = "Changes made, can end up unsaved. Whoiever updates first, saves their changes."
     static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
     
     // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
     static let declineEventAlertMessage = "By declining, you won't able to participate the event."
+    
+    
     
     static let cancel = "Cancel"
     static let add = "Add"
@@ -139,6 +143,7 @@ enum LabelStrings {
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
     
+    // CreateRecipeVC
     static let cookingTipsPlaceholder = "Anything else you want to mention?"
 
     // ManagementVC
@@ -157,6 +162,12 @@ enum LabelStrings {
     
     
     static let update = "Update"
+    
+    // SummaryEventVC
+    static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
+    static let acceptedLabel = "You've accepted the invitation"
+    static let declinedLabel = "You've declined the invitation"
+    
     
     // Reschedule
     static let rescheduleTitle = "Need to reschedule?"

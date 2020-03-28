@@ -18,8 +18,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do you want to accept this invite?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV8-Y4-RUA">
+                        <rect key="frame" x="59" y="10" width="257" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" name="labelColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="ne0-5I-8q4">
-                        <rect key="frame" x="30" y="47.5" width="315" height="42"/>
+                        <rect key="frame" x="30" y="42.5" width="315" height="42"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zlw-9x-gVF">
                                 <rect key="frame" x="0.0" y="0.0" width="55.5" height="42"/>
@@ -34,7 +40,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Declined" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKg-Ub-cf2">
                                 <rect key="frame" x="86.5" y="0.0" width="55.5" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" name="secondLabelColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +58,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accepted" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6s-sx-UVE">
                                 <rect key="frame" x="259.5" y="0.0" width="55.5" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="backgroundColor"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" name="secondLabelColor"/>
                                 <nil key="highlightedColor"/>
@@ -63,19 +69,23 @@
                             <constraint firstAttribute="height" constant="42" id="eyP-ov-yBA"/>
                         </constraints>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do you want to accept this invite?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV8-Y4-RUA">
-                        <rect key="frame" x="59" y="15" width="257" height="20.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3R-W4-CoM" userLabel="Section Separator">
+                        <rect key="frame" x="0.0" y="119" width="375" height="1"/>
+                        <color key="backgroundColor" name="sectionSeparatorLine"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="4IQ-e6-igv"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" name="backgroundColor"/>
                 <constraints>
-                    <constraint firstItem="NV8-Y4-RUA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="BV4-Ma-TN3"/>
+                    <constraint firstItem="NV8-Y4-RUA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="BV4-Ma-TN3"/>
                     <constraint firstItem="NV8-Y4-RUA" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Sfn-CH-Bb8"/>
                     <constraint firstItem="ne0-5I-8q4" firstAttribute="top" secondItem="NV8-Y4-RUA" secondAttribute="bottom" constant="12" id="Tny-rP-mWL"/>
                     <constraint firstItem="ne0-5I-8q4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="VOU-Mj-Zaz"/>
+                    <constraint firstAttribute="trailing" secondItem="F3R-W4-CoM" secondAttribute="trailing" id="ae5-eA-trv"/>
+                    <constraint firstItem="F3R-W4-CoM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="e5v-UJ-bg2"/>
+                    <constraint firstAttribute="bottom" secondItem="F3R-W4-CoM" secondAttribute="bottom" id="gQq-WT-kYO"/>
                     <constraint firstAttribute="trailing" secondItem="ne0-5I-8q4" secondAttribute="trailing" constant="30" id="uIP-In-XCy"/>
                 </constraints>
             </tableViewCellContentView>
@@ -85,10 +95,11 @@
                 <outlet property="acceptedLabel" destination="X6s-sx-UVE" id="Ovy-Zs-gej"/>
                 <outlet property="declineButton" destination="Zlw-9x-gVF" id="30t-2K-XHb"/>
                 <outlet property="declinedLabel" destination="DKg-Ub-cf2" id="kuW-Hx-rW0"/>
+                <outlet property="invitationLabel" destination="NV8-Y4-RUA" id="gj5-sj-0wj"/>
                 <outlet property="questionLabel" destination="NV8-Y4-RUA" id="wnd-9I-WLf"/>
                 <outlet property="stackView" destination="ne0-5I-8q4" id="cDA-SN-1CE"/>
             </connections>
-            <point key="canvasLocation" x="111" y="-90"/>
+            <point key="canvasLocation" x="110.86956521739131" y="-90.401785714285708"/>
         </tableViewCell>
     </objects>
     <resources>
@@ -100,11 +111,17 @@
         <namedColor name="justNoRed">
             <color red="1" green="0.23100000619888306" blue="0.18799999356269836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="okayBlue">
             <color red="0.0" green="0.44299998879432678" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondLabelColor">
             <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="sectionSeparatorLine">
+            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

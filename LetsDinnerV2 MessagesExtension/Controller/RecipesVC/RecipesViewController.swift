@@ -446,7 +446,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
-            let vc = CustomSafariViewController(url: url)
+            let vc = CustomSafariVC(url: url)
 
 //            vc.registerForNotification()
 //            vc.preferredControlTintColor = UIColor.activeButton
