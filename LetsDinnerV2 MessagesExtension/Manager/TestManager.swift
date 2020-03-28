@@ -13,7 +13,7 @@ private var _SingletonSharedInstance = TestManager()
 
 class TestManager {
     
-    var isTesting = true
+    var isTesting = false
 
     public class var sharedInstance: TestManager {
         return _SingletonSharedInstance
@@ -22,7 +22,7 @@ class TestManager {
     // ==========================================================================
     
     // MARK: Test Configuration
-    var isDarkModeOn = false
+    var isDarkModeOn = true
     
     var isHost = true
     var isStatusPending = true // isHost need to be false

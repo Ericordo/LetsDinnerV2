@@ -78,7 +78,7 @@ enum MessagesToDisplay {
     
     // Accept Or Decline Alert
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
-    static let userHasDeclinedAlert = "You declined the invitation, you cannot manage the tasks."
+    static let userHasDeclinedAlert = "You declined the invitation, you are not able to manage the tasks."
     static let acceptedInvitation = " accepted the invitation"
     static let declinedInvitation = " declined the invitation"
     
@@ -105,8 +105,10 @@ enum MessagesToDisplay {
     static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
     
+    // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
     static let declineEventAlertMessage = "By declining, you won't able to participate the event."
+    
     static let cancel = "Cancel"
     static let add = "Add"
     static let addThing = "Add a thing"
@@ -133,6 +135,12 @@ enum LabelStrings {
     static let noRecipeTitle = "No recipes selected"
     static let noRecipeMessage = "Go back and Add something!"
     
+    // CustomRecipeVC
+    static let noCustomRecipeTitle = "No recipe"
+    static let noCustomRecipeMessage = "You can create your own recipe!"
+    
+    static let cookingTipsPlaceholder = "Anything else you want to mention?"
+
     // ManagementVC
     static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"
     static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
@@ -147,15 +155,14 @@ enum LabelStrings {
     static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
     static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
     
-    static let noCustomRecipeTitle = "No recipe"
-    static let noCustomRecipeMessage = "You can create your own recipe!"
-    static let cookingTipsPlaceholder = "Anything else you want to mention?"
+    
     static let update = "Update"
-    static let selectNewDate = "Select a new date for your event:"
     
     // Reschedule
     static let rescheduleTitle = "Need to reschedule?"
     static let rescheduleText = "No problem, simply choose another date! 😅👌"
+    static let selectNewDate = "Select a new date for your event:"
+
     
     // Past Event
     static let pastEventTitle = "Past Event"
@@ -165,7 +172,7 @@ enum LabelStrings {
     static let canceledEventTitle = "Canceled Event"
     static let canceledEventDescription = "Looks like the host has canceled this event but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
     
-    // Welcome
+    // Welcome Screen
     static let welcome = NSLocalizedString("Welcome to\nLet's Dinner!", comment: "Welcome message")
     static let and = NSLocalizedString("and", comment: "and")
     static let termsService = NSLocalizedString("Terms of Service", comment: "Terms of Service")
