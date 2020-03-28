@@ -686,7 +686,6 @@
 		88349F3D2370D0C1002A1879 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				32603EAC23F1BC2500AB6B50 /* ExpiredEventCell */,
 				8822490B239D79C20054C24E /* IngredientCell */,
 				88C9650B239A9BEB00CFC710 /* SectionInputCell */,
 				880B133723737605003E29AC /* AnswerCell */,
@@ -702,6 +701,7 @@
 				880B133C2373763D003E29AC /* CalendarCell */,
 				880B133B23737635003E29AC /* UserCell */,
 				880B1370237571FF003E29AC /* UserCVCell */,
+				32603EAC23F1BC2500AB6B50 /* ExpiredEventCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
