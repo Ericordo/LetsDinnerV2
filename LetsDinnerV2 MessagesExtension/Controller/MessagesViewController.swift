@@ -16,10 +16,10 @@ class MessagesViewController: MSMessagesAppViewController {
         
     private var newNameRequested = false
     private var isProgressBarVCInitiated = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         
@@ -56,13 +56,6 @@ class MessagesViewController: MSMessagesAppViewController {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
 
-    }
-    
-    private func overrideEnvironment() {
-        if testManager.isDarkModeOn {
-            testManager.darkModeOn(view: self)
-        }
-                
     }
     
     // MARK: - Conversation Handling
@@ -205,7 +198,6 @@ class MessagesViewController: MSMessagesAppViewController {
         
         guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         presentViewController(for: conversation, with: presentationStyle)
-        print(#function)
     }
     
     // MARK: - Present View Controller
@@ -218,11 +210,13 @@ class MessagesViewController: MSMessagesAppViewController {
         let controller: UIViewController
         
         if presentationStyle == .compact {
+            
             if Event.shared.dinnerName.isEmpty {
                 controller = instantiateInitialViewController()
             } else {
                 controller = instantiateIdleViewController()
             }
+            
         } else {
             
             // Expanded Style
@@ -230,6 +224,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep ?? StepTracking.eventSummaryVC)
             } else {
+                
                 if conversation.selectedMessage?.url != nil {
                     guard let message = conversation.selectedMessage else { return }
                     Event.shared.currentSession = message.session
@@ -275,12 +270,13 @@ class MessagesViewController: MSMessagesAppViewController {
                 
             }
         }
-        addChildViewController(controller: controller)
         
+        self.addChildViewController(controller: controller)
         
+
     }
     
-
+    // MARK: Controller Animation
     func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
         
         addChild(controller)
@@ -391,7 +387,6 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateIdleViewController() -> UIViewController {
-
         let controller = IdleViewController(nibName: VCNibs.idleViewController, bundle: nil)
         controller.delegate = self
         return controller
@@ -462,9 +457,22 @@ class MessagesViewController: MSMessagesAppViewController {
             addProgressViewController()
         }
         
+//        if isLoading {
+//            self.view.addSubview(loadingView)
+//            loadingView.translatesAutoresizingMaskIntoConstraints = false
+//            loadingView.anchor(top: self.view.topAnchor, leading: self.view.leadingAnchor, bottom: self.view.bottomAnchor, trailing: self.view.trailingAnchor)
+//        }
+        
         let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
         controller.delegate = self
-        print(Event.shared.eventIsExpired)
+        
+//        for view in self.view.subviews {
+//            if view.isKind(of: LoadingView.self){
+//                view.removeFromSuperview()
+//            }
+//        }
+//        isLoading = false
+        
         return controller
     }
     
@@ -723,5 +731,14 @@ extension MessagesViewController: ExpiredEventViewControllerDelegate {
         let controller = instantiateNewEventViewController()
         removeViewController()
         addChildViewController(controller: controller)
+    }
+}
+
+// MARK: For Test Only
+extension MessagesViewController {
+    private func overrideEnvironment() {
+        if testManager.isDarkModeOn {
+            testManager.darkModeOn(view: self)
+        }
     }
 }

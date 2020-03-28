@@ -177,6 +177,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             }
             
             cell.recipeCellDelegate = self
+            cell.chosenButton.isUserInteractionEnabled = false
             return cell
             
         } else {
@@ -251,6 +252,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
 extension SelectedRecipesViewController: RecipeCellDelegate {
     
     func recipeCellDidSelectRecipe(recipe: Recipe) {
+        print("Disabled")
 //        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
 //            Event.shared.selectedRecipes.remove(at: index)
 //        } else {
@@ -259,6 +261,7 @@ extension SelectedRecipesViewController: RecipeCellDelegate {
     }
     
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
+        print("Disabled")
 //        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
 //            Event.shared.selectedCustomRecipes.remove(at: index)
 //        } else {

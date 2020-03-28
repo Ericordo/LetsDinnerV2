@@ -119,6 +119,7 @@
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88FE71A623901E2A00652429 /* InfoInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInput.swift */; };
+		B802F040242F346D00927649 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802F03F242F346D00927649 /* LoadingView.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B842CE3C241A03F000380229 /* CustomSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B842CE3B241A03F000380229 /* CustomSafariViewController.swift */; };
 		B85071D12391690600632026 /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestManager.swift */; };
@@ -296,6 +297,7 @@
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
 		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInput.swift; sourceTree = "<group>"; };
+		B802F03F242F346D00927649 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B842CE3B241A03F000380229 /* CustomSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSafariViewController.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				88349F3D2370D0C1002A1879 /* Cells */,
 				B8384BFE238A8503005B25E9 /* UIButtonClass */,
 				B87C107024176329004AD951 /* AddNewThingView */,
+				B802F03F242F346D00927649 /* LoadingView.swift */,
 				88349F322370302E002A1879 /* DatePicker.swift */,
 				88224909239D67FC0054C24E /* AmountPicker.swift */,
 				B85071D22392723D00632026 /* GestureRecognizer.swift */,
@@ -1199,6 +1202,7 @@
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
 				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,
 				880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */,
+				B802F040242F346D00927649 /* LoadingView.swift in Sources */,
 				880B1376237576C3003E29AC /* UIImageView.swift in Sources */,
 				88FE71A623901E2A00652429 /* InfoInput.swift in Sources */,
 				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
