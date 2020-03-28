@@ -31,7 +31,6 @@ class TasksListViewController: UIViewController {
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()
-    private var isSynAlertShown = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,17 +38,14 @@ class TasksListViewController: UIViewController {
         
         setupUI()
         setupTableView()
-        prepareData()
+        prepareTasks()
         tasksTableView.reloadData()
        
         Database.database().reference().child(Event.shared.hostIdentifier).child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
             guard let value = snapshot.value as? Int else { return }
             self.updateOnlineAlert(value)
             
-            if !self.isSynAlertShown {
-                self.showSynchronisationAlert()
-                self.isSynAlertShown = true
-            }
+            
         }
         
     }
@@ -162,14 +158,20 @@ class TasksListViewController: UIViewController {
                 self.onlineAlertHeightConstraint.constant = 60
                 self.view.layoutIfNeeded()
             }
+            
+            if !Event.shared.isSyncAlertShownInTaskListVC {
+                self.showSynchronisationAlert()
+                Event.shared.isSyncAlertShownInTaskListVC = true
+            }
         }
     }
     
-    private func prepareData() {
+    private func prepareTasks() {
 //        tasks = Event.shared.tasks
         classifiedTasks.removeAll()
         expandableTasks.removeAll()
         sectionNames.removeAll()
+        
         tasks.forEach { task in
             if classifiedTasks.contains(where: { subTasks -> Bool in
                 subTasks.contains { (individualTask) -> Bool in
@@ -224,7 +226,7 @@ class TasksListViewController: UIViewController {
                 newTasks.append(newTask)
             }
             Event.shared.tasks = newTasks
-            self.prepareData()
+            self.prepareTasks()
             self.delegate?.tasksListVCDidTapBackButton(controller: self)
         }))
         
@@ -243,7 +245,7 @@ class TasksListViewController: UIViewController {
     
     @IBAction func didTapSortButton(_ sender: UIButton) {
         tasks = tasks.sorted(by: { $0.taskState.rawValue < $1.taskState.rawValue } )
-        prepareData()
+        prepareTasks()
         tasksTableView.reloadData()
     }
     
@@ -263,7 +265,7 @@ class TasksListViewController: UIViewController {
                 }
             }
         }
-        prepareData()
+        prepareTasks()
         tasksTableView.reloadData()
         
         if Event.shared.servings != Event.shared.currentConversationServings {

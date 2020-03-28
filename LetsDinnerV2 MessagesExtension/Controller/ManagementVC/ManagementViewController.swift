@@ -67,7 +67,6 @@ class ManagementViewController: UIViewController {
         
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        
         tapGestureToHideKeyboard.delegate = self
     
         // update variable and preparedata
@@ -124,8 +123,10 @@ class ManagementViewController: UIViewController {
         addThingView.addSubview(newThingView!)
         
         newThingView!.translatesAutoresizingMaskIntoConstraints = false
-
-        newThingView!.anchor(top: addThingView.topAnchor, leading: addThingView.leadingAnchor, bottom: addThingView.bottomAnchor, trailing: addThingView.trailingAnchor)
+        newThingView!.anchor(top: addThingView.topAnchor,
+                             leading: addThingView.leadingAnchor,
+                             bottom: addThingView.bottomAnchor,
+                             trailing: addThingView.trailingAnchor)
     }
     
     func addShadowOnUIView(view: UIView) {

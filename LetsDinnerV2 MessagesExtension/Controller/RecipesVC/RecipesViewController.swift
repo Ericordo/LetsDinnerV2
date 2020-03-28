@@ -63,7 +63,7 @@ class RecipesViewController: UIViewController {
         }
     }
 
-    // MARK: - Setup
+    // MARK: - Setup UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +87,7 @@ class RecipesViewController: UIViewController {
 
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 2])
         
-        // Remember which searchtype before leaving
+        // Cache searchtype
         if let currentRecipeMenu = StepStatus.currentRecipeMenu {
             searchType = currentRecipeMenu
         }
@@ -145,11 +145,8 @@ class RecipesViewController: UIViewController {
     
     private func configureNextButton() {
         let count = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
-        if count == 0 {
-            nextButton.setTitle("Skip", for: .normal)
-        } else {
-            nextButton.setTitle("Next", for: .normal)
-        }
+        count == 0 ? nextButton.setTitle("Skip", for: .normal) : nextButton.setTitle("Next", for: .normal)
+
     }
     
     private func configureSelectedRecipeButton() {
@@ -162,30 +159,7 @@ class RecipesViewController: UIViewController {
         }
     }
     
-    private func loadRecipes() {
-        searchResults.removeAll()
-        
-        DataHelper.shared.loadPredefinedRecipes { recipes in
-            
-            DispatchQueue.main.async {
-                self.searchResults = recipes
-                Event.shared.selectedRecipes.forEach { recipe in
-                    
-                    if !self.searchResults.contains(where: { comparedRecipe -> Bool in
-                              comparedRecipe.id == recipe.id
-                          }) {
-                            self.searchResults.append(recipe)
-                          }
-                      }
-            }
-
-        }
-    }
     
-    private func loadCustomRecipes() {
-        customRecipes = realm.objects(CustomRecipe.self)
-        recipesTableView.reloadData()
-    }
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -252,7 +226,34 @@ class RecipesViewController: UIViewController {
         present(selectedRecipesVC, animated: true, completion: nil)
     }
     
-    private func prepareTasks() {
+    // MARK: Data Management
+    
+    private func loadRecipes() {
+        searchResults.removeAll()
+        
+        DataHelper.shared.loadPredefinedRecipes { recipes in
+            
+            DispatchQueue.main.async {
+                self.searchResults = recipes
+                Event.shared.selectedRecipes.forEach { recipe in
+                    
+                    if !self.searchResults.contains(where: { comparedRecipe -> Bool in
+                              comparedRecipe.id == recipe.id
+                          }) {
+                            self.searchResults.append(recipe)
+                          }
+                      }
+            }
+
+        }
+    }
+    
+    private func loadCustomRecipes() {
+        customRecipes = realm.objects(CustomRecipe.self)
+        recipesTableView.reloadData()
+    }
+    
+    func prepareTasks() {
 //        Event.shared.tasks.forEach { task in
 //            if !task.isCustom {
 //                let index = Event.shared.tasks.firstIndex { comparedTask -> Bool in

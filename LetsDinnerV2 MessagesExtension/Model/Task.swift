@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum TaskState: Int {
+    case unassigned = 0
+    case assigned = 1
+    case completed = 2
+}
+
 class Task: Hashable {
     var taskUid: String
     var taskName: String
@@ -44,10 +50,8 @@ class Task: Hashable {
         self.isCustom = isCustom
         self.parentRecipe = parentRecipe
     }
+    
+    
 }
 
-enum TaskState: Int {
-    case unassigned = 0
-    case assigned = 1
-    case completed = 2
-}
+

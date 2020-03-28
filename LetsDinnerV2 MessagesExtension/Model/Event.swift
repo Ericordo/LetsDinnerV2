@@ -63,7 +63,9 @@ class Event {
 
     var participants = [User]()
     var tasks = [Task]()
+    
     var isCancelled = false
+    var isSyncAlertShownInTaskListVC = false
     
     // MARK: - Functions
     
