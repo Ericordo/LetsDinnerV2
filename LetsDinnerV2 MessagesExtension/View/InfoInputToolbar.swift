@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InfoInput : UIToolbar {
+class InfoInputToolbar : UIToolbar {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

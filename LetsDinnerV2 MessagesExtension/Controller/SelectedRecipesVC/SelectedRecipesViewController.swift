@@ -79,7 +79,7 @@ class SelectedRecipesViewController: UIViewController {
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
-            let vc = CustomSafariViewController(url: url)
+            let vc = CustomSafariVC(url: url)
             present(vc, animated: true, completion: nil)
         }
     }

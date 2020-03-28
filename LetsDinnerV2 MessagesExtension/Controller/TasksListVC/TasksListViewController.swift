@@ -31,6 +31,7 @@ class TasksListViewController: UIViewController {
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
     private var sectionNames = [String]()
+    private var isSynAlertShown = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,11 @@ class TasksListViewController: UIViewController {
         Database.database().reference().child(Event.shared.hostIdentifier).child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
             guard let value = snapshot.value as? Int else { return }
             self.updateOnlineAlert(value)
+            
+            if !self.isSynAlertShown {
+                self.showSynchronisationAlert()
+                self.isSynAlertShown = true
+            }
         }
         
     }
@@ -269,6 +275,16 @@ class TasksListViewController: UIViewController {
         }
         updateUpdateButton()
         updateSummaryText()
+    }
+    
+    private func showSynchronisationAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.synchTitle,
+                                      message: MessagesToDisplay.synchMessage,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Good to know!",
+                                      style: .cancel,
+                                      handler: nil))
+        present(alert, animated: true)
     }
 }
 

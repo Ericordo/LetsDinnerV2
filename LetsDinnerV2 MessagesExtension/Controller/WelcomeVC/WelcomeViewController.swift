@@ -77,7 +77,7 @@ class WelcomeViewController: UIViewController {
     @objc private func didTapPolicy() {
         // TODO: - Change url
         let url = URL(string: "https://www.google.com")
-        let vc = CustomSafariViewController(url: url!)
+        let vc = CustomSafariVC(url: url!)
         self.present(vc, animated: true, completion: nil)
     }
     private func setupUI() {

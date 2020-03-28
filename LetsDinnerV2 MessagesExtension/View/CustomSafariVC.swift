@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class CustomSafariViewController: SFSafariViewController {
+class CustomSafariVC: SFSafariViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

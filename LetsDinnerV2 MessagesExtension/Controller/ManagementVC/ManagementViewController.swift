@@ -86,7 +86,13 @@ class ManagementViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 3])
     }
     
-  
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.addThingViewBottomConstraint.constant = -100
+        self.view.layoutIfNeeded()
+    }
+    
+    // MARK: Configuration
     private func configureUI() {
         servingsLabel.text = "\(servings) Servings"
         servingsLabel.textColor = UIColor.textLabel
@@ -114,16 +120,12 @@ class ManagementViewController: UIViewController {
     private func configureNewThingView() {
         newThingView = AddNewThingView(sectionNames: sectionNames, selectedSection: selectedSection)
         newThingView?.addThingDelegate = self
-        
-
+    
         addThingView.addSubview(newThingView!)
         
         newThingView!.translatesAutoresizingMaskIntoConstraints = false
-        
-        newThingView!.topAnchor.constraint(equalTo: addThingView.topAnchor).isActive = true
-        newThingView!.bottomAnchor.constraint(equalTo: addThingView.bottomAnchor).isActive = true
-        newThingView!.leadingAnchor.constraint(equalTo: addThingView.leadingAnchor).isActive = true
-        newThingView!.trailingAnchor.constraint(equalTo: addThingView.trailingAnchor).isActive = true
+
+        newThingView!.anchor(top: addThingView.topAnchor, leading: addThingView.leadingAnchor, bottom: addThingView.bottomAnchor, trailing: addThingView.trailingAnchor)
     }
     
     func addShadowOnUIView(view: UIView) {

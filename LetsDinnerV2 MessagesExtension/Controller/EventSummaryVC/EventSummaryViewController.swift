@@ -392,7 +392,10 @@ extension EventSummaryViewController: CalendarCellDelegate {
         let title = Event.shared.dinnerName
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation
-        calendarManager.addEventToCalendar(view: self, with: title, forDate: date, location: location)
+        calendarManager.addEventToCalendar(view: self,
+                                           with: title,
+                                           forDate: date,
+                                           location: location)
         
         self.didTapAccept()
     }
@@ -427,7 +430,6 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: CancelCellDelegate {
-    
     
     func postponeEvent() {
         prepareViewForReschedule()
