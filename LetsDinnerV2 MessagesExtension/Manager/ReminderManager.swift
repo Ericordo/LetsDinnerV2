@@ -179,7 +179,7 @@ class ReminderManager {
                                           message: MessagesToDisplay.remindersNoTaskMessage,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss",
-                                          style: .cancel,
+                                          style: .default,
                                           handler: nil))
             view.present(alert, animated: true)
         }

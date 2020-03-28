@@ -139,6 +139,7 @@ enum LabelStrings {
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
     
+    // CreateRecipeVC
     static let cookingTipsPlaceholder = "Anything else you want to mention?"
 
     // ManagementVC
@@ -157,6 +158,12 @@ enum LabelStrings {
     
     
     static let update = "Update"
+    
+    // SummaryEventVC
+    static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
+    static let acceptedLabel = "You've accepted the invitation"
+    static let declinedLabel = "You've declined the invitation"
+    
     
     // Reschedule
     static let rescheduleTitle = "Need to reschedule?"

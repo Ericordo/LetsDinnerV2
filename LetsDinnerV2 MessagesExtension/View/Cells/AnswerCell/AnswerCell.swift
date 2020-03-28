@@ -23,6 +23,7 @@ class AnswerCell: UITableViewCell {
     @IBOutlet weak var acceptedLabel: UILabel!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var declinedLabel: UILabel!
+    @IBOutlet weak var invitationLabel: UILabel!
     
     weak var delegate: AnswerCellDelegate?
     
@@ -30,28 +31,32 @@ class AnswerCell: UITableViewCell {
         super.awakeFromNib()
         
         self.backgroundColor = .backgroundColor
-        
-        acceptButton.clipsToBounds = true
-        acceptButton.layer.cornerRadius = 6
-        acceptButton.backgroundColor = UIColor.secondaryButtonBackground
-        declineButton.clipsToBounds = true
-        declineButton.layer.cornerRadius = 6
-        declineButton.backgroundColor = UIColor.secondaryButtonBackground
-        acceptedLabel.isHidden = true
-        declinedLabel.isHidden = true
-        
+        self.configueUI()
+
         NotificationCenter.default.addObserver(self, selector: #selector(animateDecline), name: Notification.Name(rawValue: "TappedDecline"), object: nil)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // After clicked Accept or Decline
-//        if Event.shared.currentUser?.hasAccepted == true {
-//            declineButton.isHidden = true
-//        } else if Event.shared.currentUser?.hasAccepted == false {
-//            acceptButton.isHidden = true
-//        }
+    }
+    
+    private func configueUI() {
+        
+        invitationLabel.text = LabelStrings.invitationText
+        
+        acceptButton.clipsToBounds = true
+        acceptButton.layer.cornerRadius = 10
+        acceptButton.backgroundColor = UIColor.secondaryButtonBackground
+        
+        declineButton.clipsToBounds = true
+        declineButton.layer.cornerRadius = 10
+        declineButton.backgroundColor = UIColor.secondaryButtonBackground
+        
+        acceptedLabel.text = LabelStrings.acceptedLabel
+        declinedLabel.text = LabelStrings.declinedLabel
+        acceptedLabel.isHidden = true
+        declinedLabel.isHidden = true
     }
     
     @IBAction func didTapAccept(_ sender: UIButton) {

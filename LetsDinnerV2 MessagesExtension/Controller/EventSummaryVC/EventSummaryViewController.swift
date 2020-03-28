@@ -18,14 +18,15 @@ protocol EventSummaryViewControllerDelegate: class {
 }
 
 private enum RowItemNumber: Int, CaseIterable {
-    case title = 0
-    case answerCell = 1
-    case hostInfo = 2
-    case dateInfo = 3
-    case locationInfo = 4
-    case descriptionInfo = 5
-    case taskInfo = 6
-    case userInfo = 7
+    case invite = 0
+    case title = 1
+    case answerCell = 2
+    case hostInfo = 3
+    case dateInfo = 4
+    case locationInfo = 5
+    case descriptionInfo = 6
+    case taskInfo = 7
+    case userInfo = 8
 }
 
 class EventSummaryViewController: UIViewController {
@@ -59,10 +60,12 @@ class EventSummaryViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
         
-        self.testOverride()
     }
     
     @objc func updateTable() {
+        // For Test Only
+        self.testOverride()
+
         summaryTableView.reloadData()
         summaryTableView.isHidden = false
     }
@@ -120,16 +123,26 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let cancelCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.cancelCell) as! CancelCell
         
         let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
-        
+
+
         switch indexPath.row {
+        case RowItemNumber.invite.rawValue:
+            
+            if let user = user {
+                if user.hasAccepted == .pending {
+                    answerCell.separatorInset = separatorInset
+                    answerCell.delegate = self
+                    return answerCell
+                }
+            }
+            
         case RowItemNumber.title.rawValue:
+            
             titleCell.titleLabel.text = Event.shared.dinnerName
             titleCell.separatorInset = separatorInset
             return titleCell
             
         case RowItemNumber.answerCell.rawValue:
-            
-            self.testOverride()
             
             // Check the currentUser has accepted or not
             if let user = user {
@@ -146,9 +159,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 }
             }
             
-            answerCell.separatorInset = separatorInset
-            answerCell.delegate = self
-            return answerCell
+//            answerCell.separatorInset = separatorInset
+//            answerCell.delegate = self
+//            return answerCell
+            return UITableViewCell()
 
         case RowItemNumber.hostInfo.rawValue:
             
@@ -212,26 +226,29 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // 3 conditions: accept(/Host) / Neutral / or decline)
         
         // Default Height:
-        // title auto
+        // title 120
         // answerCell = 120
         // hostInfo, locationInfo, dateInfo = 52
         // taskInfo: 350
         // userInfo: 150
         
         if let user = user {
+            
             if user.hasAccepted == .accepted {
+                
                 // Accept or Host
                 switch indexPath.row {
+                case RowItemNumber.invite.rawValue:
+                    return 0
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
-                                   return 0
+                        return 0
                      } else {
-                        if user.identifier == Event.shared.hostIdentifier {
-                            return 120
-                        } else {
-                            return 80
-                        }
+                        // if Host
+                        return user.identifier == Event.shared.hostIdentifier ? 120 : 80
                     }
+                case RowItemNumber.title.rawValue:
+                    return 120
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -251,14 +268,19 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 }
                 
             } else if user.hasAccepted == .declined {
+                
                 // Decline Status
                 switch indexPath.row {
+                case RowItemNumber.invite.rawValue:
+                return 0
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
                                    return 0
                                } else {
                                    return 80
                                }
+                case RowItemNumber.title.rawValue:
+                    return 120
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -276,12 +298,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         
         // Netural - Pending
         switch indexPath.row {
+        case RowItemNumber.invite.rawValue:
+            return Event.shared.isCancelled ? 0 : 120
+        case RowItemNumber.title.rawValue:
+            return 120
         case RowItemNumber.answerCell.rawValue:
-            if Event.shared.isCancelled {
-                return 0
-            } else {
-                return 120
-            }
+            return 0
         case RowItemNumber.hostInfo.rawValue:
             return 52
         case RowItemNumber.dateInfo.rawValue,
