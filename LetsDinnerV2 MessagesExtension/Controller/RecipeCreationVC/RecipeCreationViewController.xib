@@ -131,7 +131,7 @@
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add Recipe name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="E2F-qp-Aha">
-                                    <rect key="frame" x="30" y="32" width="345" height="44"/>
+                                    <rect key="frame" x="30" y="32" width="335" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="aRN-Lx-fZY"/>
@@ -349,7 +349,7 @@
                                 <constraint firstAttribute="trailing" secondItem="azN-Yf-CJz" secondAttribute="trailing" id="Vl7-W9-3nd"/>
                                 <constraint firstItem="hMw-Vr-xbb" firstAttribute="leading" secondItem="CVE-ft-qZN" secondAttribute="leading" constant="26" id="XXf-B2-PCB"/>
                                 <constraint firstAttribute="trailing" secondItem="ljr-Ze-0NW" secondAttribute="trailing" id="XaT-yq-RU0"/>
-                                <constraint firstAttribute="trailing" secondItem="E2F-qp-Aha" secondAttribute="trailing" id="YFs-fK-YdB"/>
+                                <constraint firstAttribute="trailing" secondItem="E2F-qp-Aha" secondAttribute="trailing" constant="10" id="YFs-fK-YdB"/>
                                 <constraint firstItem="mhq-Q2-2gs" firstAttribute="leading" secondItem="AhA-gS-yRY" secondAttribute="trailing" constant="10" id="b6e-tR-HCy"/>
                                 <constraint firstItem="Rmo-X9-9R9" firstAttribute="leading" secondItem="CVE-ft-qZN" secondAttribute="leading" constant="30" id="bML-wj-pfj"/>
                                 <constraint firstItem="yH8-oq-wFL" firstAttribute="leading" secondItem="CVE-ft-qZN" secondAttribute="leading" constant="30" id="bTK-fb-RMM"/>

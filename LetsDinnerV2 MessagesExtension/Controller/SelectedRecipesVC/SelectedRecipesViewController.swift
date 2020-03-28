@@ -79,12 +79,7 @@ class SelectedRecipesViewController: UIViewController {
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
-            let vc = SFSafariViewController(url: url)
-
-            vc.registerForNotification()
-            vc.preferredControlTintColor = UIColor.activeButton
-
-            vc.modalPresentationStyle = .overFullScreen
+            let vc = CustomSafariViewController(url: url)
             present(vc, animated: true, completion: nil)
         }
     }
@@ -254,20 +249,21 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
 // MARK: Delegate for recipeVC
 
 extension SelectedRecipesViewController: RecipeCellDelegate {
+    
     func recipeCellDidSelectRecipe(recipe: Recipe) {
-        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
-            Event.shared.selectedRecipes.remove(at: index)
-        } else {
-            Event.shared.selectedRecipes.append(recipe)
-        }
+//        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
+//            Event.shared.selectedRecipes.remove(at: index)
+//        } else {
+//            Event.shared.selectedRecipes.append(recipe)
+//        }
     }
     
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
-        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
-            Event.shared.selectedCustomRecipes.remove(at: index)
-        } else {
-            Event.shared.selectedCustomRecipes.append(customRecipe)
-        }
+//        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
+//            Event.shared.selectedCustomRecipes.remove(at: index)
+//        } else {
+//            Event.shared.selectedCustomRecipes.append(customRecipe)
+//        }
     }
     
     func recipeCellDidSelectView(recipe: Recipe) {

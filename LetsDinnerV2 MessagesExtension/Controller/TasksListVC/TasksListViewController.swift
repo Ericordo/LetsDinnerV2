@@ -196,29 +196,37 @@ class TasksListViewController: UIViewController {
         updateSummaryText()
         
         let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
+        
         if !difference.isEmpty {
-            let alert = UIAlertController(title: MessagesToDisplay.unsubmittedTasks, message: MessagesToDisplay.submitQuestion, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: MessagesToDisplay.yes, style: .default, handler: { action in
-                self.didTapSubmit(self.submitButton)
-            }))
-            alert.addAction(UIAlertAction(title: MessagesToDisplay.no, style: .destructive, handler: { action in
-                var newTasks = [Task]()
-                Event.shared.currentConversationTaskStates.forEach { task in
-                    let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName, isCustom: task.isCustom, parentRecipe: task.parentRecipe)
-                    if let amount = task.metricAmount, let unit = task.metricUnit {
-                        newTask.metricAmount = amount
-                        newTask.metricUnit = unit
-                    }
-                    newTasks.append(newTask)
-                }
-                Event.shared.tasks = newTasks
-                self.prepareData()
-                self.delegate?.tasksListVCDidTapBackButton(controller: self)
-            }))
-            present(alert, animated: true, completion: nil)
+            displayUnsavedAlert()
         } else {
             self.delegate?.tasksListVCDidTapBackButton(controller: self)
         }
+    }
+    
+    private func displayUnsavedAlert() {
+        let alert = UIAlertController(title: MessagesToDisplay.unsubmittedTasks, message: MessagesToDisplay.submitQuestion, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Nope", style: .destructive, handler: { action in
+            var newTasks = [Task]()
+            Event.shared.currentConversationTaskStates.forEach { task in
+                let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName, isCustom: task.isCustom, parentRecipe: task.parentRecipe)
+                if let amount = task.metricAmount, let unit = task.metricUnit {
+                    newTask.metricAmount = amount
+                    newTask.metricUnit = unit
+                }
+                newTasks.append(newTask)
+            }
+            Event.shared.tasks = newTasks
+            self.prepareData()
+            self.delegate?.tasksListVCDidTapBackButton(controller: self)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
+            self.didTapSubmit(self.submitButton)
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func didTapSubmit(_ sender: UIButton) {
@@ -263,6 +271,8 @@ class TasksListViewController: UIViewController {
         updateSummaryText()
     }
 }
+
+// MARK: TableView
 
 extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

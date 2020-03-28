@@ -12,32 +12,38 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CancelCell" rowHeight="80" id="KGk-i7-Jjw" customClass="CancelCell" customModule="Let_s_Dinner_" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not the right time or changed your mind all together? You can Cancel or Reschedule the event." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVB-ix-jJw">
+                        <rect key="frame" x="30" y="12" width="315" height="31.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" name="secondLabelColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="GEf-dv-UNg">
-                        <rect key="frame" x="30" y="19" width="260" height="42"/>
+                        <rect key="frame" x="30" y="58.5" width="315" height="42"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGA-2F-aic">
-                                <rect key="frame" x="0.0" y="0.0" width="114.5" height="42"/>
+                                <rect key="frame" x="0.0" y="0.0" width="142" height="42"/>
                                 <color key="backgroundColor" name="secondaryButtonbackground"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <state key="normal" title="Cancel">
-                                    <color key="titleColor" name="justNoRed"/>
+                                    <color key="titleColor" name="labelColor"/>
                                 </state>
                                 <connections>
                                     <action selector="didTapCancel:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="55l-nO-iMI"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dTr-7N-9bi">
-                                <rect key="frame" x="145.5" y="0.0" width="114.5" height="42"/>
+                                <rect key="frame" x="173" y="0.0" width="142" height="42"/>
                                 <color key="backgroundColor" name="secondaryButtonbackground"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <state key="normal" title="Reschedule">
-                                    <color key="titleColor" name="okayBlue"/>
+                                    <color key="titleColor" name="labelColor"/>
                                 </state>
                                 <connections>
                                     <action selector="didTapPostpone:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gox-cM-iad"/>
@@ -51,9 +57,12 @@
                 </subviews>
                 <color key="backgroundColor" name="backgroundColor"/>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="SVB-ix-jJw" secondAttribute="trailing" constant="30" id="21M-MR-6tE"/>
+                    <constraint firstItem="SVB-ix-jJw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="3bb-3C-tkw"/>
+                    <constraint firstItem="SVB-ix-jJw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="IHM-9X-g2j"/>
                     <constraint firstAttribute="trailing" secondItem="GEf-dv-UNg" secondAttribute="trailing" constant="30" id="aJ4-4s-xYa"/>
-                    <constraint firstItem="GEf-dv-UNg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="k9o-DR-IdA"/>
                     <constraint firstItem="GEf-dv-UNg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="kjK-x6-CSr"/>
+                    <constraint firstItem="GEf-dv-UNg" firstAttribute="top" secondItem="SVB-ix-jJw" secondAttribute="bottom" constant="15" id="uGN-qR-gas"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -68,11 +77,11 @@
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="justNoRed">
-            <color red="1" green="0.23100000619888306" blue="0.18799999356269836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="okayBlue">
-            <color red="0.0" green="0.44299998879432678" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="secondLabelColor">
+            <color red="0.54100000858306885" green="0.54100000858306885" blue="0.55699998140335083" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondaryButtonbackground">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -225,9 +225,13 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 case RowItemNumber.answerCell.rawValue:
                      if Event.shared.isCancelled {
                                    return 0
-                               } else {
-                                   return 80
-                               }
+                     } else {
+                        if user.identifier == Event.shared.hostIdentifier {
+                            return 120
+                        } else {
+                            return 80
+                        }
+                    }
                 case RowItemNumber.hostInfo.rawValue:
                     return 52
                 case RowItemNumber.dateInfo.rawValue,
@@ -352,8 +356,8 @@ extension EventSummaryViewController: AnswerCellDelegate {
                                        handler: { (_) in
                                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TappedDecline"), object: nil)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel",
-                                      style: UIAlertAction.Style.default,
+        alert.addAction(UIAlertAction(title: "No",
+                                      style: UIAlertAction.Style.cancel,
                                       handler: nil ))
         self.present(alert, animated: true, completion: nil)
     }
@@ -408,9 +412,10 @@ extension EventSummaryViewController: CancelCellDelegate {
     }
     
     func cancelEvent() {
-        let alert = UIAlertController(title: "Cancel Event", message: "Are you sure about cancelling your event?", preferredStyle: .alert)
+        let alert = UIAlertController(title: MessagesToDisplay.cancelEventAlertTitle,
+                                      message: MessagesToDisplay.cancelEventAlertMessage, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        let confirm = UIAlertAction(title: "Yes", style: .destructive) { action in
+        let confirm = UIAlertAction(title: "Confirm", style: .destructive) { action in
             self.delegate?.eventSummaryVCDidCancelEvent(controller: self)
         }
         alert.addAction(cancel)
