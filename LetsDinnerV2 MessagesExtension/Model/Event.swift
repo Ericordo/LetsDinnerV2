@@ -810,5 +810,31 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
         Event.shared.selectedCustomRecipes = Event.shared.selectedCustomRecipes.sorted(by: {$0.customOrder < $1.customOrder})
     }
     
+    func mergeAllRecipesTitles(selectedRecipes: [Recipe], selectedCustomRecipes: [CustomRecipe]) -> [String] {
+        var allRecipeTitles = [String]()
+        let totalNumberOfRecipes = selectedRecipes.count + selectedCustomRecipes.count
+
+        for customOrder in 0 ... totalNumberOfRecipes {
+            if !selectedRecipes.isEmpty {
+                for index in 0 ... selectedRecipes.count - 1 {
+                    if selectedRecipes[index].customOrder == customOrder {
+                        allRecipeTitles.append(selectedRecipes[index].title ?? "")
+                        break
+                    }
+                }
+            }
+            
+            if !selectedCustomRecipes.isEmpty {
+                for index in 0 ... selectedCustomRecipes.count - 1 {
+                    if selectedCustomRecipes[index].customOrder == customOrder {
+                        allRecipeTitles.append(selectedCustomRecipes[index].title)
+                        break
+                    }
+                }
+            }
+        }
+        return allRecipeTitles
+    }
+    
 
 }
