@@ -32,18 +32,25 @@ class RecipeCell: UITableViewCell {
 
     weak var recipeCellDelegate: RecipeCellDelegate?
     
+    // Drag and drop
+    weak var reorderControl: UIView?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCell()
     }
 
     func setupCell() {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = 10
+        
         backgroundCellView.clipsToBounds = true
         backgroundCellView.layer.cornerRadius = 10
         backgroundCellView.backgroundColor = UIColor.secondaryTextLabel
         
         chooseButton.clipsToBounds = true
         chooseButton.layer.cornerRadius = 10
+        
         recipeImageView.clipsToBounds = true
         recipeImageView.layer.cornerRadius = 10
         recipeNameLabel.sizeToFit()
@@ -131,10 +138,41 @@ class RecipeCell: UITableViewCell {
     }
     
     // For TableViewCell Editing
-    override func layoutSubviews() {
-        super.layoutSubviews()
-//        cellActionButtonLabel?.textColor = .activeButton
-
-    }
+    // MARK: Drag and drop
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+////        cellActionButtonLabel?.textColor = .activeButton
+//
+//        // -------- Drag and Drop Reorder Session ---------
+//        contentView.frame = bounds
+//        reorderControl?.frame = bounds
+//    }
+//
+//    override func setEditing(_ editing: Bool, animated: Bool) {
+//        super.setEditing(editing, animated: false)
+//
+//        // -------- Drag and Drop Reorder Session ---------
+//        if !editing || reorderControl != nil {
+//            return
+//        }
+//
+//        // Find the reorder control in the cell's subviews.
+//        for view in subviews {
+//            let className = String(describing: type(of:view))
+//            if className == "UITableViewCellReorderControl" {
+//
+//                // Remove its subviews so that they don't mess up
+//                // your own content's appearance.
+//                for subview in view.subviews {
+//                    subview.removeFromSuperview()
+//                }
+//
+//                // Keep a weak reference to it for `layoutSubviews()`.
+//                reorderControl = view
+//
+//                break
+//            }
+//        }
+//    }
     
 }

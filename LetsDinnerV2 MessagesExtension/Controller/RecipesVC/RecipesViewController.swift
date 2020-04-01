@@ -15,7 +15,7 @@ protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapPrevious(controller: RecipesViewController)
 }
 
-protocol ModalHandler: class {
+protocol ModalViewHandler: class {
     func reloadTableAfterModalDismissed()
 }
 
@@ -168,7 +168,7 @@ class RecipesViewController: UIViewController {
         self.showSearchProgress(false)
     }
     
-    func showSearchProgress(_ bool: Bool) {
+    private func showSearchProgress(_ bool: Bool) {
         if bool {
             activityIndicator.startAnimating()
         } else {
@@ -290,9 +290,7 @@ class RecipesViewController: UIViewController {
                 }
             }
         }
-        
 
-    
         var newCustomRecipes = [CustomRecipe]()
                 
         if previouslySelectedCustomRecipes.isEmpty {
@@ -499,19 +497,41 @@ extension RecipesViewController: RecipeCellDelegate {
     func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
         
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
+            // Re-assign the customOrder
+            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
             Event.shared.selectedCustomRecipes.remove(at: index)
+            
+            
         } else {
             Event.shared.selectedCustomRecipes.append(customRecipe)
+            
+            // Assign Order
+            guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
+            Event.shared.selectedCustomRecipes[Event.shared.selectedCustomRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
+            
         }
         configureNextButton()
         configureSelectedRecipeButton()
     }
     
+    // MARK: Append Recipe to EventArray
     func recipeCellDidSelectRecipe(recipe: Recipe) {
         if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
+            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
             Event.shared.selectedRecipes.remove(at: index)
         } else {
+            
             Event.shared.selectedRecipes.append(recipe)
+            
+            // Assign Order
+            guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
+            Event.shared.selectedRecipes[Event.shared.selectedRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
+//            print("lastitem:\(lastIndex)")
+//            print(Event.shared.selectedRecipes.count)
+//
+//            print("After Append = \(Event.shared.findTheLastNumberFromAllRecipes())")
+            
+            
         }
         configureNextButton()
         configureSelectedRecipeButton()
@@ -611,7 +631,7 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     }
 }
 
-extension RecipesViewController: ModalHandler {
+extension RecipesViewController: ModalViewHandler {
     func reloadTableAfterModalDismissed() {
         recipesTableView.reloadData()
         configureNextButton()

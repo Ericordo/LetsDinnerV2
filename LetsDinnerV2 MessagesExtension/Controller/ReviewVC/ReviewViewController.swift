@@ -19,33 +19,33 @@ class ReviewViewController: UIViewController {
     
     @IBOutlet weak var editButton: SecondaryButton!
     @IBOutlet weak var sendButton: SecondaryButton!
-    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var summaryTableView: UITableView!
     @IBOutlet weak var buttonStackView: UIStackView!
     @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var separatorLine: UIView!
     @IBOutlet weak var topSendingLabel: UILabel!
+
     
     weak var delegate: ReviewViewControllerDelegate?
-    
-    let mailImageView : UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "mail")
-        image.contentMode = .scaleAspectFit
-        image.alpha = 0
-        return image
-    }()
     
     let darkView = UIView()
     var isChecking = false
     let store = EKEventStore()
+    
+    //    let mailImageView : UIImageView = {
+    //        let image = UIImageView()
+    //        image.image = UIImage(named: "mail")
+    //        image.contentMode = .scaleAspectFit
+    //        image.alpha = 0
+    //        return image
+    //    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         StepStatus.currentStep = .reviewVC
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        
+                
         registerCell(CellNibs.titleCell)
         registerCell(CellNibs.infoCell)
         registerCell(CellNibs.descriptionCell)
@@ -67,9 +67,10 @@ class ReviewViewController: UIViewController {
         
         summaryTableView.tableFooterView = UIView()
         summaryTableView.backgroundColor = .backgroundColor
+        
         sendButtonLeadingConstraint.isActive = false
         sendButton.setTitleColor(.buttonTextBlue, for: .normal)
-        
+                
         if #available(iOS 13.2, *) {
             topSendingLabel.text = LabelStrings.readyToSend2
         } else {
@@ -147,8 +148,11 @@ class ReviewViewController: UIViewController {
         darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)
-        self.view.bringSubviewToFront(self.buttonStackView)
+        self.view.bringSubviewToFront(buttonStackView)
+        
         self.view.layoutIfNeeded()
+        
+    
         
         UIView.animate(withDuration: 1,
                        delay: 0,

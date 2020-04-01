@@ -16,6 +16,7 @@ struct Recipe {
     var ingredientList: [Ingredient]?
     var servings: Int?
     var id: Int?
+    var customOrder: Int = 0 // start from 1 ...
     
     init() {}
     
@@ -23,7 +24,7 @@ struct Recipe {
         self.sourceUrl = sourceUrl
         self.title = title
     }
-    
+        
     init(dict: Dictionary<String, Any>) {
         
         if let title = dict["title"] as? String {
@@ -72,4 +73,12 @@ struct Recipe {
             self.ingredientList = ingredientList
         }
     }
+    
+    mutating func assignCustomOrder(customOrder: Int) {
+        self.customOrder = customOrder
+    }
+
+    
+
+    
 }
