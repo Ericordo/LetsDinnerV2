@@ -785,8 +785,6 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
                 }
             }
             
-            
- 
         }
         
         // Reorder the movedObject customOrder (removed object)
@@ -802,7 +800,14 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
             
             selectedCustomRecipes[movedObjectOwnTypeDestinationIndex].customOrder = destinationCustomOrder
         }
+        
+        sortAscRecipeByCustomOrder()
 
+    }
+    
+    func sortAscRecipeByCustomOrder() {
+        Event.shared.selectedRecipes = Event.shared.selectedRecipes.sorted(by: { $0.customOrder < $1.customOrder})
+        Event.shared.selectedCustomRecipes = Event.shared.selectedCustomRecipes.sorted(by: {$0.customOrder < $1.customOrder})
     }
     
 

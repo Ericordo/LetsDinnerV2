@@ -21,11 +21,14 @@ class SelectedRecipesViewController: UIViewController {
     var totalNumberOfSelectedRecipes: Int = 0 {
         didSet {
             updateHeaderLabel()
+            updateRearrangeTextLabel()
             showEmptyScreenConfiguration()
         }
     }
     
     weak var dismissDelegate: ModalViewHandler?
+    
+    var rearrangeTextLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +38,6 @@ class SelectedRecipesViewController: UIViewController {
         
         updateLocalVariable()
         updateNumberOfTotalRecipe()
-        
-//        self.recipesTableView.isEditing = true
-//        self.recipesTableView.setEditing(true, animated: true)
         
         recipesTableView.dragInteractionEnabled = true
         recipesTableView.dragDelegate = self
@@ -54,6 +54,17 @@ class SelectedRecipesViewController: UIViewController {
     
     func configureUI() {
         
+    }
+    
+    private func updateRearrangeTextLabel() {
+        if totalNumberOfSelectedRecipes > 1 {
+            rearrangeTextLabel.isHidden = false
+        } else {
+            UIView.animate(withDuration: 0.7,
+                           delay: 0.0, options: .transitionCrossDissolve,
+                           animations: { self.rearrangeTextLabel.alpha = 0.3 },
+                           completion: { finished in self.rearrangeTextLabel.isHidden = true})
+        }
     }
     
     private func updateNumberOfTotalRecipe() {
@@ -111,7 +122,7 @@ class SelectedRecipesViewController: UIViewController {
             return label
         }()
         
-        let textLabel2: UILabel = {
+        rearrangeTextLabel = {
             let label = UILabel()
             label.frame = CGRect(x: 0, y: 25, width: recipesTableView.frame.width , height: 15)
             label.text = "To rearrange the order, tap and hold to move."
@@ -122,7 +133,7 @@ class SelectedRecipesViewController: UIViewController {
         }()
         
         footerView.addSubview(textLabel1)
-        footerView.addSubview(textLabel2)
+        footerView.addSubview(rearrangeTextLabel)
         
         recipesTableView.tableFooterView = footerView
         recipesTableView.separatorStyle = .none
@@ -130,9 +141,11 @@ class SelectedRecipesViewController: UIViewController {
         recipesTableView.showsVerticalScrollIndicator = false
         
         textLabel1.translatesAutoresizingMaskIntoConstraints = false
-        textLabel2.translatesAutoresizingMaskIntoConstraints = false
+        rearrangeTextLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel1.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
-        textLabel2.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        rearrangeTextLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        textLabel1.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        rearrangeTextLabel.anchor(top: textLabel1.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
         
     }
 
@@ -288,12 +301,12 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         
         let movedCell = tableView.cellForRow(at: sourceIndexPath) as! RecipeCell
         let destinatedCell = tableView.cellForRow(at: destinationIndexPath) as! RecipeCell
-        var movedObject: Any!
+        var movedObject: Any?
         
 //        print("sourceIndex \(sourceIndexPath) , destIndex: \(destinationIndexPath)")
         
-        var movedObjectSourceCustomOrder = 0
-        var movedObjectDestinatedCustomOrder = 0
+        var movedObjectSourceCustomOrder: Int?
+        var movedObjectDestinatedCustomOrder: Int?
 
         switch movedCell.searchType {
         case .apiRecipes:
@@ -324,13 +337,14 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             movedObjectDestinatedCustomOrder = destinatedCell.selectedCustomRecipe.customOrder
         }
         
+//        print(previouslySelectedRecipes.map{$0.title})
+//        print(previouslySelectedRecipes.map{$0.customOrder})
         
-
-        print(previouslySelectedRecipes.map{$0.title})
-        print(previouslySelectedRecipes.map{$0.customOrder})
-
-        Event.shared.reassignCustomOrderAfterReorder(sourceCustomOrder: movedObjectSourceCustomOrder, destinationCustomOrder: movedObjectDestinatedCustomOrder, movedObject: movedObject)
-
+        if let sourceCustomOrder = movedObjectSourceCustomOrder, let destinationCustomOrder = movedObjectDestinatedCustomOrder,
+            let movedObject = movedObject {
+            Event.shared.reassignCustomOrderAfterReorder(sourceCustomOrder: sourceCustomOrder, destinationCustomOrder: destinationCustomOrder, movedObject: movedObject)
+        }
+        
         self.updateLocalVariable()
         
         DispatchQueue.main.async {
@@ -343,7 +357,6 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         print(previouslySelectedCustomRecipes.map{$0.title})
         print(previouslySelectedCustomRecipes.map{$0.customOrder})
 
-//          previouslySelectedRecipes.remove(at: sourceIndexPath.row)
         //        UIView.transition(with: recipesTableView, duration: 0.3,
         //                          options: .transitionCrossDissolve,
         //                          animations: {self.previouslySelectedRecipes.insert(movedObject, at: destinationIndexPath.row)},
