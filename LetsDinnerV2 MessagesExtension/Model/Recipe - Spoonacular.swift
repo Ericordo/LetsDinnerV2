@@ -20,9 +20,10 @@ struct Recipe {
     
     init() {}
     
-    init(title: String, sourceUrl: String) {
+    init(title: String, sourceUrl: String, customOrder: Int) {
         self.sourceUrl = sourceUrl
         self.title = title
+        self.customOrder = customOrder
     }
         
     init(dict: Dictionary<String, Any>) {
@@ -33,7 +34,6 @@ struct Recipe {
         if let imageUrl = dict["image"] as? String {
             self.imageUrl = imageUrl
         }
-        
         if let sourceUrl = dict["sourceUrl"] as? String {
             self.sourceUrl = sourceUrl
         }

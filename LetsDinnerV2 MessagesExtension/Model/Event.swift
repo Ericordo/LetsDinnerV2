@@ -93,6 +93,7 @@ class Event {
         isSyncAlertShownInTaskListVC = false
     }
     
+    // MARK: Message Data
     func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "bubbleBackground")
@@ -108,6 +109,7 @@ class Event {
         message.md.set(value: dinnerLocation, forKey: "dinnerLocation")
         message.md.set(value: eventDescription, forKey: "eventDescription")
         message.md.set(value: dateTimestamp, forKey: "dateTimestamp")
+        
         if eventCreation {
             if let hostID = currentUser?.identifier {
                 message.md.set(value: hostID, forKey: "hostID")
@@ -124,13 +126,39 @@ class Event {
          return message
     }
     
+    func parseMessage(message: MSMessage) {
+        if let dinnerName = message.md.string(forKey: "dinnerName") {
+            self.dinnerName = dinnerName
+        }
+        if let hostName = message.md.string(forKey: "hostName") {
+            self.hostName = hostName
+        }
+        if let dinnerLocation = message.md.string(forKey: "dinnerLocation") {
+            self.dinnerLocation = dinnerLocation
+        }
+        if let eventDescription = message.md.string(forKey: "eventDescription") {
+            self.eventDescription = eventDescription
+        }
+        if let dateTimestamp = message.md.double(forKey: "dateTimestamp") {
+            self.dateTimestamp = dateTimestamp
+        }
+        if let firebaseEventUid = message.md.string(forKey: "firebaseEventUid") {
+            self.firebaseEventUid = firebaseEventUid
+        }
+        if let hostIdentifier = message.md.string(forKey: "hostID") {
+            self.hostIdentifier = hostIdentifier
+        }
+        observeEvent()
+    }
     
+    // MARK: FireBase Data
     func uploadEventToFirebase() -> String {
         guard let userID = currentUser?.identifier else { return "error" }
         let reference = Database.database().reference()
 //          let ingredients = selectedRecipes.map { $0.ingredientList }
           
         let childUid = reference.child(userID).child("Events").childByAutoId()
+        
         let parameters: [String : Any] = ["dinnerName" : dinnerName,
                                           "hostName" : hostName,
                                           "dateTimestamp" : dateTimestamp,
@@ -142,8 +170,10 @@ class Event {
         if !selectedRecipes.isEmpty {
               selectedRecipes.forEach { recipe in
                   let recipeChild = childUid.child("recipes").childByAutoId()
+                
                   let parameters : [String : Any] = ["title" : recipe.title ?? "",
-                                                     "sourceUrl" : recipe.sourceUrl ?? ""]
+                                                     "sourceUrl" : recipe.sourceUrl ?? "",
+                                                    "customOrder":recipe.customOrder]
                   recipeChild.setValue(parameters)
               }
           }
@@ -162,7 +192,8 @@ class Event {
                 var parameters : [String : Any] = ["title" : customRecipe.title,
                                                    "ingredients" : ingredients,
                                                    "id" : customRecipe.id,
-                                                   "servings" : customRecipe.servings]
+                                                   "servings" : customRecipe.servings,
+                                                   "customOrder" : customRecipe.customOrder]
 
                 if let downloadUrl = customRecipe.downloadUrl {
                     parameters["downloadUrl"] = downloadUrl
@@ -230,8 +261,6 @@ class Event {
         
       }
     
-    
-    
     func observeEvent() {
         // Run Two times when click on the event in message bubble
         
@@ -280,6 +309,7 @@ class Event {
                     guard let state = dict["state"] as? Int else { return }
                     guard let isCustom = dict["isCustom"] as? Bool else { return }
                     guard let parentRecipe = dict["parentRecipe"] as? String else { return }
+                    
                     let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
                     if let amount = dict["metricAmount"] as? Double {
                         task.metricAmount = amount
@@ -288,6 +318,7 @@ class Event {
                         task.metricUnit = unit
                     }
                     tasks.append(task)
+                    
                     let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
                     if let amount = dict["metricAmount"] as? Double {
                         newTask.metricAmount = amount
@@ -303,12 +334,14 @@ class Event {
             self.tasks = tasks
             
             var recipes = [Recipe]()
+            
             if let selectedRecipes = value["recipes"] as? [String : Any] {
                 selectedRecipes.forEach { (key, value) in
                     guard let dict = value as? [String : Any] else { return }
                     guard let title = dict["title"] as? String else { return }
                     guard let sourceUrl = dict["sourceUrl"] as? String else { return }
-                    let recipe = Recipe(title: title, sourceUrl: sourceUrl)
+                    guard let customOrder = dict["customOrder"] as? Int else { return }
+                    let recipe = Recipe(title: title, sourceUrl: sourceUrl, customOrder: customOrder)
                     recipes.append(recipe)
                 }
             }
@@ -321,9 +354,13 @@ class Event {
                     guard let title = dict["title"] as? String else { return }
                     guard let servings = dict["servings"] as? Int else { return }
                     guard let ingredients = dict["ingredients"] as? [String : String] else { return }
+                    guard let customOrder = dict["customOrder"] as? Int else { return }
+                    
                     let customRecipe = CustomRecipe()
                     customRecipe.title = title
                     customRecipe.servings = servings
+                    customRecipe.customOrder = customOrder
+                    
                     ingredients.forEach { (key, value) in
                         let customIngredient = CustomIngredient()
                         customIngredient.name = key + value
@@ -352,31 +389,9 @@ class Event {
     }
 
     
-    func parseMessage(message: MSMessage) {
-        if let dinnerName = message.md.string(forKey: "dinnerName") {
-            self.dinnerName = dinnerName
-        }
-        if let hostName = message.md.string(forKey: "hostName") {
-            self.hostName = hostName
-        }
-        if let dinnerLocation = message.md.string(forKey: "dinnerLocation") {
-            self.dinnerLocation = dinnerLocation
-        }
-        if let eventDescription = message.md.string(forKey: "eventDescription") {
-            self.eventDescription = eventDescription
-        }
-        if let dateTimestamp = message.md.double(forKey: "dateTimestamp") {
-            self.dateTimestamp = dateTimestamp
-        }
-        if let firebaseEventUid = message.md.string(forKey: "firebaseEventUid") {
-            self.firebaseEventUid = firebaseEventUid
-        }
-        if let hostIdentifier = message.md.string(forKey: "hostID") {
-            self.hostIdentifier = hostIdentifier
-        }
-        observeEvent()
-    }
     
+    
+    // MARK: Update Firebase Task
 
     func updateFirebaseTasks() {
         tasks.forEach { task in
@@ -592,7 +607,7 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
     func deleteUserPicOnFirebase() {}
     func updateUserPicOnFirebase() {}
     
-    // MARK: Recipe Managing Order
+    // MARK: Recipe Managing Order (Local Algo)
     
     func findTheIndexOfLastCustomOrderFromAllRecipes() -> Int? {
         
