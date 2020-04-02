@@ -11,7 +11,6 @@ import UIKit
 protocol AnswerCellDelegate: class {
     func addToCalendarAlert()
     func declineEventAlert()
-    
     func declineInvitation() 
 }
 

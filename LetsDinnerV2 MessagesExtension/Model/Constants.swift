@@ -167,6 +167,8 @@ enum LabelStrings {
     static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
     static let acceptedLabel = "You've accepted the invitation"
     static let declinedLabel = "You've declined the invitation"
+    static let allDoneLabel = "All done, greatjob! Everything has been taken care of. Let the party begins! 😎🥳"
+    static let nothingToDoLabel = "Nope! Either, there is nothing to do or the host is handling everything 😬🙌"
     
     
     // Reschedule

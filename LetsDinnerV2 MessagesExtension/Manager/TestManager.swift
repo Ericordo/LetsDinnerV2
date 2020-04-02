@@ -25,7 +25,7 @@ class TestManager {
     var isDarkModeOn = false
     
     var isHost = true
-    var isStatusPending = true // isHost need to be false
+    var isStatusPending = false // isHost need to be false
     var isUserAcceptedEvent = true // isStatusPending need to be false
     
     // ===========================================================================

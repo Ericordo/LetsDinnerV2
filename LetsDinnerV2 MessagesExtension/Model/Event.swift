@@ -64,6 +64,7 @@ class Event {
     var participants = [User]()
     var tasks = [Task]()
     
+    var isAllTasksCompleted = false
     var isCancelled = false
     var isSyncAlertShownInTaskListVC = false
     
@@ -92,6 +93,7 @@ class Event {
         currentConversationServings = 2
         servingsNeedUpdate = false
         isCancelled = false
+        isSyncAlertShownInTaskListVC = false
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {
@@ -110,6 +112,7 @@ class Event {
         message.md.set(value: dinnerLocation, forKey: "dinnerLocation")
         message.md.set(value: eventDescription, forKey: "eventDescription")
         message.md.set(value: dateTimestamp, forKey: "dateTimestamp")
+        
         if eventCreation {
             if let hostID = currentUser?.identifier {
                 message.md.set(value: hostID, forKey: "hostID")
@@ -128,13 +131,39 @@ class Event {
          return message
     }
     
+    func parseMessage(message: MSMessage) {
+        if let dinnerName = message.md.string(forKey: "dinnerName") {
+            self.dinnerName = dinnerName
+        }
+        if let hostName = message.md.string(forKey: "hostName") {
+            self.hostName = hostName
+        }
+        if let dinnerLocation = message.md.string(forKey: "dinnerLocation") {
+            self.dinnerLocation = dinnerLocation
+        }
+        if let eventDescription = message.md.string(forKey: "eventDescription") {
+            self.eventDescription = eventDescription
+        }
+        if let dateTimestamp = message.md.double(forKey: "dateTimestamp") {
+            self.dateTimestamp = dateTimestamp
+        }
+        if let firebaseEventUid = message.md.string(forKey: "firebaseEventUid") {
+            self.firebaseEventUid = firebaseEventUid
+        }
+        if let hostIdentifier = message.md.string(forKey: "hostID") {
+            self.hostIdentifier = hostIdentifier
+        }
+        observeEvent()
+    }
     
+    // MARK: FireBase Data
     func uploadEventToFirebase() -> String {
         guard let userID = currentUser?.identifier else { return "error" }
         let reference = Database.database().reference()
 //          let ingredients = selectedRecipes.map { $0.ingredientList }
           
         let childUid = reference.child(userID).child("Events").childByAutoId()
+        
         let parameters: [String : Any] = ["dinnerName" : dinnerName,
                                           "hostName" : hostName,
                                           "dateTimestamp" : dateTimestamp,
@@ -146,8 +175,10 @@ class Event {
         if !selectedRecipes.isEmpty {
               selectedRecipes.forEach { recipe in
                   let recipeChild = childUid.child("recipes").childByAutoId()
+                
                   let parameters : [String : Any] = ["title" : recipe.title ?? "",
-                                                     "sourceUrl" : recipe.sourceUrl ?? ""]
+                                                     "sourceUrl" : recipe.sourceUrl ?? "",
+                                                    "customOrder":recipe.customOrder]
                   recipeChild.setValue(parameters)
               }
           }
@@ -166,7 +197,8 @@ class Event {
                 var parameters : [String : Any] = ["title" : customRecipe.title,
                                                    "ingredients" : ingredients,
                                                    "id" : customRecipe.id,
-                                                   "servings" : customRecipe.servings]
+                                                   "servings" : customRecipe.servings,
+                                                   "customOrder" : customRecipe.customOrder]
 
                 if let downloadUrl = customRecipe.downloadUrl {
                     parameters["downloadUrl"] = downloadUrl
@@ -234,8 +266,6 @@ class Event {
         
       }
     
-    
-    
     func observeEvent() {
         // Run Two times when click on the event in message bubble
         
@@ -284,6 +314,7 @@ class Event {
                     guard let state = dict["state"] as? Int else { return }
                     guard let isCustom = dict["isCustom"] as? Bool else { return }
                     guard let parentRecipe = dict["parentRecipe"] as? String else { return }
+                    
                     let task = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
                     if let amount = dict["metricAmount"] as? Double {
                         task.metricAmount = amount
@@ -292,6 +323,7 @@ class Event {
                         task.metricUnit = unit
                     }
                     tasks.append(task)
+                    
                     let newTask = Task(taskName: title, assignedPersonUid: ownerUid, taskState: state, taskUid: key, assignedPersonName: ownerName, isCustom: isCustom, parentRecipe: parentRecipe)
                     if let amount = dict["metricAmount"] as? Double {
                         newTask.metricAmount = amount
@@ -307,12 +339,14 @@ class Event {
             self.tasks = tasks
             
             var recipes = [Recipe]()
+            
             if let selectedRecipes = value["recipes"] as? [String : Any] {
                 selectedRecipes.forEach { (key, value) in
                     guard let dict = value as? [String : Any] else { return }
                     guard let title = dict["title"] as? String else { return }
                     guard let sourceUrl = dict["sourceUrl"] as? String else { return }
-                    let recipe = Recipe(title: title, sourceUrl: sourceUrl)
+                    guard let customOrder = dict["customOrder"] as? Int else { return }
+                    let recipe = Recipe(title: title, sourceUrl: sourceUrl, customOrder: customOrder)
                     recipes.append(recipe)
                 }
             }
@@ -325,9 +359,13 @@ class Event {
                     guard let title = dict["title"] as? String else { return }
                     guard let servings = dict["servings"] as? Int else { return }
                     guard let ingredients = dict["ingredients"] as? [String : String] else { return }
+                    guard let customOrder = dict["customOrder"] as? Int else { return }
+                    
                     let customRecipe = CustomRecipe()
                     customRecipe.title = title
                     customRecipe.servings = servings
+                    customRecipe.customOrder = customOrder
+                    
                     ingredients.forEach { (key, value) in
                         let customIngredient = CustomIngredient()
                         customIngredient.name = key + value
@@ -356,31 +394,9 @@ class Event {
     }
 
     
-    func parseMessage(message: MSMessage) {
-        if let dinnerName = message.md.string(forKey: "dinnerName") {
-            self.dinnerName = dinnerName
-        }
-        if let hostName = message.md.string(forKey: "hostName") {
-            self.hostName = hostName
-        }
-        if let dinnerLocation = message.md.string(forKey: "dinnerLocation") {
-            self.dinnerLocation = dinnerLocation
-        }
-        if let eventDescription = message.md.string(forKey: "eventDescription") {
-            self.eventDescription = eventDescription
-        }
-        if let dateTimestamp = message.md.double(forKey: "dateTimestamp") {
-            self.dateTimestamp = dateTimestamp
-        }
-        if let firebaseEventUid = message.md.string(forKey: "firebaseEventUid") {
-            self.firebaseEventUid = firebaseEventUid
-        }
-        if let hostIdentifier = message.md.string(forKey: "hostID") {
-            self.hostIdentifier = hostIdentifier
-        }
-        observeEvent()
-    }
     
+    
+    // MARK: Update Firebase Tasks
 
     func updateFirebaseTasks() {
         tasks.forEach { task in
@@ -605,5 +621,274 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
         
     func deleteUserPicOnFirebase() {}
     func updateUserPicOnFirebase() {}
+    
+    // MARK: Recipe Managing Order (Local Algo)
+    
+    func findTheIndexOfLastCustomOrderFromAllRecipes() -> Int? {
+        
+        var lastIndex = 0
+        // Loop throught the customOrder two arrays
+
+        let maxNumInSelectedRecipes = selectedRecipes.map{$0.customOrder}.max()
+        let totalNumberOfSelectedRecipes = selectedRecipes.count
+        
+        let maxNumInSelectedCustomRecipes = selectedCustomRecipes.map{$0.customOrder}.max()
+        let totalNumberOfselectedCustomRecipes = selectedCustomRecipes.count
+        
+        // Cross checking
+//        print(maxNumInSelectedRecipes)
+//        print("= checK \(totalNumberOfSelectedRecipes)")
+        
+        // Loop through selectedCustomRecipes
+        if let maxNumInSelectedRecipes = maxNumInSelectedRecipes {
+            lastIndex = maxNumInSelectedRecipes
+        }
+        
+        if let maxNumInSelectedCustomRecipes = maxNumInSelectedCustomRecipes {
+            if lastIndex < maxNumInSelectedCustomRecipes {
+                lastIndex = maxNumInSelectedCustomRecipes
+            }
+        }
+            
+        return lastIndex
+    }
+    
+    func reassignCustomOrderAfterRemoval(recipeType: SearchType, index: Int) {
+        
+        /* find the global custom order (done)
+            turn the global custom order to 0 (done)
+            -1 the global customorder which larger than the deleted one
+        */
+        
+        var customOrder = 0
+        
+        if recipeType == .apiRecipes {
+            customOrder = self.selectedRecipes[index].customOrder
+            self.selectedRecipes[index].customOrder = 0
+        } else {
+            customOrder = self.selectedCustomRecipes[index].customOrder
+            self.selectedCustomRecipes[index].customOrder = 0
+        }
+        
+        if !selectedRecipes.isEmpty {
+            for (index, recipe) in selectedRecipes.enumerated() {
+                if recipe.customOrder > customOrder {
+                    selectedRecipes[index].customOrder -= 1
+                }
+            }
+        }
+        
+        if !selectedCustomRecipes.isEmpty {
+            for (index, recipe) in selectedCustomRecipes.enumerated() {
+                if recipe.customOrder > customOrder {
+                    selectedCustomRecipes[index].customOrder -= 1
+                }
+            }
+        }
+    }
+    
+    func reassignCustomOrderAfterReorder(sourceCustomOrder: Int, destinationCustomOrder: Int, movedObject: Any) {
+        
+        /* Save the object
+        // Find the object orginal customOrder
+        // Find the object destination customOrder
+        // Chnage it to desination
+         */
+        
+        var movedObjectIndex = 0
+        var movedObjectOwnTypeDestinationIndex = 0
+        
+        // locate the movedObjectIndex
+        if movedObject is Recipe {
+            for index in 0 ... selectedRecipes.count - 1 {
+                if selectedRecipes[index].customOrder == sourceCustomOrder {
+                    movedObjectIndex = index
+                    break
+                }
+            }
+        } else {
+            for index in 0 ... selectedCustomRecipes.count - 1 {
+                if selectedCustomRecipes[index].customOrder == sourceCustomOrder {
+                    movedObjectIndex = index
+                    break
+                }
+            }
+        }
+
+        print(sourceCustomOrder,destinationCustomOrder)
+        
+        if sourceCustomOrder < destinationCustomOrder {
+            // MARK: Moving Foward
+            
+            // Find the recipes that need to move
+            let recipes = selectedRecipes.filter { $0.customOrder > sourceCustomOrder && $0.customOrder <= destinationCustomOrder}
+            let customRecipes = selectedCustomRecipes.filter { $0.customOrder > sourceCustomOrder && $0.customOrder <= destinationCustomOrder}
+            
+            let customOrderApiRecipesNeedToBeUpdated = Array(recipes.map{$0.customOrder})
+            let customOrderCustomRecipesNeedToBeUpdated = Array(customRecipes.map{$0.customOrder})
+            
+            // - 1 the selected Array (previous ones)
+            if !customOrderApiRecipesNeedToBeUpdated.isEmpty{
+                for customOrder in customOrderApiRecipesNeedToBeUpdated {
+                      for index in 0 ... selectedRecipes.count - 1 {
+                          // locate destintation index in own type of array（first)
+                          
+                          if movedObject is Recipe {
+                              if selectedRecipes[index].customOrder == customOrderApiRecipesNeedToBeUpdated.last {
+                                  movedObjectOwnTypeDestinationIndex = index
+                              }
+                          }
+        
+                          if selectedRecipes[index].customOrder == customOrder {
+                              selectedRecipes[index].customOrder -= 1
+                              break
+                          }
+                      }
+                  }
+            }
+            
+            if !customOrderCustomRecipesNeedToBeUpdated.isEmpty {
+                for customOrder in customOrderCustomRecipesNeedToBeUpdated {
+                    for index in 0 ... selectedCustomRecipes.count - 1 {
+                        // locate destintation index （first)
+                        if movedObject is CustomRecipe {
+                            if selectedCustomRecipes[index].customOrder == customOrderCustomRecipesNeedToBeUpdated.last {
+                                movedObjectOwnTypeDestinationIndex = index
+                            }
+                        }
+                        
+                        
+                        if selectedCustomRecipes[index].customOrder == customOrder {
+                            selectedCustomRecipes[index].customOrder -= 1
+                            break
+                        }
+                    }
+                }
+            }
+            
+//            print(movedObjectOwnTypeDestinationIndex)
+        
+        } else {
+            // MARK: Moving backward
+            let recipes = selectedRecipes.filter { $0.customOrder < sourceCustomOrder && $0.customOrder >= destinationCustomOrder}
+            let customRecipes = selectedCustomRecipes.filter { $0.customOrder < sourceCustomOrder && $0.customOrder >= destinationCustomOrder}
+            
+            let customOrderApiRecipesToBeUpdated = Array(recipes.map{$0.customOrder})
+            let customOrderCustomRecipesToBeUpdated = Array(customRecipes.map{$0.customOrder})
+            
+            // + 1 customOrder for previous
+            if !customOrderApiRecipesToBeUpdated.isEmpty {
+                for customOrder in customOrderApiRecipesToBeUpdated {
+                    for index in (0 ... selectedRecipes.count - 1).reversed(){
+                        // locate destintation index
+                        if movedObject is Recipe {
+                            if selectedRecipes[index].customOrder == customOrderApiRecipesToBeUpdated.first {
+                                movedObjectOwnTypeDestinationIndex = index
+                            }
+                        }
+                        
+                        if selectedRecipes[index].customOrder == customOrder {
+                            selectedRecipes[index].customOrder += 1
+                            break
+                        }
+                        
+                    }
+                }
+            }
+            
+            if !customOrderCustomRecipesToBeUpdated.isEmpty {
+                for customOrder in customOrderCustomRecipesToBeUpdated {
+                    for index in (0 ... selectedCustomRecipes.count - 1).reversed(){
+                        // locate destintation index
+                        if movedObject is Recipe {
+                            if selectedCustomRecipes[index].customOrder == customOrderCustomRecipesToBeUpdated.first {
+                                movedObjectOwnTypeDestinationIndex = index
+                            }
+                        }
+                        
+                        if selectedCustomRecipes[index].customOrder == customOrder {
+                            selectedCustomRecipes[index].customOrder += 1
+                            break
+                        }
+                        
+                    }
+                }
+            }
+            
+        }
+        
+        // Reorder the movedObject customOrder (removed object)
+        if movedObject is Recipe {
+            selectedRecipes.remove(at: movedObjectIndex)
+            selectedRecipes.insert(movedObject as! Recipe, at: movedObjectOwnTypeDestinationIndex)
+            
+            // add the customOrder to the newly inserted recipe
+            selectedRecipes[movedObjectOwnTypeDestinationIndex].customOrder = destinationCustomOrder
+        } else {
+            selectedCustomRecipes.remove(at: movedObjectIndex)
+            selectedCustomRecipes.insert(movedObject as! CustomRecipe, at: movedObjectOwnTypeDestinationIndex)
+            
+            selectedCustomRecipes[movedObjectOwnTypeDestinationIndex].customOrder = destinationCustomOrder
+        }
+        
+        sortAscRecipeByCustomOrder()
+
+    }
+    
+    func sortAscRecipeByCustomOrder() {
+        Event.shared.selectedRecipes = Event.shared.selectedRecipes.sorted(by: { $0.customOrder < $1.customOrder})
+        Event.shared.selectedCustomRecipes = Event.shared.selectedCustomRecipes.sorted(by: {$0.customOrder < $1.customOrder})
+    }
+    
+    func mergeAllRecipesTitles(selectedRecipes: [Recipe], selectedCustomRecipes: [CustomRecipe]) -> [String] {
+        var allRecipeTitles = [String]()
+        let totalNumberOfRecipes = selectedRecipes.count + selectedCustomRecipes.count
+        
+        guard totalNumberOfRecipes > 0 else { return [] }
+        for customOrder in 1 ... totalNumberOfRecipes {
+            if !selectedRecipes.isEmpty {
+                for index in 0 ... selectedRecipes.count - 1 {
+                    if selectedRecipes[index].customOrder == customOrder {
+                        allRecipeTitles.append(selectedRecipes[index].title ?? "")
+                        break
+                    }
+                }
+            }
+            
+            if !selectedCustomRecipes.isEmpty {
+                for index in 0 ... selectedCustomRecipes.count - 1 {
+                    if selectedCustomRecipes[index].customOrder == customOrder {
+                        allRecipeTitles.append(selectedCustomRecipes[index].title)
+                        break
+                    }
+                }
+            }
+        }
+        return allRecipeTitles
+    }
+    
+    // MARK: Task Management
+    
+    func calculateTaskCompletionPercentage() -> Double {
+        var numberOfCompletedTasks = 0
+        
+        self.tasks.forEach { task in
+            if task.taskState == .completed {
+                numberOfCompletedTasks += 1
+            }
+        }
+        
+        let percentage : Double = Double(numberOfCompletedTasks)/Double(self.tasks.count)
+        
+        return percentage
+    }
+    
+    func checkIsAllTasksCompleted() -> Bool {
+        if calculateTaskCompletionPercentage() == 1 {
+            return true
+        } else {
+            return false
+        }
+    }
 
 }

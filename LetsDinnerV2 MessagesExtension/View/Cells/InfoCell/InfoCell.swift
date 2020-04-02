@@ -12,19 +12,20 @@ class InfoCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var cellSeparator: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         selectionStyle = .none
         infoLabel.textColor = .secondaryTextLabel
+        
         self.backgroundColor = .backgroundColor
+        
+        cellSeparator.isHidden = true
 
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
     
 }

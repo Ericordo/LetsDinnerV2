@@ -11,6 +11,7 @@ import UIKit
 class AnswerDeclinedCell: UITableViewCell {
 
     @IBOutlet weak var declineIcon: UIButton!
+    @IBOutlet weak var declineLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,10 +21,8 @@ class AnswerDeclinedCell: UITableViewCell {
         declineIcon.clipsToBounds = true
         declineIcon.layer.cornerRadius = declineIcon.frame.height / 2
         
-        
+        declineLabel.text = LabelStrings.declinedLabel
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
+    
 }

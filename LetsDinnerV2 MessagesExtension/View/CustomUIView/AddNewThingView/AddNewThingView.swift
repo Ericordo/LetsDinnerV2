@@ -70,6 +70,14 @@ class AddNewThingView: UIView {
         return textField
     }()
     
+    let dragIndicator: UIView = {
+        let indicator = UIView()
+        indicator.frame = CGRect(x: 0, y: 0, width: 36, height: 5)
+        indicator.backgroundColor = UIColor.keyboardBackground
+        indicator.layer.cornerRadius = 3
+        return indicator
+    }()
+    
     let sectionSelectionInput = SectionSelectionInput()
     
     init(sectionNames: [String], selectedSection: String?) {
@@ -131,6 +139,9 @@ extension AddNewThingView: SectionSelectionInputDelegate {
     
 }
 
+// MARK: TextField Delegate
+
+
 extension AddNewThingView: UITextFieldDelegate {
     
     // Add things
@@ -181,7 +192,6 @@ extension AddNewThingView: UITextFieldDelegate {
     }
     
     
-    
     // Check textField Length
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -191,8 +201,7 @@ extension AddNewThingView: UITextFieldDelegate {
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
         
-        
-        
+    
         switch textField {
         case newThingTitleTextField:
             return count <= 30
@@ -242,17 +251,16 @@ extension AddNewThingView {
         self.addSubview(amountTextField)
         self.addSubview(unitTextField)
         self.addSubview(sectionSelectionInput)
+        self.addSubview(dragIndicator)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         newThingTitleTextField.translatesAutoresizingMaskIntoConstraints = false
         amountTextField.translatesAutoresizingMaskIntoConstraints = false
         unitTextField.translatesAutoresizingMaskIntoConstraints = false
         sectionSelectionInput.translatesAutoresizingMaskIntoConstraints = false
+        dragIndicator.translatesAutoresizingMaskIntoConstraints = false
         
-        containerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        containerView.anchor(top: self.topAnchor, leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor)
         containerView.heightAnchor.constraint(equalToConstant: 94).isActive = true
         
         newThingTitleTextField.setContentHuggingPriority(.init(rawValue: 249), for: .horizontal)
@@ -279,6 +287,11 @@ extension AddNewThingView {
         sectionSelectionInput.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
         sectionSelectionInput.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         sectionSelectionInput.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        dragIndicator.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
+        dragIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        dragIndicator.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        dragIndicator.widthAnchor.constraint(equalToConstant: 36).isActive = true
         
         
         

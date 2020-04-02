@@ -12,6 +12,7 @@ class AnswerAcceptedCell: UITableViewCell {
 
     @IBOutlet weak var acceptIcon: UIButton!
     @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var acceptLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,6 +21,8 @@ class AnswerAcceptedCell: UITableViewCell {
 
         acceptIcon.clipsToBounds = true
         acceptIcon.layer.cornerRadius = acceptIcon.frame.height / 2
+        
+        acceptLabel.text = LabelStrings.acceptedLabel
         
         updateButton.layer.masksToBounds = true
         updateButton.layer.cornerRadius = 8.0

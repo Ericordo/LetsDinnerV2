@@ -173,8 +173,8 @@ extension UIColor {
                return UIColor { (traitCollection: UITraitCollection) -> UIColor in
                    if traitCollection.userInterfaceStyle == .dark {
                        return UIColor(red: 31/255, green: 31/255, blue: 31/255, alpha: 1)
-                   } else { return UIColor(red: 210/255, green: 211/255, blue: 217/255, alpha: 1) }}
-           } else { return UIColor(red: 210/255, green: 211/255, blue: 217/255, alpha: 1) }
+                   } else { return UIColor(red: 214/255, green: 216/255, blue: 221/255, alpha: 1) }}
+           } else { return UIColor(red: 214/255, green: 216/255, blue: 221/255, alpha: 1) }
        }
     
     static var keyboardSeparator: UIColor {

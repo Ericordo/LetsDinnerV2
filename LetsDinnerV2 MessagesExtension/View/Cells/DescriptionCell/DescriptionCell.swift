@@ -25,29 +25,13 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         self.backgroundColor = .backgroundColor
 
         // Initialization code
-        self.recipesCollectionView.dataSource = self
-        self.recipesCollectionView.delegate = self
-        self.recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 17)
-        self.recipesCollectionView.collectionViewLayout = layout
-        
-        self.descriptionLabel.backgroundColor = nil
-        self.descriptionLabel.textColor = Colors.dullGrey
+        self.configureUI()
+        self.mergeRecipesTitles()
         
         if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty {
             recipesCollectionView.removeFromSuperview()
         }
         
-        selectedRecipes.forEach { recipe in
-                  allRecipesTitles.append(recipe.title ?? "")
-              }
-              selectedCustomRecipes.forEach { customRecipe in
-                  allRecipesTitles.append(customRecipe.title)
-              }
     }
     
     override func layoutSubviews() {
@@ -61,6 +45,23 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         // Configure the view for the selected state
     }
     
+    private func configureUI() {
+        self.recipesCollectionView.dataSource = self
+        self.recipesCollectionView.delegate = self
+        self.recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 17)
+
+        self.recipesCollectionView.collectionViewLayout = layout
+        
+        self.descriptionLabel.backgroundColor = nil
+        self.descriptionLabel.textColor = Colors.dullGrey
+    }
+
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allRecipesTitles.count
      }
@@ -71,6 +72,8 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell
      }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipeName = allRecipesTitles[indexPath.row]
@@ -98,14 +101,25 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    
+    
+    
+    
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
             let vc = CustomSafariVC(url: url)
-//            vc.preferredControlTintColor = Colors.newGradientRed
-//            vc.registerForNotification()
             self.window?.rootViewController?.present(vc, animated: true, completion: nil)
         }
+    }
+    
+    
+    private func mergeRecipesTitles() {
+        allRecipesTitles = Event.shared.mergeAllRecipesTitles(selectedRecipes: selectedRecipes, selectedCustomRecipes: selectedCustomRecipes)
     }
     
 }

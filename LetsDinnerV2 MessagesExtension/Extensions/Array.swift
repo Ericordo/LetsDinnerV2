@@ -23,3 +23,8 @@ extension Array where Element: Comparable {
     }
 }
 
+extension Array {
+    var last: Element {
+        return self[self.endIndex - 1]
+    }
+}

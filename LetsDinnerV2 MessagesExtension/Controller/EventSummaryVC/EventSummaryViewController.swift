@@ -48,6 +48,8 @@ class EventSummaryViewController: UIViewController {
     lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
     var selectedDate: Double?
     
+    var swipeDownGestureToHideRescheduleView = UISwipeGestureRecognizer()
+
     weak var delegate: EventSummaryViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -56,10 +58,16 @@ class EventSummaryViewController: UIViewController {
         
         self.setupTableView()
         self.registerCells()
+        self.configureGestureRecognizers()
             
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
         
+    }
+    
+    private func configureGestureRecognizers() {
+        swipeDownGestureToHideRescheduleView = UISwipeGestureRecognizer(target: self, action: #selector(cancelReschedule))
+        swipeDownGestureToHideRescheduleView.direction = .down
     }
     
     @objc func updateTable() {
@@ -183,6 +191,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 infoCell.infoLabel.text = Event.shared.hostName
             }
             
+            infoCell.cellSeparator.isHidden = false
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -230,7 +239,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // answerCell = 120
         // hostInfo, locationInfo, dateInfo = 52
         // taskInfo: 350
-        // userInfo: 150
+        // userInfo: 160
         
         if let user = user {
             
@@ -255,12 +264,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                      RowItemNumber.locationInfo.rawValue,
                      RowItemNumber.descriptionInfo.rawValue:
                     return 0 // Hide Row
-                case RowItemNumber.taskInfo.rawValue:
-                    if Event.shared.tasks.count != 0 {
-                        return 350
-                    } else {
-                        return 100
-                    }
+//                case RowItemNumber.taskInfo.rawValue:
+//                    if Event.shared.tasks.count != 0 {
+//                        return 350
+//                    } else {
+//                        return 100
+//                    }
                 case RowItemNumber.userInfo.rawValue:
                     return 160
                 default:
@@ -334,10 +343,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    
-    // MARK: - Other Function
-    
-
 }
 
 // MARK: - AnswerCellDelegate
@@ -467,6 +472,8 @@ extension EventSummaryViewController: CancelCellDelegate {
     
     private func showRescheduleView() {
         view.addSubview(rescheduleView)
+        self.view.addGestureRecognizer(swipeDownGestureToHideRescheduleView)
+
         rescheduleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             rescheduleViewBottomConstraint,
@@ -488,6 +495,7 @@ extension EventSummaryViewController: CancelCellDelegate {
     
     @objc private func cancelReschedule() {
         view.layoutIfNeeded()
+
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
             self.darkView.alpha = 0.1
             self.rescheduleViewBottomConstraint.isActive = false
@@ -498,6 +506,8 @@ extension EventSummaryViewController: CancelCellDelegate {
             self.darkView.removeFromSuperview()
             self.rescheduleView.removeFromSuperview()
         }
+        
+        self.view.removeGestureRecognizer(swipeDownGestureToHideRescheduleView)
     }
     
     @objc private func didSelectDate(sender: UIDatePicker) {

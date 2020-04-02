@@ -6,6 +6,8 @@
 //  Copyright © 2019 Eric Ordonneau. All rights reserved.
 //
 
+/* Not using
+ 
 import UIKit
 
 class ProgressBar: UIView {
@@ -34,3 +36,5 @@ class ProgressBar: UIView {
     }
     
 }
+ 
+ */
