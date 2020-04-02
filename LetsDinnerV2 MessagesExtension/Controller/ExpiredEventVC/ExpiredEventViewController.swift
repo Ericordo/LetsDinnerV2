@@ -86,6 +86,7 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.hostInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
+            infoCell.cellSeparator.isHidden = false
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:

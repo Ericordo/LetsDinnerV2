@@ -65,7 +65,7 @@ class EventDescriptionViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 17, bottom: 0, right: 17)
         recipesCollectionView.collectionViewLayout = layout
         recipesCollectionView.backgroundColor = .backgroundColor
-        
+
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTextView(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -149,7 +149,7 @@ extension EventDescriptionViewController: UICollectionViewDelegate, UICollection
 
 extension EventDescriptionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-          return 30
+          return 20
       }
 }
 

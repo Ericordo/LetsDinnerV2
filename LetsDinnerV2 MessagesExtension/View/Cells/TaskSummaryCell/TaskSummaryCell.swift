@@ -23,6 +23,8 @@ class TaskSummaryCell: UITableViewCell {
     @IBOutlet weak var seeAllBeforeCreateEvent: UIButton!
     @IBOutlet weak var tasksCollectionView: UICollectionView!
     @IBOutlet weak var progressCircle: ProgressCircle!
+    @IBOutlet weak var taskSummaryLabel: UILabel!
+    @IBOutlet weak var tasksCollectionViewHeightConstraint: NSLayoutConstraint!
     
     weak var delegate: TaskSummaryCellDelegate?
     weak var reviewVCDelegate: TaskSummaryCellInReviewVCDelegate?
@@ -45,16 +47,51 @@ class TaskSummaryCell: UITableViewCell {
         self.backgroundColor = .backgroundColor
         tasksCollectionView.backgroundColor = .backgroundColor
 
-        seeAllButton.titleLabel?.textColor = Colors.highlightRed
-        seeAllBeforeCreateEvent.titleLabel?.textColor = Colors.highlightRed
+        seeAllButton.titleLabel?.textColor = UIColor.activeButton
+        seeAllBeforeCreateEvent.titleLabel?.textColor = UIColor.activeButton
         
-        if Event.shared.tasks.count != 0 {
+        Event.shared.isAllTasksCompleted = Event.shared.checkIsAllTasksCompleted()
+        
+        updateTaskSummaryLabel()
+        
+        if !Event.shared.tasks.isEmpty {
             seeAllButton.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
             seeAllBeforeCreateEvent.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
         } else {
             seeAllButton.setTitle("There is nothing to do!", for: .normal)
             seeAllBeforeCreateEvent.setTitle("Add some tasks here!", for: .normal)
         }
+    }
+    
+    private func updateTaskSummaryLabel() {
+        
+        taskSummaryLabel.textColor = .secondaryTextLabel
+        
+        if Event.shared.tasks.isEmpty {
+            taskSummaryLabel.isHidden = false
+            tasksCollectionView.isHidden = true
+            tasksCollectionViewHeightConstraint.isActive = false
+            
+            taskSummaryLabel.text = LabelStrings.nothingToDoLabel
+        } else {
+            
+            // Check is All Tasks Completed
+            if Event.shared.isAllTasksCompleted {
+                taskSummaryLabel.isHidden = false
+                tasksCollectionView.isHidden = true
+                tasksCollectionViewHeightConstraint.isActive = false
+
+                taskSummaryLabel.text = LabelStrings.allDoneLabel
+                
+            } else {
+                taskSummaryLabel.isHidden = true
+                // Show the task
+                tasksCollectionView.isHidden = false
+                tasksCollectionViewHeightConstraint.isActive = true
+
+            }
+        }
+
     }
     
     @objc func updateTable() {
