@@ -84,6 +84,7 @@ extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             infoCell.titleLabel.text = LabelStrings.host 
             infoCell.infoLabel.text = Event.shared.hostName
+            infoCell.cellSeparator.isHidden = false
             return infoCell
         case 1:
             infoCell.titleLabel.text = LabelStrings.date

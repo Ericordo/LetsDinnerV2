@@ -272,7 +272,7 @@ class TasksListViewController: UIViewController {
             servingsLabel.textColor = Colors.highlightRed
             Event.shared.servingsNeedUpdate = true
         } else {
-            servingsLabel.textColor = .systemGray
+            servingsLabel.textColor = .textLabel
             Event.shared.servingsNeedUpdate = false
         }
         updateUpdateButton()

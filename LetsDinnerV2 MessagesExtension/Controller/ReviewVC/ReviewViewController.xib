@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,9 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReviewViewController" customModule="Let_s_Dinner_" customModuleProvider="target">
             <connections>
-                <outlet property="buttonStackView" destination="bga-3P-lPr" id="uYe-6C-toc"/>
+                <outlet property="buttonStackView" destination="bga-3P-lPr" id="IoY-qn-Efb"/>
                 <outlet property="editButton" destination="BDO-Rx-trL" id="OQY-ge-KWv"/>
-                <outlet property="progressView" destination="Uwl-PZ-Jns" id="tml-4x-oUb"/>
                 <outlet property="sendButton" destination="aI0-Jh-k9M" id="b2v-Zi-o8Q"/>
                 <outlet property="sendButtonLeadingConstraint" destination="AFb-Hv-JC5" id="WFY-61-DnF"/>
                 <outlet property="separatorLine" destination="ohJ-Y0-Tgc" id="icI-E4-NrF"/>
@@ -27,36 +26,38 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're all set now! 💪 Ready to send your invite?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7B7-Wv-GEu">
-                    <rect key="frame" x="77.5" y="20" width="220" height="41"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bch-mF-ML6" userLabel="Top View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're all set now! 💪 Ready to send your invite?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7B7-Wv-GEu">
+                            <rect key="frame" x="77.5" y="20" width="220" height="41"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="220" id="BVf-bU-Drd"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" name="labelColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohJ-Y0-Tgc" userLabel="Section Separator">
+                            <rect key="frame" x="0.0" y="129.5" width="375" height="0.5"/>
+                            <color key="backgroundColor" name="sectionSeparatorLine"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="0.5" id="jo2-TA-GRl"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="220" id="BVf-bU-Drd"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" name="labelColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Uwl-PZ-Jns">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
-                    <constraints>
-                        <constraint firstAttribute="height" id="LYj-YD-udi"/>
-                    </constraints>
-                </progressView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohJ-Y0-Tgc" userLabel="Section Separator">
-                    <rect key="frame" x="0.0" y="129" width="375" height="0.5"/>
-                    <color key="backgroundColor" name="sectionSeparatorLine"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="0.5" id="jo2-TA-GRl"/>
+                        <constraint firstAttribute="trailing" secondItem="ohJ-Y0-Tgc" secondAttribute="trailing" id="3jQ-6e-Xao"/>
+                        <constraint firstItem="7B7-Wv-GEu" firstAttribute="top" secondItem="bch-mF-ML6" secondAttribute="top" constant="20" id="Agc-2y-5t8"/>
+                        <constraint firstAttribute="bottom" secondItem="ohJ-Y0-Tgc" secondAttribute="bottom" id="b5P-VX-qwt"/>
+                        <constraint firstItem="ohJ-Y0-Tgc" firstAttribute="leading" secondItem="bch-mF-ML6" secondAttribute="leading" id="dIl-O8-rhu"/>
+                        <constraint firstAttribute="height" constant="130" id="vDR-rs-KPb"/>
+                        <constraint firstItem="7B7-Wv-GEu" firstAttribute="centerX" secondItem="bch-mF-ML6" secondAttribute="centerX" id="wbr-7r-D28"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ojl-GP-L7P">
-                    <rect key="frame" x="0.0" y="130.5" width="375" height="536.5"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <color key="separatorColor" name="cellSeperatorLine"/>
-                    <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
-                </tableView>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="bga-3P-lPr">
-                    <rect key="frame" x="30" y="71" width="315" height="42"/>
+                    <rect key="frame" x="30" y="73" width="315" height="42"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BDO-Rx-trL" customClass="SecondaryButton" customModule="Let_s_Dinner_" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="141.5" height="42"/>
@@ -91,24 +92,24 @@
                         <constraint firstItem="aI0-Jh-k9M" firstAttribute="leading" secondItem="bga-3P-lPr" secondAttribute="leading" constant="173.5" id="AFb-Hv-JC5"/>
                     </constraints>
                 </stackView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ojl-GP-L7P">
+                    <rect key="frame" x="0.0" y="130" width="375" height="537"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="separatorColor" name="cellSeperatorLine"/>
+                    <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" name="backgroundColor"/>
             <constraints>
-                <constraint firstItem="Uwl-PZ-Jns" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="62i-i4-u99"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="BS3-z2-vKD"/>
-                <constraint firstItem="bga-3P-lPr" firstAttribute="top" secondItem="7B7-Wv-GEu" secondAttribute="bottom" constant="10" id="Cd3-Je-R2a"/>
-                <constraint firstItem="Uwl-PZ-Jns" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Fn1-JD-TEI"/>
-                <constraint firstItem="7B7-Wv-GEu" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="IXz-kQ-egB"/>
-                <constraint firstItem="ohJ-Y0-Tgc" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="16" id="IsF-F5-HKs"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bga-3P-lPr" secondAttribute="trailing" constant="30" id="MSB-Ue-twj"/>
-                <constraint firstItem="7B7-Wv-GEu" firstAttribute="top" secondItem="Uwl-PZ-Jns" secondAttribute="bottom" constant="20" id="RnW-8O-cZA"/>
-                <constraint firstItem="bga-3P-lPr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="amQ-tE-tuZ"/>
-                <constraint firstAttribute="trailing" secondItem="Uwl-PZ-Jns" secondAttribute="trailing" id="eT7-A3-m3p"/>
+                <constraint firstAttribute="trailing" secondItem="bch-mF-ML6" secondAttribute="trailing" id="M1n-sS-KrY"/>
+                <constraint firstItem="bga-3P-lPr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="U2d-Df-bJl"/>
+                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="bch-mF-ML6" secondAttribute="bottom" id="dOS-4h-zD9"/>
+                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="bga-3P-lPr" secondAttribute="bottom" constant="15" id="dS2-r5-yHX"/>
+                <constraint firstItem="bch-mF-ML6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="fJ5-qL-MqR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ojl-GP-L7P" secondAttribute="trailing" id="fod-eh-eTU"/>
-                <constraint firstItem="bga-3P-lPr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="hgi-IL-04v"/>
-                <constraint firstItem="ojl-GP-L7P" firstAttribute="top" secondItem="ohJ-Y0-Tgc" secondAttribute="bottom" constant="1" id="lsA-Gd-pTX"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ohJ-Y0-Tgc" secondAttribute="trailing" id="nKt-lE-kwQ"/>
-                <constraint firstItem="ohJ-Y0-Tgc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="u7I-9a-jQ4"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bga-3P-lPr" secondAttribute="trailing" constant="30" id="lt1-Yr-FN0"/>
+                <constraint firstItem="bch-mF-ML6" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="mXu-w8-OxU"/>
                 <constraint firstAttribute="bottom" secondItem="ojl-GP-L7P" secondAttribute="bottom" id="uj3-h1-efv"/>
                 <constraint firstItem="ojl-GP-L7P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="w40-TZ-dZ6"/>
             </constraints>
@@ -127,7 +128,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sectionSeparatorLine">
-            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.86274509803921573" green="0.86274509803921573" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
