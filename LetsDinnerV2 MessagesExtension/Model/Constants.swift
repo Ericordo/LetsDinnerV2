@@ -196,10 +196,15 @@ enum LabelStrings {
     static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶🍆💦", comment: "in WelcomeVC")
     static let letsGo = "Ok, Let's go!"
     
+    // Message Bubble
+    static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
 }
 
 enum Images {
     static let chatIcon = "chatIcon"
     static let inviteIcon = "inviteIcon"
     static let thingsIcon = "thingsIcon"
+    static let premiumBackground = "iMessageBackground"
+    static let standardBackground = "bubbleBackground"
+    static let chevronDisclosure = "chevronDisclosure"
 }
