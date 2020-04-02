@@ -17,6 +17,8 @@ class MessagesViewController: MSMessagesAppViewController {
     private var newNameRequested = false
     private var isProgressBarVCInitiated = false
     
+    var bubbleManager = BubbleManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -60,8 +62,15 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Conversation Handling
     
+    
     override func willBecomeActive(with conversation: MSConversation) {
-        presentViewController(for: conversation, with: presentationStyle)
+        
+        if presentationStyle == .transcript {
+            presentTranscriptView(for: conversation)
+        } else {
+            presentViewController(for: conversation, with: presentationStyle)
+        }
+        
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         // Use this method to configure the extension and restore previously stored state.
@@ -274,6 +283,38 @@ class MessagesViewController: MSMessagesAppViewController {
         self.addChildViewController(controller: controller)
         
 
+    }
+    
+    // MARK: Transcript View
+    
+    private func presentTranscriptView(for conversation: MSConversation) {
+//        let bubbleManager = BubbleManager()
+        guard conversation.selectedMessage?.url != nil else { return }
+        guard let message = conversation.selectedMessage else { return }
+        
+//        let identifier = activeConversation?.localParticipantIdentifier.uuidString
+        let bubbleInfo = bubbleManager.fetchBubbleInformation(for: message)
+//        let localEventId = BubbleManager().fetchLocalEventId(for: message)!
+//        let localEventId = bubbleManager.localEventId!
+//        let transcriptView = EventTranscriptView(bubbleInfo: bubbleInfo,
+//                                                 delegate: self,
+//                                                 localEventId: localEventId)
+        let transcriptView = EventTranscriptView(bubbleInfo: bubbleInfo,
+                                                 delegate: self)
+//        transcriptView.localUserId = identifier
+        view.addSubview(transcriptView)
+        transcriptView.translatesAutoresizingMaskIntoConstraints = false
+        let leadingConstant: CGFloat = conversation.isSelectedMessageFromMe ? 0 : 7
+        NSLayoutConstraint.activate([
+            transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstant),
+            transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
+            transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    override func contentSizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: 300, height: 160)
     }
     
     // MARK: Controller Animation
@@ -641,10 +682,12 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     
     func reviewVCDidTapSend(controller: ReviewViewController) {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true)
+        Event.shared.summary = "\(defaults.username) is inviting you to an event!"
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true, action: .createEvent)
         if Event.shared.firebaseEventUid == "error" {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UploadError"), object: nil)
         } else {
+            CloudManager.shared.saveUserInfoOnCloud(Invitation.accepted.rawValue, key: Event.shared.localEventId)
             sendMessage(message: message)
         }
     }
@@ -661,7 +704,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         Event.shared.cancelFirebaseEvent()
         Event.shared.summary = "\(defaults.username) canceled the event."
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .cancelEvent)
         sendMessageDirectly(message: message)
     }
     
@@ -669,7 +712,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         Event.shared.updateFirebaseDate(date)
         Event.shared.summary = "\(defaults.username) changed the date!"
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .rescheduleEvent)
         sendMessageDirectly(message: message)
     }
     
@@ -689,9 +732,9 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         }
         
         Event.shared.currentUser?.hasAccepted = hasAccepted
-        
+        CloudManager.shared.saveUserInfoOnCloud(hasAccepted.rawValue, key: Event.shared.localEventId)
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .answerInvitation)
         sendMessage(message: message)
     }
     
@@ -711,7 +754,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
     
     func tasksListVCDidTapSubmit(controller: TasksListViewController) {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false)
+        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .updateTasks)
         sendMessage(message: message)
     }
 }
@@ -731,6 +774,12 @@ extension MessagesViewController: ExpiredEventViewControllerDelegate {
         let controller = instantiateNewEventViewController()
         removeViewController()
         addChildViewController(controller: controller)
+    }
+}
+
+extension MessagesViewController: EventTranscriptViewDelegate {
+    func didTapBubble() {
+        self.requestPresentationStyle(.expanded)
     }
 }
 

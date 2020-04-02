@@ -173,6 +173,7 @@ extension AddNewThingView: UITextFieldDelegate {
                                parentRecipe: self.selectedSection ?? "Miscellaneous")
             
             // If metricAmount has been inputted
+            #warning("What happen when user enters an amount but not a unit?? e.g Eggs 6")
             if !amountTextField.text!.isEmpty && !unitTextField.text!.isEmpty {
                 newTask.metricUnit = unitTextField.text!
                 newTask.metricAmount = Double(amountTextField.text!)
@@ -214,7 +215,7 @@ extension AddNewThingView: UITextFieldDelegate {
         }
 
     }
-    
+    #warning("bad naming")
     private func isValidatedNumber(textField: UITextField, string: String) -> Bool {
         let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
         let components = string.components(separatedBy: inverseSet)

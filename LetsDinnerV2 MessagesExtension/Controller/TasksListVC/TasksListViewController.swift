@@ -97,8 +97,10 @@ class TasksListViewController: UIViewController {
     
     private func updateSummaryText() {
         let summaryForServings = "\(defaults.username) updated the servings!"
-        let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
-        let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName) and the servings!"
+//        let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
+        let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks."
+//        let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName) and the servings!"
+        let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks and the servings!"
         let tasksUpdate = Event.shared.tasksNeedUpdate
         let servingsUpdate = Event.shared.servingsNeedUpdate
         if tasksUpdate && servingsUpdate {

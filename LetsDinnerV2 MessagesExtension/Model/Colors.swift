@@ -43,6 +43,11 @@ enum Colors {
     // Blue
     static let okayBlue = UIColor(red: 0, green: 113/255, blue: 255/255, alpha: 1.0)
     static let darkOkayBlue = UIColor(red: 10/255, green: 132/255, blue: 255/255, alpha: 1.0)
+    
+    // Bubble
+    static let bubbleGrey = UIColor(red: 230/255, green: 229/255, blue: 235/255, alpha: 1.0)
+    static let bubbleBlack = UIColor(red: 38/255, green: 38/255, blue: 41/255, alpha: 1.0)
+    
 
     // Old Color
     static let gradientPink = UIColor(red:0.85, green:0.20, blue:0.42, alpha:1.0)

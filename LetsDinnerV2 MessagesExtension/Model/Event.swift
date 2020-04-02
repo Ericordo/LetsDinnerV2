@@ -68,6 +68,8 @@ class Event {
     var isCancelled = false
     var isSyncAlertShownInTaskListVC = false
     
+    var localEventId = ""
+    
     // MARK: - Functions
     
     func resetEvent() {
@@ -94,16 +96,16 @@ class Event {
         isSyncAlertShownInTaskListVC = false
     }
     
-    // MARK: Message Data
-    func prepareMessage(session: MSSession, eventCreation: Bool) -> MSMessage {
+    func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {
+        let bubbleManager = BubbleManager()
         let layout = MSMessageTemplateLayout()
         layout.image = UIImage(named: "bubbleBackground")
         layout.imageTitle = dinnerName
         layout.imageSubtitle = dinnerDate
         layout.caption = "Tap to view Dinner! "
-        
         let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
         message.layout = layout
+//        message.layout = bubbleManager.prepareMessageBubble()
         message.summaryText = summary
         message.md.set(value: dinnerName, forKey: "dinnerName")
         message.md.set(value: hostName, forKey: "hostName")
@@ -119,11 +121,13 @@ class Event {
             message.md.set(value: hostIdentifier, forKey: "hostID")
         }
         if eventCreation {
+            localEventId = UUID().uuidString
             let firebaseChildUid = uploadEventToFirebase()
             message.md.set(value: firebaseChildUid, forKey: "firebaseEventUid")
         } else {
             message.md.set(value: firebaseEventUid, forKey: "firebaseEventUid")
         }
+        bubbleManager.storeBubbleInformation(for: message, for: action)
          return message
     }
     
@@ -476,6 +480,16 @@ class Event {
             }
         }
         return completedStatusCount
+    }
+    
+    func getRemainingTasks() -> Int {
+        var unassignedStatusCount = 0
+        tasks.forEach { task in
+            if task.taskState == .unassigned {
+                unassignedStatusCount += 1
+            }
+        }
+        return unassignedStatusCount
     }
     
     func updateAcceptStateToFirebase(hasAccepted: Invitation) {

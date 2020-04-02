@@ -156,6 +156,16 @@ extension UIColor {
         } else { return Colors.defaultGrey }
     }
     
+    static var bubbleBottom: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.bubbleBlack
+                } else { return Colors.bubbleGrey }}
+        } else { return Colors.bubbleGrey }
+    }
+
+    
     // MARK: Keyboard
     
     static var keyboardBackground: UIColor {
