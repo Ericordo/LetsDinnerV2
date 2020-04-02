@@ -64,6 +64,7 @@ class Event {
     var participants = [User]()
     var tasks = [Task]()
     
+    var isAllTasksCompleted = false
     var isCancelled = false
     var isSyncAlertShownInTaskListVC = false
     
@@ -391,7 +392,7 @@ class Event {
     
     
     
-    // MARK: Update Firebase Task
+    // MARK: Update Firebase Tasks
 
     func updateFirebaseTasks() {
         tasks.forEach { task in
@@ -828,8 +829,9 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
     func mergeAllRecipesTitles(selectedRecipes: [Recipe], selectedCustomRecipes: [CustomRecipe]) -> [String] {
         var allRecipeTitles = [String]()
         let totalNumberOfRecipes = selectedRecipes.count + selectedCustomRecipes.count
-
-        for customOrder in 0 ... totalNumberOfRecipes {
+        
+        guard totalNumberOfRecipes > 0 else { return [] }
+        for customOrder in 1 ... totalNumberOfRecipes {
             if !selectedRecipes.isEmpty {
                 for index in 0 ... selectedRecipes.count - 1 {
                     if selectedRecipes[index].customOrder == customOrder {
@@ -851,5 +853,28 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
         return allRecipeTitles
     }
     
+    // MARK: Task Management
+    
+    func calculateTaskCompletionPercentage() -> Double {
+        var numberOfCompletedTasks = 0
+        
+        self.tasks.forEach { task in
+            if task.taskState == .completed {
+                numberOfCompletedTasks += 1
+            }
+        }
+        
+        let percentage : Double = Double(numberOfCompletedTasks)/Double(self.tasks.count)
+        
+        return percentage
+    }
+    
+    func checkIsAllTasksCompleted() -> Bool {
+        if calculateTaskCompletionPercentage() == 1 {
+            return true
+        } else {
+            return false
+        }
+    }
 
 }

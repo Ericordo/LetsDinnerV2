@@ -44,6 +44,22 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
 
         // Configure the view for the selected state
     }
+    
+    private func configureUI() {
+        self.recipesCollectionView.dataSource = self
+        self.recipesCollectionView.delegate = self
+        self.recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 17)
+
+        self.recipesCollectionView.collectionViewLayout = layout
+        
+        self.descriptionLabel.backgroundColor = nil
+        self.descriptionLabel.textColor = Colors.dullGrey
+    }
 
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -85,22 +101,13 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    private func configureUI() {
-        self.recipesCollectionView.dataSource = self
-        self.recipesCollectionView.delegate = self
-        self.recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 17)
-        
-        layout.minimumInteritemSpacing = 20
-        self.recipesCollectionView.collectionViewLayout = layout
-        
-        self.descriptionLabel.backgroundColor = nil
-        self.descriptionLabel.textColor = Colors.dullGrey
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
+    
+    
+    
+    
     
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }

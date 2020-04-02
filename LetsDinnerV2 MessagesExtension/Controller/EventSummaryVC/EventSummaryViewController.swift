@@ -264,12 +264,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                      RowItemNumber.locationInfo.rawValue,
                      RowItemNumber.descriptionInfo.rawValue:
                     return 0 // Hide Row
-                case RowItemNumber.taskInfo.rawValue:
-                    if Event.shared.tasks.count != 0 {
-                        return 350
-                    } else {
-                        return 100
-                    }
+//                case RowItemNumber.taskInfo.rawValue:
+//                    if Event.shared.tasks.count != 0 {
+//                        return 350
+//                    } else {
+//                        return 100
+//                    }
                 case RowItemNumber.userInfo.rawValue:
                     return 160
                 default:

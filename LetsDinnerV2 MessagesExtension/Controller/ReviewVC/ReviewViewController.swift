@@ -243,13 +243,8 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         case 5:
             taskSummaryCell.seeAllButton.isHidden = true
             taskSummaryCell.reviewVCDelegate = self
-            var numberOfCompletedTasks = 0
-            Event.shared.tasks.forEach { task in
-                if task.taskState == .completed {
-                    numberOfCompletedTasks += 1
-                }
-            }
-            let percentage : Double = Double(numberOfCompletedTasks)/Double(Event.shared.tasks.count)
+           
+            let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)
             return taskSummaryCell
         default:
@@ -265,13 +260,13 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return 120
         case 1, 2, 3:
             return 52
-        case 5:
-            if Event.shared.tasks.count != 0 {
-                return 350
-            } else {
-                return 100
-            }
-            
+//        case 5:
+//            if !Event.shared.tasks.isEmpty {
+//                return 350
+//            } else {
+//                return UITableView.automaticDimension
+//            }
+        
         default:
             return UITableView.automaticDimension
         }
