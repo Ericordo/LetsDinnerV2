@@ -32,6 +32,7 @@ class ManagementViewController: UIViewController {
     
     weak var delegate: ManagementViewControllerDelegate?
     
+    // MARK: Variables
     private var tasks = Event.shared.tasks {
         didSet {
             hideServingView()
@@ -53,8 +54,10 @@ class ManagementViewController: UIViewController {
 
     private var selectedSection : String?
     var tapGestureToHideKeyboard = UITapGestureRecognizer()
+    var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
     var newThingView: AddNewThingView?
+    private var headerView: ExpandableTaskHeaderView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,11 +66,9 @@ class ManagementViewController: UIViewController {
         configureUI()
         configureTableView()
         configureNewThingView()
-        setupSwipeGesture()
+        configureGestureRecognizers()
         
-        // Should only tap on the view not on the keyboard
-        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tapGestureToHideKeyboard.delegate = self
+        
     
         // update variable and preparedata
         servings = Event.shared.servings
@@ -77,6 +78,8 @@ class ManagementViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name("keyboardWillShow"), object: nil)
+        
+        print(Event.shared.tasks)
     
     }
     
@@ -139,6 +142,17 @@ class ManagementViewController: UIViewController {
         view.layer.rasterizationScale = UIScreen.main.scale
     }
     
+    private func configureGestureRecognizers() {
+        // Should only tap on the view not on the keyboard
+        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tapGestureToHideKeyboard.delegate = self
+        
+        swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer(target: newThingView, action: #selector(UIView.endEditing(_:)))
+        swipeDownGestureToHideKeyBoard.direction = .down
+        
+        setupSwipeBackGesture()
+    }
+    
     private func configureTableView() {
         tasksTableView.tableFooterView = UIView()
         tasksTableView.backgroundColor = .backgroundColor
@@ -148,15 +162,17 @@ class ManagementViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
     }
     
-    private func setupSwipeGesture() {
+    private func setupSwipeBackGesture() {
         self.view.addSwipeGestureRecognizer(action: {self.delegate?.managementVCDidTapBack(controller: self)})
     }
     
+    //MARK: prepareData
     private func prepareData() {
         tasks = Event.shared.tasks
         classifiedTasks.removeAll()
         
         var expandedStatus = [String : Bool]()
+        
         expandableTasks.forEach { expandableTasks in
             if let parentRecipe = expandableTasks.tasks.first?.parentRecipe {
                 expandedStatus[parentRecipe] = expandableTasks.isExpanded
@@ -166,11 +182,11 @@ class ManagementViewController: UIViewController {
         expandableTasks.removeAll()
         sectionNames.removeAll()
         
+        // Append the task into classified Task
         tasks.forEach { task in
             if classifiedTasks.contains(where: { subTasks -> Bool in
                 subTasks.contains { (individualTask) -> Bool in
-                    individualTask.parentRecipe == task.parentRecipe
-                }
+                    individualTask.parentRecipe == task.parentRecipe}
             }) {
                 let index = classifiedTasks.firstIndex { (subTasks) -> Bool in
                     subTasks.contains { (individualTask) -> Bool in
@@ -183,6 +199,7 @@ class ManagementViewController: UIViewController {
             }
         }
         
+        // Append Expandable Tasks
         classifiedTasks.forEach { subtasks in
             var subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
             if let parentRecipe = subtasks.first?.parentRecipe {
@@ -196,8 +213,6 @@ class ManagementViewController: UIViewController {
             expandableTasks.append(subExpandableTasks)
             if let sectionName = subtasks.first?.parentRecipe {
                 sectionNames.append(sectionName)
-                
-  
             }
         }
         
@@ -221,7 +236,7 @@ class ManagementViewController: UIViewController {
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
-
+        
         newThingView?.newThingTitleTextField.becomeFirstResponder()
         NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
 
@@ -308,6 +323,7 @@ class ManagementViewController: UIViewController {
         }
         
         self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
 
     }
     
@@ -319,7 +335,7 @@ class ManagementViewController: UIViewController {
          }
         
         self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
-        
+        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
     }
 }
 
@@ -415,13 +431,15 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let headerView = ExpandableTaskHeaderView(expandableTasks: expandableTasks,
+        headerView = ExpandableTaskHeaderView(expandableTasks: expandableTasks,
                                                   section: section,
                                                   sectionNames: sectionNames)
-        headerView.tag = section
-        headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
-
-        return headerView
+        if let headerView = headerView {
+            headerView.tag = section
+            headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
+            return headerView
+        }
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -485,7 +503,7 @@ extension ManagementViewController: TaskManagementCellDelegate {
     }
 }
 
-// MARK: Other Delegation
+// MARK: AddThing Delegation
 
 extension ManagementViewController: AddThingDelegate {
     func doneEditThing() {

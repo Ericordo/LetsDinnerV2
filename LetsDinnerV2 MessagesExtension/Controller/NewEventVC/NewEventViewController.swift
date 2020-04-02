@@ -417,7 +417,9 @@ extension NewEventViewController: UIScrollViewDelegate {
         // Temp solve:
         if UIDevice.current.userInterfaceIdiom == .pad {
             self.eventInputBottomConstraint.constant += 20
+            self.infoInputBottomConstraint.constant += 20
         }
+        
         self.view.layoutIfNeeded()
     }
     

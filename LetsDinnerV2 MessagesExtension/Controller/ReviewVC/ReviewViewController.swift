@@ -222,11 +222,12 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
 
         case 0:
            titleCell.titleLabel.text = Event.shared.dinnerName
-//           titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+           titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
            return titleCell
         case 1:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
+            infoCell.cellSeparator.isHidden = false
             return infoCell
         case 2:
             infoCell.titleLabel.text = LabelStrings.date

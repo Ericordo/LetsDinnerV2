@@ -62,8 +62,12 @@ class SelectedRecipesViewController: UIViewController {
         } else {
             UIView.animate(withDuration: 0.7,
                            delay: 0.0, options: .transitionCrossDissolve,
-                           animations: { self.rearrangeTextLabel.alpha = 0.3 },
+                           animations: { self.rearrangeTextLabel.alpha = 0.1 },
                            completion: { finished in self.rearrangeTextLabel.isHidden = true})
+        }
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            rearrangeTextLabel.isHidden = true
         }
     }
     

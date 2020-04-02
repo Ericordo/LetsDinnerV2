@@ -51,6 +51,14 @@ class RescheduleView: UIView {
         return button
     }()
     
+    let dragIndicator: UIView = {
+        let indicator = UIView()
+        indicator.frame = CGRect(x: 0, y: 0, width: 36, height: 5)
+        indicator.backgroundColor = UIColor.keyboardBackground
+        indicator.layer.cornerRadius = 3
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -74,6 +82,7 @@ class RescheduleView: UIView {
         self.addSubview(updateButton)
         self.addSubview(titleLabel)
         self.addSubview(datePicker)
+        self.addSubview(dragIndicator)
         
         addConstraints()
     }
@@ -82,6 +91,8 @@ class RescheduleView: UIView {
         updateButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        dragIndicator.translatesAutoresizingMaskIntoConstraints = false
+
         
         NSLayoutConstraint.activate([
             updateButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40),
@@ -101,6 +112,11 @@ class RescheduleView: UIView {
 //            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
             titleLabel.bottomAnchor.constraint(equalTo: datePicker.topAnchor, constant: -5)
         ])
+        
+        dragIndicator.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
+        dragIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        dragIndicator.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        dragIndicator.widthAnchor.constraint(equalToConstant: 36).isActive = true
         
     }
 }

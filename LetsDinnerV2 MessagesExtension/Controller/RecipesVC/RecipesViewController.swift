@@ -280,7 +280,7 @@ class RecipesViewController: UIViewController {
             }
         }
         
-        // New Recipes
+        // Add the New Recipes
         var newRecipes = [Recipe]()
         var newCustomRecipes = [CustomRecipe]()
 
@@ -619,6 +619,7 @@ extension RecipesViewController: RecipeCellDelegate {
         if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
             Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
             Event.shared.selectedRecipes.remove(at: index)
+            
         } else {
             
             Event.shared.selectedRecipes.append(recipe)
@@ -626,12 +627,7 @@ extension RecipesViewController: RecipeCellDelegate {
             // Assign Order
             guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
             Event.shared.selectedRecipes[Event.shared.selectedRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
-//            print("lastitem:\(lastIndex)")
-//            print(Event.shared.selectedRecipes.count)
-//
-//            print("After Append = \(Event.shared.findTheLastNumberFromAllRecipes())")
-            
-            
+
         }
         configureNextButton()
         configureSelectedRecipeButton()
