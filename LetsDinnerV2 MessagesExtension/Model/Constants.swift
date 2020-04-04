@@ -139,6 +139,10 @@ enum LabelStrings {
     static let noRecipeTitle = "No recipes selected"
     static let noRecipeMessage = "Go back and Add something!"
     
+    // SelectedRecipe VC
+    static let deleteRecipeLabel = "To delete a recipes, swipe left."
+    static let rearrangeRecipeLabel = "To rearrange the order, tap and hold to move."
+    
     // CustomRecipeVC
     static let noCustomRecipeTitle = "No recipe"
     static let noCustomRecipeMessage = "You can create your own recipe!"
@@ -150,6 +154,8 @@ enum LabelStrings {
     static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"
     static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
     static let noTaskMessage2 = "Start by tapping"
+    static let deleteTaskLabel = "To delete a Thing, swipe left."
+    static let assignTaskLabel = "To assign yourself to a Thing or to complete it, tap it."
     
     // DescriptionVC
     static let whatsThePlan = "Would you like to add an invitation message? \nMore information? Anything else?"

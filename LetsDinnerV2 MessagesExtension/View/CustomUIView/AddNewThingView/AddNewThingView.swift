@@ -48,7 +48,7 @@ class AddNewThingView: UIView {
         textField.textColor = .textLabel
         textField.font = .systemFont(ofSize: 17)
         textField.placeholder = "500"
-        textField.keyboardType = .decimalPad
+        textField.keyboardType = .numbersAndPunctuation
         textField.textAlignment = .right
         textField.sizeToFit()
         textField.tag = 20

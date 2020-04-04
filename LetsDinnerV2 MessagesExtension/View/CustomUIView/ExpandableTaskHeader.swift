@@ -95,7 +95,10 @@ class ExpandableTaskHeaderView: UIView {
     
     let nameLabel : UILabel = {
         let label = UILabel()
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.7
         return label
     }()
     

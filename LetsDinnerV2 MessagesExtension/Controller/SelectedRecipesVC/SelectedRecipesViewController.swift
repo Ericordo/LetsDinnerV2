@@ -39,9 +39,7 @@ class SelectedRecipesViewController: UIViewController {
         updateLocalVariable()
         updateNumberOfTotalRecipe()
         
-        recipesTableView.dragInteractionEnabled = true
-        recipesTableView.dragDelegate = self
-        recipesTableView.dropDelegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,14 +109,18 @@ class SelectedRecipesViewController: UIViewController {
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
         
-        // FooterView
+        recipesTableView.dragInteractionEnabled = true
+        recipesTableView.dragDelegate = self
+        recipesTableView.dropDelegate = self
+        
+        // Configure FooterView
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: recipesTableView.frame.width, height: 40))
         footerView.backgroundColor = .clear
         
-        let textLabel1: UILabel = {
+        let deleteRecipeLabel: UILabel = {
             let label = UILabel()
             label.frame = CGRect(x: 0, y: 5, width: self.view.frame.width , height: 15)
-            label.text = "To delete a recipes, swipe left."
+            label.text = LabelStrings.deleteRecipeLabel
             label.textColor = UIColor.secondaryTextLabel
             label.font = .systemFont(ofSize: 12)
             label.textAlignment = .center
@@ -128,15 +130,15 @@ class SelectedRecipesViewController: UIViewController {
         
         rearrangeTextLabel = {
             let label = UILabel()
-            label.frame = CGRect(x: 0, y: 25, width: recipesTableView.frame.width , height: 15)
-            label.text = "To rearrange the order, tap and hold to move."
+            label.frame = CGRect(x: 0, y: 0, width: recipesTableView.frame.width , height: 15)
+            label.text = LabelStrings.rearrangeRecipeLabel
             label.textColor = UIColor.secondaryTextLabel
             label.font = .systemFont(ofSize: 12)
             label.textAlignment = .center
             return label
         }()
         
-        footerView.addSubview(textLabel1)
+        footerView.addSubview(deleteRecipeLabel)
         footerView.addSubview(rearrangeTextLabel)
         
         recipesTableView.tableFooterView = footerView
@@ -144,12 +146,13 @@ class SelectedRecipesViewController: UIViewController {
         recipesTableView.rowHeight = 120
         recipesTableView.showsVerticalScrollIndicator = false
         
-        textLabel1.translatesAutoresizingMaskIntoConstraints = false
+        deleteRecipeLabel.translatesAutoresizingMaskIntoConstraints = false
         rearrangeTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel1.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        
+        deleteRecipeLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
         rearrangeTextLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
-        textLabel1.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
-        rearrangeTextLabel.anchor(top: textLabel1.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        deleteRecipeLabel.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        rearrangeTextLabel.anchor(top: deleteRecipeLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
         
     }
 
@@ -288,9 +291,12 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             complete(true)
         }
         
-
+        
         deleteAction.image = UIImage(named: "deleteBin")
-        deleteAction.backgroundColor = .backgroundColor
+        deleteAction.backgroundColor = UIColor.backgroundColor
+
+//        let image = UIImage(named: "recipeDeleteButton")
+//        deleteAction.backgroundColor = UIColor(patternImage: image!)
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = true

@@ -150,12 +150,57 @@ class ManagementViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tasksTableView.tableFooterView = UIView()
+//        tasksTableView.tableFooterView = UIView()
         tasksTableView.backgroundColor = .backgroundColor
 
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
+        
+        // Configure Footer View
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
+        footerView.backgroundColor = .clear
+        
+        let deleteTaskLabel: UILabel = {
+            let label = UILabel()
+            label.frame = CGRect(x: 0, y: 5, width: self.view.frame.width , height: 15)
+            label.text = LabelStrings.deleteTaskLabel
+            label.textColor = UIColor.secondaryTextLabel
+            label.font = .systemFont(ofSize: 12)
+            label.textAlignment = .center
+            label.backgroundColor = .clear
+            return label
+        }()
+        
+        let assignTaskLabel: UILabel = {
+            let label = UILabel()
+            label.frame = CGRect(x: 0, y: 0, width: tasksTableView.frame.width , height: 15)
+            label.text = LabelStrings.assignTaskLabel
+            label.textColor = UIColor.secondaryTextLabel
+            label.font = .systemFont(ofSize: 12)
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            return label
+        }()
+        
+        footerView.addSubview(deleteTaskLabel)
+        footerView.addSubview(assignTaskLabel)
+        
+        tasksTableView.tableFooterView = footerView
+        tasksTableView.separatorStyle = .none
+        tasksTableView.rowHeight = 120
+        tasksTableView.showsVerticalScrollIndicator = false
+        
+        deleteTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        assignTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        deleteTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        assignTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        
+        deleteTaskLabel.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0))
+        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        
     }
     
     private func setupSwipeBackGesture() {
