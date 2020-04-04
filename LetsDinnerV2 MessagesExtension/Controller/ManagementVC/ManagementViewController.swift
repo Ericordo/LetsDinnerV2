@@ -67,9 +67,7 @@ class ManagementViewController: UIViewController {
         configureTableView()
         configureNewThingView()
         configureGestureRecognizers()
-        
-        
-    
+
         // update variable and preparedata
         servings = Event.shared.servings
         self.updateServings(servings: servings)
@@ -78,9 +76,7 @@ class ManagementViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name("keyboardWillShow"), object: nil)
-        
-        print(Event.shared.tasks)
-    
+            
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -154,12 +150,57 @@ class ManagementViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tasksTableView.tableFooterView = UIView()
+//        tasksTableView.tableFooterView = UIView()
         tasksTableView.backgroundColor = .backgroundColor
 
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
+        
+        // Configure Footer View
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
+        footerView.backgroundColor = .clear
+        
+        let deleteTaskLabel: UILabel = {
+            let label = UILabel()
+            label.frame = CGRect(x: 0, y: 5, width: self.view.frame.width , height: 15)
+            label.text = LabelStrings.deleteTaskLabel
+            label.textColor = UIColor.secondaryTextLabel
+            label.font = .systemFont(ofSize: 12)
+            label.textAlignment = .center
+            label.backgroundColor = .clear
+            return label
+        }()
+        
+        let assignTaskLabel: UILabel = {
+            let label = UILabel()
+            label.frame = CGRect(x: 0, y: 0, width: tasksTableView.frame.width , height: 15)
+            label.text = LabelStrings.assignTaskLabel
+            label.textColor = UIColor.secondaryTextLabel
+            label.font = .systemFont(ofSize: 12)
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            return label
+        }()
+        
+        footerView.addSubview(deleteTaskLabel)
+        footerView.addSubview(assignTaskLabel)
+        
+        tasksTableView.tableFooterView = footerView
+        tasksTableView.separatorStyle = .none
+        tasksTableView.rowHeight = 120
+        tasksTableView.showsVerticalScrollIndicator = false
+        
+        deleteTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        assignTaskLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        deleteTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        assignTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        
+        deleteTaskLabel.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0))
+        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        
     }
     
     private func setupSwipeBackGesture() {
@@ -178,7 +219,8 @@ class ManagementViewController: UIViewController {
                 expandedStatus[parentRecipe] = expandableTasks.isExpanded
             }
         }
-        
+        print(expandedStatus)
+
         expandableTasks.removeAll()
         sectionNames.removeAll()
         
@@ -306,37 +348,7 @@ class ManagementViewController: UIViewController {
         tasksTableView.reloadData()
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else {return}
-        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardFrame = keyboardSize.cgRectValue
-        
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1) {
-            self.addThingViewBottomConstraint.constant = keyboardFrame.height
-            
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                self.addThingViewBottomConstraint.constant += 20
-            }
-            
-            self.view.layoutIfNeeded()
-        }
-        
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
-
-    }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
-        self.view.layoutIfNeeded()
-         UIView.animate(withDuration: 1) {
-             self.addThingViewBottomConstraint.constant = -100
-             self.view.layoutIfNeeded()
-         }
-        
-        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
-        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
-    }
 }
 
 // MARK: TableView setup
@@ -344,7 +356,7 @@ class ManagementViewController: UIViewController {
 extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if Event.shared.tasks.count == 0 {
+        if Event.shared.tasks.isEmpty {
             tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage, message2: LabelStrings.noTaskMessage2)
         } else {
             tableView.restore()
@@ -420,11 +432,11 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     
      func numberOfSections(in tableView: UITableView) -> Int {
         
-        if Event.shared.tasks.count == 0 {
+        if Event.shared.tasks.isEmpty {
             tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage, message2: LabelStrings.noTaskMessage2)
-              } else {
-              tableView.restore()
-              }
+            } else {
+                tableView.restore()
+            }
         
         return expandableTasks.count
     }
@@ -520,5 +532,42 @@ extension ManagementViewController: UIGestureRecognizerDelegate {
             return false
         }
         return true
+    }
+}
+
+// MARK: Keyboard
+
+extension ManagementViewController {
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 1) {
+            self.addThingViewBottomConstraint.constant = keyboardFrame.height
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.addThingViewBottomConstraint.constant += 20
+            }
+            
+            self.view.layoutIfNeeded()
+        }
+        
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
+
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.view.layoutIfNeeded()
+         UIView.animate(withDuration: 1) {
+             self.addThingViewBottomConstraint.constant = -100
+             self.view.layoutIfNeeded()
+         }
+        
+        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
     }
 }
