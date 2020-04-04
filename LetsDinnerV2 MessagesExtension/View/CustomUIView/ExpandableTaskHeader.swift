@@ -61,6 +61,12 @@ class ExpandableTaskHeaderView: UIView {
         
         nameLabel.text = sectionNames[section]
         
+        // Check if expandable
+        if !expandableTasks[section].isExpanded {
+              collapseImage.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+              }
+        
+        
     }
     
     //        let collapseButton : UIButton = {
@@ -78,9 +84,11 @@ class ExpandableTaskHeaderView: UIView {
         let image = UIImageView()
         image.image = UIImage(named: "chevronDisclosureCollapsed")
         image.contentMode = .scaleAspectFit
+        
 //        if !expandableTasks[section].isExpanded {
-//            image.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
+//        image.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
 //        }
+        
         image.restorationIdentifier = "collapse"
         return image
     }()
@@ -157,12 +165,4 @@ class ExpandableTaskHeaderView: UIView {
         separator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
     }
-    
-
-    
-    
-    
-    
-    
-    
 }
