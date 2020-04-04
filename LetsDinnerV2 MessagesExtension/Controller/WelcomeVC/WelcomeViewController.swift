@@ -11,6 +11,8 @@ import SafariServices
 
 class WelcomeViewController: UIViewController {
     
+    private lazy var confettiView = SAConfettiView(frame: view.bounds)
+    
     private let titleLabel : UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -25,11 +27,11 @@ class WelcomeViewController: UIViewController {
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
         let attributedString = NSMutableAttributedString(string: "")
-        attributedString.append(NSAttributedString(string: LabelStrings.termsService, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11, weight: .semibold), NSAttributedString.Key.foregroundColor: Colors.highlightRed]))
+        attributedString.append(NSAttributedString(string: LabelStrings.termsService, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.activeButton]))
         attributedString.append(NSAttributedString(string: " "))
         attributedString.append(NSAttributedString(string: LabelStrings.and, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
         attributedString.append(NSAttributedString(string: " "))
-        attributedString.append(NSAttributedString(string: LabelStrings.policy, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11, weight: .semibold), NSAttributedString.Key.foregroundColor: Colors.highlightRed]))
+        attributedString.append(NSAttributedString(string: LabelStrings.policy, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.activeButton]))
         label.attributedText = attributedString
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapPolicy))
         label.addGestureRecognizer(tapGesture)
@@ -37,12 +39,12 @@ class WelcomeViewController: UIViewController {
     }()
     
     private lazy var continueButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: (view.frame.width - 60), height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 253, height: 50))
         button.layer.masksToBounds = true
         button.backgroundColor = .black
         button.layer.cornerRadius = 14
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        button.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        button.setGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
         button.setTitle(LabelStrings.letsGo, for: .normal)
         button.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
         return button
@@ -62,6 +64,9 @@ class WelcomeViewController: UIViewController {
     
     private lazy var thirdHorizontalStackView = createHorizontalStackView(imageName: Images.chatIcon, title: LabelStrings.neverLeave, text: LabelStrings.neverLeaveDescription)
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -71,21 +76,27 @@ class WelcomeViewController: UIViewController {
     
     @objc private func didTapContinue() {
         defaults.set(true, forKey: Keys.onboardingComplete)
-        self.dismiss(animated: true, completion: nil)
+        confettiView.startConfetti()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+           self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc private func didTapPolicy() {
         // TODO: - Change url
-        let url = URL(string: "https://www.google.com")
+        let url = URL(string: "https://twitter.com/letsdinnerapp")
         let vc = CustomSafariVC(url: url!)
         self.present(vc, animated: true, completion: nil)
     }
     private func setupUI() {
         view.backgroundColor = .backgroundColor
-        view.addSubview(titleLabel)
+        view.addSubview(confettiView)
         view.addSubview(policyLabel)
         view.addSubview(continueButton)
-        view.addSubview(verticalStackView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(verticalStackView)
         verticalStackView.addArrangedSubview(firstHorizontalStackView)
         verticalStackView.addArrangedSubview(secondHorizontalStackView)
         verticalStackView.addArrangedSubview(thirdHorizontalStackView)
@@ -93,16 +104,6 @@ class WelcomeViewController: UIViewController {
     }
     
     private func addConstraints() {
-        // TODO: - Fix for small screens
-        // TODO: - Fix for iPad
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 88),
-            titleLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -88),
-            titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 13),
-            titleLabel.heightAnchor.constraint(equalToConstant: 82)
-        ])
-        
         policyLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             policyLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -112,19 +113,50 @@ class WelcomeViewController: UIViewController {
         
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            continueButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30),
-            continueButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30),
+            continueButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            continueButton.widthAnchor.constraint(equalToConstant: 253),
             continueButton.heightAnchor.constraint(equalToConstant: 50),
             continueButton.bottomAnchor.constraint(equalTo: policyLabel.topAnchor, constant: -20)
         ])
         
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -20)
+        ])
+        
+        contentView.fillSuperview()
+        NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 500)
+        ])
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 88),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -88),
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 13),
+            titleLabel.heightAnchor.constraint(equalToConstant: 82)
+        ])
+        
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            verticalStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30),
-            verticalStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -30),
             verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 50),
-            verticalStackView.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -50)
+            verticalStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            NSLayoutConstraint.activate([
+                verticalStackView.widthAnchor.constraint(equalToConstant: 400),
+                verticalStackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                verticalStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 30),
+                verticalStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -30),
+            ])
+        }
     }
     
     private func createHorizontalStackView(imageName: String, title: String, text: String) -> UIStackView {

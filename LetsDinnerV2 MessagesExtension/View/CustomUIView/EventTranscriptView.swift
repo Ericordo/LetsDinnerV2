@@ -17,9 +17,9 @@ protocol EventTranscriptViewDelegate: class {
 class EventTranscriptView: UIView {
     
     private let backgroundImage: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 160))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
         if defaults.username == "Eric Ordonneau" {
-            imageView.image = UIImage(named: "specialBackground")
+            imageView.image = UIImage(named: "veroBackground")
         } else {
             imageView.image = UIImage(named: Images.premiumBackground)
         }
@@ -27,13 +27,13 @@ class EventTranscriptView: UIView {
         return imageView
     }()
     
-    private let gradientView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 160))
-        view.layer.masksToBounds = true
-        view.alpha = 0.72
-        view.setDiagonalGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
-        return view
-    }()
+//    private let gradientView: UIView = {
+//        let view = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
+//        view.layer.masksToBounds = true
+//        view.alpha = 0.72
+//        view.setDiagonalGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
+//        return view
+//    }()
     
     private let mainInfoLabel: UILabel = {
         let label = UILabel()
@@ -116,23 +116,21 @@ class EventTranscriptView: UIView {
         if let status = Invitation(rawValue: value) {
             switch status {
             case .accepted:
-                statusIcon.backgroundColor = .green
+                statusIcon.image = UIImage(named: Images.statusAccepted)
             case .declined:
-                statusIcon.backgroundColor = .red
+                statusIcon.image = UIImage(named: Images.statusDeclined)
             case .pending:
-                statusIcon.backgroundColor = .blue
+                statusIcon.image = UIImage(named: Images.statusPending)
             }
         } else {
-            statusIcon.image = UIImage(named: "checkboxAssignedCompleted")
-            statusIcon.clipsToBounds = true
-            
+            statusIcon.image = UIImage(named: Images.statusPending)
         }
     }
     
     private func setupView() {
         preservesSuperviewLayoutMargins = true 
         addSubview(backgroundImage)
-        backgroundImage.addSubview(gradientView)
+//        backgroundImage.addSubview(gradientView)
         addSubview(bottomView)
         addSubview(secondaryInfoLabel)
         addSubview(mainInfoLabel)
@@ -151,24 +149,32 @@ class EventTranscriptView: UIView {
             bottomView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             bottomView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 40)
+            bottomView.heightAnchor.constraint(equalToConstant: 41)
         ])
+        
+//        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            backgroundImage.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+//            backgroundImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+//            backgroundImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            backgroundImage.topAnchor.constraint(equalTo: self.topAnchor)
+//        ])
         
         backgroundImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            backgroundImage.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
             backgroundImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             backgroundImage.topAnchor.constraint(equalTo: self.topAnchor)
         ])
         
-        gradientView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            gradientView.bottomAnchor.constraint(equalTo: backgroundImage.bottomAnchor),
-            gradientView.leadingAnchor.constraint(equalTo: backgroundImage.leadingAnchor),
-            gradientView.trailingAnchor.constraint(equalTo: backgroundImage.trailingAnchor),
-            gradientView.topAnchor.constraint(equalTo: backgroundImage.topAnchor)
-        ])
+//        gradientView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            gradientView.bottomAnchor.constraint(equalTo: backgroundImage.bottomAnchor),
+//            gradientView.leadingAnchor.constraint(equalTo: backgroundImage.leadingAnchor),
+//            gradientView.trailingAnchor.constraint(equalTo: backgroundImage.trailingAnchor),
+//            gradientView.topAnchor.constraint(equalTo: backgroundImage.topAnchor)
+//        ])
         
         secondaryInfoLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -183,7 +189,7 @@ class EventTranscriptView: UIView {
             mainInfoLabel.bottomAnchor.constraint(equalTo: secondaryInfoLabel.topAnchor, constant: -2),
             mainInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7),
             mainInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -7),
-            mainInfoLabel.heightAnchor.constraint(equalToConstant: 60)
+            mainInfoLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         statusIcon.translatesAutoresizingMaskIntoConstraints = false

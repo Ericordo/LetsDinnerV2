@@ -45,6 +45,7 @@ class RescheduleView: UIView {
         button.layer.masksToBounds = true
         button.alpha = 0.5
         button.layer.cornerRadius = 12
+        // TODO: - Probably change color
         button.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         button.setTitle(LabelStrings.update, for: .normal)
