@@ -98,14 +98,14 @@ class Event {
     
     func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {
         let bubbleManager = BubbleManager()
-        let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "bubbleBackground")
-        layout.imageTitle = dinnerName
-        layout.imageSubtitle = dinnerDate
-        layout.caption = "Tap to view Dinner! "
+//        let layout = MSMessageTemplateLayout()
+//        layout.image = UIImage(named: "bubbleBackground")
+//        layout.imageTitle = dinnerName
+//        layout.imageSubtitle = dinnerDate
+//        layout.caption = "Tap to view Dinner! "
         let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
-        message.layout = layout
-//        message.layout = bubbleManager.prepareMessageBubble()
+//        message.layout = layout
+        message.layout = bubbleManager.prepareMessageBubble()
         message.summaryText = summary
         message.md.set(value: dinnerName, forKey: "dinnerName")
         message.md.set(value: hostName, forKey: "hostName")
