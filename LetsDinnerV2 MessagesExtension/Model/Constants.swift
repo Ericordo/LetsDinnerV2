@@ -206,13 +206,29 @@ enum LabelStrings {
     
     // Message Bubble
     static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
+    
+    // Premium Screen
+    static let restore = NSLocalizedString("Restore purchases", comment: "Restore purchases")
+    static let premiumAppName = "Let's Dinner "
+    static let premiumPro = "Pro!"
+    static let premiumDescription = NSLocalizedString("Let's Dinner! was created by six people from accross the world. Your Let's Dinner Pro! subscription will let you create events, enjoy neat features, and help to ensure future development! Have a look:", comment: "Premium description")
+    static let premiumNoThanks = NSLocalizedString("No, thank you. Maybe later.", comment: "No thanks")
+    static let premiumSubscribe = NSLocalizedString("Subscribe for 0.99€ / month", comment: "Subscribe for")
 }
 
 enum Images {
+    // Welcome Screen
     static let chatIcon = "chatIcon"
     static let inviteIcon = "inviteIcon"
     static let thingsIcon = "thingsIcon"
+    static let recipeBook = "recipeBookButtonOutlined"
+    
+    // MessageBubble
     static let premiumBackground = "iMessageBackground"
+    static let premiumBackgroundOld = "iMessageBackgroundOld"
     static let standardBackground = "bubbleBackground"
     static let chevronDisclosure = "chevronDisclosure"
+    static let statusPending = "statusPending"
+    static let statusAccepted = "statusAccepted"
+    static let statusDeclined = "statusDeclined"
 }

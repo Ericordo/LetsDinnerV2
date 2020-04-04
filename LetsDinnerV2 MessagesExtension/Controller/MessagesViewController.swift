@@ -17,8 +17,6 @@ class MessagesViewController: MSMessagesAppViewController {
     private var newNameRequested = false
     private var isProgressBarVCInitiated = false
     
-    var bubbleManager = BubbleManager()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -288,33 +286,26 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: Transcript View
     
     private func presentTranscriptView(for conversation: MSConversation) {
-//        let bubbleManager = BubbleManager()
+        let bubbleManager = BubbleManager()
         guard conversation.selectedMessage?.url != nil else { return }
         guard let message = conversation.selectedMessage else { return }
-        
-//        let identifier = activeConversation?.localParticipantIdentifier.uuidString
         let bubbleInfo = bubbleManager.fetchBubbleInformation(for: message)
-//        let localEventId = BubbleManager().fetchLocalEventId(for: message)!
-//        let localEventId = bubbleManager.localEventId!
-//        let transcriptView = EventTranscriptView(bubbleInfo: bubbleInfo,
-//                                                 delegate: self,
-//                                                 localEventId: localEventId)
         let transcriptView = EventTranscriptView(bubbleInfo: bubbleInfo,
                                                  delegate: self)
-//        transcriptView.localUserId = identifier
         view.addSubview(transcriptView)
         transcriptView.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstant: CGFloat = conversation.isSelectedMessageFromMe ? 0 : 7
+        let leadingConstant: CGFloat = conversation.isSelectedMessageFromMe ? 0 : 1
+        let trailingConstant: CGFloat = conversation.isSelectedMessageFromMe ? -1 : 0
         NSLayoutConstraint.activate([
             transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstant),
-            transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstant),
             transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
             transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
     override func contentSizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: 300, height: 160)
+        return CGSize(width: 300, height: 151)
     }
     
     // MARK: Controller Animation

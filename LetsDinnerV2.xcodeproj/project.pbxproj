@@ -123,6 +123,8 @@
 		88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88C9650D239A9C3600CFC710 /* SectionInputCell.xib */; };
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
+		88E5B0BE2437C06700D519E2 /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */; };
+		88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BF2438A39600D519E2 /* ConfettiView.swift */; };
 		88FE71A623901E2A00652429 /* InfoInputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInputToolbar.swift */; };
 		B802F040242F346D00927649 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802F03F242F346D00927649 /* LoadingView.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
@@ -306,6 +308,8 @@
 		88C9650D239A9C3600CFC710 /* SectionInputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionInputCell.xib; sourceTree = "<group>"; };
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
 		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
+		88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
+		88E5B0BF2438A39600D519E2 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInputToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputToolbar.swift; sourceTree = "<group>"; };
 		B802F03F242F346D00927649 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -615,6 +619,7 @@
 				B8C4E82023E5AB5500D752F1 /* ProgressVC */,
 				882C4C14237AEA470039B55F /* IdleVC */,
 				8851335B24215A05004CD858 /* WelcomeVC */,
+				88E5B0BC2437C03F00D519E2 /* PremiumVC */,
 				88349F23236E1B67002A1879 /* InitialVC */,
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
 				88349F31236F7A22002A1879 /* NewEventVC */,
@@ -825,6 +830,14 @@
 			path = SectionInputCell;
 			sourceTree = "<group>";
 		};
+		88E5B0BC2437C03F00D519E2 /* PremiumVC */ = {
+			isa = PBXGroup;
+			children = (
+				88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */,
+			);
+			path = PremiumVC;
+			sourceTree = "<group>";
+		};
 		B017EC268CCDD12643C7FD91 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -847,6 +860,7 @@
 				88E203C423D33C6200514972 /* EventInputView.swift */,
 				886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */,
 				885133B024310C32004CD858 /* EventTranscriptView.swift */,
+				88E5B0BF2438A39600D519E2 /* ConfettiView.swift */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1174,6 +1188,7 @@
 				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
 				B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */,
 				885133B3243283AF004CD858 /* SendAction.swift in Sources */,
+				88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */,
 				8851335D24215A27004CD858 /* WelcomeViewController.swift in Sources */,
 				B842CE3C241A03F000380229 /* CustomSafariVC.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
@@ -1240,6 +1255,7 @@
 				88C95B3323986413000E750A /* RecipeCreationViewController.swift in Sources */,
 				880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */,
 				880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */,
+				88E5B0BE2437C06700D519E2 /* PremiumViewController.swift in Sources */,
 				88C96507239A886000CFC710 /* CustomRecipeDetailsViewController.swift in Sources */,
 				88B7833223718125009E4F3C /* Recipe - Edamam.swift in Sources */,
 				887BE721240470F6006619C7 /* LDLabel.swift in Sources */,
@@ -1410,7 +1426,7 @@
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.22;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1433,7 +1449,7 @@
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.22;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1457,7 +1473,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.22;
-				DEVELOPMENT_TEAM = 3M89YG2JX8;
+				DEVELOPMENT_TEAM = DNB5G735SM;
 				INFOPLIST_FILE = LetsDinnerV2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
