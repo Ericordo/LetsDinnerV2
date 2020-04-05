@@ -38,6 +38,7 @@ class SelectedRecipesViewController: UIViewController {
         
         updateLocalVariable()
         updateNumberOfTotalRecipe()
+        
     
     }
     

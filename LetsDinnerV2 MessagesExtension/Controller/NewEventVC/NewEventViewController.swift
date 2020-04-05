@@ -166,7 +166,10 @@ class NewEventViewController: UIViewController  {
     }
     
      private func allFieldsAreFilled() -> Bool {
-        guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text, let date = dateTextField.text else {
+        guard let host = hostNameTextField.text,
+            let dinner = dinnerNameTextField.text,
+            let location = locationTextField.text,
+            let date = dateTextField.text else {
             return false
         }
         
@@ -414,10 +417,13 @@ extension NewEventViewController: UIScrollViewDelegate {
     private func showInputView(keyboardFrame: CGRect) {
         self.eventInputBottomConstraint.constant = keyboardFrame.height
         self.infoInputBottomConstraint.constant = keyboardFrame.height
-        // Temp solve:
+        
+        // Temp solve (for ios 13.0 ipad):
         if UIDevice.current.userInterfaceIdiom == .pad {
-            self.eventInputBottomConstraint.constant += 20
-            self.infoInputBottomConstraint.constant += 20
+            if #available(iOS 13.0, *) {
+                self.eventInputBottomConstraint.constant += 20
+                self.infoInputBottomConstraint.constant += 20
+            }
         }
         
         self.view.layoutIfNeeded()
