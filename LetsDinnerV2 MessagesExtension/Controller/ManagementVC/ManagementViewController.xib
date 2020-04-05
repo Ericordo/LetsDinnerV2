@@ -131,14 +131,14 @@
                         <constraint firstItem="Dc8-Qe-sNb" firstAttribute="top" secondItem="fDS-c8-pKI" secondAttribute="top" id="t8D-zb-gE4"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOb-Ql-hbj">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOb-Ql-hbj" userLabel="Add thing View">
                     <rect key="frame" x="0.0" y="667" width="375" height="94"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="94" id="xLi-dn-Zy4"/>
                     </constraints>
                 </view>
-                <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d66-0o-BnV">
+                <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d66-0o-BnV" userLabel="Bottom View">
                     <rect key="frame" x="0.0" y="584" width="375" height="83"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oS0-MV-xiC">

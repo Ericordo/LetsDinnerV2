@@ -141,6 +141,7 @@
                 <outlet property="backgroundImageView" destination="F8x-ME-HEw" id="sqq-tY-fCe"/>
                 <outlet property="chooseButton" destination="JWa-be-hue" id="BAe-3y-XD6"/>
                 <outlet property="chosenButton" destination="Krg-bf-o6z" id="WjP-Se-qoE"/>
+                <outlet property="heightConstraint" destination="zHP-vU-mIQ" id="AuD-Ok-vxW"/>
                 <outlet property="recipeImageView" destination="ARN-iG-m3N" id="r0f-Xk-1UD"/>
                 <outlet property="recipeNameLabel" destination="FI7-dc-TJe" id="di6-gV-WIV"/>
                 <outlet property="viewButton" destination="SAw-8F-1lh" id="BAJ-uC-ECn"/>

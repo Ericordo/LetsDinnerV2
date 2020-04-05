@@ -77,9 +77,11 @@ class TasksListViewController: UIViewController {
     private func setupUpdateButton() {
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 12
-        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        submitButton.backgroundColor = Colors.paleGray
+//        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         submitButton.alpha = 0.5
         submitButton.isEnabled = false
+        
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             submitButton.isHidden = true
         }
@@ -87,9 +89,23 @@ class TasksListViewController: UIViewController {
     
     private func updateUpdateButton() {
         if !Event.shared.tasksNeedUpdate && !Event.shared.servingsNeedUpdate {
+            if submitButton.layer.sublayers != nil {
+                for layer in submitButton.layer.sublayers! {
+                    if layer.name == "GradientLayer" {
+                        layer.removeFromSuperlayer()
+                    }
+                }
+            }
+            
+            submitButton.layer.masksToBounds = true
+            submitButton.layer.cornerRadius = 12
             submitButton.isEnabled = false
-            submitButton.alpha = 0.5
+            submitButton.alpha = 1.0
+            
         } else {
+            submitButton.layer.masksToBounds = true
+            submitButton.layer.cornerRadius = 12
+            submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
             submitButton.isEnabled = true
             submitButton.alpha = 1.0
         }

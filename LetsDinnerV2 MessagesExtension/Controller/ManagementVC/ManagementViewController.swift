@@ -36,10 +36,12 @@ class ManagementViewController: UIViewController {
     private var tasks = Event.shared.tasks {
         didSet {
             hideServingView()
+            hideFooterView()
         }
     }
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
+    
     private var sectionNames = [String]() {
         didSet {
             newThingView!.sectionNames = self.sectionNames
@@ -58,6 +60,7 @@ class ManagementViewController: UIViewController {
     
     var newThingView: AddNewThingView?
     private var headerView: ExpandableTaskHeaderView?
+    var footerView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,6 +109,7 @@ class ManagementViewController: UIViewController {
 
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             hideServingView()
+            hideFooterView()
         }
         
         if UIDevice.current.hasHomeButton {
@@ -158,8 +162,9 @@ class ManagementViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         
         // Configure Footer View
+        footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
         
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
+        guard let footerView = footerView else { return }
         footerView.backgroundColor = .clear
         
         let deleteTaskLabel: UILabel = {
@@ -330,6 +335,15 @@ class ManagementViewController: UIViewController {
         }
     }
     
+    private func hideFooterView() {
+        guard let footerView = footerView else { return }
+        if tasks.isEmpty {
+            footerView.isHidden = true
+        } else {
+            footerView.isHidden = false
+        }
+    }
+    
     private func updateServings(servings: Int) {
       
         self.servings = servings
@@ -342,7 +356,6 @@ class ManagementViewController: UIViewController {
                 }
             }
         }
-        
         
         prepareData()
         tasksTableView.reloadData()
@@ -392,6 +405,8 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        // MARK: Delete Task
         if (editingStyle == .delete) {
             let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
             let index = Event.shared.tasks.firstIndex { (task) -> Bool in
@@ -492,7 +507,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
 
         let isExpanded = expandableTasks[section].isExpanded
         expandableTasks[section].isExpanded = !isExpanded
-
+        
         if isExpanded {
             tasksTableView.deleteRows(at: indexPaths, with: .fade)
         } else {

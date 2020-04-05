@@ -176,6 +176,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             
             if let user = user {
                 if user.hasAccepted == .accepted {
+//                    infoCell.selectionStyle = .none
                     infoCell.titleLabel.text = LabelStrings.eventInfo
                     infoCell.infoLabel.text = Event.shared.hostName + " "
                     infoCell.accessoryType = .disclosureIndicator
@@ -478,8 +479,8 @@ extension EventSummaryViewController: CancelCellDelegate {
         NSLayoutConstraint.activate([
             rescheduleViewBottomConstraint,
             rescheduleView.heightAnchor.constraint(equalToConstant: 390),
-            rescheduleView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            rescheduleView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+            rescheduleView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 4),
+            rescheduleView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant:  -4)
         ])
         view.layoutIfNeeded()
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {

@@ -80,6 +80,9 @@ class TestManager {
                     var array = [Recipe]()
                     array = Array(event.selectedRecipes[0...0])
                     event.selectedRecipes = array
+                    
+                    // Add Recipes
+                    Event.shared.selectedRecipes.append(contentsOf: array)
                                                                                 
                       event.selectedRecipes.forEach { recipe in
                           let recipeName = recipe.title ?? ""
@@ -128,8 +131,8 @@ class TestManager {
     static func quickFillIn() -> Event {
         let event = Event()
         
-        event.dinnerName = "Quick Dinner (Finish in 10 mins)"
-        event.hostName = "Obama"
+        event.dinnerName = "Quick Dinner (tesing)"
+        event.hostName = "Who knows"
         event.eventDescription = "Oh no. I love monopoly"
         event.dinnerLocation = "TBC"
         event.dateTimestamp = Double(Date.currentTimeStamp)
