@@ -462,10 +462,10 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         })
 
 
-        assignToMyselfAction.image = UIImage(named: "")
+//        assignToMyselfAction.image = UIImage(named: "")
         assignToMyselfAction.backgroundColor = .swipeRightButton
         
-        completedAction.image = UIImage(named: "")
+//        completedAction.image = UIImage(named: "")
         completedAction.backgroundColor = .activeButton
         
         
