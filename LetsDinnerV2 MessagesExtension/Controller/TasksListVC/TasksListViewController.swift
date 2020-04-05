@@ -77,7 +77,7 @@ class TasksListViewController: UIViewController {
     private func setupUpdateButton() {
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 12
-        submitButton.backgroundColor = Colors.paleGray
+        submitButton.backgroundColor = UIColor.secondaryButtonBackground
 //        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         submitButton.alpha = 1
         submitButton.isEnabled = false

@@ -129,6 +129,16 @@ extension UIColor {
             } else { return Colors.okayBlue }
     }
     
+    static var swipeRightButton: UIColor {
+        if #available(iOS 13, *) {
+            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                if traitCollection.userInterfaceStyle == .dark {
+                    return Colors.darkDullGrey
+                } else { return Colors.dullGrey }}
+            } else { return Colors.dullGrey }
+    }
+
+    
     static var link: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in

@@ -93,6 +93,8 @@ class ManagementViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
+    
+    
     // MARK: Configuration
     private func configureUI() {
         servingsLabel.text = "\(servings) Servings"
@@ -202,9 +204,10 @@ class ManagementViewController: UIViewController {
         
         deleteTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
         assignTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+
         
         deleteTaskLabel.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0))
-        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: footerView.leadingAnchor, bottom: nil, trailing: footerView.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 25, bottom: 0, right: 25))
         
     }
     
@@ -224,7 +227,6 @@ class ManagementViewController: UIViewController {
                 expandedStatus[parentRecipe] = expandableTasks.isExpanded
             }
         }
-        print(expandedStatus)
 
         expandableTasks.removeAll()
         sectionNames.removeAll()
@@ -421,7 +423,6 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
                 expandableTasks.remove(at: indexPath.section)
                 sectionNames.remove(at: indexPath.section)
             }
-//
 //            prepareData()
            
             if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
@@ -441,6 +442,38 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
 //            prepareData()
             self.doneEditThing()
         }
+    }
+    
+    // MARK: Swipe Right Action
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let taskManagementCell = tableView.cellForRow(at: indexPath) as! TaskManagementCell
+        
+        let assignToMyselfAction = UIContextualAction(style: .normal, title: title,
+        handler: { (action, view, completionHandler) in
+            taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath, changeTo: .assigned)
+            completionHandler(true)
+        })
+        
+        let completedAction = UIContextualAction(style: .normal, title: title,
+          handler: { (action, view, completionHandler) in
+            taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath, changeTo: .completed)
+            completionHandler(true)
+        })
+
+
+        assignToMyselfAction.image = UIImage(named: "")
+        assignToMyselfAction.backgroundColor = .swipeRightButton
+        
+        completedAction.image = UIImage(named: "")
+        completedAction.backgroundColor = .activeButton
+        
+        
+        
+        let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
+        
     }
     
 // MARK: Add for sections and collapsable rows
