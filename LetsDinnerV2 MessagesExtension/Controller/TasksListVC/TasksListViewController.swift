@@ -79,7 +79,7 @@ class TasksListViewController: UIViewController {
         submitButton.layer.cornerRadius = 12
         submitButton.backgroundColor = Colors.paleGray
 //        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-        submitButton.alpha = 0.5
+        submitButton.alpha = 1
         submitButton.isEnabled = false
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
@@ -133,6 +133,7 @@ class TasksListViewController: UIViewController {
             servingsViewHeightConstraint.constant = 0
             servingsLabel.isHidden = true
             servingsStepper.isHidden = true
+            servingsSeparator.isHidden = true
         }
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {

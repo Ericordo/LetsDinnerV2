@@ -22,8 +22,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5R7-uv-S6Z">
-                    <rect key="frame" x="0.0" y="0.0" width="389" height="597"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
                     <color key="backgroundColor" name="backgroundColor"/>
+                    <inset key="separatorInset" minX="33" minY="0.0" maxX="0.0" maxY="0.0"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYP-VM-aGb">
                     <rect key="frame" x="61" y="607" width="253" height="50"/>
@@ -45,7 +46,7 @@
             <constraints>
                 <constraint firstItem="5R7-uv-S6Z" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="KJx-Eb-kLr"/>
                 <constraint firstItem="wYP-VM-aGb" firstAttribute="top" secondItem="5R7-uv-S6Z" secondAttribute="bottom" constant="10" id="T6l-mr-aW7"/>
-                <constraint firstItem="5R7-uv-S6Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="14" id="cpm-6S-th7"/>
+                <constraint firstItem="5R7-uv-S6Z" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="cpm-6S-th7"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="wYP-VM-aGb" secondAttribute="bottom" constant="10" id="sGy-bO-y5h"/>
                 <constraint firstItem="wYP-VM-aGb" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tem-LV-ZIg"/>
                 <constraint firstItem="5R7-uv-S6Z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zfe-nk-UfP"/>

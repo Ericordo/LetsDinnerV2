@@ -155,44 +155,42 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             // Check the currentUser has accepted or not
             if let user = user {
                 if user.identifier == Event.shared.hostIdentifier {
-                    cancelCell.separatorInset = separatorInset
+//                    cancelCell.separatorInset = separatorInset
                     cancelCell.delegate = self
                     return cancelCell
                 } else if user.hasAccepted == .declined {
-                    answerDeclinedCell.separatorInset = separatorInset
+//                    answerDeclinedCell.separatorInset = separatorInset
                     return answerDeclinedCell
                 } else if user.hasAccepted == .accepted {
-                    answerAcceptedCell.separatorInset = separatorInset
+//                    answerAcceptedCell.separatorInset = separatorInset
                     return answerAcceptedCell
                 }
             }
             
-//            answerCell.separatorInset = separatorInset
-//            answerCell.delegate = self
-//            return answerCell
             return UITableViewCell()
 
         case RowItemNumber.hostInfo.rawValue:
             
             if let user = user {
-                if user.hasAccepted == .accepted {
-//                    infoCell.selectionStyle = .none
+                switch user.hasAccepted {
+                case .accepted:
                     infoCell.titleLabel.text = LabelStrings.eventInfo
                     infoCell.infoLabel.text = Event.shared.hostName + " "
                     infoCell.accessoryType = .disclosureIndicator
-                } else if user.hasAccepted == .declined {
+                case .declined:
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
-                } else if user.hasAccepted == .pending {
+                case .pending:
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
                 }
+
             } else {
                 infoCell.titleLabel.text = LabelStrings.host
                 infoCell.infoLabel.text = Event.shared.hostName
+                infoCell.cellSeparator.isHidden = false
             }
             
-            infoCell.cellSeparator.isHidden = false
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -212,13 +210,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         case RowItemNumber.taskInfo.rawValue:
             taskSummaryCell.seeAllBeforeCreateEvent.isHidden = true
             taskSummaryCell.delegate = self
-            var numberOfCompletedTasks = 0
-            Event.shared.tasks.forEach { task in
-                if task.taskState == .completed {
-                    numberOfCompletedTasks += 1
-                }
-            }
-            let percentage = Double(numberOfCompletedTasks)/Double(Event.shared.tasks.count)
+
+            let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)
             return taskSummaryCell
         case RowItemNumber.userInfo.rawValue:
@@ -254,7 +247,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                      if Event.shared.isCancelled {
                         return 0
                      } else {
-                        // if Host
+                        // if user is Host
                         return user.identifier == Event.shared.hostIdentifier ? 120 : 80
                     }
                 case RowItemNumber.title.rawValue:
@@ -279,7 +272,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 
             } else if user.hasAccepted == .declined {
                 
-                // Decline Status
+                // MARK: Decline Status
                 switch indexPath.row {
                 case RowItemNumber.invite.rawValue:
                 return 0
@@ -306,7 +299,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
         
-        // Netural - Pending
+        // MARK: Netural - Pending
         switch indexPath.row {
         case RowItemNumber.invite.rawValue:
             return Event.shared.isCancelled ? 0 : 120

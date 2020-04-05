@@ -33,7 +33,7 @@ class LDLabel: UILabel {
     func configureText(title: String, text: String) {
         let attributedString = NSMutableAttributedString(string: "")
         attributedString.append(NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
-        attributedString.append(NSAttributedString(string: "\n"))
+        attributedString.append(NSAttributedString(string: "\n\n"))
         attributedString.append(NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.secondaryTextLabel]))
         self.attributedText = attributedString
     }
