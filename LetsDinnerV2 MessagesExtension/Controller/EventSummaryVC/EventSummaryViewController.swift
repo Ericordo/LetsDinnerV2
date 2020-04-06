@@ -299,7 +299,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
         
-        // MARK: Netural - Pending
+        // MARK: Pending
         switch indexPath.row {
         case RowItemNumber.invite.rawValue:
             return Event.shared.isCancelled ? 0 : 120

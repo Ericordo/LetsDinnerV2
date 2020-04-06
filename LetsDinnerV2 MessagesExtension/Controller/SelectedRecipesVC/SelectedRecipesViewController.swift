@@ -37,7 +37,7 @@ class SelectedRecipesViewController: UIViewController {
         configureTableView()
         
         updateLocalVariable()
-        updateNumberOfTotalRecipe()
+        updateTotalNumberOfRecipes()
         
     
     }
@@ -46,7 +46,7 @@ class SelectedRecipesViewController: UIViewController {
         super.viewWillAppear(animated)
         
         updateLocalVariable()
-        updateNumberOfTotalRecipe()
+        updateTotalNumberOfRecipes()
         recipesTableView.reloadData()
     }
     
@@ -61,7 +61,7 @@ class SelectedRecipesViewController: UIViewController {
             UIView.animate(withDuration: 0.7,
                            delay: 0.0, options: .transitionCrossDissolve,
                            animations: { self.rearrangeTextLabel.alpha = 0.1 },
-                           completion: { finished in
+                           completion: { (_) in
                             self.rearrangeTextLabel.isHidden = true})
         }
         
@@ -70,7 +70,7 @@ class SelectedRecipesViewController: UIViewController {
         }
     }
     
-    private func updateNumberOfTotalRecipe() {
+    private func updateTotalNumberOfRecipes() {
         self.totalNumberOfSelectedRecipes = previouslySelectedRecipes.count + previouslySelectedCustomRecipes.count
     }
     
@@ -274,7 +274,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             }
             
             self.updateLocalVariable()
-            self.updateNumberOfTotalRecipe()
+            self.updateTotalNumberOfRecipes()
             
             UIView.animate(withDuration: 0.3,
                            delay: 0.0,
@@ -283,7 +283,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                             cell.alpha = 0.3
                             cell.heightConstraint.constant = 0
                             cell.backgroundCellView.layoutIfNeeded() },
-                           completion: { finished in
+                           completion: { (_) in
                             self.recipesTableView.reloadData()
                             cell.heightConstraint.constant = 110
                             cell.backgroundCellView.layoutIfNeeded()

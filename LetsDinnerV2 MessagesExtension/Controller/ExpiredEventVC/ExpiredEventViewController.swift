@@ -112,7 +112,6 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        // Netural - Pending
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
             return 120

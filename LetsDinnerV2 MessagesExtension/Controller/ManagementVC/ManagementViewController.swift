@@ -339,11 +339,7 @@ class ManagementViewController: UIViewController {
     
     private func hideFooterView() {
         guard let footerView = footerView else { return }
-        if tasks.isEmpty {
-            footerView.isHidden = true
-        } else {
-            footerView.isHidden = false
-        }
+        footerView.isHidden = tasks.isEmpty
     }
     
     private func updateServings(servings: Int) {

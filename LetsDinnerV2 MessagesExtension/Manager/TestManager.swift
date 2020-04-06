@@ -134,7 +134,7 @@ class TestManager {
     static func quickFillIn() -> Event {
         let event = Event()
         
-        event.dinnerName = "Quick Dinner (tesing)"
+        event.dinnerName = "Quick Dinner (testing)"
         event.hostName = "Who knows"
         event.eventDescription = "Oh no. I love monopoly"
         event.dinnerLocation = "TBC"
