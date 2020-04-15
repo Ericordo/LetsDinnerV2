@@ -122,7 +122,7 @@ class ManagementViewController: UIViewController {
     }
     
     private func configureNewThingView() {
-        newThingView = AddNewThingView(sectionNames: sectionNames, selectedSection: selectedSection)
+        newThingView = AddNewThingView(type: .ManageTask, sectionNames: sectionNames, selectedSection: selectedSection)
         newThingView?.addThingDelegate = self
     
         addThingView.addSubview(newThingView!)

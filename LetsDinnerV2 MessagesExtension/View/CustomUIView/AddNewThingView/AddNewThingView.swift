@@ -8,12 +8,18 @@
 
 import UIKit
 
+enum AddNewThingViewType {
+    case CreateRecipe
+    case ManageTask
+}
+
 protocol AddThingDelegate: class {
     func doneEditThing()
 }
 
 class AddNewThingView: UIView {
     
+    var type: AddNewThingViewType!
     var sectionNames: [String]? {
         didSet {
             self.updateSectionSelectedInput()
@@ -78,9 +84,10 @@ class AddNewThingView: UIView {
         return indicator
     }()
     
-    let sectionSelectionInput = SectionSelectionInput()
+    lazy var sectionSelectionInput = SectionSelectionInput(type: type)
     
-    init(sectionNames: [String], selectedSection: String?) {
+    init(type: AddNewThingViewType, sectionNames: [String], selectedSection: String?) {
+        self.type = type
         self.sectionNames = sectionNames
         self.selectedSection = selectedSection
         super.init(frame: CGRect.zero)
@@ -89,7 +96,7 @@ class AddNewThingView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        configureUI(sectionNames: sectionNames!, selectedSection: selectedSection!)
+//        configureUI(sectionNames: sectionNames!, selectedSection: selectedSection!)
     }
     
     override func layoutSubviews() {
@@ -125,7 +132,10 @@ class AddNewThingView: UIView {
         self.sectionSelectionInput.sections.removeAll()
         
         // Recreate the sections everytime
-        self.sectionSelectionInput.sections.append("Miscellaneous")
+        if type == .ManageTask{
+            self.sectionSelectionInput.sections.append("Miscellaneous")
+        }
+        
         self.sectionSelectionInput.sections += sectionNames
         self.sectionSelectionInput.sectionsCollectionView.reloadData()
     }
@@ -172,12 +182,6 @@ extension AddNewThingView: UITextFieldDelegate {
                                isCustom: true,
                                parentRecipe: self.selectedSection ?? "Miscellaneous")
             
-            // If metricAmount has been inputted
-            #warning("What happen when user enters an amount but not a unit?? e.g Eggs 6")
-            if !amountTextField.text!.isEmpty && !unitTextField.text!.isEmpty {
-                newTask.metricUnit = unitTextField.text!
-                newTask.metricAmount = Double(amountTextField.text!)
-            }
             Event.shared.tasks.append(newTask)
             
             // Work on ManagmentVC
@@ -206,8 +210,7 @@ extension AddNewThingView: UITextFieldDelegate {
         case newThingTitleTextField:
             return count <= 30
         case amountTextField:
-            let isNumberValidated = isValidatedNumber(textField: textField, string: string)
-            return count <= 8 && isNumberValidated
+            return count <= 8 && isNumberValidated(textField: textField, string: string)
         case unitTextField:
             return count <= 10
         default:
@@ -215,8 +218,8 @@ extension AddNewThingView: UITextFieldDelegate {
         }
 
     }
-    #warning("bad naming")
-    private func isValidatedNumber(textField: UITextField, string: String) -> Bool {
+    
+    private func isNumberValidated(textField: UITextField, string: String) -> Bool {
         let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
         let components = string.components(separatedBy: inverseSet)
         let filtered = components.joined(separator: "")
