@@ -13,6 +13,7 @@ extension UIView {
     
     func setGradient(colorOne: UIColor, colorTwo: UIColor) {
         let gradientLayer = CAGradientLayer()
+        gradientLayer.name = "GradientLayer"
         gradientLayer.frame = bounds
         gradientLayer.colors = [colorOne.cgColor, colorTwo.cgColor]
         gradientLayer.locations = [0.0, 1.0]
@@ -152,6 +153,15 @@ extension UIView {
         self.removeConstraints(self.constraints)
         self.translatesAutoresizingMaskIntoConstraints = true
     }
+    
+    // Remove swipe tableviewcell layer
+    
+    var allSubViews : [UIView] {
+        var array = [self.subviews].flatMap {$0}
+        array.forEach { array.append(contentsOf: $0.allSubViews) }
+        return array
+    }
+    
     
     
 

@@ -13,7 +13,7 @@ private var _SingletonSharedInstance = TestManager()
 
 class TestManager {
     
-    var isTesting = true
+    var isTesting = false
 
     public class var sharedInstance: TestManager {
         return _SingletonSharedInstance
@@ -25,8 +25,11 @@ class TestManager {
     var isDarkModeOn = false
     
     var isHost = true
-    var isStatusPending = false // isHost need to be false
+    var isStatusPending = true // isHost need to be false
     var isUserAcceptedEvent = true // isStatusPending need to be false
+    
+    var isExpired = false
+    var isCanceled = false
     
     // ===========================================================================
     
@@ -80,6 +83,9 @@ class TestManager {
                     var array = [Recipe]()
                     array = Array(event.selectedRecipes[0...0])
                     event.selectedRecipes = array
+                    
+                    // Add Recipes
+                    Event.shared.selectedRecipes.append(contentsOf: array)
                                                                                 
                       event.selectedRecipes.forEach { recipe in
                           let recipeName = recipe.title ?? ""
@@ -128,8 +134,8 @@ class TestManager {
     static func quickFillIn() -> Event {
         let event = Event()
         
-        event.dinnerName = "Quick Dinner (Finish in 10 mins)"
-        event.hostName = "Obama"
+        event.dinnerName = "Quick Dinner (testing)"
+        event.hostName = "Who knows"
         event.eventDescription = "Oh no. I love monopoly"
         event.dinnerLocation = "TBC"
         event.dateTimestamp = Double(Date.currentTimeStamp)

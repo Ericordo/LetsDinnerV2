@@ -25,6 +25,7 @@ class RecipeCell: UITableViewCell {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var viewButton: UIButton!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
     var selectedRecipe = Recipe(dict: [:])
     var selectedCustomRecipe = CustomRecipe()
@@ -55,6 +56,8 @@ class RecipeCell: UITableViewCell {
         recipeImageView.layer.cornerRadius = 10
         recipeNameLabel.sizeToFit()
         recipeImageView.kf.indicatorType = .activity
+        
+        heightConstraint.constant = 110
         selectionStyle = .none
     }
     
@@ -64,13 +67,14 @@ class RecipeCell: UITableViewCell {
             backgroundImageView.kf.setImage(with: imageURL)
         }
         recipeImageView.isHidden = false
+        visualEffectView.isHidden = false
+
         self.searchType = searchType
         recipeNameLabel.text = recipe.title!
         selectedRecipe = recipe
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
         recipeNameLabel.sizeToFit()
-        visualEffectView.isHidden = false
 
         if #available(iOSApplicationExtension 13.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
@@ -84,6 +88,16 @@ class RecipeCell: UITableViewCell {
         if let downloadUrl = customRecipe.downloadUrl {
             recipeImageView.kf.setImage(with: URL(string: downloadUrl))
             backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
+            
+            visualEffectView.isHidden = false
+            
+            if #available(iOSApplicationExtension 13.0, *) {
+                if self.traitCollection.userInterfaceStyle == .dark {
+                    let blurEffect = UIBlurEffect(style: .dark)
+                    self.visualEffectView.effect = blurEffect
+                }
+            }
+            
 //        if let imageData = customRecipe.imageData {
 //            recipeImageView.image = UIImage(data: imageData)
 //            backgroundImageView.image = UIImage(data: imageData)
@@ -136,43 +150,4 @@ class RecipeCell: UITableViewCell {
         }
         
     }
-    
-    // For TableViewCell Editing
-    // MARK: Drag and drop
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-////        cellActionButtonLabel?.textColor = .activeButton
-//
-//        // -------- Drag and Drop Reorder Session ---------
-//        contentView.frame = bounds
-//        reorderControl?.frame = bounds
-//    }
-//
-//    override func setEditing(_ editing: Bool, animated: Bool) {
-//        super.setEditing(editing, animated: false)
-//
-//        // -------- Drag and Drop Reorder Session ---------
-//        if !editing || reorderControl != nil {
-//            return
-//        }
-//
-//        // Find the reorder control in the cell's subviews.
-//        for view in subviews {
-//            let className = String(describing: type(of:view))
-//            if className == "UITableViewCellReorderControl" {
-//
-//                // Remove its subviews so that they don't mess up
-//                // your own content's appearance.
-//                for subview in view.subviews {
-//                    subview.removeFromSuperview()
-//                }
-//
-//                // Keep a weak reference to it for `layoutSubviews()`.
-//                reorderControl = view
-//
-//                break
-//            }
-//        }
-//    }
-    
 }

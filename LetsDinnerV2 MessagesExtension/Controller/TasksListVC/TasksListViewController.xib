@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,7 +31,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-LT-H4I">
-                            <rect key="frame" x="9" y="10.5" width="67" height="22"/>
+                            <rect key="frame" x="9" y="10.5" width="55" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="j08-na-hUB"/>
                             </constraints>
@@ -50,7 +50,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYB-Y0-w4c" userLabel="Sort Button">
-                            <rect key="frame" x="315" y="-0.5" width="44" height="44"/>
+                            <rect key="frame" x="337" y="10.5" width="22" height="22"/>
                             <state key="normal" image="sortButtonOutlined"/>
                             <connections>
                                 <action selector="didTapSortButton:" destination="-1" eventType="touchUpInside" id="1Fi-xd-9Uo"/>
@@ -126,7 +126,7 @@
                                 <action selector="didTapStepper:" destination="-1" eventType="valueChanged" id="YJv-X2-qW8"/>
                             </connections>
                         </stepper>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cYF-cL-Nde">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cYF-cL-Nde" userLabel="Separator View">
                             <rect key="frame" x="16" y="59" width="359" height="1"/>
                             <color key="backgroundColor" white="0.66762093321917804" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -149,7 +149,7 @@
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PWb-FZ-4In">
                     <rect key="frame" x="61" y="607" width="253" height="50"/>
-                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="defaultGrey"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="5RY-0t-Nks"/>
                         <constraint firstAttribute="width" constant="253" id="yHU-4s-q97"/>
@@ -194,6 +194,9 @@
         <image name="sortButtonOutlined" width="22" height="22"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="defaultGrey">
+            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="highlightRed">
             <color red="0.94900000095367432" green="0.34900000691413879" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

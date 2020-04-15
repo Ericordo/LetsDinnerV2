@@ -37,16 +37,16 @@ class SelectedRecipesViewController: UIViewController {
         configureTableView()
         
         updateLocalVariable()
-        updateNumberOfTotalRecipe()
+        updateTotalNumberOfRecipes()
         
-        
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         updateLocalVariable()
-        updateNumberOfTotalRecipe()
+        updateTotalNumberOfRecipes()
         recipesTableView.reloadData()
     }
     
@@ -61,7 +61,8 @@ class SelectedRecipesViewController: UIViewController {
             UIView.animate(withDuration: 0.7,
                            delay: 0.0, options: .transitionCrossDissolve,
                            animations: { self.rearrangeTextLabel.alpha = 0.1 },
-                           completion: { finished in self.rearrangeTextLabel.isHidden = true})
+                           completion: { (_) in
+                            self.rearrangeTextLabel.isHidden = true})
         }
         
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -69,7 +70,7 @@ class SelectedRecipesViewController: UIViewController {
         }
     }
     
-    private func updateNumberOfTotalRecipe() {
+    private func updateTotalNumberOfRecipes() {
         self.totalNumberOfSelectedRecipes = previouslySelectedRecipes.count + previouslySelectedCustomRecipes.count
     }
     
@@ -237,11 +238,12 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         return UITableViewCell()
     }
     
-    // MARK: Editing row
+    // MARK: Delete and Edit row
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
+    
     
     // Apirecipe index number = self + customrecipe index
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -256,19 +258,9 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                 if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == cell.selectedCustomRecipe.id }) {
                     
                     Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
+                    
                     Event.shared.selectedCustomRecipes.remove(at: index)
-                    self.updateLocalVariable()
-                    self.updateNumberOfTotalRecipe()
-                    
-                    
-//                    self.recipesTableView.reloadData()
-                    // Animation needed
-                    
-//                    self.recipesTableView.deleteRows(at: [indexPath], with: .automatic)
-                    UIView.animate(withDuration: 0.4,
-                                   delay: 0.0, options: .transitionCrossDissolve,
-                                   animations: { cell.alpha = 0.3 },
-                                   completion: { finished in self.recipesTableView.reloadData()})
+
                     }
                     
             case .apiRecipes:
@@ -276,19 +268,29 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                     
                     Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
                     Event.shared.selectedRecipes.remove(at: index)
-                    self.updateLocalVariable()
-                    self.updateNumberOfTotalRecipe()
-//                    self.recipesTableView.reloadData()
-                    
-                    UIView.animate(withDuration: 0.4,
-                                   delay: 0.0, options: .transitionCrossDissolve,
-                                   animations: { cell.alpha = 0.3 },
-                                   completion: { finished in self.recipesTableView.reloadData()})
+ 
                 }
   
             }
             
-            complete(true)
+            self.updateLocalVariable()
+            self.updateTotalNumberOfRecipes()
+            
+            UIView.animate(withDuration: 0.3,
+                           delay: 0.0,
+                           options: .transitionCrossDissolve,
+                           animations: {
+                            cell.alpha = 0.3
+                            cell.heightConstraint.constant = 0
+                            cell.backgroundCellView.layoutIfNeeded() },
+                           completion: { (_) in
+                            self.recipesTableView.reloadData()
+                            cell.heightConstraint.constant = 110
+                            cell.backgroundCellView.layoutIfNeeded()
+                            
+            })
+            
+        complete(true)
         }
         
         
@@ -321,21 +323,19 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         switch movedCell.searchType {
         case .apiRecipes:
             // Get the movedObject
-            for index in 0 ... previouslySelectedRecipes.count - 1 {
-                if previouslySelectedRecipes[index].customOrder == movedCell.selectedRecipe.customOrder {
-                    movedObject = previouslySelectedRecipes[index]
-                    
-                    // Get sourceCustomerOrder
-                    movedObjectSourceCustomOrder = (movedObject as! Recipe).customOrder
-                }
+            if let index = previouslySelectedRecipes.firstIndex( where: { $0.customOrder == movedCell.selectedRecipe.customOrder}) {
+                movedObject = previouslySelectedRecipes[index]
+                
+                // Get sourceCustomerOrder
+                movedObjectSourceCustomOrder = (movedObject as! Recipe).customOrder
             }
+
         case .customRecipes:
-            for index in 0 ... previouslySelectedCustomRecipes.count - 1 {
-                if previouslySelectedCustomRecipes[index].customOrder == movedCell.selectedCustomRecipe.customOrder {
-                    movedObject = previouslySelectedCustomRecipes[index]
-                    
-                    movedObjectSourceCustomOrder = (movedObject as! CustomRecipe).customOrder
-                }
+            
+            if let index = previouslySelectedCustomRecipes.firstIndex(where: { $0.customOrder == movedCell.selectedCustomRecipe.customOrder}) {
+                
+                movedObject = previouslySelectedCustomRecipes[index]
+                movedObjectSourceCustomOrder = (movedObject as! CustomRecipe).customOrder
             }
         }
         

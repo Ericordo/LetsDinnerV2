@@ -80,13 +80,13 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
             titleCell.titleLabel.text = Event.shared.dinnerName
-            titleCell.separatorInset = separatorInset
+//            titleCell.separatorInset = separatorInset
             return titleCell
             
         case RowItemNumber.hostInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
-            infoCell.cellSeparator.isHidden = false
+//            infoCell.cellSeparator.isHidden = false
             return infoCell
             
         case RowItemNumber.dateInfo.rawValue:
@@ -112,7 +112,6 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        // Netural - Pending
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
             return 120

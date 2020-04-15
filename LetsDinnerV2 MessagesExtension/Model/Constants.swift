@@ -155,7 +155,7 @@ enum LabelStrings {
     static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
     static let noTaskMessage2 = "Start by tapping"
     static let deleteTaskLabel = "To delete a Thing, swipe left."
-    static let assignTaskLabel = "To assign yourself to a Thing or to complete it, tap it."
+    static let assignTaskLabel = "To assign yourself to a Thing or to complete it, tap it or swipe right."
     
     // DescriptionVC
     static let whatsThePlan = "Would you like to add an invitation message? \nMore information? Anything else?"

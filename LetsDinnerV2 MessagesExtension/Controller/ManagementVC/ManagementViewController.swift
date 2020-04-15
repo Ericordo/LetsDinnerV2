@@ -36,10 +36,12 @@ class ManagementViewController: UIViewController {
     private var tasks = Event.shared.tasks {
         didSet {
             hideServingView()
+            hideFooterView()
         }
     }
     private var classifiedTasks = [[Task]]()
     private var expandableTasks = [ExpandableTasks]()
+    
     private var sectionNames = [String]() {
         didSet {
             newThingView!.sectionNames = self.sectionNames
@@ -58,6 +60,7 @@ class ManagementViewController: UIViewController {
     
     var newThingView: AddNewThingView?
     private var headerView: ExpandableTaskHeaderView?
+    var footerView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +93,8 @@ class ManagementViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
+    
+    
     // MARK: Configuration
     private func configureUI() {
         servingsLabel.text = "\(servings) Servings"
@@ -106,6 +111,7 @@ class ManagementViewController: UIViewController {
 
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             hideServingView()
+            hideFooterView()
         }
         
         if UIDevice.current.hasHomeButton {
@@ -158,8 +164,9 @@ class ManagementViewController: UIViewController {
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
         
         // Configure Footer View
+        footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
         
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
+        guard let footerView = footerView else { return }
         footerView.backgroundColor = .clear
         
         let deleteTaskLabel: UILabel = {
@@ -197,9 +204,10 @@ class ManagementViewController: UIViewController {
         
         deleteTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
         assignTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+
         
         deleteTaskLabel.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0))
-        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0))
+        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: footerView.leadingAnchor, bottom: nil, trailing: footerView.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 25, bottom: 0, right: 25))
         
     }
     
@@ -219,7 +227,6 @@ class ManagementViewController: UIViewController {
                 expandedStatus[parentRecipe] = expandableTasks.isExpanded
             }
         }
-        print(expandedStatus)
 
         expandableTasks.removeAll()
         sectionNames.removeAll()
@@ -330,6 +337,11 @@ class ManagementViewController: UIViewController {
         }
     }
     
+    private func hideFooterView() {
+        guard let footerView = footerView else { return }
+        footerView.isHidden = tasks.isEmpty
+    }
+    
     private func updateServings(servings: Int) {
       
         self.servings = servings
@@ -342,7 +354,6 @@ class ManagementViewController: UIViewController {
                 }
             }
         }
-        
         
         prepareData()
         tasksTableView.reloadData()
@@ -392,6 +403,8 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        // MARK: Delete Task
         if (editingStyle == .delete) {
             let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
             let index = Event.shared.tasks.firstIndex { (task) -> Bool in
@@ -406,7 +419,6 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
                 expandableTasks.remove(at: indexPath.section)
                 sectionNames.remove(at: indexPath.section)
             }
-//
 //            prepareData()
            
             if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
@@ -426,6 +438,38 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
 //            prepareData()
             self.doneEditThing()
         }
+    }
+    
+    // MARK: Swipe Right Action
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let taskManagementCell = tableView.cellForRow(at: indexPath) as! TaskManagementCell
+        
+        let assignToMyselfAction = UIContextualAction(style: .normal, title: title,
+        handler: { (action, view, completionHandler) in
+            taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath, changeTo: .assigned)
+            completionHandler(true)
+        })
+        
+        let completedAction = UIContextualAction(style: .normal, title: title,
+          handler: { (action, view, completionHandler) in
+            taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath, changeTo: .completed)
+            completionHandler(true)
+        })
+
+
+//        assignToMyselfAction.image = UIImage(named: "")
+        assignToMyselfAction.backgroundColor = .swipeRightButton
+        
+//        completedAction.image = UIImage(named: "")
+        completedAction.backgroundColor = .activeButton
+        
+        
+        
+        let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
+        
     }
     
 // MARK: Add for sections and collapsable rows
@@ -492,7 +536,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
 
         let isExpanded = expandableTasks[section].isExpanded
         expandableTasks[section].isExpanded = !isExpanded
-
+        
         if isExpanded {
             tasksTableView.deleteRows(at: indexPaths, with: .fade)
         } else {

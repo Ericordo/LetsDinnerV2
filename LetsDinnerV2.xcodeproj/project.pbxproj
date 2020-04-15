@@ -106,7 +106,7 @@
 		88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */; };
 		88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */; };
 		88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */; };
-		88B7832E23717D84009E4F3C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor.swift */; };
+		88B7832E23717D84009E4F3C /* UIColor+Semantic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */; };
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
 		88B7833223718125009E4F3C /* Recipe - Edamam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7833123718125009E4F3C /* Recipe - Edamam.swift */; };
 		88B78335237183DB009E4F3C /* PredefinedRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88B78334237183DB009E4F3C /* PredefinedRecipes.json */; };
@@ -291,7 +291,7 @@
 		88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
 		88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManagementViewController.xib; sourceTree = "<group>"; };
 		88B7832B23717CF7009E4F3C /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
-		88B7832D23717D84009E4F3C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Semantic.swift"; sourceTree = "<group>"; };
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		88B7833123718125009E4F3C /* Recipe - Edamam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe - Edamam.swift"; sourceTree = "<group>"; };
 		88B78334237183DB009E4F3C /* PredefinedRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PredefinedRecipes.json; sourceTree = "<group>"; };
@@ -648,7 +648,7 @@
 				B8630E3B23FFF6AB00E48A38 /* UIImage.swift */,
 				885C61132384B6D600ED3A17 /* UITextField.swift */,
 				880B135523746A5D003E29AC /* UIButton.swift */,
-				88B7832D23717D84009E4F3C /* UIColor.swift */,
+				88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */,
 				B8D1CC9523F1309000E54E26 /* UIDevice.swift */,
 				B87C10392403E607004AD951 /* UIViewController.swift */,
 				88349F2B236F7145002A1879 /* UserDefaults.swift */,
@@ -1181,7 +1181,7 @@
 				32603EAF23F1BC4E00AB6B50 /* ExpiredEventCell.swift in Sources */,
 				885C61142384B6D600ED3A17 /* UITextField.swift in Sources */,
 				88349F25236E20CF002A1879 /* UIView.swift in Sources */,
-				88B7832E23717D84009E4F3C /* UIColor.swift in Sources */,
+				88B7832E23717D84009E4F3C /* UIColor+Semantic.swift in Sources */,
 				88B7832C23717CF7009E4F3C /* CustomSearchBar.swift in Sources */,
 				B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */,
 				B87C10382402A8E6004AD951 /* Date.swift in Sources */,
