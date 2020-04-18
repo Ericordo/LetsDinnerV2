@@ -26,7 +26,6 @@ class ManagementViewController: UIViewController {
     // Add Things
     @IBOutlet weak var addThingView: UIView!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
-        
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
@@ -89,11 +88,8 @@ class ManagementViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.addThingViewBottomConstraint.constant = -100
-        self.view.layoutIfNeeded()
+
     }
-    
-    
     
     // MARK: Configuration
     private func configureUI() {
@@ -107,7 +103,7 @@ class ManagementViewController: UIViewController {
 
         separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
-        self.addShadowOnUIView(view: addThingView)
+        addThingView.addShadow()
 
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             hideServingView()
@@ -122,28 +118,17 @@ class ManagementViewController: UIViewController {
     }
     
     private func configureNewThingView() {
-        newThingView = AddNewThingView(type: .ManageTask, sectionNames: sectionNames, selectedSection: selectedSection)
+        newThingView = AddNewThingView(type: .manageTask, sectionNames: sectionNames, selectedSection: selectedSection)
         newThingView?.addThingDelegate = self
     
         addThingView.addSubview(newThingView!)
-        
         newThingView!.translatesAutoresizingMaskIntoConstraints = false
         newThingView!.anchor(top: addThingView.topAnchor,
                              leading: addThingView.leadingAnchor,
                              bottom: addThingView.bottomAnchor,
                              trailing: addThingView.trailingAnchor)
     }
-    
-    func addShadowOnUIView(view: UIView) {
-        view.layer.shadowColor = Colors.separatorGrey.cgColor
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 10
-        view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = UIScreen.main.scale
-    }
-    
+        
     private func configureGestureRecognizers() {
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
@@ -276,17 +261,19 @@ class ManagementViewController: UIViewController {
     }
     
     @IBAction private func didTapBack(_ sender: UIButton) {
+        removeAllViewsBeforeDismiss()
         delegate?.managementVCDidTapBack(controller: self)
     }
     
     @IBAction private func didTapNext(_ sender: UIButton) {
+        removeAllViewsBeforeDismiss()
         delegate?.managementVCDdidTapNext(controller: self)
     }
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
         
-        newThingView?.newThingTitleTextField.becomeFirstResponder()
+        newThingView?.mainTextField.becomeFirstResponder()
         NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
 
 //
@@ -342,10 +329,15 @@ class ManagementViewController: UIViewController {
         footerView.isHidden = tasks.isEmpty
     }
     
+    private func removeAllViewsBeforeDismiss() {
+        self.view.endEditing(true)
+        self.addThingViewBottomConstraint.constant = -100
+        self.view.layoutIfNeeded()
+    }
+    
     private func updateServings(servings: Int) {
-      
         self.servings = servings
-        
+    
         Event.shared.tasks.forEach { task in
             if !task.isCustom {
                 if let amount = task.metricAmount, let oldServings = task.servings {
@@ -435,8 +427,10 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
                 indexSet.add(indexPath.section)
                 tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
             }
-//            prepareData()
-            self.doneEditThing()
+            
+            // Refresh Data
+            self.prepareData()
+            self.tasksTableView.reloadData()
         }
     }
     
@@ -562,10 +556,11 @@ extension ManagementViewController: TaskManagementCellDelegate {
 // MARK: AddThing Delegation
 
 extension ManagementViewController: AddThingDelegate {
-    func doneEditThing() {
+    func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
         self.prepareData()
         self.tasksTableView.reloadData()
     }
+    
 }
 
 extension ManagementViewController: UIGestureRecognizerDelegate {

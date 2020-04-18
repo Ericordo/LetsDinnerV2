@@ -15,12 +15,7 @@ protocol SectionSelectionInputDelegate : class {
 class SectionSelectionInput : UIView {
     
     var type: AddNewThingViewType!
-    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        configureView()
-//    }
-    
+        
     init(type: AddNewThingViewType) {
         self.type = type
         super.init(frame: CGRect.zero)
@@ -54,7 +49,7 @@ class SectionSelectionInput : UIView {
     }()
     
     private func configureView() {
-        if type == .ManageTask {
+        if type == .manageTask {
             sections.append("Miscellaneous")
         }
         
@@ -72,6 +67,8 @@ class SectionSelectionInput : UIView {
     override func layoutSubviews() {
     // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
         addConstraints()
+        
+        // Control the selected bubble
         sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .left)
     }
     
@@ -105,6 +102,7 @@ class SectionSelectionInput : UIView {
 }
 
 extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sections.count
     }
