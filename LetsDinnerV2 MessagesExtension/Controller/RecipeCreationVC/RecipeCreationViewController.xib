@@ -53,7 +53,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="600"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INFORMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azN-Yf-CJz">
-                                    <rect key="frame" x="30" y="10" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="20" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="7Qf-wV-tOA"/>
                                     </constraints>
@@ -62,14 +62,14 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-if-lec" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="31" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="41" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="LRr-4L-whY"/>
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add Recipe name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="E2F-qp-Aha">
-                                    <rect key="frame" x="30" y="32" width="335" height="44"/>
+                                    <rect key="frame" x="30" y="42" width="335" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="aRN-Lx-fZY"/>
@@ -78,21 +78,21 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 </textField>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yH8-oq-wFL" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="76" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="86" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="kGF-zI-pfF"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="if1-uB-ttS" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="121" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="131" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Drc-8q-hHV"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INGREDIENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FwZ-UV-5Yd">
-                                    <rect key="frame" x="30" y="162" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="172" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="KMN-f5-iUF"/>
                                     </constraints>
@@ -101,14 +101,14 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-kE-tot" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="183" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="193" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="iHO-t0-VmJ"/>
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add ingredients" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-Z2-qAd">
-                                    <rect key="frame" x="30" y="184" width="345" height="44"/>
+                                    <rect key="frame" x="30" y="194" width="345" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="yuM-hI-d0H"/>
@@ -117,14 +117,14 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 </textField>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-X9-9R9" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="228" width="345" height="0.5"/>
+                                    <rect key="frame" x="30" y="238" width="345" height="0.5"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="0.5" id="zBH-PH-bbO"/>
                                     </constraints>
                                 </view>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-Mp-GD9">
-                                    <rect key="frame" x="30" y="228.5" width="345" height="100"/>
+                                    <rect key="frame" x="30" y="238.5" width="345" height="100"/>
                                     <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="RF0-PX-Egh"/>
@@ -132,7 +132,7 @@
                                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </tableView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For 2 people" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhA-gS-yRY">
-                                    <rect key="frame" x="30" y="77" width="231" height="44"/>
+                                    <rect key="frame" x="30" y="87" width="231" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="oUI-HK-XsB"/>
                                     </constraints>
@@ -141,13 +141,13 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="mhq-Q2-2gs">
-                                    <rect key="frame" x="271" y="83" width="94" height="32"/>
+                                    <rect key="frame" x="271" y="93" width="94" height="32"/>
                                     <connections>
                                         <action selector="didTapStepper:" destination="-1" eventType="valueChanged" id="HyP-eB-8Y8"/>
                                     </connections>
                                 </stepper>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COOKING STEPS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Y6-VZ-Obb">
-                                    <rect key="frame" x="30" y="368.5" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="378.5" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="Dtx-sZ-2eu"/>
                                     </constraints>
@@ -156,14 +156,14 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCW-X4-FRP" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="389.5" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="399.5" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="sVu-ev-nyt"/>
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add Cooking Steps" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdW-3C-FYb">
-                                    <rect key="frame" x="30" y="390.5" width="345" height="44"/>
+                                    <rect key="frame" x="30" y="400.5" width="345" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Zqf-2i-oBM"/>
@@ -172,14 +172,14 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textField>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljr-Ze-0NW" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="434.5" width="345" height="0.5"/>
+                                    <rect key="frame" x="30" y="444.5" width="345" height="0.5"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="0.5" id="TOk-Gq-MoO"/>
                                     </constraints>
                                 </view>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q6e-87-wwp">
-                                    <rect key="frame" x="30" y="435" width="345" height="100"/>
+                                    <rect key="frame" x="30" y="445" width="345" height="100"/>
                                     <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="loY-ws-QTx"/>
@@ -187,7 +187,7 @@
                                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </tableView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIPS &amp; COMMENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mod-HC-GoK">
-                                    <rect key="frame" x="30" y="575" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="585" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="GsH-lB-RaV"/>
                                     </constraints>
@@ -196,14 +196,14 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-nx-uSZ" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="596" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="606" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Uqv-xc-WcH"/>
                                     </constraints>
                                 </view>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hMw-Vr-xbb">
-                                    <rect key="frame" x="26" y="597" width="349" height="100"/>
+                                    <rect key="frame" x="26" y="607" width="349" height="100"/>
                                     <color key="backgroundColor" name="backgroundColor"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
@@ -237,7 +237,7 @@
                                 <constraint firstItem="ekF-nx-uSZ" firstAttribute="top" secondItem="mod-HC-GoK" secondAttribute="bottom" constant="5" id="Q5T-rd-88r"/>
                                 <constraint firstItem="TCW-X4-FRP" firstAttribute="top" secondItem="5Y6-VZ-Obb" secondAttribute="bottom" constant="5" id="SAa-IY-VvY"/>
                                 <constraint firstItem="if1-uB-ttS" firstAttribute="leading" secondItem="CVE-ft-qZN" secondAttribute="leading" constant="30" id="T7R-uT-JQ0"/>
-                                <constraint firstItem="azN-Yf-CJz" firstAttribute="top" secondItem="CVE-ft-qZN" secondAttribute="top" constant="10" id="TcO-zy-vY0"/>
+                                <constraint firstItem="azN-Yf-CJz" firstAttribute="top" secondItem="CVE-ft-qZN" secondAttribute="top" constant="20" id="TcO-zy-vY0"/>
                                 <constraint firstItem="Rmo-X9-9R9" firstAttribute="top" secondItem="MAi-Z2-qAd" secondAttribute="bottom" id="Thm-0m-sZs"/>
                                 <constraint firstAttribute="trailing" secondItem="fgj-kE-tot" secondAttribute="trailing" id="VK7-Rh-QGN"/>
                                 <constraint firstAttribute="trailing" secondItem="azN-Yf-CJz" secondAttribute="trailing" id="Vl7-W9-3nd"/>
@@ -293,9 +293,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholderBig" translatesAutoresizingMaskIntoConstraints="NO" id="LAq-Zi-jDD">
-                            <rect key="frame" x="113" y="44" width="149" height="116"/>
+                            <rect key="frame" x="112.5" y="40" width="150" height="120"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="LAq-Zi-jDD" secondAttribute="height" multiplier="50:39" id="Aom-1J-949"/>
+                                <constraint firstAttribute="width" secondItem="LAq-Zi-jDD" secondAttribute="height" multiplier="50:40" id="Aom-1J-949"/>
+                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="G1e-Mv-6yc"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqH-8E-4XD">
@@ -348,11 +349,10 @@
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="Aqf-KX-MTC"/>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="top" secondItem="NMe-Pr-15z" secondAttribute="top" id="CC5-MG-zae"/>
                         <constraint firstAttribute="trailing" secondItem="p8r-DV-7aT" secondAttribute="trailing" id="UOL-3t-6F5"/>
-                        <constraint firstAttribute="bottom" secondItem="LAq-Zi-jDD" secondAttribute="bottom" constant="40" id="X7P-Fe-AKd"/>
+                        <constraint firstItem="LAq-Zi-jDD" firstAttribute="centerY" secondItem="NMe-Pr-15z" secondAttribute="centerY" id="WdQ-Vm-INb"/>
                         <constraint firstItem="p8r-DV-7aT" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="bRv-2V-Xf3"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" constant="30" id="f1c-gw-dJf"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="centerX" secondItem="NMe-Pr-15z" secondAttribute="centerX" id="fbD-4O-qWF"/>
-                        <constraint firstItem="LAq-Zi-jDD" firstAttribute="top" secondItem="NMe-Pr-15z" secondAttribute="top" constant="44" id="jHv-25-s4N"/>
                         <constraint firstAttribute="trailing" secondItem="rqH-8E-4XD" secondAttribute="trailing" constant="30" id="lPE-Hk-HZB"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="top" secondItem="LAq-Zi-jDD" secondAttribute="bottom" constant="8" id="lPz-Ul-cvQ"/>
                         <constraint firstAttribute="bottom" secondItem="rqH-8E-4XD" secondAttribute="bottom" constant="8" id="mTJ-XW-Nhc"/>
@@ -379,7 +379,7 @@
                             <rect key="frame" x="333" y="15" width="22" height="22"/>
                             <state key="normal" image="editButtonOutlined"/>
                             <connections>
-                                <action selector="didTapBottomEdit:" destination="-1" eventType="touchUpInside" id="ZqX-tx-5fg"/>
+                                <action selector="didTapBottomEditButton:" destination="-1" eventType="touchUpInside" id="ZqX-tx-5fg"/>
                             </connections>
                         </button>
                     </subviews>

@@ -165,7 +165,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         editingVC.modalPresentationStyle = .fullScreen
         editingVC.recipeCreationVCUpdateDelegate = self
         editingVC.recipeToEdit = recipe
-        editingVC.editingMode = true
+        editingVC.editExistRecipe = true
         self.present(editingVC, animated: true, completion: nil)
     }
     

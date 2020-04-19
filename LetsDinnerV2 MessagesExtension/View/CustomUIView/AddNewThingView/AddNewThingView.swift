@@ -114,16 +114,28 @@ class AddNewThingView: UIView {
     lazy var sectionSelectionInput = SectionSelectionInput(type: type)
     
     init(type: AddNewThingViewType, sectionNames: [String], selectedSection: String?) {
+        
+        let section: String = {
+            let section: String!
+            switch type {
+            case .createRecipe:
+                section = "Name"
+            case .manageTask:
+                section = "Miscellaneous"
+            }
+            return section
+        }()
+
         self.type = type
         self.sectionNames = sectionNames
-        self.selectedSection = selectedSection
+        self.selectedSection = selectedSection ?? section
         super.init(frame: CGRect.zero)
+        
         configureUI(sectionNames: sectionNames, selectedSection: selectedSection)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-//        configureUI(sectionNames: sectionNames!, selectedSection: selectedSection!)
     }
     
     override func layoutSubviews() {
@@ -149,33 +161,38 @@ class AddNewThingView: UIView {
         }
         
         sectionSelectionInput.configureInput(sections: sectionNames)
-        self.setDefaultSelectedSection(type: type)
+//        self.setDefaultSelectedSection(type: type)
         
         
 
     }
     
+    // MARK: Update UI
     func updateUI(type: AddNewThingViewType, selectedSection: String?) {
         var position = 0
         
         if type == .createRecipe {
             switch selectedSection {
             case CreateRecipeSections.name.rawValue:
+                mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "e.g. Spaghetti Carbonara"
                 position = 0
                 hideAmountAndUnitTextField(true)
   
             case CreateRecipeSections.ingredient.rawValue:
+                mainTextField.returnKeyType = .next
                 mainTextField.placeholder = "e.g. Milk"
                 position = 1
                 hideAmountAndUnitTextField(false)
                 
             case CreateRecipeSections.step.rawValue:
+                mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "e.g. Pour the milk into a bowl"
                 position = 2
                 hideAmountAndUnitTextField(true)
 
             case CreateRecipeSections.comment.rawValue:
+                mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "Any tips want to mention?"
                 position = 3
                 hideAmountAndUnitTextField(true)
@@ -183,6 +200,8 @@ class AddNewThingView: UIView {
             default:
                 break
             }
+            
+            mainTextField.becomeFirstResponder()
             
             // Move the bubble to corresponding SectionInputCV
             sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .centeredHorizontally)
@@ -254,27 +273,42 @@ extension AddNewThingView: UITextFieldDelegate {
     // Add things
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        switch textField {
-        case mainTextField:
-            amountTextField.becomeFirstResponder()
-        case amountTextField:
-            unitTextField.becomeFirstResponder()
-        case unitTextField:
-            addThing(type: type)
-            textField.resignFirstResponder()
-        default:
-            break
+        if type == .manageTask || selectedSection == CreateRecipeSections.ingredient.rawValue {
+            
+            switch textField {
+            case mainTextField:
+                amountTextField.becomeFirstResponder()
+            case amountTextField:
+                unitTextField.becomeFirstResponder()
+            case unitTextField:
+                addThing(type: type)
+                textField.resignFirstResponder()
+            default:
+                break
+            }
+        } else {
+            
+            if textField == mainTextField {
+                addThing(type: type)
+                textField.resignFirstResponder()
+            }
+            
         }
+  
         return true
         
     }
     
     private func addThing(type: AddNewThingViewType) {
+        guard !mainTextField.text!.isEmpty else { return  mainTextField.shake() }
+        
         switch type {
         case .createRecipe:
-            break
+            
+            // Pass selectedSection and the content to CreateRecipeVC
+            addThingDelegate?.doneEditThing(selectedSection: selectedSection, mainContent: mainTextField.text, amount: amountTextField.text, unit: unitTextField.text)
+           
         case .manageTask:
-            if !mainTextField.text!.isEmpty {
                 // Pass to Global Varaible
                 let newTask = Task(taskName: mainTextField.text!,
                                    assignedPersonUid: "nil",
@@ -288,7 +322,6 @@ extension AddNewThingView: UITextFieldDelegate {
                 
                 // Work on ManagmentVC
                 addThingDelegate?.doneEditThing(selectedSection: nil, mainContent: nil, amount: nil, unit: nil)
-            }
         }
         
         self.clearAllTextField()
@@ -296,21 +329,7 @@ extension AddNewThingView: UITextFieldDelegate {
     
     // For CreateRecipeVC
     @objc func addButtonTapped(sender: UIButton) {
-        guard !mainTextField.text!.isEmpty else {return}
-        
-        // Parse
-        switch type {
-        case .createRecipe:
-            // Pass selectedSection and the content
-            addThingDelegate?.doneEditThing(selectedSection: selectedSection, mainContent: mainTextField.text, amount: amountTextField.text, unit: unitTextField.text)
-        case .manageTask:
-            print(type)
-        default:
-            break
-
-        }
-        self.clearAllTextField()
-        
+        self.addThing(type: type)
     }
     
     private func clearAllTextField() {

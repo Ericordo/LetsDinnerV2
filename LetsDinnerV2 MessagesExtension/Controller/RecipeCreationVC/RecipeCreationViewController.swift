@@ -73,8 +73,9 @@ class RecipeCreationViewController: UIViewController  {
     private let realm = try! Realm()
     
     private let rowHeight : CGFloat = 44
-    private let topViewMinHeight: CGFloat = 43
+    private let topViewMinHeight: CGFloat = 55
     private let topViewMaxHeight: CGFloat = 200
+    private lazy var bottomEdgeInset: CGFloat =  scrollView.contentSize.height - scrollView.bounds.size.height
 
     // Image
     private let picturePicker = UIImagePickerController()
@@ -116,11 +117,10 @@ class RecipeCreationViewController: UIViewController  {
     var recipeToEdit: CustomRecipe?
     var editingMode = false {
         didSet {
-            if editingMode {
-                setupEditModeUI()
-            }
+            toggleEditButton()
         }
     }
+    var editExistRecipe = false
     
     private var selectedRowIngredient: Int?
     private var selectedRowStep: Int?
@@ -139,39 +139,25 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: ViewDidLaod
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        recipeNameTextField.isEnabled = false
-        
+                
         configureUI()
         configureTableView()
         configureDelegate()
         configureNewThingView()
         configureGestureRecognizers()
-        
-        if editingMode {
-            setupEditModeUI()
+        configureObservers()
+                
+        if editExistRecipe {
+            bottomEditButton.isHidden = false
+            loadExistingCustomRecipe()
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
-//        NotificationCenter.default.addObserver(forName: Notification.Name("keyboardWillShow"), object: nil, queue: nil, using: keyboardWillShow(_:))
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: Notification.Name("keyboardWillShow"), object: nil)
-        
-//        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification,
-//        object: nil,
-//        queue: nil,
-//        using: keyboardWillShow(_:))
-        
     }
     
     // MARK: Configuration UI
     private func configureUI() {
         
-        if !editingMode {
+        if !editExistRecipe {
             self.addStartView()
         }
         
@@ -180,9 +166,10 @@ class RecipeCreationViewController: UIViewController  {
         addThingView.addShadow()
         
         recipeImageView.layer.cornerRadius = 15
+    
 
         scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight + 100, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         servingsLabel.text = "For \(servings) people"
@@ -206,7 +193,7 @@ class RecipeCreationViewController: UIViewController  {
     private func configureTableView() {
         ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
-           
+        
         ingredientsTableView.isEditing = false
         ingredientsTableView.allowsSelectionDuringEditing = false
         ingredientsTableView.rowHeight = rowHeight
@@ -243,18 +230,27 @@ class RecipeCreationViewController: UIViewController  {
                              bottom: addThingView.bottomAnchor,
                              trailing: addThingView.trailingAnchor)
     }
+    
+    private func configureObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+    }
 
     private func addStartView() {
         self.view.addSubview(createRecipeStartView)
         
         createRecipeStartView.translatesAutoresizingMaskIntoConstraints = false
-        createRecipeStartView.anchor(top: headerView.bottomAnchor, leading: self.view.leadingAnchor, bottom: bottomView.topAnchor, trailing: self.view.trailingAnchor)
+        createRecipeStartView.anchor(top: headerView.bottomAnchor, leading: self.view.leadingAnchor, bottom: bottomView.topAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
     }
     
     private func removeStartView() {
         createRecipeStartView.removeFromSuperview()
     }
-    
+
     private func configureGestureRecognizers() {
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
@@ -289,15 +285,20 @@ class RecipeCreationViewController: UIViewController  {
         default:
             break
         }
-        
-        
-        
         self.view.layoutIfNeeded()
 
     }
     
+    
+    
     // MARK: Edit Mode UI
-    private func setupEditModeUI() {
+    private func configureEditMode(_ bool: Bool) {
+        ingredientsTableView.isEditing = bool
+        stepsTableView.isEditing = bool
+    }
+    
+    private func loadExistingCustomRecipe() {
+        
         guard let recipe = recipeToEdit else { return }
 //        headerLabel.text = recipe.title
         if let downloadUrl = recipe.downloadUrl {
@@ -305,7 +306,7 @@ class RecipeCreationViewController: UIViewController  {
             recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholderBig.png")) { result in
                 switch result {
                 case .success:
-                    self.addImageButton.setTitle("Modify image", for: .normal)
+                    self.addImageButton.setTitle("Edit image", for: .normal)
                     self.imageState = .deleteOrModifyPic
                 case .failure:
                     let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
@@ -336,7 +337,7 @@ class RecipeCreationViewController: UIViewController  {
         
     }
     
-    private func presentPicker() {
+    private func presentImagePicker() {
         picturePicker.popoverPresentationController?.sourceView = addImageButton
         picturePicker.popoverPresentationController?.sourceRect = addImageButton.bounds
         picturePicker.sourceType = .photoLibrary
@@ -344,7 +345,36 @@ class RecipeCreationViewController: UIViewController  {
         present(picturePicker, animated: true, completion: nil)
     }
     
+    private func presentDoneActionSheet() {
+        let alert = UIAlertController(title: "", message: "Save or Discard your changes?", preferredStyle: .actionSheet)
+
+        let saveAction = UIAlertAction(title: "Save", style: .default) {
+            _ in self.saveRecipe()
+        }
+        let discardAction = UIAlertAction(title: "Discard", style: .destructive) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        alert.addAction(saveAction)
+        alert.addAction(discardAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: Functions
+    private func toggleEditButton() {
+       if editingMode {
+           bottomEditButton.setImage(UIImage(named: "editButton.png"), for: .normal)
+            configureEditMode(true)
+//           self.loadExistingCustomRecipe()
+           
+       } else {
+           bottomEditButton.setImage(UIImage(named: "editButtonOutlined.png"), for: .normal)
+            configureEditMode(false)
+
+       }
+   }
+    
     private func addIngredient(name: String?, amount: String?, unit: String?) {
         var ingredient: TemporaryIngredient
         if let name = name, let amount = amount, let unit = unit {
@@ -425,7 +455,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     
-    // MARK: Data write and Read in Realm
+    // MARK: Data write in Realm
     private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
         do {
             try self.realm.write {
@@ -525,7 +555,7 @@ class RecipeCreationViewController: UIViewController  {
     
     
     
-    // MARK: Did Tap Button
+    // MARK: Did Tap Buttons
     
     @IBAction func didTapCancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -533,12 +563,14 @@ class RecipeCreationViewController: UIViewController  {
     
     
     @IBAction func didTapDone(_ sender: Any) {
-        // MARK: TEMP
-        self.dismiss(animated: true, completion: nil)
-        
+        self.presentDoneActionSheet()
+
+    }
+    
+    func saveRecipe() {
         if verifyInformation() {
-            
-            if editingMode {
+                    
+            if editExistRecipe {
                 guard let recipeToEdit = recipeToEdit else { return }
                 updateRecipeInRealm(recipe: recipeToEdit) { [weak self] result in
                     switch result {
@@ -555,58 +587,57 @@ class RecipeCreationViewController: UIViewController  {
                     }
                 }
             } else {
-                saveRecipeToRealm { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case .success:
-                        self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
-                        self.dismiss(animated: true, completion: nil)
-//                        self.doneButton.isHidden = true
-//                        self.activityIndicator.startAnimating()
-//                        CloudManager.shared.saveCustomRecipeOnCloud(customRecipe: self.customRecipe) { [weak self] result in
-//                            guard let self = self else { return }
-//                            self.activityIndicator.stopAnimating()
-//                            self.doneButton.isHidden = false
-//                            switch result {
-//                            case .success(let recordId):
-//                                self.doneButton.isHidden = true
-//                                self.activityIndicator.startAnimating()
-//                                CloudManager.shared.saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: recordId, ingredients: self.temporaryIngredients) { [weak self] result in
-//                                    guard let self = self else { return }
-//                                    self.activityIndicator.stopAnimating()
-//                                    self.doneButton.isHidden = false
-//                                    switch result {
-//                                    case .success:
-//                                        let alert = UIAlertController(title: "Recipe saved", message: "", preferredStyle: .alert)
-//                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-//                                        alert.addAction(action)
-//                                        self.present(alert, animated: true, completion: nil)
-//                                    case .failure(let error):
-//                                        let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
-//                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-//                                        alert.addAction(action)
-//                                        self.present(alert, animated: true, completion: nil)
-//                                    }
-//                                }
-//                            case.failure(let error):
-//                                let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
-//                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-//                                alert.addAction(action)
-//                                self.present(alert, animated: true, completion: nil)
-//                            }
-//                        }
-                    case .failure:
-                        // To modify
-                        let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
-                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                        alert.addAction(action)
-                        self.present(alert, animated: true, completion: nil)
+                        saveRecipeToRealm { [weak self] result in
+                            guard let self = self else { return }
+                            switch result {
+                            case .success:
+                                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                                self.dismiss(animated: true, completion: nil)
+        //                        self.doneButton.isHidden = true
+        //                        self.activityIndicator.startAnimating()
+        //                        CloudManager.shared.saveCustomRecipeOnCloud(customRecipe: self.customRecipe) { [weak self] result in
+        //                            guard let self = self else { return }
+        //                            self.activityIndicator.stopAnimating()
+        //                            self.doneButton.isHidden = false
+        //                            switch result {
+        //                            case .success(let recordId):
+        //                                self.doneButton.isHidden = true
+        //                                self.activityIndicator.startAnimating()
+        //                                CloudManager.shared.saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: recordId, ingredients: self.temporaryIngredients) { [weak self] result in
+        //                                    guard let self = self else { return }
+        //                                    self.activityIndicator.stopAnimating()
+        //                                    self.doneButton.isHidden = false
+        //                                    switch result {
+        //                                    case .success:
+        //                                        let alert = UIAlertController(title: "Recipe saved", message: "", preferredStyle: .alert)
+        //                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        //                                        alert.addAction(action)
+        //                                        self.present(alert, animated: true, completion: nil)
+        //                                    case .failure(let error):
+        //                                        let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
+        //                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        //                                        alert.addAction(action)
+        //                                        self.present(alert, animated: true, completion: nil)
+        //                                    }
+        //                                }
+        //                            case.failure(let error):
+        //                                let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
+        //                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        //                                alert.addAction(action)
+        //                                self.present(alert, animated: true, completion: nil)
+        //                            }
+        //                        }
+                            case .failure:
+                                // To modify
+                                let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
+                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                                alert.addAction(action)
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        }
                     }
+                    
                 }
-            }
-            
-        }
-        
     }
     
     
@@ -617,14 +648,14 @@ class RecipeCreationViewController: UIViewController  {
     @IBAction func didTapAddImage(_ sender: UIButton) {
         switch imageState {
         case .addPic:
-            presentPicker()
+            presentImagePicker()
         case .deleteOrModifyPic:
             let alert = UIAlertController(title: "My image", message: "", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = addImageButton
             alert.popoverPresentationController?.sourceRect = addImageButton.bounds
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             let change = UIAlertAction(title: "Change", style: .default) { action in
-                self.presentPicker()
+                self.presentImagePicker()
             }
             let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
                 self.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
@@ -648,7 +679,16 @@ class RecipeCreationViewController: UIViewController  {
         bottomEditButton.isHidden = false
     }
     
-    @IBAction func didTapBottomEdit(_ sender: Any) {
+    @IBAction func didTapBottomEditButton(_ sender: Any) {
+        if self.editingMode {
+            editingMode = false
+        } else {
+            // guard sth
+            guard !(temporaryIngredients.isEmpty && temporarySteps.isEmpty) else { return }
+            editingMode = true
+        }
+//        self.editingMode = !editingMode
+        print(editingMode)
     }
     
     
@@ -693,7 +733,9 @@ extension RecipeCreationViewController: UITextFieldDelegate {
                 self.newThingView?.selectedSection = CreateRecipeSections.name.rawValue
 
             case self.ingredientTextField:
+
                 self.newThingView?.selectedSection = CreateRecipeSections.ingredient.rawValue
+
                     
             case self.stepTextField:
                 self.newThingView?.selectedSection = CreateRecipeSections.step.rawValue
@@ -721,8 +763,7 @@ extension RecipeCreationViewController: UITextViewDelegate {
             newThingView?.mainTextField.becomeFirstResponder()
             newThingView?.selectedSection = CreateRecipeSections.comment.rawValue
         }
-        
-        NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
+
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
@@ -780,6 +821,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
     }
 }
 
+// MARK: TableView Configure
 extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
@@ -849,7 +891,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             selectedRowIngredient = indexPath.row
             let selectedIngredient = temporaryIngredients[indexPath.row]
             ingredientTextField.text = selectedIngredient.name
-            //MARK: To be correct, should pop up at the addthingview
+            //MARK: To be precise, should pop up at the addthingview
             if let amount = selectedIngredient.amount {
 //                amountTextField.text = String(amount)
             }
@@ -868,17 +910,25 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     
 }
 
+// MARK: ScrollView Delegate
+
 extension RecipeCreationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-//        print(yOffset)
+        print(yOffset)
         
         if yOffset < -topViewMaxHeight {
             heightConstraint.constant = self.topViewMaxHeight
+            recipeImageView.layer.cornerRadius = 15
+            
         } else if yOffset < -topViewMinHeight {
             heightConstraint.constant = yOffset * -1
+            recipeImageView.layer.cornerRadius = yOffset * (topViewMinHeight / topViewMaxHeight) * -5 / 15
+            self.view.layoutIfNeeded()
+             
         } else {
             heightConstraint.constant = topViewMinHeight
+            recipeImageView.layer.cornerRadius = 5
         }
         
         if heightConstraint.constant == topViewMaxHeight {
@@ -893,9 +943,8 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
         
-        
         // Scroll View Respone
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: keyboardFrame.height, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: topViewMinHeight, left: 0, bottom: bottomEdgeInset, right: 0) //keyboardFrame.height
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         var rectangle = self.view.frame
@@ -912,22 +961,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         }
     
         // AddThingView Respone
-
-        UIView.animate(withDuration: 1) {
-            self.addThingViewBottomConstraint.constant = keyboardFrame.height
-            
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                self.addThingViewBottomConstraint.constant += 20
-            }
-            
-            self.view.layoutIfNeeded()
-        }
-        
-        self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
-        self.view.addGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
-        
-        
-        
+        showAddThingView(true, keyboardHeight: keyboardFrame.height)
         
     }
     
@@ -935,24 +969,50 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
+        showAddThingView(false, keyboardHeight: nil)
+    
+        activeField?.resignFirstResponder()
+    }
+    
+    private func showAddThingView(_ bool: Bool, keyboardHeight: CGFloat?) {
+        if bool {
+            
+            guard let keyboardHeight = keyboardHeight else {return}
+            
+            UIView.animate(withDuration: 1) {
+                self.addThingViewBottomConstraint.constant = keyboardHeight
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    self.addThingViewBottomConstraint.constant += 20
+                }
+                
+            }
+            
+            self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
+            self.view.addGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
+        } else {
+            
+            UIView.animate(withDuration: 1) {
+                self.addThingViewBottomConstraint.constant = -100
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    self.addThingViewBottomConstraint.constant -= 20
+                }
+            }
+           
+           self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
+           self.view.removeGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
+        }
+        
         self.view.layoutIfNeeded()
 
-        UIView.animate(withDuration: 1) {
-             self.addThingViewBottomConstraint.constant = -100
-             self.view.layoutIfNeeded()
-         }
-        
-        self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
-        self.view.removeGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
-
-        activeField?.resignFirstResponder()
     }
     
 }
 
 
-
 extension RecipeCreationViewController: AddThingDelegate {
+    
     // Pass thing from AddThingView
     func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
         switch selectedSection {
