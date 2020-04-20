@@ -101,21 +101,24 @@ class ThankYouViewController: UIViewController {
         NSLayoutConstraint.activate([
             heartIcon.widthAnchor.constraint(equalToConstant: 60),
             heartIcon.heightAnchor.constraint(equalToConstant: 60),
-            heartIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30)
+            heartIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            heartIcon.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -5)
         ])
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            titleLabel.topAnchor.constraint(equalTo: heartIcon.bottomAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: verticalStackView.topAnchor, constant: -5),
             titleLabel.heightAnchor.constraint(equalToConstant: 82)
         ])
         
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            verticalStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -241)
+//            verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            verticalStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            verticalStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            verticalStackView.bottomAnchor.constraint(equalTo: continueButton.topAnchor, constant: -141)
         ])
         
         continueButton.translatesAutoresizingMaskIntoConstraints = false
