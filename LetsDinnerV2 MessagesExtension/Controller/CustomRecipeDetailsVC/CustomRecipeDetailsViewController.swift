@@ -41,7 +41,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     let realm = try! Realm()
     
     private let rowHeight : CGFloat = 44
-    private let topViewMinHeight: CGFloat = 46
+    private let topViewMinHeight: CGFloat = 55
     private let topViewMaxHeight: CGFloat = 200
     
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
@@ -75,17 +75,21 @@ class CustomRecipeDetailsViewController: UIViewController {
 //        }
         if recipe.ingredients.isEmpty {
             ingredientsHeightConstraint.constant = 0
+        } else {
+            ingredientsHeightConstraint.constant = CGFloat(recipe.ingredients.count) * rowHeight
         }
+        
         if recipe.cookingSteps.isEmpty {
             stepsHeightConstraint.constant = 0
         } else {
-            stepsHeightConstraint.constant = 1000
+            stepsHeightConstraint.constant = CGFloat(recipe.cookingSteps.count) * rowHeight
         }
         
         
         stepsTableView.allowsSelection = false
         stepsTableView.rowHeight = UITableView.automaticDimension
         stepsTableView.estimatedRowHeight = rowHeight
+        
         ingredientsHeightConstraint.constant = CGFloat(recipe.ingredients.count) * rowHeight
         let isSelected = Event.shared.selectedCustomRecipes.contains(where: { $0.title == recipe.title })
         
@@ -96,8 +100,9 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         chooseButton.isHidden = isSelected
         chosenButton.isHidden = !isSelected
-        recipeImageView.layer.cornerRadius = 17
+        recipeImageView.layer.cornerRadius = 15
         ingredientsTableView.rowHeight = rowHeight
+        
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
@@ -129,6 +134,8 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         
     }
+    
+    
     
     
     override func viewDidLayoutSubviews() {
@@ -205,7 +212,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     }
     
     private func presentEditMenu() {
-        let alert = UIAlertController(title: selectedRecipe?.title ?? "", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: selectedRecipe?.title ?? "", preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = editButton
         alert.popoverPresentationController?.sourceRect = editButton.bounds
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -268,16 +275,23 @@ extension CustomRecipeDetailsViewController: UIScrollViewDelegate {
         print(yOffset)
         if yOffset < -topViewMaxHeight {
             heightConstraint.constant = self.topViewMaxHeight
+            recipeImageView.layer.cornerRadius = 15
+
+            
         } else if yOffset < -topViewMinHeight {
             heightConstraint.constant = yOffset * -1
+            recipeImageView.layer.cornerRadius = yOffset * (topViewMinHeight / topViewMaxHeight) * -5 / 15
             
         } else {
             heightConstraint.constant = topViewMinHeight
+            recipeImageView.layer.cornerRadius = 5
+
         }
     }
 }
 
 extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
+    
     func recipeCreationVCDidUpdateRecipe() {
         setupUI()
         stepsTableView.reloadData()

@@ -24,16 +24,8 @@ struct TemporaryIngredient {
     let unit: String?
 }
 
-enum CreateRecipeSections: String {
-    case name = "Name"
-    case ingredient = "Ingredient"
-    case step = "Cooking Step"
-    case comment = "Comment"
-}
-
 class RecipeCreationViewController: UIViewController  {
  
-
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var addImageButton: UIButton!
@@ -289,8 +281,7 @@ class RecipeCreationViewController: UIViewController  {
 
     }
     
-    
-    
+
     // MARK: Edit Mode UI
     private func configureEditMode(_ bool: Bool) {
         ingredientsTableView.isEditing = bool
@@ -351,6 +342,9 @@ class RecipeCreationViewController: UIViewController  {
     
     private func presentDoneActionSheet() {
         let alert = UIAlertController(title: "", message: "Save or Discard your changes?", preferredStyle: .actionSheet)
+        
+        alert.popoverPresentationController?.sourceView = doneButton
+        alert.popoverPresentationController?.sourceRect = doneButton.bounds
 
         let saveAction = UIAlertAction(title: "Save", style: .default) {
             _ in self.saveRecipe()
@@ -458,6 +452,10 @@ class RecipeCreationViewController: UIViewController  {
         return image!
     }
     
+    private func shakeEmptyTextFields() {
+        ingredientTextField.shake()
+        stepTextField.shake()
+    }
     
     // MARK: Data write in Realm
     private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
@@ -677,10 +675,12 @@ class RecipeCreationViewController: UIViewController  {
     @IBAction func didTapBottomAdd(_ sender: Any) {
         self.removeStartView()
         
-        newThingView?.mainTextField.becomeFirstResponder()
-        newThingView?.updateUI(type: .createRecipe, selectedSection: "Name")
-//        NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
-        bottomEditButton.isHidden = false
+        if !editingMode {
+            newThingView?.mainTextField.becomeFirstResponder()
+            newThingView?.updateUI(type: .createRecipe, selectedSection: "Name")
+            bottomEditButton.isHidden = false
+        }
+        
     }
     
     @IBAction func didTapBottomEditButton(_ sender: Any) {
@@ -688,9 +688,8 @@ class RecipeCreationViewController: UIViewController  {
             editingMode = false
         } else {
             // Need something to Edit
-            guard !(temporaryIngredients.isEmpty && temporarySteps.isEmpty) else { return ingredientTextField.shake()
-                stepTextField.shake()
-            }
+            guard !(temporaryIngredients.isEmpty && temporarySteps.isEmpty) else { return shakeEmptyTextFields() }
+            
             editingMode = true
         }
 //        self.editingMode = !editingMode
@@ -1006,7 +1005,8 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
         showAddThingView(false, keyboardHeight: nil)
-    
+        
+        self.deselectSelectedRow()
         activeField?.resignFirstResponder()
     }
     
@@ -1072,6 +1072,7 @@ extension RecipeCreationViewController: AddThingDelegate {
     private func deselectSelectedRow() {
         ingredientsTableView.deselectSelectedRow(animated: true)
         stepsTableView.deselectSelectedRow(animated: true)
+        
     }
 }
 

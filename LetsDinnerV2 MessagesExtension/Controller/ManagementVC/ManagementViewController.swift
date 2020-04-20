@@ -351,6 +351,40 @@ class ManagementViewController: UIViewController {
         tasksTableView.reloadData()
     }
     
+    private func deleteTask(indexPath: IndexPath) {
+        let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
+        let index = Event.shared.tasks.firstIndex { (task) -> Bool in
+            taskToDelete.taskName == task.taskName && taskToDelete.parentRecipe == task.parentRecipe
+        }
+        
+        Event.shared.tasks.remove(at: index!)
+        tasks = Event.shared.tasks
+        
+        expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
+        if expandableTasks[indexPath.section].tasks.count == 0 {
+            expandableTasks.remove(at: indexPath.section)
+            sectionNames.remove(at: indexPath.section)
+        }
+//            prepareData()
+       
+        if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
+            tasksTableView.deleteRows(at: [indexPath], with: .automatic)
+        } else {
+            let recipeName = taskToDelete.parentRecipe
+            let index = Event.shared.selectedRecipes.firstIndex { recipe -> Bool in
+                recipe.title == recipeName
+            }
+            if let index = index {
+                Event.shared.selectedRecipes.remove(at: index)
+            }
+            let indexSet = NSMutableIndexSet()
+            indexSet.add(indexPath.section)
+            tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
+        }
+        
+        
+    }
+    
     
 }
 
@@ -394,43 +428,32 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    // MARK: Delete Task
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        // MARK: Delete Task
-        if (editingStyle == .delete) {
-            let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
-            let index = Event.shared.tasks.firstIndex { (task) -> Bool in
-                taskToDelete.taskName == task.taskName && taskToDelete.parentRecipe == task.parentRecipe
-            }
+        let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { _, _, complete in
             
-            Event.shared.tasks.remove(at: index!)
-            tasks = Event.shared.tasks
+            self.deleteTask(indexPath: indexPath)
             
-            expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
-            if expandableTasks[indexPath.section].tasks.count == 0 {
-                expandableTasks.remove(at: indexPath.section)
-                sectionNames.remove(at: indexPath.section)
-            }
-//            prepareData()
-           
-            if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
-                tasksTableView.deleteRows(at: [indexPath], with: .automatic)
-            } else {
-                let recipeName = taskToDelete.parentRecipe
-                let index = Event.shared.selectedRecipes.firstIndex { recipe -> Bool in
-                    recipe.title == recipeName
-                }
-                if let index = index {
-                    Event.shared.selectedRecipes.remove(at: index)
-                }
-                let indexSet = NSMutableIndexSet()
-                indexSet.add(indexPath.section)
-                tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
-            }
+            complete(true)
             
-            // Refresh Data
+            // Refresh Data after completion, for smoother animation
             self.prepareData()
             self.tasksTableView.reloadData()
+        })
+        
+  
+        deleteAction.image = UIImage(named: "deleteIcon.png")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if (editingStyle == .delete) {
+//            self.deleteTask(indexPath: indexPath)
         }
     }
     
@@ -457,7 +480,6 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         
 //        completedAction.image = UIImage(named: "")
         completedAction.backgroundColor = .activeButton
-        
         
         
         let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
