@@ -214,6 +214,12 @@ enum LabelStrings {
     static let premiumDescription = NSLocalizedString("Let's Dinner! was created by six people from accross the world. Your Let's Dinner Pro! subscription will let you create events, enjoy neat features, and help to ensure future development! Have a look:", comment: "Premium description")
     static let premiumNoThanks = NSLocalizedString("No, thank you. Maybe later.", comment: "No thanks")
     static let premiumSubscribe = NSLocalizedString("Subscribe for 0.99€ / month", comment: "Subscribe for")
+    
+    //ThankYou Screen
+    static let thankYou = NSLocalizedString("Thank you so much and\nwelcome to Let's Dinner Pro!", comment: "Thank you message")
+    static let thankYouDescriptionPartOne = NSLocalizedString("Let’s Dinner! was created with a lot of love and care. It means the world to us that you purchased Let’s Dinner Pro! We hope that you’re happy with your new app and can put it to good use.", comment: "Thank you Description Part 1")
+    static let thankYouDescriptionPartTwo = NSLocalizedString("With your one time purchase you help to keep our costs down and ensure future development.", comment: "Thank you Description Part 2")
+    static let okLetsDinner = "Ok, Let's Dinner!"
 }
 
 enum Images {
@@ -231,4 +237,7 @@ enum Images {
     static let statusPending = "statusPending"
     static let statusAccepted = "statusAccepted"
     static let statusDeclined = "statusDeclined"
+    
+    // ThankYou Screen
+    static let heartIcon = "heartButtonOutlined"
 }
