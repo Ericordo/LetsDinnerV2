@@ -12,6 +12,7 @@ class IngredientCell: UITableViewCell {
 
     @IBOutlet weak var ingredientLabel: UILabel!
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = .backgroundColor
@@ -20,8 +21,15 @@ class IngredientCell: UITableViewCell {
     func configureCell(name: String, amount: Double, unit: String) {
         if amount == 0 {
             ingredientLabel.text = "\(name)"
+            ingredientLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         } else {
-            ingredientLabel.text = "\(name), \(amount) \(unit)"
+            let attrs1 = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .semibold)]
+            let attrs2 = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular)]
+            let attributedString1 = NSMutableAttributedString(string: name, attributes: attrs1)
+            let attributedString2 = NSMutableAttributedString(string: ", \(amount) \(unit)", attributes: attrs2)
+            
+            attributedString1.append(attributedString2)
+            ingredientLabel.attributedText = attributedString1
         }
         
     }

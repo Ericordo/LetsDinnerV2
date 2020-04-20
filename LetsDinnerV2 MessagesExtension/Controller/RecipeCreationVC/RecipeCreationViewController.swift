@@ -295,6 +295,10 @@ class RecipeCreationViewController: UIViewController  {
     private func configureEditMode(_ bool: Bool) {
         ingredientsTableView.isEditing = bool
         stepsTableView.isEditing = bool
+        ingredientsTableView.allowsSelection = bool
+        stepsTableView.allowsSelection = bool
+        ingredientsTableView.allowsSelectionDuringEditing = bool
+        stepsTableView.allowsSelectionDuringEditing = bool
     }
     
     private func loadExistingCustomRecipe() {
@@ -683,12 +687,13 @@ class RecipeCreationViewController: UIViewController  {
         if self.editingMode {
             editingMode = false
         } else {
-            // guard sth
-            guard !(temporaryIngredients.isEmpty && temporarySteps.isEmpty) else { return }
+            // Need something to Edit
+            guard !(temporaryIngredients.isEmpty && temporarySteps.isEmpty) else { return ingredientTextField.shake()
+                stepTextField.shake()
+            }
             editingMode = true
         }
 //        self.editingMode = !editingMode
-        print(editingMode)
     }
     
     
@@ -886,26 +891,57 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch tableView {
-        case ingredientsTableView:
-            selectedRowIngredient = indexPath.row
-            let selectedIngredient = temporaryIngredients[indexPath.row]
-            ingredientTextField.text = selectedIngredient.name
-            //MARK: To be precise, should pop up at the addthingview
+        
+        if editingMode {
+            switch tableView {
+                
+            case ingredientsTableView:
+                selectedRowIngredient = indexPath.row
+                let selectedIngredient = temporaryIngredients[indexPath.row]
+                
+                // pop up at the addthingview
+                sendDataToNewThingView(selectedItem: selectedIngredient)
+                
+            case stepsTableView:
+                selectedRowStep = indexPath.row
+                let selectedStep = temporarySteps[indexPath.row]
+                
+                sendDataToNewThingView(selectedItem: selectedStep)
+                
+            default:
+                break
+            }
+        }
+        
+        
+        
+    }
+    
+    private func sendDataToNewThingView(selectedItem: Any) {
+        
+        if selectedItem is TemporaryIngredient {
+            let selectedIngredient = selectedItem as! TemporaryIngredient
+            newThingView?.selectedSection = CreateRecipeSections.ingredient.rawValue
+            newThingView?.mainTextField.becomeFirstResponder()
+            newThingView?.mainTextField.text = selectedIngredient.name
+                        
+//            ingredientTextField.text = selectedIngredient.name
+            
             if let amount = selectedIngredient.amount {
 //                amountTextField.text = String(amount)
+                newThingView?.amountTextField.text = String(amount)
             }
             if let unit = selectedIngredient.unit {
 //                unitTextField.text = unit
+                newThingView?.unitTextField.text = unit
             }
-        case stepsTableView:
-            selectedRowStep = indexPath.row
-            let selectedStep = temporarySteps[indexPath.row]
-            stepTextField.text = selectedStep
-            
-        default:
-            break
+        } else if selectedItem is String {
+            let selectedStep = selectedItem as! String
+            newThingView?.selectedSection = CreateRecipeSections.step.rawValue
+            newThingView?.mainTextField.becomeFirstResponder()
+            newThingView?.mainTextField.text = selectedStep
         }
+            
     }
     
 }
@@ -990,6 +1026,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
             
             self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
             self.view.addGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
+            
         } else {
             
             UIView.animate(withDuration: 1) {
@@ -1027,6 +1064,14 @@ extension RecipeCreationViewController: AddThingDelegate {
         default:
             break
         }
+        
+        self.deselectSelectedRow()
+        
+    }
+    
+    private func deselectSelectedRow() {
+        ingredientsTableView.deselectSelectedRow(animated: true)
+        stepsTableView.deselectSelectedRow(animated: true)
     }
 }
 

@@ -41,8 +41,8 @@ class CustomRecipeDetailsViewController: UIViewController {
     let realm = try! Realm()
     
     private let rowHeight : CGFloat = 44
-    private let topViewMinHeight: CGFloat = 80
-    private let topViewMaxHeight: CGFloat = 140
+    private let topViewMinHeight: CGFloat = 46
+    private let topViewMaxHeight: CGFloat = 200
     
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
@@ -81,6 +81,9 @@ class CustomRecipeDetailsViewController: UIViewController {
         } else {
             stepsHeightConstraint.constant = 1000
         }
+        
+        
+        stepsTableView.allowsSelection = false
         stepsTableView.rowHeight = UITableView.automaticDimension
         stepsTableView.estimatedRowHeight = rowHeight
         ingredientsHeightConstraint.constant = CGFloat(recipe.ingredients.count) * rowHeight

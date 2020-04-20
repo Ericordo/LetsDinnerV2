@@ -61,7 +61,7 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-if-lec" userLabel="Cell Separator">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cbH-if-lec" userLabel="Section Separator">
                                     <rect key="frame" x="30" y="41" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
@@ -78,21 +78,21 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 </textField>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yH8-oq-wFL" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="86" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="86" width="345" height="0.5"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="kGF-zI-pfF"/>
+                                        <constraint firstAttribute="height" constant="0.69999999999999996" id="kGF-zI-pfF"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="if1-uB-ttS" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="131" width="345" height="1"/>
+                                    <rect key="frame" x="30" y="130.5" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="1" id="Drc-8q-hHV"/>
+                                        <constraint firstAttribute="height" constant="0.69999999999999996" id="Drc-8q-hHV"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INGREDIENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FwZ-UV-5Yd">
-                                    <rect key="frame" x="30" y="172" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="171.5" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="KMN-f5-iUF"/>
                                     </constraints>
@@ -100,15 +100,15 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-kE-tot" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="193" width="345" height="1"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-kE-tot" userLabel="Section Separator">
+                                    <rect key="frame" x="30" y="192.5" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="iHO-t0-VmJ"/>
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add ingredients" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-Z2-qAd">
-                                    <rect key="frame" x="30" y="194" width="345" height="44"/>
+                                    <rect key="frame" x="30" y="193.5" width="345" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="yuM-hI-d0H"/>
@@ -117,14 +117,14 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 </textField>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-X9-9R9" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="238" width="345" height="0.5"/>
+                                    <rect key="frame" x="30" y="237.5" width="345" height="0.5"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="0.5" id="zBH-PH-bbO"/>
                                     </constraints>
                                 </view>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-Mp-GD9">
-                                    <rect key="frame" x="30" y="238.5" width="345" height="100"/>
+                                    <rect key="frame" x="30" y="238" width="345" height="100"/>
                                     <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="RF0-PX-Egh"/>
@@ -132,7 +132,7 @@
                                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </tableView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For 2 people" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhA-gS-yRY">
-                                    <rect key="frame" x="30" y="87" width="231" height="44"/>
+                                    <rect key="frame" x="30" y="86.5" width="231" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="oUI-HK-XsB"/>
                                     </constraints>
@@ -141,13 +141,13 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="mhq-Q2-2gs">
-                                    <rect key="frame" x="271" y="93" width="94" height="32"/>
+                                    <rect key="frame" x="271" y="92.5" width="94" height="32"/>
                                     <connections>
                                         <action selector="didTapStepper:" destination="-1" eventType="valueChanged" id="HyP-eB-8Y8"/>
                                     </connections>
                                 </stepper>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COOKING STEPS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Y6-VZ-Obb">
-                                    <rect key="frame" x="30" y="378.5" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="378" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="Dtx-sZ-2eu"/>
                                     </constraints>
@@ -155,15 +155,15 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCW-X4-FRP" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="399.5" width="345" height="1"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCW-X4-FRP" userLabel="Section Separator">
+                                    <rect key="frame" x="30" y="399" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="sVu-ev-nyt"/>
                                     </constraints>
                                 </view>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add Cooking Steps" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdW-3C-FYb">
-                                    <rect key="frame" x="30" y="400.5" width="345" height="44"/>
+                                    <rect key="frame" x="30" y="400" width="345" height="44"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Zqf-2i-oBM"/>
@@ -172,14 +172,14 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textField>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljr-Ze-0NW" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="444.5" width="345" height="0.5"/>
+                                    <rect key="frame" x="30" y="444" width="345" height="0.5"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="0.5" id="TOk-Gq-MoO"/>
                                     </constraints>
                                 </view>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q6e-87-wwp">
-                                    <rect key="frame" x="30" y="445" width="345" height="100"/>
+                                    <rect key="frame" x="30" y="444.5" width="345" height="100"/>
                                     <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="100" id="loY-ws-QTx"/>
@@ -187,7 +187,7 @@
                                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </tableView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIPS &amp; COMMENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mod-HC-GoK">
-                                    <rect key="frame" x="30" y="585" width="345" height="16"/>
+                                    <rect key="frame" x="30" y="584.5" width="345" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="GsH-lB-RaV"/>
                                     </constraints>
@@ -195,15 +195,15 @@
                                     <color key="textColor" name="dullGrey"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-nx-uSZ" userLabel="Cell Separator">
-                                    <rect key="frame" x="30" y="606" width="345" height="1"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-nx-uSZ" userLabel="Section Separator">
+                                    <rect key="frame" x="30" y="605.5" width="345" height="1"/>
                                     <color key="backgroundColor" name="cellSeparatorLine"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Uqv-xc-WcH"/>
                                     </constraints>
                                 </view>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hMw-Vr-xbb">
-                                    <rect key="frame" x="26" y="607" width="349" height="100"/>
+                                    <rect key="frame" x="26" y="606.5" width="349" height="100"/>
                                     <color key="backgroundColor" name="backgroundColor"/>
                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
