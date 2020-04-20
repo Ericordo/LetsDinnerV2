@@ -112,7 +112,8 @@ class RecipeCreationViewController: UIViewController  {
             toggleEditButton()
         }
     }
-    var editExistRecipe = false
+    
+    var editExistingRecipe = false
     
     private var selectedRowIngredient: Int?
     private var selectedRowStep: Int?
@@ -139,7 +140,7 @@ class RecipeCreationViewController: UIViewController  {
         configureGestureRecognizers()
         configureObservers()
                 
-        if editExistRecipe {
+        if editExistingRecipe {
             bottomEditButton.isHidden = false
             loadExistingCustomRecipe()
         }
@@ -149,7 +150,7 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: Configuration UI
     private func configureUI() {
         
-        if !editExistRecipe {
+        if !editExistingRecipe {
             self.addStartView()
         }
         
@@ -572,7 +573,7 @@ class RecipeCreationViewController: UIViewController  {
     func saveRecipe() {
         if verifyInformation() {
                     
-            if editExistRecipe {
+            if editExistingRecipe {
                 guard let recipeToEdit = recipeToEdit else { return }
                 updateRecipeInRealm(recipe: recipeToEdit) { [weak self] result in
                     switch result {
