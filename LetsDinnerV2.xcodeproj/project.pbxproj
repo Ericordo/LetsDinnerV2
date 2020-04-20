@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		32603EAF23F1BC4E00AB6B50 /* ExpiredEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32603EAD23F1BC4E00AB6B50 /* ExpiredEventCell.swift */; };
 		32603EB023F1BC4E00AB6B50 /* ExpiredEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32603EAE23F1BC4E00AB6B50 /* ExpiredEventCell.xib */; };
+		3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270EC2424471A5E00E78445 /* ThankYouViewController.swift */; };
 		32B49DD823E87D1A0010669A /* ExpiredEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49DD623E87D1A0010669A /* ExpiredEventViewController.swift */; };
 		32B49DD923E87D1A0010669A /* ExpiredEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32B49DD723E87D1A0010669A /* ExpiredEventViewController.xib */; };
 		880B13312372FA08003E29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13302372FA08003E29AC /* User.swift */; };
@@ -188,6 +189,7 @@
 		1D3EEB756B7462E534F70D74 /* Pods-LetsDinnerV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.debug.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.debug.xcconfig"; sourceTree = "<group>"; };
 		32603EAD23F1BC4E00AB6B50 /* ExpiredEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredEventCell.swift; sourceTree = "<group>"; };
 		32603EAE23F1BC4E00AB6B50 /* ExpiredEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpiredEventCell.xib; sourceTree = "<group>"; };
+		3270EC2424471A5E00E78445 /* ThankYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouViewController.swift; sourceTree = "<group>"; };
 		32B49DD623E87D1A0010669A /* ExpiredEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredEventViewController.swift; sourceTree = "<group>"; };
 		32B49DD723E87D1A0010669A /* ExpiredEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpiredEventViewController.xib; sourceTree = "<group>"; };
 		4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2 MessagesExtension/Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -374,6 +376,14 @@
 				32603EAE23F1BC4E00AB6B50 /* ExpiredEventCell.xib */,
 			);
 			path = ExpiredEventCell;
+			sourceTree = "<group>";
+		};
+		3270EC232447196700E78445 /* ThankYouVC */ = {
+			isa = PBXGroup;
+			children = (
+				3270EC2424471A5E00E78445 /* ThankYouViewController.swift */,
+			);
+			path = ThankYouVC;
 			sourceTree = "<group>";
 		};
 		32B49DD523E87CCC0010669A /* ExpiredEventVC */ = {
@@ -620,6 +630,7 @@
 				882C4C14237AEA470039B55F /* IdleVC */,
 				8851335B24215A05004CD858 /* WelcomeVC */,
 				88E5B0BC2437C03F00D519E2 /* PremiumVC */,
+				3270EC232447196700E78445 /* ThankYouVC */,
 				88349F23236E1B67002A1879 /* InitialVC */,
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
 				88349F31236F7A22002A1879 /* NewEventVC */,
@@ -1211,6 +1222,7 @@
 				B87C103A2403E607004AD951 /* UIViewController.swift in Sources */,
 				882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */,
 				880B135323737711003E29AC /* CalendarCell.swift in Sources */,
+				3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */,
 				885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */,
 				886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */,
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
