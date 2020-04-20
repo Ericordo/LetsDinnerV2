@@ -7,29 +7,17 @@
 //
 
 import UIKit
-import SafariServices
 
 class ThankYouViewController: UIViewController {
     
     private lazy var confettiView = SAConfettiView(frame: view.bounds)
     
     private let heartIcon : UIImageView = {
-        
-        let icon = UIImageView(image: UIImage(named: Images.heartIcon)!.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)))
+        let icon = UIImageView()
+        icon.image = UIImage(named: Images.heartIcon)?.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0))
         icon.contentMode = .scaleAspectFit
-        
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            icon.widthAnchor.constraint(equalToConstant: 60),
-            icon.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        
-//        icon.layer.borderWidth = 1
-//        icon.layer.borderColor = UIColor.blue.cgColor
         return icon
     }()
-    
-    
     
     private let titleLabel : UILabel = {
         let label = UILabel()
@@ -37,8 +25,6 @@ class ThankYouViewController: UIViewController {
         label.textAlignment = .left
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.text = LabelStrings.thankYou
-//        label.layer.borderWidth = 1
-//        label.layer.borderColor = UIColor.blue.cgColor
         return label
     }()
     
@@ -49,8 +35,6 @@ class ThankYouViewController: UIViewController {
         label.font = .systemFont(ofSize: 17, weight: .regular)
         label.textColor = .secondaryTextLabel
         label.text = LabelStrings.thankYouDescriptionPartOne
-//        label.layer.borderWidth = 1
-//        label.layer.borderColor = UIColor.blue.cgColor
         return label
     }()
     
@@ -61,8 +45,6 @@ class ThankYouViewController: UIViewController {
         label.font = .systemFont(ofSize: 17, weight: .regular)
         label.textColor = .secondaryTextLabel
         label.text = LabelStrings.thankYouDescriptionPartTwo
-//        label.layer.borderWidth = 1
-//        label.layer.borderColor = UIColor.blue.cgColor
         return label
     }()
     
@@ -75,8 +57,6 @@ class ThankYouViewController: UIViewController {
         button.setGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
         button.setTitle(LabelStrings.letsGo, for: .normal)
         button.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
-//        button.layer.borderWidth = 1
-//        button.layer.borderColor = UIColor.blue.cgColor
         return button
     }()
     
@@ -86,13 +66,9 @@ class ThankYouViewController: UIViewController {
         stackView.spacing = 16
         stackView.distribution = .equalCentering
         stackView.alignment = .fill
-//        stackView.layer.borderWidth = 1
-//        stackView.layer.borderColor = UIColor.blue.cgColor
         return stackView
     }()
-    
-    private let contentView = UIView()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -102,7 +78,6 @@ class ThankYouViewController: UIViewController {
     
     @objc private func didTapContinue() {
         print("tap")
-        defaults.set(true, forKey: Keys.onboardingComplete)
         confettiView.startConfetti()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.dismiss(animated: true, completion: nil)
@@ -116,16 +91,16 @@ class ThankYouViewController: UIViewController {
         view.addSubview(heartIcon)
         view.addSubview(titleLabel)
         view.addSubview(verticalStackView)
-
         verticalStackView.addArrangedSubview(descriptionLabelOne)
         verticalStackView.addArrangedSubview(descriptionLabelTwo)
         addConstraints()
     }
     
     private func addConstraints() {
-        
         heartIcon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            heartIcon.widthAnchor.constraint(equalToConstant: 60),
+            heartIcon.heightAnchor.constraint(equalToConstant: 60),
             heartIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30)
         ])
         
