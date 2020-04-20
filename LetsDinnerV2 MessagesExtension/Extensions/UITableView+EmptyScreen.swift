@@ -154,4 +154,15 @@ extension UITableView {
         self.backgroundView = emptyView
         
     }
+    
+    //MARK: Function
+    
+    func deselectSelectedRow(animated: Bool)
+       {
+           if let indexPathForSelectedRow = self.indexPathForSelectedRow {
+               self.deselectRow(at: indexPathForSelectedRow, animated: animated)
+           }
+       }
+    
+
 }

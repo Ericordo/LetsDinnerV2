@@ -149,6 +149,12 @@ enum LabelStrings {
     
     // CreateRecipeVC
     static let cookingTipsPlaceholder = "Anything else you want to mention?"
+    static let startCreateRecipeTitle = "Create a custom recipe and cook your favourite meal!"
+    static let startCreateRecipeMessage1 = "A greate recipe provides you with every information you need to cook it along the way. Start with an Image and a name."
+    static let startCreateRecipeMessage2 = "Then add ingredients, cooking steps or any other information such as tips to your recipe."
+    static let startCreateRecipeMessage3 = "Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty."
+    static let startCreateRecipeMessage4 = "Start by tapping"
+    
 
     // ManagementVC
     static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"

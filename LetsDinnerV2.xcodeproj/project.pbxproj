@@ -155,6 +155,8 @@
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
 		B8C4E82623E5ACDF00D752F1 /* ProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */; };
+		B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */; };
+		B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */; };
 		B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D1CC9523F1309000E54E26 /* UIDevice.swift */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
 		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
@@ -340,6 +342,8 @@
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressViewController.xib; sourceTree = "<group>"; };
+		B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeStartView.swift; sourceTree = "<group>"; };
+		B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeSections.swift; sourceTree = "<group>"; };
 		B8D1CC9523F1309000E54E26 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
@@ -590,6 +594,7 @@
 				88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */,
 				882B9CC523998738001634D9 /* CustomRecipe.swift */,
 				882B9CC72399A0BD001634D9 /* CustomIngredient.swift */,
+				B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */,
 				880B13302372FA08003E29AC /* User.swift */,
 				880B1357237474A4003E29AC /* Task.swift */,
 				885C60BD23805A3D00ED3A17 /* StepTracking.swift */,
@@ -872,6 +877,7 @@
 				886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */,
 				885133B024310C32004CD858 /* EventTranscriptView.swift */,
 				88E5B0BF2438A39600D519E2 /* ConfettiView.swift */,
+				B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1208,6 +1214,7 @@
 				88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */,
 				880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */,
 				885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */,
+				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
@@ -1244,6 +1251,7 @@
 				885133AD2430EFA8004CD858 /* AlertManager.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
 				88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */,
+				B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */,
 				B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */,
 				B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */,
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,

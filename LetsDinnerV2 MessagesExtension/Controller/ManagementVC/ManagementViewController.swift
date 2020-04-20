@@ -26,7 +26,6 @@ class ManagementViewController: UIViewController {
     // Add Things
     @IBOutlet weak var addThingView: UIView!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
-        
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
@@ -89,11 +88,8 @@ class ManagementViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.addThingViewBottomConstraint.constant = -100
-        self.view.layoutIfNeeded()
+
     }
-    
-    
     
     // MARK: Configuration
     private func configureUI() {
@@ -107,7 +103,7 @@ class ManagementViewController: UIViewController {
 
         separatorView.backgroundColor = UIColor.sectionSeparatorLine
         
-        self.addShadowOnUIView(view: addThingView)
+        addThingView.addShadow()
 
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
             hideServingView()
@@ -122,28 +118,17 @@ class ManagementViewController: UIViewController {
     }
     
     private func configureNewThingView() {
-        newThingView = AddNewThingView(sectionNames: sectionNames, selectedSection: selectedSection)
+        newThingView = AddNewThingView(type: .manageTask, sectionNames: sectionNames, selectedSection: selectedSection)
         newThingView?.addThingDelegate = self
     
         addThingView.addSubview(newThingView!)
-        
         newThingView!.translatesAutoresizingMaskIntoConstraints = false
         newThingView!.anchor(top: addThingView.topAnchor,
                              leading: addThingView.leadingAnchor,
                              bottom: addThingView.bottomAnchor,
                              trailing: addThingView.trailingAnchor)
     }
-    
-    func addShadowOnUIView(view: UIView) {
-        view.layer.shadowColor = Colors.separatorGrey.cgColor
-        view.layer.shadowOpacity = 0.7
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 10
-        view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = UIScreen.main.scale
-    }
-    
+        
     private func configureGestureRecognizers() {
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
@@ -276,17 +261,19 @@ class ManagementViewController: UIViewController {
     }
     
     @IBAction private func didTapBack(_ sender: UIButton) {
+        removeAllViewsBeforeDismiss()
         delegate?.managementVCDidTapBack(controller: self)
     }
     
     @IBAction private func didTapNext(_ sender: UIButton) {
+        removeAllViewsBeforeDismiss()
         delegate?.managementVCDdidTapNext(controller: self)
     }
     
     @IBAction private func didTapAdd(_ sender: UIButton) {
         self.selectedSection = "Miscellaneous"
         
-        newThingView?.newThingTitleTextField.becomeFirstResponder()
+        newThingView?.mainTextField.becomeFirstResponder()
         NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
 
 //
@@ -342,10 +329,15 @@ class ManagementViewController: UIViewController {
         footerView.isHidden = tasks.isEmpty
     }
     
+    private func removeAllViewsBeforeDismiss() {
+        self.view.endEditing(true)
+        self.addThingViewBottomConstraint.constant = -100
+        self.view.layoutIfNeeded()
+    }
+    
     private func updateServings(servings: Int) {
-      
         self.servings = servings
-        
+    
         Event.shared.tasks.forEach { task in
             if !task.isCustom {
                 if let amount = task.metricAmount, let oldServings = task.servings {
@@ -357,6 +349,40 @@ class ManagementViewController: UIViewController {
         
         prepareData()
         tasksTableView.reloadData()
+    }
+    
+    private func deleteTask(indexPath: IndexPath) {
+        let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
+        let index = Event.shared.tasks.firstIndex { (task) -> Bool in
+            taskToDelete.taskName == task.taskName && taskToDelete.parentRecipe == task.parentRecipe
+        }
+        
+        Event.shared.tasks.remove(at: index!)
+        tasks = Event.shared.tasks
+        
+        expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
+        if expandableTasks[indexPath.section].tasks.count == 0 {
+            expandableTasks.remove(at: indexPath.section)
+            sectionNames.remove(at: indexPath.section)
+        }
+//            prepareData()
+       
+        if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
+            tasksTableView.deleteRows(at: [indexPath], with: .automatic)
+        } else {
+            let recipeName = taskToDelete.parentRecipe
+            let index = Event.shared.selectedRecipes.firstIndex { recipe -> Bool in
+                recipe.title == recipeName
+            }
+            if let index = index {
+                Event.shared.selectedRecipes.remove(at: index)
+            }
+            let indexSet = NSMutableIndexSet()
+            indexSet.add(indexPath.section)
+            tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
+        }
+        
+        
     }
     
     
@@ -402,41 +428,32 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
+    // MARK: Delete Task
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { _, _, complete in
+            
+            self.deleteTask(indexPath: indexPath)
+            
+            complete(true)
+            
+            // Refresh Data after completion, for smoother animation
+            self.prepareData()
+            self.tasksTableView.reloadData()
+        })
+        
+  
+        deleteAction.image = UIImage(named: "deleteIcon.png")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        // MARK: Delete Task
         if (editingStyle == .delete) {
-            let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
-            let index = Event.shared.tasks.firstIndex { (task) -> Bool in
-                taskToDelete.taskName == task.taskName && taskToDelete.parentRecipe == task.parentRecipe
-            }
-            
-            Event.shared.tasks.remove(at: index!)
-            tasks = Event.shared.tasks
-            
-            expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
-            if expandableTasks[indexPath.section].tasks.count == 0 {
-                expandableTasks.remove(at: indexPath.section)
-                sectionNames.remove(at: indexPath.section)
-            }
-//            prepareData()
-           
-            if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
-                tasksTableView.deleteRows(at: [indexPath], with: .automatic)
-            } else {
-                let recipeName = taskToDelete.parentRecipe
-                let index = Event.shared.selectedRecipes.firstIndex { recipe -> Bool in
-                    recipe.title == recipeName
-                }
-                if let index = index {
-                    Event.shared.selectedRecipes.remove(at: index)
-                }
-                let indexSet = NSMutableIndexSet()
-                indexSet.add(indexPath.section)
-                tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
-            }
-//            prepareData()
-            self.doneEditThing()
+//            self.deleteTask(indexPath: indexPath)
         }
     }
     
@@ -463,7 +480,6 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         
 //        completedAction.image = UIImage(named: "")
         completedAction.backgroundColor = .activeButton
-        
         
         
         let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
@@ -562,10 +578,11 @@ extension ManagementViewController: TaskManagementCellDelegate {
 // MARK: AddThing Delegation
 
 extension ManagementViewController: AddThingDelegate {
-    func doneEditThing() {
+    func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
         self.prepareData()
         self.tasksTableView.reloadData()
     }
+    
 }
 
 extension ManagementViewController: UIGestureRecognizerDelegate {

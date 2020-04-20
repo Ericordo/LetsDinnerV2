@@ -14,18 +14,20 @@ protocol SectionSelectionInputDelegate : class {
 
 class SectionSelectionInput : UIView {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    var type: AddNewThingViewType!
+        
+    init(type: AddNewThingViewType) {
+        self.type = type
+        super.init(frame: CGRect.zero)
         configureView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configureView()
     }
     
     
-    var sections = ["Miscellaneous"]
+    var sections = [String]()
     
     weak var sectionSelectionInputDelegate : SectionSelectionInputDelegate?
     
@@ -47,6 +49,10 @@ class SectionSelectionInput : UIView {
     }()
     
     private func configureView() {
+        if type == .manageTask {
+            sections.append("Miscellaneous")
+        }
+        
         self.backgroundColor = .backgroundSystemColor
         sectionsCollectionView.dataSource = self
         sectionsCollectionView.delegate = self
@@ -61,6 +67,8 @@ class SectionSelectionInput : UIView {
     override func layoutSubviews() {
     // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
         addConstraints()
+        
+        // Control the selected bubble
         sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .left)
     }
     
@@ -73,25 +81,28 @@ class SectionSelectionInput : UIView {
     }
     
     private func addConstraints() {
-        addSubview(arrowImage)
-        arrowImage.translatesAutoresizingMaskIntoConstraints = false
-        arrowImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        arrowImage.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        arrowImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        arrowImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
+//        addSubview(arrowImage)
+//
+//        arrowImage.translatesAutoresizingMaskIntoConstraints = false
+//        arrowImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+//        arrowImage.widthAnchor.constraint(equalToConstant: 24).isActive = true
+//        arrowImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
+//        arrowImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
 
         addSubview(sectionsCollectionView)
+        
         sectionsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         sectionsCollectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
         sectionsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        sectionsCollectionView.leadingAnchor.constraint(equalTo: arrowImage.trailingAnchor, constant: 10).isActive = true
-        sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
+        sectionsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
     }
     
     
 }
 
 extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sections.count
     }
