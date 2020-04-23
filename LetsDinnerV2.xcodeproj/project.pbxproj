@@ -43,6 +43,7 @@
 		880B137423757224003E29AC /* UserCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B137223757224003E29AC /* UserCVCell.xib */; };
 		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
+		881AC72E245218750055F120 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881AC72D245218750055F120 /* ImageHelper.swift */; };
 		8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88224909239D67FC0054C24E /* AmountPicker.swift */; };
 		8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8822490C239D7AAF0054C24E /* IngredientCell.swift */; };
 		8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8822490D239D7AAF0054C24E /* IngredientCell.xib */; };
@@ -228,6 +229,7 @@
 		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
 		880B13792376EB99003E29AC /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		881AC72D245218750055F120 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		88224909239D67FC0054C24E /* AmountPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountPicker.swift; sourceTree = "<group>"; };
 		8822490C239D7AAF0054C24E /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
 		8822490D239D7AAF0054C24E /* IngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IngredientCell.xib; sourceTree = "<group>"; };
@@ -927,6 +929,7 @@
 				8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */,
 				885133AC2430EFA8004CD858 /* AlertManager.swift */,
 				885133AE2430F14C004CD858 /* BubbleManager.swift */,
+				881AC72D245218750055F120 /* ImageHelper.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1236,6 +1239,7 @@
 				880B1358237474A4003E29AC /* Task.swift in Sources */,
 				B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
+				881AC72E245218750055F120 /* ImageHelper.swift in Sources */,
 				88349F3C2370525D002A1879 /* DataHelper - Edamam.swift in Sources */,
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,
 				880B134F23737700003E29AC /* UserCell.swift in Sources */,

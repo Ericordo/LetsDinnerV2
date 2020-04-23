@@ -10,7 +10,6 @@ import Foundation
 import Messages
 import iMessageDataKit
 import FirebaseDatabase
-import FirebaseStorage
 import RealmSwift
 
 class Event {
@@ -503,100 +502,9 @@ class Event {
         
     }
     
-//    func saveUserPicToFirebase(_ image: UIImage?, completion: @escaping ((_ url:String?)->())) {
-//        guard let imageToSave = image else { return }
-//        guard let imageData = imageToSave.jpegData(compressionQuality: 0.5) else { return }
-//
-//        let storage = Storage.storage().reference()
-//
-//        let storageRef = storage.child("ProfilePictures").child("UserProfilePic").child(UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString)
-//
-//        let metadata = StorageMetadata()
-//        metadata.contentType = "image/jpg"
-//
-//        storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
-//            if error != nil {
-//                completion(nil)
-//            }
-//            storageRef.downloadURL { (url, error ) in
-//                if error != nil {
-//                    completion(nil)
-//                }
-//                if let downloadUrl = url?.absoluteString {
-//                    print("URL", downloadUrl)
-//                    completion(downloadUrl)
-//                }
-//            }
-//        }
-//    }
+
     
-    func saveUserPicToFirebase(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
-        
-        let storage = Storage.storage().reference()
-        
-        let storageRef = storage.child("ProfilePictures").child("UserProfilePic").child(UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString)
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpg"
-        
-        storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
-            if error != nil {
-                DispatchQueue.main.async {
-                    completion(.failure(error!))
-                }
-            }
-            storageRef.downloadURL { (url, error ) in
-                if error != nil {
-                    DispatchQueue.main.async {
-                        completion(.failure(error!))
-                    }
-                }
-                if let downloadUrl = url?.absoluteString {
-                    print("URL", downloadUrl)
-                    DispatchQueue.main.async {
-                        completion(.success(downloadUrl))
-                    }
-                    
-                }
-            }
-        }
-    }
     
-    func saveRecipePicToFirebase(_ image: UIImage, id: String, completion: @escaping (Result<String, Error>) -> Void) {
-         
-          guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
-              
-              let storage = Storage.storage().reference()
-              
-              let storageRef = storage.child("RecipePictures").child("RecipePicture").child(id)
-              
-              let metadata = StorageMetadata()
-              metadata.contentType = "image/jpg"
-              
-              storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
-                  if error != nil {
-                      DispatchQueue.main.async {
-                          completion(.failure(error!))
-                      }
-                  }
-                  storageRef.downloadURL { (url, error ) in
-                      if error != nil {
-                          DispatchQueue.main.async {
-                              completion(.failure(error!))
-                          }
-                      }
-                      if let downloadUrl = url?.absoluteString {
-                          print("URL", downloadUrl)
-                          DispatchQueue.main.async {
-                              completion(.success(downloadUrl))
-                          }
-                          
-                      }
-                  }
-              }
-    }
     
     func getNumberOfOnlineUsers(completion: @escaping (Int) -> Void) {
 Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("onlineUsers").observeSingleEvent(of: .value) { snapshot in
@@ -619,9 +527,6 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
         }
     }
         
-    func deleteUserPicOnFirebase() {}
-    func updateUserPicOnFirebase() {}
-    
     // MARK: Recipe Managing Order (Local Algo)
     
     func findTheIndexOfLastCustomOrderFromAllRecipes() -> Int? {
