@@ -169,7 +169,7 @@ class RegistrationViewController: UIViewController {
     @IBAction func didTapSave(_ sender: UIButton) {
         view.endEditing(true)
         if let profileImage = profileImage {
-            Event.shared.saveUserPicToFirebase(profileImage) { [weak self] result in
+            ImageHelper.shared.saveUserPicToFirebase(profileImage) { [weak self] result in
                 switch result {
                 case .success(let url):
                     Event.shared.currentUser?.profilePicUrl = url

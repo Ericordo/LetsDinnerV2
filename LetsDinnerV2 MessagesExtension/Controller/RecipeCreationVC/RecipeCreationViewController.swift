@@ -807,7 +807,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
         if let recipeImage = recipeImage {
             doneButton.isHidden = true
             activityIndicator.startAnimating()
-            Event.shared.saveRecipePicToFirebase(recipeImage, id: customRecipe.id) { [weak self] result in
+            ImageHelper.shared.saveRecipePicToFirebase(recipeImage, id: customRecipe.id) { [weak self] result in
                 self?.doneButton.isHidden = false
                 self?.activityIndicator.stopAnimating()
                 switch result {

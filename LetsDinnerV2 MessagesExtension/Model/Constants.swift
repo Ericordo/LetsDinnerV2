@@ -247,3 +247,8 @@ enum Images {
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
 }
+
+enum DataKeys {
+    static let recipePictures = "RecipePictures"
+    static let profilePictures = "ProfilePictures"
+}
