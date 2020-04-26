@@ -15,31 +15,26 @@ class CustomOrderHelper {
     
     private init() {}
     
-    // For storage
-    // Key: RecipeID - String
-    // Value: CustomOrder
-    
+    // : RecipeID, CustomOrder
     // Store in an array of set
-    // Should be in Order
     var customOrder = [(String,Int)]() {
         didSet {
             lastIndex = customOrder.endIndex
-            print(customOrder)
-
         }
     }
     
     lazy var lastIndex: Int = customOrder.endIndex
     // Order No = lastIndex + 1
-    
-//    var customOrderArray = [Int]()
-    
+        
+    // MARK: Create
     func assignRecipeCustomOrder(recipeId: String, order: Int) {
         self.customOrder.append((recipeId, order))
     }
     
+    // MARK: Delete
     func removeRecipeCustomOrder(recipeId: String) {
-        /** Get the recipeId
+        /**
+         Get the recipeId
          Find the location of Recipe in customOrder
          Remove the Reicpe from customOrder
          Reassign the old recipe
@@ -61,11 +56,68 @@ class CustomOrderHelper {
         for index in index ... lastIndex - 1 {
             customOrder[index].1 = customOrder[index].1 - 1
         }
-
     }
     
-    func reorderRecipeIdToArray() {
+    // MARK: Update
+    
+    func reorderRecipeCustomOrder(sourceOrder: Int, destinationOrder: Int) {
+        /**
+         Get the recipeId
+         find the location of Recipe in customOrder
+         store the index
+         remove the orginal recipe
+         -1 or  +1 the recipe order for
+         insert to destination
+         */
         
+        var sourceIndex: Int!
+        var recipeId: String!
+        
+        for (index, customOrder) in customOrder.enumerated() {
+            if sourceOrder == customOrder.1 {
+                recipeId = customOrder.0
+                sourceIndex = index
+            }
+        }
+                
+        if sourceOrder < destinationOrder {
+            /**
+             Find the array that you need to reorder
+             -1 that array
+             */
+            let selectedCustomOrder = customOrder.filter {
+                $0.1 > sourceOrder && $0.1 <= destinationOrder
+            }
+            
+                        
+            for index in 0 ... customOrder.count - 1 {
+                for selectedCustomOrder in selectedCustomOrder {
+                    if customOrder[index].0 == selectedCustomOrder.0 {
+                        customOrder[index].1 -= 1
+                    }
+                }
+            }
+
+        } else {
+            
+            let selectedCustomOrder = customOrder.filter {
+                $0.1 < sourceOrder && $0.1 >= destinationOrder
+            }
+            
+            for index in (0 ... customOrder.count - 1).reversed() {
+                for selectedCustomOrder in selectedCustomOrder {
+                    if customOrder[index].0 == selectedCustomOrder.0 {
+                        customOrder[index].1 += 1
+                    }
+                }
+            }
+        }
+        
+        customOrder.remove(at: sourceIndex)
+        customOrder.append((recipeId, destinationOrder))
+        
+        print("Reorder result: \(customOrder)")
+
     }
     
     func findLastIndex() {
