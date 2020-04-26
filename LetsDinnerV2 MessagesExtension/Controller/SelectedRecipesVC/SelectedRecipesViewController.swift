@@ -215,25 +215,72 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         // Find the customr order available in the two arrays
         
         // Match the indexPath with customOrder
-        if !previouslySelectedRecipes.isEmpty {
-            for recipe in previouslySelectedRecipes {
-                if indexPath.row == recipe.customOrder - 1 {
-                    // Present the cell
-                    cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
-                    return cell
-                }
-            }
-        }
+//        if !previouslySelectedRecipes.isEmpty {
+//            for recipe in previouslySelectedRecipes {
+//                if indexPath.row == recipe.customOrder - 1 {
+//                    // Present the cell
+//                    cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
+//                    return cell
+//                }
+//            }
+//        }
+//
+//        if !previouslySelectedCustomRecipes.isEmpty {
+//            for recipe in previouslySelectedCustomRecipes {
+//                if indexPath.row == recipe.customOrder - 1 {
+//                    // Present the cell
+//                    cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
+//                    return cell
+//                }
+//            }
+//        }
         
-        if !previouslySelectedCustomRecipes.isEmpty {
-            for recipe in previouslySelectedCustomRecipes {
-                if indexPath.row == recipe.customOrder - 1 {
-                    // Present the cell
-                    cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
-                    return cell
+        // Present using CustomOrderHelper
+        
+        // Loop through the customOrderHelper
+        // check the order no. with the indexPath
+        // Find the RecipeID
+        // Check its custom or not <-
+        // configure Cell
+ 
+        for customOrder in CustomOrderHelper.shared.customOrder {
+            if customOrder.1 == indexPath.row + 1 {
+                let recipeType = CustomOrderHelper.shared.checkIfRecipeIsCustom(recipeId: customOrder.0)
+                // Check custom or not
+                
+                switch recipeType {
+                case .apiRecipes:
+                    if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == Int(customOrder.0)} ) {
+                        
+                        let recipe = Event.shared.selectedRecipes[index]
+                        
+                        cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
+                        
+                        return cell
+                    }
+
+                case .customRecipes:
+                    if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customOrder.0} ) {
+                        
+                        let recipe = Event.shared.selectedCustomRecipes[index]
+                        
+                        cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
+                        
+                        return cell
+                    }
+                default:
+                    break
                 }
+                
             }
         }
+            
+            
+        
+        
+//        }
+        
+        
                     
         return UITableViewCell()
     }

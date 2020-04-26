@@ -598,7 +598,8 @@ extension RecipesViewController: RecipeCellDelegate {
         
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
             // Re-assign the customOrder
-            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
+//            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
+            CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: customRecipe.id)
             Event.shared.selectedCustomRecipes.remove(at: index)
             
             
@@ -606,8 +607,10 @@ extension RecipesViewController: RecipeCellDelegate {
             Event.shared.selectedCustomRecipes.append(customRecipe)
             
             // Assign Order
-            guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
-            Event.shared.selectedCustomRecipes[Event.shared.selectedCustomRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
+//            guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
+//            Event.shared.selectedCustomRecipes[Event.shared.selectedCustomRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
+            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: customRecipe.id, order: CustomOrderHelper.shared.lastIndex + 1)
+
             
         }
         configureNextButton()
@@ -615,9 +618,11 @@ extension RecipesViewController: RecipeCellDelegate {
     }
     
     // MARK: Append Recipe to EventArray
+    
     func recipeCellDidSelectRecipe(recipe: Recipe) {
         if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
-            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
+//            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
+            CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(recipe.id!))
             Event.shared.selectedRecipes.remove(at: index)
             
         } else {
@@ -625,8 +630,9 @@ extension RecipesViewController: RecipeCellDelegate {
             Event.shared.selectedRecipes.append(recipe)
             
             // Assign Order
-            guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
-            Event.shared.selectedRecipes[Event.shared.selectedRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
+//            guard let lastIndex = Event.shared.findTheIndexOfLastCustomOrderFromAllRecipes() else {return}
+//            Event.shared.selectedRecipes[Event.shared.selectedRecipes.count - 1].assignCustomOrder(customOrder: (lastIndex + 1))
+            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: String(recipe.id!), order: CustomOrderHelper.shared.lastIndex + 1)
 
         }
         configureNextButton()

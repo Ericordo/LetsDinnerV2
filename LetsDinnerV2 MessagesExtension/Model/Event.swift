@@ -595,9 +595,9 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
     func reassignCustomOrderAfterReorder(sourceCustomOrder: Int, destinationCustomOrder: Int, movedObject: Any) {
         
         /* Save the object
-        // Find the object orginal customOrder
-        // Find the object destination customOrder
-        // Chnage it to desination
+         Find the object orginal customOrder
+         Find the object destination customOrder
+         Chnage it to desination
          */
         
         var movedObjectIndex = 0
@@ -772,7 +772,7 @@ Database.database().reference().child(hostIdentifier).child("Events").child(fire
         return allRecipeTitles
     }
     
-    // MARK: Task Management
+    // MARK: Event Task Management
     
     func calculateTaskCompletionPercentage() -> Double {
         var numberOfCompletedTasks = 0

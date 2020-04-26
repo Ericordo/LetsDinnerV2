@@ -74,6 +74,7 @@ struct Recipe {
         }
     }
     
+    // MARK: To be remove
     mutating func assignCustomOrder(customOrder: Int) {
         self.customOrder = customOrder
     }

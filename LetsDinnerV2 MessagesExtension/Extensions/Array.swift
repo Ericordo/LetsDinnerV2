@@ -27,4 +27,13 @@ extension Array {
     var last: Element {
         return self[self.endIndex - 1]
     }
+    
+    // Return to Set
+    func mapToSet<T: Hashable>(_ transform: (Element) -> T) -> Set<T> {
+        var result = Set<T>()
+        for item in self {
+            result.insert(transform(item))
+        }
+        return result
+    }
 }
