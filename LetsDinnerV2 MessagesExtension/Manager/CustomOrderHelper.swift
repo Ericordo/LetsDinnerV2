@@ -117,7 +117,7 @@ class CustomOrderHelper {
         customOrder.remove(at: sourceIndex)
         customOrder.append((recipeId, destinationOrder))
         
-        print("Reorder result: \(customOrder)")
+//        print("Reorder result: \(customOrder)")
 
     }
     
@@ -154,10 +154,12 @@ class CustomOrderHelper {
         
         for index in 0 ... customOrder.count - 1 {
             
+            // CustomOrder start from 1
             if let index = customOrder.firstIndex(where: {$0.1 == index + 1}) {
+                
                 let recipeId = customOrder[index].0
                 
-                // Find the recipe name by recipeId from Event.share
+                // Find the recipe name by recipeId from Event.shared
                 if let index = Event.shared.selectedRecipes.firstIndex(where: {String($0.id!) == recipeId}) {
                 allRecipeTitles.append(Event.shared.selectedRecipes[index].title!)
                 
@@ -172,8 +174,6 @@ class CustomOrderHelper {
             }
         }
         
-        #warning("not showing correct titles")
-        print(allRecipeTitles)
         return allRecipeTitles
     }
     
@@ -196,7 +196,9 @@ class CustomOrderHelper {
             if index % 2 == 0 {
                 singleTuple.0 = item
             } else {
-                singleTuple.1 = Int(item)!
+                if let item = Int(item) {
+                    singleTuple.1 = item
+                }
                 convertedTuple.append(singleTuple)
             }
         }

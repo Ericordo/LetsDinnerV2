@@ -278,7 +278,6 @@ class Event {
     func observeEvent() {
         // Run Two times when click on the event in message bubble
         
-        // Initiate user
         Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let value = snapshot.value as? [String : Any] else { return }
             guard let hostID = value["hostID"] as? String else { return }
@@ -348,11 +347,8 @@ class Event {
             self.tasks = tasks
             
             // CustomOrder
-            
             if let customOrder = value["customOrder"] as? [String] {
-//                CustomOrderHelper.shared.convertedCustomOrderForFirebaseStorage = customOrder
                 CustomOrderHelper.shared.customOrder = CustomOrderHelper.shared.convertingArrayToTuple(from: customOrder)
-                print(CustomOrderHelper.shared.customOrder)
             }
             
             var recipes = [Recipe]()
@@ -376,7 +372,6 @@ class Event {
                     guard let dict = value as? [String : Any] else { return }
                     guard let title = dict["title"] as? String else { return }
                     guard let servings = dict["servings"] as? Int else { return }
-                    guard let ingredients = dict["ingredients"] as? [String : String] else { return }
                     guard let id = dict["id"] as? String else { return }
 //                    guard let customOrder = dict["customOrder"] as? Int else { return }
                     
@@ -386,10 +381,13 @@ class Event {
                     customRecipe.id = id
 //                    customRecipe.customOrder = customOrder
                     
-                    ingredients.forEach { (key, value) in
-                        let customIngredient = CustomIngredient()
-                        customIngredient.name = key + value
-                        customRecipe.ingredients.append(customIngredient)
+                    // ingredients should be optional
+                    if let ingredients = dict["ingredients"] as? [String : String] {
+                        ingredients.forEach { (key, value) in
+                            let customIngredient = CustomIngredient()
+                            customIngredient.name = key + value
+                            customRecipe.ingredients.append(customIngredient)
+                        }
                     }
                     if let downloadUrl = dict["downloadUrl"] as? String {
                         customRecipe.downloadUrl = downloadUrl
@@ -413,9 +411,6 @@ class Event {
         }
     }
 
-    
-    
-    
     // MARK: Update Firebase Tasks
 
     func updateFirebaseTasks() {
