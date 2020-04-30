@@ -104,11 +104,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-    
-    
-    
-    
-    
+        
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
@@ -118,8 +114,9 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    private func mergeRecipesTitles() {
-        allRecipesTitles = Event.shared.mergeAllRecipesTitles(selectedRecipes: selectedRecipes, selectedCustomRecipes: selectedCustomRecipes)
+    func mergeRecipesTitles() {
+        allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipesTitleInCustomOrder()
+        
     }
-    
+
 }

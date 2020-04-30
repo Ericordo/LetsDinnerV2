@@ -15,16 +15,17 @@ class CustomOrderHelper {
     
     private init() {}
     
-    // : RecipeID, CustomOrder
+    // (RecipeID, CustomOrder)
     // Store in an array of set
     var customOrder = [(String,Int)]() {
         didSet {
-            lastIndex = customOrder.endIndex
+            self.findLastIndex()
         }
     }
+    var convertedCustomOrderForFirebaseStorage = [String]()
     
-    lazy var lastIndex: Int = customOrder.endIndex
-    // Order No = lastIndex + 1
+    lazy var lastIndex = customOrder.endIndex
+    // Order No = index + 1
         
     // MARK: Create
     func assignRecipeCustomOrder(recipeId: String, order: Int) {
@@ -144,8 +145,61 @@ class CustomOrderHelper {
         return nil
     }
     
+    // MARK: Recipes Title in order
+    func mergeAllRecipesTitleInCustomOrder() -> [String] {
+       
+        var allRecipeTitles = [String]()
+        
+        guard !customOrder.isEmpty else { return allRecipeTitles}
+        
+        for index in 0 ... customOrder.count - 1 {
+            
+            if let index = customOrder.firstIndex(where: {$0.1 == index + 1}) {
+                let recipeId = customOrder[index].0
+                
+                // Find the recipe name by recipeId from Event.share
+                if let index = Event.shared.selectedRecipes.firstIndex(where: {String($0.id!) == recipeId}) {
+                allRecipeTitles.append(Event.shared.selectedRecipes[index].title!)
+                
+                
+                } else {
+                    
+                    if let index = Event.shared.selectedCustomRecipes.firstIndex(where: {$0.id == recipeId}) {
+                        allRecipeTitles.append(Event.shared.selectedCustomRecipes[index].title)
+                    }
+                }
+  
+            }
+        }
+        
+        #warning("not showing correct titles")
+        print(allRecipeTitles)
+        return allRecipeTitles
+    }
     
+    // MARK: Converting to Firebase Storage Type
     
-    // Rearrange the data by editing the index
+    func convertingTupleToArray(from sets: [(String,Int)]) -> [String] {
+        var convertedArray = [String]()
+        sets.forEach { set in
+            convertedArray.append(set.0)
+            convertedArray.append(String(set.1))
+        }
+        return convertedArray
+    }
     
+    func convertingArrayToTuple(from array: [String]) -> [(String,Int)] {
+        var convertedTuple = [(String,Int)]()
+        var singleTuple = ("String",0)
+        
+        for (index, item) in array.enumerated() {
+            if index % 2 == 0 {
+                singleTuple.0 = item
+            } else {
+                singleTuple.1 = Int(item)!
+                convertedTuple.append(singleTuple)
+            }
+        }
+        return convertedTuple
+    }
 }

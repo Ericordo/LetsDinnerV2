@@ -54,7 +54,7 @@ class EventDescriptionViewController: UIViewController {
     }
     
     private func mergeRecipesTitles() {
-        allRecipesTitles = Event.shared.mergeAllRecipesTitles(selectedRecipes: selectedRecipes, selectedCustomRecipes: selectedCustomRecipes)
+        allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipesTitleInCustomOrder()
     }
     
     

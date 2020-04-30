@@ -367,10 +367,9 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         
 //        print("sourceIndex \(sourceIndexPath) , destIndex: \(destinationIndexPath)")
         
+        /*
         var movedObjectSourceCustomOrder: Int?
         var movedObjectDestinatedCustomOrder: Int?
-        
-        
 
         switch movedCell.searchType {
         case .apiRecipes:
@@ -399,14 +398,18 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             movedObjectDestinatedCustomOrder = destinatedCell.selectedCustomRecipe.customOrder
         }
         
+        */
+        
 //        print(previouslySelectedRecipes.map{$0.title})
 //        print(previouslySelectedRecipes.map{$0.customOrder})
         
-        if let sourceCustomOrder = movedObjectSourceCustomOrder, let destinationCustomOrder = movedObjectDestinatedCustomOrder,
-            let movedObject = movedObject {
+         CustomOrderHelper.shared.reorderRecipeCustomOrder(sourceOrder: sourceIndexPath.row + 1, destinationOrder: destinationIndexPath.row + 1)
+        
+//        if let sourceCustomOrder = movedObjectSourceCustomOrder, let destinationCustomOrder = movedObjectDestinatedCustomOrder,
+//            let movedObject = movedObject {
 //            Event.shared.reassignCustomOrderAfterReorder(sourceCustomOrder: sourceCustomOrder, destinationCustomOrder: destinationCustomOrder, movedObject: movedObject)
             
-            CustomOrderHelper.shared.reorderRecipeCustomOrder(sourceOrder: sourceIndexPath.row + 1, destinationOrder: destinationIndexPath.row + 1)
+           
             
 //            if movedObject is Recipe {
 //                let movedObject = movedObject as! Recipe
@@ -418,8 +421,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
 //
 //                CustomOrderHelper.shared.reorderRecipeCustomOrder(recipeId: movedObject.id, destinationOrder: destinationIndexPath.row + 1)
 //            }
-            
-        }
+//        }
         
 //        self.updateLocalVariable()
 //
