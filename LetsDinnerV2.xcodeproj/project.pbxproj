@@ -158,6 +158,7 @@
 		B8C4E82623E5ACDF00D752F1 /* ProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */; };
 		B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */; };
 		B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */; };
+		B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */; };
 		B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D1CC9523F1309000E54E26 /* UIDevice.swift */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
 		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
@@ -346,6 +347,7 @@
 		B8C4E82423E5ACDF00D752F1 /* ProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressViewController.xib; sourceTree = "<group>"; };
 		B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeStartView.swift; sourceTree = "<group>"; };
 		B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeSections.swift; sourceTree = "<group>"; };
+		B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOrderHelper.swift; sourceTree = "<group>"; };
 		B8D1CC9523F1309000E54E26 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
 		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
@@ -930,6 +932,7 @@
 				885133AC2430EFA8004CD858 /* AlertManager.swift */,
 				885133AE2430F14C004CD858 /* BubbleManager.swift */,
 				881AC72D245218750055F120 /* ImageHelper.swift */,
+				B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1219,6 +1222,7 @@
 				885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */,
 				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
+				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
 				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,

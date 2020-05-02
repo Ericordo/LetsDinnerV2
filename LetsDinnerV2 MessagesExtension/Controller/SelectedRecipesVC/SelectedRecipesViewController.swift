@@ -215,26 +215,66 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         // Find the customr order available in the two arrays
         
         // Match the indexPath with customOrder
-        if !previouslySelectedRecipes.isEmpty {
-            for recipe in previouslySelectedRecipes {
-                if indexPath.row == recipe.customOrder - 1 {
-                    // Present the cell
-                    cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
-                    return cell
-                }
-            }
-        }
+//        if !previouslySelectedRecipes.isEmpty {
+//            for recipe in previouslySelectedRecipes {
+//                if indexPath.row == recipe.customOrder - 1 {
+//                    // Present the cell
+//                    cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
+//                    return cell
+//                }
+//            }
+//        }
+//
+//        if !previouslySelectedCustomRecipes.isEmpty {
+//            for recipe in previouslySelectedCustomRecipes {
+//                if indexPath.row == recipe.customOrder - 1 {
+//                    // Present the cell
+//                    cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
+//                    return cell
+//                }
+//            }
+//        }
         
-        if !previouslySelectedCustomRecipes.isEmpty {
-            for recipe in previouslySelectedCustomRecipes {
-                if indexPath.row == recipe.customOrder - 1 {
-                    // Present the cell
-                    cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
-                    return cell
+        // Present using CustomOrderHelper
+        
+        /** Loop through the customOrderHelper
+        // check the order no. with the indexPath
+        // Find the RecipeID
+        // Check its custom or not <-
+        configure Cell
+        */
+ 
+        for customOrder in CustomOrderHelper.shared.customOrder {
+            // If match
+            if customOrder.1 == indexPath.row + 1 {
+                let recipeType = CustomOrderHelper.shared.checkIfRecipeIsCustom(recipeId: customOrder.0)
+                
+                switch recipeType {
+                case .apiRecipes:
+                    if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == Int(customOrder.0)} ) {
+                        
+                        let recipe = Event.shared.selectedRecipes[index]
+                        
+                        cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
+                        
+                        return cell
+                    }
+
+                case .customRecipes:
+                    if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customOrder.0} ) {
+                        
+                        let recipe = Event.shared.selectedCustomRecipes[index]
+                        
+                        cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
+                        
+                        return cell
+                    }
+                default:
+                    break
                 }
             }
         }
-                    
+         
         return UITableViewCell()
     }
     
@@ -257,7 +297,8 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             case .customRecipes:
                 if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == cell.selectedCustomRecipe.id }) {
                     
-                    Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
+//                    Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
+                    CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: Event.shared.selectedCustomRecipes[index].id)
                     
                     Event.shared.selectedCustomRecipes.remove(at: index)
 
@@ -266,7 +307,8 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             case .apiRecipes:
                 if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == cell.selectedRecipe.id }) {
                     
-                    Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
+//                    Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
+                    CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(Event.shared.selectedRecipes[index].id!))
                     Event.shared.selectedRecipes.remove(at: index)
  
                 }
@@ -315,8 +357,17 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
         let destinatedCell = tableView.cellForRow(at: destinationIndexPath) as! RecipeCell
         var movedObject: Any?
         
+        let movedObjectId: String!
+        
+        // get the recipeId from sourceIndex
+        let sourceOrder = sourceIndexPath.row + 1
+        
+        
+        
+        
 //        print("sourceIndex \(sourceIndexPath) , destIndex: \(destinationIndexPath)")
         
+        /*
         var movedObjectSourceCustomOrder: Int?
         var movedObjectDestinatedCustomOrder: Int?
 
@@ -339,7 +390,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             }
         }
         
-        // Get desintationCustomerOrder
+        // Get desintationCustomOrder
         switch destinatedCell.searchType {
         case .apiRecipes:
             movedObjectDestinatedCustomOrder = destinatedCell.selectedRecipe.customOrder
@@ -347,25 +398,42 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
             movedObjectDestinatedCustomOrder = destinatedCell.selectedCustomRecipe.customOrder
         }
         
+        */
+        
 //        print(previouslySelectedRecipes.map{$0.title})
 //        print(previouslySelectedRecipes.map{$0.customOrder})
         
-        if let sourceCustomOrder = movedObjectSourceCustomOrder, let destinationCustomOrder = movedObjectDestinatedCustomOrder,
-            let movedObject = movedObject {
-            Event.shared.reassignCustomOrderAfterReorder(sourceCustomOrder: sourceCustomOrder, destinationCustomOrder: destinationCustomOrder, movedObject: movedObject)
-        }
+         CustomOrderHelper.shared.reorderRecipeCustomOrder(sourceOrder: sourceIndexPath.row + 1, destinationOrder: destinationIndexPath.row + 1)
         
-        self.updateLocalVariable()
+//        if let sourceCustomOrder = movedObjectSourceCustomOrder, let destinationCustomOrder = movedObjectDestinatedCustomOrder,
+//            let movedObject = movedObject {
+//            Event.shared.reassignCustomOrderAfterReorder(sourceCustomOrder: sourceCustomOrder, destinationCustomOrder: destinationCustomOrder, movedObject: movedObject)
+            
+           
+            
+//            if movedObject is Recipe {
+//                let movedObject = movedObject as! Recipe
+//
+//                CustomOrderHelper.shared.reorderRecipeCustomOrder(sourceOrder: sourceIndexPath.row + 1, destinationOrder: destinationIndexPath.row + 1)
+//
+//            } else if movedObject is CustomRecipe {
+//                let movedObject = movedObject as! CustomRecipe
+//
+//                CustomOrderHelper.shared.reorderRecipeCustomOrder(recipeId: movedObject.id, destinationOrder: destinationIndexPath.row + 1)
+//            }
+//        }
         
+//        self.updateLocalVariable()
+//
         DispatchQueue.main.async {
             self.recipesTableView.reloadData()
         }
         
-        print("After Reorder:")
-        print(previouslySelectedRecipes.map{$0.title})
-        print(previouslySelectedRecipes.map{$0.customOrder})
-        print(previouslySelectedCustomRecipes.map{$0.title})
-        print(previouslySelectedCustomRecipes.map{$0.customOrder})
+//        print("After Reorder:")
+//        print(previouslySelectedRecipes.map{$0.title})
+//        print(previouslySelectedRecipes.map{$0.customOrder})
+//        print(previouslySelectedCustomRecipes.map{$0.title})
+//        print(previouslySelectedCustomRecipes.map{$0.customOrder})
 
         //        UIView.transition(with: recipesTableView, duration: 0.3,
         //                          options: .transitionCrossDissolve,

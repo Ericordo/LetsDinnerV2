@@ -16,14 +16,15 @@ struct Recipe {
     var ingredientList: [Ingredient]?
     var servings: Int?
     var id: Int?
-    var customOrder: Int = 0 // start from 1 ...
+//    var customOrder: Int = 0 // start from 1 ...
     
     init() {}
     
-    init(title: String, sourceUrl: String, customOrder: Int) {
+    init(title: String, sourceUrl: String, id: Int) {
         self.sourceUrl = sourceUrl
         self.title = title
-        self.customOrder = customOrder
+        self.id = id
+//        self.customOrder = customOrder
     }
         
     init(dict: Dictionary<String, Any>) {
@@ -74,9 +75,10 @@ struct Recipe {
         }
     }
     
-    mutating func assignCustomOrder(customOrder: Int) {
-        self.customOrder = customOrder
-    }
+//    // MARK: To be remove
+//    mutating func assignCustomOrder(customOrder: Int) {
+//        self.customOrder = customOrder
+//    }
 
     
 

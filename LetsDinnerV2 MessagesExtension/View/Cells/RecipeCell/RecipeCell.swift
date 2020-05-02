@@ -17,6 +17,7 @@ protocol RecipeCellDelegate: class {
 }
 
 class RecipeCell: UITableViewCell {
+    
     @IBOutlet weak var backgroundCellView: UIView!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var recipeNameLabel: UILabel!
@@ -47,10 +48,11 @@ class RecipeCell: UITableViewCell {
         
         backgroundCellView.clipsToBounds = true
         backgroundCellView.layer.cornerRadius = 10
-        backgroundCellView.backgroundColor = UIColor.secondaryTextLabel
+//        backgroundCellView.backgroundColor = UIColor.secondaryTextLabel
+        backgroundCellView.backgroundColor = .backgroundColor
         
-        chooseButton.clipsToBounds = true
-        chooseButton.layer.cornerRadius = 10
+//        chooseButton.clipsToBounds = true
+//        chooseButton.layer.cornerRadius = 10
         
         recipeImageView.clipsToBounds = true
         recipeImageView.layer.cornerRadius = 10
