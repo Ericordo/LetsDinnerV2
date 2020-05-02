@@ -42,7 +42,7 @@ class EventDescriptionViewController: UIViewController {
         recipesCollectionView.dataSource = self
         recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
                 
-        self.mergeRecipesTitles()
+        self.mergeRecipeTitles()
         
         setupUI()
         setupGesture()
@@ -53,8 +53,8 @@ class EventDescriptionViewController: UIViewController {
          NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 4])
     }
     
-    private func mergeRecipesTitles() {
-        allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipesTitleInCustomOrder()
+    private func mergeRecipeTitles() {
+        allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipeTitlesInCustomOrder()
     }
     
     

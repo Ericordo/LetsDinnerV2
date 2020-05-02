@@ -26,7 +26,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
 
         // Initialization code
         self.configureUI()
-        self.mergeRecipesTitles()
+        self.mergeRecipeTitles()
         
         if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty {
             recipesCollectionView.removeFromSuperview()
@@ -114,8 +114,8 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    func mergeRecipesTitles() {
-        allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipesTitleInCustomOrder()
+    func mergeRecipeTitles() {
+        allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipeTitlesInCustomOrder()
         
     }
 

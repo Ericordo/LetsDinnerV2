@@ -146,7 +146,7 @@ class CustomOrderHelper {
     }
     
     // MARK: Recipes Title in order
-    func mergeAllRecipesTitleInCustomOrder() -> [String] {
+    func mergeAllRecipeTitlesInCustomOrder() -> [String] {
        
         var allRecipeTitles = [String]()
         
