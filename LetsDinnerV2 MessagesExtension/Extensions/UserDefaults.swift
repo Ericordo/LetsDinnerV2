@@ -29,4 +29,9 @@ extension UserDefaults {
         set { set(newValue, forKey: Keys.measurementSystem) }
     }
     
+    var searchType: String {
+        get { return string(forKey: Keys.searchType) ?? "" }
+        set { set(newValue, forKey: Keys.searchType) }
+    }
+    
 }

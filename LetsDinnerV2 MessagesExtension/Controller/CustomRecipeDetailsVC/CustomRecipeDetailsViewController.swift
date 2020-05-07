@@ -12,7 +12,7 @@ import Kingfisher
 
 protocol CustomRecipeDetailsVCDelegate : class {
     func didDeleteCustomRecipe()
-    func customrecipeDetailsVCShouldDismiss()
+    func customRecipeDetailsVCShouldDismiss()
 }
 
 class CustomRecipeDetailsViewController: UIViewController {
@@ -181,7 +181,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     
     @IBAction func didTapDone(_ sender: UIButton) {
-        customRecipeDetailsDelegate?.customrecipeDetailsVCShouldDismiss()
+        customRecipeDetailsDelegate?.customRecipeDetailsVCShouldDismiss()
         dismiss(animated: true, completion: nil)
     }
     

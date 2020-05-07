@@ -79,6 +79,10 @@ struct Recipe {
 //    mutating func assignCustomOrder(customOrder: Int) {
 //        self.customOrder = customOrder
 //    }
+    
+    var isSelected : Bool {
+        return Event.shared.selectedRecipes.contains { $0.id == self.id }
+    }
 
     
 

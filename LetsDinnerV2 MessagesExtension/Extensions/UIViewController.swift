@@ -48,6 +48,13 @@ extension UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func showBasicAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: title, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(self, animated: true, completion: nil)
+    }
+    
 
     
 }

@@ -255,7 +255,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                         
                         let recipe = Event.shared.selectedRecipes[index]
                         
-                        cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
+                        cell.configureCell(recipe)
                         
                         return cell
                     }
@@ -265,7 +265,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                         
                         let recipe = Event.shared.selectedCustomRecipes[index]
                         
-                        cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
+                        cell.configureCellWithCustomRecipe(recipe)
                         
                         return cell
                     }

@@ -7,41 +7,82 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProgressViewController: UIViewController {
 
-    @IBOutlet weak var progressView: UIProgressView!
+    private let progressView : UIProgressView = {
+        let view = UIProgressView()
+        view.progressTintColor = UIColor.activeButton
+        view.trackTintColor = UIColor.inactiveButton
+        return view
+    }()
     
-    let progress = Progress(totalUnitCount: 5)
+    var progress = Progress(totalUnitCount: 5)
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        progress.completedUnitCount = Int64(StepStatus.currentStep!.stepNumber)
+        let progressFloat = Float(self.progress.fractionCompleted)
+        progressView.progress = progressFloat
+                NotificationCenter.default.addObserver(self, selector: #selector(hideProgressBar), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+//        setupNotifications()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        progress.completedUnitCount = Int64(StepStatus.currentStep!.stepNumber)
+        let progressFloat = Float(self.progress.fractionCompleted)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Execute after Page animation
+            self.progressView.setProgress(progressFloat, animated: true)
+        }
+    }
         
-        configureUI()
-        self.progressView.progress = 0
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(stepProgressing), name: Notification.Name("didGoToNextStep"), object: nil)
-        
+    func setupNotifications() {
         NotificationCenter.default.addObserver(forName: Notification.Name("didGoToNextStep"),
                                                 object: nil,
                                                 queue: nil,
-                                                using: stepProgressing(_:))
+                                                using: animateProgress(_:))
         
         NotificationCenter.default.addObserver(forName: Notification.Name("ProgressBarWillTransition"),
                                                 object: nil,
                                                 queue: nil,
-                                                using: hideProgressBar(_:))
-
+                                                using: setProgressBarVisibility(_:))
     }
     
 
-    private func configureUI() {
-        self.view.backgroundColor = .backgroundColor
-        progressView.progressTintColor = UIColor.activeButton
-        progressView.trackTintColor = UIColor.inactiveButton
+    private func setupUI() {
+        self.view.addSubview(progressView)
+        addConstraints()
     }
     
-    @objc func stepProgressing(_ notification: Notification) {
+    private func addConstraints() {
+        progressView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    @objc private func hideProgressBar() {
+        print("hide progress bar")
+        self.progressView.isHidden = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // Execute after Page animation
+            self.progressView.isHidden = false
+        }
+        
+    }
+    
+    @objc func animateProgress(_ notification: Notification) {
         // Run twice sometimes (example: when it goes back from 5 to 4)
         
         if let data = notification.userInfo as? [String: Int] {
@@ -57,7 +98,7 @@ class ProgressViewController: UIViewController {
         }
     }
     
-    @objc func hideProgressBar(_ notification: Notification) {
+    @objc func setProgressBarVisibility(_ notification: Notification) {
         
         if let data = notification.userInfo as? [String: Int] {
             let style = data["style"]

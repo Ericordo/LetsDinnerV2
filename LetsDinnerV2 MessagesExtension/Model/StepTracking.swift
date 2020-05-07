@@ -23,16 +23,25 @@ enum StepTracking {
     case expiredEventVC
 }
 
-class StepStatus {
-    static var currentStep: StepTracking?
-    static var currentRecipeMenu: SearchType?
+extension StepTracking : CaseIterable {
+    var stepNumber : Int {
+        switch self {
+        case .registrationVC:
+            return 0
+        case .newEventVC:
+            return 1
+        case .recipesVC:
+            return 2
+        case .managementVC:
+            return 3
+        case .reviewVC:
+            return 4
+        default:
+            return 0
+        }
+    }
 }
 
-
-//enum ProgressVC: Int {
-//    case registrationViewController = 1
-//    case recipesViewController = 2
-//    case managementViewController = 3
-//    case eventDescriptionViewController = 4
-//    case reviewViewController = 5
-//}
+class StepStatus {
+    static var currentStep: StepTracking?
+}

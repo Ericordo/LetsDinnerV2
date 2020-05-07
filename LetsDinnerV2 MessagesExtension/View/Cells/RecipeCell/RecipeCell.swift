@@ -63,7 +63,7 @@ class RecipeCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    func configureCell(recipe: Recipe, isSelected: Bool, searchType: SearchType) {
+    func configureCell(_ recipe: Recipe) {
         if let imageURL = URL(string: recipe.imageUrl!) {
             recipeImageView.kf.setImage(with: imageURL)
             backgroundImageView.kf.setImage(with: imageURL)
@@ -71,11 +71,11 @@ class RecipeCell: UITableViewCell {
         recipeImageView.isHidden = false
         visualEffectView.isHidden = false
 
-        self.searchType = searchType
+        self.searchType = .apiRecipes
         recipeNameLabel.text = recipe.title!
         selectedRecipe = recipe
-        chooseButton.isHidden = isSelected
-        chosenButton.isHidden = !isSelected
+        chooseButton.isHidden = recipe.isSelected
+        chosenButton.isHidden = !recipe.isSelected
         recipeNameLabel.sizeToFit()
 
         if #available(iOSApplicationExtension 13.0, *) {
@@ -86,39 +86,29 @@ class RecipeCell: UITableViewCell {
         }
     }
     
-    func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
+    func configureCellWithCustomRecipe(_ customRecipe: CustomRecipe) {
         if let downloadUrl = customRecipe.downloadUrl {
             recipeImageView.kf.setImage(with: URL(string: downloadUrl))
             backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
-            
             visualEffectView.isHidden = false
-            
             if #available(iOSApplicationExtension 13.0, *) {
                 if self.traitCollection.userInterfaceStyle == .dark {
                     let blurEffect = UIBlurEffect(style: .dark)
                     self.visualEffectView.effect = blurEffect
                 }
             }
-            
-//        if let imageData = customRecipe.imageData {
-//            recipeImageView.image = UIImage(data: imageData)
-//            backgroundImageView.image = UIImage(data: imageData)
         } else {
-            // For nil Image
             recipeImageView.image = UIImage(named: "mealPlaceholderImage")
             recipeImageView.alpha = 0.8
-
             backgroundImageView.image = nil
             backgroundImageView.backgroundColor = UIColor.customRecipeBackground
             visualEffectView.isHidden = true
-
         }
-        
-        self.searchType = searchType
+        self.searchType = .customRecipes
         recipeNameLabel.text = customRecipe.title
         selectedCustomRecipe = customRecipe
-        chooseButton.isHidden = isSelected
-        chosenButton.isHidden = !isSelected
+        chooseButton.isHidden = customRecipe.isSelected
+        chosenButton.isHidden = !customRecipe.isSelected
     }
     
     @IBAction func didTapChooseButton(_ sender: UIButton) {
