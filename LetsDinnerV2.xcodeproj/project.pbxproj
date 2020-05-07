@@ -159,7 +159,6 @@
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
-		B8C4E82623E5ACDF00D752F1 /* ProgressViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8C4E82423E5ACDF00D752F1 /* ProgressViewControllerOld.xib */; };
 		B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */; };
 		B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */; };
 		B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */; };
@@ -352,7 +351,6 @@
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
-		B8C4E82423E5ACDF00D752F1 /* ProgressViewControllerOld.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressViewControllerOld.xib; sourceTree = "<group>"; };
 		B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeStartView.swift; sourceTree = "<group>"; };
 		B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeSections.swift; sourceTree = "<group>"; };
 		B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOrderHelper.swift; sourceTree = "<group>"; };
@@ -600,11 +598,6 @@
 				88349F1C236DEF15002A1879 /* Constants.swift */,
 				B815358623E3FE2000BBD5FB /* Colors.swift */,
 				88349F342370388C002A1879 /* Event.swift */,
-				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
-				88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */,
-				88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */,
-				882B9CC523998738001634D9 /* CustomRecipe.swift */,
-				882B9CC72399A0BD001634D9 /* CustomIngredient.swift */,
 				B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */,
 				880B13302372FA08003E29AC /* User.swift */,
 				880B1357237474A4003E29AC /* Task.swift */,
@@ -774,6 +767,10 @@
 			children = (
 				884CE1C22461FDF8001062BF /* LDRecipe.swift */,
 				884CE1C42461FE02001062BF /* LDIngredient.swift */,
+				88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */,
+				88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */,
+				882B9CC523998738001634D9 /* CustomRecipe.swift */,
+				882B9CC72399A0BD001634D9 /* CustomIngredient.swift */,
 			);
 			path = RecipeModels;
 			sourceTree = "<group>";
@@ -953,6 +950,7 @@
 				881AC72D245218750055F120 /* ImageHelper.swift */,
 				B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */,
 				884CE1B9246086CC001062BF /* RealmHelper.swift */,
+				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -961,7 +959,6 @@
 			isa = PBXGroup;
 			children = (
 				B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */,
-				B8C4E82423E5ACDF00D752F1 /* ProgressViewControllerOld.xib */,
 			);
 			path = ProgressVC;
 			sourceTree = "<group>";
@@ -1096,7 +1093,6 @@
 				882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
-				B8C4E82623E5ACDF00D752F1 /* ProgressViewControllerOld.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				32603EB023F1BC4E00AB6B50 /* ExpiredEventCell.xib in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
