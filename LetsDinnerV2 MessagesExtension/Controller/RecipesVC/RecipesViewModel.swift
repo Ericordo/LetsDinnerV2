@@ -23,9 +23,9 @@ class RecipesViewModel {
     let keyword = MutableProperty<String>("")
     
     var recipes = [Recipe]()
-    var customRecipes : Results<CustomRecipe>?
+//    var customRecipes : Results<CustomRecipe>?
 //    var customSearchResults = [LDRecipe]()
-//    var customRecipes = [LDRecipe]()
+    var customRecipes = [LDRecipe]()
 
     private let dataChangeObserver: Signal<Void, Never>.Observer
     private let errorObserver: Signal<ApiError, Never>.Observer
@@ -34,7 +34,7 @@ class RecipesViewModel {
     let isLoading = MutableProperty<Bool>(false)
     
     var previouslySelectedRecipes = [Recipe]()
-    var previouslySelectedCustomRecipes = [CustomRecipe]()
+    var previouslySelectedCustomRecipes = [LDRecipe]()
     
     init() {
         self.searchType = MutableProperty(SearchType(rawValue: defaults.searchType) ?? .apiRecipes)
@@ -66,7 +66,8 @@ class RecipesViewModel {
             guard let self = self else { return }
             switch self.searchType.value {
             case .customRecipes:
-                self.customRecipes = self.customRecipes?.filter("title CONTAINS[cd] %@", keyword)
+//                self.customRecipes = self.customRecipes.filter("title CONTAINS[cd] %@", keyword)
+                self.customRecipes = self.customRecipes.filter { $0.title.lowercased().contains(keyword.lowercased()) }
                 self.dataChangeObserver.send(value: ())
             case .apiRecipes:
                 self.fetchSearchResults(keyword: keyword)
@@ -124,12 +125,24 @@ class RecipesViewModel {
         recipes.sort { $0.isSelected && !$1.isSelected }
     }
     
-    
     private func loadCustomRecipes() {
-        #warning("After implementation of CloudKit and conversion to LDRecipe, sort by selection")
-        customRecipes = RealmHelper.shared.loadCustomRecipes()
-        self.isLoading.value = false
-        self.dataChangeObserver.send(value: ())
+        CloudManager.shared.fetchLDRecipesFromCloud()
+                .on(starting: { self.isLoading.value = true })
+                .on(completed: { self.isLoading.value = false })
+                .observe(on: UIScheduler())
+                .startWithResult { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .failure(let error):
+                        self.isLoading.value = false
+                        self.errorObserver.send(value: .noNetwork)
+                    case .success(let recipes):
+                        self.customRecipes = recipes
+                        self.customRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
+                        self.customRecipes.sort { $0.isSelected && !$1.isSelected }
+                        self.dataChangeObserver.send(value: ())
+                    }
+            }
     }
     
     
@@ -156,7 +169,7 @@ class RecipesViewModel {
             
             // Add the New Recipes
             var newRecipes = [Recipe]()
-            var newCustomRecipes = [CustomRecipe]()
+            var newCustomRecipes = [LDRecipe]()
 
             if previouslySelectedRecipes.isEmpty {
                 newRecipes = Event.shared.selectedRecipes
@@ -232,7 +245,7 @@ class RecipesViewModel {
                                     assignedPersonName: "nil",
                                     isCustom: false, parentRecipe: recipeName)
                     task.metricUnit = customIngredient.unit
-                    if let amount = customIngredient.amount.value {
+                    if let amount = customIngredient.amount {
                         if Int(amount) != 0 {
                             task.metricAmount = (amount * 2) / servings
                         }

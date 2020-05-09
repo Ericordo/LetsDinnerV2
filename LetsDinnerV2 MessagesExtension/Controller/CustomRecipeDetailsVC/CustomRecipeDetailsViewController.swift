@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Kingfisher
+import ReactiveSwift
 
 protocol CustomRecipeDetailsVCDelegate : class {
     func didDeleteCustomRecipe()
@@ -36,7 +37,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
-    var selectedRecipe: CustomRecipe?
+    var selectedRecipe: LDRecipe?
     
     let realm = try! Realm()
     
@@ -47,6 +48,19 @@ class CustomRecipeDetailsViewController: UIViewController {
     weak var customRecipeDetailsDelegate: CustomRecipeDetailsVCDelegate?
     
     var existingEvent = false
+    
+    private let loadingView = LDLoadingView()
+    
+    private let viewModel: CustomRecipeDetailsViewModel
+    
+    init(viewModel: CustomRecipeDetailsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: VCNibs.customRecipeDetailsViewController, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +74,44 @@ class CustomRecipeDetailsViewController: UIViewController {
         scrollView.delegate = self
   
         setupUI()
+        bindViewModel()
         
         NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
         
+    }
+    
+    private func bindViewModel() {
+        
+        self.viewModel.deleteRecipeSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    #warning("deal with error")
+                    print(error.localizedDescription)
+                case .success():
+                    self.customRecipeDetailsDelegate?.didDeleteCustomRecipe()
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.edges.equalToSuperview()
+                    }
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
     }
 
     private func setupUI() {
@@ -73,6 +122,8 @@ class CustomRecipeDetailsViewController: UIViewController {
 //        if let imageData = recipe.imageData {
 //            recipeImageView.image = UIImage(data: imageData)
 //        }
+        
+        
         if recipe.ingredients.isEmpty {
             ingredientsHeightConstraint.constant = 0
         } else {
@@ -109,7 +160,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         if let downloadUrl = recipe.downloadUrl {
              recipeImageView.kf.indicatorType = .activity
-             recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholderBig.png")) { result in
+            recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: Images.imagePlaceholderBig) { result in
                  switch result {
                  case .success:
                     break
@@ -152,26 +203,10 @@ class CustomRecipeDetailsViewController: UIViewController {
     }
     }
     
-    private func deleteRecipe() {
-        guard let recipe = self.selectedRecipe else { return }
-        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.title == recipe.title }) {
-        Event.shared.selectedCustomRecipes.remove(at: index)
-        }
-            do {
-                try self.realm.write {
-                    self.realm.delete(recipe)
-                }
-            } catch {
-                print(error)
-            }
-        customRecipeDetailsDelegate?.didDeleteCustomRecipe()
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     private func editRecipe() {
         guard let recipe = self.selectedRecipe else { return }
         
-        let editingVC = RecipeCreationViewController()
+        let editingVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
         editingVC.modalPresentationStyle = .fullScreen
         editingVC.recipeCreationVCUpdateDelegate = self
         editingVC.recipeToEdit = recipe
@@ -220,7 +255,8 @@ class CustomRecipeDetailsViewController: UIViewController {
             self.editRecipe()
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
-            self.deleteRecipe()
+            guard let recipe = self.selectedRecipe else { return }
+            self.viewModel.deleteRecipe(recipe)
         }
         alert.addAction(cancel)
         alert.addAction(edit)
@@ -228,9 +264,6 @@ class CustomRecipeDetailsViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
         
     }
-    
-   
-
 }
 
 extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -251,7 +284,7 @@ extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewD
         switch tableView {
         case ingredientsTableView:
             if let ingredient = selectedRecipe?.ingredients[indexPath.row] {
-            cell.configureCell(name: ingredient.name, amount: ingredient.amount.value ?? 0, unit: ingredient.unit ?? "")
+            cell.configureCell(name: ingredient.name, amount: ingredient.amount ?? 0, unit: ingredient.unit ?? "")
             }
         case stepsTableView:
             if let cookingStep = selectedRecipe?.cookingSteps[indexPath.row] {
@@ -297,7 +330,7 @@ extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
         stepsTableView.reloadData()
         ingredientsTableView.reloadData()
         if selectedRecipe?.downloadUrl == nil {
-            recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
+            recipeImageView.image = Images.imagePlaceholderBig
         }
         
         // Edge Case: Add the newly added ingredients to tasks (need to make sure the recipe name are unique)
@@ -331,7 +364,7 @@ extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
                                         assignedPersonName: "nil",
                                         isCustom: false, parentRecipe: recipeName)
                         task.metricUnit = customIngredient.unit
-                        if let amount = customIngredient.amount.value {
+                        if let amount = customIngredient.amount {
                             if Int(amount) != 0 {
                                 task.metricAmount = (amount * 2) / servings
                             }

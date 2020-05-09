@@ -89,7 +89,7 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         toolbar.createRecipeButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let recipeCreationVC = RecipeCreationViewController()
+            let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
             recipeCreationVC.modalPresentationStyle = .fullScreen
             recipeCreationVC.recipeCreationVCDelegate = self
             self.present(recipeCreationVC, animated: true, completion: nil)
@@ -186,7 +186,7 @@ class RecipesViewController: LDNavigationViewController {
                           completion: nil)
     }
     
-    private func openRecipeInSafari(recipe: Recipe) {
+    private func openRecipeInSafari(_ recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
             let vc = CustomSafariVC(url: url)
@@ -294,7 +294,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             viewModel.recipes.isEmpty ? tableView.setEmptyViewForNoResults() : tableView.restore()
             return viewModel.recipes.count
         case .customRecipes:
-            if viewModel.customRecipes?.count == 0 {
+            if viewModel.customRecipes.count == 0 {
                 if searchBar.text!.isEmpty {
                                 tableView.setEmptyViewForRecipeView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
                 } else {
@@ -303,7 +303,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 tableView.restore()
             }
-            return viewModel.customRecipes?.count ?? 0
+            return viewModel.customRecipes.count
         }
     }
     
@@ -314,9 +314,8 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
             let recipe = viewModel.recipes[indexPath.section]
             cell.configureCell(recipe)
         case .customRecipes:
-            if let customRecipe = viewModel.customRecipes?[indexPath.section] {
-                cell.configureCellWithCustomRecipe(customRecipe)
-            }
+            let customRecipe = viewModel.customRecipes[indexPath.section]
+            cell.configureCellWithCustomRecipe(customRecipe)
         }
         cell.recipeCellDelegate = self
         return cell
@@ -339,12 +338,12 @@ extension RecipesViewController: ModalViewHandler {
 
     //MARK: RecipeCell Delegate
 extension RecipesViewController: RecipeCellDelegate {
-    func recipeCellDidSelectView(recipe: Recipe) {
-        openRecipeInSafari(recipe: recipe)
+    func recipeCellDidSelectView(_ recipe: Recipe) {
+        openRecipeInSafari(recipe)
     }
     
-    func recipeCellDidSelectCustomRecipeView(customRecipe: CustomRecipe) {
-        let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+    func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
+        let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
         customRecipeDetailsVC.modalPresentationStyle = .fullScreen
         customRecipeDetailsVC.selectedRecipe = customRecipe
         customRecipeDetailsVC.customRecipeDetailsDelegate = self
@@ -352,7 +351,7 @@ extension RecipesViewController: RecipeCellDelegate {
         present(customRecipeDetailsVC, animated: true, completion: nil)
     }
      #warning("Remove commented code")
-    func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
+    func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
             // Re-assign the customOrder
             //            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .customRecipes, index: index)
@@ -370,7 +369,7 @@ extension RecipesViewController: RecipeCellDelegate {
     
     // MARK: Append Recipe to EventArray
     #warning("Remove commented code")
-    func recipeCellDidSelectRecipe(recipe: Recipe) {
+    func recipeCellDidSelectRecipe(_ recipe: Recipe) {
         if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
             //            Event.shared.reassignCustomOrderAfterRemoval(recipeType: .apiRecipes, index: index)
             CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(recipe.id!))
@@ -401,6 +400,7 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     }
     
     func didDeleteCustomRecipe() {
+        self.viewModel.searchType.value = .customRecipes
         updateState()
     }
 }

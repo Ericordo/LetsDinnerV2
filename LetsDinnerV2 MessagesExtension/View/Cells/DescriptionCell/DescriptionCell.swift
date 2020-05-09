@@ -93,7 +93,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         if let customIndex = customIndex {
             let selectedCustomRecipe = selectedCustomRecipes[customIndex]
-            let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+            let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
             customRecipeDetailsVC.modalPresentationStyle = .fullScreen
             customRecipeDetailsVC.selectedRecipe = selectedCustomRecipe
             customRecipeDetailsVC.existingEvent = true

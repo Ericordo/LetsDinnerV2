@@ -25,6 +25,8 @@ enum VCNibs {
     static let eventInfoViewController = "EventInfoViewController"
     static let progressViewController = "ProgressViewController"
     static let expiredEventViewController = "ExpiredEventViewController"
+    static let recipeCreationViewController = "RecipeCreationViewController"
+    static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
 }
 
 enum CellNibs {
@@ -263,6 +265,8 @@ enum Images {
     static let listButtonOutlined = UIImage(named: "listButtonOutlined")!
     static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
     
+    // CustomRecipeDetailsVC
+    static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
     
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"

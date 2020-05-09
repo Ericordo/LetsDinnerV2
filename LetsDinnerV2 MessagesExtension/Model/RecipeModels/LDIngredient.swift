@@ -7,7 +7,12 @@
 //
 
 import Foundation
+import CloudKit
 
 struct LDIngredient {
-    
+    var name: String = ""
+    var amount: Double?
+    var unit: String?
+    var recordID: CKRecord.ID?
 }
+

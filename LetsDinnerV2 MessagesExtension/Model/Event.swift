@@ -44,7 +44,8 @@ class Event {
     
     var eventDescription = String()
     var selectedRecipes = [Recipe]()
-    var selectedCustomRecipes = [CustomRecipe]()
+//    var selectedCustomRecipes = [CustomRecipe]()
+    var selectedCustomRecipes = [LDRecipe]()
 //    var recipeTitles: String {
 //          let titles = selectedRecipes.map { $0.title! }
 //          return titles.joined(separator:", ")
@@ -187,7 +188,7 @@ class Event {
             selectedCustomRecipes.forEach { customRecipe in
                 var ingredients = [String : String]()
                 customRecipe.ingredients.forEach { ingredient in
-                    if let amount = ingredient.amount.value {
+                    if let amount = ingredient.amount {
                          ingredients[ingredient.name] = ", \(amount) \(ingredient.unit ?? "")"
                     } else {
                         ingredients[ingredient.name] = ""
@@ -366,7 +367,7 @@ class Event {
             }
             self.selectedRecipes = recipes
             
-            var customRecipes = [CustomRecipe]()
+            var customRecipes = [LDRecipe]()
             if let selectedCustomRecipes = value["customRecipes"] as? [String : Any] {
                 selectedCustomRecipes.forEach { (key, value) in
                     guard let dict = value as? [String : Any] else { return }
@@ -375,7 +376,7 @@ class Event {
                     guard let id = dict["id"] as? String else { return }
 //                    guard let customOrder = dict["customOrder"] as? Int else { return }
                     
-                    let customRecipe = CustomRecipe()
+                    var customRecipe = LDRecipe()
                     customRecipe.title = title
                     customRecipe.servings = servings
                     customRecipe.id = id
@@ -384,7 +385,7 @@ class Event {
                     // ingredients should be optional
                     if let ingredients = dict["ingredients"] as? [String : String] {
                         ingredients.forEach { (key, value) in
-                            let customIngredient = CustomIngredient()
+                            var customIngredient = LDIngredient()
                             customIngredient.name = key + value
                             customRecipe.ingredients.append(customIngredient)
                         }

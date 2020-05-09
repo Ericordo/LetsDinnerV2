@@ -21,5 +21,29 @@ class RealmHelper {
         return realm.objects(CustomRecipe.self)
     }
     
+    func saveRecipeInRealm(_ recipe: LDRecipe) {
+        
+    }
+    
+    func updateRecipeInRealm(_ recipe: LDRecipe) {
+        
+    }
+    
+    func deleteRecipeInRealm(_ recipe: LDRecipe) {
+        convertLDRecipeToRLRecipe()
+        //            do {
+         //                try self.realm.write {
+         //                    self.realm.delete(recipe)
+         //                }
+         //            } catch {
+         //                print(error)
+         //            }
+        
+    }
+    
+    func convertLDRecipeToRLRecipe() {
+        
+    }
+    
     
 }
