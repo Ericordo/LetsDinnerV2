@@ -126,23 +126,41 @@ class RecipesViewModel {
     }
     
     private func loadCustomRecipes() {
-        CloudManager.shared.fetchLDRecipesFromCloud()
-                .on(starting: { self.isLoading.value = true })
-                .on(completed: { self.isLoading.value = false })
-                .observe(on: UIScheduler())
-                .startWithResult { [weak self] result in
-                    guard let self = self else { return }
-                    switch result {
-                    case .failure(let error):
-                        self.isLoading.value = false
+        CloudManager.shared.userIsLoggedIn()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .observe(on: UIScheduler())
+            .startWithResult { result in
+                switch result {
+                case .failure(let error):
+                    #warning("modify error")
+                    self.errorObserver.send(value: .noNetwork)
+                case .success(let userIsLoggedIn):
+                    if userIsLoggedIn {
+                        CloudManager.shared.fetchLDRecipesFromCloud()
+                            .on(starting: { self.isLoading.value = true })
+                            .on(completed: { self.isLoading.value = false })
+                            .observe(on: UIScheduler())
+                            .startWithResult { [weak self] result in
+                                guard let self = self else { return }
+                                switch result {
+                                case .failure(let error):
+                                    self.isLoading.value = false
+                                    self.errorObserver.send(value: .noNetwork)
+                                case .success(let recipes):
+                                    self.customRecipes = recipes
+                                    self.customRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
+                                    self.customRecipes.sort { $0.isSelected && !$1.isSelected }
+                                    self.dataChangeObserver.send(value: ())
+                                }
+                        }
+                    } else {
+                        #warning("modify error")
                         self.errorObserver.send(value: .noNetwork)
-                    case .success(let recipes):
-                        self.customRecipes = recipes
-                        self.customRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
-                        self.customRecipes.sort { $0.isSelected && !$1.isSelected }
-                        self.dataChangeObserver.send(value: ())
                     }
-            }
+                }
+        }
+        
     }
     
     
