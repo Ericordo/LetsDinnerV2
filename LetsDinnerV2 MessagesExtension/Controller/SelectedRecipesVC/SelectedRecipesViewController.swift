@@ -17,7 +17,7 @@ class SelectedRecipesViewController: UIViewController {
     @IBOutlet weak var headerLabel: UILabel!
     
     var previouslySelectedRecipes = [Recipe]()
-    var previouslySelectedCustomRecipes = [CustomRecipe]()
+    var previouslySelectedCustomRecipes = [LDRecipe]()
     var totalNumberOfSelectedRecipes: Int = 0 {
         didSet {
             updateHeaderLabel()
@@ -255,7 +255,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                         
                         let recipe = Event.shared.selectedRecipes[index]
                         
-                        cell.configureCell(recipe: recipe, isSelected: true, searchType: .apiRecipes)
+                        cell.configureCell(recipe)
                         
                         return cell
                     }
@@ -265,7 +265,7 @@ extension SelectedRecipesViewController: UITableViewDelegate, UITableViewDataSou
                         
                         let recipe = Event.shared.selectedCustomRecipes[index]
                         
-                        cell.configureCellWithCustomRecipe(customRecipe: recipe, isSelected: true, searchType: .customRecipes)
+                        cell.configureCellWithCustomRecipe(recipe)
                         
                         return cell
                     }
@@ -486,20 +486,20 @@ extension SelectedRecipesViewController: UITableViewDropDelegate, UITableViewDra
 
 extension SelectedRecipesViewController: RecipeCellDelegate {
     
-    func recipeCellDidSelectRecipe(recipe: Recipe) {
+    func recipeCellDidSelectRecipe(_ recipe: Recipe) {
         print("Disabled")
     }
     
-    func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe) {
+    func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {
         print("Disabled")
     }
     
-    func recipeCellDidSelectView(recipe: Recipe) {
+    func recipeCellDidSelectView(_ recipe: Recipe) {
         openRecipeInSafari(recipe: recipe)
     }
     
-    func recipeCellDidSelectCustomRecipeView(customRecipe: CustomRecipe) {
-        let customRecipeDetailsVC = CustomRecipeDetailsViewController()
+    func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
+        let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
         customRecipeDetailsVC.modalPresentationStyle = .fullScreen
         customRecipeDetailsVC.selectedRecipe = customRecipe
 //        customRecipeDetailsVC.customRecipeDetailsDelegate = self

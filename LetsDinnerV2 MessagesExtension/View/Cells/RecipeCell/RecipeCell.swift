@@ -10,10 +10,10 @@ import UIKit
 import Kingfisher
 
 protocol RecipeCellDelegate: class {
-    func recipeCellDidSelectRecipe(recipe: Recipe)
-    func recipeCellDidSelectCustomRecipe(customRecipe: CustomRecipe)
-    func recipeCellDidSelectView(recipe: Recipe)
-    func recipeCellDidSelectCustomRecipeView(customRecipe: CustomRecipe)
+    func recipeCellDidSelectRecipe(_ recipe: Recipe)
+    func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe)
+    func recipeCellDidSelectView(_ recipe: Recipe)
+    func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe)
 }
 
 class RecipeCell: UITableViewCell {
@@ -29,7 +29,8 @@ class RecipeCell: UITableViewCell {
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
     var selectedRecipe = Recipe(dict: [:])
-    var selectedCustomRecipe = CustomRecipe()
+//    var selectedCustomRecipe = CustomRecipe()
+    var selectedCustomRecipe = LDRecipe()
     var searchType: SearchType = .apiRecipes
 
     weak var recipeCellDelegate: RecipeCellDelegate?
@@ -63,7 +64,7 @@ class RecipeCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    func configureCell(recipe: Recipe, isSelected: Bool, searchType: SearchType) {
+    func configureCell(_ recipe: Recipe) {
         if let imageURL = URL(string: recipe.imageUrl!) {
             recipeImageView.kf.setImage(with: imageURL)
             backgroundImageView.kf.setImage(with: imageURL)
@@ -71,11 +72,11 @@ class RecipeCell: UITableViewCell {
         recipeImageView.isHidden = false
         visualEffectView.isHidden = false
 
-        self.searchType = searchType
+        self.searchType = .apiRecipes
         recipeNameLabel.text = recipe.title!
         selectedRecipe = recipe
-        chooseButton.isHidden = isSelected
-        chosenButton.isHidden = !isSelected
+        chooseButton.isHidden = recipe.isSelected
+        chosenButton.isHidden = !recipe.isSelected
         recipeNameLabel.sizeToFit()
 
         if #available(iOSApplicationExtension 13.0, *) {
@@ -86,47 +87,62 @@ class RecipeCell: UITableViewCell {
         }
     }
     
-    func configureCellWithCustomRecipe(customRecipe: CustomRecipe, isSelected: Bool, searchType: SearchType) {
+//    func configureCellWithCustomRecipe(_ customRecipe: CustomRecipe) {
+//        if let downloadUrl = customRecipe.downloadUrl {
+//            recipeImageView.kf.setImage(with: URL(string: downloadUrl))
+//            backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
+//            visualEffectView.isHidden = false
+//            if #available(iOSApplicationExtension 13.0, *) {
+//                if self.traitCollection.userInterfaceStyle == .dark {
+//                    let blurEffect = UIBlurEffect(style: .dark)
+//                    self.visualEffectView.effect = blurEffect
+//                }
+//            }
+//        } else {
+//            recipeImageView.image = UIImage(named: "mealPlaceholderImage")
+//            recipeImageView.alpha = 0.8
+//            backgroundImageView.image = nil
+//            backgroundImageView.backgroundColor = UIColor.customRecipeBackground
+//            visualEffectView.isHidden = true
+//        }
+//        self.searchType = .customRecipes
+//        recipeNameLabel.text = customRecipe.title
+//        selectedCustomRecipe = customRecipe
+//        chooseButton.isHidden = customRecipe.isSelected
+//        chosenButton.isHidden = !customRecipe.isSelected
+//    }
+    
+    func configureCellWithCustomRecipe(_ customRecipe: LDRecipe) {
         if let downloadUrl = customRecipe.downloadUrl {
             recipeImageView.kf.setImage(with: URL(string: downloadUrl))
             backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
-            
             visualEffectView.isHidden = false
-            
             if #available(iOSApplicationExtension 13.0, *) {
                 if self.traitCollection.userInterfaceStyle == .dark {
                     let blurEffect = UIBlurEffect(style: .dark)
                     self.visualEffectView.effect = blurEffect
                 }
             }
-            
-//        if let imageData = customRecipe.imageData {
-//            recipeImageView.image = UIImage(data: imageData)
-//            backgroundImageView.image = UIImage(data: imageData)
         } else {
-            // For nil Image
             recipeImageView.image = UIImage(named: "mealPlaceholderImage")
             recipeImageView.alpha = 0.8
-
             backgroundImageView.image = nil
             backgroundImageView.backgroundColor = UIColor.customRecipeBackground
             visualEffectView.isHidden = true
-
         }
-        
-        self.searchType = searchType
+        self.searchType = .customRecipes
         recipeNameLabel.text = customRecipe.title
         selectedCustomRecipe = customRecipe
-        chooseButton.isHidden = isSelected
-        chosenButton.isHidden = !isSelected
+        chooseButton.isHidden = customRecipe.isSelected
+        chosenButton.isHidden = !customRecipe.isSelected
     }
     
     @IBAction func didTapChooseButton(_ sender: UIButton) {
         switch searchType {
         case .apiRecipes:
-             recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
+             recipeCellDelegate?.recipeCellDidSelectRecipe(selectedRecipe)
         case .customRecipes:
-            recipeCellDelegate?.recipeCellDidSelectCustomRecipe(customRecipe: selectedCustomRecipe)
+            recipeCellDelegate?.recipeCellDidSelectCustomRecipe(selectedCustomRecipe)
         }
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
@@ -135,9 +151,9 @@ class RecipeCell: UITableViewCell {
     @IBAction func didTapChosenButton(_ sender: UIButton) {
         switch searchType {
         case .apiRecipes:
-             recipeCellDelegate?.recipeCellDidSelectRecipe(recipe: selectedRecipe)
+             recipeCellDelegate?.recipeCellDidSelectRecipe(selectedRecipe)
         case .customRecipes:
-            recipeCellDelegate?.recipeCellDidSelectCustomRecipe(customRecipe: selectedCustomRecipe)
+            recipeCellDelegate?.recipeCellDidSelectCustomRecipe(selectedCustomRecipe)
         }
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
@@ -146,9 +162,9 @@ class RecipeCell: UITableViewCell {
     @IBAction func didTapViewButton(_ sender: UIButton) {
         switch searchType {
         case .apiRecipes:
-            recipeCellDelegate?.recipeCellDidSelectView(recipe: selectedRecipe)
+            recipeCellDelegate?.recipeCellDidSelectView(selectedRecipe)
         case .customRecipes:
-            recipeCellDelegate?.recipeCellDidSelectCustomRecipeView(customRecipe: selectedCustomRecipe)
+            recipeCellDelegate?.recipeCellDidSelectCustomRecipeView(selectedCustomRecipe)
         }
         
     }

@@ -23,6 +23,11 @@ class CustomRecipe: Object {
 //    func assignCustomOrder(customOrder: Int) {
 //        self.customOrder = customOrder
 //    }
+    
+    #warning("Check if id is working correctly, otherwise use title")
+    var isSelected : Bool {
+        return Event.shared.selectedCustomRecipes.contains { $0.id == self.id }
+    }
 }
 
 

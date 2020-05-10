@@ -155,6 +155,29 @@ extension UITableView {
         
     }
     
+    func setEmptyViewForNoResults() {
+        
+        let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
+
+        let messageLabel : UILabel = {
+            let label = UILabel()
+            label.textColor = UIColor.secondaryTextLabel
+            label.font = .systemFont(ofSize: 17, weight: .regular)
+            label.text = LabelStrings.noResults
+            label.textAlignment = .center
+            return label
+        }()
+        
+        emptyView.addSubview(messageLabel)
+        
+        messageLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-50)
+        }
+
+        self.backgroundView = emptyView
+    }
+    
     //MARK: Function
     
     func deselectSelectedRow(animated: Bool)

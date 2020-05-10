@@ -76,7 +76,7 @@ class TestManager {
             print("GrabRecipe")
             
             DispatchQueue.global().async {
-                DataHelper.shared.loadPredefinedRecipes { recipes in
+                TestHelper.shared.loadPredefinedRecipes { recipes in
                     
                     event.selectedRecipes = recipes
                       
@@ -142,6 +142,39 @@ class TestManager {
         
         return event
     }
+    
+
+    
+}
+#warning("temporary, to remove")
+class TestHelper {
+    static let shared = TestHelper()
+    
+    private init() {}
+    
+        func loadPredefinedRecipes(completion: @escaping (_ recipes: [Recipe]) -> Void) {
+         
+            guard let path = Bundle.main.path(forResource: "SpoonacularRecipes", ofType: "json") else { return }
+            var recipes = [Recipe]()
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let jsonData = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                let json = jsonData as? [Dictionary<String, AnyObject>]
+                guard let recipesInfo = json else { return }
+                recipesInfo.forEach { recipe in
+                    let recipe = Recipe(dict: recipe)
+                        recipes.append(recipe)
+                }
+                
+    //            DispatchQueue.main.async {
+                    completion(recipes)
+    //            }
+                
+            } catch let error {
+                print("JSON decoding failed", error)
+            }
+        }
+        
     
 }
 

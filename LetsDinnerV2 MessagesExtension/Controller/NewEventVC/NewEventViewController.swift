@@ -58,7 +58,7 @@ class NewEventViewController: UIViewController  {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
         
         // For the NEXT button  

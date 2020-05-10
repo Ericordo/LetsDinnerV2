@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Kingfisher
+import ReactiveSwift
 
 protocol RecipeCreationVCDelegate: class {
     func recipeCreationVCDidTapDone()
@@ -83,7 +84,7 @@ class RecipeCreationViewController: UIViewController  {
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
     weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
-    private var temporaryIngredients = [TemporaryIngredient]() {
+    private var temporaryIngredients = [LDIngredient]() {
         didSet {
             ingredientsTableView.reloadData()
             updateTableViewHeightConstraint(tableView: ingredientsTableView)
@@ -106,7 +107,7 @@ class RecipeCreationViewController: UIViewController  {
        }
     
     // Custom Recipe
-    var recipeToEdit: CustomRecipe?
+    var recipeToEdit: LDRecipe?
     var editingMode = false {
         didSet {
             toggleEditButton()
@@ -128,6 +129,18 @@ class RecipeCreationViewController: UIViewController  {
     var tapGestureToHideKeyboard = UITapGestureRecognizer()
     var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
+    private let loadingView = LDLoadingView()
+    
+    private let viewModel: RecipeCreationViewModel
+    
+    init(viewModel: RecipeCreationViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: VCNibs.recipeCreationViewController, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: ViewDidLaod
     override func viewDidLoad() {
@@ -143,6 +156,54 @@ class RecipeCreationViewController: UIViewController  {
         if editExistingRecipe {
             bottomEditButton.isHidden = false
             loadExistingCustomRecipe()
+        }
+        bindViewModel()
+
+    }
+    
+    private func bindViewModel() {
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.edges.equalToSuperview()
+                    }
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
+        
+        self.viewModel.recipeUploadSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case.success(()):
+                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+        self.viewModel.recipeUpdateSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case.success(()):
+                self.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
+                self.dismiss(animated: true, completion: nil)
+            }
         }
 
     }
@@ -317,7 +378,7 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.value = Double(recipe.servings)
         
         recipe.ingredients.forEach { customIngredient in
-            let temporaryIngredient = TemporaryIngredient(name: customIngredient.name, amount: customIngredient.amount.value ?? 0, unit: customIngredient.unit ?? "")
+            let temporaryIngredient = LDIngredient(name: customIngredient.name, amount: customIngredient.amount ?? 0, unit: customIngredient.unit ?? "")
             temporaryIngredients.append(temporaryIngredient)
         }
         
@@ -375,18 +436,18 @@ class RecipeCreationViewController: UIViewController  {
    }
     
     private func addIngredient(name: String?, amount: String?, unit: String?) {
-        var ingredient: TemporaryIngredient
+        var ingredient: LDIngredient
         if let name = name, let amount = amount, let unit = unit {
             if name.isEmpty {
 //                addButton.shake()
                 return
             } else {
                 if !amount.isEmpty && !unit.isEmpty {
-                    ingredient = TemporaryIngredient(name: name, amount: amount.doubleValue, unit: unit)
+                    ingredient = LDIngredient(name: name, amount: amount.doubleValue, unit: unit)
                 } else if !amount.isEmpty && unit.isEmpty {
-                    ingredient = TemporaryIngredient(name: name, amount: amount.doubleValue, unit: nil)
+                    ingredient = LDIngredient(name: name, amount: amount.doubleValue, unit: nil)
                 } else {
-                    ingredient = TemporaryIngredient(name: name, amount: nil, unit: nil)
+                    ingredient = LDIngredient(name: name, amount: nil, unit: nil)
                 }
 
                 if let row = selectedRowIngredient {
@@ -459,53 +520,53 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     // MARK: Data write in Realm
-    private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
-        do {
-            try self.realm.write {
-                let customIngredients = List<CustomIngredient>()
-//                if let recipeImage = recipeImageView.image {
-//                    customRecipe.imageData = recipeImage.pngData()
+//    private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
+//        do {
+//            try self.realm.write {
+//                let customIngredients = List<CustomIngredient>()
+////                if let recipeImage = recipeImageView.image {
+////                    customRecipe.imageData = recipeImage.pngData()
+////                }
+//                if let recipeTitle = recipeNameTextField.text {
+//                    customRecipe.title = recipeTitle
 //                }
-                if let recipeTitle = recipeNameTextField.text {
-                    customRecipe.title = recipeTitle
-                }
-                if let downloadUrl = self.downloadUrl {
-                    customRecipe.downloadUrl = downloadUrl
-                }
-                customRecipe.servings = servings
-                temporaryIngredients.forEach { temporaryIngredient in
-                    let customIngredient = CustomIngredient()
-                    customIngredient.name = temporaryIngredient.name
-                    if let amount = temporaryIngredient.amount {
-                        customIngredient.amount.value = amount
-                    }
-                    if let unit = temporaryIngredient.unit {
-                       customIngredient.unit = unit
-                    }
-                    customIngredients.append(customIngredient)
-                }
-                customRecipe.ingredients = customIngredients
-                if let comments = commentsTextView.text {
-                    customRecipe.comments = comments
-                }
-                let cookingSteps = List<String>()
-                temporarySteps.forEach { step in
-                    cookingSteps.append(step)
-                }
-                customRecipe.cookingSteps = cookingSteps
-                realm.add(customRecipe)
-            }
-            DispatchQueue.main.async {
-                completion(.success(true))
-            }
-        } catch {
-            print(error)
-            
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
-        }
-    }
+//                if let downloadUrl = self.downloadUrl {
+//                    customRecipe.downloadUrl = downloadUrl
+//                }
+//                customRecipe.servings = servings
+//                temporaryIngredients.forEach { temporaryIngredient in
+//                    let customIngredient = CustomIngredient()
+//                    customIngredient.name = temporaryIngredient.name
+//                    if let amount = temporaryIngredient.amount {
+//                        customIngredient.amount.value = amount
+//                    }
+//                    if let unit = temporaryIngredient.unit {
+//                       customIngredient.unit = unit
+//                    }
+//                    customIngredients.append(customIngredient)
+//                }
+//                customRecipe.ingredients = customIngredients
+//                if let comments = commentsTextView.text {
+//                    customRecipe.comments = comments
+//                }
+//                let cookingSteps = List<String>()
+//                temporarySteps.forEach { step in
+//                    cookingSteps.append(step)
+//                }
+//                customRecipe.cookingSteps = cookingSteps
+//                realm.add(customRecipe)
+//            }
+//            DispatchQueue.main.async {
+//                completion(.success(true))
+//            }
+//        } catch {
+//            print(error)
+//
+//            DispatchQueue.main.async {
+//                completion(.failure(error))
+//            }
+//        }
+//    }
     
     private func updateRecipeInRealm(recipe: CustomRecipe, completion: @escaping (Result<Bool, Error>) -> Void) {
         do {
@@ -571,78 +632,58 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     func saveRecipe() {
+//        if verifyInformation() {
+//                    
+//            if editExistingRecipe {
+//                guard let recipeToEdit = recipeToEdit else { return }
+//                updateRecipeInRealm(recipe: recipeToEdit) { [weak self] result in
+//                    switch result {
+//                    case .success:
+//                       // pass the tasks has been edited and the recipe is selected
+//                        self?.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
+//                        self?.dismiss(animated: true, completion: nil)
+//                    case .failure:
+//                        // To modify
+//                        let alert = UIAlertController(title: "Error", message: "Error while updating your recipe", preferredStyle: .alert)
+//                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                        alert.addAction(action)
+//                        self?.present(alert, animated: true, completion: nil)
+//                    }
+//                }
+//            } else {
+//                        saveRecipeToRealm { [weak self] result in
+//                            guard let self = self else { return }
+//                            switch result {
+//                            case .success:
+//                                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+//                                self.dismiss(animated: true, completion: nil)
+//                            case .failure:
+//                                // To modify
+//                                let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
+//                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+//                                alert.addAction(action)
+//                                self.present(alert, animated: true, completion: nil)
+//                            }
+//                        }
+//                    }
+//                    
+//                }
+        
         if verifyInformation() {
-                    
+            let recipe = LDRecipe(title: self.recipeNameTextField.text!,
+                                  servings: self.servings,
+                                  downloadUrl: self.downloadUrl,
+                                  cookingSteps: self.temporarySteps,
+                                  comments: self.commentsTextView.text!,
+                                  ingredients: self.temporaryIngredients)
             if editExistingRecipe {
                 guard let recipeToEdit = recipeToEdit else { return }
-                updateRecipeInRealm(recipe: recipeToEdit) { [weak self] result in
-                    switch result {
-                    case .success:
-                       // pass the tasks has been edited and the recipe is selected
-                        self?.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
-                        self?.dismiss(animated: true, completion: nil)
-                    case .failure:
-                        // To modify
-                        let alert = UIAlertController(title: "Error", message: "Error while updating your recipe", preferredStyle: .alert)
-                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                        alert.addAction(action)
-                        self?.present(alert, animated: true, completion: nil)
-                    }
-                }
+                viewModel.updateRecipe(currentRecipe: recipeToEdit, newRecipe: recipe)
             } else {
-                        saveRecipeToRealm { [weak self] result in
-                            guard let self = self else { return }
-                            switch result {
-                            case .success:
-                                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
-                                self.dismiss(animated: true, completion: nil)
-        //                        self.doneButton.isHidden = true
-        //                        self.activityIndicator.startAnimating()
-        //                        CloudManager.shared.saveCustomRecipeOnCloud(customRecipe: self.customRecipe) { [weak self] result in
-        //                            guard let self = self else { return }
-        //                            self.activityIndicator.stopAnimating()
-        //                            self.doneButton.isHidden = false
-        //                            switch result {
-        //                            case .success(let recordId):
-        //                                self.doneButton.isHidden = true
-        //                                self.activityIndicator.startAnimating()
-        //                                CloudManager.shared.saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: recordId, ingredients: self.temporaryIngredients) { [weak self] result in
-        //                                    guard let self = self else { return }
-        //                                    self.activityIndicator.stopAnimating()
-        //                                    self.doneButton.isHidden = false
-        //                                    switch result {
-        //                                    case .success:
-        //                                        let alert = UIAlertController(title: "Recipe saved", message: "", preferredStyle: .alert)
-        //                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        //                                        alert.addAction(action)
-        //                                        self.present(alert, animated: true, completion: nil)
-        //                                    case .failure(let error):
-        //                                        let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
-        //                                        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        //                                        alert.addAction(action)
-        //                                        self.present(alert, animated: true, completion: nil)
-        //                                    }
-        //                                }
-        //                            case.failure(let error):
-        //                                let alert = UIAlertController(title: "Error Cloud", message: error.localizedDescription, preferredStyle: .alert)
-        //                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        //                                alert.addAction(action)
-        //                                self.present(alert, animated: true, completion: nil)
-        //                            }
-        //                        }
-                            case .failure:
-                                // To modify
-                                let alert = UIAlertController(title: "Error", message: "Error while saving your recipe", preferredStyle: .alert)
-                                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                                alert.addAction(action)
-                                self.present(alert, animated: true, completion: nil)
-                            }
-                        }
-                    }
-                    
-                }
+                viewModel.saveRecipe(recipe)
+            }
+        }
     }
-    
     
     @IBAction func didTapStepper(_ sender: UIStepper) {
         servings = Int(sender.value)

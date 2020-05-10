@@ -14,7 +14,6 @@ enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
     static let newEventViewController = "NewEventViewController"
-    static let recipesViewController = "RecipesViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let managementViewController = "ManagementViewController"
     static let eventDescriptionViewControllerOld = "EventDescriptionViewControllerOld"
@@ -26,6 +25,8 @@ enum VCNibs {
     static let eventInfoViewController = "EventInfoViewController"
     static let progressViewController = "ProgressViewController"
     static let expiredEventViewController = "ExpiredEventViewController"
+    static let recipeCreationViewController = "RecipeCreationViewController"
+    static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
 }
 
 enum CellNibs {
@@ -67,6 +68,7 @@ enum Keys {
 //    static let declined = "Declined"
     static let userUid = "userUid"
     static let onboardingComplete = "onboardingComplete"
+    static let searchType = "searchType"
     
 }
 
@@ -125,6 +127,8 @@ enum MessagesToDisplay {
 }
 
 enum LabelStrings {
+    static let next = NSLocalizedString("Next", comment: "Next")
+    
     // StartVC
     static let getStarted = "Please enter your full name \n to get started."
     
@@ -138,6 +142,15 @@ enum LabelStrings {
     // RecipeVC
     static let noRecipeTitle = "No recipes selected"
     static let noRecipeMessage = "Go back and Add something!"
+    static let skip = NSLocalizedString("Skip", comment: "skip")
+    static let chooseRecipes = NSLocalizedString("Choose Recipes", comment: "choose recipes")
+    static let details = NSLocalizedString(" Details", comment: "details")
+    static let discoverRecipes = NSLocalizedString("DISCOVER THESE RECIPES", comment: "discover")
+    static let yourRecipes = NSLocalizedString("YOUR RECIPES", comment: "your recipes")
+    static let searchApiRecipes = NSLocalizedString("Search 360K+ recipes", comment: "api search placeholder")
+    static let searchMyRecipes = NSLocalizedString("Search my recipes", comment: "custom search placeholder")
+    static let noResults = NSLocalizedString("No results! 😬", comment: "no results")
+    
     
     // SelectedRecipe VC
     static let deleteRecipeLabel = "To delete a recipes, swipe left."
@@ -207,7 +220,7 @@ enum LabelStrings {
     static let neverLeave = NSLocalizedString("Never leave your Chat", comment: "in WelcomeVC")
     static let createEventsDescription = NSLocalizedString("Cooking is better together! Invite your loved ones and enjoy some quality time", comment: "in WelcomeVC")
     static let recipesAndTasksDescription = NSLocalizedString("Create your own or search among 360K+ recipes. Ingredients become tasks that your guests can pick to get everything ready!", comment: "in WelcomeVC")
-    static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶🍆💦", comment: "in WelcomeVC")
+    static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶", comment: "in WelcomeVC")
     static let letsGo = "Ok, Let's go!"
     
     // Message Bubble
@@ -229,6 +242,8 @@ enum LabelStrings {
 }
 
 enum Images {
+    
+    static let chevronLeft = UIImage(named: "chevronLeft")
     // Welcome Screen
     static let chatIcon = "chatIcon"
     static let inviteIcon = "inviteIcon"
@@ -244,6 +259,15 @@ enum Images {
     static let statusAccepted = "statusAccepted"
     static let statusDeclined = "statusDeclined"
     
+    // RecipesVC
+    static let addButtonOutlined = UIImage(named: "addButtonOutlined")!
+    static let recipeBookButtonOutlined = UIImage(named: "recipeBookButtonOutlined")!
+    static let listButtonOutlined = UIImage(named: "listButtonOutlined")!
+    static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
+    
+    // CustomRecipeDetailsVC
+    static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
+    
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
 }
@@ -252,3 +276,6 @@ enum DataKeys {
     static let recipePictures = "RecipePictures"
     static let profilePictures = "ProfilePictures"
 }
+
+
+

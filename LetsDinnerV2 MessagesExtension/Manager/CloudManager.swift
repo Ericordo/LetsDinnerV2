@@ -9,6 +9,7 @@
 import Foundation
 import CloudKit
 import RealmSwift
+import ReactiveSwift
 
 class CloudManager {
     
@@ -17,7 +18,7 @@ class CloudManager {
     let keyValStore = NSUbiquitousKeyValueStore()
     let privateDatabase = CKContainer.default().privateCloudDatabase
     
-    var userIsOnCloud = false
+//    var userIsOnCloud = false
     
     private init() {}
     
@@ -34,29 +35,41 @@ class CloudManager {
 //        }
 //    }
     
-    func checkUserCloudStatus(completion: @escaping () -> Void) {
-        CKContainer.default().accountStatus { (status, error) in
-            guard error == nil else { return }
-            switch status {
-            case .available:
-                self.userIsOnCloud = true
-            case .couldNotDetermine, .noAccount, .restricted:
-                self.userIsOnCloud = false
-            @unknown default:
-                self.userIsOnCloud = false 
-            }
-        }
-    }
     
-//    func fetchUserRecord() {
-//        CKContainer.default().fetchUserRecordID { (recordID, error) in
-//            guard let recordID = recordID, error == nil else { return }
-//            CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { (record, error) in
-//                guard let record = record, error == nil else { return }
-//
+    
+//    func checkUserCloudStatus(completion: @escaping () -> Void) {
+//        CKContainer.default().accountStatus { (status, error) in
+//            guard error == nil else { return }
+//            switch status {
+//            case .available:
+//                self.userIsOnCloud = true
+//            case .couldNotDetermine, .noAccount, .restricted:
+//                self.userIsOnCloud = false
+//            @unknown default:
+//                self.userIsOnCloud = false
 //            }
+//            completion()
 //        }
 //    }
+    
+    func userIsLoggedIn() -> SignalProducer<Bool, Error> {
+        return SignalProducer { observer, _ in
+            CKContainer.default().accountStatus { (status, error) in
+                if let error = error {
+                    observer.send(error: error)
+                }
+                switch status {
+                case .available:
+                    observer.send(value: true)
+                default:
+                    observer.send(value: false)
+                }
+                observer.sendCompleted()
+            }
+            
+            
+        }
+    }
     
     func saveUserInfoOnCloud(_ info: String, key: String) {
         keyValStore.set(info, forKey: key)
@@ -95,273 +108,321 @@ class CloudManager {
         
     }
     
-    func saveCustomRecipeOnCloud(customRecipe: CustomRecipe, completion: @escaping (Result<CKRecord.ID, Error>) -> Void) {
-//        guard userIsOnCloud else { return }
+    // MARK: Save Recipe
+    private func prepareRecipeCKRecord(_ recipe: LDRecipe) -> CKRecord {
         let record = CKRecord(recordType: "CustomRecipe")
-        record[.title] = customRecipe.title
-        record[.id] = customRecipe.id
-        record[.servings] = customRecipe.servings
-        if let downloadUrl = customRecipe.downloadUrl {
+        record[.title] = recipe.title
+        record[.id] = recipe.id
+        record[.servings] = recipe.servings
+        if let downloadUrl = recipe.downloadUrl {
             record[.downloadUrl] = downloadUrl
         }
-        var cookingSteps = [String]()
-        customRecipe.cookingSteps.forEach { step in
-            cookingSteps.append(step)
-        }
-        record[.cookingSteps] = cookingSteps
-        record[.comments] = customRecipe.comments
-        
-        privateDatabase.save(record) { (savedRecord, error) in
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-            } else {
-                if let recordId = savedRecord?.recordID {
-                    DispatchQueue.main.async {
-                        completion(.success(recordId))
-                    }
-                }
-            }
-        }
+        record[.cookingSteps] = recipe.cookingSteps
+        record[.comments] = recipe.comments
+        return record
     }
     
-    func saveIngredientsForCustomRecipeOnCloud(customRecipeRecordId: CKRecord.ID, ingredients: [TemporaryIngredient], completion: @escaping (Result<Void, Error>) -> Void) {
-//        guard userIsOnCloud else { return }
-        ingredients.forEach { ingredient in
-            let record = CKRecord(recordType: "CustomIngredient")
-            let reference = CKRecord.Reference(recordID: customRecipeRecordId, action: .deleteSelf)
-            record[.name] = ingredient.name
-            if let amount = ingredient.amount {
-                record[.amount] = amount
-            }
-            if let unit = ingredient.unit {
-                record[unit] = unit
-            }
-            record[.parentRecipe] = reference
+    private func prepareIngredientCKRecord(_ ingredient: LDIngredient, for recipeRecordId: CKRecord.ID) -> CKRecord {
+        let record = CKRecord(recordType: "CustomIngredient")
+        let reference = CKRecord.Reference(recordID: recipeRecordId, action: .deleteSelf)
+        record[.name] = ingredient.name
+        if let amount = ingredient.amount {
+            record[.amount] = amount
+        }
+        if let unit = ingredient.unit {
+            record[.unit] = unit
+        }
+        record[.parentRecipe] = reference
+        return record
+    }
+    
+    private func saveRecipeInCloud(recipe: LDRecipe) -> SignalProducer<CKRecord.ID, Error> {
+        return SignalProducer { observer, _ in
+            let record = self.prepareRecipeCKRecord(recipe)
             
-            privateDatabase.save(record) { (savedRecord, error) in
+            self.privateDatabase.save(record) { (savedRecord, error) in
                 if let error = error {
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        completion(.success(()))
-                    }
+                    observer.send(error: error)
+                }
+                if let recordId = savedRecord?.recordID {
+                    observer.send(value: recordId)
+                    observer.sendCompleted()
                 }
             }
         }
-        
-        
     }
     
-        private func fetchCustomRecipesOnCloud(completion: @escaping (Result<[CKRecord], Error>) -> Void) {
+    private func saveRecipeIngredientsInCloud(_ ingredients: [LDIngredient]?, for recipeRecordId: CKRecord.ID) -> SignalProducer<Void, Error> {
+        let dispatchGroup = DispatchGroup()
+        return SignalProducer { observer, _ in
+            guard let ingredients = ingredients else {
+                observer.send(value: ())
+                observer.sendCompleted()
+                return
+            }
+            ingredients.forEach { ingredient in
+                dispatchGroup.enter()
+                let record = self.prepareIngredientCKRecord(ingredient, for: recipeRecordId)
+                self.privateDatabase.save(record) { (savedRecord, error) in
+                     if let error = error {
+                        observer.send(error: error)
+                     }
+                    dispatchGroup.leave()
+                }
+            }
+            dispatchGroup.notify(queue: .main) {
+                observer.send(value: ())
+                observer.sendCompleted()
+            }
+        }
+    }
+    
+    func saveRecipeAndIngredientsOnCloud(_ recipe: LDRecipe) -> SignalProducer<Void, Error> {
+        return saveRecipeInCloud(recipe: recipe).flatMap(.latest) { recordId -> SignalProducer<Void, Error> in
+            return self.saveRecipeIngredientsInCloud(recipe.ingredients, for: recordId)
+        }
+    }
+
+    //MARK: Fetch Recipes
+    private func fetchCKRecipesFromCloud() -> SignalProducer<[CKRecord],Error> {
+        return SignalProducer { observer, _ in
             let predicate = NSPredicate(value: true)
             let sort = NSSortDescriptor(key: "creationDate", ascending: false)
             let query = CKQuery(recordType: "CustomRecipe", predicate: predicate)
             query.sortDescriptors = [sort]
-            
-    //        Check how to use operation, seems to be used to fetch all in one, better.
-    //        let operation = CKQueryOperation(query: query)
-            
-    //        var customRecipes = [CustomRecipe]()
-    //        var customRecipesModel = [CustomRecipeModel]()
-            
-            privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, error) in
-                guard let self = self else { return }
+            self.privateDatabase.perform(query, inZoneWith: nil) { (records, error) in
                 if let error = error as? CKError {
-                    self.dealWithCloudKitError(error)
+                    observer.send(error: error)
                 } else if error != nil {
-                    DispatchQueue.main.async {
-                         completion(.failure(error!))
-                    }
+                    observer.send(error: error!)
                 }
                 guard let records = records else { return }
-                completion(.success(records))
-    //            records.forEach { record in
-    ////                customRecipes.append(self.convertCloudRecipeToRealmRecipe(record))
-    //                customRecipesModel.append(self.convertCloudRecipeToRecipeModel(record))
-    //            }
-    //            completion(.success(customRecipesModel))
-
+                observer.send(value: records)
+                observer.sendCompleted()
             }
-            
-    //        operation.recordFetchedBlock = { record in
-    //            let customRecipe = CustomRecipe()
-    //
-    //        }
-            
         }
-        
-        private func fetchCorrespondingCustomIngredientsOnCloud(for recordID: CKRecord.ID?, completion: @escaping (Result<[CustomIngredientModel], Error>) -> Void) {
-            guard let recordID = recordID else { return }
+    }
+    
+    private func fetchCKIngredientsFromCloud(for recordID: CKRecord.ID) -> SignalProducer<[CKRecord],Error> {
+        return SignalProducer { observer, _ in
             let predicate = NSPredicate(format: "parentRecipe = %@", recordID)
             let sort = NSSortDescriptor(key: "creationDate", ascending: false)
             let query = CKQuery(recordType: "CustomIngredient", predicate: predicate)
             query.sortDescriptors = [sort]
             
-            var customIngredientsModel = [CustomIngredientModel]()
-            
-            privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, error) in
-                guard let self = self else { return }
-                if let error = error as? CKError {
-                    self.dealWithCloudKitError(error)
-                } else if error != nil {
-                    DispatchQueue.main.async {
-                        completion(.failure(error!))
-                    }
-                }
+            self.privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, error) in
+                 guard let self = self else { return }
+                 if let error = error as? CKError {
+                     self.dealWithCloudKitError(error)
+                 } else if error != nil {
+                    observer.send(error: error!)
+                 }
                 guard let records = records else { return }
-                customIngredientsModel = self.convertCloudIngredientsToIngredientsModel(records)
-                completion(.success(customIngredientsModel))
-            }
+                observer.send(value: records)
+                observer.sendCompleted()
+             }
         }
-        
-        struct CustomRecipeModel {
-            var title: String = ""
-            var id: String = ""
-            var servings: Int = 0
-            var downloadUrl: String? = nil
-            var cookingSteps: [String]? = nil
-            var comments: String? = nil
-            var ingredients: [CustomIngredientModel]? = nil
-            var recordID: CKRecord.ID? = nil
-        }
-        
-        struct CustomIngredientModel {
-            var name: String = ""
-            var amount: Double? = nil
-            var unit: String? = nil
-            var parentRecipe: CKRecord.Reference? = nil
-        }
-        
-
-        
-    //    func fetchIngredientsForCustomRecipeOnCloud() {
-    //
-    //    }
-        
-        func convertCloudRecipeToRecipeModel(_ cloudRecipe: CKRecord) -> CustomRecipeModel {
-            guard cloudRecipe.recordType == "CustomRecipe" else { return CustomRecipeModel() }
-            var customRecipe = CustomRecipeModel()
-            if let title = cloudRecipe.value(forKey: CustomRecipeKey.title.rawValue) as? String {
-                customRecipe.title = title
-            }
-            if let id = cloudRecipe.value(forKey: CustomRecipeKey.id.rawValue) as? String {
-                customRecipe.id = id
-            }
-            if let servings = cloudRecipe.value(forKey: CustomRecipeKey.servings.rawValue) as? Int {
-                customRecipe.servings = servings
-            }
-            if let downloadUrl = cloudRecipe.value(forKey: CustomRecipeKey.downloadUrl.rawValue) as? String {
-                customRecipe.downloadUrl = downloadUrl
-            }
-            if let comments = cloudRecipe.value(forKey: CustomRecipeKey.comments.rawValue) as? String {
-                customRecipe.comments = comments
-            }
-            if let cloudCookingSteps = cloudRecipe.value(forKey: CustomRecipeKey.cookingSteps.rawValue) as? [String] {
-                customRecipe.cookingSteps = cloudCookingSteps
-            }
-            customRecipe.recordID = cloudRecipe.recordID
-     
-            return customRecipe
-        }
-        
-        func convertCloudIngredientsToIngredientsModel(_ cloudIngredients: [CKRecord]) -> [CustomIngredientModel] {
-            var customIngredients = [CustomIngredientModel]()
-            cloudIngredients.forEach { cloudIngredient in
-                var customIngredient = CustomIngredientModel()
-                if let name = cloudIngredient.value(forKey: CustomIngredientKey.name.rawValue) as? String {
-                    customIngredient.name = name
-                }
-                if let amount = cloudIngredient.value(forKey: CustomIngredientKey.amount.rawValue) as? Double {
-                    customIngredient.amount = amount
-                }
-                if let unit = cloudIngredient.value(forKey: CustomIngredientKey.unit.rawValue) as? String {
-                    customIngredient.unit = unit
-                }
-                if let reference = cloudIngredient.value(forKey: CustomIngredientKey.parentRecipe.rawValue) as? CKRecord.Reference {
-                    customIngredient.parentRecipe = reference
-                }
-                customIngredients.append(customIngredient)
-            }
-            return customIngredients
-        }
-        
-        func convertRecipeModelToRealmRecipe(_ modelRecipe: CustomRecipeModel) -> CustomRecipe {
-            
-            return CustomRecipe()
-        }
-        
-        func fetchRecipesAndIngredientsFromCloud(completion: @escaping (Result<[CustomRecipe], Error>) -> Void) {
-    //        fetchRecipesWithoutIngredients
-            self.fetchCustomRecipesOnCloud { result in
-                switch result {
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                case .success(let cloudRecipes):
-                    //        convertRecipesToModelObject
-                    var customRecipesModel = [CustomRecipeModel]()
-                    cloudRecipes.forEach { cloudRecipe in
-                        customRecipesModel.append(self.convertCloudRecipeToRecipeModel(cloudRecipe))
-                    }
-                    //        fetchCorrespondingIngredients
-                    //        convertIngredientsToModelObjects
-                    var updatedCustomRecipesModel = [CustomRecipeModel]()
-                    customRecipesModel.forEach { customRecipeModel in
-                        self.fetchCorrespondingCustomIngredientsOnCloud(for: customRecipeModel.recordID) { result in
-                            switch result {
-                            case .failure(let error):
-                                DispatchQueue.main.async {
-                                    completion(.failure(error))
-                                }
-                            case .success(let customIngredientsModel):
-                                var updatedCustomRecipeModel = customRecipeModel
-                                updatedCustomRecipeModel.ingredients = customIngredientsModel
-                                updatedCustomRecipesModel.append(updatedCustomRecipeModel)
-                               
-                                
+    }
+    
+    func fetchLDRecipesFromCloud() -> SignalProducer<[LDRecipe],Error> {
+        let dispatchGroup = DispatchGroup()
+        var recipes = [CKRecipe]()
+        return SignalProducer { observer, _ in
+            self.fetchCKRecipesFromCloud()
+                .startWithResult { (result) in
+                    switch result {
+                    case .failure(let error):
+                        observer.send(error: error)
+                    case .success(let records):
+                        records.forEach { recipeRecord in
+                            dispatchGroup.enter()
+                            self.fetchCKIngredientsFromCloud(for: recipeRecord.recordID)
+                                .startWithResult { result in
+                                    switch result {
+                                    case .failure(let error):
+                                        observer.send(error: error)
+                                    case .success(let ingredientRecords):
+                                        var recipe = self.convertCKRecordToCKRecipe(recipeRecord)
+                                        let ingredients = self.convertCKRecordsToCKIngredients(ingredientRecords)
+                                        recipe.ingredients = ingredients
+                                        recipe.ingredients.sort { $0.name.uppercased() < $1.name.uppercased() }
+                                        recipes.append(recipe)
+                                    }
+                                    dispatchGroup.leave()
                             }
                         }
+                        dispatchGroup.notify(queue: .main) {
+                            observer.send(value: recipes.map({ self.convertCKRecipeToLDRecipe($0) }))
+                            observer.sendCompleted()
+                        }
                     }
-                     //        convertModelObjectsToRealmRecipes
-                    DispatchQueue.main.async {
-                        completion(.success(self.convertModelRecipesToRealmRecipes(updatedCustomRecipesModel)))
-                    }
-                    
-                    
-                    
-                    
+            }
+            
+        }
+    }
+    
+    // MARK: Delete Recipe
+    func deleteRecipeFromCloud(_ recipe: LDRecipe) -> SignalProducer<Void,Error> {
+        return SignalProducer { observer, _ in
+            guard let recordID = recipe.recordID else { return }
+            self.privateDatabase.delete(withRecordID: recordID) { (_, error) in
+                if let error = error {
+                    observer.send(error: error)
+                } else {
+                    observer.send(value: ())
+                    observer.sendCompleted()
                 }
             }
-
-
-
         }
+    }
+    
+    // MARK: Update Recipe
+    func updateRecipeInCloud(_ currentRecipe: LDRecipe, _ newRecipe: LDRecipe) -> SignalProducer<Void,Error> {
+        return SignalProducer { observer, _ in
+            guard let recordID = currentRecipe.recordID else { return }
+            
+            self.privateDatabase.fetch(withRecordID: recordID) { (record, error) in
+                if let error = error {
+                    observer.send(error: error)
+                }
+                
+                guard let record = record else { return }
+                record[.id] = currentRecipe.id
+                record[.title] = newRecipe.title
+                record[.servings] = newRecipe.servings
+                if let downloadUrl = newRecipe.downloadUrl {
+                    record[.downloadUrl] = downloadUrl
+                }
+                record[.cookingSteps] = newRecipe.cookingSteps
+                record[.comments] = newRecipe.comments
+                
+                self.privateDatabase.save(record) { (_, error) in
+                    if let error = error {
+                        observer.send(error: error)
+                    }
+                }
+            }
+            
+            var currentIngredientsRecordIDs = [CKRecord.ID]()
+            currentRecipe.ingredients.forEach { ingredient in
+                if let recordID = ingredient.recordID {
+                    currentIngredientsRecordIDs.append(recordID)
+                }
+            }
+            
+            var newIngredientsRecords = [CKRecord]()
+            newRecipe.ingredients.forEach { ingredient in
+                let record = CKRecord(recordType: "CustomIngredient")
+                let reference = CKRecord.Reference(recordID: recordID, action: .deleteSelf)
+                record[.name] = ingredient.name
+                record[.amount] = ingredient.amount
+                record[.unit] = ingredient.unit
+                record[.parentRecipe] = reference
+                newIngredientsRecords.append(record)
+            }
+            
+            let saveRecordsOperation = CKModifyRecordsOperation(recordsToSave: newIngredientsRecords, recordIDsToDelete: currentIngredientsRecordIDs)
+            
+            saveRecordsOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
+                if let error = error {
+                    observer.send(error: error)
+                } else {
+                    observer.send(value: ())
+                    observer.sendCompleted()
+                }
+            }
+            
+            self.privateDatabase.add(saveRecordsOperation)
+        }
+    }
+    
+    // MARK: Conversion
+    private func convertCKRecordToCKRecipe(_ record: CKRecord) -> CKRecipe {
+               guard record.recordType == "CustomRecipe" else { return CKRecipe() }
+               var recipe = CKRecipe()
+               if let title = record.value(forKey: LDRecipeKey.title.rawValue) as? String {
+                   recipe.title = title
+               }
+               if let id = record.value(forKey: LDRecipeKey.id.rawValue) as? String {
+                   recipe.id = id
+               }
+               if let servings = record.value(forKey: LDRecipeKey.servings.rawValue) as? Int {
+                   recipe.servings = servings
+               }
+               if let downloadUrl = record.value(forKey: LDRecipeKey.downloadUrl.rawValue) as? String {
+                   recipe.downloadUrl = downloadUrl
+               }
+               if let comments = record.value(forKey: LDRecipeKey.comments.rawValue) as? String {
+                   recipe.comments = comments
+               }
+               if let cloudCookingSteps = record.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
+                   recipe.cookingSteps = cloudCookingSteps
+               }
+               recipe.recordID = record.recordID
+        
+               return recipe
+    }
+    
+    func convertCKRecipeToLDRecipe(_ cloudRecipe: CKRecipe) -> LDRecipe {
+        return LDRecipe(id: cloudRecipe.id,
+                              title: cloudRecipe.title,
+                              servings: cloudRecipe.servings,
+                              downloadUrl: cloudRecipe.downloadUrl,
+                              cookingSteps: cloudRecipe.cookingSteps,
+                              comments: cloudRecipe.comments,
+                              ingredients: cloudRecipe.ingredients.map({ self.convertCKIngredientToLDIngredient($0) }),
+                              recordID: cloudRecipe.recordID)
+    }
+    
+    private func convertCKIngredientToLDIngredient(_ cloudIngredient: CKIngredient) -> LDIngredient {
+        return LDIngredient(name: cloudIngredient.name,
+                            amount: cloudIngredient.amount,
+                            unit: cloudIngredient.unit,
+                            recordID: cloudIngredient.recordID)
+    }
+    
+    func convertCKRecordsToCKIngredients(_ records: [CKRecord]) -> [CKIngredient] {
+        var ingredients = [CKIngredient]()
+        records.forEach { record in
+            var ingredient = CKIngredient()
+            if let name = record.value(forKey: LDIngredientKey.name.rawValue) as? String {
+                ingredient.name = name
+            }
+            if let amount = record.value(forKey: LDIngredientKey.amount.rawValue) as? Double {
+                ingredient.amount = amount
+            }
+            if let unit = record.value(forKey: LDIngredientKey.unit.rawValue) as? String {
+                ingredient.unit = unit
+            }
+            if let reference = record.value(forKey: LDIngredientKey.parentRecipe.rawValue) as? CKRecord.Reference {
+                ingredient.parentRecipe = reference
+            }
+            ingredient.recordID = record.recordID
+            ingredients.append(ingredient)
+        }
+        return ingredients
+    }
         
         func convertCloudRecipeToRealmRecipe(_ cloudRecipe: CKRecord) -> CustomRecipe {
             guard cloudRecipe.recordType == "CustomRecipe" else { return CustomRecipe() }
             let customRecipe = CustomRecipe()
-            if let title = cloudRecipe.value(forKey: CustomRecipeKey.title.rawValue) as? String {
+            if let title = cloudRecipe.value(forKey: LDRecipeKey.title.rawValue) as? String {
                 customRecipe.title = title
             }
-            if let id = cloudRecipe.value(forKey: CustomRecipeKey.id.rawValue) as? String {
+            if let id = cloudRecipe.value(forKey: LDRecipeKey.id.rawValue) as? String {
                 customRecipe.id = id
             }
-            if let servings = cloudRecipe.value(forKey: CustomRecipeKey.servings.rawValue) as? Int {
+            if let servings = cloudRecipe.value(forKey: LDRecipeKey.servings.rawValue) as? Int {
                 customRecipe.servings = servings
             }
-            if let downloadUrl = cloudRecipe.value(forKey: CustomRecipeKey.downloadUrl.rawValue) as? String {
+            if let downloadUrl = cloudRecipe.value(forKey: LDRecipeKey.downloadUrl.rawValue) as? String {
                 customRecipe.downloadUrl = downloadUrl
             }
-            if let comments = cloudRecipe.value(forKey: CustomRecipeKey.comments.rawValue) as? String {
+            if let comments = cloudRecipe.value(forKey: LDRecipeKey.comments.rawValue) as? String {
                 customRecipe.comments = comments
             }
             var cookingSteps = [String]()
-            if let cloudCookingSteps = cloudRecipe.value(forKey: CustomRecipeKey.cookingSteps.rawValue) as? [String] {
+            if let cloudCookingSteps = cloudRecipe.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
                 cookingSteps = cloudCookingSteps
             }
             cookingSteps.forEach { step in
@@ -370,39 +431,39 @@ class CloudManager {
             return CustomRecipe()
         }
         
-        func convertModelRecipesToRealmRecipes(_ modelRecipes: [CustomRecipeModel]) -> [CustomRecipe] {
-            var customRecipes = [CustomRecipe]()
-            modelRecipes.forEach { modelRecipe in
-                let customRecipe = CustomRecipe()
-                customRecipe.title = modelRecipe.title
-                customRecipe.id = modelRecipe.id
-                customRecipe.downloadUrl = modelRecipe.downloadUrl
-                customRecipe.servings = modelRecipe.servings
-                customRecipe.comments = modelRecipe.comments
-                let cookingSteps = List<String>()
-                customRecipe.cookingSteps.forEach { step in
-                    cookingSteps.append(step)
-                }
-                customRecipe.cookingSteps = cookingSteps
-                if let modelIngredients = modelRecipe.ingredients {
-                    customRecipe.ingredients = self.convertModelIngredientsToRealmIngredients(modelIngredients)
-                }
-                customRecipes.append(customRecipe)
-            }
-            return customRecipes
-        }
+//        func convertModelRecipesToRealmRecipes(_ modelRecipes: [CustomRecipeModel]) -> [CustomRecipe] {
+//            var customRecipes = [CustomRecipe]()
+//            modelRecipes.forEach { modelRecipe in
+//                let customRecipe = CustomRecipe()
+//                customRecipe.title = modelRecipe.title
+//                customRecipe.id = modelRecipe.id
+//                customRecipe.downloadUrl = modelRecipe.downloadUrl
+//                customRecipe.servings = modelRecipe.servings
+//                customRecipe.comments = modelRecipe.comments
+//                let cookingSteps = List<String>()
+//                customRecipe.cookingSteps.forEach { step in
+//                    cookingSteps.append(step)
+//                }
+//                customRecipe.cookingSteps = cookingSteps
+//                if let modelIngredients = modelRecipe.ingredients {
+//                    customRecipe.ingredients = self.convertModelIngredientsToRealmIngredients(modelIngredients)
+//                }
+//                customRecipes.append(customRecipe)
+//            }
+//            return customRecipes
+//        }
         
-        func convertModelIngredientsToRealmIngredients(_ modelIngredients: [CustomIngredientModel]) -> List<CustomIngredient>{
-            let customIngredients = List<CustomIngredient>()
-            modelIngredients.forEach { modelIngredient in
-                let customIngredient = CustomIngredient()
-                customIngredient.name = modelIngredient.name
-                customIngredient.amount.value = modelIngredient.amount
-                customIngredient.unit = modelIngredient.unit
-                customIngredients.append(customIngredient)
-            }
-            return customIngredients
-        }
+//        func convertModelIngredientsToRealmIngredients(_ modelIngredients: [CustomIngredientModel]) -> List<CustomIngredient>{
+//            let customIngredients = List<CustomIngredient>()
+//            modelIngredients.forEach { modelIngredient in
+//                let customIngredient = CustomIngredient()
+//                customIngredient.name = modelIngredient.name
+//                customIngredient.amount.value = modelIngredient.amount
+//                customIngredient.unit = modelIngredient.unit
+//                customIngredients.append(customIngredient)
+//            }
+//            return customIngredients
+//        }
         
         func convertCloudIngredientToRealmIngredient(_ cloudIngredient: CKRecord) -> CustomIngredient {
             
@@ -441,6 +502,8 @@ class CloudManager {
                 print("already shared")
             case .invalidArguments:
                 print("already shared")
+                print(error.localizedDescription)
+                print(error.errorCode)
             case .resultsTruncated:
                 print("already shared")
             case .serverRecordChanged:
@@ -489,19 +552,9 @@ class CloudManager {
                   print("already shared")
             }
         }
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
 }
 
-enum CustomRecipeKey : String {
+enum LDRecipeKey : String {
     case title
     case id
     case servings
@@ -511,7 +564,7 @@ enum CustomRecipeKey : String {
     case comments
 }
 
-enum CustomIngredientKey: String {
+enum LDIngredientKey: String {
     case name
     case amount
     case unit
@@ -519,7 +572,7 @@ enum CustomIngredientKey: String {
 }
 
 extension CKRecord {
-    subscript(key: CustomRecipeKey) -> Any? {
+    subscript(key: LDRecipeKey) -> Any? {
         get {
             return self[key.rawValue]
         }
@@ -528,7 +581,7 @@ extension CKRecord {
         }
     }
     
-    subscript(key: CustomIngredientKey) -> Any? {
+    subscript(key: LDIngredientKey) -> Any? {
          get {
              return self[key.rawValue]
          }

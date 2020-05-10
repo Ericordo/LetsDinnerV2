@@ -21,7 +21,7 @@ class MessagesViewController: MSMessagesAppViewController {
         super.viewDidLoad()
                 
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
-        self.view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        self.view.backgroundColor = .backgroundColor
         
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
@@ -355,22 +355,22 @@ class MessagesViewController: MSMessagesAppViewController {
         return transitionAnimation
     }
     
-    private func addProgressViewController() {
-        let controller = ProgressViewController(nibName: VCNibs.progressViewController, bundle: nil)
-        controller.view.frame = view.bounds
-        controller.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(controller.view)
-        
-        isProgressBarVCInitiated = true
-        
-        NSLayoutConstraint.activate([
-            controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-            controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
+//    private func addProgressViewController() {
+//        let controller = ProgressViewController()
+//        controller.view.frame = view.bounds
+//        controller.view.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        view.addSubview(controller.view)
+//        
+//        isProgressBarVCInitiated = true
+//        
+//        NSLayoutConstraint.activate([
+//            controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+//            controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+//            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+//            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        ])
+//    }
         
     private func removeViewController(transition: VCTransitionDirection = .noTransition) {
         
@@ -408,7 +408,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: Init the VC
     
     private func instantiateProgressViewController() -> UIViewController {
-        let controller = ProgressViewController(nibName: VCNibs.progressViewController, bundle: nil)
+        let controller = ProgressViewController()
         return controller
     }
     
@@ -435,9 +435,9 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        if !isProgressBarVCInitiated {
-            addProgressViewController()
-        }
+//        if !isProgressBarVCInitiated {
+//            addProgressViewController()
+//        }
         
         let controller = NewEventViewController(nibName: VCNibs.newEventViewController, bundle: nil)
         controller.delegate = self
@@ -445,19 +445,15 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        if !isProgressBarVCInitiated {
-            addProgressViewController()
-        }
-        
-        let controller = RecipesViewController(nibName: VCNibs.recipesViewController, bundle: nil)
+        let controller = RecipesViewController(viewModel: RecipesViewModel())
         controller.delegate = self
         return controller
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-        if !isProgressBarVCInitiated {
-            addProgressViewController()
-        }
+//        if !isProgressBarVCInitiated {
+//            addProgressViewController()
+//        }
         
         let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
         controller.delegate = self
@@ -465,9 +461,9 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        if !isProgressBarVCInitiated {
-            addProgressViewController()
-        }
+//        if !isProgressBarVCInitiated {
+//            addProgressViewController()
+//        }
         
         let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
         controller.delegate = self
@@ -475,9 +471,9 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        if !isProgressBarVCInitiated {
-            addProgressViewController()
-        }
+//        if !isProgressBarVCInitiated {
+//            addProgressViewController()
+//        }
         
         let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
         controller.delegate = self
@@ -485,10 +481,10 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        if !isProgressBarVCInitiated { // I need the White Background
-            addProgressViewController()
-        }
-        
+//        if !isProgressBarVCInitiated { // I need the White Background
+//            addProgressViewController()
+//        }
+//        
 //        if isLoading {
 //            self.view.addSubview(loadingView)
 //            loadingView.translatesAutoresizingMaskIntoConstraints = false
@@ -623,13 +619,13 @@ extension MessagesViewController: NewEventViewControllerDelegate {
 }
 
 extension MessagesViewController: RecipesViewControllerDelegate {
-    func recipeVCDidTapNext(controller: RecipesViewController) {
+    func recipeVCDidTapNext() {
         let controller = instantiateManagementViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
-    func recipeVCDidTapPrevious(controller: RecipesViewController) {
+    func recipeVCDidTapPrevious() {
         let controller = instantiateNewEventViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
