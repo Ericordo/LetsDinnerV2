@@ -46,7 +46,7 @@ class DataHelper {
                 
                 do {
                     let jsonData = try JSONSerialization.jsonObject(with: dataResponse, options: .mutableLeaves) as? Dictionary<String, Any>
-                    
+                    print(jsonData)
                     guard let hits = jsonData?["results"] as? [Dictionary <String, Any>] else { return }
                     hits.forEach { hit in
                         if let recipeId = hit["id"] as? Int {

@@ -435,11 +435,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated {
-//            addProgressViewController()
-//        }
-        
-        let controller = NewEventViewController(nibName: VCNibs.newEventViewController, bundle: nil)
+        let controller = NewEventViewController(viewModel: NewEventViewModel())
         controller.delegate = self
         return controller
     }
@@ -604,13 +600,13 @@ extension MessagesViewController: NewEventViewControllerDelegate {
         removeViewController()
         addChildViewController(controller: controller)
     }
-    
+
     func newEventVCDdidTapProfile(controller: NewEventViewController) {
         let controller = instantiateRegistrationViewController(previousStep: .newEventVC)
         removeViewController()
-        addChildViewController(controller: controller) 
+        addChildViewController(controller: controller)
     }
-    
+
     func newEventVCDidTapNext(controller: NewEventViewController) {
         let controller = instantiateRecipesViewController()
         removeViewController(transition: .VCGoForward)

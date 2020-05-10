@@ -9,11 +9,8 @@
 import Foundation
 import UIKit
 
-
-
 class EventInputView: UIView {
     
-     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -27,7 +24,7 @@ class EventInputView: UIView {
     let breakfastButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle("Breakfast", for: .normal)
+        button.setTitle(LabelStrings.breakfast, for: .normal)
         button.setTitleColor(.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
         button.contentHorizontalAlignment = .center
@@ -37,7 +34,7 @@ class EventInputView: UIView {
     let lunchButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle("Lunch", for: .normal)
+        button.setTitle(LabelStrings.lunch, for: .normal)
         button.setTitleColor(.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
         button.contentHorizontalAlignment = .center
@@ -47,7 +44,7 @@ class EventInputView: UIView {
     let dinnerButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle("Dinner", for: .normal)
+        button.setTitle(LabelStrings.dinner, for: .normal)
         button.setTitleColor(.textLabel, for: .normal)
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17)
         button.contentHorizontalAlignment = .center
