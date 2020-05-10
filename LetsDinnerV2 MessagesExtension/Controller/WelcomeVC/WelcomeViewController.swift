@@ -58,11 +58,11 @@ class WelcomeViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var firstHorizontalStackView = createHorizontalStackView(imageName: Images.inviteIcon, title: LabelStrings.createEvents, text: LabelStrings.createEventsDescription)
+    private lazy var firstHorizontalStackView = createHorizontalStackView(image: Images.inviteIcon, title: LabelStrings.createEvents, text: LabelStrings.createEventsDescription)
     
-    private lazy var secondHorizontalStackView = createHorizontalStackView(imageName: Images.thingsIcon, title: LabelStrings.recipesAndTasks, text: LabelStrings.recipesAndTasksDescription)
+    private lazy var secondHorizontalStackView = createHorizontalStackView(image: Images.thingsIcon, title: LabelStrings.recipesAndTasks, text: LabelStrings.recipesAndTasksDescription)
     
-    private lazy var thirdHorizontalStackView = createHorizontalStackView(imageName: Images.chatIcon, title: LabelStrings.neverLeave, text: LabelStrings.neverLeaveDescription)
+    private lazy var thirdHorizontalStackView = createHorizontalStackView(image: Images.chatIcon, title: LabelStrings.neverLeave, text: LabelStrings.neverLeaveDescription)
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -159,14 +159,14 @@ class WelcomeViewController: UIViewController {
         }
     }
     
-    private func createHorizontalStackView(imageName: String, title: String, text: String) -> UIStackView {
+    private func createHorizontalStackView(image: UIImage, title: String, text: String) -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 15
         stackView.alignment = .leading
         stackView.distribution = .fillProportionally
         
-        let icon = UIImageView(image: UIImage(named: imageName)?.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)))
+        let icon = UIImageView(image: image.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)))
         icon.contentMode = .scaleAspectFit
         
         icon.translatesAutoresizingMaskIntoConstraints = false

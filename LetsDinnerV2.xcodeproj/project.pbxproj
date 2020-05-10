@@ -66,8 +66,6 @@
 		88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F26236EFFC6002A1879 /* RegistrationViewController.swift */; };
 		88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F27236EFFC6002A1879 /* RegistrationViewController.xib */; };
 		88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2B236F7145002A1879 /* UserDefaults.swift */; };
-		88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2D236F7A1D002A1879 /* NewEventViewController.swift */; };
-		88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F2E236F7A1D002A1879 /* NewEventViewController.xib */; };
 		88349F332370302E002A1879 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F322370302E002A1879 /* DatePicker.swift */; };
 		88349F352370388C002A1879 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F342370388C002A1879 /* Event.swift */; };
 		88349F412370D10A002A1879 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3F2370D10A002A1879 /* RecipeCell.swift */; };
@@ -135,6 +133,8 @@
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88E5B0BE2437C06700D519E2 /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */; };
 		88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BF2438A39600D519E2 /* ConfettiView.swift */; };
+		88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5C5272467F3C20060823B /* NewEventViewModel.swift */; };
+		88E5C52A2467F3E20060823B /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5C5292467F3E20060823B /* NewEventViewController.swift */; };
 		88FE71A623901E2A00652429 /* InfoInputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInputToolbar.swift */; };
 		B802F040242F346D00927649 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802F03F242F346D00927649 /* LoadingView.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
@@ -264,8 +264,6 @@
 		88349F26236EFFC6002A1879 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		88349F27236EFFC6002A1879 /* RegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationViewController.xib; sourceTree = "<group>"; };
 		88349F2B236F7145002A1879 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
-		88349F2D236F7A1D002A1879 /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
-		88349F2E236F7A1D002A1879 /* NewEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewEventViewController.xib; sourceTree = "<group>"; };
 		88349F322370302E002A1879 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		88349F342370388C002A1879 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		88349F3F2370D10A002A1879 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
@@ -332,6 +330,8 @@
 		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
 		88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		88E5B0BF2438A39600D519E2 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		88E5C5272467F3C20060823B /* NewEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewModel.swift; sourceTree = "<group>"; };
+		88E5C5292467F3E20060823B /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInputToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputToolbar.swift; sourceTree = "<group>"; };
 		B802F03F242F346D00927649 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -714,8 +714,8 @@
 		88349F31236F7A22002A1879 /* NewEventVC */ = {
 			isa = PBXGroup;
 			children = (
-				88349F2D236F7A1D002A1879 /* NewEventViewController.swift */,
-				88349F2E236F7A1D002A1879 /* NewEventViewController.xib */,
+				88E5C5272467F3C20060823B /* NewEventViewModel.swift */,
+				88E5C5292467F3E20060823B /* NewEventViewController.swift */,
 			);
 			path = NewEventVC;
 			sourceTree = "<group>";
@@ -1095,7 +1095,6 @@
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
-				88349F30236F7A1D002A1879 /* NewEventViewController.xib in Resources */,
 				885C60C323809F7900ED3A17 /* EventDescriptionViewController.xib in Resources */,
 				885C60CD2380BABB00ED3A17 /* EventInfoViewController.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
@@ -1260,7 +1259,6 @@
 				882B9CC82399A0BD001634D9 /* CustomIngredient.swift in Sources */,
 				880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
-				88349F2F236F7A1D002A1879 /* NewEventViewController.swift in Sources */,
 				B87C103A2403E607004AD951 /* UIViewController.swift in Sources */,
 				882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */,
 				880B135323737711003E29AC /* CalendarCell.swift in Sources */,
@@ -1293,6 +1291,7 @@
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,
 				886EB36C23DF77AE002CFCB5 /* RescheduleView.swift in Sources */,
 				885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */,
+				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
 				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
 				B87C106424126B39004AD951 /* SelectedRecipesViewController.swift in Sources */,
@@ -1343,6 +1342,7 @@
 				884CE1BA246086CC001062BF /* RealmHelper.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,
+				88E5C52A2467F3E20060823B /* NewEventViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

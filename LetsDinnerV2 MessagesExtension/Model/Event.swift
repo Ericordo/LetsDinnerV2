@@ -33,7 +33,7 @@ class Event {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"
         let date = Date(timeIntervalSince1970: dateTimestamp)
-        let dateString = dateFormatter.string(from: date)
+        let dateString = dateTimestamp == 0 ? "" : dateFormatter.string(from: date)
         return dateString
     }
     

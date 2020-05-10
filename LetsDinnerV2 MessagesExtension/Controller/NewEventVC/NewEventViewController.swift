@@ -1,308 +1,346 @@
 //
-//  NewEventViewController.swift
+//  NewNewEventViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by Eric Ordonneau on 03/11/2019.
-//  Copyright © 2019 Eric Ordonneau. All rights reserved.
+//  Created by Eric Ordonneau on 10/05/2020.
+//  Copyright © 2020 Eric Ordonneau. All rights reserved.
 //
 
 import UIKit
+import ReactiveSwift
 
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
-    
-    //For TestCase
+
+    #warning("Delete before release")
     func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
-class NewEventViewController: UIViewController  {
+class NewEventViewController: LDNavigationViewController {
+    // MARK: Properties
+    private let stackView : UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .vertical
+        sv.spacing = 20
+        sv.alignment = .fill
+        sv.distribution = .fill
+        return sv
+    }()
+    
+    private lazy var eventNameTextField = textField(placeholder: LabelStrings.eventName,
+                                                    image: Images.titleIcon)
+    private lazy var hostNameTextField = textField(placeholder: LabelStrings.host,
+                                                   image: Images.hostIcon)
+    private lazy var locationTextField = textField(placeholder: LabelStrings.location,
+                                                   image: Images.locationIcon)
+    private lazy var dateTextField = textField(placeholder: LabelStrings.date,
+                                               image: Images.dateIcon)
+    
+    private let datePicker = DatePicker()
 
-    @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var dinnerNameTextField: UITextField!
-    @IBOutlet weak var hostNameTextField: UITextField!
-    @IBOutlet weak var locationTextField: UITextField!
-    @IBOutlet weak var dateTextField: UITextField!
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var profileButton: UIButton!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var infoInput: InfoInputView!
-    @IBOutlet weak var eventInput: EventInputView!
+    private let infoInput = InfoInputView()
     
-    @IBOutlet weak var infoInputBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var eventInputBottomConstraint: NSLayoutConstraint!
+    private let eventInput = EventInputView()
     
-    @IBOutlet weak var testButton: UIButton!
-    @IBOutlet weak var fillInQuickButton: UIButton!
+    private let errorLabel : UILabel = {
+        let label = UILabel()
+        label.text = LabelStrings.allFieldsRequired
+        label.textColor = .activeButton
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
+    }()
+    
+    #warning("Delete before release")
+    private let quickFillButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("☢️ Quick fill ☢️", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        return button
+    }()
+    
+    private let quickEventButton : UIButton = {
+        let button = UIButton()
+        button.setTitle("☢️ Quick event aka quicky ☢️", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        return button
+    }()
+    
+    private var activeField: UITextField?
+    
+    private let scrollView = UIScrollView()
+    
+    private let contentView = UIView()
     
     weak var delegate: NewEventViewControllerDelegate?
     
-    let datePicker = DatePicker()
-    private var activeField: UITextField?
-    private let headerViewHeight: CGFloat = 60
-    private var isInputViewShown = false
+    private let viewModel: NewEventViewModel
     
+    //MARK: Init
+    init(viewModel: NewEventViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        StepStatus.currentStep = .newEventVC
-        
         setupUI()
-        setupGesture()
-        scrollView.delegate = self
-
-        // Keyboard Observer
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        addKeyboardNotifications()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 1])
-        
-        // For the NEXT button  
-        _ = allFieldsAreFilled()
+        StepStatus.currentStep = .newEventVC
+        self.viewModel.validateInfo()
     }
     
-    private func setupUI() {
-        errorLabel.isHidden = true
-        checkForExistingEvent()
-
-        dinnerNameTextField.setLeftView(image: UIImage(named: "titleIcon")!)
-        locationTextField.setLeftView(image: UIImage(named: "locationIcon")!)
-        hostNameTextField.setLeftView(image: UIImage(named: "hostIcon")!)
-        dateTextField.setLeftView(image: UIImage(named: "dateIcon")!)
-                
-        scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
+    // MARK: ViewModel Binding
+    private func bindViewModel() {
+        viewModel.eventName <~ eventNameTextField.reactive.continuousTextValues
+        viewModel.host <~ hostNameTextField.reactive.continuousTextValues
+        viewModel.location <~ locationTextField.reactive.continuousTextValues
+        viewModel.dateString <~ dateTextField.reactive.continuousTextValues
         
-        // Dinner Title Textfield
-        eventInput.breakfastButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
-        eventInput.lunchButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
-        eventInput.dinnerButton.addTarget(self, action: #selector(didTapEvent), for: .touchUpInside)
+        self.viewModel.eventName.producer.observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { name in
+                self.eventNameTextField.text = name
+        }
         
-        infoInput.addButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
+        self.viewModel.host.producer.observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { name in
+                self.hostNameTextField.text = name
+        }
         
-        let textFields = [dinnerNameTextField, hostNameTextField, locationTextField, dateTextField]
-         textFields.forEach { textField in
-             textField!.delegate = self
-             textField!.autocapitalizationType = .sentences
-             textField!.autocorrectionType = .no
-            
-            // To check if all the Fields are filled
-            textField!.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-             
-         }
+        self.viewModel.location.producer.observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { name in
+                self.locationTextField.text = name
+        }
         
+        self.viewModel.dateString.producer.observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { name in
+                self.dateTextField.text = name
+        }
         
-//        if !defaults.address.isEmpty {
-////            let addressInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-////            addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
-////            locationTextField.inputAccessoryView = addressInput
-//
-//            let addressInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-//                       addressInput.assignInfoInput(textField: locationTextField, info: defaults.address)
-//                       locationTextField.inputAccessoryView = addressInput
-//
-//
-//
-//        }
-//        if !defaults.username.isEmpty {
-////            let hostInput = InfoInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-////                hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
-////                hostNameTextField.inputAccessoryView = hostInput
-//
-//            let hostInput = InfoInputView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 40)))
-//            hostInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
-//            hostNameTextField.inputAccessoryView = hostInput
-//        }
+        navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.delegate?.newEventVCDdidTapProfile(controller: self)
+        }
         
-    }
+        navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.eventNameTextField.animateEmpty()
+            self.hostNameTextField.animateEmpty()
+            self.locationTextField.animateEmpty()
+            self.dateTextField.animateEmpty()
+            self.view.endEditing(true)
+            self.errorLabel.isHidden = self.viewModel.infoValidity.value
+            if self.viewModel.infoValidity.value {
+                self.delegate?.newEventVCDidTapNext(controller: self)
+            }
+        }
+        
+        datePicker.reactive.controlEvents(.valueChanged).observeValues { datePicker in
+            self.viewModel.date.value = datePicker.date
+        }
+        
+        eventInput.breakfastButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.updateEventName(LabelStrings.breakfast)
+        }
+        
+        eventInput.lunchButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.updateEventName(LabelStrings.lunch)
+        }
+        
+        eventInput.dinnerButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.updateEventName(LabelStrings.dinner)
+        }
+        
+        infoInput.addButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.activeField?.text = self.infoInput.addButton.title(for: .normal)
+            self.infoInput.isHidden = true
+            if self.hostNameTextField.isEditing {
+                self.locationTextField.becomeFirstResponder()
+            } else if self.locationTextField.isEditing {
+                self.dateTextField.becomeFirstResponder()
+            }
+        }
     
-    private func setupGesture() {
-        self.view.addTapGestureToHideKeyboard()
-    }
-
-    func presentDatePicker() {
-      
-//        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.bounds.width, height: CGFloat(44))))
-//        toolbar.sizeToFit()
-//        toolbar.tintColor = Colors.customPink
-//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapDonePicker))
-//        let space = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelPicker))
-//        toolbar.setItems([cancelButton,space,doneButton], animated: false)
-//
-//        dateTextField.inputAccessoryView = toolbar
-        datePicker.addTarget(self, action: #selector(didSelectDate), for: .valueChanged)
-        dateTextField.inputView = datePicker
-
-    }
-    
-
-    
-    
-    
-//    @objc func didTapDonePicker() {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "MMM d, h:mm a"
-//        dateTextField.text = formatter.string(from: datePicker.date)
-//        dateTextField.endEditing(true)
-//    }
-//
-//    @objc func didTapCancelPicker() {
-//        dateTextField.endEditing(true)
-//    }
-    
-    private func checkForExistingEvent() {
-        dinnerNameTextField.text = Event.shared.dinnerName
-        hostNameTextField.text = Event.shared.hostName
-        locationTextField.text = Event.shared.dinnerLocation
-        if !Event.shared.dateTimestamp.isZero {
-            dateTextField.text = Event.shared.dinnerDate
+        quickFillButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            let event = TestManager.quickFillIn()
+            Event.shared.dinnerName = event.dinnerName
+            Event.shared.hostName = event.hostName
+            Event.shared.eventDescription = event.eventDescription
+            Event.shared.dinnerLocation = event.dinnerLocation
+            Event.shared.dateTimestamp = event.dateTimestamp
+            self.delegate?.newEventVCDidTapNext(controller: self)
+        }
+        
+        quickEventButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            let event = TestManager.createCaseOne()
+            Event.shared.dinnerName = event.dinnerName
+            Event.shared.hostName = event.hostName
+            Event.shared.eventDescription = event.eventDescription
+            Event.shared.dinnerLocation = event.dinnerLocation
+            Event.shared.dateTimestamp = event.dateTimestamp
+            self.delegate?.eventDescriptionVCDidTapFinish(controller: self)
+        }
+        
+        viewModel.infoValidity.producer.observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] infoIsValid in
+                guard let self = self else { return }
+                let color = infoIsValid ? UIColor.activeButton : UIColor.inactiveButton
+                self.navigationBar.nextButton.setTitleColor(color, for: .normal)
         }
     }
     
-     private func allFieldsAreFilled() -> Bool {
-        guard let host = hostNameTextField.text,
-            let dinner = dinnerNameTextField.text,
-            let location = locationTextField.text,
-            let date = dateTextField.text else {
-            return false
-        }
-        
-        if !host.isEmpty && !dinner.isEmpty && !location.isEmpty && !date.isEmpty {
-            nextButton.setTitleColor(UIColor.activeButton, for: .normal)
-            return true
-        } else {
-            nextButton.setTitleColor(UIColor.inactiveButton, for: .normal)
-            return false
-        }
+    // MARK: Methods
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    // MARK: - did Button Tapped or Selected
-    
-    @IBAction func didTapNext(_ sender: UIButton) {
-        
-        if !allFieldsAreFilled() {
-            dinnerNameTextField.animateEmpty()
-            hostNameTextField.animateEmpty()
-            locationTextField.animateEmpty()
-            dateTextField.animateEmpty()
-            errorLabel.isHidden = false
-            view.endEditing(true)
-            print("fields not filled")
-            
-        } else {
-            guard let host = hostNameTextField.text, let dinner = dinnerNameTextField.text, let location = locationTextField.text else { return }
-            Event.shared.hostName = host
-            Event.shared.dinnerName = dinner
-            Event.shared.dinnerLocation = location
-            Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
-            self.delegate!.newEventVCDidTapNext(controller: self)
-            
-        }
-    }
-    
-    @IBAction func didTapProfileButton(_ sender: UIButton) {
-        delegate?.newEventVCDdidTapProfile(controller: self)
-    }
-    
-    @objc private func didTapAdd() {
-        activeField?.text = infoInput.addButton.title(for: .normal)
-        infoInput.isHidden = true
-        _ = allFieldsAreFilled()
-        
-        // Go to next textField
-        if hostNameTextField.isEditing {
-            locationTextField.becomeFirstResponder()
-        } else if locationTextField.isEditing {
-            dateTextField.becomeFirstResponder()
-        }
-    }
-    
-    @objc func didTapEvent(sender: UIButton) {
-        dinnerNameTextField.text = sender.titleLabel?.text
+    private func updateEventName(_ name: String) {
+        #warning("make it reactive")
+        self.viewModel.eventName.value = name
         eventInput.isHidden = true
-        _ = allFieldsAreFilled()
-
-        // Go to Next textfield
         hostNameTextField.becomeFirstResponder()
     }
     
-    @objc func didSelectDate() {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "MMM d, h:mm a"
-          dateTextField.text = formatter.string(from: datePicker.date)
-        _ = allFieldsAreFilled()
-
-      }
-    
-    @IBAction func DidTapTestButton(_ sender: Any) {
-        
-        // Initiate TestCase
-        let event = TestManager.createCaseOne()
-        Event.shared.dinnerName = event.dinnerName
-        Event.shared.hostName = event.hostName
-        Event.shared.eventDescription = event.eventDescription
-        Event.shared.dinnerLocation = event.dinnerLocation
-        Event.shared.dateTimestamp = event.dateTimestamp
-        // Remove Child Controller
-        
-        delegate?.eventDescriptionVCDidTapFinish(controller: self)
-        
-        // Go to Review VC
+    private func setupUI() {
+        view.backgroundColor = .backgroundColor
+        navigationBar.titleLabel.text = LabelStrings.addEventDetails
+        navigationBar.previousButton.setImage(Images.settingsButtonOutlined, for: .normal)
+        scrollView.delegate = self
+        errorLabel.isHidden = true
+        dateTextField.inputView = datePicker
+        view.addTapGestureToHideKeyboard()
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubview(eventNameTextField)
+        stackView.addArrangedSubview(hostNameTextField)
+        stackView.addArrangedSubview(locationTextField)
+        stackView.addArrangedSubview(dateTextField)
+        contentView.addSubview(errorLabel)
+        contentView.addSubview(quickFillButton)
+        contentView.addSubview(quickEventButton)
+        addConstraints()
     }
     
-    @IBAction func DidTapFillInQuick(_ sender: Any) {
-        let event = TestManager.quickFillIn()
-        Event.shared.dinnerName = event.dinnerName
-        Event.shared.hostName = event.hostName
-        Event.shared.eventDescription = event.eventDescription
-        Event.shared.dinnerLocation = event.dinnerLocation
-        Event.shared.dateTimestamp = event.dateTimestamp
+    private func addConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(self.navigationBar.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
         
-        delegate?.newEventVCDidTapNext(controller: self)
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(500)
+            make.width.equalToSuperview()
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(30)
+            make.leading.equalToSuperview().offset(25)
+            make.trailing.equalToSuperview().offset(-30)
+        }
+        
+        let textFieldHeight = 34
+        eventNameTextField.snp.makeConstraints { make in
+            make.height.equalTo(textFieldHeight)
+        }
+        
+        hostNameTextField.snp.makeConstraints { make in
+            make.height.equalTo(textFieldHeight)
+        }
+        
+        locationTextField.snp.makeConstraints { make in
+            make.height.equalTo(textFieldHeight)
+        }
+        
+        dateTextField.snp.makeConstraints { make in
+            make.height.equalTo(textFieldHeight)
+        }
+        
+        errorLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(stackView.snp.bottom).offset(30)
+        }
+        
+        quickFillButton.snp.makeConstraints { make in
+            make.top.equalTo(errorLabel.snp.bottom).offset(30)
+            make.leading.equalToSuperview().offset(20)
+            make.height.equalTo(30)
+        }
+        
+        quickEventButton.snp.makeConstraints { make in
+            make.top.equalTo(quickFillButton.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(20)
+            make.height.equalTo(30)
+        }
     }
     
+    private func textField(placeholder: String, image: UIImage) -> UITextField {
+        let textField = UITextField()
+        textField.delegate = self
+        textField.autocapitalizationType = .sentences
+        textField.autocorrectionType = .no
+        textField.setLeftView(image: image)
+        textField.placeholder = placeholder
+        textField.returnKeyType = .next
+        textField.tintColor = .activeButton
+        textField.textColor = .textLabel
+        textField.clearButtonMode = .always
+        textField.borderStyle = .none
+        textField.font = UIFont.systemFont(ofSize: 17)
+        return textField
+    }
 }
-
-// MARK: - TextFieldDelegate
-
+    //MARK: TextFieldDelegate
 extension NewEventViewController: UITextFieldDelegate {
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        activeField = textField
-//        if textField == dateTextField {
-//            presentDatePicker()
-//        }
-        
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-        case dinnerNameTextField:
+        case eventNameTextField:
+            hostNameTextField.becomeFirstResponder()
+        case hostNameTextField:
+            locationTextField.becomeFirstResponder()
+        case locationTextField:
+            dateTextField.becomeFirstResponder()
+        case dateTextField:
+            textField.resignFirstResponder()
+        default:
+            break
+        }
+        textField.resignFirstResponder()
+        return true
+    }
+    
+     func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeField = textField
+        switch textField {
+        case eventNameTextField:
             infoInput.isHidden = true
             eventInput.isHidden = false
         case hostNameTextField:
             eventInput.isHidden = true
-            if !defaults.username.isEmpty {
-                infoInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
-                infoInput.isHidden = false
-            } else {
-                infoInput.isHidden = true
-            }
+            infoInput.isHidden = defaults.username.isEmpty
+            infoInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
         case locationTextField:
             eventInput.isHidden = true
-            if !defaults.address.isEmpty {
-                infoInput.assignInfoInput(textField: locationTextField, info: defaults.address)
-                infoInput.isHidden = false
-            } else {
-                infoInput.isHidden = true
-            }
+            infoInput.isHidden = defaults.address.isEmpty
+            infoInput.assignInfoInput(textField: locationTextField, info: defaults.address)
         case dateTextField:
             eventInput.isHidden = true
             infoInput.isHidden = true
-            presentDatePicker()
         default:
             break
         }
@@ -311,60 +349,17 @@ extension NewEventViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         activeField = nil
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-              case dinnerNameTextField:
-                  hostNameTextField.becomeFirstResponder()
-              case hostNameTextField:
-                  locationTextField.becomeFirstResponder()
-              case dateTextField:
-                textField.resignFirstResponder()
-              case locationTextField:
-                dateTextField.becomeFirstResponder()
-              default:
-                  break
-              }
-        textField.resignFirstResponder()
-        return true
-    }
-    
-   func textFieldDidChangeSelection(_ textField: UITextField) {
-        switch textField {
-        case dinnerNameTextField:
-            Event.shared.dinnerName = textField.text ?? ""
-        case hostNameTextField:
-            Event.shared.hostName = textField.text ?? ""
-        case locationTextField:
-            Event.shared.dinnerLocation = textField.text ?? ""
-        case dateTextField:
-            Event.shared.dateTimestamp = datePicker.date.timeIntervalSince1970
-        default:
-            break
-        }
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        _ = allFieldsAreFilled()
-    }
 }
-
-// MARK: - ScrollViewDelegate
-
+    //MARK: ScrollViewDelegate
 extension NewEventViewController: UIScrollViewDelegate {
-    
     @objc func keyboardWillShow(notification: NSNotification) {
-        
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
-        
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
-        
         var rectangle = self.view.frame
         rectangle.size.height -= keyboardFrame.height
-        
         if let activeField = activeField {
             if !rectangle.contains(activeField.frame.origin) {
                 scrollView.scrollRectToVisible(activeField.frame, animated: true)
@@ -372,66 +367,41 @@ extension NewEventViewController: UIScrollViewDelegate {
         }
         
         if activeField == locationTextField || activeField == hostNameTextField {
-            
-            self.view.layoutIfNeeded()
-            
-            if !isInputViewShown {
-                UIView.animate(withDuration: 0.5) {
-                    self.showInputView(keyboardFrame: keyboardFrame)
-                    self.isInputViewShown = true
-                }
-            } else {
-                showInputView(keyboardFrame: keyboardFrame)
-            }
-            
-            
-        } else if activeField == dinnerNameTextField {
-            self.view.layoutIfNeeded()
-            
-            if !isInputViewShown {
-                UIView.animate(withDuration: 0.5) {
-                    self.showInputView(keyboardFrame: keyboardFrame)
-                    self.isInputViewShown = true
-                }
-            } else {
-                showInputView(keyboardFrame: keyboardFrame)
-            }
+            showInputView(inputView: self.infoInput, offset: keyboardFrame.height)
+        } else {
+            showInputView(inputView: self.eventInput, offset: keyboardFrame.height)
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
-        
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.5) {
-
-            self.infoInputBottomConstraint.constant = -51
-            self.eventInputBottomConstraint.constant = -51
-            self.isInputViewShown = false
-
-            self.view.layoutIfNeeded()
-        }
+        removeInputViews()
     }
     
-    private func showInputView(keyboardFrame: CGRect) {
-        self.eventInputBottomConstraint.constant = keyboardFrame.height
-        self.infoInputBottomConstraint.constant = keyboardFrame.height
-        
-        // Temp solve (for ios 13.0 ipad):
+    private func showInputView(inputView: UIView, offset: CGFloat) {
+        var offset = offset
+        #warning("Temporary solve for iPad ios13")
         if UIDevice.current.userInterfaceIdiom == .pad {
             if #available(iOS 13.0, *) {
-                self.eventInputBottomConstraint.constant += 20
-                self.infoInputBottomConstraint.constant += 20
+                offset += 20
             }
         }
-        
-        self.view.layoutIfNeeded()
+        inputView.alpha = 0
+        self.view.addSubview(inputView)
+        inputView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+            make.bottom.equalToSuperview().offset(-offset)
+        }
+        UIView.animate(withDuration: 1) {
+            inputView.alpha = 1
+        }
     }
     
+    private func removeInputViews() {
+        self.eventInput.removeFromSuperview()
+        self.infoInput.removeFromSuperview()
+    }
 }
-
-
-
-
 

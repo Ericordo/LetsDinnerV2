@@ -49,6 +49,7 @@ class LDNavBar : UIView {
     }
     
     private func addConstraints() {
+        #warning("To double check")
         let offset = StepStatus.currentStep == .registrationVC ? 17 : 9
         previousButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(offset)

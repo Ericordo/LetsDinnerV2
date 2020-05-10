@@ -13,7 +13,6 @@ let defaults = UserDefaults.standard
 enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
-    static let newEventViewController = "NewEventViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let managementViewController = "ManagementViewController"
     static let eventDescriptionViewControllerOld = "EventDescriptionViewControllerOld"
@@ -133,15 +132,20 @@ enum LabelStrings {
     static let getStarted = "Please enter your full name \n to get started."
     
     // NewEventVC
-    static let host = "Host"
-    static let eventInfo = "Event Info"
-    static let date = "Date"
-    static let location = "Location"
+    static let host = NSLocalizedString("Host", comment: "host")
+    static let date = NSLocalizedString("Date", comment: "date")
+    static let location = NSLocalizedString("Location", comment: "location")
     static let addToCalendar = "Add to Calendar"
+    static let addEventDetails = NSLocalizedString("Add Event Details", comment: "title")
+    static let eventName = NSLocalizedString("Event name", comment: "event name")
+    static let allFieldsRequired = NSLocalizedString("All fields are required 🤓", comment: "all fields required")
+    static let breakfast = NSLocalizedString("Breakfast", comment: "breakfast")
+    static let lunch = NSLocalizedString("Lunch", comment: "lunch")
+    static let dinner = NSLocalizedString("Dinner", comment: "dinner")
     
-    // RecipeVC
-    static let noRecipeTitle = "No recipes selected"
-    static let noRecipeMessage = "Go back and Add something!"
+    // RecipesVC
+    static let noRecipeTitle = NSLocalizedString("No recipes selected", comment: "no recipes selected")
+    static let noRecipeMessage = NSLocalizedString("Go back and Add something!", comment: "go back and add sthg")
     static let skip = NSLocalizedString("Skip", comment: "skip")
     static let chooseRecipes = NSLocalizedString("Choose Recipes", comment: "choose recipes")
     static let details = NSLocalizedString(" Details", comment: "details")
@@ -184,24 +188,21 @@ enum LabelStrings {
     static let readyToSend = "Ready to send your invite?"
     static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
     static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
-    
-    
     static let update = "Update"
     
-    // SummaryEventVC
+    // EventSummaryVC
     static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
     static let acceptedLabel = "You've accepted the invitation"
     static let declinedLabel = "You've declined the invitation"
     static let allDoneLabel = "All done, greatjob! Everything has been taken care of. Let the party begins! 😎🥳"
     static let nothingToDoLabel = "Nope! Either, there is nothing to do or the host is handling everything 😬🙌"
-    
+    static let eventInfo = "Event Info"
     
     // Reschedule
     static let rescheduleTitle = "Need to reschedule?"
     static let rescheduleText = "No problem, simply choose another date! 😅👌"
     static let selectNewDate = "Select a new date for your event:"
 
-    
     // Past Event
     static let pastEventTitle = "Past Event"
     static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
@@ -245,10 +246,9 @@ enum Images {
     
     static let chevronLeft = UIImage(named: "chevronLeft")
     // Welcome Screen
-    static let chatIcon = "chatIcon"
-    static let inviteIcon = "inviteIcon"
-    static let thingsIcon = "thingsIcon"
-    static let recipeBook = "recipeBookButtonOutlined"
+    static let chatIcon = UIImage(named: "chatIcon")!
+    static let inviteIcon = UIImage(named: "inviteIcon")!
+    static let thingsIcon = UIImage(named: "thingsIcon")!
     
     // MessageBubble
     static let premiumBackground = "iMessageBackground"
@@ -258,6 +258,13 @@ enum Images {
     static let statusPending = "statusPending"
     static let statusAccepted = "statusAccepted"
     static let statusDeclined = "statusDeclined"
+    
+    // NewEventVC
+    static let settingsButtonOutlined = UIImage(named: "settingsButtonOutlined")!
+    static let titleIcon = UIImage(named: "titleIcon")!
+    static let locationIcon = UIImage(named: "locationIcon")!
+    static let hostIcon = UIImage(named: "hostIcon")!
+    static let dateIcon = UIImage(named: "dateIcon")!
     
     // RecipesVC
     static let addButtonOutlined = UIImage(named: "addButtonOutlined")!
