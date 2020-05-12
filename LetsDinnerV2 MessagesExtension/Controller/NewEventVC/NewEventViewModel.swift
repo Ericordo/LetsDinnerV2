@@ -55,6 +55,10 @@ class NewEventViewModel {
                 Event.shared.dateTimestamp = date.timeIntervalSince1970
                 self.validateInfo()
         }
+        
+        dateString.producer.startWithValues { string in
+            self.validateInfo()
+        }
     }
         
     func validateInfo() {
