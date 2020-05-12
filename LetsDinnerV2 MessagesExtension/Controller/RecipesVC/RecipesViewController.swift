@@ -214,11 +214,7 @@ class RecipesViewController: LDNavigationViewController {
         case .decodingFailed:
             self.showBasicAlert(title: MessagesToDisplay.decodingFailed, message: "")
         case .noNetwork:
-            #warning("The self.showBasicAlert is making the app crash, investigate")
-//            self.showBasicAlert(title: MessagesToDisplay.noNetwork, message: "")
-            let alert = UIAlertController(title: "", message: "You are not logged into Cloudkit", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            self.showBasicAlert(title: MessagesToDisplay.noNetwork, message: "")
         case.requestLimit:
             self.showBasicAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
         }
