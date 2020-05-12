@@ -34,8 +34,10 @@ extension StepTracking : CaseIterable {
             return 2
         case .managementVC:
             return 3
-        case .reviewVC:
+        case .eventDescriptionVC:
             return 4
+        case .reviewVC:
+            return 5
         default:
             return 0
         }
