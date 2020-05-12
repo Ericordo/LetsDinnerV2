@@ -15,8 +15,6 @@ enum VCNibs {
     static let registrationViewController = "RegistrationViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let managementViewController = "ManagementViewController"
-    static let eventDescriptionViewControllerOld = "EventDescriptionViewControllerOld"
-    static let eventDescriptionViewController = "EventDescriptionViewController"
     static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
@@ -105,7 +103,6 @@ enum MessagesToDisplay {
     static let submitQuestion = "You made changes in this list. Would you like to update it?"
     static let synchTitle = "Things synchronisation"
     static let synchMessage = "Changes made, can end up unsaved. Whoiever updates first, saves their changes."
-    static let descriptionPrompt = "Please enter a description for your dinner."
     static let update = "Update"
     
     // Decline Event Alert
@@ -181,8 +178,12 @@ enum LabelStrings {
     static let assignTaskLabel = "To assign yourself to a Thing or to complete it, tap it or swipe right."
     
     // DescriptionVC
-    static let whatsThePlan = "Would you like to add an invitation message? \nMore information? Anything else?"
-    static let nothingToDo = "There is nothing to do!"
+    static let whatsThePlan = NSLocalizedString("WHAT'S THE PLAN?", comment: "what's the plan")
+    static let eventPlaceholder = NSLocalizedString("Would you like to add an invitation message? \nMore information? Anything else?", comment: "event description placeholder")
+    static let nothingToDo = NSLocalizedString("There is nothing to do!", comment: "there is nothing to do")
+    static let things = NSLocalizedString(" Things", comment: "things")
+    static let addDescription = NSLocalizedString("Add Description", comment: "add description")
+    static let maxCount = NSLocalizedString("No more than 400 characters please! 😁", comment: "character limit")
     
     // ReviewVC
     static let readyToSend = "Ready to send your invite?"

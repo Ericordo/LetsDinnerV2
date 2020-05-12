@@ -99,8 +99,6 @@
 		885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60B92380311100ED3A17 /* TaskManagementCell.swift */; };
 		885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60BA2380311100ED3A17 /* TaskManagementCell.xib */; };
 		885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60BD23805A3D00ED3A17 /* StepTracking.swift */; };
-		885C60C223809F7900ED3A17 /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60C023809F7900ED3A17 /* EventDescriptionViewController.swift */; };
-		885C60C323809F7900ED3A17 /* EventDescriptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60C123809F7900ED3A17 /* EventDescriptionViewController.xib */; };
 		885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60C52380A15400ED3A17 /* RecipeCVCell.swift */; };
 		885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60C62380A15400ED3A17 /* RecipeCVCell.xib */; };
 		885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */; };
@@ -130,6 +128,8 @@
 		88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C9650C239A9C3600CFC710 /* SectionInputCell.swift */; };
 		88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88C9650D239A9C3600CFC710 /* SectionInputCell.xib */; };
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
+		88D9AB33246B19DD007716E6 /* EventDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */; };
+		88D9AB35246B1A02007716E6 /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */; };
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88E5B0BE2437C06700D519E2 /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */; };
 		88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BF2438A39600D519E2 /* ConfettiView.swift */; };
@@ -295,8 +295,6 @@
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
 		885C60BA2380311100ED3A17 /* TaskManagementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskManagementCell.xib; sourceTree = "<group>"; };
 		885C60BD23805A3D00ED3A17 /* StepTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracking.swift; sourceTree = "<group>"; };
-		885C60C023809F7900ED3A17 /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
-		885C60C123809F7900ED3A17 /* EventDescriptionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDescriptionViewController.xib; sourceTree = "<group>"; };
 		885C60C52380A15400ED3A17 /* RecipeCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCVCell.swift; sourceTree = "<group>"; };
 		885C60C62380A15400ED3A17 /* RecipeCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCVCell.xib; sourceTree = "<group>"; };
 		885C60CA2380BABB00ED3A17 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
@@ -327,6 +325,8 @@
 		88C9650C239A9C3600CFC710 /* SectionInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionInputCell.swift; sourceTree = "<group>"; };
 		88C9650D239A9C3600CFC710 /* SectionInputCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionInputCell.xib; sourceTree = "<group>"; };
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
+		88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewModel.swift; sourceTree = "<group>"; };
+		88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
 		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
 		88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		88E5B0BF2438A39600D519E2 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
@@ -805,8 +805,8 @@
 		885C60BF23809F5500ED3A17 /* EventDescriptionVC */ = {
 			isa = PBXGroup;
 			children = (
-				885C60C023809F7900ED3A17 /* EventDescriptionViewController.swift */,
-				885C60C123809F7900ED3A17 /* EventDescriptionViewController.xib */,
+				88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */,
+				88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */,
 			);
 			path = EventDescriptionVC;
 			sourceTree = "<group>";
@@ -1095,7 +1095,6 @@
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
-				885C60C323809F7900ED3A17 /* EventDescriptionViewController.xib in Resources */,
 				885C60CD2380BABB00ED3A17 /* EventInfoViewController.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
@@ -1265,6 +1264,7 @@
 				884CE1B6245ED5C7001062BF /* LDNavButton.swift in Sources */,
 				884CE1C32461FDF9001062BF /* LDRecipe.swift in Sources */,
 				3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */,
+				88D9AB35246B1A02007716E6 /* EventDescriptionViewController.swift in Sources */,
 				885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */,
 				886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */,
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
@@ -1304,6 +1304,7 @@
 				88FE71A623901E2A00652429 /* InfoInputToolbar.swift in Sources */,
 				884CE1CB2466DE30001062BF /* RecipeCreationViewModel.swift in Sources */,
 				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
+				88D9AB33246B19DD007716E6 /* EventDescriptionViewModel.swift in Sources */,
 				B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */,
 				88349F332370302E002A1879 /* DatePicker.swift in Sources */,
 				885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */,
@@ -1322,7 +1323,6 @@
 				885133B72434B99A004CD858 /* MSConversation+Ext.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */,
-				885C60C223809F7900ED3A17 /* EventDescriptionViewController.swift in Sources */,
 				B86F700823843C6B0010AB7C /* EventInfoViewController.swift in Sources */,
 				884CE1CD246709F8001062BF /* CustomRecipeDetailsViewModel.swift in Sources */,
 				B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */,

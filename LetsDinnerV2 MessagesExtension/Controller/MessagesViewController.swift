@@ -457,11 +457,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated {
-//            addProgressViewController()
-//        }
-        
-        let controller = EventDescriptionViewController(nibName: VCNibs.eventDescriptionViewController, bundle: nil)
+        let controller = EventDescriptionViewController(viewModel: EventDescriptionViewModel())
         controller.delegate = self
         return controller
     }
