@@ -156,7 +156,9 @@ class RecipesViewModel {
                         }
                     } else {
                         #warning("modify error")
+                        #warning("load realm back up")
                         self.errorObserver.send(value: .noNetwork)
+                        
                     }
                 }
         }
