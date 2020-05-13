@@ -160,6 +160,7 @@
 		B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */; };
 		B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* AddNewThingView.xib */; };
 		B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* AddNewThingView.swift */; };
+		B886BD93246C340C0069C248 /* FirstTimeRecipeCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886BD92246C340C0069C248 /* FirstTimeRecipeCreationViewController.swift */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -356,6 +357,7 @@
 		B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTaskHeader.swift; sourceTree = "<group>"; };
 		B87C106C24176309004AD951 /* AddNewThingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewThingView.xib; sourceTree = "<group>"; };
 		B87C106E2417631F004AD951 /* AddNewThingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewThingView.swift; sourceTree = "<group>"; };
+		B886BD92246C340C0069C248 /* FirstTimeRecipeCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeRecipeCreationViewController.swift; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 				883A29FB2371F4580099ECDF /* RecipeDetailsVC */,
 				B87C106624126B3E004AD951 /* SelectedRecipesVC */,
 				88C96504239A883100CFC710 /* CustomRecipeDetailsVC */,
+				B886BD92246C340C0069C248 /* FirstTimeRecipeCreationViewController.swift */,
 				88C95B30239863DD000E750A /* RecipeCreationVC */,
 				88A362E0237EA8B6005B6B81 /* ManagementVC */,
 				885C60BF23809F5500ED3A17 /* EventDescriptionVC */,
@@ -1291,6 +1294,7 @@
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,
 				886EB36C23DF77AE002CFCB5 /* RescheduleView.swift in Sources */,
 				885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */,
+				B886BD93246C340C0069C248 /* FirstTimeRecipeCreationViewController.swift in Sources */,
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
 				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
