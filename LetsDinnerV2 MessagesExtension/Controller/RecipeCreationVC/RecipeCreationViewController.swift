@@ -19,6 +19,10 @@ protocol RecipeCreationVCUpdateDelegate: class {
     func recipeCreationVCDidUpdateRecipe()
 }
 
+protocol RecipesCreationWelcomeVCDelegate: class {
+    func welcomeVCDelegateDidTapBack(_ viewController: UIViewController)
+}
+
 struct TemporaryIngredient {
     let name: String
     let amount: Double?
@@ -145,20 +149,27 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: ViewDidLaod
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         configureUI()
         configureTableView()
         configureDelegate()
         configureNewThingView()
         configureGestureRecognizers()
         configureObservers()
-                
+        
+
         if editExistingRecipe {
             bottomEditButton.isHidden = false
             loadExistingCustomRecipe()
         }
         bindViewModel()
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.presentCreateRecipeWelcomeVCIfNeeded()
     }
     
     private func bindViewModel() {
@@ -212,7 +223,7 @@ class RecipeCreationViewController: UIViewController  {
     private func configureUI() {
         
         if !editExistingRecipe {
-            self.addStartView()
+//            self.addStartView()
         }
         
         bottomEditButton.isHidden = true
@@ -293,17 +304,26 @@ class RecipeCreationViewController: UIViewController  {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
     }
-
-    private func addStartView() {
-        self.view.addSubview(createRecipeStartView)
-        
-        createRecipeStartView.translatesAutoresizingMaskIntoConstraints = false
-        createRecipeStartView.anchor(top: headerView.bottomAnchor, leading: self.view.leadingAnchor, bottom: bottomView.topAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-    }
     
-    private func removeStartView() {
-        createRecipeStartView.removeFromSuperview()
+    func presentCreateRecipeWelcomeVCIfNeeded() {
+        if defaults.bool(forKey: Keys.firstTimeCreateCustomRecipe) == true {
+            let welcomeVC = RecipeCreationWelcomeViewController()
+            welcomeVC.modalPresentationStyle = .overFullScreen
+            welcomeVC.delegate = self
+            self.present(welcomeVC, animated: true, completion: nil)
+        }
     }
+
+//    private func addStartView() {
+//        self.view.addSubview(createRecipeStartView)
+//
+//        createRecipeStartView.translatesAutoresizingMaskIntoConstraints = false
+//        createRecipeStartView.anchor(top: headerView.bottomAnchor, leading: self.view.leadingAnchor, bottom: bottomView.topAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+//    }
+//
+//    private func removeStartView() {
+//        createRecipeStartView.removeFromSuperview()
+//    }
 
     private func configureGestureRecognizers() {
         // Should only tap on the view not on the keyboard
@@ -715,7 +735,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     @IBAction func didTapBottomAdd(_ sender: Any) {
-        self.removeStartView()
+//        self.removeStartView()
         
         if !editingMode {
             newThingView?.mainTextField.becomeFirstResponder()
@@ -1125,5 +1145,11 @@ extension RecipeCreationViewController: UIGestureRecognizerDelegate {
             return false
         }
         return true
+    }
+}
+
+extension RecipeCreationViewController: RecipesCreationWelcomeVCDelegate {
+    func welcomeVCDelegateDidTapBack(_ viewController: UIViewController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }

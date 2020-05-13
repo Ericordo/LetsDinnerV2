@@ -66,6 +66,7 @@ enum Keys {
     static let userUid = "userUid"
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
+    static let firstTimeCreateCustomRecipe = "firstTimeCreateCustomRecipe"
     
 }
 
@@ -163,11 +164,11 @@ enum LabelStrings {
     
     // CreateRecipeVC
     static let cookingTipsPlaceholder = "Anything else you want to mention?"
-    static let startCreateRecipeTitle = "Create a custom recipe and cook your favourite meal!"
-    static let startCreateRecipeMessage1 = "A greate recipe provides you with every information you need to cook it along the way. Start with an Image and a name."
-    static let startCreateRecipeMessage2 = "Then add ingredients, cooking steps or any other information such as tips to your recipe."
-    static let startCreateRecipeMessage3 = "Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty."
-    static let startCreateRecipeMessage4 = "Start by tapping"
+    static let startCreateRecipeTitle = "Create your own custom recipes to cook your favourite meals!"
+    static let startCreateRecipeMessage1 = "A great recipe provides you with all the information you need to cook it along the way."
+    static let startCreateRecipeMessage2 = "Start with an Image and a name. Then add ingredients, cooking steps or any other information such as tips to your recipe."
+    static let startCreateRecipeMessage3 = "Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty. Start by tapping."
+    static let startCreateRecipeMessage4 = ""
     
 
     // ManagementVC
@@ -223,7 +224,7 @@ enum LabelStrings {
     static let createEventsDescription = NSLocalizedString("Cooking is better together! Invite your loved ones and enjoy some quality time", comment: "in WelcomeVC")
     static let recipesAndTasksDescription = NSLocalizedString("Create your own or search among 360K+ recipes. Ingredients become tasks that your guests can pick to get everything ready!", comment: "in WelcomeVC")
     static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶", comment: "in WelcomeVC")
-    static let letsGo = "Ok, Let's go!"
+    
     
     // Message Bubble
     static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
@@ -278,6 +279,11 @@ enum Images {
     
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
+}
+
+enum ButtonTitle {
+    static let letsGo = NSLocalizedString("Ok, Let's go!", comment: "ok lets go")
+    static let back = NSLocalizedString("Back", comment: "back")
 }
 
 enum DataKeys {
