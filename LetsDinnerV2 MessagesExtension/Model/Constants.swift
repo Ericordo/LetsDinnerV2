@@ -276,6 +276,7 @@ enum Images {
     
     // CustomRecipeDetailsVC
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
+    static let recipeBookIcon = UIImage(named: "recipeBookIcon")
     
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"

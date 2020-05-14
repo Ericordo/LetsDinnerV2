@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -309,13 +309,6 @@
                                 <action selector="didTapAddImage:" destination="-1" eventType="touchUpInside" id="yaM-Hg-iZt"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8r-DV-7aT" userLabel="Section Separator">
-                            <rect key="frame" x="0.0" y="199" width="375" height="1"/>
-                            <color key="backgroundColor" name="sectionSeparatorLine"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="DdY-Fa-QJb"/>
-                            </constraints>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOy-Oe-3gA" userLabel="Navigation View">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                             <subviews>
@@ -348,9 +341,7 @@
                     <constraints>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="Aqf-KX-MTC"/>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="top" secondItem="NMe-Pr-15z" secondAttribute="top" id="CC5-MG-zae"/>
-                        <constraint firstAttribute="trailing" secondItem="p8r-DV-7aT" secondAttribute="trailing" id="UOL-3t-6F5"/>
                         <constraint firstItem="LAq-Zi-jDD" firstAttribute="centerY" secondItem="NMe-Pr-15z" secondAttribute="centerY" id="WdQ-Vm-INb"/>
-                        <constraint firstItem="p8r-DV-7aT" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="bRv-2V-Xf3"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" constant="30" id="f1c-gw-dJf"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="centerX" secondItem="NMe-Pr-15z" secondAttribute="centerX" id="fbD-4O-qWF"/>
                         <constraint firstAttribute="trailing" secondItem="rqH-8E-4XD" secondAttribute="trailing" constant="30" id="lPE-Hk-HZB"/>
@@ -358,7 +349,6 @@
                         <constraint firstAttribute="bottom" secondItem="rqH-8E-4XD" secondAttribute="bottom" constant="8" id="mTJ-XW-Nhc"/>
                         <constraint firstAttribute="trailing" secondItem="HOy-Oe-3gA" secondAttribute="trailing" id="rnC-8k-GzB"/>
                         <constraint firstItem="LAq-Zi-jDD" firstAttribute="centerX" secondItem="NMe-Pr-15z" secondAttribute="centerX" id="sAJ-YL-gcA"/>
-                        <constraint firstAttribute="bottom" secondItem="p8r-DV-7aT" secondAttribute="bottom" id="x6i-5E-sVa"/>
                         <constraint firstAttribute="height" constant="200" id="zMr-m4-wxP"/>
                     </constraints>
                 </view>
@@ -366,7 +356,7 @@
                     <rect key="frame" x="0.0" y="767" width="375" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CE9-b6-A4C">
-                            <rect key="frame" x="20" y="15" width="44" height="44"/>
+                            <rect key="frame" x="20" y="15" width="22" height="22"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" image="addButtonOutlined">
                                 <color key="titleColor" name="highlightRed"/>
@@ -376,7 +366,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3o1-zm-OSL">
-                            <rect key="frame" x="311" y="15" width="44" height="44"/>
+                            <rect key="frame" x="333" y="15" width="22" height="22"/>
                             <state key="normal" image="editButtonOutlined"/>
                             <connections>
                                 <action selector="didTapBottomEditButton:" destination="-1" eventType="touchUpInside" id="ZqX-tx-5fg"/>
@@ -438,9 +428,6 @@
         </namedColor>
         <namedColor name="highlightRed">
             <color red="0.94900000095367432" green="0.34900000691413879" blue="0.32199999690055847" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="sectionSeparatorLine">
-            <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

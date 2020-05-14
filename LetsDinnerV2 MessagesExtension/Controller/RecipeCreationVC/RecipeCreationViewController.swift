@@ -19,10 +19,6 @@ protocol RecipeCreationVCUpdateDelegate: class {
     func recipeCreationVCDidUpdateRecipe()
 }
 
-protocol RecipesCreationWelcomeVCDelegate: class {
-    func welcomeVCDelegateDidTapBack(_ viewController: UIViewController)
-}
-
 struct TemporaryIngredient {
     let name: String
     let amount: Double?
@@ -309,7 +305,6 @@ class RecipeCreationViewController: UIViewController  {
         if defaults.bool(forKey: Keys.firstTimeCreateCustomRecipe) == true {
             let welcomeVC = RecipeCreationWelcomeViewController()
             welcomeVC.modalPresentationStyle = .overFullScreen
-            welcomeVC.delegate = self
             self.present(welcomeVC, animated: true, completion: nil)
         }
     }
@@ -1145,11 +1140,5 @@ extension RecipeCreationViewController: UIGestureRecognizerDelegate {
             return false
         }
         return true
-    }
-}
-
-extension RecipeCreationViewController: RecipesCreationWelcomeVCDelegate {
-    func welcomeVCDelegateDidTapBack(_ viewController: UIViewController) {
-        self.dismiss(animated: true, completion: nil)
     }
 }
