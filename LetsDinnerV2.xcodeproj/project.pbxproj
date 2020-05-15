@@ -110,9 +110,6 @@
 		886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 886EB36823DDFF11002CFCB5 /* CancelCell.xib */; };
 		886EB36C23DF77AE002CFCB5 /* RescheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */; };
 		887BE721240470F6006619C7 /* LDLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887BE720240470F6006619C7 /* LDLabel.swift */; };
-		88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362DE237C3F8C005B6B81 /* ProgressBar.swift */; };
-		88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */; };
-		88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */; };
 		88B7832C23717CF7009E4F3C /* LDSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* LDSearchBar.swift */; };
 		88B7832E23717D84009E4F3C /* UIColor+Semantic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */; };
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
@@ -130,13 +127,14 @@
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
 		88D9AB33246B19DD007716E6 /* EventDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */; };
 		88D9AB35246B1A02007716E6 /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */; };
+		88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB38246B50E3007716E6 /* ManagementViewController.swift */; };
+		88D9AB3B246B50F5007716E6 /* ManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB3A246B50F5007716E6 /* ManagementViewModel.swift */; };
 		88E203C523D33C6200514972 /* EventInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E203C423D33C6200514972 /* EventInputView.swift */; };
 		88E5B0BE2437C06700D519E2 /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */; };
 		88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5B0BF2438A39600D519E2 /* ConfettiView.swift */; };
 		88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5C5272467F3C20060823B /* NewEventViewModel.swift */; };
 		88E5C52A2467F3E20060823B /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E5C5292467F3E20060823B /* NewEventViewController.swift */; };
 		88FE71A623901E2A00652429 /* InfoInputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInputToolbar.swift */; };
-		B802F040242F346D00927649 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B802F03F242F346D00927649 /* LoadingView.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B842CE3C241A03F000380229 /* CustomSafariVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B842CE3B241A03F000380229 /* CustomSafariVC.swift */; };
 		B85071D12391690600632026 /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestManager.swift */; };
@@ -307,9 +305,6 @@
 		886EB36B23DF77AE002CFCB5 /* RescheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescheduleView.swift; sourceTree = "<group>"; };
 		887BE71823FEFA7C006619C7 /* Let's Dinner!Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Release.entitlements"; sourceTree = "<group>"; };
 		887BE720240470F6006619C7 /* LDLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDLabel.swift; sourceTree = "<group>"; };
-		88A362DE237C3F8C005B6B81 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
-		88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
-		88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ManagementViewController.xib; sourceTree = "<group>"; };
 		88B7832B23717CF7009E4F3C /* LDSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDSearchBar.swift; sourceTree = "<group>"; };
 		88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Semantic.swift"; sourceTree = "<group>"; };
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -327,13 +322,14 @@
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
 		88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewModel.swift; sourceTree = "<group>"; };
 		88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
+		88D9AB38246B50E3007716E6 /* ManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewController.swift; sourceTree = "<group>"; };
+		88D9AB3A246B50F5007716E6 /* ManagementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewModel.swift; sourceTree = "<group>"; };
 		88E203C423D33C6200514972 /* EventInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInputView.swift; sourceTree = "<group>"; };
 		88E5B0BD2437C06700D519E2 /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		88E5B0BF2438A39600D519E2 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		88E5C5272467F3C20060823B /* NewEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewModel.swift; sourceTree = "<group>"; };
 		88E5C5292467F3E20060823B /* NewEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
 		88FE71A523901E2A00652429 /* InfoInputToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputToolbar.swift; sourceTree = "<group>"; };
-		B802F03F242F346D00927649 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B842CE3B241A03F000380229 /* CustomSafariVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSafariVC.swift; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
@@ -633,7 +629,6 @@
 				88B7832B23717CF7009E4F3C /* LDSearchBar.swift */,
 				880B13642374B3F2003E29AC /* TaskPersonLabel.swift */,
 				880B13792376EB99003E29AC /* ProgressCircle.swift */,
-				88A362DE237C3F8C005B6B81 /* ProgressBar.swift */,
 				887BE720240470F6006619C7 /* LDLabel.swift */,
 			);
 			path = View;
@@ -805,8 +800,8 @@
 		885C60BF23809F5500ED3A17 /* EventDescriptionVC */ = {
 			isa = PBXGroup;
 			children = (
-				88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */,
 				88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */,
+				88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */,
 			);
 			path = EventDescriptionVC;
 			sourceTree = "<group>";
@@ -832,8 +827,8 @@
 		88A362E0237EA8B6005B6B81 /* ManagementVC */ = {
 			isa = PBXGroup;
 			children = (
-				88A362E1237EA8E2005B6B81 /* ManagementViewController.swift */,
-				88A362E2237EA8E2005B6B81 /* ManagementViewController.xib */,
+				88D9AB38246B50E3007716E6 /* ManagementViewController.swift */,
+				88D9AB3A246B50F5007716E6 /* ManagementViewModel.swift */,
 			);
 			path = ManagementVC;
 			sourceTree = "<group>";
@@ -898,7 +893,6 @@
 			isa = PBXGroup;
 			children = (
 				B87C107024176329004AD951 /* AddNewThingView */,
-				B802F03F242F346D00927649 /* LoadingView.swift */,
 				B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */,
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
@@ -1085,7 +1079,6 @@
 				886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */,
 				B86F700923843D2D0010AB7C /* ReviewViewController.xib in Resources */,
 				88C95B3423986413000E750A /* RecipeCreationViewController.xib in Resources */,
-				88A362E4237EA8E2005B6B81 /* ManagementViewController.xib in Resources */,
 				B87C106524126B39004AD951 /* SelectedRecipesViewController.xib in Resources */,
 				880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */,
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
@@ -1250,6 +1243,7 @@
 				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
+				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
 				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,
 				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,
@@ -1284,7 +1278,6 @@
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
-				88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */,
 				B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */,
 				B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */,
 				B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */,
@@ -1299,8 +1292,8 @@
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
 				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,
 				880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */,
-				B802F040242F346D00927649 /* LoadingView.swift in Sources */,
 				880B1376237576C3003E29AC /* UIImageView.swift in Sources */,
+				88D9AB3B246B50F5007716E6 /* ManagementViewModel.swift in Sources */,
 				88FE71A623901E2A00652429 /* InfoInputToolbar.swift in Sources */,
 				884CE1CB2466DE30001062BF /* RecipeCreationViewModel.swift in Sources */,
 				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
@@ -1335,7 +1328,6 @@
 				B87C103F2408E9AC004AD951 /* Thread.swift in Sources */,
 				B815358723E3FE2000BBD5FB /* Colors.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
-				88A362DF237C3F8C005B6B81 /* ProgressBar.swift in Sources */,
 				884CE1C52461FE02001062BF /* LDIngredient.swift in Sources */,
 				B85071D12391690600632026 /* TestManager.swift in Sources */,
 				32B49DD823E87D1A0010669A /* ExpiredEventViewController.swift in Sources */,

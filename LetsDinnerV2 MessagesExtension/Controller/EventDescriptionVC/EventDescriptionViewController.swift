@@ -90,7 +90,7 @@ class EventDescriptionViewController: LDNavigationViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        StepStatus.currentStep = .reviewVC
+        StepStatus.currentStep = .eventDescriptionVC
     }
     
     // MARK: ViewModel Binding

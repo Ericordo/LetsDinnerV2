@@ -16,7 +16,7 @@ class CustomSafariVC: SFSafariViewController {
         configureSafariView()
     }
 
-    func configureSafariView() {
+    private func configureSafariView() {
         self.registerForNotification()
         self.preferredControlTintColor = UIColor.activeButton
         self.preferredBarTintColor = Colors.paleGray

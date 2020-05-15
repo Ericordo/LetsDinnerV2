@@ -2,412 +2,340 @@
 //  ManagementViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by Eric Ordonneau on 15/11/2019.
-//  Copyright © 2019 Eric Ordonneau. All rights reserved.
+//  Created by Eric Ordonneau on 12/05/2020.
+//  Copyright © 2020 Eric Ordonneau. All rights reserved.
 //
 
 import UIKit
+import ReactiveSwift
 
 protocol ManagementViewControllerDelegate: class {
-    func managementVCDidTapBack(controller: ManagementViewController)
-    func managementVCDdidTapNext(controller: ManagementViewController)
+    func managementVCDidTapBack()
+    func managementVCDdidTapNext()
 }
 
-class ManagementViewController: UIViewController {
+class ManagementViewController: LDNavigationViewController {
+    // MARK: Properties
+    private let tasksTableView : UITableView = {
+        let tv = UITableView()
+        tv.separatorStyle = .none
+        tv.rowHeight = 120
+        tv.showsVerticalScrollIndicator = false
+        tv.backgroundColor = .backgroundColor
+        return tv
+    }()
     
-    @IBOutlet private weak var backButton: UIButton!
-    @IBOutlet private weak var nextButton: UIButton!
-    @IBOutlet private weak var tasksTableView: UITableView!
-    @IBOutlet private weak var addButton: UIButton!
-    @IBOutlet private weak var servingsLabel: UILabel!
-    @IBOutlet private weak var servingsStepper: UIStepper!
-    @IBOutlet weak var separatorView: UIView!
+    private let addButton : UIButton = {
+        let button = UIButton()
+        button.setTitle(LabelStrings.addThing, for: .normal)
+        button.setImage(Images.addButtonOutlined, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 18)
+        button.setTitleColor(.activeButton, for: .normal)
+        return button
+    }()
     
-    // Add Things
-    @IBOutlet weak var addThingView: UIView!
-    @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
+    private let servingsView : UIView = {
+        let view = UIView()
+        return view
+        
+    }()
+    
+    private let servingsLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.textLabel
+        label.font = .systemFont(ofSize: 17)
+        return label
+    }()
+    
+    private let servingsStepper : UIStepper = {
+        let stepper = UIStepper()
+        stepper.minimumValue = 2
+        stepper.maximumValue = 12
+        stepper.stepValue = 1
+        return stepper
+    }()
+    
+    private let separator : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.sectionSeparatorLine
+        return view
+    }()
+    
+    private let bottomView : UIView = {
+        let view = UIView()
+        view.alpha = 0.9
+        view.backgroundColor = UIColor(named: "bottomViewColor")
+        return view
+        
+    }()
+    
+    private lazy var footerView : UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    private lazy var deleteTaskLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 5, width: self.view.frame.width , height: 15))
+        label.text = LabelStrings.deleteTaskLabel
+        label.textColor = UIColor.secondaryTextLabel
+        label.font = .systemFont(ofSize: 12)
+        label.textAlignment = .center
+        label.backgroundColor = .clear
+        return label
+    }()
+    
+    private lazy var assignTaskLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width , height: 15))
+        label.text = LabelStrings.assignTaskLabel
+        label.textColor = UIColor.secondaryTextLabel
+        label.font = .systemFont(ofSize: 12)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private var headerView : ExpandableTaskHeaderView? = nil
+    
+    private var addThingView : AddNewThingView? = nil
+    
+    private var tapGestureToHideKeyboard = UITapGestureRecognizer()
+    
+    private var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
+    
+    #warning("Solve problem with section selection input")
+    private var selectedSection : String?
     
     weak var delegate: ManagementViewControllerDelegate?
     
-    // MARK: Variables
-    private var tasks = Event.shared.tasks {
-        didSet {
-            hideServingView()
-            hideFooterView()
-        }
-    }
-    private var classifiedTasks = [[Task]]()
-    private var expandableTasks = [ExpandableTasks]()
+    private let viewModel: ManagementViewModel
     
-    private var sectionNames = [String]() {
-        didSet {
-            newThingView!.sectionNames = self.sectionNames
-        }
+    //MARK: Init
+    init(viewModel: ManagementViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
-    private var servings : Int = 2 {
-        didSet {
-            servingsLabel.text = "\(servings) Servings"
-            Event.shared.servings = servings
-        }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
-    private var selectedSection : String?
-    var tapGestureToHideKeyboard = UITapGestureRecognizer()
-    var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
-    var newThingView: AddNewThingView?
-    private var headerView: ExpandableTaskHeaderView?
-    var footerView: UIView?
-    
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        StepStatus.currentStep = .managementVC
-        
-        configureUI()
         configureTableView()
-        configureNewThingView()
-        configureGestureRecognizers()
-
-        // update variable and preparedata
-        servings = Event.shared.servings
-        self.updateServings(servings: servings)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: Notification.Name("keyboardWillShow"), object: nil)
-            
+        bindViewModel()
+        addKeyboardNotifications()
+        setupGestures()
+        configureAddThingView()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 3])
+        super.viewWillAppear(animated)
+        StepStatus.currentStep = .managementVC
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-
-    }
-    
-    // MARK: Configuration
-    private func configureUI() {
-        servingsLabel.text = "\(servings) Servings"
-        servingsLabel.textColor = UIColor.textLabel
+    // MARK: ViewModel Binding
+    private func bindViewModel() {
+      
+        viewModel.servings <~ servingsStepper.reactive.values.map { Int($0) }
         
-        servingsStepper.minimumValue = 2
-        servingsStepper.maximumValue = 12
-        servingsStepper.stepValue = 1
-        servingsStepper.value = Double(servings)
-
-        separatorView.backgroundColor = UIColor.sectionSeparatorLine
-        
-        addThingView.addShadow()
-
-        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            hideServingView()
-            hideFooterView()
+        navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.view.endEditing(true)
+            self.delegate?.managementVCDidTapBack()
         }
         
-        if UIDevice.current.hasHomeButton {
-            bottomViewHeightConstraint.constant = 60
-            self.bottomView.layoutIfNeeded()
+        navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.view.endEditing(true)
+            self.delegate?.managementVCDdidTapNext()
         }
         
+        addButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.addThingView!.mainTextField.becomeFirstResponder()
+            NotificationCenter.default.post(name: Notification.Name("KeyboardWillShow"), object: nil)
+        }
+        
+        viewModel.tasks.producer
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+        .startWithValues { [weak self] tasks in
+            guard let self = self else { return }
+            self.servingsView.isHidden = tasks.isEmpty
+            self.footerView.isHidden = tasks.isEmpty
+        }
+        
+        viewModel.servings.producer
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+        .startWithValues { [weak self] servings in
+            guard let self = self else { return }
+            #warning("localize")
+            self.servingsLabel.text = "\(servings) servings"
+            self.servingsStepper.value = Double(servings)
+            Event.shared.servings = servings
+        }
+        
+        viewModel.sectionNames.producer
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+        .startWithValues { [weak self] sectionNames in
+            guard let self = self else { return }
+            self.addThingView?.sectionNames = sectionNames
+        }
+        
+        self.viewModel.newDataSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] _ in
+                guard let self = self else { return }
+                self.tasksTableView.reloadData()
+        }
     }
     
-    private func configureNewThingView() {
-        newThingView = AddNewThingView(type: .manageTask, sectionNames: sectionNames, selectedSection: selectedSection)
-        newThingView?.addThingDelegate = self
-    
-        addThingView.addSubview(newThingView!)
-        newThingView!.translatesAutoresizingMaskIntoConstraints = false
-        newThingView!.anchor(top: addThingView.topAnchor,
-                             leading: addThingView.leadingAnchor,
-                             bottom: addThingView.bottomAnchor,
-                             trailing: addThingView.trailingAnchor)
-    }
-        
-    private func configureGestureRecognizers() {
-        // Should only tap on the view not on the keyboard
-        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tapGestureToHideKeyboard.delegate = self
-        
-        swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer(target: newThingView, action: #selector(UIView.endEditing(_:)))
-        swipeDownGestureToHideKeyBoard.direction = .down
-        
-        setupSwipeBackGesture()
-    }
-    
+    // MARK: Methods
     private func configureTableView() {
-//        tasksTableView.tableFooterView = UIView()
-        tasksTableView.backgroundColor = .backgroundColor
-
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
-        tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskManagementCell)
-        
-        // Configure Footer View
-        footerView = UIView(frame: CGRect(x: 0, y: 0, width: tasksTableView.frame.width, height: 60))
-        
-        guard let footerView = footerView else { return }
-        footerView.backgroundColor = .clear
-        
-        let deleteTaskLabel: UILabel = {
-            let label = UILabel()
-            label.frame = CGRect(x: 0, y: 5, width: self.view.frame.width , height: 15)
-            label.text = LabelStrings.deleteTaskLabel
-            label.textColor = UIColor.secondaryTextLabel
-            label.font = .systemFont(ofSize: 12)
-            label.textAlignment = .center
-            label.backgroundColor = .clear
-            return label
-        }()
-        
-        let assignTaskLabel: UILabel = {
-            let label = UILabel()
-            label.frame = CGRect(x: 0, y: 0, width: tasksTableView.frame.width , height: 15)
-            label.text = LabelStrings.assignTaskLabel
-            label.textColor = UIColor.secondaryTextLabel
-            label.font = .systemFont(ofSize: 12)
-            label.numberOfLines = 0
-            label.textAlignment = .center
-            return label
-        }()
-        
+        tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil),
+                                forCellReuseIdentifier: CellNibs.taskManagementCell)
         footerView.addSubview(deleteTaskLabel)
         footerView.addSubview(assignTaskLabel)
-        
         tasksTableView.tableFooterView = footerView
-        tasksTableView.separatorStyle = .none
-        tasksTableView.rowHeight = 120
-        tasksTableView.showsVerticalScrollIndicator = false
+    }
+    
+    private func addKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillShow),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillShow),
+                                               name: Notification.Name("KeyboardWillShow"),
+                                               object: nil)
+    }
+    
+    private func configureAddThingView() {
+        addThingView = AddNewThingView(type: .manageTask,
+                                       sectionNames: viewModel.sectionNames.value,
+                                       selectedSection: selectedSection)
+        addThingView?.addThingDelegate = self
+        addThingView?.addShadow()
+    }
+    
+    
+    private func setupGestures() {
+        // Should only tap on the view not on the keyboard
+        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view,
+                                                          action: #selector(UIView.endEditing(_:)))
+        tapGestureToHideKeyboard.delegate = self
         
-        deleteTaskLabel.translatesAutoresizingMaskIntoConstraints = false
-        assignTaskLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        deleteTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
-        assignTaskLabel.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer(target: addThingView,
+                                                                  action: #selector(UIView.endEditing(_:)))
+        swipeDownGestureToHideKeyBoard.direction = .down
 
-        
-        deleteTaskLabel.anchor(top: footerView.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0))
-        assignTaskLabel.anchor(top: deleteTaskLabel.bottomAnchor, leading: footerView.leadingAnchor, bottom: nil, trailing: footerView.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 25, bottom: 0, right: 25))
-        
+        self.view.addSwipeGestureRecognizer(action: { self.delegate?.managementVCDidTapBack() })
     }
     
-    private func setupSwipeBackGesture() {
-        self.view.addSwipeGestureRecognizer(action: {self.delegate?.managementVCDidTapBack(controller: self)})
+    private func setupUI() {
+        view.backgroundColor = .backgroundColor
+        addThingView?.addShadow()
+        navigationBar.titleLabel.text = LabelStrings.manageThings
+        navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
+        navigationBar.previousButton.setTitle(LabelStrings.recipes, for: .normal)
+        view.addSubview(servingsView)
+        servingsView.addSubview(servingsLabel)
+        servingsView.addSubview(servingsStepper)
+        servingsView.addSubview(separator)
+        view.addSubview(tasksTableView)
+        view.addSubview(bottomView)
+        bottomView.addSubview(addButton)
+        view.addSubview(addThingView!)
+        addConstraints()
     }
     
-    //MARK: prepareData
-    private func prepareData() {
-        tasks = Event.shared.tasks
-        classifiedTasks.removeAll()
-        
-        var expandedStatus = [String : Bool]()
-        
-        expandableTasks.forEach { expandableTasks in
-            if let parentRecipe = expandableTasks.tasks.first?.parentRecipe {
-                expandedStatus[parentRecipe] = expandableTasks.isExpanded
-            }
-        }
-
-        expandableTasks.removeAll()
-        sectionNames.removeAll()
-        
-        // Append the task into classified Task
-        tasks.forEach { task in
-            if classifiedTasks.contains(where: { subTasks -> Bool in
-                subTasks.contains { (individualTask) -> Bool in
-                    individualTask.parentRecipe == task.parentRecipe}
-            }) {
-                let index = classifiedTasks.firstIndex { (subTasks) -> Bool in
-                    subTasks.contains { (individualTask) -> Bool in
-                        individualTask.parentRecipe == task.parentRecipe
-                    }
-                }
-                classifiedTasks[index!].append(task)
-            } else {
-                classifiedTasks.append([task])
-            }
+    private func addConstraints() {
+        servingsView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(navigationBar.snp.bottom)
+            make.height.equalTo(60)
         }
         
-        // Append Expandable Tasks
-        classifiedTasks.forEach { subtasks in
-            var subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
-            if let parentRecipe = subtasks.first?.parentRecipe {
-                if let isExpanded = expandedStatus[parentRecipe] {
-                    subExpandableTasks = ExpandableTasks(isExpanded: isExpanded, tasks: subtasks)
-                }
-            }
-            
-//            let subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
-            
-            expandableTasks.append(subExpandableTasks)
-            if let sectionName = subtasks.first?.parentRecipe {
-                sectionNames.append(sectionName)
-            }
+        servingsLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(18)
         }
         
-        expandedStatus.removeAll()
-    }
-    
-    // MARK: Button Tapped
-    
-    
-    @IBAction func didTapStepper(_ sender: UIStepper) {
-        updateServings(servings: Int(sender.value))
-    }
-    
-    @IBAction private func didTapBack(_ sender: UIButton) {
-        removeAllViewsBeforeDismiss()
-        delegate?.managementVCDidTapBack(controller: self)
-    }
-    
-    @IBAction private func didTapNext(_ sender: UIButton) {
-        removeAllViewsBeforeDismiss()
-        delegate?.managementVCDdidTapNext(controller: self)
-    }
-    
-    @IBAction private func didTapAdd(_ sender: UIButton) {
-        self.selectedSection = "Miscellaneous"
-        
-        newThingView?.mainTextField.becomeFirstResponder()
-        NotificationCenter.default.post(name: Notification.Name("keyboardWillShow"), object: nil)
-
-//
-
-//        var textField = UITextField()
-//        let alert = UIAlertController(title: MessagesToDisplay.addThing, message: "", preferredStyle: .alert)
-//        let add = UIAlertAction(title: MessagesToDisplay.add, style: .default) { action in
-//            if !textField.text!.isEmpty {
-//            let newTask = Task(taskName: textField.text!,
-//                               assignedPersonUid: "nil",
-//                               taskState: TaskState.unassigned.rawValue,
-//                               taskUid: "nil",
-//                               assignedPersonName: "nil",
-//                               isCustom: true,
-//                               parentRecipe: self.selectedSection ?? "Miscellaneous")
-//            Event.shared.tasks.append(newTask)
-//            self.prepareData()
-//            self.tasksTableView.reloadData()
-//            }
-//        }
-//        let cancel = UIAlertAction(title: MessagesToDisplay.cancel, style: .cancel, handler: nil)
-//        alert.addTextField { (alertTextField) in
-//            alertTextField.placeholder = MessagesToDisplay.thingToAdd
-//            textField = alertTextField
-//            let input = SectionSelectionInput(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 44)))
-//            input.configureInput(sections: self.sectionNames)
-//            input.sectionSelectionInputDelegate = self
-//            self.selectedSection = "Miscellaneous"
-//            textField.inputAccessoryView = input
-//        }
-//        alert.addAction(add)
-//        alert.addAction(cancel)
-//        present(alert, animated: true, completion: nil)
-    }
-
-    
-    // MARK: Other functions
-    
-    private func hideServingView() {
-        if tasks.isEmpty {
-            servingsLabel.isHidden = true
-            servingsStepper.isHidden = true
-            separatorView.isHidden = true
-        } else {
-            servingsLabel.isHidden = false
-            servingsStepper.isHidden = false
-            separatorView.isHidden = false
-        }
-    }
-    
-    private func hideFooterView() {
-        guard let footerView = footerView else { return }
-        footerView.isHidden = tasks.isEmpty
-    }
-    
-    private func removeAllViewsBeforeDismiss() {
-        self.view.endEditing(true)
-        self.addThingViewBottomConstraint.constant = -100
-        self.view.layoutIfNeeded()
-    }
-    
-    private func updateServings(servings: Int) {
-        self.servings = servings
-    
-        Event.shared.tasks.forEach { task in
-            if !task.isCustom {
-                if let amount = task.metricAmount, let oldServings = task.servings {
-                    task.metricAmount = (amount * Double(servings)) / Double(oldServings)
-                    task.servings = servings
-                }
-            }
+        servingsStepper.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-18)
+            make.centerY.equalToSuperview()
         }
         
-        prepareData()
-        tasksTableView.reloadData()
+        separator.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(1)
+        }
+        
+        tasksTableView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(servingsView.snp.bottom)
+        }
+        
+        let height = UIDevice.current.hasHomeButton ? 60 : 83
+        bottomView.snp.makeConstraints { make in
+            make.height.equalTo(height)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        addButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(15)
+        }
+        
+        deleteTaskLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(15)
+        }
+        
+        assignTaskLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(deleteTaskLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(25)
+            make.trailing.equalToSuperview().offset(-25)
+        }
+        
+        addThingView?.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(94)
+            make.height.equalTo(94)
+        }
     }
-    
-    private func deleteTask(indexPath: IndexPath) {
-        let taskToDelete = expandableTasks[indexPath.section].tasks[indexPath.row]
-        let index = Event.shared.tasks.firstIndex { (task) -> Bool in
-            taskToDelete.taskName == task.taskName && taskToDelete.parentRecipe == task.parentRecipe
-        }
-        
-        Event.shared.tasks.remove(at: index!)
-        tasks = Event.shared.tasks
-        
-        expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
-        if expandableTasks[indexPath.section].tasks.count == 0 {
-            expandableTasks.remove(at: indexPath.section)
-            sectionNames.remove(at: indexPath.section)
-        }
-//            prepareData()
-       
-        if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
-            tasksTableView.deleteRows(at: [indexPath], with: .automatic)
-        } else {
-            let recipeName = taskToDelete.parentRecipe
-            let index = Event.shared.selectedRecipes.firstIndex { recipe -> Bool in
-                recipe.title == recipeName
-            }
-            if let index = index {
-                Event.shared.selectedRecipes.remove(at: index)
-            }
-            let indexSet = NSMutableIndexSet()
-            indexSet.add(indexPath.section)
-            tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
-        }
-        
-        
-    }
-    
-    
 }
-
-// MARK: TableView setup
-
+    // MARK: TableViewDelegate
 extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if Event.shared.tasks.isEmpty {
-            tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage, message2: LabelStrings.noTaskMessage2)
+            tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle,
+                                                  message: LabelStrings.noTaskMessage,
+                                                  message2: LabelStrings.noTaskMessage2)
         } else {
             tableView.restore()
         }
         
-        if !expandableTasks[section].isExpanded {
+        if !viewModel.expandableTasks[section].isExpanded {
             return 0
         }
-        return expandableTasks[section].tasks.count
-      }
-      
+        return viewModel.expandableTasks[section].tasks.count
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taskManagementCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskManagementCell, for: indexPath) as! TaskManagementCell
-        let task = expandableTasks[indexPath.section].tasks[indexPath.row]
+        let task = viewModel.expandableTasks[indexPath.section].tasks[indexPath.row]
         taskManagementCell.configureCell(task: task)
         taskManagementCell.delegate = self
         return taskManagementCell
@@ -417,20 +345,93 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         let taskManagementCell = tableView.cellForRow(at: indexPath) as! TaskManagementCell
         taskManagementCell.didTapTaskStatusButton(indexPath: indexPath)
     }
-      
-      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-           return 80
-       }
     
-// MARK: Add for task management
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if Event.shared.tasks.isEmpty {
+            tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle,
+                                                  message: LabelStrings.noTaskMessage,
+                                                  message2: LabelStrings.noTaskMessage2)
+        } else {
+            tableView.restore()
+        }
+        
+        return viewModel.expandableTasks.count
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        headerView = ExpandableTaskHeaderView(expandableTasks: self.viewModel.expandableTasks, section: section, sectionNames: self.viewModel.sectionNames.value)
+        guard let headerView = headerView else { return nil }
+        headerView.tag = section
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse))
+        headerView.addGestureRecognizer(tapGesture)
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    @objc func handleCloseCollapse(sender: UITapGestureRecognizer) {
+        let section = sender.view!.tag
+        sender.view?.subviews.forEach({ subview in
+            if subview.restorationIdentifier == "collapse" {
+                subview.rotate()
+            }
+        })
+        var indexPaths = [IndexPath]()
+        for row in viewModel.expandableTasks[section].tasks.indices {
+            let indexPath = IndexPath(row: row, section: section)
+            indexPaths.append(indexPath)
+        }
+        
+        let isExpanded = viewModel.expandableTasks[section].isExpanded
+        viewModel.expandableTasks[section].isExpanded = !isExpanded
+        
+        if isExpanded {
+            tasksTableView.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            tasksTableView.insertRows(at: indexPaths, with: .fade)
+        }
+    }
+    
+    // MARK: Swipe Right Action
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let taskManagementCell = tableView.cellForRow(at: indexPath) as! TaskManagementCell
+        
+        let assignToMyselfAction = UIContextualAction(style: .normal,
+                                                      title: title,
+                                                      handler: { (action, view, completionHandler) in
+                                                        taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath,
+                                                                                                    changeTo: .assigned)
+                                                        completionHandler(true)
+        })
+        
+        let completedAction = UIContextualAction(style: .normal,
+                                                 title: title,
+                                                 handler: { (action, view, completionHandler) in
+                                                    taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath,
+                                                                                                changeTo: .completed)
+                                                    completionHandler(true)
+        })
+        
+        assignToMyselfAction.backgroundColor = .swipeRightButton
+        completedAction.backgroundColor = .activeButton
+        
+        let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
+    }
+    
     // MARK: Delete Task
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
         let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { _, _, complete in
             
             self.deleteTask(indexPath: indexPath)
@@ -438,11 +439,9 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
             complete(true)
             
             // Refresh Data after completion, for smoother animation
-            self.prepareData()
-            self.tasksTableView.reloadData()
+            self.viewModel.prepareData()
         })
         
-  
         deleteAction.image = UIImage(named: "deleteIcon.png")
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
@@ -453,182 +452,115 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if (editingStyle == .delete) {
-//            self.deleteTask(indexPath: indexPath)
+            self.deleteTask(indexPath: indexPath)
         }
     }
     
-    // MARK: Swipe Right Action
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    private func deleteTask(indexPath: IndexPath) {
+        let taskToDelete = viewModel.expandableTasks[indexPath.section].tasks[indexPath.row]
+        let index = Event.shared.tasks.firstIndex { taskToDelete.taskName == $0.taskName &&
+                                                    taskToDelete.parentRecipe == $0.parentRecipe }
+        Event.shared.tasks.remove(at: index!)
+        viewModel.tasks.value = Event.shared.tasks
         
-        let taskManagementCell = tableView.cellForRow(at: indexPath) as! TaskManagementCell
-        
-        let assignToMyselfAction = UIContextualAction(style: .normal, title: title,
-        handler: { (action, view, completionHandler) in
-            taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath, changeTo: .assigned)
-            completionHandler(true)
-        })
-        
-        let completedAction = UIContextualAction(style: .normal, title: title,
-          handler: { (action, view, completionHandler) in
-            taskManagementCell.didSwipeTaskStatusButton(indexPath: indexPath, changeTo: .completed)
-            completionHandler(true)
-        })
-
-
-//        assignToMyselfAction.image = UIImage(named: "")
-        assignToMyselfAction.backgroundColor = .swipeRightButton
-        
-//        completedAction.image = UIImage(named: "")
-        completedAction.backgroundColor = .activeButton
-        
-        
-        let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
-        configuration.performsFirstActionWithFullSwipe = false
-        return configuration
-        
-    }
-    
-// MARK: Add for sections and collapsable rows
-    
-     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        if Event.shared.tasks.isEmpty {
-            tableView.setEmptyViewForManagementVC(title: LabelStrings.noTaskTitle, message: LabelStrings.noTaskMessage, message2: LabelStrings.noTaskMessage2)
-            } else {
-                tableView.restore()
-            }
-        
-        return expandableTasks.count
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        headerView = ExpandableTaskHeaderView(expandableTasks: expandableTasks,
-                                                  section: section,
-                                                  sectionNames: sectionNames)
-        if let headerView = headerView {
-            headerView.tag = section
-            headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
-            return headerView
+        viewModel.expandableTasks[indexPath.section].tasks.remove(at: indexPath.row)
+        if viewModel.expandableTasks[indexPath.section].tasks.count == 0 {
+            viewModel.expandableTasks.remove(at: indexPath.section)
+            viewModel.sectionNames.value.remove(at: indexPath.section)
         }
-        return nil
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60
-    }
-    
-//    @objc func handleCloseCollapse(button: UIButton) {
-//        button.rotate()
-//        let section = button.tag
-//        var indexPaths = [IndexPath]()
-//        for row in expandableTasks[section].tasks.indices {
-//            let indexPath = IndexPath(row: row, section: section)
-//            indexPaths.append(indexPath)
-//        }
-//
-//        let isExpanded = expandableTasks[section].isExpanded
-//        expandableTasks[section].isExpanded = !isExpanded
-//
-//        if isExpanded {
-//            tasksTableView.deleteRows(at: indexPaths, with: .fade)
-//        } else {
-//            tasksTableView.insertRows(at: indexPaths, with: .fade)
-//        }
-//    }
-    
-    @objc func handleCloseCollapse(sender: UITapGestureRecognizer) {
-        let section = sender.view!.tag
-        sender.view?.subviews.forEach({ subview in
-            if subview.restorationIdentifier == "collapse" {
-                subview.rotate() 
-            }
-        })
-        var indexPaths = [IndexPath]()
-        for row in expandableTasks[section].tasks.indices {
-            let indexPath = IndexPath(row: row, section: section)
-            indexPaths.append(indexPath)
-        }
-
-        let isExpanded = expandableTasks[section].isExpanded
-        expandableTasks[section].isExpanded = !isExpanded
         
-        if isExpanded {
-            tasksTableView.deleteRows(at: indexPaths, with: .fade)
+        if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
+            tasksTableView.deleteRows(at: [indexPath], with: .automatic)
         } else {
-            tasksTableView.insertRows(at: indexPaths, with: .fade)
+            let recipeName = taskToDelete.parentRecipe
+            let index = Event.shared.selectedRecipes.firstIndex { $0.title == recipeName }
+            if let index = index {
+                Event.shared.selectedRecipes.remove(at: index)
+            }
+            let indexSet = NSMutableIndexSet()
+            indexSet.add(indexPath.section)
+            tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)
         }
     }
-    
 }
 
 extension ManagementViewController: TaskManagementCellDelegate {
     func taskManagementCellDidTapTaskStatusButton(indexPath: IndexPath) {
         // No need for prepareData apparently
-        //        prepareData()
+        // prepareData()
         let indexSet = NSMutableIndexSet()
         indexSet.add(indexPath.section)
-        //        Amazing trick to avoid weird behavior when sections are reloaded:
+        // Amazing trick to avoid weird behavior when sections are reloaded:
         UIView.performWithoutAnimation {
             self.tasksTableView.reloadSections(indexSet as IndexSet, with: .none)
         }
     }
 }
 
-// MARK: AddThing Delegation
-
 extension ManagementViewController: AddThingDelegate {
     func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
-        self.prepareData()
-        self.tasksTableView.reloadData()
+        viewModel.prepareData()
     }
     
-}
-
-extension ManagementViewController: UIGestureRecognizerDelegate {
-    
-    // To prevent touch in "Add Thing" View
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if touch.view!.isDescendant(of: addThingView) {
-            return false
-        }
-        return true
-    }
-}
-
-// MARK: Keyboard
-
-extension ManagementViewController {
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc private func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
         
-        self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
-            self.addThingViewBottomConstraint.constant = keyboardFrame.height
-            
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                self.addThingViewBottomConstraint.constant += 20
-            }
-            
-            self.view.layoutIfNeeded()
+            self.showAddThingView(offset: keyboardFrame.height)
         }
+        self.view.layoutIfNeeded()
+        
         
         self.view.addGestureRecognizer(tapGestureToHideKeyboard)
         self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
-
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 1) {
+            self.removeAddThingView()
+        }
         self.view.layoutIfNeeded()
-         UIView.animate(withDuration: 1) {
-             self.addThingViewBottomConstraint.constant = -100
-             self.view.layoutIfNeeded()
-         }
         
         self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
         self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
+    }
+    
+    private func showAddThingView(offset: CGFloat) {
+        guard let addThingView = addThingView else { return }
+        var offset = offset
+        #warning("Temporary solve for iPad ios13")
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if #available(iOS 13.0, *) {
+                offset += 20
+            }
+        }
+        addThingView.snp.updateConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(94)
+            make.bottom.equalToSuperview().offset(-offset)
+        }
+    }
+    
+    private func removeAddThingView() {
+        guard let addThingView = addThingView else { return }
+        addThingView.snp.updateConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(94)
+            make.bottom.equalToSuperview().offset(94)
+        }
+    }
+}
+
+extension ManagementViewController: UIGestureRecognizerDelegate {
+    // To prevent touch in "Add Thing" View
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let touchView = touch.view else { return true }
+        if let addThingView = addThingView {
+            return !touchView.isDescendant(of: addThingView)
+        } else {
+            return true
+        }
     }
 }
