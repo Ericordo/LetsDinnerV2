@@ -10,17 +10,7 @@ import UIKit
 
 class ProgressCircle: UIView {
     
-//    let shapeLayer = CAShapeLayer()
-    let innerCircle = CAShapeLayer()
-    
-//    let percentageLabel: UILabel = {
-//        let label = UILabel()
-//        label.textAlignment = .center
-//        label.text = "100%"
-//        label.textColor = .black
-//        label.font = UIFont.boldSystemFont(ofSize: 5)
-//        return label
-//    }()
+    private let innerCircle = CAShapeLayer()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,32 +22,7 @@ class ProgressCircle: UIView {
           configureView()
       }
     
-//    private func configureView() {
-////        self.addSubview(percentageLabel)
-////        percentageLabel.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-////        percentageLabel.center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
-//
-//        let center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
-//
-//        let tracklayer = CAShapeLayer()
-//        let circularPath = UIBezierPath(arcCenter: center, radius: self.frame.width/2 - 5, startAngle: -CGFloat.pi / 2, endAngle: 3 * CGFloat.pi / 2 , clockwise: true)
-//        tracklayer.path = circularPath.cgPath
-//        tracklayer.strokeColor = UIColor.lightGray.cgColor
-//        tracklayer.fillColor = UIColor.clear.cgColor
-//        tracklayer.lineWidth = 3
-//        self.layer.addSublayer(tracklayer)
-//
-//        shapeLayer.path = circularPath.cgPath
-//        shapeLayer.strokeColor = Colors.customPink.cgColor
-//        shapeLayer.fillColor = UIColor.clear.cgColor
-//        shapeLayer.lineWidth = 3
-//        shapeLayer.strokeEnd = 0
-//        shapeLayer.lineCap = .round
-//        self.layer.addSublayer(shapeLayer)
-//        self.clipsToBounds = true
-//    }
-    
-    func configureView() {
+    private func configureView() {
         let center = CGPoint(x: self.frame.width/2, y: self.frame.height/2)
         
         let outsideCircle = CAShapeLayer()
@@ -65,7 +30,6 @@ class ProgressCircle: UIView {
         let outsidePath = UIBezierPath(arcCenter: center, radius: outsideRadius, startAngle: -CGFloat.pi / 2, endAngle: 2 * CGFloat.pi , clockwise: true)
         
         outsideCircle.path = outsidePath.cgPath
-//        outsideCircle.strokeColor = UIColor.lightGray.cgColor
         outsideCircle.strokeColor = UIColor.textLabel.cgColor
         outsideCircle.fillColor = UIColor.clear.cgColor
         outsideCircle.lineWidth = 1
@@ -76,28 +40,16 @@ class ProgressCircle: UIView {
         let innerPath = UIBezierPath(arcCenter: center, radius: innerRadius/2, startAngle: -CGFloat.pi / 2 , endAngle: endAngle, clockwise: true)
         
         innerCircle.path = innerPath.cgPath
-//        innerCircle.strokeColor = UIColor.lightGray.cgColor
         innerCircle.strokeColor = UIColor.textLabel.cgColor
         innerCircle.fillColor = UIColor.clear.cgColor
         innerCircle.lineWidth = innerRadius
         innerCircle.strokeEnd = 0
         
         self.layer.addSublayer(innerCircle)
-        
     }
-    
-//    func animate(percentage: CGFloat) {
-//        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
-//        basicAnimation.toValue = percentage
-//        basicAnimation.duration = 1
-//        basicAnimation.fillMode = .forwards
-//        basicAnimation.isRemovedOnCompletion = false
-//        shapeLayer.add(basicAnimation, forKey: "basicAnimation")
-//    }
     
     @objc func animate(percentage: Double) {
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
-
         basicAnimation.toValue = roundUp(percentage, toNearest: 0.1)
         basicAnimation.duration = 2 * percentage
         basicAnimation.fillMode = .forwards
@@ -105,7 +57,7 @@ class ProgressCircle: UIView {
         innerCircle.add(basicAnimation, forKey: "basicAnimation")
     }
     
-    func roundUp(_ value: Double, toNearest: Double) -> Double {
+    private func roundUp(_ value: Double, toNearest: Double) -> Double {
         return ceil(value / toNearest) * toNearest
     }
     

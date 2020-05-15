@@ -171,11 +171,15 @@ enum LabelStrings {
     
 
     // ManagementVC
-    static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"
-    static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
-    static let noTaskMessage2 = "Start by tapping"
-    static let deleteTaskLabel = "To delete a Thing, swipe left."
-    static let assignTaskLabel = "To assign yourself to a Thing or to complete it, tap it or swipe right."
+    static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")
+    static let noTaskMessage = NSLocalizedString("Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that.", comment: "no task message")
+    static let noTaskMessage2 = NSLocalizedString("Start by tapping", comment: "no task instructions")
+    static let deleteTaskLabel = NSLocalizedString("To delete a Thing, swipe left.", comment: "delete instruction")
+    static let assignTaskLabel = NSLocalizedString("To assign yourself to a Thing or to complete it, tap it or swipe right.", comment: "assign instruction")
+    static let manageThings = NSLocalizedString("Manage Things", comment: "title")
+    static let recipes = NSLocalizedString(" Recipes", comment: "recipes")
+    static let addThing = NSLocalizedString("  Add Thing", comment: "add thing")
+    static let misc = NSLocalizedString("Miscellaneous", comment: "miscellaneous")
     
     // DescriptionVC
     static let whatsThePlan = NSLocalizedString("WHAT'S THE PLAN?", comment: "what's the plan")

@@ -447,11 +447,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated {
-//            addProgressViewController()
-//        }
-        
-        let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
+        let controller = ManagementViewController(viewModel: ManagementViewModel())
         controller.delegate = self
         return controller
     }
@@ -463,36 +459,14 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated {
-//            addProgressViewController()
-//        }
-        
         let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
         controller.delegate = self
         return controller 
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated { // I need the White Background
-//            addProgressViewController()
-//        }
-//        
-//        if isLoading {
-//            self.view.addSubview(loadingView)
-//            loadingView.translatesAutoresizingMaskIntoConstraints = false
-//            loadingView.anchor(top: self.view.topAnchor, leading: self.view.leadingAnchor, bottom: self.view.bottomAnchor, trailing: self.view.trailingAnchor)
-//        }
-        
         let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
         controller.delegate = self
-        
-//        for view in self.view.subviews {
-//            if view.isKind(of: LoadingView.self){
-//                view.removeFromSuperview()
-//            }
-//        }
-//        isLoading = false
-        
         return controller
     }
     
@@ -625,13 +599,13 @@ extension MessagesViewController: RecipesViewControllerDelegate {
 }
 
 extension MessagesViewController: ManagementViewControllerDelegate {
-    func managementVCDidTapBack(controller: ManagementViewController) {
+    func managementVCDidTapBack() {
         let controller = instantiateRecipesViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    func managementVCDdidTapNext(controller: ManagementViewController) {
+    func managementVCDdidTapNext() {
         let controller = instantiateEventDescriptionViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)

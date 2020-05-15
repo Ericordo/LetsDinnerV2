@@ -81,15 +81,14 @@ class TaskManagementCell: UITableViewCell {
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             personLabel.text = MessagesToDisplay.completed
-            delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         case .completed:
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
             task.taskState = .unassigned
             task.assignedPersonName = "nil"
             task.assignedPersonUid = "nil"
             personLabel.text = MessagesToDisplay.noAssignment
-            delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         }
+        delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         
         taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskName == task.taskName }) {
