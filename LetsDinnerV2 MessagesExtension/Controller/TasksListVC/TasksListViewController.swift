@@ -232,7 +232,7 @@ class TasksListViewController: UIViewController {
     }
     
     private func displayUnsavedAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.unsubmittedTasks, message: MessagesToDisplay.submitQuestion, preferredStyle: .alert)
+        let alert = UIAlertController(title: AlertStrings.unsubmittedTasks, message: AlertStrings.submitQuestion, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Nope", style: .destructive, handler: { action in
             var newTasks = [Task]()
@@ -299,8 +299,8 @@ class TasksListViewController: UIViewController {
     }
     
     private func showSynchronisationAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.synchTitle,
-                                      message: MessagesToDisplay.synchMessage,
+        let alert = UIAlertController(title: AlertStrings.synchTitle,
+                                      message: AlertStrings.synchMessage,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Good to know!",
                                       style: .cancel,

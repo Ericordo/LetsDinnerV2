@@ -212,11 +212,11 @@ class RecipesViewController: LDNavigationViewController {
         #warning("Improve error messages")
         switch error {
         case .decodingFailed:
-            self.showBasicAlert(title: MessagesToDisplay.decodingFailed, message: "")
+            self.showBasicAlert(title: AlertStrings.decodingFailed, message: "")
         case .noNetwork:
-            self.showBasicAlert(title: MessagesToDisplay.noNetwork, message: "")
+            self.showBasicAlert(title: AlertStrings.noNetwork, message: "")
         case.requestLimit:
-            self.showBasicAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+            self.showBasicAlert(title: AlertStrings.requestLimit, message: AlertStrings.tryAgain)
         }
     }
     

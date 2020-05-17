@@ -8,6 +8,7 @@
 
 import UIKit
 import EventKit
+import ReactiveSwift
 
 protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList(controller: EventSummaryViewController)
@@ -30,10 +31,22 @@ private enum RowItemNumber: Int, CaseIterable {
 }
 
 class EventSummaryViewController: UIViewController {
+    // MARK: - Properties
     
-    @IBOutlet weak var summaryTableView: UITableView!
+    private let summaryTableView : UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))
+        tableView.backgroundColor = .backgroundColor
+        tableView.showsVerticalScrollIndicator = false
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 33, bottom: 0, right: 0)
+        tableView.separatorColor = .cellSeparatorLine
+        tableView.isHidden = true
+        return tableView
+    }()
     
-    // MARK: - Variable
+    private let loadingView = LDLoadingView()
+    
     var user: User? { // User Status should be fetched from here
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]
@@ -52,17 +65,59 @@ class EventSummaryViewController: UIViewController {
 
     weak var delegate: EventSummaryViewControllerDelegate?
     
+    private let viewModel : EventSummaryViewModel
+    
+    init(viewModel: EventSummaryViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        setupTableView()
+        registerCells()
+        configureGestureRecognizers()
+        bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         StepStatus.currentStep = .eventSummaryVC
+    }
+    
+    private func bindViewModel() {
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.edges.equalToSuperview()
+                    }
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
         
-        self.setupTableView()
-        self.registerCells()
-        self.configureGestureRecognizers()
-            
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
-        
+        self.viewModel.eventFetchSignal.observe(on: UIScheduler())
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                #warning("Modify error message")
+                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+            case.success(()):
+                self.updateTable()
+            }
+        }
     }
     
     private func configureGestureRecognizers() {
@@ -70,29 +125,21 @@ class EventSummaryViewController: UIViewController {
         swipeDownGestureToHideRescheduleView.direction = .down
     }
     
-    @objc func updateTable() {
+    private func updateTable() {
         // For Test Only
         self.testOverride()
-
+        
         summaryTableView.reloadData()
         summaryTableView.isHidden = false
     }
     
-    @objc private func showDownloadFail() {
-        let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func setupTableView() {
+    private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.tableFooterView = UIView()
         
-        if !Event.shared.participants.isEmpty {
-            summaryTableView.isHidden = false
-        }
+//        if !Event.shared.participants.isEmpty {
+//            summaryTableView.isHidden = false
+//        }
     }
     
     func registerCells() {
@@ -109,6 +156,18 @@ class EventSummaryViewController: UIViewController {
         registerCell(CellNibs.taskSummaryCell)
         registerCell(CellNibs.userCell)
         registerCell(CellNibs.cancelCell)
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .backgroundColor
+        view.addSubview(summaryTableView)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        summaryTableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
 
@@ -353,8 +412,8 @@ extension EventSummaryViewController: AnswerCellDelegate {
     }
     
     func addToCalendarAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
-                                      message: MessagesToDisplay.addToCalendarAlertMessage,
+        let alert = UIAlertController(title: AlertStrings.addToCalendarAlertTitle,
+                                      message: AlertStrings.addToCalendarAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "Nope",
                                       style: UIAlertAction.Style.destructive,
@@ -366,8 +425,8 @@ extension EventSummaryViewController: AnswerCellDelegate {
     }
     
     func declineEventAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.declineEventAlertTitle,
-                                      message: MessagesToDisplay.declineEventAlertMessage,
+        let alert = UIAlertController(title: AlertStrings.declineEventAlertTitle,
+                                      message: AlertStrings.declineEventAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
 //        alert.addAction(UIAlertAction(title: "Decline",
 //                                      style: UIAlertAction.Style.destructive,
@@ -408,10 +467,10 @@ extension EventSummaryViewController: TaskSummaryCellDelegate {
             if user.hasAccepted == .accepted {
                 delegate?.eventSummaryVCOpenTasksList(controller: self)
             } else {
-                presentAlert(MessagesToDisplay.declinedInvitation)
+                presentAlert(AlertStrings.declinedInvitation)
             }
         } else {
-            presentAlert(MessagesToDisplay.acceptInviteAlert)
+            presentAlert(AlertStrings.acceptInviteAlert)
         }
     }
     
@@ -435,8 +494,8 @@ extension EventSummaryViewController: CancelCellDelegate {
     }
     
     func cancelEvent() {
-        let alert = UIAlertController(title: MessagesToDisplay.cancelEventAlertTitle,
-                                      message: MessagesToDisplay.cancelEventAlertMessage, preferredStyle: .alert)
+        let alert = UIAlertController(title: AlertStrings.cancelEventAlertTitle,
+                                      message: AlertStrings.cancelEventAlertMessage, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
         let confirm = UIAlertAction(title: "Confirm", style: .destructive) { action in
             self.delegate?.eventSummaryVCDidCancelEvent(controller: self)
