@@ -163,8 +163,8 @@ class ReminderManager {
     
     func alertSuccessPopup(view: UIViewController) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: MessagesToDisplay.addToRemindersTitle,
-                                          message: MessagesToDisplay.addToRemindersMessage,
+            let alert = UIAlertController(title: AlertStrings.addToRemindersTitle,
+                                          message: AlertStrings.addToRemindersMessage,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Done",
                                           style: .default,
@@ -175,8 +175,8 @@ class ReminderManager {
     
     func alertNoTask(view: UIViewController) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: MessagesToDisplay.remindersNoTaskTitle,
-                                          message: MessagesToDisplay.remindersNoTaskMessage,
+            let alert = UIAlertController(title: AlertStrings.remindersNoTaskTitle,
+                                          message: AlertStrings.remindersNoTaskMessage,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss",
                                           style: .default,

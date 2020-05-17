@@ -8,6 +8,7 @@
 import UIKit
 import Foundation
 
+#warning("wtf is that")
 public class PrimaryButton: UIButton {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -18,19 +19,25 @@ public class PrimaryButton: UIButton {
         self.setTitleColor(.white, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     }
-    
-    
 }
 
-public class SecondaryButton: UIButton {
-    required public init?(coder aDecoder: NSCoder) {
+class SecondaryButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 8.0
-        self.backgroundColor = UIColor.secondaryButtonBackground
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        self.setTitleColor(.textLabel, for: .normal)
+        setup()
+    }
+    
+    private func setup() {
+        layer.masksToBounds = true
+        layer.cornerRadius = 8.0
+        backgroundColor = UIColor.secondaryButtonBackground
+        titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        setTitleColor(.textLabel, for: .normal)
     }
 }
 

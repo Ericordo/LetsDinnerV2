@@ -178,7 +178,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user deletes the message without sending it.
-        
+        #warning("If eventCreation, delete event on firebase")
         // Use this to clean up state related to the deleted message.
     }
     
@@ -354,23 +354,6 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         return transitionAnimation
     }
-    
-//    private func addProgressViewController() {
-//        let controller = ProgressViewController()
-//        controller.view.frame = view.bounds
-//        controller.view.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        view.addSubview(controller.view)
-//        
-//        isProgressBarVCInitiated = true
-//        
-//        NSLayoutConstraint.activate([
-//            controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-//            controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-//            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-//            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
-//    }
         
     private func removeViewController(transition: VCTransitionDirection = .noTransition) {
         
@@ -459,13 +442,13 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
+        let controller = ReviewViewController(viewModel: ReviewViewModel())
         controller.delegate = self
         return controller 
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
+        let controller = EventSummaryViewController(viewModel: EventSummaryViewModel())
         controller.delegate = self
         return controller
     }
@@ -627,13 +610,13 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
 }
 
 extension MessagesViewController: ReviewViewControllerDelegate {
-    func reviewVCDidTapPrevious(controller: ReviewViewController) {
+    func reviewVCDidTapPrevious() {
         let controller = instantiateEventDescriptionViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    func reviewVCDidTapSend(controller: ReviewViewController) {
+    func reviewVCDidTapSend() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         Event.shared.summary = "\(defaults.username) is inviting you to an event!"
         let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true, action: .createEvent)
@@ -645,7 +628,7 @@ extension MessagesViewController: ReviewViewControllerDelegate {
         }
     }
     
-    func reviewVCBackToManagementVC(controller: ReviewViewController) {
+    func reviewVCBackToManagementVC() {
         let controller = instantiateManagementViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
@@ -679,9 +662,9 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
         // Instant MessageUI update
         if hasAccepted == .accepted {
-            Event.shared.summary = defaults.username + MessagesToDisplay.acceptedInvitation
+            Event.shared.summary = defaults.username + AlertStrings.acceptedInvitation
         } else if hasAccepted == .declined {
-            Event.shared.summary = defaults.username + MessagesToDisplay.declinedInvitation
+            Event.shared.summary = defaults.username + AlertStrings.declinedInvitation
         }
         
         Event.shared.currentUser?.hasAccepted = hasAccepted

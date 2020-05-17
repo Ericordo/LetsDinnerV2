@@ -14,13 +14,9 @@ enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let registrationViewController = "RegistrationViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
-    static let managementViewController = "ManagementViewController"
-    static let eventSummaryViewController = "EventSummaryViewController"
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
-    static let reviewViewController = "ReviewViewController"
     static let eventInfoViewController = "EventInfoViewController"
-    static let progressViewController = "ProgressViewController"
     static let expiredEventViewController = "ExpiredEventViewController"
     static let recipeCreationViewController = "RecipeCreationViewController"
     static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
@@ -69,7 +65,7 @@ enum Keys {
     
 }
 
-enum MessagesToDisplay {
+enum AlertStrings {
     // Add to Calenedar Alert
     static let calendarAlert = "This event was successfully added to your calendar."
     static let addToCalendarAlertTitle = "Add to calendar?"
@@ -112,13 +108,14 @@ enum MessagesToDisplay {
     
     
     static let cancel = "Cancel"
-    static let add = "Add"
+    static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = "Add a thing"
     static let thingToAdd = "Thing to add"
     static let noNetwork = "No Network"
     static let decodingFailed = "Failed to load recipes"
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
+    static let nope = NSLocalizedString("Nope", comment: "nope")
 
 }
 
@@ -190,10 +187,11 @@ enum LabelStrings {
     static let maxCount = NSLocalizedString("No more than 400 characters please! 😁", comment: "character limit")
     
     // ReviewVC
-    static let readyToSend = "Ready to send your invite?"
-    static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
-    static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
-    static let update = "Update"
+    static let readyToSend1 = NSLocalizedString("You're all set now! 💪 \nReady to send your invite?", comment: "ready to send")
+    static let readyToSend2 = NSLocalizedString("You're all set now! 🦾 \nReady to send your invite?", comment: "ready to send")
+    static let update = NSLocalizedString("Update", comment: "update")
+    static let back = NSLocalizedString("Back", comment: "back")
+    static let send = NSLocalizedString("Send", comment: "send")
     
     // EventSummaryVC
     static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
@@ -285,8 +283,40 @@ enum Images {
 }
 
 enum DataKeys {
+    static let events = "Events"
     static let recipePictures = "RecipePictures"
     static let profilePictures = "ProfilePictures"
+    static let eventName = "dinnerName"
+    static let hostName = "hostName"
+    static let dateTimestamp = "dateTimestamp"
+    static let eventLocation = "dinnerLocation"
+    static let eventDescription = "eventDescription"
+    static let hostID = "hostID"
+    static let sourceUrl = "sourceUrl"
+    static let id = "id"
+    static let recipes = "recipes"
+    static let customRecipes = "customRecipes"
+    static let servings = "servings"
+    static let ingredients = "ingredients"
+    static let downloadUrl = "downloadUrl"
+    static let comments = "comments"
+    static let cookingSteps = "cookingSteps"
+    static let onlineUsers = "onlineUsers"
+    static let isCancelled = "isCancelled"
+    static let customOrder = "customOrder"
+    static let tasks = "tasks"
+    static let title = "title"
+    static let ownerName = "ownerName"
+    static let ownerUid = "ownerUid"
+    static let state = "state"
+    static let isCustom = "isCustom"
+    static let parentRecipe = "parentRecipe"
+    static let metricUnit = "metricAmount"
+    static let metricAmount = "metricUnit"
+    static let fullName = "fullName"
+    static let hasAccepted = "hasAccepted"
+    static let profilePicUrl = "profilePicUrl"
+    static let participants = "participants"
 }
 
 
