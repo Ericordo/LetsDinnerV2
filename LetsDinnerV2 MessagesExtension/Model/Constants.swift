@@ -12,7 +12,6 @@ let defaults = UserDefaults.standard
 
 enum VCNibs {
     static let initialViewController = "InitialViewController"
-    static let registrationViewController = "RegistrationViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
@@ -107,7 +106,7 @@ enum AlertStrings {
     
     
     
-    static let cancel = "Cancel"
+    static let cancel = NSLocalizedString("Cancel", comment: "cancel")
     static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = "Add a thing"
     static let thingToAdd = "Thing to add"
@@ -116,14 +115,31 @@ enum AlertStrings {
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
     static let nope = NSLocalizedString("Nope", comment: "nope")
+    static let change = NSLocalizedString("Change", comment: "change")
+    static let delete = NSLocalizedString("Delete", comment: "delete")
+    static let myImage = NSLocalizedString("My image", comment: "my image")
+    static let oops = NSLocalizedString("Oops", comment: "string")
+    static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
 
 }
 
 enum LabelStrings {
     static let next = NSLocalizedString("Next", comment: "Next")
     
-    // StartVC
-    static let getStarted = "Please enter your full name \n to get started."
+    // RegistrationVC
+    static let getStarted = NSLocalizedString("Please enter your full name \n to get started.", comment: "enter full name")
+    static let save = NSLocalizedString("Save", comment: "save")
+    static let profile = NSLocalizedString("Profile", comment: "profile")
+    static let addImage = NSLocalizedString("Add image", comment: "add image")
+    static let personalInfo = NSLocalizedString("PERSONAL INFORMATION", comment: "personal info")
+    static let measurementSystem = NSLocalizedString("SYSTEM OF MEASUREMENT", comment: "system of measurement")
+    static let enterFullName = NSLocalizedString("Please enter your full name", comment: "please enter full name")
+    static let firstName = NSLocalizedString("First Name", comment: "first name")
+    static let lastName = NSLocalizedString("Last Name", comment: "last name")
+    static let address = NSLocalizedString("Address", comment: "address")
+    static let metric = NSLocalizedString("Metric", comment: "metric")
+    static let imperial = NSLocalizedString("Imperial", comment: "imperial")
+    static let modifyImage = NSLocalizedString("Modify image", comment: "modify image")
     
     // NewEventVC
     static let host = NSLocalizedString("Host", comment: "host")
@@ -261,6 +277,10 @@ enum Images {
     static let statusPending = "statusPending"
     static let statusAccepted = "statusAccepted"
     static let statusDeclined = "statusDeclined"
+    
+    // RegistrationVC
+    static let profilePlaceholder = UIImage(named: "profilePlaceholderBig")!
+    static let checkmark = UIImage(named: "checkmark")!
     
     // NewEventVC
     static let settingsButtonOutlined = UIImage(named: "settingsButtonOutlined")!

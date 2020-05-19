@@ -12,6 +12,8 @@
 		3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270EC2424471A5E00E78445 /* ThankYouViewController.swift */; };
 		32B49DD823E87D1A0010669A /* ExpiredEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49DD623E87D1A0010669A /* ExpiredEventViewController.swift */; };
 		32B49DD923E87D1A0010669A /* ExpiredEventViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32B49DD723E87D1A0010669A /* ExpiredEventViewController.xib */; };
+		88056E5C24718FA400F0D90F /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E5B24718FA400F0D90F /* RegistrationViewController.swift */; };
+		88056E5E2471903000F0D90F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E5D2471903000F0D90F /* RegistrationViewModel.swift */; };
 		880B13312372FA08003E29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13302372FA08003E29AC /* User.swift */; };
 		880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133323736D5C003E29AC /* EventSummaryViewController.swift */; };
 		880B133F237376C7003E29AC /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133D237376C7003E29AC /* AnswerCell.swift */; };
@@ -62,8 +64,6 @@
 		88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1F236E1B60002A1879 /* InitialViewController.swift */; };
 		88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F20236E1B60002A1879 /* InitialViewController.xib */; };
 		88349F25236E20CF002A1879 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F24236E20CF002A1879 /* UIView.swift */; };
-		88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F26236EFFC6002A1879 /* RegistrationViewController.swift */; };
-		88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F27236EFFC6002A1879 /* RegistrationViewController.xib */; };
 		88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2B236F7145002A1879 /* UserDefaults.swift */; };
 		88349F332370302E002A1879 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F322370302E002A1879 /* DatePicker.swift */; };
 		88349F352370388C002A1879 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F342370388C002A1879 /* Event.swift */; };
@@ -204,6 +204,8 @@
 		32B49DD723E87D1A0010669A /* ExpiredEventViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpiredEventViewController.xib; sourceTree = "<group>"; };
 		4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2 MessagesExtension/Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
 		4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetsDinnerV2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88056E5B24718FA400F0D90F /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		88056E5D2471903000F0D90F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		880B13302372FA08003E29AC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		880B133323736D5C003E29AC /* EventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
 		880B133D237376C7003E29AC /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
@@ -259,8 +261,6 @@
 		88349F1F236E1B60002A1879 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		88349F20236E1B60002A1879 /* InitialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialViewController.xib; sourceTree = "<group>"; };
 		88349F24236E20CF002A1879 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		88349F26236EFFC6002A1879 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
-		88349F27236EFFC6002A1879 /* RegistrationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationViewController.xib; sourceTree = "<group>"; };
 		88349F2B236F7145002A1879 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		88349F322370302E002A1879 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
 		88349F342370388C002A1879 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -703,8 +703,8 @@
 		88349F2A236EFFD4002A1879 /* RegistrationVC */ = {
 			isa = PBXGroup;
 			children = (
-				88349F26236EFFC6002A1879 /* RegistrationViewController.swift */,
-				88349F27236EFFC6002A1879 /* RegistrationViewController.xib */,
+				88056E5B24718FA400F0D90F /* RegistrationViewController.swift */,
+				88056E5D2471903000F0D90F /* RegistrationViewModel.swift */,
 			);
 			path = RegistrationVC;
 			sourceTree = "<group>";
@@ -1094,7 +1094,6 @@
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
-				88349F29236EFFC6002A1879 /* RegistrationViewController.xib in Resources */,
 				882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
@@ -1271,13 +1270,13 @@
 				88D9AB45247063E9007716E6 /* LDError.swift in Sources */,
 				881AC72E245218750055F120 /* ImageHelper.swift in Sources */,
 				885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */,
+				88056E5C24718FA400F0D90F /* RegistrationViewController.swift in Sources */,
 				880B134F23737700003E29AC /* UserCell.swift in Sources */,
 				8827BB2A23F875B600DEDC39 /* SFSafariViewController.swift in Sources */,
 				88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */,
 				88E203C523D33C6200514972 /* EventInputView.swift in Sources */,
 				882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */,
 				B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */,
-				88349F28236EFFC6002A1879 /* RegistrationViewController.swift in Sources */,
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,
@@ -1301,6 +1300,7 @@
 				884CE1CB2466DE30001062BF /* RecipeCreationViewModel.swift in Sources */,
 				880B135C2374758F003E29AC /* TaskExtension.swift in Sources */,
 				88D9AB33246B19DD007716E6 /* EventDescriptionViewModel.swift in Sources */,
+				88056E5E2471903000F0D90F /* RegistrationViewModel.swift in Sources */,
 				B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */,
 				88349F332370302E002A1879 /* DatePicker.swift in Sources */,
 				885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */,

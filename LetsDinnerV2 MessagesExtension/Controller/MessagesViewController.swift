@@ -408,12 +408,9 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        isProgressBarVCInitiated = false
-        // Visually correct but have extra layers
-        
-        let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
-        controller.previousStep = previousStep
-        controller.delegate = self
+        let controller = RegistrationViewController(viewModel: RegistrationViewModel(),
+                                                       previousStep: previousStep,
+                                                       delegate: self)
         return controller
     }
     
@@ -526,7 +523,7 @@ extension MessagesViewController: IdleViewControllerDelegate {
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
-    func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking) {
+    func registrationVCDidTapSaveButton(previousStep: StepTracking) {
         guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         if previousStep == .newEventVC {
             StepStatus.currentStep = .newEventVC
@@ -540,7 +537,7 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
         presentViewController(for: conversation, with: .expanded)
     }
     
-    func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
+    func registrationVCDidTapCancelButton() {
         newNameRequested = false
         requestPresentationStyle(.compact)
     }
