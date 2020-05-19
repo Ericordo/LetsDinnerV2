@@ -451,8 +451,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateExpiredEventViewController() -> UIViewController {
-        let controller = ExpiredEventViewController(nibName: VCNibs.expiredEventViewController, bundle: nil)
-        controller.delegate = self
+        let controller = ExpiredEventViewController(delegate: self)
         return controller
     }
     
@@ -702,7 +701,7 @@ extension MessagesViewController: EventInfoViewControllerDelegate {
 }
 
 extension MessagesViewController: ExpiredEventViewControllerDelegate {
-    func expiredEventVCDidTapCreateNewEvent(controller: ExpiredEventViewController) {
+    func expiredEventVCDidTapCreateNewEvent() {
         Event.shared.resetEvent()
         let controller = instantiateNewEventViewController()
         removeViewController()

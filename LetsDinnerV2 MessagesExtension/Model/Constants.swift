@@ -16,7 +16,6 @@ enum VCNibs {
     static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
     static let eventInfoViewController = "EventInfoViewController"
-    static let expiredEventViewController = "ExpiredEventViewController"
     static let recipeCreationViewController = "RecipeCreationViewController"
     static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
 }
@@ -259,6 +258,9 @@ enum LabelStrings {
     static let thankYouDescriptionPartOne = NSLocalizedString("Let’s Dinner! was created with a lot of love and care. It means the world to us that you purchased Let’s Dinner Pro! We hope that you’re happy with your new app and can put it to good use.", comment: "Thank you Description Part 1")
     static let thankYouDescriptionPartTwo = NSLocalizedString("With your one time purchase you help to keep our costs down and ensure future development.", comment: "Thank you Description Part 2")
     static let okLetsDinner = "Ok, Let's Dinner!"
+    
+    //ExpiredEventVC
+    static let createNewEvent = NSLocalizedString("Create a new Event", comment: "create a new event")
 }
 
 enum Images {
@@ -300,6 +302,12 @@ enum Images {
     
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
+    
+    //TaskStatusButton
+    static let checkboxOutlined = UIImage(named: "checkboxOutlined")!
+    static let assignedImage = UIImage(named: "checkboxAssignedOutlined")!
+    static let completedImage = UIImage(named: "checkboxAssignedCompleted")!
+    static let completedByOtherImage = UIImage(named: "checkBoxCompleted")!
 }
 
 enum DataKeys {

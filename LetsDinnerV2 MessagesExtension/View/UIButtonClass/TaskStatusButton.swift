@@ -9,11 +9,11 @@
 import UIKit
 
 class TaskStatusButton: UIButton {
-    let unassignedImage = UIImage(named: "checkboxOutlined")
-    let assignedImage = UIImage(named: "checkboxAssignedOutlined")
-    let completedImage = UIImage(named: "checkboxAssignedCompleted")
-    let completedByOtherImage = UIImage(named: "checkBoxCompleted")
-
+    let unassignedImage = Images.checkboxOutlined
+    let assignedImage = Images.assignedImage
+    let completedImage = Images.completedImage
+    let completedByOtherImage = Images.completedByOtherImage
+        
     func setState(state: TaskState) {
         switch state {
         case .unassigned:
@@ -25,7 +25,6 @@ class TaskStatusButton: UIButton {
         }
     }
     
-    
     func setColorAttributes(ownedByUser: Bool, taskState: TaskState) {
         if taskState == .completed {
             switch ownedByUser {
@@ -36,7 +35,5 @@ class TaskStatusButton: UIButton {
             }
         }
     }
-    
-    
 }
 

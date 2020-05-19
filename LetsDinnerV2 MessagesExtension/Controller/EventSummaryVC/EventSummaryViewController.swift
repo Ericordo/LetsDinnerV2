@@ -38,7 +38,6 @@ class EventSummaryViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))
         tableView.backgroundColor = .backgroundColor
         tableView.showsVerticalScrollIndicator = false
-        tableView.showsVerticalScrollIndicator = false
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 33, bottom: 0, right: 0)
         tableView.separatorColor = .cellSeparatorLine
         tableView.isHidden = true
