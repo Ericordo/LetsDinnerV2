@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import ReactiveSwift
 
 
 class ImageHelper {
@@ -18,32 +19,25 @@ class ImageHelper {
     
     private let storage = Storage.storage().reference()
     
-    func saveUserPicToFirebase(_ image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
-        
-        let storageRef = storage.child(DataKeys.profilePictures).child(UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString)
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpg"
-        
-        storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
-            if error != nil {
-                DispatchQueue.main.async {
-                    completion(.failure(error!))
-                }
-            }
-            storageRef.downloadURL { (url, error ) in
+    func saveUserPicToFirebase(_ imageData: Data) -> SignalProducer<String, LDError> {
+        return SignalProducer { observer, _ in
+            let storageRef = self.storage.child(DataKeys.profilePictures).child(Event.shared.currentUser?.identifier ?? UUID().uuidString)
+            
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpg"
+            
+            storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
                 if error != nil {
-                    DispatchQueue.main.async {
-                        completion(.failure(error!))
-                    }
+                    observer.send(error: .profilePicUploadFail)
                 }
-                if let downloadUrl = url?.absoluteString {
-                    DispatchQueue.main.async {
-                        completion(.success(downloadUrl))
+                storageRef.downloadURL { (url, error ) in
+                    if error != nil {
+                        observer.send(error: .profilePicUploadFail)
                     }
-                    
+                    if let downloadUrl = url?.absoluteString {
+                        observer.send(value: (downloadUrl))
+                        observer.sendCompleted()
+                    }
                 }
             }
         }
@@ -81,6 +75,15 @@ class ImageHelper {
     }
     
     #warning("To implement")
-    func deleteUserPicOnFirebase() {}
+    func deleteUserPicOnFirebase() {
+        let reference = storage.child(DataKeys.profilePictures).child(Event.shared.currentUser?.identifier ?? UUID().uuidString)
+        
+        reference.delete { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func updateUserPicOnFirebase() {}
 }

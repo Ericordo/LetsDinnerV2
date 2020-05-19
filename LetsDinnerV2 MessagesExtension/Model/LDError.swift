@@ -13,4 +13,23 @@ enum LDError : Error {
     case eventUploadFail
     case parsingFail
     case eventFetchingFail
+    case profilePicUploadFail
+}
+
+#warning("Write descriptions")
+extension LDError {
+    var description : String {
+        switch self {
+        case .noUserIdentifier:
+            return ""
+        case .eventUploadFail:
+            return ""
+        case .parsingFail:
+            return ""
+        case .eventFetchingFail:
+            return ""
+        case .profilePicUploadFail:
+            return ""
+        }
+    }
 }
