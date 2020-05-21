@@ -34,11 +34,7 @@ class ManagementViewController: LDNavigationViewController {
         return button
     }()
     
-    private let servingsView : UIView = {
-        let view = UIView()
-        return view
-        
-    }()
+    private let servingsView = UIView()
     
     private let servingsLabel: UILabel = {
         let label = UILabel()
@@ -66,7 +62,6 @@ class ManagementViewController: LDNavigationViewController {
         view.alpha = 0.9
         view.backgroundColor = UIColor(named: "bottomViewColor")
         return view
-        
     }()
     
     private lazy var footerView : UIView = {
@@ -271,7 +266,7 @@ class ManagementViewController: LDNavigationViewController {
         }
         
         servingsStepper.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-18)
+            make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
         }
         

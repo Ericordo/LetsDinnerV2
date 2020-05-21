@@ -32,7 +32,6 @@ class ManagementViewModel {
             .take(duringLifetimeOf: self)
             .startWithValues { [weak self] servings in
                 guard let self = self else { return }
-                print("update")
                 self.updateServings(servings: servings)
         }
     }

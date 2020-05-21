@@ -11,6 +11,23 @@ import Foundation
 
 class PrimaryButton: UIButton {
     #warning("make sure all these buttons are actually using this subclass")
+    override var isEnabled: Bool {
+        didSet{
+            if isEnabled {
+                self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+            } else {
+                if self.layer.sublayers != nil {
+                    for layer in self.layer.sublayers! {
+                        if layer.name == "GradientLayer" {
+                            layer.removeFromSuperlayer()
+                        }
+                    }
+                }
+                self.backgroundColor = .secondaryButtonBackground
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -23,7 +40,9 @@ class PrimaryButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        if isEnabled {
+            self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        }
     }
     
     private func setup() {
