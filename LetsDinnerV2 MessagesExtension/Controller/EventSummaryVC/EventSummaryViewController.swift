@@ -131,6 +131,18 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.isHidden = false
     }
     
+    private func addToCalendarAndAccept() {
+        let title = Event.shared.dinnerName
+        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+        let location = Event.shared.dinnerLocation
+        CalendarManager.shared.addEventToCalendar(view: self,
+                                           with: title,
+                                           forDate: date,
+                                           location: location)
+        
+        self.didTapAccept()
+    }
+    
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
@@ -411,7 +423,7 @@ extension EventSummaryViewController: AnswerCellDelegate {
                                       handler: { (_) in self.didTapAccept()}))
         alert.addAction(UIAlertAction(title: "Add",
                                       style: UIAlertAction.Style.default,
-                                      handler: { (_) in self.calendarCellDidTapCalendarButton()}))
+                                      handler: { (_) in self.addToCalendarAndAccept()}))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -431,22 +443,6 @@ extension EventSummaryViewController: AnswerCellDelegate {
                                       style: UIAlertAction.Style.cancel,
                                       handler: nil ))
         self.present(alert, animated: true, completion: nil)
-    }
-}
-
-// MARK: - Calendar Cell Delegate
-
-extension EventSummaryViewController: CalendarCellDelegate {
-    func calendarCellDidTapCalendarButton() {
-        let title = Event.shared.dinnerName
-        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-        let location = Event.shared.dinnerLocation
-        calendarManager.addEventToCalendar(view: self,
-                                           with: title,
-                                           forDate: date,
-                                           location: location)
-        
-        self.didTapAccept()
     }
 }
 

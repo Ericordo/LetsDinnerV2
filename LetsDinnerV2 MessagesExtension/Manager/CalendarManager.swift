@@ -9,14 +9,11 @@
 import UIKit
 import EventKit
 
-let calendarManager = CalendarManager.sharedInstance
-private var _SingletonSharedInstance =  CalendarManager()
-
 class CalendarManager {
     
-    public class var sharedInstance : CalendarManager {
-        return _SingletonSharedInstance
-    }
+    static let shared = CalendarManager()
+    
+    private init() {}
     
     let store = EKEventStore()
     

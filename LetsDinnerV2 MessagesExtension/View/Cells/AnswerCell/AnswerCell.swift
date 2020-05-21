@@ -30,7 +30,7 @@ class AnswerCell: UITableViewCell {
         super.awakeFromNib()
         
         self.backgroundColor = .backgroundColor
-        self.configueUI()
+        self.configureUI()
 
         NotificationCenter.default.addObserver(self, selector: #selector(animateDecline), name: Notification.Name(rawValue: "TappedDecline"), object: nil)
     }
@@ -40,7 +40,7 @@ class AnswerCell: UITableViewCell {
 
     }
     
-    private func configueUI() {
+    private func configureUI() {
         
         invitationLabel.text = LabelStrings.invitationText
         

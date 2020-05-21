@@ -73,7 +73,7 @@ class SecondaryButton: UIButton {
         layer.masksToBounds = true
         layer.cornerRadius = 8.0
         backgroundColor = UIColor.secondaryButtonBackground
-        titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         setTitleColor(.textLabel, for: .normal)
     }
 }

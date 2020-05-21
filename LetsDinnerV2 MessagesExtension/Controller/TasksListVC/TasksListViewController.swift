@@ -197,6 +197,7 @@ class TasksListViewController: LDNavigationViewController {
         navigationBar.nextButton.setTitle("", for: .normal)
         navigationBar.titleLabel.text = LabelStrings.manageThings
         navigationBar.previousButton.setTitle(LabelStrings.back, for: .normal)
+        navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
         view.addSubview(submitButton)
         view.addSubview(navigationSeparator)
         view.addSubview(alertBanner)

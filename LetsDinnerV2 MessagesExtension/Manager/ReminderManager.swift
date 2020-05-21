@@ -9,14 +9,11 @@
 import EventKit
 import UIKit
 
-let reminderManager = ReminderManager.sharedInstance
-private var _SingletonSharedInstance =  ReminderManager()
-
 class ReminderManager {
+
+    static let shared = ReminderManager()
     
-    public class var sharedInstance : ReminderManager {
-        return _SingletonSharedInstance
-    }
+    private init() {}
     
     let reminderStore = EKEventStore()
     let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
