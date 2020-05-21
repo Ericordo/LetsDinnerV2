@@ -40,7 +40,7 @@ class EventDescriptionViewController: LDNavigationViewController {
         let label = UILabel()
         label.textColor = Colors.dullGrey
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        label.text = LabelStrings.whatsThePlan
+        label.text = LabelStrings.whatsThePlan.uppercased()
         return label
     }()
     

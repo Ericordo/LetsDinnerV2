@@ -1,5 +1,5 @@
 //
-//  NewNewEventViewController.swift
+//  NewEventViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
 //  Created by Eric Ordonneau on 10/05/2020.

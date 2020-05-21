@@ -460,8 +460,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateEventInfoViewController() -> UIViewController {
-        let controller = EventInfoViewController(nibName: VCNibs.eventInfoViewController, bundle: nil)
-        controller.delegate = self
+        let controller = EventInfoViewController(delegate: self)
         return controller
     }
     
@@ -704,7 +703,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
 }
 
 extension MessagesViewController: EventInfoViewControllerDelegate {
-    func eventInfoVCDidTapBackButton(controller: EventInfoViewController) {
+    func eventInfoVCDidTapBackButton() {
         let controller = instantiateEventSummaryViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)

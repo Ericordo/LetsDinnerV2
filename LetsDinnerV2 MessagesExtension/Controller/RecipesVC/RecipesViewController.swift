@@ -81,9 +81,8 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            // Make with completion block? 
             self.viewModel.prepareTasks()
-            // To avoid blinking glitch, check on real device
+            #warning("To avoid glitching during transition, check on real device if really necessary")
             self.toolbar.removeFromSuperview()
             self.delegate?.recipeVCDidTapNext()
         }

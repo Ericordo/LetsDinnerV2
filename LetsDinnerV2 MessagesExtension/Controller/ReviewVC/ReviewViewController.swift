@@ -42,13 +42,13 @@ class ReviewViewController: UIViewController {
         sv.alignment = .fill
         sv.axis = .horizontal
         sv.distribution = .fillEqually
-        sv.spacing = 32
+        sv.spacing = 15
         return sv
     }()
     
     private let editButton : SecondaryButton = {
         let button = SecondaryButton()
-        button.setTitle(LabelStrings.back, for: .normal)
+        button.setTitle(LabelStrings.edit, for: .normal)
         return button
     }()
     
@@ -211,6 +211,7 @@ class ReviewViewController: UIViewController {
     }
     
     private func showCalendarAlert() {
+        #warning("It seems that if you press don't allow access to calendar once, and then send a new event later and tap on add to calendar, the alert to ask for persmission will not be displayed and the event not added to calendar")
         let alert = UIAlertController(title: AlertStrings.addToCalendarAlertTitle,
                                       message: AlertStrings.addToCalendarAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
@@ -228,7 +229,7 @@ class ReviewViewController: UIViewController {
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation
         
-        calendarManager.addEventToCalendar(view: self,
+        CalendarManager.shared.addEventToCalendar(view: self,
                                            with: title,
                                            forDate: date,
                                            location: location)
@@ -245,7 +246,6 @@ class ReviewViewController: UIViewController {
         buttonStackView.addArrangedSubview(sendButton)
         headerView.addSubview(separator)
         view.addSubview(summaryTableView)
-        
         addConstraints()
     }
     
@@ -269,8 +269,8 @@ class ReviewViewController: UIViewController {
         
         topLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(220)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
         }
         
         summaryTableView.snp.makeConstraints { make in
