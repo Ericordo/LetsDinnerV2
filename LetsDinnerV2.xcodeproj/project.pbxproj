@@ -13,6 +13,10 @@
 		88056E5C24718FA400F0D90F /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E5B24718FA400F0D90F /* RegistrationViewController.swift */; };
 		88056E5E2471903000F0D90F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E5D2471903000F0D90F /* RegistrationViewModel.swift */; };
 		88056E622474400400F0D90F /* ExpiredEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E612474400400F0D90F /* ExpiredEventViewController.swift */; };
+		88056E66247460DA00F0D90F /* TasksListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E65247460DA00F0D90F /* TasksListViewModel.swift */; };
+		88056E68247460EA00F0D90F /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E67247460EA00F0D90F /* TasksListViewController.swift */; };
+		88056E6C2475335B00F0D90F /* LDAlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E6B2475335B00F0D90F /* LDAlertBanner.swift */; };
+		88056E6E24758BFE00F0D90F /* LDServingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E6D24758BFE00F0D90F /* LDServingsView.swift */; };
 		880B13312372FA08003E29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13302372FA08003E29AC /* User.swift */; };
 		880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133323736D5C003E29AC /* EventSummaryViewController.swift */; };
 		880B133F237376C7003E29AC /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133D237376C7003E29AC /* AnswerCell.swift */; };
@@ -35,8 +39,6 @@
 		880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B135F2374B08A003E29AC /* TaskCVCell.xib */; };
 		880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13622374B37A003E29AC /* TaskStatusButton.swift */; };
 		880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13642374B3F2003E29AC /* TaskPersonLabel.swift */; };
-		880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13672374BE0D003E29AC /* TasksListViewController.swift */; };
-		880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B13682374BE0D003E29AC /* TasksListViewController.xib */; };
 		880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B136C2374C6C7003E29AC /* TaskCell.swift */; };
 		880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B136D2374C6C7003E29AC /* TaskCell.xib */; };
 		880B137323757224003E29AC /* UserCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B137123757224003E29AC /* UserCVCell.swift */; };
@@ -204,6 +206,10 @@
 		88056E5B24718FA400F0D90F /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		88056E5D2471903000F0D90F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		88056E612474400400F0D90F /* ExpiredEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredEventViewController.swift; sourceTree = "<group>"; };
+		88056E65247460DA00F0D90F /* TasksListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewModel.swift; sourceTree = "<group>"; };
+		88056E67247460EA00F0D90F /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
+		88056E6B2475335B00F0D90F /* LDAlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDAlertBanner.swift; sourceTree = "<group>"; };
+		88056E6D24758BFE00F0D90F /* LDServingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDServingsView.swift; sourceTree = "<group>"; };
 		880B13302372FA08003E29AC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		880B133323736D5C003E29AC /* EventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
 		880B133D237376C7003E29AC /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
@@ -226,8 +232,6 @@
 		880B135F2374B08A003E29AC /* TaskCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskCVCell.xib; sourceTree = "<group>"; };
 		880B13622374B37A003E29AC /* TaskStatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatusButton.swift; sourceTree = "<group>"; };
 		880B13642374B3F2003E29AC /* TaskPersonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPersonLabel.swift; sourceTree = "<group>"; };
-		880B13672374BE0D003E29AC /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
-		880B13682374BE0D003E29AC /* TasksListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksListViewController.xib; sourceTree = "<group>"; };
 		880B136C2374C6C7003E29AC /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		880B136D2374C6C7003E29AC /* TaskCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskCell.xib; sourceTree = "<group>"; };
 		880B137123757224003E29AC /* UserCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCVCell.swift; sourceTree = "<group>"; };
@@ -493,8 +497,8 @@
 		880B13662374BDAE003E29AC /* TasksListVC */ = {
 			isa = PBXGroup;
 			children = (
-				880B13672374BE0D003E29AC /* TasksListViewController.swift */,
-				880B13682374BE0D003E29AC /* TasksListViewController.xib */,
+				88056E65247460DA00F0D90F /* TasksListViewModel.swift */,
+				88056E67247460EA00F0D90F /* TasksListViewController.swift */,
 			);
 			path = TasksListVC;
 			sourceTree = "<group>";
@@ -904,6 +908,8 @@
 				884CE1B3245ED52C001062BF /* LDNavBar.swift */,
 				884CE1BB24608799001062BF /* RecipesToolbar.swift */,
 				884CE1BF24614151001062BF /* LDLoadingView.swift */,
+				88056E6B2475335B00F0D90F /* LDAlertBanner.swift */,
+				88056E6D24758BFE00F0D90F /* LDServingsView.swift */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1079,7 +1085,6 @@
 				886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */,
 				88C95B3423986413000E750A /* RecipeCreationViewController.xib in Resources */,
 				B87C106524126B39004AD951 /* SelectedRecipesViewController.xib in Resources */,
-				880B136A2374BE0D003E29AC /* TasksListViewController.xib in Resources */,
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
@@ -1227,6 +1232,7 @@
 				B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */,
 				B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */,
 				885133B3243283AF004CD858 /* SendAction.swift in Sources */,
+				88056E66247460DA00F0D90F /* TasksListViewModel.swift in Sources */,
 				88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */,
 				8851335D24215A27004CD858 /* WelcomeViewController.swift in Sources */,
 				B842CE3C241A03F000380229 /* CustomSafariVC.swift in Sources */,
@@ -1276,7 +1282,6 @@
 				B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */,
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
-				880B13692374BE0D003E29AC /* TasksListViewController.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
 				B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */,
 				B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */,
@@ -1305,6 +1310,9 @@
 				88C95B3323986413000E750A /* RecipeCreationViewController.swift in Sources */,
 				880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */,
 				884CE1B0245ED1A6001062BF /* RecipesViewController.swift in Sources */,
+				88056E6E24758BFE00F0D90F /* LDServingsView.swift in Sources */,
+				88056E6C2475335B00F0D90F /* LDAlertBanner.swift in Sources */,
+				88056E68247460EA00F0D90F /* TasksListViewController.swift in Sources */,
 				880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */,
 				884CE1BC24608799001062BF /* RecipesToolbar.swift in Sources */,
 				88E5B0BE2437C06700D519E2 /* PremiumViewController.swift in Sources */,

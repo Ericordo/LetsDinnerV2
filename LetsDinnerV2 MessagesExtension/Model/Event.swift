@@ -51,8 +51,12 @@ class Event {
     // Helpful variable
     var hostIsRegistered = false
     var statusNeedUpdate = false
-    var tasksNeedUpdate = false
-    var servingsNeedUpdate = false
+    var tasksNeedUpdate : Bool {
+        return !tasks.difference(from: currentConversationTaskStates).isEmpty
+    }
+    var servingsNeedUpdate : Bool {
+        return servings != currentConversationServings
+    }
     
     var servings = 2
     var currentConversationServings = 2
@@ -63,9 +67,10 @@ class Event {
     
     var isAllTasksCompleted = false
     var isCancelled = false
-    var isSyncAlertShownInTaskListVC = false
+    var shouldShowSyncAlert = false
     
     var localEventId = ""
+    var eventCreation = false
     
      private let database = Database.database().reference()
     // MARK: - Functions
@@ -86,12 +91,11 @@ class Event {
         participants.removeAll()
         hostIsRegistered = false
         statusNeedUpdate = false
-        tasksNeedUpdate = false
         servings = 2
         currentConversationServings = 2
-        servingsNeedUpdate = false
         isCancelled = false
-        isSyncAlertShownInTaskListVC = false
+        eventCreation = false
+        shouldShowSyncAlert = false
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {
@@ -509,27 +513,6 @@ class Event {
                                                      "profilePicUrl" : defaults.profilePicUrl]
         Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
         
-    }
-    
-    func getNumberOfOnlineUsers(completion: @escaping (Int) -> Void) {
-Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("onlineUsers").observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? Int else { return }
-            completion(value)
-        }
-    }
-    
-    func addOnlineUser() {
-        getNumberOfOnlineUsers { number in
-            let updatedOnlineUsers = number + 1
-            Database.database().reference().child(self.hostIdentifier).child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
-        }
-    }
-    
-    func removeOnlineUser() {
-        getNumberOfOnlineUsers { number in
-            let updatedOnlineUsers = number - 1
-            Database.database().reference().child(self.hostIdentifier).child("Events").child(self.firebaseEventUid).child("onlineUsers").setValue(updatedOnlineUsers)
-        }
     }
         
     // MARK: Recipe Managing Order (Local Algo)

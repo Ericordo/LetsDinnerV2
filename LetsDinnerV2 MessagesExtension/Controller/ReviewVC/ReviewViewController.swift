@@ -154,15 +154,10 @@ class ReviewViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        registerCell(CellNibs.titleCell)
-        registerCell(CellNibs.infoCell)
-        registerCell(CellNibs.descriptionCell)
-        registerCell(CellNibs.taskSummaryCell)
-    }
-    
-    private func registerCell(_ nibName: String) {
-        summaryTableView.register(UINib(nibName: nibName, bundle: nil),
-                                  forCellReuseIdentifier: nibName)
+        summaryTableView.registerCells(CellNibs.titleCell,
+                                       CellNibs.infoCell,
+                                       CellNibs.descriptionCell,
+                                       CellNibs.taskSummaryCell)
     }
     
     private func reviewBeforeSending() {

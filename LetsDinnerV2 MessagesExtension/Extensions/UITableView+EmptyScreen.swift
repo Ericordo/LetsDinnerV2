@@ -186,6 +186,10 @@ extension UITableView {
                self.deselectRow(at: indexPathForSelectedRow, animated: animated)
            }
        }
-    
-
+        
+    func registerCells(_ nibNames: String...) {
+        nibNames.forEach { nibName in
+            self.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+        }
+    }
 }

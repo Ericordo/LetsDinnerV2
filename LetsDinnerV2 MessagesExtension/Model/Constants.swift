@@ -13,7 +13,6 @@ let defaults = UserDefaults.standard
 enum VCNibs {
     static let initialViewController = "InitialViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
-    static let tasksListViewController = "TasksListViewController"
     static let idleViewController = "IdleViewController"
     static let eventInfoViewController = "EventInfoViewController"
     static let recipeCreationViewController = "RecipeCreationViewController"
@@ -93,11 +92,12 @@ enum AlertStrings {
     static let no = "No"
     
     // TaskListVC Alert
-    static let unsubmittedTasks = "Dismiss changes?"
-    static let submitQuestion = "You made changes in this list. Would you like to update it?"
-    static let synchTitle = "Things synchronisation"
-    static let synchMessage = "Changes made, can end up unsaved. Whoiever updates first, saves their changes."
-    static let update = "Update"
+    static let unsubmittedTasks = NSLocalizedString("Dismiss changes?", comment: "dismiss changes?")
+    static let submitQuestion = NSLocalizedString("You made changes in this list. Would you like to update it?", comment: "you made changes")
+    static let syncTitle = NSLocalizedString("Things synchronization", comment: "things synchronization")
+    static let syncMessage = NSLocalizedString("Changes made, can end up unsaved. Whoever updates first, saves their changes.", comment: "sync message")
+    static let update = NSLocalizedString("Update", comment: "update")
+    static let goodToKnow = NSLocalizedString("Good to know!", comment: "good to know")
     
     // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
@@ -216,6 +216,9 @@ enum LabelStrings {
     static let nothingToDoLabel = "Nope! Either, there is nothing to do or the host is handling everything 😬🙌"
     static let eventInfo = "Event Info"
     
+    // TasksListVC
+    static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now. Your choices may be overwritten, please come back later! 😬", comment: "multiple users checking")
+    
     // Reschedule
     static let rescheduleTitle = "Need to reschedule?"
     static let rescheduleText = "No problem, simply choose another date! 😅👌"
@@ -300,6 +303,9 @@ enum Images {
     // CustomRecipeDetailsVC
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
     
+    // TasksListVC
+    static let sortIcon = UIImage(named: "sortButtonOutlined")!
+    
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
     
@@ -339,8 +345,8 @@ enum DataKeys {
     static let state = "state"
     static let isCustom = "isCustom"
     static let parentRecipe = "parentRecipe"
-    static let metricUnit = "metricAmount"
-    static let metricAmount = "metricUnit"
+    static let metricUnit = "metricUnit"
+    static let metricAmount = "metricAmount"
     static let fullName = "fullName"
     static let hasAccepted = "hasAccepted"
     static let profilePicUrl = "profilePicUrl"

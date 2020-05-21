@@ -164,15 +164,14 @@ class MessagesViewController: MSMessagesAppViewController {
             Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
             Event.shared.statusNeedUpdate = false
         }
-        
-        // Call When update on tasklistVC
-        if Event.shared.tasksNeedUpdate {
-            // Need to identify all situation for using updateFireBaseTask
-            Event.shared.updateFirebaseTasks()
-        }
-        
-        if Event.shared.servingsNeedUpdate {
-            Event.shared.updateFirebaseServings()
+
+        if !Event.shared.eventCreation {
+            if Event.shared.servingsNeedUpdate {
+                Event.shared.updateFirebaseServings()
+                Event.shared.updateFirebaseTasks()
+            } else if Event.shared.tasksNeedUpdate {
+                Event.shared.updateFirebaseTasks()
+            }
         }
     }
     
@@ -456,8 +455,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateTasksListViewController() -> UIViewController {
-        let controller = TasksListViewController(nibName: VCNibs.tasksListViewController, bundle: nil)
-        controller.delegate = self
+        let controller = TasksListViewController(viewModel: TasksListViewModel(), delegate: self)
         return controller
     }
     
@@ -615,7 +613,10 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     func reviewVCDidTapSend() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         Event.shared.summary = "\(defaults.username) is inviting you to an event!"
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true, action: .createEvent)
+        Event.shared.eventCreation = true
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .createEvent)
         if Event.shared.firebaseEventUid == "error" {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UploadError"), object: nil)
         } else {
@@ -636,15 +637,20 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         Event.shared.cancelFirebaseEvent()
         Event.shared.summary = "\(defaults.username) canceled the event."
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .cancelEvent)
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .cancelEvent)
         sendMessageDirectly(message: message)
     }
     
     func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController) {
         Event.shared.updateFirebaseDate(date)
         Event.shared.summary = "\(defaults.username) changed the date!"
+        Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .rescheduleEvent)
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .rescheduleEvent)
         sendMessageDirectly(message: message)
     }
     
@@ -665,8 +671,11 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         
         Event.shared.currentUser?.hasAccepted = hasAccepted
         CloudManager.shared.saveUserInfoOnCloud(hasAccepted.rawValue, key: Event.shared.localEventId)
+        Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .answerInvitation)
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .answerInvitation)
         sendMessage(message: message)
     }
     
@@ -678,15 +687,18 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
 }
 
 extension MessagesViewController: TasksListViewControllerDelegate {
-    func tasksListVCDidTapBackButton(controller: TasksListViewController) {
+    func tasksListVCDidTapBackButton() {
         let controller = instantiateEventSummaryViewController()
               removeViewController(transition: .VCGoBack)
               addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    func tasksListVCDidTapSubmit(controller: TasksListViewController) {
+    func tasksListVCDidTapSubmit() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .updateTasks)
+        Event.shared.eventCreation = false
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .updateTasks)
         sendMessage(message: message)
     }
 }

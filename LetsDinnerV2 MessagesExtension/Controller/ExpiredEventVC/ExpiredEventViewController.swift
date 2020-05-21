@@ -78,13 +78,9 @@ class ExpiredEventViewController: UIViewController {
     private func setupTableView() {
         expiredEventTableView.delegate = self
         expiredEventTableView.dataSource = self
-        registerCell(CellNibs.titleCell)
-        registerCell(CellNibs.infoCell)
-        registerCell(CellNibs.expiredEventCell)
-    }
-    
-    func registerCell(_ nibName: String) {
-        expiredEventTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+        expiredEventTableView.registerCells(CellNibs.titleCell,
+                                            CellNibs.infoCell,
+                                            CellNibs.expiredEventCell)
     }
     
     private func addConstraints() {

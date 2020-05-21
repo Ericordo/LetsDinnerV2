@@ -79,7 +79,6 @@ class EventSummaryViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        registerCells()
         configureGestureRecognizers()
         bindViewModel()
     }
@@ -135,28 +134,21 @@ class EventSummaryViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
+        summaryTableView.registerCells(CellNibs.titleCell,
+                                       CellNibs.answerCell,
+                                       CellNibs.answerDeclinedCell,
+                                       CellNibs.answerAcceptedCell,
+                                       CellNibs.infoCell,
+                                       CellNibs.descriptionCell,
+                                       CellNibs.taskSummaryCell,
+                                       CellNibs.userCell,
+                                       CellNibs.cancelCell)
         
 //        if !Event.shared.participants.isEmpty {
 //            summaryTableView.isHidden = false
 //        }
     }
-    
-    func registerCells() {
-        func registerCell(_ nibName: String) {
-            summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
-        }
         
-        registerCell(CellNibs.titleCell)
-        registerCell(CellNibs.answerCell)
-        registerCell(CellNibs.answerDeclinedCell)
-        registerCell(CellNibs.answerAcceptedCell)
-        registerCell(CellNibs.infoCell)
-        registerCell(CellNibs.descriptionCell)
-        registerCell(CellNibs.taskSummaryCell)
-        registerCell(CellNibs.userCell)
-        registerCell(CellNibs.cancelCell)
-    }
-    
     private func setupUI() {
         view.backgroundColor = .backgroundColor
         view.addSubview(summaryTableView)
