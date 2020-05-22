@@ -400,8 +400,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateIdleViewController() -> UIViewController {
-        let controller = IdleViewController(nibName: VCNibs.idleViewController, bundle: nil)
-        controller.delegate = self
+        let controller = IdleViewController(delegate: self)
         return controller
     }
     
@@ -500,18 +499,18 @@ extension MessagesViewController: InitialViewControllerDelegate {
 }
 
 extension MessagesViewController: IdleViewControllerDelegate {
-    func idleVCDidTapContinue(controller: IdleViewController) {
+    func idleVCDidTapContinue() {
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapNewDinner(controller: IdleViewController) {
+    func idleVCDidTapNewDinner() {
         Event.shared.resetEvent()
         activeConversation?.selectedMessage?.url = nil
         StepStatus.currentStep = .newEventVC
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapProfileButton(controller: IdleViewController) {
+    func idleVCDidTapProfileButton() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
