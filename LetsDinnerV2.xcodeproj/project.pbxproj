@@ -18,6 +18,8 @@
 		88056E6C2475335B00F0D90F /* LDAlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E6B2475335B00F0D90F /* LDAlertBanner.swift */; };
 		88056E6E24758BFE00F0D90F /* LDServingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E6D24758BFE00F0D90F /* LDServingsView.swift */; };
 		88056E74247719E300F0D90F /* EventInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E73247719E300F0D90F /* EventInfoViewController.swift */; };
+		88056E782477A9A900F0D90F /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E772477A9A900F0D90F /* InitialViewController.swift */; };
+		88056E7C2477C97F00F0D90F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E7B2477C97F00F0D90F /* IdleViewController.swift */; };
 		880B13312372FA08003E29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13302372FA08003E29AC /* User.swift */; };
 		880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133323736D5C003E29AC /* EventSummaryViewController.swift */; };
 		880B133F237376C7003E29AC /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133D237376C7003E29AC /* AnswerCell.swift */; };
@@ -53,16 +55,12 @@
 		8827BB2A23F875B600DEDC39 /* SFSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */; };
 		882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC523998738001634D9 /* CustomRecipe.swift */; };
 		882B9CC82399A0BD001634D9 /* CustomIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B9CC72399A0BD001634D9 /* CustomIngredient.swift */; };
-		882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882C4C17237AEA900039B55F /* IdleViewController.swift */; };
-		882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 882C4C18237AEA900039B55F /* IdleViewController.xib */; };
 		88349EFA236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349EF9236DE9FC002A1879 /* Assets.xcassets */; };
 		88349F01236DE9FC002A1879 /* Let's Dinner!.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 88349F00236DE9FC002A1879 /* Let's Dinner!.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F08236DE9FC002A1879 /* MessagesViewController.swift */; };
 		88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0A236DE9FC002A1879 /* MainInterface.storyboard */; };
 		88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0D236DE9FC002A1879 /* Assets.xcassets */; };
 		88349F1D236DEF15002A1879 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1C236DEF15002A1879 /* Constants.swift */; };
-		88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1F236E1B60002A1879 /* InitialViewController.swift */; };
-		88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F20236E1B60002A1879 /* InitialViewController.xib */; };
 		88349F25236E20CF002A1879 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F24236E20CF002A1879 /* UIView.swift */; };
 		88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2B236F7145002A1879 /* UserDefaults.swift */; };
 		88349F332370302E002A1879 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F322370302E002A1879 /* DatePicker.swift */; };
@@ -208,6 +206,8 @@
 		88056E6B2475335B00F0D90F /* LDAlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDAlertBanner.swift; sourceTree = "<group>"; };
 		88056E6D24758BFE00F0D90F /* LDServingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDServingsView.swift; sourceTree = "<group>"; };
 		88056E73247719E300F0D90F /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
+		88056E772477A9A900F0D90F /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		88056E7B2477C97F00F0D90F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
 		880B13302372FA08003E29AC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		880B133323736D5C003E29AC /* EventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
 		880B133D237376C7003E29AC /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
@@ -244,8 +244,6 @@
 		8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariViewController.swift; sourceTree = "<group>"; };
 		882B9CC523998738001634D9 /* CustomRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecipe.swift; sourceTree = "<group>"; };
 		882B9CC72399A0BD001634D9 /* CustomIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIngredient.swift; sourceTree = "<group>"; };
-		882C4C17237AEA900039B55F /* IdleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleViewController.swift; sourceTree = "<group>"; };
-		882C4C18237AEA900039B55F /* IdleViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IdleViewController.xib; sourceTree = "<group>"; };
 		88349EF6236DE9FB002A1879 /* Let's Dinner!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Dinner!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88349EF9236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349EFB236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -256,8 +254,6 @@
 		88349F0D236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349F0F236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88349F1C236DEF15002A1879 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		88349F1F236E1B60002A1879 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
-		88349F20236E1B60002A1879 /* InitialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialViewController.xib; sourceTree = "<group>"; };
 		88349F24236E20CF002A1879 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		88349F2B236F7145002A1879 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		88349F322370302E002A1879 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
@@ -518,8 +514,7 @@
 		882C4C14237AEA470039B55F /* IdleVC */ = {
 			isa = PBXGroup;
 			children = (
-				882C4C17237AEA900039B55F /* IdleViewController.swift */,
-				882C4C18237AEA900039B55F /* IdleViewController.xib */,
+				88056E7B2477C97F00F0D90F /* IdleViewController.swift */,
 			);
 			path = IdleVC;
 			sourceTree = "<group>";
@@ -680,8 +675,7 @@
 		88349F23236E1B67002A1879 /* InitialVC */ = {
 			isa = PBXGroup;
 			children = (
-				88349F1F236E1B60002A1879 /* InitialViewController.swift */,
-				88349F20236E1B60002A1879 /* InitialViewController.xib */,
+				88056E772477A9A900F0D90F /* InitialViewController.swift */,
 			);
 			path = InitialVC;
 			sourceTree = "<group>";
@@ -1077,7 +1071,6 @@
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
-				882C4C1A237AEA900039B55F /* IdleViewController.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
@@ -1086,7 +1079,6 @@
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
 				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
 				B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */,
-				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
 				88349F422370D10A002A1879 /* RecipeCell.xib in Resources */,
@@ -1221,12 +1213,12 @@
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
 				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,
+				88056E7C2477C97F00F0D90F /* IdleViewController.swift in Sources */,
 				88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */,
 				880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */,
 				884CE1C72465C50A001062BF /* CKRecipe.swift in Sources */,
 				885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */,
 				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
-				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
@@ -1239,7 +1231,6 @@
 				880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */,
 				88349F09236DE9FC002A1879 /* MessagesViewController.swift in Sources */,
 				B87C103A2403E607004AD951 /* UIViewController.swift in Sources */,
-				882C4C19237AEA900039B55F /* IdleViewController.swift in Sources */,
 				884CE1B6245ED5C7001062BF /* LDNavButton.swift in Sources */,
 				884CE1C32461FDF9001062BF /* LDRecipe.swift in Sources */,
 				3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */,
@@ -1320,6 +1311,7 @@
 				884CE1C52461FE02001062BF /* LDIngredient.swift in Sources */,
 				B85071D12391690600632026 /* TestManager.swift in Sources */,
 				884CE1BA246086CC001062BF /* RealmHelper.swift in Sources */,
+				88056E782477A9A900F0D90F /* InitialViewController.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,
 				88E5C52A2467F3E20060823B /* NewEventViewController.swift in Sources */,

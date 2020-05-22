@@ -395,14 +395,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateInitialViewController() -> UIViewController {
-        let controller = InitialViewController(nibName: VCNibs.initialViewController, bundle: nil)
-        controller.delegate = self
+        let controller = InitialViewController(delegate: self)
         return controller
     }
     
     private func instantiateIdleViewController() -> UIViewController {
-        let controller = IdleViewController(nibName: VCNibs.idleViewController, bundle: nil)
-        controller.delegate = self
+        let controller = IdleViewController(delegate: self)
         return controller
     }
     
@@ -488,31 +486,31 @@ class MessagesViewController: MSMessagesAppViewController {
 // MARK: Delegations
 
 extension MessagesViewController: InitialViewControllerDelegate {
-    func initialVCDidTapStartButton(controller: InitialViewController) {
+    func initialVCDidTapStartButton() {
         requestPresentationStyle(.expanded)
         activeConversation?.selectedMessage?.url = nil
         Event.shared.resetEvent()
     }
     
-    func initialVCDidTapInfoButton(controller: InitialViewController) {
+    func initialVCDidTapInfoButton() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
 }
 
 extension MessagesViewController: IdleViewControllerDelegate {
-    func idleVCDidTapContinue(controller: IdleViewController) {
+    func idleVCDidTapContinue() {
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapNewDinner(controller: IdleViewController) {
+    func idleVCDidTapNewDinner() {
         Event.shared.resetEvent()
         activeConversation?.selectedMessage?.url = nil
         StepStatus.currentStep = .newEventVC
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapProfileButton(controller: IdleViewController) {
+    func idleVCDidTapProfileButton() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
