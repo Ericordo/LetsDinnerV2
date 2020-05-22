@@ -11,7 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum VCNibs {
-    static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let recipeCreationViewController = "RecipeCreationViewController"
     static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
 }

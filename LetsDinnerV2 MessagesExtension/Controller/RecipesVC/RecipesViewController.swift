@@ -385,13 +385,6 @@ extension RecipesViewController: RecipeCellDelegate {
     }
 }
 
-    //MARK: RecipeDetailsVC Delegate
-extension RecipesViewController: RecipeDetailsViewControllerDelegate {
-    func recipeDetailsVCShouldDismiss(_ controller: RecipeDetailsViewController) {
-        updateState()
-    }
-}
-
     //MARK: CustomRecipeDetailsVCDelegate
 extension RecipesViewController: CustomRecipeDetailsVCDelegate {
     func customRecipeDetailsVCShouldDismiss() {

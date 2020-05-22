@@ -68,8 +68,6 @@
 		88349F412370D10A002A1879 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3F2370D10A002A1879 /* RecipeCell.swift */; };
 		88349F422370D10A002A1879 /* RecipeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F402370D10A002A1879 /* RecipeCell.xib */; };
 		883A29FA2371D15D0099ECDF /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 883A29F92371D15D0099ECDF /* Readme.md */; };
-		883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */; };
-		883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */; };
 		883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A052372E9910099ECDF /* GoogleService-Info.plist */; };
 		884CE1B0245ED1A6001062BF /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CE1AF245ED1A6001062BF /* RecipesViewController.swift */; };
 		884CE1B2245ED1E1001062BF /* RecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CE1B1245ED1E1001062BF /* RecipesViewModel.swift */; };
@@ -261,8 +259,6 @@
 		88349F3F2370D10A002A1879 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		88349F402370D10A002A1879 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
 		883A29F92371D15D0099ECDF /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
-		883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsViewController.swift; sourceTree = "<group>"; };
-		883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeDetailsViewController.xib; sourceTree = "<group>"; };
 		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		884CE1AF245ED1A6001062BF /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		884CE1B1245ED1E1001062BF /* RecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewModel.swift; sourceTree = "<group>"; };
@@ -632,7 +628,6 @@
 				88349F2A236EFFD4002A1879 /* RegistrationVC */,
 				88349F31236F7A22002A1879 /* NewEventVC */,
 				88349F362370439B002A1879 /* RecipesVC */,
-				883A29FB2371F4580099ECDF /* RecipeDetailsVC */,
 				B87C106624126B3E004AD951 /* SelectedRecipesVC */,
 				88C96504239A883100CFC710 /* CustomRecipeDetailsVC */,
 				88C95B30239863DD000E750A /* RecipeCreationVC */,
@@ -736,15 +731,6 @@
 				88349F402370D10A002A1879 /* RecipeCell.xib */,
 			);
 			path = RecipeCell;
-			sourceTree = "<group>";
-		};
-		883A29FB2371F4580099ECDF /* RecipeDetailsVC */ = {
-			isa = PBXGroup;
-			children = (
-				883A29FC2371F47B0099ECDF /* RecipeDetailsViewController.swift */,
-				883A29FD2371F47B0099ECDF /* RecipeDetailsViewController.xib */,
-			);
-			path = RecipeDetailsVC;
 			sourceTree = "<group>";
 		};
 		884CE1C12461FDE7001062BF /* RecipeModels */ = {
@@ -1072,7 +1058,6 @@
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
-				883A29FF2371F47B0099ECDF /* RecipeDetailsViewController.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				32603EB023F1BC4E00AB6B50 /* ExpiredEventCell.xib in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
@@ -1261,7 +1246,6 @@
 				886EB36C23DF77AE002CFCB5 /* RescheduleView.swift in Sources */,
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
-				883A29FE2371F47B0099ECDF /* RecipeDetailsViewController.swift in Sources */,
 				B87C106424126B39004AD951 /* SelectedRecipesViewController.swift in Sources */,
 				884CE1B4245ED52C001062BF /* LDNavBar.swift in Sources */,
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
