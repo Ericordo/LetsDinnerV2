@@ -18,6 +18,7 @@
 		88056E6C2475335B00F0D90F /* LDAlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E6B2475335B00F0D90F /* LDAlertBanner.swift */; };
 		88056E6E24758BFE00F0D90F /* LDServingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E6D24758BFE00F0D90F /* LDServingsView.swift */; };
 		88056E74247719E300F0D90F /* EventInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E73247719E300F0D90F /* EventInfoViewController.swift */; };
+		88056E782477A9A900F0D90F /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E772477A9A900F0D90F /* InitialViewController.swift */; };
 		880B13312372FA08003E29AC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13302372FA08003E29AC /* User.swift */; };
 		880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133323736D5C003E29AC /* EventSummaryViewController.swift */; };
 		880B133F237376C7003E29AC /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B133D237376C7003E29AC /* AnswerCell.swift */; };
@@ -61,8 +62,6 @@
 		88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0A236DE9FC002A1879 /* MainInterface.storyboard */; };
 		88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88349F0D236DE9FC002A1879 /* Assets.xcassets */; };
 		88349F1D236DEF15002A1879 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1C236DEF15002A1879 /* Constants.swift */; };
-		88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F1F236E1B60002A1879 /* InitialViewController.swift */; };
-		88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F20236E1B60002A1879 /* InitialViewController.xib */; };
 		88349F25236E20CF002A1879 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F24236E20CF002A1879 /* UIView.swift */; };
 		88349F2C236F7145002A1879 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F2B236F7145002A1879 /* UserDefaults.swift */; };
 		88349F332370302E002A1879 /* DatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F322370302E002A1879 /* DatePicker.swift */; };
@@ -208,6 +207,7 @@
 		88056E6B2475335B00F0D90F /* LDAlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDAlertBanner.swift; sourceTree = "<group>"; };
 		88056E6D24758BFE00F0D90F /* LDServingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDServingsView.swift; sourceTree = "<group>"; };
 		88056E73247719E300F0D90F /* EventInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoViewController.swift; sourceTree = "<group>"; };
+		88056E772477A9A900F0D90F /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		880B13302372FA08003E29AC /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		880B133323736D5C003E29AC /* EventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
 		880B133D237376C7003E29AC /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
@@ -256,8 +256,6 @@
 		88349F0D236DE9FC002A1879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88349F0F236DE9FC002A1879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88349F1C236DEF15002A1879 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		88349F1F236E1B60002A1879 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
-		88349F20236E1B60002A1879 /* InitialViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InitialViewController.xib; sourceTree = "<group>"; };
 		88349F24236E20CF002A1879 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		88349F2B236F7145002A1879 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		88349F322370302E002A1879 /* DatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePicker.swift; sourceTree = "<group>"; };
@@ -680,8 +678,7 @@
 		88349F23236E1B67002A1879 /* InitialVC */ = {
 			isa = PBXGroup;
 			children = (
-				88349F1F236E1B60002A1879 /* InitialViewController.swift */,
-				88349F20236E1B60002A1879 /* InitialViewController.xib */,
+				88056E772477A9A900F0D90F /* InitialViewController.swift */,
 			);
 			path = InitialVC;
 			sourceTree = "<group>";
@@ -1086,7 +1083,6 @@
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
 				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
 				B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */,
-				88349F22236E1B60002A1879 /* InitialViewController.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
 				88349F422370D10A002A1879 /* RecipeCell.xib in Resources */,
@@ -1226,7 +1222,6 @@
 				884CE1C72465C50A001062BF /* CKRecipe.swift in Sources */,
 				885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */,
 				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
-				88349F21236E1B60002A1879 /* InitialViewController.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
@@ -1320,6 +1315,7 @@
 				884CE1C52461FE02001062BF /* LDIngredient.swift in Sources */,
 				B85071D12391690600632026 /* TestManager.swift in Sources */,
 				884CE1BA246086CC001062BF /* RealmHelper.swift in Sources */,
+				88056E782477A9A900F0D90F /* InitialViewController.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
 				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,
 				88E5C52A2467F3E20060823B /* NewEventViewController.swift in Sources */,

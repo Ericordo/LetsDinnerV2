@@ -11,7 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum VCNibs {
-    static let initialViewController = "InitialViewController"
     static let recipeDetailsViewController = "RecipeDetailsViewController"
     static let idleViewController = "IdleViewController"
     static let recipeCreationViewController = "RecipeCreationViewController"
@@ -122,6 +121,9 @@ enum AlertStrings {
 
 enum LabelStrings {
     static let next = NSLocalizedString("Next", comment: "Next")
+    static let letsdinner = "Let's Dinner!"
+    static let letsdinnerSubtitle = NSLocalizedString("Organize an event and cook together.", comment: "lets dinner subtitle")
+    static let newEvent = NSLocalizedString("New Event", comment: "new event")
     
     // RegistrationVC
     static let getStarted = NSLocalizedString("Please enter your full name \n to get started.", comment: "enter full name")
@@ -275,6 +277,8 @@ enum LabelStrings {
 enum Images {
     
     static let chevronLeft = UIImage(named: "chevronLeft")
+    static let settings = UIImage(named: "settingsButtonOutlinedWhite")
+    static let logo = UIImage(named: "appIconWhite")
     // Welcome Screen
     static let chatIcon = UIImage(named: "chatIcon")!
     static let inviteIcon = UIImage(named: "inviteIcon")!

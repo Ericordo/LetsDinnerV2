@@ -395,8 +395,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateInitialViewController() -> UIViewController {
-        let controller = InitialViewController(nibName: VCNibs.initialViewController, bundle: nil)
-        controller.delegate = self
+        let controller = InitialViewController(delegate: self)
         return controller
     }
     
@@ -488,13 +487,13 @@ class MessagesViewController: MSMessagesAppViewController {
 // MARK: Delegations
 
 extension MessagesViewController: InitialViewControllerDelegate {
-    func initialVCDidTapStartButton(controller: InitialViewController) {
+    func initialVCDidTapStartButton() {
         requestPresentationStyle(.expanded)
         activeConversation?.selectedMessage?.url = nil
         Event.shared.resetEvent()
     }
     
-    func initialVCDidTapInfoButton(controller: InitialViewController) {
+    func initialVCDidTapInfoButton() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
