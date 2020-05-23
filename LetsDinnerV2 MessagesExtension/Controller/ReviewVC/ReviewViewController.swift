@@ -88,8 +88,9 @@ class ReviewViewController: UIViewController {
     private let viewModel: ReviewViewModel
     
     // MARK: Init
-    init(viewModel: ReviewViewModel) {
+    init(viewModel: ReviewViewModel, delegate: ReviewViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -161,13 +162,11 @@ class ReviewViewController: UIViewController {
     }
     
     private func reviewBeforeSending() {
-        darkView.frame = self.view.frame
+        darkView.frame = summaryTableView.frame
         darkView.backgroundColor = UIColor.backgroundMirroredColor.withAlphaComponent(0.5)
         darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)
-        self.view.bringSubviewToFront(headerView)
-        self.headerView.bringSubviewToFront(sendButton)
         UIView.animate(withDuration: 1,
                        delay: 0,
                        usingSpringWithDamping: 1,

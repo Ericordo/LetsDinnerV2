@@ -106,8 +106,9 @@ class ManagementViewController: LDNavigationViewController {
     private let viewModel: ManagementViewModel
     
     //MARK: Init
-    init(viewModel: ManagementViewModel) {
+    init(viewModel: ManagementViewModel, delegate: ManagementViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     

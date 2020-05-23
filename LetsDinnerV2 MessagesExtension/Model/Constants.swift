@@ -114,6 +114,8 @@ enum AlertStrings {
     static let myImage = NSLocalizedString("My image", comment: "my image")
     static let oops = NSLocalizedString("Oops", comment: "string")
     static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
+    static let confirm = NSLocalizedString("Confirm", comment: "confirm")
+    static let decline = NSLocalizedString("Decline", comment: "decline")
 
 }
 
@@ -231,13 +233,12 @@ enum LabelStrings {
     
     
     // Reschedule
-    static let rescheduleTitle = "Need to reschedule?"
-    static let rescheduleText = "No problem, simply choose another date! 😅👌"
-    static let selectNewDate = "Select a new date for your event:"
+    static let rescheduleTitle = NSLocalizedString("Need to reschedule?", comment: "need to reschedule?")
+    static let rescheduleText = NSLocalizedString("No problem, simply choose another date! 👌", comment: "no problem, simply choose another date")
 
     // Past Event
-    static let pastEventTitle = "Past Event"
-    static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    static let pastEventTitle = NSLocalizedString("Past Event", comment: "past event title")
+    static let pastEventDescription = NSLocalizedString("Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍", comment: "past event description")
     
     // Canceled Event
     static let canceledEventTitle = "Canceled Event"

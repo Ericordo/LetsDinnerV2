@@ -52,8 +52,9 @@ class RecipesViewController: LDNavigationViewController {
     private let viewModel: RecipesViewModel
 
     // MARK: Init
-    init(viewModel: RecipesViewModel) {
+    init(viewModel: RecipesViewModel, delegate: RecipesViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
