@@ -37,7 +37,7 @@ class NewEventViewController: LDNavigationViewController {
     private lazy var dateTextField = textField(placeholder: LabelStrings.date,
                                                image: Images.dateIcon)
     
-    private let datePicker = DatePicker()
+    private let datePicker = LDDatePicker()
 
     private let infoInput = InfoInputView()
     
@@ -77,8 +77,9 @@ class NewEventViewController: LDNavigationViewController {
     private let viewModel: NewEventViewModel
     
     //MARK: Init
-    init(viewModel: NewEventViewModel) {
+    init(viewModel: NewEventViewModel, delegate: NewEventViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     

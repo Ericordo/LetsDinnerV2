@@ -390,76 +390,57 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: Init the VC
     
     private func instantiateProgressViewController() -> UIViewController {
-        let controller = ProgressViewController()
-        return controller
+        return ProgressViewController()
     }
     
     private func instantiateInitialViewController() -> UIViewController {
-        let controller = InitialViewController(delegate: self)
-        return controller
+        return InitialViewController(delegate: self)
     }
     
     private func instantiateIdleViewController() -> UIViewController {
-        let controller = IdleViewController(delegate: self)
-        return controller
+        return IdleViewController(delegate: self)
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        let controller = RegistrationViewController(viewModel: RegistrationViewModel(),
+        return RegistrationViewController(viewModel: RegistrationViewModel(),
                                                        previousStep: previousStep,
                                                        delegate: self)
-        return controller
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        let controller = NewEventViewController(viewModel: NewEventViewModel())
-        controller.delegate = self
-        return controller
+        return NewEventViewController(viewModel: NewEventViewModel(), delegate: self)
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        let controller = RecipesViewController(viewModel: RecipesViewModel())
-        controller.delegate = self
-        return controller
+        return RecipesViewController(viewModel: RecipesViewModel(), delegate: self)
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-        let controller = ManagementViewController(viewModel: ManagementViewModel())
-        controller.delegate = self
-        return controller
+        return ManagementViewController(viewModel: ManagementViewModel(), delegate: self)
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        let controller = EventDescriptionViewController(viewModel: EventDescriptionViewModel())
-        controller.delegate = self
-        return controller
+        return EventDescriptionViewController(viewModel: EventDescriptionViewModel(), delegate: self)
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-        let controller = ReviewViewController(viewModel: ReviewViewModel())
-        controller.delegate = self
-        return controller 
+        return ReviewViewController(viewModel: ReviewViewModel(), delegate: self)
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-        let controller = EventSummaryViewController(viewModel: EventSummaryViewModel())
-        controller.delegate = self
-        return controller
+        return EventSummaryViewController(viewModel: EventSummaryViewModel(), delegate: self)
     }
     
     private func instantiateExpiredEventViewController() -> UIViewController {
-        let controller = ExpiredEventViewController(delegate: self)
-        return controller
+        return ExpiredEventViewController(delegate: self)
     }
     
     private func instantiateTasksListViewController() -> UIViewController {
-        let controller = TasksListViewController(viewModel: TasksListViewModel(), delegate: self)
-        return controller
+        return TasksListViewController(viewModel: TasksListViewModel(), delegate: self)
     }
     
     private func instantiateEventInfoViewController() -> UIViewController {
-        let controller = EventInfoViewController(delegate: self)
-        return controller
+        return EventInfoViewController(delegate: self)
     }
     
     private func sendMessage(message: MSMessage) {
@@ -609,17 +590,15 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     
     func reviewVCDidTapSend() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        #warning("Localize")
         Event.shared.summary = "\(defaults.username) is inviting you to an event!"
         Event.shared.eventCreation = true
         let message = Event.shared.prepareMessage(session: currentSession,
                                                   eventCreation: Event.shared.eventCreation,
                                                   action: .createEvent)
-        if Event.shared.firebaseEventUid == "error" {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UploadError"), object: nil)
-        } else {
-            CloudManager.shared.saveUserInfoOnCloud(Invitation.accepted.rawValue, key: Event.shared.localEventId)
-            sendMessage(message: message)
-        }
+        CloudManager.shared.saveUserInfoOnCloud(Invitation.accepted.rawValue,
+                                                key: Event.shared.localEventId)
+        sendMessage(message: message)
     }
     
     func reviewVCBackToManagementVC() {
@@ -630,8 +609,9 @@ extension MessagesViewController: ReviewViewControllerDelegate {
 }
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
-    func eventSummaryVCDidCancelEvent(controller: EventSummaryViewController) {
+    func eventSummaryVCDidCancelEvent() {
         Event.shared.cancelFirebaseEvent()
+        #warning("Localize")
         Event.shared.summary = "\(defaults.username) canceled the event."
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession,
@@ -640,8 +620,9 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         sendMessageDirectly(message: message)
     }
     
-    func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController) {
+    func eventSummaryVCDidUpdateDate(date: Double) {
         Event.shared.updateFirebaseDate(date)
+        #warning("Localize")
         Event.shared.summary = "\(defaults.username) changed the date!"
         Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
@@ -652,13 +633,13 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     }
     
     
-    func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
+    func eventSummaryVCOpenTasksList() {
         let controller = instantiateTasksListViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
-    func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
+    func eventSummaryVCDidAnswer(hasAccepted: Invitation) {
         // Instant MessageUI update
         if hasAccepted == .accepted {
             Event.shared.summary = defaults.username + AlertStrings.acceptedInvitation
@@ -667,7 +648,8 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         }
         
         Event.shared.currentUser?.hasAccepted = hasAccepted
-        CloudManager.shared.saveUserInfoOnCloud(hasAccepted.rawValue, key: Event.shared.localEventId)
+        CloudManager.shared.saveUserInfoOnCloud(hasAccepted.rawValue,
+                                                key: Event.shared.localEventId)
         Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession,
@@ -676,7 +658,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         sendMessage(message: message)
     }
     
-    func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
+    func eventSummaryVCOpenEventInfo() {
         let controller = instantiateEventInfoViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)

@@ -70,8 +70,9 @@ class EventDescriptionViewController: LDNavigationViewController {
     private let viewModel: EventDescriptionViewModel
     
     // MARK: Init
-    init(viewModel: EventDescriptionViewModel) {
+    init(viewModel: EventDescriptionViewModel, delegate: EventDescriptionViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     

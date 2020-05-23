@@ -1,5 +1,5 @@
 //
-//  DatePicker.swift
+//  LDDatePicker.swift
 //  LetsDinnerV2 MessagesExtension
 //
 //  Created by Eric Ordonneau on 04/11/2019.
@@ -8,9 +8,7 @@
 
 import UIKit
 
-class DatePicker: UIDatePicker {
-    
-    private var toolbar = UIToolbar()
+class LDDatePicker: UIDatePicker {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,7 +26,5 @@ class DatePicker: UIDatePicker {
         locale = Locale(identifier: "en_GB")
         minimumDate = Date()
         tintColor = UIColor.textLabel
-        toolbar.sizeToFit()
-        toolbar.tintColor = UIColor(red:0.84, green:0.10, blue:0.25, alpha:1.0)
     }
 }
