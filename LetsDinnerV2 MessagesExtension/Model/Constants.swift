@@ -44,6 +44,8 @@ enum CellNibs {
     static let recipeCVCell = "RecipeCVCell"
     static let sectionInputCell = "SectionInputCell"
     static let ingredientCell = "IngredientCell"
+    static let createRecipeIngredientCell = "CreateRecipeIngredientCell"
+    static let createRecipeCookingStepCell = "CreateRecipeCookingStepCell"
     static let cancelCell = "CancelCell"
     static let expiredEventCell = "ExpiredEventCell"
 }
@@ -66,7 +68,7 @@ enum Keys {
     static let userUid = "userUid"
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
-    static let firstTimeCreateCustomRecipe = "firstTimeCreateCustomRecipe"
+    static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
     
 }
 

@@ -157,7 +157,7 @@ class RecipeCreationWelcomeViewController: UIViewController {
     }
     
     @objc func buttonGoDidPress(_ sender: UIButton) {
-        defaults.set(false, forKey: Keys.firstTimeCreateCustomRecipe)
+        defaults.set(true, forKey: Keys.createCustomRecipeWelcomeVCVisited)
         self.dismiss(animated: true, completion: nil)
     }
 }

@@ -69,9 +69,7 @@ class RecipesViewController: LDNavigationViewController {
         setupUI()
         setupTableView()
         bindViewModel()
-        
-        // MARK: To be moved
-        defaults.set(true, forKey: Keys.firstTimeCreateCustomRecipe)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,7 +101,7 @@ class RecipesViewController: LDNavigationViewController {
         
         toolbar.createRecipeButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             
-            let animated = !defaults.bool(forKey: Keys.firstTimeCreateCustomRecipe)
+            let animated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
             self.presentRecipeCreationVC(animated: animated)
         }
         

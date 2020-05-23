@@ -79,6 +79,7 @@ extension String {
     }
     
     static let numberFormatter = NumberFormatter()
+    
     var doubleValue: Double {
         String.numberFormatter.decimalSeparator = "."
         if let result =  String.numberFormatter.number(from: self) {
@@ -90,6 +91,10 @@ extension String {
             }
         }
         return 0
+    }
+    
+    public var hasWhiteSpace: Bool {
+       return self.contains(" ")
     }
     
 }
