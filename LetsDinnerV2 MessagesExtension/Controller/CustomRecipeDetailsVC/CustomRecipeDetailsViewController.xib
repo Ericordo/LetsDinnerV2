@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -38,7 +38,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gT-hO-Zv7">
-                    <rect key="frame" x="296" y="-4.5" width="62" height="62"/>
+                    <rect key="frame" x="327" y="11" width="31" height="31"/>
                     <state key="normal" image="checkedButton"/>
                     <connections>
                         <action selector="didTapChosen:" destination="-1" eventType="touchUpInside" id="b1x-HL-xwo"/>
@@ -74,12 +74,12 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VJs-ds-NtK">
-                                    <rect key="frame" x="30" y="42" width="345" height="200"/>
+                                    <rect key="frame" x="20" y="42" width="355" height="200"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="5iO-Jj-Pt9"/>
                                     </constraints>
-                                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="separatorInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </tableView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FxF-TH-lpK" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="41" width="345" height="1"/>
@@ -99,12 +99,12 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SCL-Wg-GZQ">
-                                    <rect key="frame" x="30" y="294" width="345" height="200"/>
+                                    <rect key="frame" x="20" y="294" width="355" height="200"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="Q2Q-9x-qiY"/>
                                     </constraints>
-                                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="separatorInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </tableView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="quf-dw-Dqc" userLabel="Cell Separator">
                                     <rect key="frame" x="30" y="293" width="345" height="1"/>
@@ -131,7 +131,7 @@
                                         <constraint firstAttribute="height" constant="1" id="KG6-Zl-Xdp"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tips and Comments Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HA5-xu-nuh">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Tips &amp; Comments" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HA5-xu-nuh">
                                     <rect key="frame" x="30" y="551" width="345" height="20.5"/>
                                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                     <color key="textColor" name="labelColor"/>
@@ -142,7 +142,7 @@
                             <constraints>
                                 <constraint firstItem="Zzc-0C-dcn" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="30" id="1Th-aw-odh"/>
                                 <constraint firstItem="SCL-Wg-GZQ" firstAttribute="top" secondItem="quf-dw-Dqc" secondAttribute="bottom" id="2bV-mW-78S"/>
-                                <constraint firstItem="VJs-ds-NtK" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="30" id="3rT-mi-CkJ"/>
+                                <constraint firstItem="VJs-ds-NtK" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="20" id="3rT-mi-CkJ"/>
                                 <constraint firstAttribute="trailing" secondItem="Zzc-0C-dcn" secondAttribute="trailing" id="452-Dn-E5r"/>
                                 <constraint firstItem="HA5-xu-nuh" firstAttribute="top" secondItem="Zzc-0C-dcn" secondAttribute="bottom" constant="5" id="4zB-ln-Eij"/>
                                 <constraint firstItem="Jqp-aZ-JcJ" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="30" id="5Ab-ch-2Br"/>
@@ -150,7 +150,7 @@
                                 <constraint firstItem="Jqp-aZ-JcJ" firstAttribute="top" secondItem="VJs-ds-NtK" secondAttribute="bottom" constant="30" id="BFb-Zh-9Qd"/>
                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="HA5-xu-nuh" secondAttribute="bottom" constant="30" id="Bdq-96-AdZ"/>
                                 <constraint firstItem="JPP-AS-AqM" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="30" id="NtW-gs-2Jb"/>
-                                <constraint firstItem="SCL-Wg-GZQ" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="30" id="QCA-BP-8G8"/>
+                                <constraint firstItem="SCL-Wg-GZQ" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="20" id="QCA-BP-8G8"/>
                                 <constraint firstAttribute="trailing" secondItem="HA5-xu-nuh" secondAttribute="trailing" id="TXB-pA-gWs"/>
                                 <constraint firstItem="HA5-xu-nuh" firstAttribute="leading" secondItem="ZDt-pf-0Q4" secondAttribute="leading" constant="30" id="U8J-dn-Dbk"/>
                                 <constraint firstItem="qYc-zi-yfu" firstAttribute="top" secondItem="ZDt-pf-0Q4" secondAttribute="top" constant="20" id="UzA-wT-VjG"/>
@@ -182,13 +182,12 @@
                     <viewLayoutGuide key="contentLayoutGuide" id="qYM-ja-d8f"/>
                     <viewLayoutGuide key="frameLayoutGuide" id="wxy-4s-o9D"/>
                 </scrollView>
-                <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fl5-Xs-l0q" userLabel="BottomView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fl5-Xs-l0q" userLabel="BottomView">
                     <rect key="frame" x="0.0" y="634" width="375" height="83"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uzg-cE-3VE">
-                            <rect key="frame" x="18" y="13" width="30" height="33"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <state key="normal" title="Edit">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uzg-cE-3VE">
+                            <rect key="frame" x="18" y="13" width="58" height="22"/>
+                            <state key="normal" title=" Edit" image="editButton">
                                 <color key="titleColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </state>
                             <connections>
@@ -196,7 +195,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" name="bottomViewColor"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="83" id="hRQ-1Q-ng7"/>
                         <constraint firstItem="uzg-cE-3VE" firstAttribute="leading" secondItem="fl5-Xs-l0q" secondAttribute="leading" constant="18" id="k2p-xg-Kds"/>
@@ -277,12 +276,10 @@
     </objects>
     <resources>
         <image name="checkedButton" width="31" height="31"/>
+        <image name="editButton" width="22" height="22"/>
         <image name="imagePlaceholderBig" width="150" height="117"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="bottomViewColor">
-            <color red="1" green="1" blue="1" alpha="0.95399999618530273" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="cellSeparatorLine">
             <color red="0.86299997568130493" green="0.86299997568130493" blue="0.86699998378753662" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
