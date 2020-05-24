@@ -9,28 +9,22 @@
 import UIKit
 
 class RecipeCreationWelcomeViewController: UIViewController {
-    
-    private lazy var navigationBar: UIView = {
-        let view = UIView()
-        view.backgroundColor = .backgroundColor
-        return view
-    }()
-    
-    private lazy var imageView: UIImageView = {
+
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Images.recipeBookIcon
         imageView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         return imageView
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .backgroundColor
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
-    private lazy var stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 16
@@ -49,7 +43,7 @@ class RecipeCreationWelcomeViewController: UIViewController {
         return label
     }()
     
-    private lazy var descriptionLabelOne: UILabel = {
+    private let descriptionLabelOne: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -59,7 +53,7 @@ class RecipeCreationWelcomeViewController: UIViewController {
         return label
     }()
     
-    private lazy var descriptionLabelTwo: UILabel = {
+    private let descriptionLabelTwo: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -69,7 +63,7 @@ class RecipeCreationWelcomeViewController: UIViewController {
         return label
     }()
     
-    private lazy var descriptionLabelThree: UILabel = {
+    private let descriptionLabelThree: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -79,13 +73,13 @@ class RecipeCreationWelcomeViewController: UIViewController {
         return label
     }()
     
-    private lazy var bottomView: UIView = {
+    private let bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundColor
         return view
     }()
     
-    private lazy var confirmButton : UIButton = {
+    private let confirmButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 253, height: 50))
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 14
@@ -96,6 +90,8 @@ class RecipeCreationWelcomeViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonGoDidPress), for: .touchUpInside)
         return button
     }()
+    
+    private let contentView = UIView()
         
     override func viewDidLoad() {
         self.setupUI()
@@ -114,7 +110,9 @@ class RecipeCreationWelcomeViewController: UIViewController {
         self.view.addSubview(scrollView)
         
         bottomView.addSubview(confirmButton)
-        scrollView.addSubview(stackView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(stackView)
+        
         
         self.addConstraints()
         
@@ -130,16 +128,23 @@ class RecipeCreationWelcomeViewController: UIViewController {
         
         // CenterView
         scrollView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(30)
-            make.trailing.equalToSuperview().offset(-30)
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(imageView.snp.bottom).offset(20)
-           make.bottom.equalTo(bottomView.snp.top)
-            make.width.equalTo(315)
+            make.bottom.equalTo(bottomView.snp.top)
+//            make.width.equalTo(315)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+//            make.height.equalTo(600)
         }
         
         stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalTo(315)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.bottom.top.equalToSuperview()
+//            make.width.equalTo(315)
         }
 
         // BottomView

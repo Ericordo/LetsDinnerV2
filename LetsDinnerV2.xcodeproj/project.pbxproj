@@ -1106,11 +1106,8 @@
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
 				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
-<<<<<<< HEAD
 				880B135423737711003E29AC /* CalendarCell.xib in Resources */,
 				B886BD9D24790B7B0069C248 /* CreateRecipeCookingStepCell.xib in Resources */,
-=======
->>>>>>> develop
 				B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
@@ -1254,11 +1251,8 @@
 				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
-<<<<<<< HEAD
 				B886BD9C24790B7B0069C248 /* CreateRecipeCookingStepCell.swift in Sources */,
-=======
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
->>>>>>> develop
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
 				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,
 				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,
@@ -1292,22 +1286,16 @@
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
-<<<<<<< HEAD
 				88A362E3237EA8E2005B6B81 /* ManagementViewController.swift in Sources */,
 				B886BD982470EFBF0069C248 /* CreateRecipeIngredientCell.swift in Sources */,
-=======
->>>>>>> develop
 				B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */,
 				B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */,
 				B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */,
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,
-<<<<<<< HEAD
 				886EB36C23DF77AE002CFCB5 /* RescheduleView.swift in Sources */,
 				885C60CC2380BABB00ED3A17 /* ReviewViewController.swift in Sources */,
 				B886BD93246C340C0069C248 /* RecipeCreateStartViewController.swift in Sources */,
-=======
 				886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */,
->>>>>>> develop
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
 				B87C106424126B39004AD951 /* SelectedRecipesViewController.swift in Sources */,
