@@ -320,6 +320,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     func presentCreateRecipeWelcomeVCIfNeeded() {
+        
         if defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited) != true {
             let welcomeVC = RecipeCreationWelcomeViewController()
             welcomeVC.modalPresentationStyle = .overFullScreen
@@ -376,7 +377,6 @@ class RecipeCreationViewController: UIViewController  {
             break
         }
         self.view.layoutIfNeeded()
-
     }
     
 
