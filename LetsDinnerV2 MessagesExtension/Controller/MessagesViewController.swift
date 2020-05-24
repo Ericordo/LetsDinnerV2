@@ -164,21 +164,20 @@ class MessagesViewController: MSMessagesAppViewController {
             Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
             Event.shared.statusNeedUpdate = false
         }
-        
-        // Call When update on tasklistVC
-        if Event.shared.tasksNeedUpdate {
-            // Need to identify all situation for using updateFireBaseTask
-            Event.shared.updateFirebaseTasks()
-        }
-        
-        if Event.shared.servingsNeedUpdate {
-            Event.shared.updateFirebaseServings()
+
+        if !Event.shared.eventCreation {
+            if Event.shared.servingsNeedUpdate {
+                Event.shared.updateFirebaseServings()
+                Event.shared.updateFirebaseTasks()
+            } else if Event.shared.tasksNeedUpdate {
+                Event.shared.updateFirebaseTasks()
+            }
         }
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user deletes the message without sending it.
-        
+        #warning("If eventCreation, delete event on firebase")
         // Use this to clean up state related to the deleted message.
     }
     
@@ -354,23 +353,6 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         return transitionAnimation
     }
-    
-//    private func addProgressViewController() {
-//        let controller = ProgressViewController()
-//        controller.view.frame = view.bounds
-//        controller.view.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        view.addSubview(controller.view)
-//        
-//        isProgressBarVCInitiated = true
-//        
-//        NSLayoutConstraint.activate([
-//            controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-//            controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-//            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-//            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//        ])
-//    }
         
     private func removeViewController(transition: VCTransitionDirection = .noTransition) {
         
@@ -408,110 +390,57 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: Init the VC
     
     private func instantiateProgressViewController() -> UIViewController {
-        let controller = ProgressViewController()
-        return controller
+        return ProgressViewController()
     }
     
     private func instantiateInitialViewController() -> UIViewController {
-        let controller = InitialViewController(nibName: VCNibs.initialViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        return InitialViewController(delegate: self)
     }
     
     private func instantiateIdleViewController() -> UIViewController {
-        let controller = IdleViewController(nibName: VCNibs.idleViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        return IdleViewController(delegate: self)
     }
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
-        isProgressBarVCInitiated = false
-        // Visually correct but have extra layers
-        
-        let controller = RegistrationViewController(nibName: VCNibs.registrationViewController, bundle: nil)
-        controller.previousStep = previousStep
-        controller.delegate = self
-        return controller
+        return RegistrationViewController(viewModel: RegistrationViewModel(),
+                                                       previousStep: previousStep,
+                                                       delegate: self)
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
-        let controller = NewEventViewController(viewModel: NewEventViewModel())
-        controller.delegate = self
-        return controller
+        return NewEventViewController(viewModel: NewEventViewModel(), delegate: self)
     }
     
     private func instantiateRecipesViewController() -> UIViewController {
-        let controller = RecipesViewController(viewModel: RecipesViewModel())
-        controller.delegate = self
-        return controller
+        return RecipesViewController(viewModel: RecipesViewModel(), delegate: self)
     }
     
     private func instantiateManagementViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated {
-//            addProgressViewController()
-//        }
-        
-        let controller = ManagementViewController(nibName: VCNibs.managementViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        return ManagementViewController(viewModel: ManagementViewModel(), delegate: self)
     }
     
     private func instantiateEventDescriptionViewController() -> UIViewController {
-        let controller = EventDescriptionViewController(viewModel: EventDescriptionViewModel())
-        controller.delegate = self
-        return controller
+        return EventDescriptionViewController(viewModel: EventDescriptionViewModel(), delegate: self)
     }
     
     private func instantiateReviewViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated {
-//            addProgressViewController()
-//        }
-        
-        let controller = ReviewViewController(nibName: VCNibs.reviewViewController, bundle: nil)
-        controller.delegate = self
-        return controller 
+        return ReviewViewController(viewModel: ReviewViewModel(), delegate: self)
     }
     
     private func instantiateEventSummaryViewController() -> UIViewController {
-//        if !isProgressBarVCInitiated { // I need the White Background
-//            addProgressViewController()
-//        }
-//        
-//        if isLoading {
-//            self.view.addSubview(loadingView)
-//            loadingView.translatesAutoresizingMaskIntoConstraints = false
-//            loadingView.anchor(top: self.view.topAnchor, leading: self.view.leadingAnchor, bottom: self.view.bottomAnchor, trailing: self.view.trailingAnchor)
-//        }
-        
-        let controller = EventSummaryViewController(nibName: VCNibs.eventSummaryViewController, bundle: nil)
-        controller.delegate = self
-        
-//        for view in self.view.subviews {
-//            if view.isKind(of: LoadingView.self){
-//                view.removeFromSuperview()
-//            }
-//        }
-//        isLoading = false
-        
-        return controller
+        return EventSummaryViewController(viewModel: EventSummaryViewModel(), delegate: self)
     }
     
     private func instantiateExpiredEventViewController() -> UIViewController {
-        let controller = ExpiredEventViewController(nibName: VCNibs.expiredEventViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        return ExpiredEventViewController(delegate: self)
     }
     
     private func instantiateTasksListViewController() -> UIViewController {
-        let controller = TasksListViewController(nibName: VCNibs.tasksListViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        return TasksListViewController(viewModel: TasksListViewModel(), delegate: self)
     }
     
     private func instantiateEventInfoViewController() -> UIViewController {
-        let controller = EventInfoViewController(nibName: VCNibs.eventInfoViewController, bundle: nil)
-        controller.delegate = self
-        return controller
+        return EventInfoViewController(delegate: self)
     }
     
     private func sendMessage(message: MSMessage) {
@@ -538,38 +467,38 @@ class MessagesViewController: MSMessagesAppViewController {
 // MARK: Delegations
 
 extension MessagesViewController: InitialViewControllerDelegate {
-    func initialVCDidTapStartButton(controller: InitialViewController) {
+    func initialVCDidTapStartButton() {
         requestPresentationStyle(.expanded)
         activeConversation?.selectedMessage?.url = nil
         Event.shared.resetEvent()
     }
     
-    func initialVCDidTapInfoButton(controller: InitialViewController) {
+    func initialVCDidTapInfoButton() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
 }
 
 extension MessagesViewController: IdleViewControllerDelegate {
-    func idleVCDidTapContinue(controller: IdleViewController) {
+    func idleVCDidTapContinue() {
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapNewDinner(controller: IdleViewController) {
+    func idleVCDidTapNewDinner() {
         Event.shared.resetEvent()
         activeConversation?.selectedMessage?.url = nil
         StepStatus.currentStep = .newEventVC
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapProfileButton(controller: IdleViewController) {
+    func idleVCDidTapProfileButton() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
-    func registrationVCDidTapSaveButton(controller: RegistrationViewController, previousStep: StepTracking) {
+    func registrationVCDidTapSaveButton(previousStep: StepTracking) {
         guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
         if previousStep == .newEventVC {
             StepStatus.currentStep = .newEventVC
@@ -583,7 +512,7 @@ extension MessagesViewController: RegistrationViewControllerDelegate {
         presentViewController(for: conversation, with: .expanded)
     }
     
-    func registrationVCDidTapCancelButton(controller: RegistrationViewController) {
+    func registrationVCDidTapCancelButton() {
         newNameRequested = false
         requestPresentationStyle(.compact)
     }
@@ -625,13 +554,13 @@ extension MessagesViewController: RecipesViewControllerDelegate {
 }
 
 extension MessagesViewController: ManagementViewControllerDelegate {
-    func managementVCDidTapBack(controller: ManagementViewController) {
+    func managementVCDidTapBack() {
         let controller = instantiateRecipesViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    func managementVCDdidTapNext(controller: ManagementViewController) {
+    func managementVCDdidTapNext() {
         let controller = instantiateEventDescriptionViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
@@ -653,25 +582,26 @@ extension MessagesViewController: EventDescriptionViewControllerDelegate {
 }
 
 extension MessagesViewController: ReviewViewControllerDelegate {
-    func reviewVCDidTapPrevious(controller: ReviewViewController) {
+    func reviewVCDidTapPrevious() {
         let controller = instantiateEventDescriptionViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    func reviewVCDidTapSend(controller: ReviewViewController) {
+    func reviewVCDidTapSend() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
+        #warning("Localize")
         Event.shared.summary = "\(defaults.username) is inviting you to an event!"
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: true, action: .createEvent)
-        if Event.shared.firebaseEventUid == "error" {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UploadError"), object: nil)
-        } else {
-            CloudManager.shared.saveUserInfoOnCloud(Invitation.accepted.rawValue, key: Event.shared.localEventId)
-            sendMessage(message: message)
-        }
+        Event.shared.eventCreation = true
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .createEvent)
+        CloudManager.shared.saveUserInfoOnCloud(Invitation.accepted.rawValue,
+                                                key: Event.shared.localEventId)
+        sendMessage(message: message)
     }
     
-    func reviewVCBackToManagementVC(controller: ReviewViewController) {
+    func reviewVCBackToManagementVC() {
         let controller = instantiateManagementViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
@@ -679,45 +609,56 @@ extension MessagesViewController: ReviewViewControllerDelegate {
 }
 
 extension MessagesViewController: EventSummaryViewControllerDelegate {
-    func eventSummaryVCDidCancelEvent(controller: EventSummaryViewController) {
+    func eventSummaryVCDidCancelEvent() {
         Event.shared.cancelFirebaseEvent()
+        #warning("Localize")
         Event.shared.summary = "\(defaults.username) canceled the event."
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .cancelEvent)
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .cancelEvent)
         sendMessageDirectly(message: message)
     }
     
-    func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController) {
+    func eventSummaryVCDidUpdateDate(date: Double) {
         Event.shared.updateFirebaseDate(date)
+        #warning("Localize")
         Event.shared.summary = "\(defaults.username) changed the date!"
+        Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .rescheduleEvent)
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .rescheduleEvent)
         sendMessageDirectly(message: message)
     }
     
     
-    func eventSummaryVCOpenTasksList(controller: EventSummaryViewController) {
+    func eventSummaryVCOpenTasksList() {
         let controller = instantiateTasksListViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
     
-    func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController) {
+    func eventSummaryVCDidAnswer(hasAccepted: Invitation) {
         // Instant MessageUI update
         if hasAccepted == .accepted {
-            Event.shared.summary = defaults.username + MessagesToDisplay.acceptedInvitation
+            Event.shared.summary = defaults.username + AlertStrings.acceptedInvitation
         } else if hasAccepted == .declined {
-            Event.shared.summary = defaults.username + MessagesToDisplay.declinedInvitation
+            Event.shared.summary = defaults.username + AlertStrings.declinedInvitation
         }
         
         Event.shared.currentUser?.hasAccepted = hasAccepted
-        CloudManager.shared.saveUserInfoOnCloud(hasAccepted.rawValue, key: Event.shared.localEventId)
+        CloudManager.shared.saveUserInfoOnCloud(hasAccepted.rawValue,
+                                                key: Event.shared.localEventId)
+        Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .answerInvitation)
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .answerInvitation)
         sendMessage(message: message)
     }
     
-    func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController) {
+    func eventSummaryVCOpenEventInfo() {
         let controller = instantiateEventInfoViewController()
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
@@ -725,21 +666,24 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
 }
 
 extension MessagesViewController: TasksListViewControllerDelegate {
-    func tasksListVCDidTapBackButton(controller: TasksListViewController) {
+    func tasksListVCDidTapBackButton() {
         let controller = instantiateEventSummaryViewController()
               removeViewController(transition: .VCGoBack)
               addChildViewController(controller: controller, transition: .VCGoBack)
     }
     
-    func tasksListVCDidTapSubmit(controller: TasksListViewController) {
+    func tasksListVCDidTapSubmit() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        let message = Event.shared.prepareMessage(session: currentSession, eventCreation: false, action: .updateTasks)
+        Event.shared.eventCreation = false
+        let message = Event.shared.prepareMessage(session: currentSession,
+                                                  eventCreation: Event.shared.eventCreation,
+                                                  action: .updateTasks)
         sendMessage(message: message)
     }
 }
 
 extension MessagesViewController: EventInfoViewControllerDelegate {
-    func eventInfoVCDidTapBackButton(controller: EventInfoViewController) {
+    func eventInfoVCDidTapBackButton() {
         let controller = instantiateEventSummaryViewController()
         removeViewController(transition: .VCGoBack)
         addChildViewController(controller: controller, transition: .VCGoBack)
@@ -748,7 +692,7 @@ extension MessagesViewController: EventInfoViewControllerDelegate {
 }
 
 extension MessagesViewController: ExpiredEventViewControllerDelegate {
-    func expiredEventVCDidTapCreateNewEvent(controller: ExpiredEventViewController) {
+    func expiredEventVCDidTapCreateNewEvent() {
         Event.shared.resetEvent()
         let controller = instantiateNewEventViewController()
         removeViewController()

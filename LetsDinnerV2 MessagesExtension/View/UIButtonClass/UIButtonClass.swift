@@ -8,42 +8,93 @@
 import UIKit
 import Foundation
 
-public class PrimaryButton: UIButton {
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
 
+class PrimaryButton: UIButton {
+    #warning("make sure all these buttons are actually using this subclass")
+    override var isEnabled: Bool {
+        didSet{
+            if isEnabled {
+                self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+            } else {
+                if self.layer.sublayers != nil {
+                    for layer in self.layer.sublayers! {
+                        if layer.name == "GradientLayer" {
+                            layer.removeFromSuperlayer()
+                        }
+                    }
+                }
+                self.backgroundColor = .secondaryButtonBackground
+            }
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if isEnabled {
+            self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        }
+    }
+    
+    private func setup() {
+        self.frame = CGRect(origin: .zero, size: CGSize(width: 56, height: 253))
         self.layer.masksToBounds = true
-        self.layer.cornerRadius = 8.0
-        self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
+        self.layer.cornerRadius = 16
         self.setTitleColor(.white, for: .normal)
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-    }
-    
-    
-}
-
-public class SecondaryButton: UIButton {
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 8.0
-        self.backgroundColor = UIColor.secondaryButtonBackground
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        self.setTitleColor(.textLabel, for: .normal)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        self.snp.makeConstraints { make in
+            make.height.equalTo(56)
+            make.width.equalTo(253)
+        }
     }
 }
 
-public class TertiaryButton: UIButton {
-    required public init?(coder aDecoder: NSCoder) {
+class SecondaryButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
+    }
+    
+    private func setup() {
+        layer.masksToBounds = true
+        layer.cornerRadius = 9
+        backgroundColor = UIColor.secondaryButtonBackground
+        titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        setTitleColor(.textLabel, for: .normal)
+    }
+}
 
+class TertiaryButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    private func setup() {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 8.0
         self.backgroundColor = UIColor.tertiaryButtonBackground
         self.setTitleColor(UIColor.textLabel, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        
         self.translatesAutoresizingMaskIntoConstraints = false
         self.widthAnchor.constraint(greaterThanOrEqualToConstant: 96).isActive = true
     }

@@ -50,15 +50,15 @@ class TaskManagementCell: UITableViewCell {
                    personLabel.setTextAttributes(taskIsOwnedByUser: false)
                } else {
                    if task.taskState == .completed {
-                       personLabel.text = MessagesToDisplay.completed
+                       personLabel.text = AlertStrings.completed
                    } else {
-                       personLabel.text = MessagesToDisplay.assignedToMyself
+                       personLabel.text = AlertStrings.assignedToMyself
                    }
                    personLabel.setTextAttributes(taskIsOwnedByUser: true)
                }
            } else {
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
-            personLabel.text = MessagesToDisplay.noAssignment
+            personLabel.text = AlertStrings.noAssignment
         }
         
         taskStatusButton.isUserInteractionEnabled = false
@@ -75,21 +75,20 @@ class TaskManagementCell: UITableViewCell {
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             task.taskState = .assigned
-            personLabel.text = MessagesToDisplay.assignedToMyself
+            personLabel.text = AlertStrings.assignedToMyself
         case .assigned:
             task.taskState = .completed
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
-            personLabel.text = MessagesToDisplay.completed
-            delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
+            personLabel.text = AlertStrings.completed
         case .completed:
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
             task.taskState = .unassigned
             task.assignedPersonName = "nil"
             task.assignedPersonUid = "nil"
-            personLabel.text = MessagesToDisplay.noAssignment
-            delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
+            personLabel.text = AlertStrings.noAssignment
         }
+        delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         
         taskStatusButton.setState(state: task.taskState)
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskName == task.taskName }) {
@@ -105,12 +104,12 @@ class TaskManagementCell: UITableViewCell {
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             task.taskState = .assigned
-            personLabel.text = MessagesToDisplay.assignedToMyself
+            personLabel.text = AlertStrings.assignedToMyself
         case .completed:
             task.taskState = .completed
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
-            personLabel.text = MessagesToDisplay.completed
+            personLabel.text = AlertStrings.completed
             delegate?.taskManagementCellDidTapTaskStatusButton(indexPath: indexPath)
         default:
             break

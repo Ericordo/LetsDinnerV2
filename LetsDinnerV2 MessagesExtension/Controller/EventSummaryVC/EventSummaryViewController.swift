@@ -8,13 +8,14 @@
 
 import UIKit
 import EventKit
+import ReactiveSwift
 
 protocol EventSummaryViewControllerDelegate: class {
-    func eventSummaryVCOpenTasksList(controller: EventSummaryViewController)
-    func eventSummaryVCDidAnswer(hasAccepted: Invitation, controller: EventSummaryViewController)
-    func eventSummaryVCOpenEventInfo(controller: EventSummaryViewController)
-    func eventSummaryVCDidUpdateDate(date: Double, controller: EventSummaryViewController)
-    func eventSummaryVCDidCancelEvent(controller: EventSummaryViewController)
+    func eventSummaryVCOpenTasksList()
+    func eventSummaryVCDidAnswer(hasAccepted: Invitation)
+    func eventSummaryVCOpenEventInfo()
+    func eventSummaryVCDidUpdateDate(date: Double)
+    func eventSummaryVCDidCancelEvent()
 }
 
 private enum RowItemNumber: Int, CaseIterable {
@@ -30,11 +31,21 @@ private enum RowItemNumber: Int, CaseIterable {
 }
 
 class EventSummaryViewController: UIViewController {
+    // MARK: - Properties
+    private let summaryTableView : UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))
+        tableView.backgroundColor = .backgroundColor
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 33, bottom: 0, right: 0)
+        tableView.separatorColor = .cellSeparatorLine
+        tableView.isHidden = true
+        return tableView
+    }()
     
-    @IBOutlet weak var summaryTableView: UITableView!
+    private let loadingView = LDLoadingView()
     
-    // MARK: - Variable
-    var user: User? { // User Status should be fetched from here
+    private var user : User? { // User Status should be fetched from here
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]
             return user
@@ -42,73 +53,129 @@ class EventSummaryViewController: UIViewController {
             return nil
         }
     }
-    let store = EKEventStore()
-    let darkView = UIView()
-    let rescheduleView = RescheduleView()
-    lazy var rescheduleViewBottomConstraint = rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 350)
-    var selectedDate: Double?
     
-    var swipeDownGestureToHideRescheduleView = UISwipeGestureRecognizer()
+    private let store = EKEventStore()
+    
+    private let darkView = UIView()
+    
+    private let rescheduleView = LDRescheduleView()
+    
+    private var swipeDownGestureToHideRescheduleView = UISwipeGestureRecognizer()
 
     weak var delegate: EventSummaryViewControllerDelegate?
     
+    private let viewModel : EventSummaryViewModel
+    
+    init(viewModel: EventSummaryViewModel, delegate: EventSummaryViewControllerDelegate) {
+        self.viewModel = viewModel
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        setupTableView()
+        configureGestureRecognizers()
+        bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         StepStatus.currentStep = .eventSummaryVC
+    }
+    
+    private func bindViewModel() {
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.edges.equalToSuperview()
+                    }
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
         
-        self.setupTableView()
-        self.registerCells()
-        self.configureGestureRecognizers()
-            
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDownloadFail), name: Notification.Name(rawValue: "DownloadError"), object: nil)
-        
+        self.viewModel.eventFetchSignal.observe(on: UIScheduler())
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                #warning("Modify error message")
+                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+            case.success(()):
+                self.updateTable()
+            }
+        }
     }
     
     private func configureGestureRecognizers() {
-        swipeDownGestureToHideRescheduleView = UISwipeGestureRecognizer(target: self, action: #selector(cancelReschedule))
+        swipeDownGestureToHideRescheduleView = UISwipeGestureRecognizer(target: self,
+                                                                        action: #selector(cancelReschedule))
         swipeDownGestureToHideRescheduleView.direction = .down
     }
     
-    @objc func updateTable() {
+    private func updateTable() {
         // For Test Only
         self.testOverride()
-
+        
         summaryTableView.reloadData()
         summaryTableView.isHidden = false
     }
     
-    @objc private func showDownloadFail() {
-        let alert = UIAlertController(title: "Error", message: "There was a problem downloading the info, please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
+    private func addToCalendarAndAccept() {
+        let title = Event.shared.dinnerName
+        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+        let location = Event.shared.dinnerLocation
+        CalendarManager.shared.addEventToCalendar(view: self,
+                                           with: title,
+                                           forDate: date,
+                                           location: location)
+        
+        self.didTapAccept()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.tableFooterView = UIView()
+        summaryTableView.registerCells(CellNibs.titleCell,
+                                       CellNibs.answerCell,
+                                       CellNibs.answerDeclinedCell,
+                                       CellNibs.answerAcceptedCell,
+                                       CellNibs.infoCell,
+                                       CellNibs.descriptionCell,
+                                       CellNibs.taskSummaryCell,
+                                       CellNibs.userCell,
+                                       CellNibs.cancelCell)
+    }
         
-        if !Event.shared.participants.isEmpty {
-            summaryTableView.isHidden = false
-        }
+    private func setupUI() {
+        view.backgroundColor = .backgroundColor
+        view.addSubview(summaryTableView)
+        view.addSubview(rescheduleView)
+        addConstraints()
     }
     
-    func registerCells() {
-        func registerCell(_ nibName: String) {
-            summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+    private func addConstraints() {
+        summaryTableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
-        registerCell(CellNibs.titleCell)
-        registerCell(CellNibs.answerCell)
-        registerCell(CellNibs.answerDeclinedCell)
-        registerCell(CellNibs.answerAcceptedCell)
-        registerCell(CellNibs.infoCell)
-        registerCell(CellNibs.descriptionCell)
-        registerCell(CellNibs.taskSummaryCell)
-        registerCell(CellNibs.userCell)
-        registerCell(CellNibs.cancelCell)
+        rescheduleView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(4)
+            make.trailing.equalToSuperview().offset(-4)
+            make.bottom.equalToSuperview().offset(rescheduleView.height)
+        }
     }
 }
 
@@ -132,10 +199,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         
         let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
 
-
         switch indexPath.row {
         case RowItemNumber.invite.rawValue:
-            
             if let user = user {
                 if user.hasAccepted == .pending {
                     answerCell.separatorInset = separatorInset
@@ -143,34 +208,25 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                     return answerCell
                 }
             }
-            
         case RowItemNumber.title.rawValue:
-            
             titleCell.titleLabel.text = Event.shared.dinnerName
             titleCell.separatorInset = separatorInset
             return titleCell
-            
         case RowItemNumber.answerCell.rawValue:
-            
             // Check the currentUser has accepted or not
             if let user = user {
                 if user.identifier == Event.shared.hostIdentifier {
-//                    cancelCell.separatorInset = separatorInset
                     cancelCell.delegate = self
                     return cancelCell
                 } else if user.hasAccepted == .declined {
-//                    answerDeclinedCell.separatorInset = separatorInset
                     return answerDeclinedCell
                 } else if user.hasAccepted == .accepted {
-//                    answerAcceptedCell.separatorInset = separatorInset
                     return answerAcceptedCell
                 }
             }
-            
             return UITableViewCell()
 
         case RowItemNumber.hostInfo.rawValue:
-            
             if let user = user {
                 switch user.hasAccepted {
                 case .accepted:
@@ -184,33 +240,26 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
                 }
-
             } else {
                 infoCell.titleLabel.text = LabelStrings.host
                 infoCell.infoLabel.text = Event.shared.hostName
                 infoCell.cellSeparator.isHidden = false
             }
-            
             return infoCell
-            
         case RowItemNumber.dateInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.date
             infoCell.infoLabel.text = Event.shared.dinnerDate
             return infoCell
-            
         case RowItemNumber.locationInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.location
             infoCell.infoLabel.text = Event.shared.dinnerLocation
             return infoCell
-            
         case RowItemNumber.descriptionInfo.rawValue:
             descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
-            
         case RowItemNumber.taskInfo.rawValue:
             taskSummaryCell.seeAllBeforeCreateEvent.isHidden = true
             taskSummaryCell.delegate = self
-
             let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)
             return taskSummaryCell
@@ -323,20 +372,13 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let user = user, user.hasAccepted == .accepted else { return }
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
-            guard let user = user else { return }
-            if user.hasAccepted == .accepted {
-                self.delegate?.eventSummaryVCOpenEventInfo(controller: self)
-            }
-        }
-        if indexPath.row == RowItemNumber.taskInfo.rawValue && !Event.shared.firebaseEventUid.isEmpty {
-            guard let user = user else { return }
-            if user.hasAccepted == .accepted {
-                delegate?.eventSummaryVCOpenTasksList(controller: self)
-            }
+            self.delegate?.eventSummaryVCOpenEventInfo()
+        } else if indexPath.row == RowItemNumber.taskInfo.rawValue && !Event.shared.firebaseEventUid.isEmpty {
+            delegate?.eventSummaryVCOpenTasksList()
         }
     }
-    
 }
 
 // MARK: - AnswerCellDelegate
@@ -344,35 +386,35 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 extension EventSummaryViewController: AnswerCellDelegate {
     func declineInvitation() {
         Event.shared.statusNeedUpdate = true
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined, controller: self)
+        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined)
     }
     
     func didTapAccept() {
         Event.shared.statusNeedUpdate = true
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted, controller: self)
+        delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted)
     }
     
     func addToCalendarAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
-                                      message: MessagesToDisplay.addToCalendarAlertMessage,
+        let alert = UIAlertController(title: AlertStrings.addToCalendarAlertTitle,
+                                      message: AlertStrings.addToCalendarAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Nope",
+        alert.addAction(UIAlertAction(title: AlertStrings.nope,
                                       style: UIAlertAction.Style.destructive,
                                       handler: { (_) in self.didTapAccept()}))
-        alert.addAction(UIAlertAction(title: "Add",
+        alert.addAction(UIAlertAction(title: AlertStrings.add,
                                       style: UIAlertAction.Style.default,
-                                      handler: { (_) in self.calendarCellDidTapCalendarButton()}))
+                                      handler: { (_) in self.addToCalendarAndAccept()}))
         self.present(alert, animated: true, completion: nil)
     }
     
     func declineEventAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.declineEventAlertTitle,
-                                      message: MessagesToDisplay.declineEventAlertMessage,
+        let alert = UIAlertController(title: AlertStrings.declineEventAlertTitle,
+                                      message: AlertStrings.declineEventAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
 //        alert.addAction(UIAlertAction(title: "Decline",
 //                                      style: UIAlertAction.Style.destructive,
 //                                      handler: { (_) in self.didTapDecline()}))
-        alert.addAction(UIAlertAction(title: "Decline",
+        alert.addAction(UIAlertAction(title: AlertStrings.decline,
                                        style: UIAlertAction.Style.destructive,
                                        handler: { (_) in
                                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TappedDecline"), object: nil)
@@ -384,45 +426,19 @@ extension EventSummaryViewController: AnswerCellDelegate {
     }
 }
 
-// MARK: - Calendar Cell Delegate
-
-extension EventSummaryViewController: CalendarCellDelegate {
-    func calendarCellDidTapCalendarButton() {
-        let title = Event.shared.dinnerName
-        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-        let location = Event.shared.dinnerLocation
-        calendarManager.addEventToCalendar(view: self,
-                                           with: title,
-                                           forDate: date,
-                                           location: location)
-        
-        self.didTapAccept()
-    }
-}
-
 // MARK: - TaskSummary Cell Delegate
 
 extension EventSummaryViewController: TaskSummaryCellDelegate {
     func taskSummaryCellDidTapSeeAll() {
         if let user = user {
             if user.hasAccepted == .accepted {
-                delegate?.eventSummaryVCOpenTasksList(controller: self)
+                delegate?.eventSummaryVCOpenTasksList()
             } else {
-                presentAlert(MessagesToDisplay.declinedInvitation)
+                self.showBasicAlert(title: "", message: AlertStrings.userHasDeclinedAlert)
             }
         } else {
-            presentAlert(MessagesToDisplay.acceptInviteAlert)
+            self.showBasicAlert(title: "", message: AlertStrings.acceptInviteAlert)
         }
-    }
-    
-    func presentAlert(_ title: String) {
-        let alert = UIAlertController(title: title,
-                                      message: "",
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: .default,
-                                      handler: nil))
-        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -435,15 +451,15 @@ extension EventSummaryViewController: CancelCellDelegate {
     }
     
     func cancelEvent() {
-        let alert = UIAlertController(title: MessagesToDisplay.cancelEventAlertTitle,
-                                      message: MessagesToDisplay.cancelEventAlertMessage, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        let confirm = UIAlertAction(title: "Confirm", style: .destructive) { action in
-            self.delegate?.eventSummaryVCDidCancelEvent(controller: self)
-        }
+        let alert = UIAlertController(title: AlertStrings.cancelEventAlertTitle,
+                                      message: AlertStrings.cancelEventAlertMessage,
+                                      preferredStyle: .alert)
+        let cancel = UIAlertAction(title: AlertStrings.no, style: .cancel)
+        let confirm = UIAlertAction(title: AlertStrings.confirm,
+                                    style: .destructive) { action in self.delegate?.eventSummaryVCDidCancelEvent() }
         alert.addAction(cancel)
         alert.addAction(confirm)
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true)
     }
     
     private func prepareViewForReschedule() {
@@ -452,6 +468,7 @@ extension EventSummaryViewController: CancelCellDelegate {
         darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelReschedule)))
         self.view.addSubview(darkView)
+        self.view.bringSubviewToFront(rescheduleView)
         UIView.animate(withDuration: 0.2,
                        delay: 0,
                        usingSpringWithDamping: 1,
@@ -465,63 +482,44 @@ extension EventSummaryViewController: CancelCellDelegate {
     }
     
     private func showRescheduleView() {
-        view.addSubview(rescheduleView)
         self.view.addGestureRecognizer(swipeDownGestureToHideRescheduleView)
-
-        rescheduleView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            rescheduleViewBottomConstraint,
-            rescheduleView.heightAnchor.constraint(equalToConstant: 390),
-            rescheduleView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 4),
-            rescheduleView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant:  -4)
-        ])
-        view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-            self.rescheduleViewBottomConstraint = self.rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
-            self.rescheduleViewBottomConstraint.isActive = true
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveLinear,
+                       animations: {
+                        self.rescheduleView.snp.updateConstraints { make in
+                            make.bottom.equalToSuperview().offset(-4)
+                        }
+                        self.view.layoutIfNeeded()
         }) { (_) in
+            self.rescheduleView.updateButton.addTarget(self, action: #selector(self.didConfirmDate), for: .touchUpInside)
         }
-        rescheduleView.resetPicker()
-        rescheduleView.datePicker.addTarget(self, action: #selector(didSelectDate), for: .valueChanged)
-        rescheduleView.updateButton.addTarget(self, action: #selector(didConfirmDate), for: .touchUpInside)
     }
     
     @objc private func cancelReschedule() {
-        view.layoutIfNeeded()
-
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-            self.darkView.alpha = 0.1
-            self.rescheduleViewBottomConstraint.isActive = false
-            self.rescheduleViewBottomConstraint = self.rescheduleView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 390)
-            self.rescheduleViewBottomConstraint.isActive = true
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveLinear,
+                       animations: {
+                        self.darkView.alpha = 0
+                        self.rescheduleView.snp.updateConstraints { make in
+                            make.bottom.equalToSuperview().offset(self.rescheduleView.height)
+                        }
+                        self.view.layoutIfNeeded()
         }) { (_) in
             self.darkView.removeFromSuperview()
-            self.rescheduleView.removeFromSuperview()
+            self.rescheduleView.resetDate()
+            self.view.removeGestureRecognizer(self.swipeDownGestureToHideRescheduleView)
         }
-        
-        self.view.removeGestureRecognizer(swipeDownGestureToHideRescheduleView)
-    }
-    
-    @objc private func didSelectDate(sender: UIDatePicker) {
-        let selectedDate = sender.date.timeIntervalSince1970
-        if selectedDate != Event.shared.dateTimestamp {
-            rescheduleView.updateButton.alpha = 1
-            rescheduleView.updateButton.isEnabled = true
-        } else {
-            rescheduleView.updateButton.alpha = 0.5
-            rescheduleView.updateButton.isEnabled = false
-        }
-        self.selectedDate = selectedDate
     }
     
     @objc private func didConfirmDate() {
-        guard let selectedDate = selectedDate else { return }
-        delegate?.eventSummaryVCDidUpdateDate(date: selectedDate, controller: self)
+        delegate?.eventSummaryVCDidUpdateDate(date: rescheduleView.selectedDate)
     }
-    
-    
 }
 
 // MARK: Test Control
@@ -541,7 +539,6 @@ extension EventSummaryViewController {
                     }
                 }
             }
-            
         }
     }
 }

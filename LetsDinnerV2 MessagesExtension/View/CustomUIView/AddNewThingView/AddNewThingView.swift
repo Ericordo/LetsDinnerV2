@@ -85,7 +85,7 @@ class AddNewThingView: UIView {
         textField.textColor = .textLabel
         textField.font = .systemFont(ofSize: 17)
         textField.textAlignment = .right
-        textField.placeholder = "ml"
+        textField.placeholder = "mL"
         textField.sizeToFit()
         textField.tag = 30
         textField.autocapitalizationType = .none

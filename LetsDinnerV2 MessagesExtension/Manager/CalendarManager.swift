@@ -9,14 +9,11 @@
 import UIKit
 import EventKit
 
-let calendarManager = CalendarManager.sharedInstance
-private var _SingletonSharedInstance =  CalendarManager()
-
 class CalendarManager {
     
-    public class var sharedInstance : CalendarManager {
-        return _SingletonSharedInstance
-    }
+    static let shared = CalendarManager()
+    
+    private init() {}
     
     let store = EKEventStore()
     
@@ -68,7 +65,7 @@ class CalendarManager {
     
     private func showEventAlreadyAddedAlert(view: UIViewController) {
         let alert = UIAlertController(title: "No updates",
-                                      message: MessagesToDisplay.eventExisted,
+                                      message: AlertStrings.eventExisted,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss",
                                       style: .default,
@@ -81,7 +78,7 @@ class CalendarManager {
     
     private func showEventSucessfullySavedAlert(view: UIViewController) {
         let doneAlert = UIAlertController(title: "Success",
-                                          message: MessagesToDisplay.calendarAlert,
+                                          message: AlertStrings.calendarAlert,
                                           preferredStyle: .alert)
         doneAlert.addAction(UIAlertAction(title: "Done",
                                           style: .default,

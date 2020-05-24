@@ -9,14 +9,11 @@
 import EventKit
 import UIKit
 
-let reminderManager = ReminderManager.sharedInstance
-private var _SingletonSharedInstance =  ReminderManager()
-
 class ReminderManager {
+
+    static let shared = ReminderManager()
     
-    public class var sharedInstance : ReminderManager {
-        return _SingletonSharedInstance
-    }
+    private init() {}
     
     let reminderStore = EKEventStore()
     let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
@@ -163,8 +160,8 @@ class ReminderManager {
     
     func alertSuccessPopup(view: UIViewController) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: MessagesToDisplay.addToRemindersTitle,
-                                          message: MessagesToDisplay.addToRemindersMessage,
+            let alert = UIAlertController(title: AlertStrings.addToRemindersTitle,
+                                          message: AlertStrings.addToRemindersMessage,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Done",
                                           style: .default,
@@ -175,8 +172,8 @@ class ReminderManager {
     
     func alertNoTask(view: UIViewController) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: MessagesToDisplay.remindersNoTaskTitle,
-                                          message: MessagesToDisplay.remindersNoTaskMessage,
+            let alert = UIAlertController(title: AlertStrings.remindersNoTaskTitle,
+                                          message: AlertStrings.remindersNoTaskMessage,
                                           preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss",
                                           style: .default,

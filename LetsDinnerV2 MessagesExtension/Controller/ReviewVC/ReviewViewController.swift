@@ -2,158 +2,171 @@
 //  ReviewViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by Eric Ordonneau on 17/11/2019.
-//  Copyright © 2019 Eric Ordonneau. All rights reserved.
+//  Created by Eric Ordonneau on 16/05/2020.
+//  Copyright © 2020 Eric Ordonneau. All rights reserved.
 //
 
 import UIKit
 import EventKit
+import ReactiveSwift
 
 protocol ReviewViewControllerDelegate: class {
-    func reviewVCDidTapPrevious(controller: ReviewViewController)
-    func reviewVCDidTapSend(controller: ReviewViewController)
-    func reviewVCBackToManagementVC(controller: ReviewViewController)
+    func reviewVCDidTapPrevious()
+    func reviewVCDidTapSend()
+    func reviewVCBackToManagementVC()
 }
 
 class ReviewViewController: UIViewController {
+    // MARK: Properties
+    private let headerView : UIView = {
+        let view = UIView()
+        return view
+    }()
     
-    @IBOutlet weak var editButton: SecondaryButton!
-    @IBOutlet weak var sendButton: SecondaryButton!
-    @IBOutlet weak var summaryTableView: UITableView!
-    @IBOutlet weak var buttonStackView: UIStackView!
-    @IBOutlet weak var sendButtonLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var separatorLine: UIView!
-    @IBOutlet weak var topSendingLabel: UILabel!
+    private let topLabel: UILabel = {
+        let label = UILabel()
+        if #available(iOS 13.2, *) {
+            label.text = LabelStrings.readyToSend2
+        } else {
+            label.text = LabelStrings.readyToSend1
+        }
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .textLabel
+        return label
+    }()
+    
+    private let buttonStackView : UIStackView = {
+        let sv = UIStackView()
+        sv.alignment = .fill
+        sv.axis = .horizontal
+        sv.distribution = .fillEqually
+        sv.spacing = 15
+        return sv
+    }()
+    
+    private let editButton : SecondaryButton = {
+        let button = SecondaryButton()
+        button.setTitle(LabelStrings.edit, for: .normal)
+        return button
+    }()
+    
+    private let sendButton : SecondaryButton = {
+        let button = SecondaryButton()
+        button.setTitleColor(.buttonTextBlue, for: .normal)
+        button.setTitle(LabelStrings.send, for: .normal)
+        return button
+    }()
+    
+    private let separator : UIView = {
+        let view = UIView()
+        view.backgroundColor = .sectionSeparatorLine
+        return view
+    }()
+    
+    private let summaryTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .backgroundColor
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 33, bottom: 0, right: 0)
+        tableView.separatorColor = .cellSeparatorLine
+        return tableView
+    }()
 
-    
     weak var delegate: ReviewViewControllerDelegate?
     
-    let darkView = UIView()
-    var isChecking = false
-    let store = EKEventStore()
+    private let darkView = UIView()
     
-    //    let mailImageView : UIImageView = {
-    //        let image = UIImageView()
-    //        image.image = UIImage(named: "mail")
-    //        image.contentMode = .scaleAspectFit
-    //        image.alpha = 0
-    //        return image
-    //    }()
-
+    private var isChecking = false
+    
+    private let store = EKEventStore()
+    
+    private let loadingView = LDLoadingView()
+    
+    private let viewModel: ReviewViewModel
+    
+    // MARK: Init
+    init(viewModel: ReviewViewModel, delegate: ReviewViewControllerDelegate) {
+        self.viewModel = viewModel
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        StepStatus.currentStep = .reviewVC
-        summaryTableView.delegate = self
-        summaryTableView.dataSource = self
-                
-        registerCell(CellNibs.titleCell)
-        registerCell(CellNibs.infoCell)
-        registerCell(CellNibs.descriptionCell)
-        registerCell(CellNibs.taskSummaryCell)
-
         setupUI()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(showUploadFail), name: Notification.Name(rawValue: "UploadError"), object: nil)
+        setupTableView()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-         NotificationCenter.default.post(name: Notification.Name("didGoToNextStep"), object: nil, userInfo: ["step": 5])
+        super.viewWillAppear(animated)
+        StepStatus.currentStep = .reviewVC
     }
-
-    private func setupUI() {
-        
-        self.view.backgroundColor = .backgroundColor
-        
-        summaryTableView.tableFooterView = UIView()
-        summaryTableView.backgroundColor = .backgroundColor
-        
-        sendButtonLeadingConstraint.isActive = false
-        sendButton.setTitleColor(.buttonTextBlue, for: .normal)
-                
-        if #available(iOS 13.2, *) {
-            topSendingLabel.text = LabelStrings.readyToSend2
-        } else {
-            topSendingLabel.text = LabelStrings.readyToSend1
+    
+    // MARK: ViewModel Binding
+    private func bindViewModel() {
+        editButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.delegate?.reviewVCDidTapPrevious()
         }
-
-    }
-    
-    private func registerCell(_ nibName: String) {
-           summaryTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
-       }
-    
-    @IBAction func didTapEditButton(_ sender: Any) {
-        delegate?.reviewVCDidTapPrevious(controller: self)
-    }
-    
-    @IBAction func didTapSend(_ sender: Any) {
-        if isChecking {
-            // Show Alert if add to calendar
-            addToCalendarAlert()
-        } else {
-            reviewBeforeSending()
+        
+        sendButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.isChecking ? self.showCalendarAlert() : self.reviewBeforeSending()
+        }
+        
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.edges.equalToSuperview()
+                    }
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
+        
+        self.viewModel.dataUploadSignal.observe(on: UIScheduler())
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                #warning("Modify error message")
+                #warning("In case of failure, the event will already have been added to the calendar, so there will be a duplicate")
+                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+            case.success(()):
+                self.sendInvitation()
+            }
         }
     }
     
-    func confirmToAddCalendar() {
-        let title = Event.shared.dinnerName
-        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-        let location = Event.shared.dinnerLocation
-        
-        calendarManager.addEventToCalendar(view: self,
-                                            with: title,
-                                            forDate: date,
-                                            location: location)
-        
-        sendInvitation()
+    // MARK: Methods
+    private func setupTableView() {
+        summaryTableView.delegate = self
+        summaryTableView.dataSource = self
+        summaryTableView.registerCells(CellNibs.titleCell,
+                                       CellNibs.infoCell,
+                                       CellNibs.descriptionCell,
+                                       CellNibs.taskSummaryCell)
     }
-    
-    func addToCalendarAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.addToCalendarAlertTitle,
-                                      message: MessagesToDisplay.addToCalendarAlertMessage,
-                                      preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Nope",
-                                      style: UIAlertAction.Style.destructive,
-                                      handler: { (_) in self.sendInvitation()}))
-        alert.addAction(UIAlertAction(title: "Add",
-                                      style: UIAlertAction.Style.default,
-                                      handler: { (_) in self.confirmToAddCalendar() }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-//    private func animateSending() {
-//        view.addSubview(mailImageView)
-//        mailImageView.translatesAutoresizingMaskIntoConstraints = false
-//        mailImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-//        mailImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-//        mailImageView.widthAnchor.constraint(equalToConstant: 105).isActive = true
-//        mailImageView.heightAnchor.constraint(equalToConstant: 105).isActive = true
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//            self.summaryTableView.alpha = 0
-//            self.mailImageView.alpha = 1
-//        }) { (_) in
-//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                self.mailImageView.transform = CGAffineTransform(translationX: 0, y: -200)
-//                self.mailImageView.alpha = 0
-//            }) { (_) in
-//                self.delegate?.reviewVCDidTapSend(controller: self)
-//            }
-//        }
-//    }
     
     private func reviewBeforeSending() {
-        darkView.frame = self.view.frame
+        darkView.frame = summaryTableView.frame
         darkView.backgroundColor = UIColor.backgroundMirroredColor.withAlphaComponent(0.5)
         darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)
-        self.view.bringSubviewToFront(buttonStackView)
-        
-        self.view.layoutIfNeeded()
-        
-    
-        
         UIView.animate(withDuration: 1,
                        delay: 0,
                        usingSpringWithDamping: 1,
@@ -161,15 +174,28 @@ class ReviewViewController: UIViewController {
                        options: .curveLinear,
                        animations: {
                         self.darkView.alpha = 0.8
-            self.sendButtonLeadingConstraint =  self.sendButton.leadingAnchor.constraint(equalTo: self.buttonStackView.leadingAnchor, constant: 0)
-            self.sendButtonLeadingConstraint.isActive = true
-            self.view.layoutIfNeeded()
-            self.sendButton.setTitle("Confirm", for: .normal)
-            self.sendButton.setTitleColor(.white, for: .normal)
-            self.sendButton.backgroundColor = Colors.customBlue
+                        self.sendButton.snp.makeConstraints { make in
+                            make.leading.equalTo(self.buttonStackView.snp.leading)
+                        }
+                        self.view.layoutIfNeeded()
+                        self.sendButton.setTitle("Confirm", for: .normal)
+                        self.sendButton.setTitleColor(.white, for: .normal)
+                        self.sendButton.backgroundColor = Colors.customBlue
         }) { (_) in
             self.isChecking = true
         }
+    }
+    
+    @objc private func cancelSending() {
+        self.isChecking = false
+        darkView.removeFromSuperview()
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+            self.sendButton.snp.removeConstraints()
+            self.view.layoutIfNeeded()
+            self.sendButton.setTitle("Send", for: .normal)
+            self.sendButton.setTitleColor(Colors.customBlue, for: .normal)
+            self.sendButton.backgroundColor = Colors.paleGray
+        })
     }
     
     private func sendInvitation() {
@@ -179,51 +205,96 @@ class ReviewViewController: UIViewController {
             self.summaryTableView.transform = CGAffineTransform(translationX: 0, y: 30)
         }) { (_) in
             self.isChecking = false
-            self.delegate?.reviewVCDidTapSend(controller: self)
+            self.delegate?.reviewVCDidTapSend()
         }
     }
     
-    @objc private func cancelSending() {
-        self.isChecking = false
-        darkView.removeFromSuperview()
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-            self.sendButtonLeadingConstraint.isActive = false
-            self.view.layoutIfNeeded()
-            self.sendButton.setTitle("Send", for: .normal)
-            self.sendButton.setTitleColor(Colors.customBlue, for: .normal)
-            self.sendButton.backgroundColor = Colors.paleGray
-        })
-    }
-    
-    @objc private func showUploadFail() {
-        let alert = UIAlertController(title: "Error", message: "There was a problem uploading your event, please try again", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alert.addAction(action)
+    private func showCalendarAlert() {
+        #warning("It seems that if you press don't allow access to calendar once, and then send a new event later and tap on add to calendar, the alert to ask for persmission will not be displayed and the event not added to calendar")
+        let alert = UIAlertController(title: AlertStrings.addToCalendarAlertTitle,
+                                      message: AlertStrings.addToCalendarAlertMessage,
+                                      preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: AlertStrings.nope,
+                                      style: UIAlertAction.Style.destructive,
+                                      handler: { (_) in self.viewModel.uploadEvent()}))
+        alert.addAction(UIAlertAction(title: AlertStrings.add,
+                                      style: UIAlertAction.Style.default,
+                                      handler: { (_) in self.addEventToCalendarAndUpload() }))
         self.present(alert, animated: true, completion: nil)
     }
- 
+    
+    func addEventToCalendarAndUpload() {
+        let title = Event.shared.dinnerName
+        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+        let location = Event.shared.dinnerLocation
+        
+        CalendarManager.shared.addEventToCalendar(view: self,
+                                           with: title,
+                                           forDate: date,
+                                           location: location)
+        
+        self.viewModel.uploadEvent()
+    }
+    
+    private func setupUI() {
+        self.view.backgroundColor = .backgroundColor
+        view.addSubview(headerView)
+        headerView.addSubview(topLabel)
+        headerView.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(editButton)
+        buttonStackView.addArrangedSubview(sendButton)
+        headerView.addSubview(separator)
+        view.addSubview(summaryTableView)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        headerView.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.height.equalTo(130)
+        }
+        
+        separator.snp.makeConstraints { make in
+            make.bottom.trailing.leading.equalToSuperview()
+            make.height.equalTo(0.5)
+        }
+        
+        buttonStackView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-15)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.height.equalTo(42)
+        }
+        
+        topLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+        }
+        
+        summaryTableView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom)
+        }
+    }
 }
-
-// MARK: - TableViewSetup
+    // MARK: TableView Delegate
 extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         
         switch indexPath.row {
-
         case 0:
-           titleCell.titleLabel.text = Event.shared.dinnerName
-           titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
-           return titleCell
+            titleCell.titleLabel.text = Event.shared.dinnerName
+            titleCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+            return titleCell
         case 1:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
@@ -243,7 +314,6 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         case 5:
             taskSummaryCell.seeAllButton.isHidden = true
             taskSummaryCell.reviewVCDelegate = self
-           
             let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)
             return taskSummaryCell
@@ -251,7 +321,6 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             break
         }
         return UITableViewCell()
-            
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -260,24 +329,17 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             return 120
         case 1, 2, 3:
             return 52
-//        case 5:
-//            if !Event.shared.tasks.isEmpty {
-//                return 350
-//            } else {
-//                return UITableView.automaticDimension
-//            }
-        
         default:
             return UITableView.automaticDimension
         }
     }
 }
 
-// MARK:- TaskSummary Delegate
+    // MARK: TaskSummary Delegate
 extension ReviewViewController: TaskSummaryCellInReviewVCDelegate {
     func taskSummaryDidTapSeeAllBeforeCreateEvent() {
-        // Go back to task management
-        delegate?.reviewVCBackToManagementVC(controller: self)
+        delegate?.reviewVCBackToManagementVC()
     }
 }
+
 

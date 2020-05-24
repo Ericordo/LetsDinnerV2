@@ -53,9 +53,9 @@ class TaskCVCell: UICollectionViewCell {
             } else {
                 // My Task
                 if task.taskState == .completed {
-                    personLabel.text = MessagesToDisplay.completed
+                    personLabel.text = AlertStrings.completed
                 } else {
-                    personLabel.text = MessagesToDisplay.assignedToMyself
+                    personLabel.text = AlertStrings.assignedToMyself
                 }
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
                 taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
@@ -63,7 +63,7 @@ class TaskCVCell: UICollectionViewCell {
             
         } else {
             // Task Not Assigned
-            personLabel.text = MessagesToDisplay.noAssignment
+            personLabel.text = AlertStrings.noAssignment
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
         }
         

@@ -11,17 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum VCNibs {
-    static let initialViewController = "InitialViewController"
-    static let registrationViewController = "RegistrationViewController"
-    static let recipeDetailsViewController = "RecipeDetailsViewController"
-    static let managementViewController = "ManagementViewController"
-    static let eventSummaryViewController = "EventSummaryViewController"
-    static let tasksListViewController = "TasksListViewController"
-    static let idleViewController = "IdleViewController"
-    static let reviewViewController = "ReviewViewController"
-    static let eventInfoViewController = "EventInfoViewController"
-    static let progressViewController = "ProgressViewController"
-    static let expiredEventViewController = "ExpiredEventViewController"
     static let recipeCreationViewController = "RecipeCreationViewController"
     static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
 }
@@ -36,7 +25,6 @@ enum CellNibs {
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
     static let userCell = "UserCell"
-    static let calendarCell = "CalendarCell"
     static let taskCVCell = "TaskCVCell"
     static let taskCell = "TaskCell"
     static let userCVCell = "UserCVCell"
@@ -72,8 +60,8 @@ enum Keys {
     
 }
 
-enum MessagesToDisplay {
-    // Add to Calenedar Alert
+enum AlertStrings {
+    // Add to Calendar Alert
     static let calendarAlert = "This event was successfully added to your calendar."
     static let addToCalendarAlertTitle = "Add to calendar?"
     static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
@@ -102,11 +90,12 @@ enum MessagesToDisplay {
     static let no = "No"
     
     // TaskListVC Alert
-    static let unsubmittedTasks = "Dismiss changes?"
-    static let submitQuestion = "You made changes in this list. Would you like to update it?"
-    static let synchTitle = "Things synchronisation"
-    static let synchMessage = "Changes made, can end up unsaved. Whoiever updates first, saves their changes."
-    static let update = "Update"
+    static let unsubmittedTasks = NSLocalizedString("Dismiss changes?", comment: "dismiss changes?")
+    static let submitQuestion = NSLocalizedString("You made changes in this list. Would you like to update it?", comment: "you made changes")
+    static let syncTitle = NSLocalizedString("Things synchronization", comment: "things synchronization")
+    static let syncMessage = NSLocalizedString("Changes made, can end up unsaved. Whoever updates first, saves their changes.", comment: "sync message")
+    static let update = NSLocalizedString("Update", comment: "update")
+    static let goodToKnow = NSLocalizedString("Good to know!", comment: "good to know")
     
     // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
@@ -114,22 +103,50 @@ enum MessagesToDisplay {
     
     
     
-    static let cancel = "Cancel"
-    static let add = "Add"
+    static let cancel = NSLocalizedString("Cancel", comment: "cancel")
+    static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = "Add a thing"
     static let thingToAdd = "Thing to add"
     static let noNetwork = "No Network"
     static let decodingFailed = "Failed to load recipes"
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
+    static let nope = NSLocalizedString("Nope", comment: "nope")
+    static let change = NSLocalizedString("Change", comment: "change")
+    static let delete = NSLocalizedString("Delete", comment: "delete")
+    static let myImage = NSLocalizedString("My image", comment: "my image")
+    static let oops = NSLocalizedString("Oops", comment: "string")
+    static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
+    static let confirm = NSLocalizedString("Confirm", comment: "confirm")
+    static let decline = NSLocalizedString("Decline", comment: "decline")
 
 }
 
 enum LabelStrings {
     static let next = NSLocalizedString("Next", comment: "Next")
     
-    // StartVC
-    static let getStarted = "Please enter your full name \n to get started."
+    // InitialVC
+    static let letsdinner = "Let's Dinner!"
+    static let letsdinnerSubtitle = NSLocalizedString("Organize an event and cook together.", comment: "lets dinner subtitle")
+    static let newEvent = NSLocalizedString("New Event", comment: "new event")
+    
+    // IdleVC
+    static let continueButton = NSLocalizedString("Continue", comment: "continue")
+    
+    // RegistrationVC
+    static let getStarted = NSLocalizedString("Please enter your full name \n to get started.", comment: "enter full name")
+    static let save = NSLocalizedString("Save", comment: "save")
+    static let profile = NSLocalizedString("Profile", comment: "profile")
+    static let addImage = NSLocalizedString("Add image", comment: "add image")
+    static let personalInfo = NSLocalizedString("PERSONAL INFORMATION", comment: "personal info")
+    static let measurementSystem = NSLocalizedString("SYSTEM OF MEASUREMENT", comment: "system of measurement")
+    static let enterFullName = NSLocalizedString("Please enter your full name", comment: "please enter full name")
+    static let firstName = NSLocalizedString("First Name", comment: "first name")
+    static let lastName = NSLocalizedString("Last Name", comment: "last name")
+    static let address = NSLocalizedString("Address", comment: "address")
+    static let metric = NSLocalizedString("Metric", comment: "metric")
+    static let imperial = NSLocalizedString("Imperial", comment: "imperial")
+    static let modifyImage = NSLocalizedString("Modify image", comment: "modify image")
     
     // NewEventVC
     static let host = NSLocalizedString("Host", comment: "host")
@@ -174,14 +191,18 @@ enum LabelStrings {
     
 
     // ManagementVC
-    static let noTaskTitle = "Nothing's missing? \nIn need of a helping hand?"
-    static let noTaskMessage = "Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that."
-    static let noTaskMessage2 = "Start by tapping"
-    static let deleteTaskLabel = "To delete a Thing, swipe left."
-    static let assignTaskLabel = "To assign yourself to a Thing or to complete it, tap it or swipe right."
+    static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")
+    static let noTaskMessage = NSLocalizedString("Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that.", comment: "no task message")
+    static let noTaskMessage2 = NSLocalizedString("Start by tapping", comment: "no task instructions")
+    static let deleteTaskLabel = NSLocalizedString("To delete a Thing, swipe left.", comment: "delete instruction")
+    static let assignTaskLabel = NSLocalizedString("To assign yourself to a Thing or to complete it, tap it or swipe right.", comment: "assign instruction")
+    static let manageThings = NSLocalizedString("Manage Things", comment: "title")
+    static let recipes = NSLocalizedString(" Recipes", comment: "recipes")
+    static let addThing = NSLocalizedString("  Add Thing", comment: "add thing")
+    static let misc = NSLocalizedString("Miscellaneous", comment: "miscellaneous")
     
     // DescriptionVC
-    static let whatsThePlan = NSLocalizedString("WHAT'S THE PLAN?", comment: "what's the plan")
+    static let whatsThePlan = NSLocalizedString("What's the plan?", comment: "what's the plan")
     static let eventPlaceholder = NSLocalizedString("Would you like to add an invitation message? \nMore information? Anything else?", comment: "event description placeholder")
     static let nothingToDo = NSLocalizedString("There is nothing to do!", comment: "there is nothing to do")
     static let things = NSLocalizedString(" Things", comment: "things")
@@ -189,10 +210,11 @@ enum LabelStrings {
     static let maxCount = NSLocalizedString("No more than 400 characters please! 😁", comment: "character limit")
     
     // ReviewVC
-    static let readyToSend = "Ready to send your invite?"
-    static let readyToSend1 = "You're all set now! 💪 \nReady to send your invite?"
-    static let readyToSend2 = "You're all set now! 🦾 \nReady to send your invite?"
-    static let update = "Update"
+    static let readyToSend1 = NSLocalizedString("You're all set now! 💪 \nReady to send your invite?", comment: "ready to send")
+    static let readyToSend2 = NSLocalizedString("You're all set now! 🦾 \nReady to send your invite?", comment: "ready to send")
+    static let update = NSLocalizedString("Update", comment: "update")
+    static let send = NSLocalizedString("Send", comment: "send")
+    static let edit = NSLocalizedString("Edit", comment: "edit")
     
     // EventSummaryVC
     static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
@@ -200,16 +222,26 @@ enum LabelStrings {
     static let declinedLabel = "You've declined the invitation"
     static let allDoneLabel = "All done, greatjob! Everything has been taken care of. Let the party begins! 😎🥳"
     static let nothingToDoLabel = "Nope! Either, there is nothing to do or the host is handling everything 😬🙌"
-    static let eventInfo = "Event Info"
+    static let eventInfo = NSLocalizedString("Event Info", comment: "event info")
+    
+    // TasksListVC
+    static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now. Your choices may be overwritten, please come back later! 😬", comment: "multiple users checking")
+    static let calendar = NSLocalizedString("Calendar", comment: "calendar")
+    static let reminders = NSLocalizedString("Reminders", comment: "reminders")
+    static let cookingManual = NSLocalizedString("Create Cooking Manual", comment: "create cooking manual")
+    static let back = NSLocalizedString(" Back", comment: "back")
+    
+    // EventInfoVC
+    static let eventInfoLabel = NSLocalizedString("You can sync the things assigned to you with Reminders and add the event to your Calendar.", comment: "sync description")
+    
     
     // Reschedule
-    static let rescheduleTitle = "Need to reschedule?"
-    static let rescheduleText = "No problem, simply choose another date! 😅👌"
-    static let selectNewDate = "Select a new date for your event:"
+    static let rescheduleTitle = NSLocalizedString("Need to reschedule?", comment: "need to reschedule?")
+    static let rescheduleText = NSLocalizedString("No problem, simply choose another date! 👌", comment: "no problem, simply choose another date")
 
     // Past Event
-    static let pastEventTitle = "Past Event"
-    static let pastEventDescription = "Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍"
+    static let pastEventTitle = NSLocalizedString("Past Event", comment: "past event title")
+    static let pastEventDescription = NSLocalizedString("Looks like this event is in the past but don't fret, cooking is still better together! Create a new event and send an invite! 🤩👍", comment: "past event description")
     
     // Canceled Event
     static let canceledEventTitle = "Canceled Event"
@@ -244,11 +276,16 @@ enum LabelStrings {
     static let thankYouDescriptionPartOne = NSLocalizedString("Let’s Dinner! was created with a lot of love and care. It means the world to us that you purchased Let’s Dinner Pro! We hope that you’re happy with your new app and can put it to good use.", comment: "Thank you Description Part 1")
     static let thankYouDescriptionPartTwo = NSLocalizedString("With your one time purchase you help to keep our costs down and ensure future development.", comment: "Thank you Description Part 2")
     static let okLetsDinner = "Ok, Let's Dinner!"
+    
+    //ExpiredEventVC
+    static let createNewEvent = NSLocalizedString("Create a new Event", comment: "create a new event")
 }
 
 enum Images {
     
     static let chevronLeft = UIImage(named: "chevronLeft")
+    static let settings = UIImage(named: "settingsButtonOutlinedWhite")
+    static let logo = UIImage(named: "appIconWhite")
     // Welcome Screen
     static let chatIcon = UIImage(named: "chatIcon")!
     static let inviteIcon = UIImage(named: "inviteIcon")!
@@ -262,6 +299,10 @@ enum Images {
     static let statusPending = "statusPending"
     static let statusAccepted = "statusAccepted"
     static let statusDeclined = "statusDeclined"
+    
+    // RegistrationVC
+    static let profilePlaceholder = UIImage(named: "profilePlaceholderBig")!
+    static let checkmark = UIImage(named: "checkmark")!
     
     // NewEventVC
     static let settingsButtonOutlined = UIImage(named: "settingsButtonOutlined")!
@@ -280,8 +321,17 @@ enum Images {
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
     static let recipeBookIcon = UIImage(named: "recipeBookIcon")
     
+    // TasksListVC
+    static let sortIcon = UIImage(named: "sortButtonOutlined")!
+    
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
+    
+    //TaskStatusButton
+    static let checkboxOutlined = UIImage(named: "checkboxOutlined")!
+    static let assignedImage = UIImage(named: "checkboxAssignedOutlined")!
+    static let completedImage = UIImage(named: "checkboxAssignedCompleted")!
+    static let completedByOtherImage = UIImage(named: "checkBoxCompleted")!
 }
 
 enum ButtonTitle {
@@ -290,8 +340,40 @@ enum ButtonTitle {
 }
 
 enum DataKeys {
+    static let events = "Events"
     static let recipePictures = "RecipePictures"
     static let profilePictures = "ProfilePictures"
+    static let eventName = "dinnerName"
+    static let hostName = "hostName"
+    static let dateTimestamp = "dateTimestamp"
+    static let eventLocation = "dinnerLocation"
+    static let eventDescription = "eventDescription"
+    static let hostID = "hostID"
+    static let sourceUrl = "sourceUrl"
+    static let id = "id"
+    static let recipes = "recipes"
+    static let customRecipes = "customRecipes"
+    static let servings = "servings"
+    static let ingredients = "ingredients"
+    static let downloadUrl = "downloadUrl"
+    static let comments = "comments"
+    static let cookingSteps = "cookingSteps"
+    static let onlineUsers = "onlineUsers"
+    static let isCancelled = "isCancelled"
+    static let customOrder = "customOrder"
+    static let tasks = "tasks"
+    static let title = "title"
+    static let ownerName = "ownerName"
+    static let ownerUid = "ownerUid"
+    static let state = "state"
+    static let isCustom = "isCustom"
+    static let parentRecipe = "parentRecipe"
+    static let metricUnit = "metricUnit"
+    static let metricAmount = "metricAmount"
+    static let fullName = "fullName"
+    static let hasAccepted = "hasAccepted"
+    static let profilePicUrl = "profilePicUrl"
+    static let participants = "participants"
 }
 
 

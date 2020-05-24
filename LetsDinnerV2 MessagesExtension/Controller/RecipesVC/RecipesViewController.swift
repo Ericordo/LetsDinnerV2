@@ -54,8 +54,9 @@ class RecipesViewController: LDNavigationViewController {
     private let viewModel: RecipesViewModel
 
     // MARK: Init
-    init(viewModel: RecipesViewModel) {
+    init(viewModel: RecipesViewModel, delegate: RecipesViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -92,9 +93,8 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            // Make with completion block? 
             self.viewModel.prepareTasks()
-            // To avoid blinking glitch, check on real device
+            #warning("To avoid glitching during transition, check on real device if really necessary")
             self.toolbar.removeFromSuperview()
             self.delegate?.recipeVCDidTapNext()
         }
@@ -222,11 +222,11 @@ class RecipesViewController: LDNavigationViewController {
         #warning("Improve error messages")
         switch error {
         case .decodingFailed:
-            self.showBasicAlert(title: MessagesToDisplay.decodingFailed, message: "")
+            self.showBasicAlert(title: AlertStrings.decodingFailed, message: "")
         case .noNetwork:
-            self.showBasicAlert(title: MessagesToDisplay.noNetwork, message: "")
+            self.showBasicAlert(title: AlertStrings.noNetwork, message: "")
         case.requestLimit:
-            self.showBasicAlert(title: MessagesToDisplay.requestLimit, message: MessagesToDisplay.tryAgain)
+            self.showBasicAlert(title: AlertStrings.requestLimit, message: AlertStrings.tryAgain)
         }
     }
     
@@ -393,13 +393,6 @@ extension RecipesViewController: RecipeCellDelegate {
                                                              order: CustomOrderHelper.shared.lastIndex + 1)
         }
         configureNextAndSelectedRecipesButtons()
-    }
-}
-
-    //MARK: RecipeDetailsVC Delegate
-extension RecipesViewController: RecipeDetailsViewControllerDelegate {
-    func recipeDetailsVCShouldDismiss(_ controller: RecipeDetailsViewController) {
-        updateState()
     }
 }
 

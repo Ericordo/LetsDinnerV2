@@ -2,7 +2,7 @@
 //  ExpiredEventViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by DiMa on 03/02/2020.
+//  Created by Eric Ordonneau on 19/05/2020.
 //  Copyright © 2020 Eric Ordonneau. All rights reserved.
 //
 
@@ -17,55 +17,86 @@ private enum RowItemNumber: Int, CaseIterable {
 }
 
 protocol ExpiredEventViewControllerDelegate: class {
-    func expiredEventVCDidTapCreateNewEvent(controller : ExpiredEventViewController)
+    func expiredEventVCDidTapCreateNewEvent()
 }
 
 class ExpiredEventViewController: UIViewController {
+    // MARK: Properties
+    private lazy var newEventButton : PrimaryButton = {
+        let button = PrimaryButton()
+        button.addTarget(self, action: #selector(didTapNewEvent), for: .touchUpInside)
+        button.setTitle(LabelStrings.createNewEvent, for: .normal)
+        return button
+    }()
     
-    @IBOutlet weak var createNewEventButton: UIButton!
-    @IBOutlet weak var expiredEventTableView: UITableView!
-    
-    // MARKS: - Variable
+    private let expiredEventTableView : UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))
+        tableView.backgroundColor = .backgroundColor
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 33, bottom: 0, right: 0)
+        tableView.separatorColor = .cellSeparatorLine
+        return tableView
+    }()
     
     weak var delegate: ExpiredEventViewControllerDelegate?
     
-    // BUG: Running two times
+    // MARK: Init
+    init(delegate: ExpiredEventViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        StepStatus.currentStep = .expiredEventVC
         setupUI()
-        
-        self.setupTableView()
-        self.registerCells()
+        setupTableView()
     }
     
-    func setupTableView() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        StepStatus.currentStep = .expiredEventVC
+    }
+    
+    // MARK: Methods
+    @objc private func didTapNewEvent() {
+        delegate?.expiredEventVCDidTapCreateNewEvent()
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .backgroundColor
+        view.addSubview(newEventButton)
+        view.addSubview(expiredEventTableView)
+        addConstraints()
+    }
+    
+    private func setupTableView() {
         expiredEventTableView.delegate = self
         expiredEventTableView.dataSource = self
-        expiredEventTableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 1)))    }
+        expiredEventTableView.registerCells(CellNibs.titleCell,
+                                            CellNibs.infoCell,
+                                            CellNibs.expiredEventCell)
+    }
     
-    func registerCells() {
-        func registerCell(_ nibName: String) {
-            expiredEventTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+    private func addConstraints() {
+        newEventButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
         
-        registerCell(CellNibs.titleCell)
-        registerCell(CellNibs.infoCell)
-        registerCell(CellNibs.expiredEventCell)
-    }
-    
-    func setupUI() {
-        createNewEventButton.layer.masksToBounds = true
-        createNewEventButton.alpha = 1
-        createNewEventButton.layer.cornerRadius = 12
-        createNewEventButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-    }
-    
-    @IBAction func didTapCreateNewEvent(_ sender: UIButton) {
-        delegate?.expiredEventVCDidTapCreateNewEvent(controller: self)
+        expiredEventTableView.snp.makeConstraints { make in
+            make.leading.trailing.top.equalToSuperview()
+            make.bottom.equalTo(newEventButton.snp.top).offset(-10)
+        }
     }
 }
 
+    // MARK: TableView Delegate
 extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return RowItemNumber.allCases.count
@@ -75,43 +106,32 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
         let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let expiredEventCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.expiredEventCell) as! ExpiredEventCell
-        let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
-        
+     
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
             titleCell.titleLabel.text = Event.shared.dinnerName
-//            titleCell.separatorInset = separatorInset
             return titleCell
-            
         case RowItemNumber.hostInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.host
             infoCell.infoLabel.text = Event.shared.hostName
-//            infoCell.cellSeparator.isHidden = false
             return infoCell
-            
         case RowItemNumber.dateInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.date
             infoCell.infoLabel.text = Event.shared.dinnerDate
             return infoCell
-            
         case RowItemNumber.locationInfo.rawValue:
             infoCell.titleLabel.text = LabelStrings.location
             infoCell.infoLabel.text = Event.shared.dinnerLocation
             return infoCell
-            
         case RowItemNumber.expiredEventInfo.rawValue:
             return expiredEventCell
-            
         default:
             break
         }
         return UITableViewCell()
     }
-    
-    // MARK: - Row Height
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         switch indexPath.row {
         case RowItemNumber.title.rawValue:
             return 120
@@ -125,9 +145,4 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
             return UITableView.automaticDimension
         }
     }
-    
-    // MARK: - Other Function
-    
-    
 }
-

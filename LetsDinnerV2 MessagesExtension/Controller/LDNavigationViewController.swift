@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class LDNavigationViewController: UIViewController {
     
@@ -20,7 +19,6 @@ class LDNavigationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
     }
 
     private func setupUI() {
@@ -32,9 +30,7 @@ class LDNavigationViewController: UIViewController {
         progressVC.view.frame = progressViewContainer.bounds
         progressVC.didMove(toParent: self)
         addConstraints()
-        
     }
-    
     
     private func addConstraints() {
         navigationBar.snp.makeConstraints { make in
@@ -47,13 +43,5 @@ class LDNavigationViewController: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(2)
         }
-        
-        
-//
-//        progressView.snp.makeConstraints { make in
-//            make.top.equalTo(navigationBar.snp.bottom)
-//            make.leading.trailing.equalToSuperview()
-//            make.height.equalTo(2)
-//        }
     }
 }

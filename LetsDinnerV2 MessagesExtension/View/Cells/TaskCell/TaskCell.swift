@@ -41,7 +41,7 @@ class TaskCell: UITableViewCell {
             task.assignedPersonName = defaults.username
             task.assignedPersonUid = Event.shared.currentUser?.identifier
             task.taskState = .assigned
-            personLabel.text = MessagesToDisplay.assignedToMyself
+            personLabel.text = AlertStrings.assignedToMyself
             delegate?.taskCellUpdateProgress(indexPath: indexPath)
             taskStatusButton.setState(state: task.taskState)
         case .assigned:
@@ -49,7 +49,7 @@ class TaskCell: UITableViewCell {
                 task.taskState = .completed
                 task.assignedPersonName = defaults.username
                 task.assignedPersonUid = Event.shared.currentUser?.identifier
-                personLabel.text = MessagesToDisplay.completed
+                personLabel.text = AlertStrings.completed
                 taskStatusButton.setState(state: task.taskState)
                 delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
@@ -98,16 +98,16 @@ class TaskCell: UITableViewCell {
                 taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.taskState)
             } else {
                 if task.taskState == .completed {
-                    personLabel.text = MessagesToDisplay.completed
+                    personLabel.text = AlertStrings.completed
                 } else {
-                    personLabel.text = MessagesToDisplay.assignedToMyself
+                    personLabel.text = AlertStrings.assignedToMyself
                 }
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
                 taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
             }
         } else {
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
-            personLabel.text = MessagesToDisplay.noAssignment
+            personLabel.text = AlertStrings.noAssignment
         }
         taskStatusButton.isUserInteractionEnabled = false
         separatorLine.backgroundColor = UIColor.cellSeparatorLine

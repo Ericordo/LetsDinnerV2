@@ -2,344 +2,286 @@
 //  TasksListViewController.swift
 //  LetsDinnerV2 MessagesExtension
 //
-//  Created by Eric Ordonneau on 07/11/2019.
-//  Copyright © 2019 Eric Ordonneau. All rights reserved.
+//  Created by Eric Ordonneau on 19/05/2020.
+//  Copyright © 2020 Eric Ordonneau. All rights reserved.
 //
 
 import UIKit
-import FirebaseDatabase
+import ReactiveSwift
 
 protocol TasksListViewControllerDelegate: class {
-    func tasksListVCDidTapBackButton(controller: TasksListViewController)
-    func tasksListVCDidTapSubmit(controller: TasksListViewController)
+    func tasksListVCDidTapBackButton()
+    func tasksListVCDidTapSubmit()
 }
 
-class TasksListViewController: UIViewController {
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var submitButton: UIButton!
-    @IBOutlet weak var tasksTableView: UITableView!
-    @IBOutlet weak var onlineAlertHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var servingsViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var servingsLabel: UILabel!
-    @IBOutlet weak var servingsStepper: UIStepper!
-    @IBOutlet weak var servingsSeparator: UIView!
+class TasksListViewController: LDNavigationViewController {
+    // MARK: Properties
+    private let submitButton : PrimaryButton = {
+        let button = PrimaryButton()
+        button.setTitle(LabelStrings.update, for: .normal)
+        button.isHidden = Event.shared.tasks.isEmpty
+        return button
+    }()
+    
+    private let navigationSeparator : UIView = {
+        let view = UIView()
+        view.backgroundColor = .sectionSeparatorLine
+        return view
+    }()
+    
+    private let alertBanner = LDAlertBanner(LabelStrings.multipleUsers)
+    
+    private let servingsView = LDServingsView()
+    
+    private let tasksTableView : UITableView = {
+        let tv = UITableView()
+        tv.showsVerticalScrollIndicator = false
+        tv.backgroundColor = .backgroundColor
+        tv.separatorStyle = .none
+        tv.tableFooterView = UIView()
+        return tv
+    }()
     
     weak var delegate: TasksListViewControllerDelegate?
     
-    private var tasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
-//    private var sortedTasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
-    private var classifiedTasks = [[Task]]()
-    private var expandableTasks = [ExpandableTasks]()
-    private var sectionNames = [String]()
-
+    private let viewModel: TasksListViewModel
+    
+    // MARK: Init
+    init(viewModel: TasksListViewModel, delegate: TasksListViewControllerDelegate) {
+        self.viewModel = viewModel
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: View Lifecyle
     override func viewDidLoad() {
         super.viewDidLoad()
-        StepStatus.currentStep = .tasksListVC
-        
-        setupUI()
         setupTableView()
-        prepareTasks()
-        tasksTableView.reloadData()
-       
-        Database.database().reference().child(Event.shared.hostIdentifier).child("Events").child(Event.shared.firebaseEventUid).child("onlineUsers").observe(.value) { snapshot in
-            guard let value = snapshot.value as? Int else { return }
-            self.updateOnlineAlert(value)
-            
-            
-        }
-        
+        setupUI()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        Event.shared.addOnlineUser()
+        super.viewWillAppear(animated)
+        StepStatus.currentStep = .tasksListVC
+        viewModel.addOnlineUser()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        Event.shared.removeOnlineUser()
+        super.viewWillDisappear(animated)
+        viewModel.removeOnlineUser()
     }
     
-    func setupUI() {
-//        backButton.setTitle(" \(Event.shared.dinnerName)", for: .normal)
-        setupUpdateButton()
-        setupServingsView()
+    // MARK: ViewModel Binding
+    private func bindViewModel() {
         
-        // Should hide it at the first time opening the VC
-        view.layoutIfNeeded()
-        onlineAlertHeightConstraint.constant = 0
+        viewModel.servings <~ servingsView.stepper.reactive.values.map { Int($0) }
+        
+        navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            Event.shared.servings = Event.shared.currentConversationServings
+            self.viewModel.updateSummaryText()
+            if Event.shared.tasksNeedUpdate {
+                self.displayPendingChangesAlert()
+            } else {
+                self.delegate?.tasksListVCDidTapBackButton()
+            }
+        }
+        
+        navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.viewModel.sortTasks()
+        }
+        
+        submitButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.delegate?.tasksListVCDidTapSubmit()
+        }
+        
+        self.viewModel.newDataSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] _ in
+                guard let self = self else { return }
+                self.tasksTableView.reloadData()
+                self.updateSubmitButton()
+        }
+        
+        self.viewModel.onlineUsersSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] value in
+                guard let self = self else { return }
+                value > 1 ? self.alertBanner.appear() : self.alertBanner.disappear()
+                if value > 1 && !Event.shared.shouldShowSyncAlert {
+                    self.showSyncAlert()
+                    Event.shared.shouldShowSyncAlert = true
+                }
+        }
+        
+        viewModel.servings.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] servings in
+                guard let self = self else { return }
+                #warning("localize")
+                self.servingsView.label.text = "Update servings? \(servings)"
+                self.servingsView.stepper.value = Double(servings)
+                self.servingsView.label.textColor = Event.shared.servingsNeedUpdate ? .activeButton : .textLabel
+                self.updateSubmitButton()
+        }
     }
     
-    func setupTableView() {
+    // MARK: Methods
+    private func setupTableView() {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
-        tasksTableView.register(UINib(nibName: CellNibs.taskCell, bundle: nil), forCellReuseIdentifier: CellNibs.taskCell)
+        tasksTableView.registerCells(CellNibs.taskCell)
     }
     
-    private func setupUpdateButton() {
-        submitButton.layer.masksToBounds = true
-        submitButton.layer.cornerRadius = 12
-        submitButton.backgroundColor = UIColor.secondaryButtonBackground
-//        submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-        submitButton.alpha = 1
-        submitButton.isEnabled = false
-        
-        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            submitButton.isHidden = true
-        }
-    }
-    
-    private func updateUpdateButton() {
-        if !Event.shared.tasksNeedUpdate && !Event.shared.servingsNeedUpdate {
-            if submitButton.layer.sublayers != nil {
-                for layer in submitButton.layer.sublayers! {
-                    if layer.name == "GradientLayer" {
-                        layer.removeFromSuperlayer()
-                    }
-                }
-            }
-            
-            submitButton.layer.masksToBounds = true
-            submitButton.layer.cornerRadius = 12
-            submitButton.isEnabled = false
-            submitButton.alpha = 1.0
-            
-        } else {
-            submitButton.layer.masksToBounds = true
-            submitButton.layer.cornerRadius = 12
-            submitButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-            submitButton.isEnabled = true
-            submitButton.alpha = 1.0
-        }
-    }
-    
-    private func updateSummaryText() {
-        let summaryForServings = "\(defaults.username) updated the servings!"
-//        let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName)."
-        let summaryForTasks = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks."
-//        let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks for \(Event.shared.dinnerName) and the servings!"
-        let summaryForTasksAndServings = "\(defaults.username) updated \(Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()) tasks and the servings!"
-        let tasksUpdate = Event.shared.tasksNeedUpdate
-        let servingsUpdate = Event.shared.servingsNeedUpdate
-        if tasksUpdate && servingsUpdate {
-            Event.shared.summary = summaryForTasksAndServings
-        } else if tasksUpdate && !servingsUpdate {
-            Event.shared.summary = summaryForTasks
-        } else if !tasksUpdate && servingsUpdate {
-            Event.shared.summary = summaryForServings
-        }
-    }
-    
-    private func setupServingsView() {
-        if Event.shared.currentUser?.identifier == Event.shared.hostIdentifier {
-            servingsViewHeightConstraint.constant = 60
-        } else {
-            servingsViewHeightConstraint.constant = 0
-            servingsLabel.isHidden = true
-            servingsStepper.isHidden = true
-            servingsSeparator.isHidden = true
-        }
-        
-        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty {
-            hideServingsView()
-        }
-        
-        if Event.shared.isCancelled {
-            hideServingsView()
-        }
-        
-        servingsLabel.text = "Update servings? \(Event.shared.servings)"
-        servingsLabel.textColor = UIColor.textLabel
-        
-        servingsStepper.minimumValue = 2
-        servingsStepper.maximumValue = 12
-        servingsStepper.stepValue = 1
-        servingsStepper.value = Double(Event.shared.servings)
-    }
-    
-    private func hideServingsView() {
-        servingsViewHeightConstraint.constant = 0
-        servingsLabel.isHidden = true
-        servingsStepper.isHidden = true
-        servingsSeparator.isHidden = true
-    }
-    
-    func updateOnlineAlert(_ value: Int) {
-        if value < 2 {
-            view.layoutIfNeeded()
-            
-            // Hide with animation should not appear at the first time
-            UIView.animate(withDuration: 0.2) {
-                self.onlineAlertHeightConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }
-        } else if value > 1 {
-            view.layoutIfNeeded()
-            UIView.animate(withDuration: 0.2) {
-                self.onlineAlertHeightConstraint.constant = 60
-                self.view.layoutIfNeeded()
-            }
-            
-            if !Event.shared.isSyncAlertShownInTaskListVC {
-                self.showSynchronisationAlert()
-                Event.shared.isSyncAlertShownInTaskListVC = true
-            }
-        }
-    }
-    
-    private func prepareTasks() {
-//        tasks = Event.shared.tasks
-        classifiedTasks.removeAll()
-        expandableTasks.removeAll()
-        sectionNames.removeAll()
-        
-        tasks.forEach { task in
-            if classifiedTasks.contains(where: { subTasks -> Bool in
-                subTasks.contains { (individualTask) -> Bool in
-                    individualTask.parentRecipe == task.parentRecipe
-                }
-            }) {
-                let index = classifiedTasks.firstIndex { (subTasks) -> Bool in
-                    subTasks.contains { (individualTask) -> Bool in
-                        individualTask.parentRecipe == task.parentRecipe
-                    }
-                }
-                classifiedTasks[index!].append(task)
-            } else {
-                classifiedTasks.append([task])
-            }
-        }
-        classifiedTasks.forEach { subtasks in
-            let subExpandableTasks = ExpandableTasks(isExpanded: true, tasks: subtasks)
-            expandableTasks.append(subExpandableTasks)
-            if let sectionName = subtasks.first?.parentRecipe {
-                sectionNames.append(sectionName)
-            }
-        }
-    }
-
-
-    @IBAction func didTapBack(_ sender: UIButton) {
-        Event.shared.servings = Event.shared.currentConversationServings
-        Event.shared.servingsNeedUpdate = false
-        updateSummaryText()
-        
-        let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
-        
-        if !difference.isEmpty {
-            displayUnsavedAlert()
-        } else {
-            self.delegate?.tasksListVCDidTapBackButton(controller: self)
-        }
-    }
-    
-    private func displayUnsavedAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.unsubmittedTasks, message: MessagesToDisplay.submitQuestion, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Nope", style: .destructive, handler: { action in
-            var newTasks = [Task]()
-            Event.shared.currentConversationTaskStates.forEach { task in
-                let newTask = Task(taskName: task.taskName, assignedPersonUid: task.assignedPersonUid, taskState: task.taskState.rawValue, taskUid: task.taskUid, assignedPersonName: task.assignedPersonName, isCustom: task.isCustom, parentRecipe: task.parentRecipe)
-                if let amount = task.metricAmount, let unit = task.metricUnit {
-                    newTask.metricAmount = amount
-                    newTask.metricUnit = unit
-                }
-                newTasks.append(newTask)
-            }
-            Event.shared.tasks = newTasks
-            self.prepareTasks()
-            self.delegate?.tasksListVCDidTapBackButton(controller: self)
+    private func displayPendingChangesAlert() {
+        #warning("The text of this alert is very bad, the title and the message are not the same questions")
+        let alert = UIAlertController(title: AlertStrings.unsubmittedTasks,
+                                      message: AlertStrings.submitQuestion,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: AlertStrings.nope,
+                                      style: .destructive,
+                                      handler: { _ in
+                                        var newTasks = [Task]()
+                                        Event.shared.currentConversationTaskStates.forEach { task in
+                                            let newTask = Task(taskName: task.taskName,
+                                                               assignedPersonUid: task.assignedPersonUid,
+                                                               taskState: task.taskState.rawValue,
+                                                               taskUid: task.taskUid,
+                                                               assignedPersonName: task.assignedPersonName,
+                                                               isCustom: task.isCustom,
+                                                               parentRecipe: task.parentRecipe)
+                                            if let amount = task.metricAmount,
+                                                let unit = task.metricUnit {
+                                                newTask.metricAmount = amount
+                                                newTask.metricUnit = unit
+                                            }
+                                            newTasks.append(newTask)
+                                        }
+                                        Event.shared.tasks = newTasks
+                                        self.viewModel.prepareTasks()
+                                        self.delegate?.tasksListVCDidTapBackButton()
         }))
-        
-        alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { action in
-            self.didTapSubmit(self.submitButton)
+        alert.addAction(UIAlertAction(title: AlertStrings.update,
+                                      style: .default,
+                                      handler: { _ in
+                                        self.delegate?.tasksListVCDidTapSubmit()
         }))
-        
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func didTapSubmit(_ sender: UIButton) {
-        Event.shared.tasksNeedUpdate = true
-        delegate?.tasksListVCDidTapSubmit(controller: self)
-    }
-    
-    
-    @IBAction func didTapSortButton(_ sender: UIButton) {
-        tasks = tasks.sorted(by: { $0.taskState.rawValue < $1.taskState.rawValue } )
-        prepareTasks()
-        tasksTableView.reloadData()
-    }
-    
-    @IBAction func didTapStepper(_ sender: UIStepper) {
-        updateServings(servings: Int(sender.value))
-    }
-    
-    private func updateServings(servings: Int) {
-        let oldServings = Event.shared.servings
-        Event.shared.servings = servings
-        servingsLabel.text = "Update servings? \(servings)"
-        Event.shared.tasks.forEach { task in
-            if !task.isCustom {
-                if let amount = task.metricAmount {
-                    task.metricAmount = (amount * Double(servings)) / Double(oldServings)
-                    task.servings = servings
-                }
-            }
-        }
-        prepareTasks()
-        tasksTableView.reloadData()
-        
-        if Event.shared.servings != Event.shared.currentConversationServings {
-            servingsLabel.textColor = Colors.highlightRed
-            Event.shared.servingsNeedUpdate = true
-        } else {
-            servingsLabel.textColor = .textLabel
-            Event.shared.servingsNeedUpdate = false
-        }
-        updateUpdateButton()
-        updateSummaryText()
-    }
-    
-    private func showSynchronisationAlert() {
-        let alert = UIAlertController(title: MessagesToDisplay.synchTitle,
-                                      message: MessagesToDisplay.synchMessage,
+    private func showSyncAlert() {
+        let alert = UIAlertController(title: AlertStrings.syncTitle,
+                                      message: AlertStrings.syncMessage,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Good to know!",
+        alert.addAction(UIAlertAction(title: AlertStrings.goodToKnow,
                                       style: .cancel,
                                       handler: nil))
-        present(alert, animated: true)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func updateSubmitButton() {
+        submitButton.isEnabled = Event.shared.tasksNeedUpdate || Event.shared.servingsNeedUpdate
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .backgroundColor
+        progressViewContainer.isHidden = true
+        navigationBar.nextButton.setImage(Images.sortIcon, for: .normal)
+        navigationBar.nextButton.setTitle("", for: .normal)
+        navigationBar.titleLabel.text = LabelStrings.manageThings
+        navigationBar.previousButton.setTitle(LabelStrings.back, for: .normal)
+        navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
+        view.addSubview(submitButton)
+        view.addSubview(navigationSeparator)
+        view.addSubview(alertBanner)
+        view.addSubview(servingsView)
+        view.addSubview(tasksTableView)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        submitButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+        }
+        
+        navigationSeparator.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(1)
+            make.top.equalTo(navigationBar.snp.bottom)
+        }
+        
+        alertBanner.snp.makeConstraints { make in
+            make.top.equalTo(navigationSeparator.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        var servingsViewHeight = 0
+        
+        if Event.shared.currentUser?.identifier == Event.shared.hostIdentifier {
+            servingsViewHeight = 60
+        } else {
+            servingsViewHeight = 0
+            servingsView.hide()
+        }
+        
+        if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty ||
+            Event.shared.isCancelled {
+            servingsViewHeight = 0
+            servingsView.hide()
+        }
+        
+        servingsView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(alertBanner.snp.bottom)
+            make.height.equalTo(servingsViewHeight)
+        }
+        
+        tasksTableView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(servingsView.snp.bottom)
+            make.bottom.equalTo(submitButton.snp.top).offset(-10)
+        }
     }
 }
 
-// MARK: TableView
-
-extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: TableView Delegate
+extension TasksListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if Event.shared.tasks.count == 0 {
             tableView.setEmptyViewForRecipeView(title: LabelStrings.nothingToDo, message: "")
         } else {
             tableView.restore()
         }
-        if !expandableTasks[section].isExpanded {
+        if !viewModel.expandableTasks[section].isExpanded {
             return 0
         }
-        return expandableTasks[section].tasks.count
+        return viewModel.expandableTasks[section].tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let taskCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskCell, for: indexPath) as! TaskCell
-        let task = expandableTasks[indexPath.section].tasks[indexPath.row]
+        let task = viewModel.expandableTasks[indexPath.section].tasks[indexPath.row]
         taskCell.configureCell(task: task, indexPath: indexPath.row)
         taskCell.delegate = self
         return taskCell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-         return 80
-     }
-     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         let taskCell = tableView.cellForRow(at: indexPath) as! TaskCell
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let taskCell = tableView.cellForRow(at: indexPath) as! TaskCell
         taskCell.didTapTaskStatusButton(indexPath: indexPath)
-     }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if Event.shared.tasks.count == 0 {
@@ -347,15 +289,16 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             tableView.restore()
         }
-        return expandableTasks.count
+        return viewModel.expandableTasks.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let headerView = ExpandableTaskHeaderView(expandableTasks: expandableTasks, section: section, sectionNames: sectionNames)
+        let headerView = ExpandableTaskHeaderView(expandableTasks: viewModel.expandableTasks,
+                                                  section: section,
+                                                  sectionNames: viewModel.sectionNames.value)
         headerView.tag = section
-        headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCloseCollapse)))
-        
+        headerView.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                               action: #selector(handleCloseCollapse)))
         return headerView
     }
     
@@ -371,23 +314,23 @@ extension TasksListViewController: UITableViewDataSource, UITableViewDelegate {
             }
         })
         var indexPaths = [IndexPath]()
-        for row in expandableTasks[section].tasks.indices {
+        for row in viewModel.expandableTasks[section].tasks.indices {
             let indexPath = IndexPath(row: row, section: section)
             indexPaths.append(indexPath)
         }
-
-        let isExpanded = expandableTasks[section].isExpanded
-        expandableTasks[section].isExpanded = !isExpanded
-
+        
+        let isExpanded = viewModel.expandableTasks[section].isExpanded
+        viewModel.expandableTasks[section].isExpanded = !isExpanded
+        
         if isExpanded {
             tasksTableView.deleteRows(at: indexPaths, with: .fade)
         } else {
             tasksTableView.insertRows(at: indexPaths, with: .fade)
         }
     }
-    
 }
 
+// MARK: TaskCell Delegate
 extension TasksListViewController: TaskCellDelegate {
     func taskCellUpdateProgress(indexPath: IndexPath) {
         let indexSet = NSMutableIndexSet()
@@ -398,14 +341,7 @@ extension TasksListViewController: TaskCellDelegate {
     }
     
     func taskCellDidTapTaskStatusButton() {
-        let difference = Event.shared.tasks.difference(from: Event.shared.currentConversationTaskStates)
-        if !difference.isEmpty {
-            Event.shared.tasksNeedUpdate = true
-        } else {
-            Event.shared.tasksNeedUpdate = false
-        }
-        updateUpdateButton()
-        updateSummaryText()
+        self.updateSubmitButton()
+        viewModel.updateSummaryText()
     }
-    
 }
