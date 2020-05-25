@@ -101,8 +101,8 @@ class RecipesViewController: LDNavigationViewController {
         
         toolbar.createRecipeButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             
-            let animated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
-            self.presentRecipeCreationVC(animated: animated)
+            let isAnimated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
+            self.presentRecipeCreationVC(animated: isAnimated)
         }
         
         toolbar.selectedRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in

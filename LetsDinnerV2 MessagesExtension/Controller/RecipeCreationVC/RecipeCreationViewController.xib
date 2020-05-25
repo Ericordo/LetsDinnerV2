@@ -434,12 +434,23 @@
                                 <constraint firstItem="5LB-52-4BR" firstAttribute="centerX" secondItem="UEw-H2-uNc" secondAttribute="centerX" id="xre-9C-AZp"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qy-GP-8lc" userLabel="Section Separator">
+                            <rect key="frame" x="0.0" y="199" width="375" height="1"/>
+                            <color key="backgroundColor" name="cellSeparatorLine"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="oOp-B8-iIx"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="xJI-in-1kF"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
+                        <constraint firstItem="2qy-GP-8lc" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="86p-Gn-bUQ"/>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="Aqf-KX-MTC"/>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="top" secondItem="NMe-Pr-15z" secondAttribute="top" id="CC5-MG-zae"/>
+                        <constraint firstAttribute="bottom" secondItem="2qy-GP-8lc" secondAttribute="bottom" id="GWX-6G-QWS"/>
                         <constraint firstItem="LAq-Zi-jDD" firstAttribute="centerY" secondItem="NMe-Pr-15z" secondAttribute="centerY" id="WdQ-Vm-INb"/>
+                        <constraint firstAttribute="trailing" secondItem="2qy-GP-8lc" secondAttribute="trailing" id="ajQ-8b-Ixl"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" constant="30" id="f1c-gw-dJf"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="centerX" secondItem="NMe-Pr-15z" secondAttribute="centerX" id="fbD-4O-qWF"/>
                         <constraint firstAttribute="trailing" secondItem="rqH-8E-4XD" secondAttribute="trailing" constant="30" id="lPE-Hk-HZB"/>

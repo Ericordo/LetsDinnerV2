@@ -963,9 +963,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeIngredientCell, for: indexPath) as! CreateRecipeIngredientCell
             
             let ingredient = temporaryIngredients[indexPath.row]
-            ingredientCell.configureCell(name: ingredient.name,
-                                         amount: ingredient.amount,
-                unit: ingredient.unit)
+            ingredientCell.configureCell(ingredient: ingredient)
         
             return ingredientCell
         case stepsTableView:
@@ -973,7 +971,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             let stepCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeCookingStepCell, for: indexPath) as! CreateRecipeCookingStepCell
             
             let step = temporarySteps[indexPath.row]
-            stepCell.configureCell(stepDetail: step, numberOfStep: indexPath.row + 1)
+            stepCell.configureCell(stepDetail: step, stepNumber: indexPath.row + 1)
 
             return stepCell
         default:

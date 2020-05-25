@@ -93,7 +93,7 @@ extension String {
         return 0
     }
     
-    public var hasWhiteSpace: Bool {
+    var hasWhiteSpace: Bool {
        return self.contains(" ")
     }
     

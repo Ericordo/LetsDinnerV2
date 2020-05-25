@@ -10,17 +10,17 @@ import UIKit
 
 class CreateRecipeCookingStepCell: UITableViewCell {
 
-    @IBOutlet weak var stepNoLabel: UILabel!
+    @IBOutlet weak var stepNumberLabel: UILabel!
     @IBOutlet weak var cookingStepLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        stepNoLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        stepNumberLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         
     }
     
-    func configureCell(stepDetail: String, numberOfStep: Int) {
-        stepNoLabel.text = String(numberOfStep) + "."
+    func configureCell(stepDetail: String, stepNumber: Int) {
+        stepNumberLabel.text = String(stepNumber) + "."
         
         cookingStepLabel.text = stepDetail
         cookingStepLabel.numberOfLines = 0

@@ -17,7 +17,10 @@ class CreateRecipeIngredientCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configureCell(name: String, amount: Double?, unit: String?) {
+    func configureCell(ingredient: LDIngredient) {
+        let name = ingredient.name
+        let amount = ingredient.amount
+        let unit = ingredient.unit
         
         ingredientLabel.text = name
         

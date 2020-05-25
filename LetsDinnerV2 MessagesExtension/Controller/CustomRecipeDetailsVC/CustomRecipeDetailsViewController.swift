@@ -292,8 +292,7 @@ extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewD
                 
                 let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeIngredientCell, for: indexPath) as! CreateRecipeIngredientCell
                 
-                ingredientCell.configureCell(name: ingredient.name,
-                                             amount: ingredient.amount, unit: ingredient.unit)
+                ingredientCell.configureCell(ingredient: ingredient)
                 return ingredientCell
                 
             }
@@ -303,7 +302,7 @@ extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewD
                  let stepCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeCookingStepCell, for: indexPath) as! CreateRecipeCookingStepCell
                 
                 //                cell.configureCell(name: cookingStep, amount: 0, unit: "")
-                stepCell.configureCell(stepDetail: step, numberOfStep: indexPath.row + 1)
+                stepCell.configureCell(stepDetail: step, stepNumber: indexPath.row + 1)
                 
                 return stepCell
      

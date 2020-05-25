@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -57,7 +55,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="cookingStepLabel" destination="0WO-cn-yqo" id="fbd-MX-n36"/>
-                <outlet property="stepNoLabel" destination="wfn-X9-BxY" id="GII-Rb-VAp"/>
+                <outlet property="stepNumberLabel" destination="wfn-X9-BxY" id="GII-Rb-VAp"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="122.54464285714285"/>
         </tableViewCell>

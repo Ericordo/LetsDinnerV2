@@ -62,17 +62,7 @@ class CreateRecipeStartView: UIView {
         label.textAlignment = .left
         return label
     }()
-    
-    let messageLabel4 : UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.secondaryTextLabel
-        label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.text = LabelStrings.startCreateRecipeMessage4
-        label.numberOfLines = 0
-        label.textAlignment = .left
-        return label
-    }()
-    
+        
     let buttonImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "addButtonOutlined.png")
@@ -104,7 +94,7 @@ class CreateRecipeStartView: UIView {
         messageLabel1.translatesAutoresizingMaskIntoConstraints = false
         messageLabel2.translatesAutoresizingMaskIntoConstraints = false
         messageLabel3.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel4.translatesAutoresizingMaskIntoConstraints = false
+//        messageLabel4.translatesAutoresizingMaskIntoConstraints = false
         buttonImage.translatesAutoresizingMaskIntoConstraints = false
         
         // ScrollView
@@ -120,19 +110,19 @@ class CreateRecipeStartView: UIView {
         containerView.addSubview(messageLabel1)
         containerView.addSubview(messageLabel2)
         containerView.addSubview(messageLabel3)
-        containerView.addSubview(messageLabel4)
+//        containerView.addSubview(messageLabel4)
         containerView.addSubview(buttonImage)
  
         titleLabel.anchor(top: containerView.topAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: UIEdgeInsets(top: 30, left: 30, bottom: 0, right: 30))
         messageLabel1.anchor(top: titleLabel.bottomAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: UIEdgeInsets(top: 8, left: 30, bottom: 0, right: 35))
         messageLabel2.anchor(top: messageLabel1.bottomAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: UIEdgeInsets(top: 5, left: 30, bottom: 0, right: 35))
         messageLabel3.anchor(top: messageLabel2.bottomAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: containerView.trailingAnchor, padding: UIEdgeInsets(top: 5, left: 30, bottom: 0, right: 35))
-        messageLabel4.anchor(top: messageLabel3.bottomAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 5, left: 30, bottom: 0, right: 0))
+//        messageLabel4.anchor(top: messageLabel3.bottomAnchor, leading: containerView.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 5, left: 30, bottom: 0, right: 0))
         
         buttonImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
 //        buttonImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        buttonImage.centerYAnchor.constraint(equalTo: messageLabel4.centerYAnchor).isActive = true
-        buttonImage.leadingAnchor.constraint(equalTo: messageLabel4.trailingAnchor, constant: 5).isActive = true
+//        buttonImage.centerYAnchor.constraint(equalTo: messageLabel4.centerYAnchor).isActive = true
+//        buttonImage.leadingAnchor.constraint(equalTo: messageLabel4.trailingAnchor, constant: 5).isActive = true
     }
     
 
