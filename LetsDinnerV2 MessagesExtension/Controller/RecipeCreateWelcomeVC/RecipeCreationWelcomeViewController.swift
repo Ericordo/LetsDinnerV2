@@ -11,15 +11,13 @@ import UIKit
 class RecipeCreationWelcomeViewController: UIViewController {
 
     private let imageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         imageView.image = Images.recipeBookIcon
-        imageView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         return imageView
     }()
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .backgroundColor
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
@@ -73,20 +71,11 @@ class RecipeCreationWelcomeViewController: UIViewController {
         return label
     }()
     
-    private let bottomView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .backgroundColor
-        return view
-    }()
+    private let bottomView = UIView()
     
-    private let confirmButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 253, height: 50))
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 14
-        button.titleLabel!.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        button.setGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
+    private let confirmButton: PrimaryButton = {
+        let button = PrimaryButton()
         button.setTitle(ButtonTitle.letsGo, for: .normal)
-        button.setTitleColor(Colors.allWhite, for: .normal)
         button.addTarget(self, action: #selector(buttonGoDidPress), for: .touchUpInside)
         return button
     }()
@@ -94,6 +83,7 @@ class RecipeCreationWelcomeViewController: UIViewController {
     private let contentView = UIView()
         
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.setupUI()
     }
     
@@ -155,8 +145,6 @@ class RecipeCreationWelcomeViewController: UIViewController {
         
         confirmButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(253)
             make.top.equalTo(bottomView.snp.top).offset(10)
         }
     }
