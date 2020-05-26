@@ -100,7 +100,6 @@ class RecipeCreationViewController: UIViewController  {
     
     private var temporarySteps = [String]() {
         didSet {
-            
             stepsTableView.reloadData()
             stepsTableView.layoutIfNeeded()
             if !temporarySteps.isEmpty {
@@ -112,8 +111,8 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private var servings : Int = 2 {
-           didSet { servingsLabel.text = "For \(servings) people" }
-       }
+        didSet { servingsLabel.text = "For \(servings) people" }
+    }
     
     // Custom Recipe
     var recipeToEdit: LDRecipe?
@@ -171,12 +170,13 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         self.presentCreateRecipeWelcomeVCIfNeeded()
     }
     
     override func viewWillLayoutSubviews() {
         super.updateViewConstraints()
+        super.viewWillLayoutSubviews()
 //        updateTableViewHeightConstraint(tableView: stepsTableView)
     }
     
@@ -265,10 +265,9 @@ class RecipeCreationViewController: UIViewController  {
     
     private func configureTableView() {
 //        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
-        ingredientsTableView.register(UINib(nibName: CellNibs.createRecipeIngredientCell, bundle: nil),
-                                      forCellReuseIdentifier: CellNibs.createRecipeIngredientCell)
-        stepsTableView.register(UINib(nibName: CellNibs.createRecipeCookingStepCell, bundle: nil), forCellReuseIdentifier: CellNibs.createRecipeCookingStepCell)
-        
+        ingredientsTableView.registerCells(CellNibs.createRecipeIngredientCell)
+        stepsTableView.registerCells(CellNibs.createRecipeCookingStepCell)
+
         ingredientsTableView.isEditing = true
         ingredientsTableView.allowsSelectionDuringEditing = false
         ingredientsTableView.rowHeight = rowHeight
