@@ -55,7 +55,7 @@ class ThankYouViewController: UIViewController {
         button.layer.cornerRadius = 14
         button.titleLabel!.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         button.setGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
-        button.setTitle(LabelStrings.letsGo, for: .normal)
+        button.setTitle(ButtonTitle.letsGo, for: .normal)
         button.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
         return button
     }()

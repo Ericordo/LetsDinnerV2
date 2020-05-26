@@ -41,7 +41,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     
     let realm = try! Realm()
     
-    private let rowHeight : CGFloat = 44
+    private let rowHeight : CGFloat = 66
     private let topViewMinHeight: CGFloat = 55
     private let topViewMaxHeight: CGFloat = 200
     
@@ -69,8 +69,11 @@ class CustomRecipeDetailsViewController: UIViewController {
         ingredientsTableView.dataSource = self
         stepsTableView.delegate = self
         stepsTableView.dataSource = self
-        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
-        stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+//        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+//        stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
+        ingredientsTableView.register(UINib(nibName: CellNibs.createRecipeIngredientCell, bundle: nil),
+                                      forCellReuseIdentifier: CellNibs.createRecipeIngredientCell)
+        stepsTableView.register(UINib(nibName: CellNibs.createRecipeCookingStepCell, bundle: nil), forCellReuseIdentifier: CellNibs.createRecipeCookingStepCell)
         scrollView.delegate = self
   
         setupUI()
@@ -199,15 +202,15 @@ class CustomRecipeDetailsViewController: UIViewController {
                 heightOfTableView += cell.frame.height
             }
             self.stepsHeightConstraint.constant = heightOfTableView
-            self.contentViewHeightConstraint.constant = 650 + heightOfTableView + self.ingredientsHeightConstraint.constant
-    }
+            self.contentViewHeightConstraint.constant = 300 + heightOfTableView + self.ingredientsHeightConstraint.constant
+        }
     }
     
     private func editRecipe() {
         guard let recipe = self.selectedRecipe else { return }
         
         let editingVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
-        editingVC.modalPresentationStyle = .fullScreen
+        editingVC.modalPresentationStyle = .overFullScreen
         editingVC.recipeCreationVCUpdateDelegate = self
         editingVC.recipeToEdit = recipe
         editingVC.editExistingRecipe = true
@@ -280,23 +283,36 @@ extension CustomRecipeDetailsViewController: UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: CellNibs.ingredientCell, for: indexPath) as! IngredientCell
         switch tableView {
+            
         case ingredientsTableView:
+
             if let ingredient = selectedRecipe?.ingredients[indexPath.row] {
-            cell.configureCell(name: ingredient.name, amount: ingredient.amount ?? 0, unit: ingredient.unit ?? "")
+                
+                let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeIngredientCell, for: indexPath) as! CreateRecipeIngredientCell
+                
+                ingredientCell.configureCell(ingredient: ingredient)
+                return ingredientCell
+                
             }
         case stepsTableView:
-            if let cookingStep = selectedRecipe?.cookingSteps[indexPath.row] {
+            if let step = selectedRecipe?.cookingSteps[indexPath.row] {
+                
+                 let stepCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeCookingStepCell, for: indexPath) as! CreateRecipeCookingStepCell
+                
                 //                cell.configureCell(name: cookingStep, amount: 0, unit: "")
-                cell.configureCellWithStep(name: cookingStep, step: indexPath.row + 1)
+                stepCell.configureCell(stepDetail: step, stepNumber: indexPath.row + 1)
+                
+                return stepCell
+     
             }
         default:
             return UITableViewCell()
         }
-    
         
-        return cell
+        return UITableViewCell()
+        
     }
     
     

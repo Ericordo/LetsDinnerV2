@@ -153,6 +153,11 @@
 		B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */; };
 		B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* AddNewThingView.xib */; };
 		B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* AddNewThingView.swift */; };
+		B886BD93246C340C0069C248 /* RecipeCreationWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886BD92246C340C0069C248 /* RecipeCreationWelcomeViewController.swift */; };
+		B886BD982470EFBF0069C248 /* CreateRecipeIngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886BD962470EFBF0069C248 /* CreateRecipeIngredientCell.swift */; };
+		B886BD992470EFBF0069C248 /* CreateRecipeIngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B886BD972470EFBF0069C248 /* CreateRecipeIngredientCell.xib */; };
+		B886BD9C24790B7B0069C248 /* CreateRecipeCookingStepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886BD9A24790B7B0069C248 /* CreateRecipeCookingStepCell.swift */; };
+		B886BD9D24790B7B0069C248 /* CreateRecipeCookingStepCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B886BD9B24790B7B0069C248 /* CreateRecipeCookingStepCell.xib */; };
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
@@ -342,6 +347,11 @@
 		B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTaskHeader.swift; sourceTree = "<group>"; };
 		B87C106C24176309004AD951 /* AddNewThingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewThingView.xib; sourceTree = "<group>"; };
 		B87C106E2417631F004AD951 /* AddNewThingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewThingView.swift; sourceTree = "<group>"; };
+		B886BD92246C340C0069C248 /* RecipeCreationWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCreationWelcomeViewController.swift; sourceTree = "<group>"; };
+		B886BD962470EFBF0069C248 /* CreateRecipeIngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeIngredientCell.swift; sourceTree = "<group>"; };
+		B886BD972470EFBF0069C248 /* CreateRecipeIngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateRecipeIngredientCell.xib; sourceTree = "<group>"; };
+		B886BD9A24790B7B0069C248 /* CreateRecipeCookingStepCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeCookingStepCell.swift; sourceTree = "<group>"; };
+		B886BD9B24790B7B0069C248 /* CreateRecipeCookingStepCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateRecipeCookingStepCell.xib; sourceTree = "<group>"; };
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -630,6 +640,7 @@
 				88349F362370439B002A1879 /* RecipesVC */,
 				B87C106624126B3E004AD951 /* SelectedRecipesVC */,
 				88C96504239A883100CFC710 /* CustomRecipeDetailsVC */,
+				B886BD94246C46920069C248 /* RecipeCreateWelcomeVC */,
 				88C95B30239863DD000E750A /* RecipeCreationVC */,
 				88A362E0237EA8B6005B6B81 /* ManagementVC */,
 				885C60BF23809F5500ED3A17 /* EventDescriptionVC */,
@@ -654,8 +665,8 @@
 				88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */,
 				B8D1CC9523F1309000E54E26 /* UIDevice.swift */,
 				B87C10392403E607004AD951 /* UIViewController.swift */,
-				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				B87C1067241387E6004AD951 /* UITableViewCell.swift */,
+				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				88B7832F23717E3E009E4F3C /* String.swift */,
 				880B135923747578003E29AC /* Array.swift */,
 				B87C10372402A8E6004AD951 /* Date.swift */,
@@ -710,6 +721,8 @@
 				880B133723737605003E29AC /* AnswerCell */,
 				885C60C423809F9300ED3A17 /* RecipeCVCell */,
 				88349F3E2370D0C9002A1879 /* RecipeCell */,
+				B886BD952470EF6E0069C248 /* CreateRecipeIngredientCell */,
+				B886BD9E24790B7F0069C248 /* CreateRecipeCookingStepCell */,
 				B8E4CA7923812174006DD095 /* TitleCell */,
 				880B133823737619003E29AC /* InfoCell */,
 				880B133923737622003E29AC /* DescriptionCell */,
@@ -914,6 +927,32 @@
 			path = AddNewThingView;
 			sourceTree = "<group>";
 		};
+		B886BD94246C46920069C248 /* RecipeCreateWelcomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				B886BD92246C340C0069C248 /* RecipeCreationWelcomeViewController.swift */,
+			);
+			path = RecipeCreateWelcomeVC;
+			sourceTree = "<group>";
+		};
+		B886BD952470EF6E0069C248 /* CreateRecipeIngredientCell */ = {
+			isa = PBXGroup;
+			children = (
+				B886BD962470EFBF0069C248 /* CreateRecipeIngredientCell.swift */,
+				B886BD972470EFBF0069C248 /* CreateRecipeIngredientCell.xib */,
+			);
+			path = CreateRecipeIngredientCell;
+			sourceTree = "<group>";
+		};
+		B886BD9E24790B7F0069C248 /* CreateRecipeCookingStepCell */ = {
+			isa = PBXGroup;
+			children = (
+				B886BD9A24790B7B0069C248 /* CreateRecipeCookingStepCell.swift */,
+				B886BD9B24790B7B0069C248 /* CreateRecipeCookingStepCell.xib */,
+			);
+			path = CreateRecipeCookingStepCell;
+			sourceTree = "<group>";
+		};
 		B8BEEAE823A23C28009DC2DB /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1052,6 +1091,7 @@
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
+				B886BD992470EFBF0069C248 /* CreateRecipeIngredientCell.xib in Resources */,
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
 				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
@@ -1063,6 +1103,7 @@
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				88C96508239A886000CFC710 /* CustomRecipeDetailsViewController.xib in Resources */,
 				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
+				B886BD9D24790B7B0069C248 /* CreateRecipeCookingStepCell.xib in Resources */,
 				B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
@@ -1206,6 +1247,7 @@
 				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
+				B886BD9C24790B7B0069C248 /* CreateRecipeCookingStepCell.swift in Sources */,
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
 				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,
@@ -1239,10 +1281,13 @@
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
+				B886BD982470EFBF0069C248 /* CreateRecipeIngredientCell.swift in Sources */,
 				B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */,
 				B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */,
 				B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */,
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,
+				886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */,
+				B886BD93246C340C0069C248 /* RecipeCreationWelcomeViewController.swift in Sources */,
 				886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */,
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
@@ -1446,7 +1491,7 @@
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.22;
-				DEVELOPMENT_TEAM = DNB5G735SM;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1469,7 +1514,7 @@
 				CODE_SIGN_ENTITLEMENTS = "LetsDinnerV2 MessagesExtension/Let's Dinner!Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.22;
-				DEVELOPMENT_TEAM = DNB5G735SM;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "LetsDinnerV2 MessagesExtension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

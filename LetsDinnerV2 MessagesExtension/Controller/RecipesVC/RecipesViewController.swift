@@ -21,6 +21,8 @@ protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapPrevious()
 }
 
+
+
 class RecipesViewController: LDNavigationViewController {
     // MARK: Properties
     private let searchBar = LDSearchBar()
@@ -68,12 +70,21 @@ class RecipesViewController: LDNavigationViewController {
         setupUI()
         setupTableView()
         bindViewModel()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         StepStatus.currentStep = .recipesVC
     }
+    
+    private func presentRecipeCreationVC(animated: Bool) {
+        let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+        recipeCreationVC.modalPresentationStyle = .fullScreen
+        recipeCreationVC.recipeCreationVCDelegate = self
+        self.present(recipeCreationVC, animated: animated, completion: nil)
+    }
+    
     
     // MARK: ViewModel Binding
     private func bindViewModel() {
@@ -89,10 +100,9 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         toolbar.createRecipeButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
-            recipeCreationVC.modalPresentationStyle = .fullScreen
-            recipeCreationVC.recipeCreationVCDelegate = self
-            self.present(recipeCreationVC, animated: true, completion: nil)
+            
+            let isAnimated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
+            self.presentRecipeCreationVC(animated: isAnimated)
         }
         
         toolbar.selectedRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
@@ -397,3 +407,5 @@ extension RecipesViewController: CustomRecipeDetailsVCDelegate {
         updateState()
     }
 }
+
+

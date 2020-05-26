@@ -32,6 +32,8 @@ enum CellNibs {
     static let recipeCVCell = "RecipeCVCell"
     static let sectionInputCell = "SectionInputCell"
     static let ingredientCell = "IngredientCell"
+    static let createRecipeIngredientCell = "CreateRecipeIngredientCell"
+    static let createRecipeCookingStepCell = "CreateRecipeCookingStepCell"
     static let cancelCell = "CancelCell"
     static let expiredEventCell = "ExpiredEventCell"
 }
@@ -54,6 +56,7 @@ enum Keys {
     static let userUid = "userUid"
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
+    static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
     
 }
 
@@ -171,22 +174,20 @@ enum LabelStrings {
     
     
     // SelectedRecipe VC
-    static let deleteRecipeLabel = "To delete a recipes, swipe left."
-    static let rearrangeRecipeLabel = "To rearrange the order, tap and hold to move."
+    static let deleteRecipeLabel = NSLocalizedString("To delete a recipes, swipe left.", comment: "delete instruction")
+    static let rearrangeRecipeLabel = NSLocalizedString("To rearrange the order, tap and hold to move.", comment: "rearrange instruction")
     
     // CustomRecipeVC
-    static let noCustomRecipeTitle = "No recipe"
-    static let noCustomRecipeMessage = "You can create your own recipe!"
+    static let noCustomRecipeTitle = NSLocalizedString("No recipe", comment: "no recipe title")
+    static let noCustomRecipeMessage = NSLocalizedString("You can create your own recipe!", comment: "no recipe message")
     
     // CreateRecipeVC
-    static let cookingTipsPlaceholder = "Anything else you want to mention?"
-    static let startCreateRecipeTitle = "Create a custom recipe and cook your favourite meal!"
-    static let startCreateRecipeMessage1 = "A greate recipe provides you with every information you need to cook it along the way. Start with an Image and a name."
-    static let startCreateRecipeMessage2 = "Then add ingredients, cooking steps or any other information such as tips to your recipe."
-    static let startCreateRecipeMessage3 = "Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty."
-    static let startCreateRecipeMessage4 = "Start by tapping"
+    static let cookingTipsPlaceholder = NSLocalizedString("Anything else you want to mention?", comment: "cooking tips placeholder")
+    static let startCreateRecipeTitle = NSLocalizedString("Create your own custom recipes to cook your favourite meals!", comment: "create recipe title")
+    static let startCreateRecipeMessage1 = NSLocalizedString("A great recipe provides you with all the information you need to cook it along the way.", comment: "create recipe message 1")
+    static let startCreateRecipeMessage2 = NSLocalizedString("Start with an Image and a name. Then add ingredients, cooking steps or any other information such as tips to your recipe.", comment: "create recipe message 2")
+    static let startCreateRecipeMessage3 = NSLocalizedString("Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty.", comment: "create recipe message 3")
     
-
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")
     static let noTaskMessage = NSLocalizedString("Things help you manage and organise your event. Missing any ingredients but it's too late to buy them? Let your invitees help you with that.", comment: "no task message")
@@ -255,7 +256,7 @@ enum LabelStrings {
     static let createEventsDescription = NSLocalizedString("Cooking is better together! Invite your loved ones and enjoy some quality time", comment: "in WelcomeVC")
     static let recipesAndTasksDescription = NSLocalizedString("Create your own or search among 360K+ recipes. Ingredients become tasks that your guests can pick to get everything ready!", comment: "in WelcomeVC")
     static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶", comment: "in WelcomeVC")
-    static let letsGo = "Ok, Let's go!"
+    
     
     // Message Bubble
     static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
@@ -316,6 +317,7 @@ enum Images {
     
     // CustomRecipeDetailsVC
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
+    static let recipeBookIcon = UIImage(named: "recipeBookIcon")
     
     // TasksListVC
     static let sortIcon = UIImage(named: "sortButtonOutlined")!
@@ -328,6 +330,11 @@ enum Images {
     static let assignedImage = UIImage(named: "checkboxAssignedOutlined")!
     static let completedImage = UIImage(named: "checkboxAssignedCompleted")!
     static let completedByOtherImage = UIImage(named: "checkBoxCompleted")!
+}
+
+enum ButtonTitle {
+    static let letsGo = NSLocalizedString("Ok, Let's go!", comment: "ok lets go")
+    static let back = NSLocalizedString("Back", comment: "back")
 }
 
 enum DataKeys {
