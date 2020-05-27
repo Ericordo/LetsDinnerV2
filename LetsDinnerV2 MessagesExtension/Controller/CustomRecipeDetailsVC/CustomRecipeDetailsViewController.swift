@@ -69,8 +69,6 @@ class CustomRecipeDetailsViewController: UIViewController {
         ingredientsTableView.dataSource = self
         stepsTableView.delegate = self
         stepsTableView.dataSource = self
-//        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
-//        stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         ingredientsTableView.register(UINib(nibName: CellNibs.createRecipeIngredientCell, bundle: nil),
                                       forCellReuseIdentifier: CellNibs.createRecipeIngredientCell)
         stepsTableView.register(UINib(nibName: CellNibs.createRecipeCookingStepCell, bundle: nil), forCellReuseIdentifier: CellNibs.createRecipeCookingStepCell)
@@ -188,10 +186,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         
     }
-    
-    
-    
-    
+
     override func viewDidLayoutSubviews() {
         UIView.animate(withDuration: 0, animations: {
         self.stepsTableView.layoutIfNeeded()
