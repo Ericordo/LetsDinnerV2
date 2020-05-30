@@ -20,12 +20,14 @@
                 <outlet property="amountTextField" destination="MAi-Z2-qAd" id="uhp-0U-4LH"/>
                 <outlet property="bottomEditButton" destination="3o1-zm-OSL" id="L9e-pi-xZP"/>
                 <outlet property="bottomView" destination="Zjm-0i-uqd" id="lz2-bX-uAZ"/>
+                <outlet property="bottomViewBottomConstraint" destination="LxK-Nu-ta4" id="q2E-vL-hrp"/>
                 <outlet property="commentsTextView" destination="hMw-Vr-xbb" id="nDU-Ks-ETG"/>
                 <outlet property="contentViewHeightConstraint" destination="fOO-vV-X9S" id="Jb4-PC-cd7"/>
                 <outlet property="doneButton" destination="UEw-H2-uNc" id="Nq3-jR-pAF"/>
                 <outlet property="headerView" destination="NMe-Pr-15z" id="QPv-ts-5o2"/>
-                <outlet property="heightConstraint" destination="zMr-m4-wxP" id="Hws-Y1-lPI"/>
+                <outlet property="headerViewHeightConstraint" destination="zMr-m4-wxP" id="Hws-Y1-lPI"/>
                 <outlet property="ingredientCellSeparator" destination="Rmo-X9-9R9" id="aaN-Rc-wUh"/>
+                <outlet property="ingredientTableViewLeadingConstraint" destination="IJY-x7-Yba" id="VsM-M0-YLz"/>
                 <outlet property="ingredientTextField" destination="sER-7t-Lge" id="4LV-QB-2wg"/>
                 <outlet property="ingredientTextFieldView" destination="u1C-XE-jMS" id="CJ1-Hu-z0H"/>
                 <outlet property="ingredientTextFieldViewHeightConstraint" destination="Hxj-DB-br5" id="0S0-yt-lwI"/>
@@ -37,6 +39,7 @@
                 <outlet property="servingsLabel" destination="AhA-gS-yRY" id="1uh-qj-wa8"/>
                 <outlet property="servingsStepper" destination="mhq-Q2-2gs" id="6kq-aL-k9x"/>
                 <outlet property="stepCellSeparator" destination="TCW-X4-FRP" id="h0x-Qt-by1"/>
+                <outlet property="stepTableViewLeadingConstraint" destination="fwE-rs-c0Z" id="E1d-Lr-bpo"/>
                 <outlet property="stepTextField" destination="sdW-3C-FYb" id="wml-Ye-Keb"/>
                 <outlet property="stepTextFieldView" destination="RT4-nI-w9r" id="s0I-vr-6tp"/>
                 <outlet property="stepTextFieldViewHeightConstraint" destination="g6s-0H-Ft7" id="jjQ-ax-eQk"/>
@@ -158,7 +161,7 @@
                                                 <constraint firstAttribute="height" constant="1" id="iHO-t0-VmJ"/>
                                             </constraints>
                                         </view>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-Mp-GD9">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-Mp-GD9" userLabel="Ingredient Table View">
                                             <rect key="frame" x="15" y="32" width="360" height="100"/>
                                             <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
