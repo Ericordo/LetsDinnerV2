@@ -255,6 +255,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
             guard let recipe = self.selectedRecipe else { return }
             self.viewModel.deleteRecipe(recipe)
+            self.dismiss(animated: true, completion: nil)
         }
         alert.addAction(cancel)
         alert.addAction(edit)

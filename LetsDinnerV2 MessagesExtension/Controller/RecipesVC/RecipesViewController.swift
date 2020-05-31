@@ -76,14 +76,12 @@ class RecipesViewController: LDNavigationViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         StepStatus.currentStep = .recipesVC
+        
+        #warning("Recipe is not reload from cloud")
+        self.updateState()
     }
     
-    private func presentRecipeCreationVC(animated: Bool) {
-        let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
-        recipeCreationVC.modalPresentationStyle = .fullScreen
-        recipeCreationVC.recipeCreationVCDelegate = self
-        self.present(recipeCreationVC, animated: animated, completion: nil)
-    }
+
     
     
     // MARK: ViewModel Binding
@@ -252,6 +250,7 @@ class RecipesViewController: LDNavigationViewController {
         addConstraints()
     }
     
+    
     private func addConstraints() {
         searchBar.snp.makeConstraints { make in
             make.height.equalTo(40)
@@ -280,6 +279,13 @@ class RecipesViewController: LDNavigationViewController {
             make.bottom.equalToSuperview()
             make.height.equalTo(height)
         }
+    }
+    
+    private func presentRecipeCreationVC(animated: Bool) {
+        let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+        recipeCreationVC.modalPresentationStyle = .fullScreen
+        recipeCreationVC.recipeCreationVCDelegate = self
+        self.present(recipeCreationVC, animated: animated, completion: nil)
     }
 }
     //MARK: TableView Delegate

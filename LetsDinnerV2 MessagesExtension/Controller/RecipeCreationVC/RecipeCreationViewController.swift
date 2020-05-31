@@ -166,11 +166,6 @@ class RecipeCreationViewController: UIViewController  {
 //        configureNewThingView()
         configureGestureRecognizers()
         configureObservers()
-
-//        if editExistingRecipe {
-//            bottomEditButton.isHidden = false
-//            loadExistingCustomRecipe()
-//        }
         
         if viewExistingRecipe {
             self.updateViewExistingRecipeUI()
@@ -446,7 +441,9 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.value = Double(recipe.servings)
         
         recipe.ingredients.forEach { customIngredient in
-            let temporaryIngredient = LDIngredient(name: customIngredient.name, amount: customIngredient.amount ?? 0, unit: customIngredient.unit ?? "")
+            let temporaryIngredient = LDIngredient(name: customIngredient.name,
+                                                   amount: customIngredient.amount ?? nil,
+                                                   unit: customIngredient.unit ?? nil)
             temporaryIngredients.append(temporaryIngredient)
         }
         
@@ -456,9 +453,11 @@ class RecipeCreationViewController: UIViewController  {
         
         if let comments = recipe.comments {
             commentsTextView.text = comments
+        } else {
+            commentsTextView.text = LabelStrings.noTipsAndComments
         }
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
-
+        
     }
     
     private func presentImagePicker() {
@@ -482,6 +481,8 @@ class RecipeCreationViewController: UIViewController  {
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
             guard let recipe = self.recipeToEdit else { return }
             self.viewModel.deleteRecipe(recipe)
+            self.dismiss(animated: true, completion: nil)
+            // api recipe not reloaded
         }
         alert.addAction(cancel)
         alert.addAction(edit)
