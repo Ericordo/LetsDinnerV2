@@ -73,9 +73,7 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientTableViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepTableViewLeadingConstraint: NSLayoutConstraint!
-    
-    
-        
+
     private let realm = try! Realm()
     
     private let rowHeight : CGFloat = 66
@@ -95,7 +93,7 @@ class RecipeCreationViewController: UIViewController  {
     let customRecipe = CustomRecipe()
     
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
-    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
+//    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
     private var temporaryIngredients = [LDIngredient]() {
         didSet {
@@ -729,8 +727,6 @@ class RecipeCreationViewController: UIViewController  {
     
     
     // MARK: Did Tap Buttons
-    
-
     @IBAction func didTapDone(_ sender: Any) {
         if editingMode {
             self.presentDoneActionSheet()
@@ -796,9 +792,7 @@ class RecipeCreationViewController: UIViewController  {
             }
         }
     }
-    
-    
-    
+
     @IBAction func didTapStepper(_ sender: UIStepper) {
         servings = Int(sender.value)
     }
@@ -859,7 +853,6 @@ class RecipeCreationViewController: UIViewController  {
 //            newThingView?.updateUI(type: .createRecipe, selectedSection: "Name")
 //            bottomEditButton.isHidden = false
 //        }
-        
     }
     
     @IBAction func didTapBottomEditButton(_ sender: Any) {
@@ -957,7 +950,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
         recipeImage = imageEdited
         
         imageState = .deleteOrModifyPic
-        addImageButton.setTitle("Edit Image", for: .normal)
+        addImageButton.setTitle(ButtonTitle.editImage, for: .normal)
         
         picturePicker.dismiss(animated: true, completion: nil)
         
@@ -971,8 +964,8 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
                 case .success(let url):
                     self?.downloadUrl = url
                 case .failure:
-                    let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    let alert = UIAlertController(title: AlertStrings.errorTitle, message: AlertStrings.saveImageErrorMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: AlertStrings.okAction, style: .default, handler: nil))
                     self?.present(alert, animated: true, completion: nil)
                     self?.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
                 }

@@ -49,8 +49,6 @@ enum AlertStrings {
     static let declineEventAlertTitle = "Do you want to decline?"
     static let declineEventAlertMessage = "By declining, you won't able to participate the event."
     
-    
-    
     static let cancel = NSLocalizedString("Cancel", comment: "cancel")
     static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = "Add a thing"
@@ -68,9 +66,15 @@ enum AlertStrings {
     static let confirm = NSLocalizedString("Confirm", comment: "confirm")
     static let decline = NSLocalizedString("Decline", comment: "decline")
     
+    // Create Recipe VC
     // Action Sheet
     static let doneActionSheetMessage = NSLocalizedString("Save or Discard your changes?", comment: "save or discard")
     static let edit = NSLocalizedString("Edit", comment: "edit")
+    
+    static let errorTitle = NSLocalizedString("Error", comment: "error")
+    static let saveImageErrorMessage = NSLocalizedString(" Image cannot be saved", comment: "save Image Error Message")
+    static let okAction = NSLocalizedString("OK", comment: "ok")
+    
 
 
 }

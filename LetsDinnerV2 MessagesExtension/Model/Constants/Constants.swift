@@ -60,10 +60,6 @@ enum Keys {
     
 }
 
-
-
-
-
 enum Images {
     
     static let chevronLeft = UIImage(named: "chevronLeft")
@@ -120,6 +116,7 @@ enum Images {
 enum ButtonTitle {
     static let letsGo = NSLocalizedString("Ok, Let's go!", comment: "ok lets go")
     static let back = NSLocalizedString("Back", comment: "back")
+    static let editImage = NSLocalizedString("Edit Image", comment: "edit image")
 }
 
 enum DataKeys {
