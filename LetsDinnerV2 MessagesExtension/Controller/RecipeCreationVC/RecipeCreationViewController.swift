@@ -276,7 +276,6 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func configureTableView() {
-//        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         ingredientsTableView.registerCells(CellNibs.createRecipeIngredientCell)
         stepsTableView.registerCells(CellNibs.createRecipeCookingStepCell)
 
@@ -367,7 +366,6 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: Edit Mode UI
     func updateViewExistingRecipeUI() {
         updateEditingModeUI(enterEditingMode: false)
-        // Insert data into textfield
     }
     
     private func updateEditingModeUI(enterEditingMode bool: Bool) {
@@ -389,14 +387,15 @@ class RecipeCreationViewController: UIViewController  {
         // Other
         self.hideBottomView(bool)
         self.updateTableViewLeading(enterEditingMode: bool)
+        self.addImageButton.isHidden = !bool
         servingsStepper.isHidden = !bool
         
         if viewExistingRecipe {
             if commentsTextView.text.isEmpty {
                 placeholderLabel.text = "Any Tips and comment?"
             }
+            
         }
-
     }
     
     private func hideTextFieldView(_ bool: Bool) {
@@ -723,8 +722,6 @@ class RecipeCreationViewController: UIViewController  {
             }
         }
     }
-    
-    
     
     // MARK: Did Tap Buttons
     @IBAction func didTapDone(_ sender: Any) {
@@ -1136,7 +1133,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
         
-        // Scroll View Respone
+        // Scroll View Response
         scrollView.contentInset = UIEdgeInsets(top: topViewMinHeight, left: 0, bottom: bottomEdgeInset, right: 0) //keyboardFrame.height
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
@@ -1150,11 +1147,13 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         }
         
         if activeField == nil {
+            
+            #warning("This one work for textfield but not textview")
             scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
         }
     
         // AddThingView Respone
-        showAddThingView(true, keyboardHeight: keyboardFrame.height)
+//        showAddThingView(true, keyboardHeight: keyboardFrame.height)
         
     }
     
