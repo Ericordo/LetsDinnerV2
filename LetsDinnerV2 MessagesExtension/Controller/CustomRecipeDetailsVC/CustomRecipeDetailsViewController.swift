@@ -241,7 +241,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     }
     
     @IBAction func didTapEdit(_ sender: UIButton) {
-        presentEditMenu()
+        self.presentEditMenu()
     }
     
     private func presentEditMenu() {
@@ -254,8 +254,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
             guard let recipe = self.selectedRecipe else { return }
-            self.viewModel.deleteRecipe(recipe)
-            self.dismiss(animated: true, completion: nil)
+//            self.viewModel.deleteRecipe(recipe)
         }
         alert.addAction(cancel)
         alert.addAction(edit)

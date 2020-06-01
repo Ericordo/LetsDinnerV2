@@ -16,6 +16,7 @@ protocol RecipeCreationVCDelegate: class {
 }
 
 protocol RecipeCreationVCUpdateDelegate: class {
+    #warning("Will be Removed")
     func recipeCreationVCDidUpdateRecipe()
 }
 
@@ -121,11 +122,7 @@ class RecipeCreationViewController: UIViewController  {
     
     // Custom Recipe
     var recipeToEdit: LDRecipe?
-    var editingMode = false {
-        didSet {
-//            toggleEditButton()
-        }
-    }
+    var editingMode = false
     
     var viewExistingRecipe = false
     var editExistingRecipe = false
@@ -228,11 +225,25 @@ class RecipeCreationViewController: UIViewController  {
             case .failure(let error):
                 print(error.localizedDescription)
             case.success(()):
-                self.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
+                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
                 self.dismiss(animated: true, completion: nil)
             }
         }
-
+        
+        self.viewModel.deleteRecipeSignal
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+        .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success():
+                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
     }
     
     // MARK: Configuration UI
@@ -383,9 +394,11 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.isHidden = !bool
         
         if viewExistingRecipe {
-            // put the data into textfdield
+            if commentsTextView.text.isEmpty {
+                placeholderLabel.text = "Any Tips and comment?"
+            }
         }
-        
+
     }
     
     private func hideTextFieldView(_ bool: Bool) {
@@ -408,8 +421,8 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func updateTableViewLeading(enterEditingMode bool: Bool) {
-        ingredientTableViewLeadingConstraint.constant = bool ? 15 : 20
-        stepTableViewLeadingConstraint.constant = bool ? 15 : 20
+        ingredientTableViewLeadingConstraint.constant = bool ? 14 : 20
+        stepTableViewLeadingConstraint.constant = bool ? 14 : 20
 
         ingredientsTableView.separatorInset.left = bool ? 15 : 10
         stepsTableView.separatorInset.left = bool ? 15 : 10
@@ -417,7 +430,9 @@ class RecipeCreationViewController: UIViewController  {
         self.view.layoutIfNeeded()
     }
     
+    // MARK: - Load Existing Custom Recipe
     private func loadExistingCustomRecipe() {
+        // Insert the Data into VC
         
         guard let recipe = recipeToEdit else { return }
 //        headerLabel.text = recipe.title
@@ -454,9 +469,9 @@ class RecipeCreationViewController: UIViewController  {
         if let comments = recipe.comments {
             commentsTextView.text = comments
         } else {
-            commentsTextView.text = LabelStrings.noTipsAndComments
+            placeholderLabel.text = LabelStrings.noTipsAndComments
         }
-        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
+        placeholderLabel.isHidden = !(commentsTextView.text != nil)
         
     }
     
@@ -473,16 +488,15 @@ class RecipeCreationViewController: UIViewController  {
         let alert = UIAlertController(title: "", message: recipeToEdit?.title ?? "", preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = bottomEditButton
         alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let edit = UIAlertAction(title: "Edit", style: .default) { action in
-//            self.editRecipe()
+        let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
+        let edit = UIAlertAction(title: AlertStrings.edit, style: .default) { action in
+            self.editingMode = true
+            self.editExistingRecipe = true
             self.updateEditingModeUI(enterEditingMode: true)
         }
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
+        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
             guard let recipe = self.recipeToEdit else { return }
             self.viewModel.deleteRecipe(recipe)
-            self.dismiss(animated: true, completion: nil)
-            // api recipe not reloaded
         }
         alert.addAction(cancel)
         alert.addAction(edit)
@@ -492,7 +506,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func presentDoneActionSheet() {
-        let alert = UIAlertController(title: "", message: "Save or Discard your changes?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: AlertStrings.doneActionSheetMessage, preferredStyle: .actionSheet)
         
         alert.popoverPresentationController?.sourceView = doneButton
         alert.popoverPresentationController?.sourceRect = doneButton.bounds
@@ -511,19 +525,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     // MARK: Functions
-    private func toggleEditButton() {
-       if editingMode {
-           bottomEditButton.setImage(UIImage(named: "editButton.png"), for: .normal)
-        updateEditingModeUI(enterEditingMode: true)
-//           self.loadExistingCustomRecipe()
-           
-       } else {
-           bottomEditButton.setImage(UIImage(named: "editButtonOutlined.png"), for: .normal)
-        updateEditingModeUI(enterEditingMode: false)
 
-       }
-   }
-    
     private func addIngredient(name: String?, amountString: String?) {
         var unit = ""
         var amount = ""
@@ -570,8 +572,6 @@ class RecipeCreationViewController: UIViewController  {
         
         ingredientTextField.text = ""
         amountTextField.text = ""
-    //        unitTextField.text = ""
-
     }
         
     private func addCookingStep(step: String?) {
@@ -613,6 +613,7 @@ class RecipeCreationViewController: UIViewController  {
             // setup an default image
             recipeImage = createDefaultImage()
         }
+        
         return false
     }
     
@@ -731,7 +732,12 @@ class RecipeCreationViewController: UIViewController  {
     
 
     @IBAction func didTapDone(_ sender: Any) {
-        self.presentDoneActionSheet()
+        if editingMode {
+            self.presentDoneActionSheet()
+        } else {
+            self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func saveRecipe() {
@@ -773,11 +779,13 @@ class RecipeCreationViewController: UIViewController  {
 //                }
         
         if verifyInformation() {
+            let comments = commentsTextView.text.isEmpty ? nil : commentsTextView.text
+            
             let recipe = LDRecipe(title: self.recipeNameTextField.text!,
                                   servings: self.servings,
                                   downloadUrl: self.downloadUrl,
                                   cookingSteps: self.temporarySteps,
-                                  comments: self.commentsTextView.text!,
+                                  comments: comments,
                                   ingredients: self.temporaryIngredients)
             
             if editExistingRecipe {
@@ -857,10 +865,7 @@ class RecipeCreationViewController: UIViewController  {
     @IBAction func didTapBottomEditButton(_ sender: Any) {
         if self.editingMode {
         } else {
-            editingMode = true
             self.presentEditActionSheet()
-
-            // Pass the data to textField
         }
     }
 

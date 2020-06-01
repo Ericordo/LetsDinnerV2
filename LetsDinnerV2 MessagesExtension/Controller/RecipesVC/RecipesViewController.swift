@@ -76,9 +76,6 @@ class RecipesViewController: LDNavigationViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         StepStatus.currentStep = .recipesVC
-        
-        #warning("Recipe is not reload from cloud")
-        self.updateState()
     }
     
 
@@ -167,6 +164,8 @@ class RecipesViewController: LDNavigationViewController {
                 guard let self = self else { return }
                 self.showError(error)
         }
+        
+       
     }
         
     // MARK: Methods
@@ -284,6 +283,7 @@ class RecipesViewController: LDNavigationViewController {
     private func presentRecipeCreationVC(animated: Bool) {
         let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
         recipeCreationVC.modalPresentationStyle = .fullScreen
+        recipeCreationVC.editingMode = true
         recipeCreationVC.recipeCreationVCDelegate = self
         self.present(recipeCreationVC, animated: animated, completion: nil)
     }
@@ -342,6 +342,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
 extension RecipesViewController: RecipeCreationVCDelegate {
     func recipeCreationVCDidTapDone() {
         self.viewModel.searchType.value = .customRecipes
+        updateState()
     }
 }
 
@@ -366,13 +367,12 @@ extension RecipesViewController: RecipeCellDelegate {
 //
 //        present(customRecipeDetailsVC, animated: true, completion: nil)
         
-        let editingVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
-        editingVC.modalPresentationStyle = .overFullScreen
-//        editingVC.recipeCreationVCUpdateDelegate = self
-        editingVC.recipeToEdit = customRecipe
-        editingVC.viewExistingRecipe = true
-//        editingVC.editExistingRecipe = true
-        self.present(editingVC, animated: true, completion: nil)
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+        viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
+        viewCustomRecipeVC.recipeCreationVCDelegate = self
+        viewCustomRecipeVC.recipeToEdit = customRecipe
+        viewCustomRecipeVC.viewExistingRecipe = true
+        self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
     
     func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {
