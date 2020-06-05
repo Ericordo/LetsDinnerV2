@@ -69,8 +69,6 @@ class CustomRecipeDetailsViewController: UIViewController {
         ingredientsTableView.dataSource = self
         stepsTableView.delegate = self
         stepsTableView.dataSource = self
-//        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
-//        stepsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         ingredientsTableView.register(UINib(nibName: CellNibs.createRecipeIngredientCell, bundle: nil),
                                       forCellReuseIdentifier: CellNibs.createRecipeIngredientCell)
         stepsTableView.register(UINib(nibName: CellNibs.createRecipeCookingStepCell, bundle: nil), forCellReuseIdentifier: CellNibs.createRecipeCookingStepCell)
@@ -188,10 +186,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         
     }
-    
-    
-    
-    
+
     override func viewDidLayoutSubviews() {
         UIView.animate(withDuration: 0, animations: {
         self.stepsTableView.layoutIfNeeded()
@@ -211,7 +206,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         
         let editingVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
         editingVC.modalPresentationStyle = .overFullScreen
-        editingVC.recipeCreationVCUpdateDelegate = self
+//        editingVC.recipeCreationVCUpdateDelegate = self
         editingVC.recipeToEdit = recipe
         editingVC.editExistingRecipe = true
         self.present(editingVC, animated: true, completion: nil)
@@ -246,7 +241,7 @@ class CustomRecipeDetailsViewController: UIViewController {
     }
     
     @IBAction func didTapEdit(_ sender: UIButton) {
-        presentEditMenu()
+        self.presentEditMenu()
     }
     
     private func presentEditMenu() {
@@ -259,7 +254,7 @@ class CustomRecipeDetailsViewController: UIViewController {
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
             guard let recipe = self.selectedRecipe else { return }
-            self.viewModel.deleteRecipe(recipe)
+//            self.viewModel.deleteRecipe(recipe)
         }
         alert.addAction(cancel)
         alert.addAction(edit)

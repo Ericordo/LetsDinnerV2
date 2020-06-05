@@ -32,6 +32,7 @@ class CreateRecipeIngredientCell: UITableViewCell {
             }
             
         } else {
+            // If amount == nil
             amountLabel.text = ""
             
             ingredientLabel.snp.makeConstraints{ make in

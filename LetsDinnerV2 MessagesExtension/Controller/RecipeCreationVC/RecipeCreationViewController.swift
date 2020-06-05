@@ -16,6 +16,7 @@ protocol RecipeCreationVCDelegate: class {
 }
 
 protocol RecipeCreationVCUpdateDelegate: class {
+    #warning("Will be Removed")
     func recipeCreationVCDidUpdateRecipe()
 }
 
@@ -58,16 +59,21 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var addThingView: UIView!
+    @IBOutlet weak var ingredientTextFieldView: UIView!
+    @IBOutlet weak var stepTextFieldView: UIView!
     
     // Constraint
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var ingredientTextFieldHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var stepTextFieldHeightConstraint: NSLayoutConstraint!
-        
+    @IBOutlet weak var ingredientTextFieldViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stepTextFieldViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ingredientTableViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stepTableViewLeadingConstraint: NSLayoutConstraint!
+
     private let realm = try! Realm()
     
     private let rowHeight : CGFloat = 66
@@ -87,14 +93,13 @@ class RecipeCreationViewController: UIViewController  {
     let customRecipe = CustomRecipe()
     
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
-    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
+//    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
     private var temporaryIngredients = [LDIngredient]() {
         didSet {
             print(temporaryIngredients)
             ingredientsTableView.reloadData()
             updateTableViewHeightConstraint(tableView: ingredientsTableView)
-//            hideTextField(tableView: ingredientsTableView)
         }
     }
     
@@ -106,7 +111,6 @@ class RecipeCreationViewController: UIViewController  {
                 updateTableViewHeightConstraint(tableView: stepsTableView)
             }
             viewWillLayoutSubviews()
-//            hideTextField(tableView: stepsTableView)
         }
     }
     
@@ -116,18 +120,15 @@ class RecipeCreationViewController: UIViewController  {
     
     // Custom Recipe
     var recipeToEdit: LDRecipe?
-    var editingMode = false {
-        didSet {
-            toggleEditButton()
-        }
-    }
+    var editingMode = false
     
+    var viewExistingRecipe = false
     var editExistingRecipe = false
     
     private var selectedRowIngredient: Int?
     private var selectedRowStep: Int?
     
-    private var createRecipeStartView = CreateRecipeStartView()
+    private lazy var createRecipeStartView = CreateRecipeStartView()
     
     // New Thing View
 //    var newThingView: AddNewThingView?
@@ -160,14 +161,16 @@ class RecipeCreationViewController: UIViewController  {
 //        configureNewThingView()
         configureGestureRecognizers()
         configureObservers()
-
-        if editExistingRecipe {
-            bottomEditButton.isHidden = false
-            loadExistingCustomRecipe()
+        
+        if viewExistingRecipe {
+            self.updateViewExistingRecipeUI()
+            self.loadExistingCustomRecipe()
         }
         bindViewModel()
 
     }
+    
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -220,22 +223,31 @@ class RecipeCreationViewController: UIViewController  {
             case .failure(let error):
                 print(error.localizedDescription)
             case.success(()):
-                self.recipeCreationVCUpdateDelegate?.recipeCreationVCDidUpdateRecipe()
+                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
                 self.dismiss(animated: true, completion: nil)
             }
         }
-
+        
+        self.viewModel.deleteRecipeSignal
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+        .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success():
+                self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
     }
     
     // MARK: Configuration UI
     private func configureUI() {
         
-        if !editExistingRecipe {
-//            self.addStartView()
-        }
-        
-        bottomEditButton.isHidden = true
-        bottomAddButton.isHidden = true
+        bottomView.isHidden = true
         
 //        addThingView.addShadow()
         
@@ -264,7 +276,6 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func configureTableView() {
-//        ingredientsTableView.register(UINib(nibName: CellNibs.ingredientCell, bundle: nil), forCellReuseIdentifier: CellNibs.ingredientCell)
         ingredientsTableView.registerCells(CellNibs.createRecipeIngredientCell)
         stepsTableView.registerCells(CellNibs.createRecipeCookingStepCell)
 
@@ -319,24 +330,12 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     func presentCreateRecipeWelcomeVCIfNeeded() {
-        
         if defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited) != true {
             let welcomeVC = RecipeCreationWelcomeViewController()
             welcomeVC.modalPresentationStyle = .overFullScreen
             self.present(welcomeVC, animated: true, completion: nil)
         }
     }
-
-//    private func addStartView() {
-//        self.view.addSubview(createRecipeStartView)
-//
-//        createRecipeStartView.translatesAutoresizingMaskIntoConstraints = false
-//        createRecipeStartView.anchor(top: headerView.bottomAnchor, leading: self.view.leadingAnchor, bottom: bottomView.topAnchor, trailing: self.view.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-//    }
-//
-//    private func removeStartView() {
-//        createRecipeStartView.removeFromSuperview()
-//    }
 
     private func configureGestureRecognizers() {
         // Should only tap on the view not on the keyboard
@@ -364,32 +363,73 @@ class RecipeCreationViewController: UIViewController  {
         contentViewHeightConstraint.constant = 600 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant
     }
     
-    private func hideTextField(tableView: UITableView) {
-        switch tableView {
-        case ingredientsTableView:
-            ingredientTextFieldHeightConstraint.constant = (temporaryIngredients.isEmpty) ? 44 : 0
-            ingredientCellSeparator.isHidden = (temporaryIngredients.isEmpty) ? false : true
-        case stepsTableView:
-            stepTextFieldHeightConstraint.constant = (temporarySteps.isEmpty) ? 44 : 0
-            stepCellSeparator.isHidden = (temporarySteps.isEmpty) ? false : true
-        default:
-            break
-        }
-        self.view.layoutIfNeeded()
+    // MARK: Edit Mode UI
+    func updateViewExistingRecipeUI() {
+        updateEditingModeUI(enterEditingMode: false)
     }
     
-
-    // MARK: Edit Mode UI
-    private func configureEditMode(_ bool: Bool) {
+    private func updateEditingModeUI(enterEditingMode bool: Bool) {
+        bottomView.isHidden = bool
+        
+        // TableViews
         ingredientsTableView.isEditing = bool
         stepsTableView.isEditing = bool
         ingredientsTableView.allowsSelection = bool
         stepsTableView.allowsSelection = bool
         ingredientsTableView.allowsSelectionDuringEditing = bool
         stepsTableView.allowsSelectionDuringEditing = bool
+        
+        // TextFields
+        self.hideTextFieldView(!bool)
+        recipeNameTextField.isEnabled = bool
+        commentsTextView.isEditable = bool
+        
+        // Other
+        self.hideBottomView(bool)
+        self.updateTableViewLeading(enterEditingMode: bool)
+        self.addImageButton.isHidden = !bool
+        servingsStepper.isHidden = !bool
+        
+        if viewExistingRecipe {
+            if commentsTextView.text.isEmpty {
+                placeholderLabel.text = "Any Tips and comment?"
+            }
+            
+        }
     }
     
+    private func hideTextFieldView(_ bool: Bool) {
+        if bool {
+            ingredientTextFieldViewHeightConstraint.constant = 0
+            stepTextFieldViewHeightConstraint.constant = 0
+        } else {
+            ingredientTextFieldViewHeightConstraint.constant = 66
+            stepTextFieldViewHeightConstraint.constant = 44
+        }
+        
+        ingredientTextFieldView.isHidden = bool
+        stepTextFieldView.isHidden = bool
+        self.view.layoutIfNeeded()
+    }
+    
+    private func hideBottomView(_ bool: Bool) {
+        bottomViewBottomConstraint.constant = bool ? -60 : 0
+        self.view.layoutIfNeeded()
+    }
+    
+    private func updateTableViewLeading(enterEditingMode bool: Bool) {
+        ingredientTableViewLeadingConstraint.constant = bool ? 14 : 20
+        stepTableViewLeadingConstraint.constant = bool ? 14 : 20
+
+        ingredientsTableView.separatorInset.left = bool ? 15 : 10
+        stepsTableView.separatorInset.left = bool ? 15 : 10
+        
+        self.view.layoutIfNeeded()
+    }
+    
+    // MARK: - Load Existing Custom Recipe
     private func loadExistingCustomRecipe() {
+        // Insert the Data into VC
         
         guard let recipe = recipeToEdit else { return }
 //        headerLabel.text = recipe.title
@@ -413,7 +453,9 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.value = Double(recipe.servings)
         
         recipe.ingredients.forEach { customIngredient in
-            let temporaryIngredient = LDIngredient(name: customIngredient.name, amount: customIngredient.amount ?? 0, unit: customIngredient.unit ?? "")
+            let temporaryIngredient = LDIngredient(name: customIngredient.name,
+                                                   amount: customIngredient.amount ?? nil,
+                                                   unit: customIngredient.unit ?? nil)
             temporaryIngredients.append(temporaryIngredient)
         }
         
@@ -423,9 +465,11 @@ class RecipeCreationViewController: UIViewController  {
         
         if let comments = recipe.comments {
             commentsTextView.text = comments
+        } else {
+            placeholderLabel.text = LabelStrings.noTipsAndComments
         }
-        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
-
+        placeholderLabel.isHidden = !(commentsTextView.text != nil)
+        
     }
     
     private func presentImagePicker() {
@@ -436,8 +480,30 @@ class RecipeCreationViewController: UIViewController  {
         present(picturePicker, animated: true, completion: nil)
     }
     
+    // MARK: Present Action Sheet
+    private func presentEditActionSheet() {
+        let alert = UIAlertController(title: "", message: recipeToEdit?.title ?? "", preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = bottomEditButton
+        alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
+        let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
+        let edit = UIAlertAction(title: AlertStrings.edit, style: .default) { action in
+            self.editingMode = true
+            self.editExistingRecipe = true
+            self.updateEditingModeUI(enterEditingMode: true)
+        }
+        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
+            guard let recipe = self.recipeToEdit else { return }
+            self.viewModel.deleteRecipe(recipe)
+        }
+        alert.addAction(cancel)
+        alert.addAction(edit)
+        alert.addAction(delete)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
     private func presentDoneActionSheet() {
-        let alert = UIAlertController(title: "", message: "Save or Discard your changes?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: AlertStrings.doneActionSheetMessage, preferredStyle: .actionSheet)
         
         alert.popoverPresentationController?.sourceView = doneButton
         alert.popoverPresentationController?.sourceRect = doneButton.bounds
@@ -456,19 +522,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     // MARK: Functions
-    private func toggleEditButton() {
-       if editingMode {
-           bottomEditButton.setImage(UIImage(named: "editButton.png"), for: .normal)
-            configureEditMode(true)
-//           self.loadExistingCustomRecipe()
-           
-       } else {
-           bottomEditButton.setImage(UIImage(named: "editButtonOutlined.png"), for: .normal)
-            configureEditMode(false)
 
-       }
-   }
-    
     private func addIngredient(name: String?, amountString: String?) {
         var unit = ""
         var amount = ""
@@ -515,8 +569,6 @@ class RecipeCreationViewController: UIViewController  {
         
         ingredientTextField.text = ""
         amountTextField.text = ""
-    //        unitTextField.text = ""
-
     }
         
     private func addCookingStep(step: String?) {
@@ -558,6 +610,7 @@ class RecipeCreationViewController: UIViewController  {
             // setup an default image
             recipeImage = createDefaultImage()
         }
+        
         return false
     }
     
@@ -670,13 +723,14 @@ class RecipeCreationViewController: UIViewController  {
         }
     }
     
-    
-    
     // MARK: Did Tap Buttons
-    
-
     @IBAction func didTapDone(_ sender: Any) {
-        self.presentDoneActionSheet()
+        if editingMode {
+            self.presentDoneActionSheet()
+        } else {
+            self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func saveRecipe() {
@@ -718,11 +772,13 @@ class RecipeCreationViewController: UIViewController  {
 //                }
         
         if verifyInformation() {
+            let comments = commentsTextView.text.isEmpty ? nil : commentsTextView.text
+            
             let recipe = LDRecipe(title: self.recipeNameTextField.text!,
                                   servings: self.servings,
                                   downloadUrl: self.downloadUrl,
                                   cookingSteps: self.temporarySteps,
-                                  comments: self.commentsTextView.text!,
+                                  comments: comments,
                                   ingredients: self.temporaryIngredients)
             
             if editExistingRecipe {
@@ -733,9 +789,7 @@ class RecipeCreationViewController: UIViewController  {
             }
         }
     }
-    
-    
-    
+
     @IBAction func didTapStepper(_ sender: UIStepper) {
         servings = Int(sender.value)
     }
@@ -796,32 +850,14 @@ class RecipeCreationViewController: UIViewController  {
 //            newThingView?.updateUI(type: .createRecipe, selectedSection: "Name")
 //            bottomEditButton.isHidden = false
 //        }
-        
     }
     
     @IBAction func didTapBottomEditButton(_ sender: Any) {
-//        if self.editingMode {
-//            editingMode = false
-//        } else {
-//            // Need something to Edit
-//            guard !(temporaryIngredients.isEmpty && temporarySteps.isEmpty) else { return shakeEmptyTextFields() }
-//
-//            editingMode = true
-//        }
-//        self.editingMode = !editingMode
+        if self.editingMode {
+        } else {
+            self.presentEditActionSheet()
+        }
     }
-    
-    
-//    @IBAction func didTapAddIngredient(_ sender: UIButton) {
-//        addIngredient()
-//    }
-    
-    
-    
-//    @IBAction func didTapAddStep(_ sender: UIButton) {
-
-//    }
-    
 
 }
 
@@ -911,7 +947,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
         recipeImage = imageEdited
         
         imageState = .deleteOrModifyPic
-        addImageButton.setTitle("Edit Image", for: .normal)
+        addImageButton.setTitle(ButtonTitle.editImage, for: .normal)
         
         picturePicker.dismiss(animated: true, completion: nil)
         
@@ -925,8 +961,8 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
                 case .success(let url):
                     self?.downloadUrl = url
                 case .failure:
-                    let alert = UIAlertController(title: "Error while saving image", message: "", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    let alert = UIAlertController(title: AlertStrings.errorTitle, message: AlertStrings.saveImageErrorMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: AlertStrings.okAction, style: .default, handler: nil))
                     self?.present(alert, animated: true, completion: nil)
                     self?.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
                 }
@@ -1072,20 +1108,20 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
 //        print(yOffset)
         
         if yOffset < -topViewMaxHeight {
-            heightConstraint.constant = self.topViewMaxHeight
+            headerViewHeightConstraint.constant = self.topViewMaxHeight
             recipeImageView.layer.cornerRadius = 15
             
         } else if yOffset < -topViewMinHeight {
-            heightConstraint.constant = yOffset * -1
+            headerViewHeightConstraint.constant = yOffset * -1
             recipeImageView.layer.cornerRadius = yOffset * (topViewMinHeight / topViewMaxHeight) * -5 / 15
             self.view.layoutIfNeeded()
              
         } else {
-            heightConstraint.constant = topViewMinHeight
+            headerViewHeightConstraint.constant = topViewMinHeight
             recipeImageView.layer.cornerRadius = 5
         }
         
-        if heightConstraint.constant == topViewMaxHeight {
+        if headerViewHeightConstraint.constant == topViewMaxHeight {
             addImageButton.alpha = 1
         } else {
             addImageButton.alpha = 0
@@ -1097,7 +1133,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
         
-        // Scroll View Respone
+        // Scroll View Response
         scrollView.contentInset = UIEdgeInsets(top: topViewMinHeight, left: 0, bottom: bottomEdgeInset, right: 0) //keyboardFrame.height
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
@@ -1111,11 +1147,13 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         }
         
         if activeField == nil {
+            
+            #warning("This one work for textfield but not textview")
             scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
         }
     
         // AddThingView Respone
-        showAddThingView(true, keyboardHeight: keyboardFrame.height)
+//        showAddThingView(true, keyboardHeight: keyboardFrame.height)
         
     }
     

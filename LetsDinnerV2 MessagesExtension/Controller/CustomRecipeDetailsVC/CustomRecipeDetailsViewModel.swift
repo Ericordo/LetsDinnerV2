@@ -35,6 +35,7 @@ class CustomRecipeDetailsViewModel {
                     switch result {
                     case .success():
                         self.deleteRecipeObserver.send(value: ())
+                        
                     case .failure(let error):
                         self.deleteRecipeObserver.send(error: error)
                     }

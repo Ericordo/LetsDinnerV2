@@ -17,6 +17,9 @@ class RecipeCreationViewModel {
     let recipeUpdateSignal : Signal<Void, Error>
     private let recipeUpdateObserver : Signal<Void, Error>.Observer
     
+    let deleteRecipeSignal : Signal<Void, Error>
+    private let deleteRecipeObserver : Signal<Void, Error>.Observer
+    
     let isLoading = MutableProperty<Bool>(false)
     
     init() {
@@ -27,6 +30,11 @@ class RecipeCreationViewModel {
         let (recipeUpdateSignal, recipeUpdateObserver) = Signal<Void, Error>.pipe()
         self.recipeUpdateSignal = recipeUpdateSignal
         self.recipeUpdateObserver = recipeUpdateObserver
+        
+        // Delete Recipe
+        let (deleteRecipeSignal, deleteRecipeObserver) = Signal<Void, Error>.pipe()
+        self.deleteRecipeSignal = deleteRecipeSignal
+        self.deleteRecipeObserver = deleteRecipeObserver
     }
     
     func saveRecipe(_ recipe: LDRecipe) {
@@ -60,6 +68,25 @@ class RecipeCreationViewModel {
                 }
         }
         
+    }
+    
+    func deleteRecipe(_ recipe: LDRecipe) {
+    if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipe.id }) {
+        Event.shared.selectedCustomRecipes.remove(at: index)
+    }
+        CloudManager.shared.deleteRecipeFromCloud(recipe)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithResult { result in
+                switch result {
+                case .success():
+                    self.deleteRecipeObserver.send(value: ())
+                case .failure(let error):
+                    self.deleteRecipeObserver.send(error: error)
+                }
+        }
     }
     
     
