@@ -20,6 +20,11 @@ protocol RecipeCreationVCUpdateDelegate: class {
     func recipeCreationVCDidUpdateRecipe()
 }
 
+enum CustomRecipeCreationVCState {
+    case createNewCustomRecipe
+    case editExistingCustomRecipe
+}
+
 struct TemporaryIngredient {
     let name: String
     let amount: Double?
@@ -85,21 +90,23 @@ class RecipeCreationViewController: UIViewController  {
     private let picturePicker = UIImagePickerController()
     private var recipeImage: UIImage?
     private var downloadUrl: String?
-    private var imageState : ImageState = .addPic
+    private var imageState: ImageState = .addPic
     private var imageDeletedWhileEditing = false
 
     private var activeField: UITextField?
-    
-    let customRecipe = CustomRecipe()
-    
+
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
 //    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
+    // Data
+    let customRecipe = CustomRecipe()
+
     private var temporaryIngredients = [LDIngredient]() {
         didSet {
-            print(temporaryIngredients)
             ingredientsTableView.reloadData()
             updateTableViewHeightConstraint(tableView: ingredientsTableView)
+            
+            self.updateIsRecipeEdited()
         }
     }
     
@@ -111,19 +118,26 @@ class RecipeCreationViewController: UIViewController  {
                 updateTableViewHeightConstraint(tableView: stepsTableView)
             }
             viewWillLayoutSubviews()
+            
+            self.updateIsRecipeEdited()
         }
     }
     
     private var servings : Int = 2 {
-        didSet { servingsLabel.text = "For \(servings) people" }
+        didSet {
+            servingsLabel.text = "For \(servings) people"
+            
+            self.updateIsRecipeEdited()
+        }
     }
     
     // Custom Recipe
     var recipeToEdit: LDRecipe?
     var editingMode = false
-    
     var viewExistingRecipe = false
     var editExistingRecipe = false
+    var isExistingRecipeAlreadyLoaded = false
+    var isRecipeEdited = false
     
     private var selectedRowIngredient: Int?
     private var selectedRowStep: Int?
@@ -169,8 +183,6 @@ class RecipeCreationViewController: UIViewController  {
         bindViewModel()
 
     }
-    
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -470,6 +482,8 @@ class RecipeCreationViewController: UIViewController  {
         }
         placeholderLabel.isHidden = !(commentsTextView.text != nil)
         
+        self.isExistingRecipeAlreadyLoaded = true
+        
     }
     
     private func presentImagePicker() {
@@ -625,6 +639,23 @@ class RecipeCreationViewController: UIViewController  {
         stepTextField.shake()
     }
     
+    private func allTextFieldsAreEmpty() -> Bool {
+        if recipeNameTextField.text == "" && commentsTextView.text == "" && ingredientTextField.text == "" && amountTextField.text == "" && stepTextField.text == "" {
+            return true
+        }
+        return false
+    }
+    
+    private func updateIsRecipeEdited() {
+        if viewExistingRecipe {
+            if isExistingRecipeAlreadyLoaded {
+                isRecipeEdited = true
+            }
+        } else {
+            isRecipeEdited = true
+        }
+    }
+    
     // MARK: Data write in Realm
 //    private func saveRecipeToRealm(completion: @escaping (Result<Bool, Error>) -> Void) {
 //        do {
@@ -724,10 +755,27 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     // MARK: Did Tap Buttons
-    @IBAction func didTapDone(_ sender: Any) {
+    @IBAction func didTapDoneButton(_ sender: Any) {
         if editingMode {
-            self.presentDoneActionSheet()
+            
+            if editExistingRecipe {
+                if isRecipeEdited {
+                    self.presentDoneActionSheet()
+                } else {
+                    self.dismiss(animated: true, completion: nil)
+                }
+
+            } else {
+                if isRecipeEdited || !allTextFieldsAreEmpty() {
+                    self.presentDoneActionSheet()
+                } else {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+            
+            
         } else {
+
             self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
             self.dismiss(animated: true, completion: nil)
         }
@@ -929,10 +977,6 @@ extension RecipeCreationViewController: UITextViewDelegate {
         placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//          super.touchesBegan(touches, with: event)
-//          self.view.endEditing(true)
-//      }
 }
 
 extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -954,6 +998,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
         if let recipeImage = recipeImage {
             doneButton.isHidden = true
             activityIndicator.startAnimating()
+            
             ImageHelper.shared.saveRecipePicToFirebase(recipeImage, id: customRecipe.id) { [weak self] result in
                 self?.doneButton.isHidden = false
                 self?.activityIndicator.stopAnimating()
@@ -1151,6 +1196,8 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
             #warning("This one work for textfield but not textview")
             scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
         }
+        
+        self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
     
         // AddThingView Respone
 //        showAddThingView(true, keyboardHeight: keyboardFrame.height)
@@ -1161,46 +1208,46 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         
-        showAddThingView(false, keyboardHeight: nil)
+//        showAddThingView(false, keyboardHeight: nil)
         
         self.deselectSelectedRow()
         activeField?.resignFirstResponder()
     }
     
-    private func showAddThingView(_ bool: Bool, keyboardHeight: CGFloat?) {
-        if bool {
-            
-            guard let keyboardHeight = keyboardHeight else {return}
-            
-            UIView.animate(withDuration: 1) {
-                self.addThingViewBottomConstraint.constant = keyboardHeight
-                
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    self.addThingViewBottomConstraint.constant += 20
-                }
-                
-            }
-            
-            self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
-            self.view.addGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
-            
-        } else {
-            
-            UIView.animate(withDuration: 1) {
-                self.addThingViewBottomConstraint.constant = -100
-                
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    self.addThingViewBottomConstraint.constant -= 20
-                }
-            }
-           
-           self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
-           self.view.removeGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
-        }
-        
-        self.view.layoutIfNeeded()
-
-    }
+//    private func showAddThingView(_ bool: Bool, keyboardHeight: CGFloat?) {
+//        if bool {
+//
+//            guard let keyboardHeight = keyboardHeight else {return}
+//
+//            UIView.animate(withDuration: 1) {
+//                self.addThingViewBottomConstraint.constant = keyboardHeight
+//
+//                if UIDevice.current.userInterfaceIdiom == .pad {
+//                    self.addThingViewBottomConstraint.constant += 20
+//                }
+//
+//            }
+//
+//            self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
+//            self.view.addGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
+//
+//        } else {
+//
+//            UIView.animate(withDuration: 1) {
+//                self.addThingViewBottomConstraint.constant = -100
+//
+//                if UIDevice.current.userInterfaceIdiom == .pad {
+//                    self.addThingViewBottomConstraint.constant -= 20
+//                }
+//            }
+//
+//           self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
+//           self.view.removeGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
+//        }
+//
+//        self.view.layoutIfNeeded()
+//
+//    }
     
 }
 
