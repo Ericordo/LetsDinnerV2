@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -21,10 +23,12 @@
                 <outlet property="bottomViewBottomConstraint" destination="LxK-Nu-ta4" id="q2E-vL-hrp"/>
                 <outlet property="commentsTextView" destination="hMw-Vr-xbb" id="nDU-Ks-ETG"/>
                 <outlet property="contentViewHeightConstraint" destination="fOO-vV-X9S" id="Jb4-PC-cd7"/>
+                <outlet property="cookingStepIngredientView" destination="JnC-qW-IKu" id="dUg-vO-vWX"/>
                 <outlet property="doneButton" destination="UEw-H2-uNc" id="Nq3-jR-pAF"/>
                 <outlet property="headerView" destination="NMe-Pr-15z" id="QPv-ts-5o2"/>
                 <outlet property="headerViewHeightConstraint" destination="zMr-m4-wxP" id="Hws-Y1-lPI"/>
                 <outlet property="ingredientCellSeparator" destination="Rmo-X9-9R9" id="aaN-Rc-wUh"/>
+                <outlet property="ingredientSectionView" destination="Iua-MW-GQ4" id="HC1-yy-NYp"/>
                 <outlet property="ingredientTableViewLeadingConstraint" destination="IJY-x7-Yba" id="VsM-M0-YLz"/>
                 <outlet property="ingredientTextField" destination="sER-7t-Lge" id="4LV-QB-2wg"/>
                 <outlet property="ingredientTextFieldView" destination="u1C-XE-jMS" id="CJ1-Hu-z0H"/>
