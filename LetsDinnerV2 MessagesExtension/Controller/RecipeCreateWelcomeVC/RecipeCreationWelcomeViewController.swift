@@ -139,7 +139,8 @@ class RecipeCreationWelcomeViewController: UIViewController {
 
         // BottomView
         bottomView.snp.makeConstraints { make in
-           make.leading.trailing.bottom.equalToSuperview()
+           make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
            make.height.equalTo(80)
         }
         

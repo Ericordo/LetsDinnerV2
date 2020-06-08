@@ -175,7 +175,7 @@
                                             <rect key="frame" x="0.0" y="132" width="375" height="66"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. Milk" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="sER-7t-Lge" userLabel="Ingredient TextField">
-                                                    <rect key="frame" x="62" y="8" width="313" height="28"/>
+                                                    <rect key="frame" x="64" y="8" width="311" height="28"/>
                                                     <color key="tintColor" red="0.87843137250000003" green="0.38823529410000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="28" id="hSf-ko-MMt"/>
@@ -184,13 +184,13 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 </textField>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="500 ml" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MAi-Z2-qAd" userLabel="Amount TextField">
-                                                    <rect key="frame" x="62" y="36" width="313" height="19"/>
+                                                    <rect key="frame" x="64" y="36" width="311" height="19"/>
                                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SC4-5d-Db2" userLabel="Add Ingredient Button">
-                                                    <rect key="frame" x="30" y="22" width="22" height="22"/>
+                                                    <rect key="frame" x="32" y="22" width="22" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="22" id="LcG-F5-QbY"/>
                                                         <constraint firstAttribute="height" constant="22" id="e3n-Ar-lbV"/>
@@ -214,7 +214,7 @@
                                                 <constraint firstItem="MAi-Z2-qAd" firstAttribute="top" secondItem="sER-7t-Lge" secondAttribute="bottom" id="5Nc-fi-Khh"/>
                                                 <constraint firstItem="SC4-5d-Db2" firstAttribute="centerY" secondItem="u1C-XE-jMS" secondAttribute="centerY" id="9r0-iK-td6"/>
                                                 <constraint firstItem="sER-7t-Lge" firstAttribute="leading" secondItem="SC4-5d-Db2" secondAttribute="trailing" constant="10" id="9sS-R0-vWy"/>
-                                                <constraint firstItem="SC4-5d-Db2" firstAttribute="leading" secondItem="u1C-XE-jMS" secondAttribute="leading" constant="30" id="CCb-nT-iCf"/>
+                                                <constraint firstItem="SC4-5d-Db2" firstAttribute="leading" secondItem="u1C-XE-jMS" secondAttribute="leading" constant="32" id="CCb-nT-iCf"/>
                                                 <constraint firstItem="sER-7t-Lge" firstAttribute="top" secondItem="u1C-XE-jMS" secondAttribute="top" constant="8" id="DE8-Vl-9Yy"/>
                                                 <constraint firstAttribute="trailing" secondItem="MAi-Z2-qAd" secondAttribute="trailing" id="G8V-W4-UtK"/>
                                                 <constraint firstAttribute="height" constant="66" id="Hxj-DB-br5"/>
@@ -273,7 +273,7 @@
                                             <rect key="frame" x="0.0" y="132" width="375" height="44"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebn-sw-okY" userLabel="Add Cooking Step Button">
-                                                    <rect key="frame" x="30" y="11" width="22" height="22"/>
+                                                    <rect key="frame" x="32" y="11" width="22" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="22" id="LDD-0G-bY5"/>
                                                         <constraint firstAttribute="height" constant="22" id="s00-nq-7jg"/>
@@ -284,7 +284,7 @@
                                                     </connections>
                                                 </button>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. Pour the milk" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdW-3C-FYb">
-                                                    <rect key="frame" x="62" y="0.0" width="303" height="44"/>
+                                                    <rect key="frame" x="64" y="0.0" width="301" height="44"/>
                                                     <color key="tintColor" red="0.8784313725490196" green="0.38823529411764707" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -301,7 +301,7 @@
                                             <constraints>
                                                 <constraint firstItem="ljr-Ze-0NW" firstAttribute="leading" secondItem="RT4-nI-w9r" secondAttribute="leading" constant="30" id="04m-FN-aaM"/>
                                                 <constraint firstItem="ebn-sw-okY" firstAttribute="centerY" secondItem="RT4-nI-w9r" secondAttribute="centerY" id="6QN-wr-Dyq"/>
-                                                <constraint firstItem="ebn-sw-okY" firstAttribute="leading" secondItem="RT4-nI-w9r" secondAttribute="leading" constant="30" id="JUC-7K-K8n"/>
+                                                <constraint firstItem="ebn-sw-okY" firstAttribute="leading" secondItem="RT4-nI-w9r" secondAttribute="leading" constant="32" id="JUC-7K-K8n"/>
                                                 <constraint firstAttribute="bottom" secondItem="ljr-Ze-0NW" secondAttribute="bottom" id="L7k-hN-dfK"/>
                                                 <constraint firstAttribute="trailing" secondItem="sdW-3C-FYb" secondAttribute="trailing" constant="10" id="MwI-Sf-kUy"/>
                                                 <constraint firstItem="ebn-sw-okY" firstAttribute="centerY" secondItem="sdW-3C-FYb" secondAttribute="centerY" id="WFr-M2-Ty7"/>

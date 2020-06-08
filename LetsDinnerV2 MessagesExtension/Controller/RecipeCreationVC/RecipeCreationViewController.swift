@@ -443,14 +443,14 @@ class RecipeCreationViewController: UIViewController  {
 //        headerLabel.text = recipe.title
         if let downloadUrl = recipe.downloadUrl {
             recipeImageView.kf.indicatorType = .activity
-            recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: UIImage(named: "imagePlaceholderBig.png")) { result in
+            recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: Images.imagePlaceholderBig) { result in
                 switch result {
                 case .success:
-                    self.addImageButton.setTitle("Edit image", for: .normal)
+                    self.addImageButton.setTitle(ButtonTitle.editImage, for: .normal)
                     self.imageState = .deleteOrModifyPic
                 case .failure:
                     let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    alert.addAction(UIAlertAction(title: AlertStrings.okAction, style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -842,6 +842,7 @@ class RecipeCreationViewController: UIViewController  {
         self.addIngredient(name: ingredientTextField.text,
                            amountString: amountTextField.text)
         ingredientTextField.becomeFirstResponder()
+
     }
     
     @IBAction func didTapAddCookingStepButton(_ sender: UIButton) {
@@ -1016,8 +1017,9 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
     }
 }
 
-// MARK: TableView Configure
+// MARK: TableView Delegation
 extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case ingredientsTableView:
@@ -1088,30 +1090,32 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
         default:
             break
         }
+        
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if editingMode {
-            switch tableView {
-                
-            case ingredientsTableView:
-                selectedRowIngredient = indexPath.row
-                let selectedIngredient = temporaryIngredients[indexPath.row]
-                
-                // pop up at the addthingview
-                sendDataToNewThingView(selectedItem: selectedIngredient)
-                
-            case stepsTableView:
-                selectedRowStep = indexPath.row
-                let selectedStep = temporarySteps[indexPath.row]
-                
-                sendDataToNewThingView(selectedItem: selectedStep)
-                
-            default:
-                break
-            }
-        }
+//        if editingMode {
+//            switch tableView {
+//
+//            case ingredientsTableView:
+//                selectedRowIngredient = indexPath.row
+//                let selectedIngredient = temporaryIngredients[indexPath.row]
+//
+//                // pop up at the addthingview
+//                sendDataToNewThingView(selectedItem: selectedIngredient)
+//
+//            case stepsTableView:
+//                selectedRowStep = indexPath.row
+//                let selectedStep = temporarySteps[indexPath.row]
+//
+//                sendDataToNewThingView(selectedItem: selectedStep)
+//
+//            default:
+//                break
+//            }
+//        }
     }
     
     private func sendDataToNewThingView(selectedItem: Any) {
@@ -1146,6 +1150,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
 // MARK: ScrollView Delegate
 
 extension RecipeCreationViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
 //        print(yOffset)
@@ -1173,8 +1178,8 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
                 
-        // Scroll View Response
-        #warning("Need better calculation (after Finalizing the design)")
+        // ScrollView Response
+        #warning("will improve calculation (after Finalizing the design)")
         var activeFieldYPosition: CGFloat = 0
         
         switch activeField {
@@ -1182,7 +1187,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
             activeFieldYPosition = 0
         case ingredientTextField, amountTextField:
             activeFieldYPosition = ingredientSectionView.frame.origin.y + ingredientsTableViewHeightConstraint.constant
-            
         case stepTextField:
             activeFieldYPosition = cookingStepIngredientView.frame.origin.y + stepTextFieldViewHeightConstraint.constant
         default: // For Comment Section
@@ -1201,7 +1205,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         
         if let activeField = activeField {
 //            scrollView.scrollRectToVisible(activeField.frame, animated: true)
-            
             if !rectangle.contains(activeField.frame.origin) {
                 
             }
