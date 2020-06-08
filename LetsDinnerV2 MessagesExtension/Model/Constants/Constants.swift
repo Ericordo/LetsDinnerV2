@@ -117,6 +117,7 @@ enum ButtonTitle {
     static let letsGo = NSLocalizedString("Ok, Let's go!", comment: "ok lets go")
     static let back = NSLocalizedString("Back", comment: "back")
     static let editImage = NSLocalizedString("Edit Image", comment: "edit image")
+    static let addImage = NSLocalizedString("Add Image", comment: "add image")
 }
 
 enum DataKeys {

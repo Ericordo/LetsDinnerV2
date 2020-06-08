@@ -449,7 +449,7 @@ class RecipeCreationViewController: UIViewController  {
                     self.addImageButton.setTitle(ButtonTitle.editImage, for: .normal)
                     self.imageState = .deleteOrModifyPic
                 case .failure:
-                    let alert = UIAlertController(title: "Error while retrieving image", message: "", preferredStyle: .alert)
+                    let alert = UIAlertController(title: AlertStrings.errorTitle, message: AlertStrings.retrieveImageErrorMessage, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: AlertStrings.okAction, style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                 }
@@ -496,7 +496,7 @@ class RecipeCreationViewController: UIViewController  {
         alert.popoverPresentationController?.sourceView = bottomEditButton
         alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
         let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        let edit = UIAlertAction(title: AlertStrings.edit, style: .default) { action in
+        let edit = UIAlertAction(title: AlertStrings.editAction, style: .default) { action in
             self.editingMode = true
             self.editExistingRecipe = true
             self.updateEditingModeUI(enterEditingMode: true)
@@ -518,13 +518,13 @@ class RecipeCreationViewController: UIViewController  {
         alert.popoverPresentationController?.sourceView = doneButton
         alert.popoverPresentationController?.sourceRect = doneButton.bounds
 
-        let saveAction = UIAlertAction(title: "Save", style: .default) {
+        let saveAction = UIAlertAction(title: AlertStrings.save, style: .default) {
             _ in self.saveRecipe()
         }
-        let discardAction = UIAlertAction(title: "Discard", style: .destructive) { _ in
+        let discardAction = UIAlertAction(title: AlertStrings.discard, style: .destructive) { _ in
             self.dismiss(animated: true, completion: nil)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
         alert.addAction(cancelAction)
         alert.addAction(saveAction)
         alert.addAction(discardAction)
@@ -869,16 +869,16 @@ class RecipeCreationViewController: UIViewController  {
         case .addPic:
             presentImagePicker()
         case .deleteOrModifyPic:
-            let alert = UIAlertController(title: "My image", message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: AlertStrings.myImage, message: "", preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = addImageButton
             alert.popoverPresentationController?.sourceRect = addImageButton.bounds
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            let change = UIAlertAction(title: "Change", style: .default) { action in
+            let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
+            let change = UIAlertAction(title: AlertStrings.change, style: .default) { action in
                 self.presentImagePicker()
             }
-            let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
-                self.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
-                self.addImageButton.setTitle("Add Image", for: .normal)
+            let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
+                self.recipeImageView.image = Images.imagePlaceholderBig
+                self.addImageButton.setTitle(ButtonTitle.addImage, for: .normal)
                 self.imageState = .addPic
                 self.downloadUrl = nil
             }
@@ -1008,7 +1008,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
                     let alert = UIAlertController(title: AlertStrings.errorTitle, message: AlertStrings.saveImageErrorMessage, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: AlertStrings.okAction, style: .default, handler: nil))
                     self?.present(alert, animated: true, completion: nil)
-                    self?.recipeImageView.image = UIImage(named: "imagePlaceholderBig.png")
+                    self?.recipeImageView.image = Images.imagePlaceholderBig
                 }
             }
         }
