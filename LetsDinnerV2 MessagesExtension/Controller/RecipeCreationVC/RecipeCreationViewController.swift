@@ -74,7 +74,8 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var ingredientTableViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepTableViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientSectionView: UIView!
-    @IBOutlet weak var cookingStepIngredientView: UIView!
+    @IBOutlet weak var stepSectionView: UIView!
+    @IBOutlet weak var tipsSectionView: UIView!
     
     private let realm = try! Realm()
     
@@ -1144,7 +1145,6 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
 //        }
             
     }
-    
 }
 
 // MARK: ScrollView Delegate
@@ -1153,7 +1153,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-//        print(yOffset)
+        print(yOffset)
         
         if yOffset < -topViewMaxHeight {
             headerViewHeightConstraint.constant = self.topViewMaxHeight
@@ -1177,7 +1177,15 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
-                
+        
+        var rectangle = self.view.frame
+        rectangle.size.height -= keyboardFrame.height
+        
+        scrollView.contentInset = UIEdgeInsets(top: topViewMinHeight,
+        left: 0,
+        bottom: keyboardFrame.height - topViewMinHeight,
+        right: 0)
+        
         // ScrollView Response
         #warning("will improve calculation (after Finalizing the design)")
         var activeFieldYPosition: CGFloat = 0
@@ -1188,33 +1196,30 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         case ingredientTextField, amountTextField:
             activeFieldYPosition = ingredientSectionView.frame.origin.y + ingredientsTableViewHeightConstraint.constant
         case stepTextField:
-            activeFieldYPosition = cookingStepIngredientView.frame.origin.y + stepTextFieldViewHeightConstraint.constant
+            activeFieldYPosition = stepSectionView.frame.origin.y +  stepsTableViewHeightConstraint.constant
         default: // For Comment Section
-            activeFieldYPosition = 250 + ingredientsTableViewHeightConstraint.constant + stepTextFieldViewHeightConstraint.constant
+            activeFieldYPosition = tipsSectionView.frame.origin.y
         }
         
-        scrollView.contentInset = UIEdgeInsets(top: topViewMinHeight,
-                                               left: 0,
-                                               bottom: activeFieldYPosition,
-                                               right: 0) //keyboardFrame.height
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
-        scrollView.setContentOffset(CGPoint(x: 0, y: activeFieldYPosition - topViewMinHeight), animated: true)
+        DispatchQueue.main.async {
+            self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: activeFieldYPosition - self.topViewMinHeight), animated: true)
+        }
         
-        var rectangle = self.view.frame
-        rectangle.size.height -= keyboardFrame.height
-        
-        if let activeField = activeField {
+        self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
+ 
+//        if let activeField = activeField {
 //            scrollView.scrollRectToVisible(activeField.frame, animated: true)
-            if !rectangle.contains(activeField.frame.origin) {
-                
-            }
-        }
+//            if !rectangle.contains(activeField.frame.origin) {
+//
+//            }
+//        }
         
 //        if activeField == nil {
 //            scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
 //        }
         
-        self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
+
     
         // AddThingView Respone
 //        showAddThingView(true, keyboardHeight: keyboardFrame.height)
@@ -1222,13 +1227,16 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
-        scrollView.setContentOffset(CGPoint(x: 0, y: -1 * topViewMaxHeight), animated: true)
-//        showAddThingView(false, keyboardHeight: nil)
         
+        DispatchQueue.main.async {
+            self.scrollView.contentInset = UIEdgeInsets(top: self.topViewMaxHeight, left: 0, bottom: 0, right: 0)
+            self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: -96), animated: true)
+        }
+        
+//        showAddThingView(false, keyboardHeight: nil)
+        self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
         self.deselectSelectedRow()
-        activeField?.resignFirstResponder()
     }
     
 //    private func showAddThingView(_ bool: Bool, keyboardHeight: CGFloat?) {

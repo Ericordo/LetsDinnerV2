@@ -23,7 +23,6 @@
                 <outlet property="bottomViewBottomConstraint" destination="LxK-Nu-ta4" id="q2E-vL-hrp"/>
                 <outlet property="commentsTextView" destination="hMw-Vr-xbb" id="nDU-Ks-ETG"/>
                 <outlet property="contentViewHeightConstraint" destination="fOO-vV-X9S" id="Jb4-PC-cd7"/>
-                <outlet property="cookingStepIngredientView" destination="JnC-qW-IKu" id="dUg-vO-vWX"/>
                 <outlet property="doneButton" destination="UEw-H2-uNc" id="Nq3-jR-pAF"/>
                 <outlet property="headerView" destination="NMe-Pr-15z" id="QPv-ts-5o2"/>
                 <outlet property="headerViewHeightConstraint" destination="zMr-m4-wxP" id="Hws-Y1-lPI"/>
@@ -41,12 +40,14 @@
                 <outlet property="servingsLabel" destination="AhA-gS-yRY" id="1uh-qj-wa8"/>
                 <outlet property="servingsStepper" destination="mhq-Q2-2gs" id="6kq-aL-k9x"/>
                 <outlet property="stepCellSeparator" destination="TCW-X4-FRP" id="h0x-Qt-by1"/>
+                <outlet property="stepSectionView" destination="JnC-qW-IKu" id="dUg-vO-vWX"/>
                 <outlet property="stepTableViewLeadingConstraint" destination="fwE-rs-c0Z" id="E1d-Lr-bpo"/>
                 <outlet property="stepTextField" destination="sdW-3C-FYb" id="wml-Ye-Keb"/>
                 <outlet property="stepTextFieldView" destination="RT4-nI-w9r" id="s0I-vr-6tp"/>
                 <outlet property="stepTextFieldViewHeightConstraint" destination="g6s-0H-Ft7" id="jjQ-ax-eQk"/>
                 <outlet property="stepsTableView" destination="q6e-87-wwp" id="N49-9v-z0h"/>
                 <outlet property="stepsTableViewHeightConstraint" destination="loY-ws-QTx" id="cUV-sA-HpG"/>
+                <outlet property="tipsSectionView" destination="DXa-xX-14g" id="gjF-PS-egG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
