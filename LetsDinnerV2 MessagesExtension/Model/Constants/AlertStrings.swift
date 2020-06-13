@@ -68,7 +68,7 @@ enum AlertStrings {
     static let errorTitle = NSLocalizedString("Error", comment: "error")
     static let saveImageErrorMessage = NSLocalizedString("Image cannot be saved", comment: "save image error message")
     
-    // Action
+    // MARK: Action
     static let okAction = NSLocalizedString("OK", comment: "ok")
     static let editAction = NSLocalizedString("Edit", comment: "edit")
     static let confirm = NSLocalizedString("Confirm", comment: "confirm")

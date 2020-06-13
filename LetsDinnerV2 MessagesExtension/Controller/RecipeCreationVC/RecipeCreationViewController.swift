@@ -103,7 +103,7 @@ class RecipeCreationViewController: UIViewController  {
             ingredientsTableView.reloadData()
             updateTableViewHeightConstraint(tableView: ingredientsTableView)
             
-            self.updateIsRecipeEdited()
+            self.updateRecipeIsEditedStatus()
         }
     }
     
@@ -116,7 +116,7 @@ class RecipeCreationViewController: UIViewController  {
             }
             viewWillLayoutSubviews()
             
-            self.updateIsRecipeEdited()
+            self.updateRecipeIsEditedStatus()
         }
     }
     
@@ -124,7 +124,7 @@ class RecipeCreationViewController: UIViewController  {
         didSet {
             servingsLabel.text = "For \(servings) people"
             
-            self.updateIsRecipeEdited()
+            self.updateRecipeIsEditedStatus()
         }
     }
     
@@ -643,7 +643,7 @@ class RecipeCreationViewController: UIViewController  {
         return false
     }
     
-    private func updateIsRecipeEdited() {
+    private func updateRecipeIsEditedStatus() {
         if viewExistingRecipe {
             if isExistingRecipeAlreadyLoaded {
                 isRecipeEdited = true
@@ -753,29 +753,33 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: Did Tap Buttons
     @IBAction func didTapDoneButton(_ sender: Any) {
-        if editingMode {
-            
-            if editExistingRecipe {
-                if isRecipeEdited {
-                    self.presentDoneActionSheet()
-                } else {
-                    self.dismiss(animated: true, completion: nil)
-                }
-
-            } else {
-                if isRecipeEdited || !allTextFieldsAreEmpty() {
-                    self.presentDoneActionSheet()
-                } else {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-            
-            
-        } else {
-
+        
+        guard editingMode else {
             self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
             self.dismiss(animated: true, completion: nil)
+            return
         }
+        
+        if editExistingRecipe {
+            
+            // Editing Existing Recipe
+            if isRecipeEdited {
+                self.presentDoneActionSheet()
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+
+        } else {
+            
+            // Creating New Recipe
+            if isRecipeEdited || !allTextFieldsAreEmpty() {
+                self.presentDoneActionSheet()
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+            
+    
     }
     
     func saveRecipe() {
@@ -1018,7 +1022,7 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
     }
 }
 
-// MARK: TableView Delegation
+// MARK: TableView Delegate
 extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
