@@ -35,9 +35,9 @@ class CreateRecipeIngredientCell: UITableViewCell {
             // If amount == nil
             amountLabel.text = ""
             
-            ingredientLabel.snp.makeConstraints{ make in
-                make.centerY.equalToSuperview()
-            }
+//            ingredientLabel.snp.makeConstraints{ make in
+//                make.centerY.equalToSuperview()
+//            }
         }
         
         

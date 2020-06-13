@@ -42,14 +42,12 @@ enum AlertStrings {
     static let submitQuestion = NSLocalizedString("You made changes in this list. Would you like to update it?", comment: "you made changes")
     static let syncTitle = NSLocalizedString("Things synchronization", comment: "things synchronization")
     static let syncMessage = NSLocalizedString("Changes made, can end up unsaved. Whoever updates first, saves their changes.", comment: "sync message")
-    static let update = NSLocalizedString("Update", comment: "update")
     static let goodToKnow = NSLocalizedString("Good to know!", comment: "good to know")
     
     // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
     static let declineEventAlertMessage = "By declining, you won't able to participate the event."
     
-    static let cancel = NSLocalizedString("Cancel", comment: "cancel")
     static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = "Add a thing"
     static let thingToAdd = "Thing to add"
@@ -57,24 +55,30 @@ enum AlertStrings {
     static let decodingFailed = "Failed to load recipes"
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
-    static let nope = NSLocalizedString("Nope", comment: "nope")
-    static let change = NSLocalizedString("Change", comment: "change")
-    static let delete = NSLocalizedString("Delete", comment: "delete")
     static let myImage = NSLocalizedString("My image", comment: "my image")
     static let oops = NSLocalizedString("Oops", comment: "string")
     static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
-    static let confirm = NSLocalizedString("Confirm", comment: "confirm")
-    static let decline = NSLocalizedString("Decline", comment: "decline")
     
     // Create Recipe VC
+    static let retrieveImageErrorMessage = NSLocalizedString("Error while retrieving image", comment: "retrieve image error message")
+
+    
     // Action Sheet
     static let doneActionSheetMessage = NSLocalizedString("Save or Discard your changes?", comment: "save or discard")
-    static let edit = NSLocalizedString("Edit", comment: "edit")
-    
     static let errorTitle = NSLocalizedString("Error", comment: "error")
-    static let saveImageErrorMessage = NSLocalizedString(" Image cannot be saved", comment: "save Image Error Message")
-    static let okAction = NSLocalizedString("OK", comment: "ok")
+    static let saveImageErrorMessage = NSLocalizedString("Image cannot be saved", comment: "save image error message")
     
-
+    // MARK: Action
+    static let okAction = NSLocalizedString("OK", comment: "ok")
+    static let editAction = NSLocalizedString("Edit", comment: "edit")
+    static let confirm = NSLocalizedString("Confirm", comment: "confirm")
+    static let decline = NSLocalizedString("Decline", comment: "decline")
+    static let cancel = NSLocalizedString("Cancel", comment: "cancel")
+    static let delete = NSLocalizedString("Delete", comment: "delete")
+    static let update = NSLocalizedString("Update", comment: "update")
+    static let save = NSLocalizedString("Save", comment: "save")
+    static let discard = NSLocalizedString("Discard", comment: "discard")
+    static let change = NSLocalizedString("Change", comment: "change")
+    static let nope = NSLocalizedString("Nope", comment: "nope")
 
 }
