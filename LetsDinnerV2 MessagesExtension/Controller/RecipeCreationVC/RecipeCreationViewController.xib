@@ -28,11 +28,11 @@
                 <outlet property="headerViewHeightConstraint" destination="zMr-m4-wxP" id="Hws-Y1-lPI"/>
                 <outlet property="ingredientCellSeparator" destination="Rmo-X9-9R9" id="aaN-Rc-wUh"/>
                 <outlet property="ingredientSectionView" destination="Iua-MW-GQ4" id="HC1-yy-NYp"/>
+                <outlet property="ingredientTableView" destination="QV3-Mp-GD9" id="oEp-JE-frk"/>
                 <outlet property="ingredientTableViewLeadingConstraint" destination="IJY-x7-Yba" id="VsM-M0-YLz"/>
                 <outlet property="ingredientTextField" destination="sER-7t-Lge" id="4LV-QB-2wg"/>
                 <outlet property="ingredientTextFieldView" destination="u1C-XE-jMS" id="CJ1-Hu-z0H"/>
                 <outlet property="ingredientTextFieldViewHeightConstraint" destination="Hxj-DB-br5" id="0S0-yt-lwI"/>
-                <outlet property="ingredientsTableView" destination="QV3-Mp-GD9" id="oEp-JE-frk"/>
                 <outlet property="ingredientsTableViewHeightConstraint" destination="RF0-PX-Egh" id="Vp4-MP-093"/>
                 <outlet property="recipeImageView" destination="LAq-Zi-jDD" id="60w-et-i3l"/>
                 <outlet property="recipeNameTextField" destination="E2F-qp-Aha" id="3Sz-en-9Ff"/>
@@ -41,11 +41,11 @@
                 <outlet property="servingsStepper" destination="mhq-Q2-2gs" id="6kq-aL-k9x"/>
                 <outlet property="stepCellSeparator" destination="TCW-X4-FRP" id="h0x-Qt-by1"/>
                 <outlet property="stepSectionView" destination="JnC-qW-IKu" id="dUg-vO-vWX"/>
+                <outlet property="stepTableView" destination="q6e-87-wwp" id="N49-9v-z0h"/>
                 <outlet property="stepTableViewLeadingConstraint" destination="fwE-rs-c0Z" id="E1d-Lr-bpo"/>
                 <outlet property="stepTextField" destination="sdW-3C-FYb" id="wml-Ye-Keb"/>
                 <outlet property="stepTextFieldView" destination="RT4-nI-w9r" id="s0I-vr-6tp"/>
                 <outlet property="stepTextFieldViewHeightConstraint" destination="g6s-0H-Ft7" id="jjQ-ax-eQk"/>
-                <outlet property="stepsTableView" destination="q6e-87-wwp" id="N49-9v-z0h"/>
                 <outlet property="stepsTableViewHeightConstraint" destination="loY-ws-QTx" id="cUV-sA-HpG"/>
                 <outlet property="tipsSectionView" destination="DXa-xX-14g" id="gjF-PS-egG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -60,7 +60,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="827"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CVE-ft-qZN" userLabel="ContentView">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="769.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="809.5"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLe-z6-bqe" userLabel="Infromation Section">
                                     <rect key="frame" x="0.0" y="22" width="375" height="111.5"/>
@@ -332,7 +332,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DXa-xX-14g" userLabel="Tips Section View">
-                                    <rect key="frame" x="0.0" y="597.5" width="375" height="152"/>
+                                    <rect key="frame" x="0.0" y="597.5" width="375" height="192"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIPS &amp; COMMENTS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mod-HC-GoK">
                                             <rect key="frame" x="30" y="10" width="345" height="16"/>
@@ -367,7 +367,7 @@
                                         <constraint firstAttribute="trailing" secondItem="mod-HC-GoK" secondAttribute="trailing" id="CIG-1w-TZ4"/>
                                         <constraint firstAttribute="trailing" secondItem="ekF-nx-uSZ" secondAttribute="trailing" id="RrQ-8N-eB3"/>
                                         <constraint firstItem="ekF-nx-uSZ" firstAttribute="leading" secondItem="DXa-xX-14g" secondAttribute="leading" constant="30" id="T8K-la-fm1"/>
-                                        <constraint firstAttribute="bottom" secondItem="hMw-Vr-xbb" secondAttribute="bottom" constant="20" id="Vyk-q1-3S1"/>
+                                        <constraint firstAttribute="bottom" secondItem="hMw-Vr-xbb" secondAttribute="bottom" constant="60" id="Vyk-q1-3S1"/>
                                         <constraint firstItem="hMw-Vr-xbb" firstAttribute="top" secondItem="ekF-nx-uSZ" secondAttribute="bottom" id="alb-j9-a2l"/>
                                         <constraint firstItem="hMw-Vr-xbb" firstAttribute="leading" secondItem="DXa-xX-14g" secondAttribute="leading" constant="25" id="f3Y-rq-KQD"/>
                                         <constraint firstItem="mod-HC-GoK" firstAttribute="leading" secondItem="DXa-xX-14g" secondAttribute="leading" constant="30" id="gkd-ym-6hd"/>
@@ -385,7 +385,7 @@
                                 <constraint firstAttribute="trailing" secondItem="fLe-z6-bqe" secondAttribute="trailing" id="X19-iD-RCb"/>
                                 <constraint firstItem="DXa-xX-14g" firstAttribute="top" secondItem="JnC-qW-IKu" secondAttribute="bottom" constant="30" id="a7S-Cy-LUk"/>
                                 <constraint firstItem="fLe-z6-bqe" firstAttribute="top" secondItem="CVE-ft-qZN" secondAttribute="top" constant="22" id="bcT-9P-kPf"/>
-                                <constraint firstAttribute="height" priority="250" constant="600" id="fOO-vV-X9S"/>
+                                <constraint firstAttribute="height" priority="250" constant="650" id="fOO-vV-X9S"/>
                                 <constraint firstItem="JnC-qW-IKu" firstAttribute="top" secondItem="Iua-MW-GQ4" secondAttribute="bottom" constant="30" id="feN-uf-2DC"/>
                                 <constraint firstItem="Iua-MW-GQ4" firstAttribute="leading" secondItem="CVE-ft-qZN" secondAttribute="leading" id="fsh-b2-wB7"/>
                                 <constraint firstItem="DXa-xX-14g" firstAttribute="leading" secondItem="CVE-ft-qZN" secondAttribute="leading" id="gOL-Ql-Zhg"/>

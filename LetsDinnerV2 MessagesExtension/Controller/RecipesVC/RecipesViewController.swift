@@ -21,8 +21,6 @@ protocol RecipesViewControllerDelegate: class {
         func recipeVCDidTapPrevious()
 }
 
-
-
 class RecipesViewController: LDNavigationViewController {
     // MARK: Properties
     private let searchBar = LDSearchBar()
