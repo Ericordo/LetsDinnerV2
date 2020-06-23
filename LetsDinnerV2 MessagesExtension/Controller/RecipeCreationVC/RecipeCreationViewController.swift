@@ -29,12 +29,9 @@ struct TemporaryIngredient {
 class RecipeCreationViewController: UIViewController  {
  
     @IBOutlet weak var recipeImageView: UIImageView!
-    @IBOutlet weak var addImageButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var servingsLabel: UILabel!
     @IBOutlet weak var servingsStepper: UIStepper!
-    @IBOutlet weak var bottomAddButton: UIButton!
-    @IBOutlet weak var bottomEditButton: UIButton!
     
     // TextField Outlet
     @IBOutlet weak var recipeNameTextField: UITextField!
@@ -46,6 +43,8 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var commentsTextView: UITextView!
     
     // Button
+    @IBOutlet weak var addImageButton: UIButton!
+    @IBOutlet weak var bottomEditButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var addIngredientButton: UIButton!
     @IBOutlet weak var addCookingStepButton: UIButton!
@@ -53,8 +52,8 @@ class RecipeCreationViewController: UIViewController  {
     // View
     @IBOutlet weak var ingredientCellSeparator: UIView!
     @IBOutlet weak var stepCellSeparator: UIView!
-    @IBOutlet weak var ingredientsTableView: UITableView!
-    @IBOutlet weak var stepsTableView: UITableView!
+    @IBOutlet weak var ingredientTableView: UITableView!
+    @IBOutlet weak var stepTableView: UITableView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var bottomView: UIView!
@@ -62,7 +61,7 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var ingredientTextFieldView: UIView!
     @IBOutlet weak var stepTextFieldView: UIView!
     
-    // Constraint
+    // Constraints
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var ingredientsTableViewHeightConstraint: NSLayoutConstraint!
@@ -100,8 +99,8 @@ class RecipeCreationViewController: UIViewController  {
 
     private var temporaryIngredients = [LDIngredient]() {
         didSet {
-            ingredientsTableView.reloadData()
-            updateTableViewHeightConstraint(tableView: ingredientsTableView)
+            ingredientTableView.reloadData()
+            updateTableViewHeightConstraint(tableView: ingredientTableView)
             
             self.updateRecipeIsEditedStatus()
         }
@@ -109,10 +108,10 @@ class RecipeCreationViewController: UIViewController  {
     
     private var temporarySteps = [String]() {
         didSet {
-            stepsTableView.reloadData()
-            stepsTableView.layoutIfNeeded()
+            stepTableView.reloadData()
+            stepTableView.layoutIfNeeded()
             if !temporarySteps.isEmpty {
-                updateTableViewHeightConstraint(tableView: stepsTableView)
+                updateTableViewHeightConstraint(tableView: stepTableView)
             }
             viewWillLayoutSubviews()
             
@@ -173,12 +172,12 @@ class RecipeCreationViewController: UIViewController  {
         configureGestureRecognizers()
         configureObservers()
         
-        if viewExistingRecipe {
-            self.updateViewExistingRecipeUI()
-            self.loadExistingCustomRecipe()
-        }
         bindViewModel()
 
+        if viewExistingRecipe {
+            self.loadExistingCustomRecipe()
+            self.updateViewExistingRecipeUI()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -253,7 +252,7 @@ class RecipeCreationViewController: UIViewController  {
         
     }
     
-    // MARK: Configuration UI
+    // MARK: Configure UI
     private func configureUI() {
         
         bottomView.isHidden = true
@@ -285,16 +284,16 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func configureTableView() {
-        ingredientsTableView.registerCells(CellNibs.createRecipeIngredientCell)
-        stepsTableView.registerCells(CellNibs.createRecipeCookingStepCell)
+        ingredientTableView.registerCells(CellNibs.createRecipeIngredientCell)
+        stepTableView.registerCells(CellNibs.createRecipeCookingStepCell)
 
-        ingredientsTableView.isEditing = true
-        ingredientsTableView.allowsSelectionDuringEditing = false
-        ingredientsTableView.rowHeight = rowHeight
+        ingredientTableView.isEditing = true
+        ingredientTableView.allowsSelectionDuringEditing = false
+        ingredientTableView.rowHeight = rowHeight
         ingredientsTableViewHeightConstraint.constant = 0
 
-        stepsTableView.isEditing = true
-        stepsTableView.allowsSelectionDuringEditing = false
+        stepTableView.isEditing = true
+        stepTableView.allowsSelectionDuringEditing = false
 //        stepsTableView.rowHeight = rowHeight
         stepsTableViewHeightConstraint.constant = 0
     }
@@ -304,16 +303,15 @@ class RecipeCreationViewController: UIViewController  {
         ingredientTextField.delegate = self
         amountTextField.delegate = self
         
-        ingredientsTableView.dataSource = self
-        ingredientsTableView.delegate = self
-        stepsTableView.delegate = self
-        stepsTableView.dataSource = self
+        ingredientTableView.dataSource = self
+        ingredientTableView.delegate = self
+        stepTableView.delegate = self
+        stepTableView.dataSource = self
         
         picturePicker.delegate = self
         scrollView.delegate = self
         stepTextField.delegate = self
         commentsTextView.delegate = self
-        
     }
     
     private func configureNewThingView() {
@@ -358,18 +356,18 @@ class RecipeCreationViewController: UIViewController  {
     
     private func updateTableViewHeightConstraint(tableView: UITableView) {
         switch tableView {
-        case ingredientsTableView:
+        case ingredientTableView:
             ingredientsTableViewHeightConstraint.constant = CGFloat(temporaryIngredients.count) * rowHeight
-        case stepsTableView:
+        case stepTableView:
             #warning("may need to be enhance the code")
-            print(self.stepsTableView.contentSize.height)
-            stepsTableViewHeightConstraint.constant = self.stepsTableView.contentSize.height + 3
+            print(self.stepTableView.contentSize.height)
+            stepsTableViewHeightConstraint.constant = self.stepTableView.contentSize.height + 3
 //            stepsTableViewHeightConstraint.constant = CGFloat(temporarySteps.count) * rowHeight
         default:
             break
         }
         
-        contentViewHeightConstraint.constant = 600 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant
+        contentViewHeightConstraint.constant = 650 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant + 100
     }
     
     // MARK: Edit Mode UI
@@ -381,12 +379,11 @@ class RecipeCreationViewController: UIViewController  {
         bottomView.isHidden = bool
         
         // TableViews
-        ingredientsTableView.isEditing = bool
-        stepsTableView.isEditing = bool
-        ingredientsTableView.allowsSelection = bool
-        stepsTableView.allowsSelection = bool
-        ingredientsTableView.allowsSelectionDuringEditing = bool
-        stepsTableView.allowsSelectionDuringEditing = bool
+        [ingredientTableView, stepTableView].forEach {
+            $0?.isEditing = bool
+            $0?.allowsSelection = bool
+            $0?.isUserInteractionEnabled = bool
+        }
         
         // TextFields
         self.hideTextFieldView(!bool)
@@ -402,8 +399,11 @@ class RecipeCreationViewController: UIViewController  {
         if viewExistingRecipe {
             if commentsTextView.text.isEmpty {
                 placeholderLabel.text = "Any Tips and comment?"
+                placeholderLabel.isHidden = false
+            } else {
+                placeholderLabel.text = nil
+                placeholderLabel.isHidden = true
             }
-            
         }
     }
     
@@ -430,8 +430,8 @@ class RecipeCreationViewController: UIViewController  {
         ingredientTableViewLeadingConstraint.constant = bool ? 14 : 20
         stepTableViewLeadingConstraint.constant = bool ? 14 : 20
 
-        ingredientsTableView.separatorInset.left = bool ? 15 : 10
-        stepsTableView.separatorInset.left = bool ? 15 : 10
+        ingredientTableView.separatorInset.left = bool ? 15 : 10
+        stepTableView.separatorInset.left = bool ? 15 : 10
         
         self.view.layoutIfNeeded()
     }
@@ -456,6 +456,7 @@ class RecipeCreationViewController: UIViewController  {
                 }
             }
         }
+        
         downloadUrl = recipe.downloadUrl
         recipeNameTextField.text = recipe.title
         servingsLabel.text = "For \(recipe.servings) people"
@@ -474,10 +475,10 @@ class RecipeCreationViewController: UIViewController  {
         
         if let comments = recipe.comments {
             commentsTextView.text = comments
+            
         } else {
             placeholderLabel.text = LabelStrings.noTipsAndComments
         }
-        placeholderLabel.isHidden = !(commentsTextView.text != nil)
         
         self.isExistingRecipeAlreadyLoaded = true
         
@@ -892,6 +893,8 @@ class RecipeCreationViewController: UIViewController  {
             alert.addAction(delete)
             self.present(alert, animated: true, completion: nil)
         }
+        
+        self.isRecipeEdited = true
     }
     
     @IBAction func didTapBottomAdd(_ sender: Any) {
@@ -1027,9 +1030,9 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
-        case ingredientsTableView:
+        case ingredientTableView:
             return temporaryIngredients.count
-        case stepsTableView:
+        case stepTableView:
             return temporarySteps.count
         default:
             return 0
@@ -1043,7 +1046,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
  
         switch tableView {
-        case ingredientsTableView:
+        case ingredientTableView:
             
             let ingredientCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeIngredientCell, for: indexPath) as! CreateRecipeIngredientCell
             
@@ -1051,7 +1054,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             ingredientCell.configureCell(ingredient: ingredient)
         
             return ingredientCell
-        case stepsTableView:
+        case stepTableView:
             
             let stepCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeCookingStepCell, for: indexPath) as! CreateRecipeCookingStepCell
             
@@ -1071,9 +1074,9 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
         func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             if (editingStyle == .delete) {
                 switch tableView {
-                case ingredientsTableView:
+                case ingredientTableView:
                     temporaryIngredients.remove(at: indexPath.row)
-                case stepsTableView:
+                case stepTableView:
                     temporarySteps.remove(at: indexPath.row)
                 default:
                     break
@@ -1084,11 +1087,11 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
     
      func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         switch tableView {
-        case ingredientsTableView:
+        case ingredientTableView:
             let movedObject = temporaryIngredients[sourceIndexPath.row]
             temporaryIngredients.remove(at: sourceIndexPath.row)
             temporaryIngredients.insert(movedObject, at: destinationIndexPath.row)
-        case stepsTableView:
+        case stepTableView:
             let movedObject = temporarySteps[sourceIndexPath.row]
             temporarySteps.remove(at: sourceIndexPath.row)
             temporarySteps.insert(movedObject, at: destinationIndexPath.row)
