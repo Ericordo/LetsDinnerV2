@@ -478,6 +478,7 @@ extension MessagesViewController: InitialViewControllerDelegate {
         requestPresentationStyle(.expanded)
         activeConversation?.selectedMessage?.url = nil
         Event.shared.resetEvent()
+        CustomOrderHelper.shared.customOrder.removeAll()
     }
     
     func initialVCDidTapInfoButton() {
@@ -493,6 +494,7 @@ extension MessagesViewController: IdleViewControllerDelegate {
     
     func idleVCDidTapNewDinner() {
         Event.shared.resetEvent()
+        CustomOrderHelper.shared.customOrder.removeAll()
         activeConversation?.selectedMessage?.url = nil
         StepStatus.currentStep = .newEventVC
         requestPresentationStyle(.expanded)
