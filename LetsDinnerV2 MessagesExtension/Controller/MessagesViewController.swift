@@ -34,7 +34,14 @@ class MessagesViewController: MSMessagesAppViewController {
                 print(error.localizedDescription)
             }
         }
-        
+        #warning("Get rid of that and just reinstall the app")
+        let config = Realm.Configuration(
+            schemaVersion: 1,
+            migrationBlock: { migration, oldSchemaVersion in
+                if (oldSchemaVersion < 1) {
+                }
+        })
+        Realm.Configuration.defaultConfiguration = config
         do {
             _ = try Realm()
         } catch {

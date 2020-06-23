@@ -34,8 +34,10 @@ class CustomRecipeDetailsViewModel {
                 .startWithResult { result in
                     switch result {
                     case .success():
-                        self.deleteRecipeObserver.send(value: ())
-                        
+                        RealmHelper.shared.deleteRecipeInRealm(recipe)
+                            .startWithCompleted {
+                                self.deleteRecipeObserver.send(value: ())
+                        }
                     case .failure(let error):
                         self.deleteRecipeObserver.send(error: error)
                     }

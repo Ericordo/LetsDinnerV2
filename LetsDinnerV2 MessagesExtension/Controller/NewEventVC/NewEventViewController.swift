@@ -72,6 +72,8 @@ class NewEventViewController: LDNavigationViewController {
     
     private let contentView = UIView()
     
+    private let loadingView = LDLoadingView()
+    
     weak var delegate: NewEventViewControllerDelegate?
     
     private let viewModel: NewEventViewModel
@@ -144,7 +146,7 @@ class NewEventViewController: LDNavigationViewController {
             self.view.endEditing(true)
             self.errorLabel.isHidden = self.viewModel.infoValidity.value
             if self.viewModel.infoValidity.value {
-                self.delegate?.newEventVCDidTapNext(controller: self)
+                self.viewModel.loadCustomRecipes()
             }
         }
         
@@ -200,6 +202,27 @@ class NewEventViewController: LDNavigationViewController {
                 guard let self = self else { return }
                 let color = infoIsValid ? UIColor.activeButton : UIColor.inactiveButton
                 self.navigationBar.nextButton.setTitleColor(color, for: .normal)
+        }
+        
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.loadingView.frame = self.view.frame
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
+        
+        self.viewModel.nextStepSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeCompleted {
+                self.delegate?.newEventVCDidTapNext(controller: self)
         }
     }
     

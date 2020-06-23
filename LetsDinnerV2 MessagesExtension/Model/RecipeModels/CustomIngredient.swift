@@ -14,10 +14,7 @@ class CustomIngredient: Object {
     var amount = RealmOptional<Double>()
     @objc dynamic var unit: String? = nil
     var parentRecipe = LinkingObjects(fromType: CustomRecipe.self, property: "ingredients")
-    // If we want to convert the unit
-    //    var metricAmount = RealmOptional<Double>()
-    //    var usAmount = RealmOptional<Double>()
-    //    @objc dynamic var metricUnit: String? = nil
-    //    @objc dynamic var usUnit: String? = nil
+    @objc dynamic var recordId: String? = nil
+    
 }
 

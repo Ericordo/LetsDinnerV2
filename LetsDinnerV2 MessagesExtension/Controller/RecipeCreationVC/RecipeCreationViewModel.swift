@@ -45,8 +45,12 @@ class RecipeCreationViewModel {
             .take(duringLifetimeOf: self)
             .startWithResult { result in
                 switch result {
-                case .success():
-                    self.recipeUploadObserver.send(value: ())
+                case .success(let recordID):
+                    RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
+                        .startWithCompleted {
+                            self.recipeUploadObserver.send(value: ())
+                    }
+                    
                 case .failure(let error):
                     self.recipeUploadObserver.send(error: error)
                 }
@@ -62,7 +66,10 @@ class RecipeCreationViewModel {
             .startWithResult { result in
                 switch result {
                 case .success():
-                    self.recipeUpdateObserver.send(value: ())
+                    RealmHelper.shared.updateRecipeInRealm(currentRecipe, newRecipe)
+                        .startWithCompleted {
+                            self.recipeUploadObserver.send(value: ())
+                    }
                 case .failure(let error):
                     self.recipeUpdateObserver.send(error: error)
                 }
@@ -82,7 +89,10 @@ class RecipeCreationViewModel {
             .startWithResult { result in
                 switch result {
                 case .success():
-                    self.deleteRecipeObserver.send(value: ())
+                    RealmHelper.shared.deleteRecipeInRealm(recipe)
+                        .startWithCompleted {
+                             self.deleteRecipeObserver.send(value: ())
+                    }
                 case .failure(let error):
                     self.deleteRecipeObserver.send(error: error)
                 }

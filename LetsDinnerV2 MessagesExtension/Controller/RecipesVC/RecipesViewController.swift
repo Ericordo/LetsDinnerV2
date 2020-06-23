@@ -155,6 +155,7 @@ class RecipesViewController: LDNavigationViewController {
             .observeValues { [weak self] in
                 guard let self = self else { return }
                 self.recipesTableView.reloadData()
+                self.configureNextAndSelectedRecipesButtons()
         }
         
         self.viewModel.errorSignal
@@ -342,7 +343,6 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
 extension RecipesViewController: RecipeCreationVCDelegate {
     func recipeCreationVCDidTapDone() {
         self.viewModel.searchType.value = .customRecipes
-        updateState()
     }
 }
 

@@ -152,11 +152,11 @@ class CloudManager {
         }
     }
     
-    private func saveRecipeIngredientsInCloud(_ ingredients: [LDIngredient]?, for recipeRecordId: CKRecord.ID) -> SignalProducer<Void, Error> {
+    private func saveRecipeIngredientsInCloud(_ ingredients: [LDIngredient]?, for recipeRecordId: CKRecord.ID) -> SignalProducer<CKRecord.ID, Error> {
         let dispatchGroup = DispatchGroup()
         return SignalProducer { observer, _ in
             guard let ingredients = ingredients else {
-                observer.send(value: ())
+                observer.send(value: recipeRecordId)
                 observer.sendCompleted()
                 return
             }
@@ -171,14 +171,14 @@ class CloudManager {
                 }
             }
             dispatchGroup.notify(queue: .main) {
-                observer.send(value: ())
+                observer.send(value: recipeRecordId)
                 observer.sendCompleted()
             }
         }
     }
     
-    func saveRecipeAndIngredientsOnCloud(_ recipe: LDRecipe) -> SignalProducer<Void, Error> {
-        return saveRecipeInCloud(recipe: recipe).flatMap(.latest) { recordId -> SignalProducer<Void, Error> in
+    func saveRecipeAndIngredientsOnCloud(_ recipe: LDRecipe) -> SignalProducer<CKRecord.ID, Error> {
+        return saveRecipeInCloud(recipe: recipe).flatMap(.latest) { recordId -> SignalProducer<CKRecord.ID, Error> in
             return self.saveRecipeIngredientsInCloud(recipe.ingredients, for: recordId)
         }
     }
