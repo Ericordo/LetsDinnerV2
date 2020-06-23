@@ -45,6 +45,7 @@ class EventSummaryViewController: UIViewController {
     
     private let loadingView = LDLoadingView()
     
+    #warning("Modify this, a user should not be nil, the way the user is fetched is wrong, you can be a user but not a participant")
     private var user : User? { // User Status should be fetched from here
         if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
             let user = Event.shared.participants[index]
@@ -201,12 +202,20 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
         switch indexPath.row {
         case RowItemNumber.invite.rawValue:
-            if let user = user {
-                if user.hasAccepted == .pending {
+            #warning("Logic here: user is nil if it's not in the list of participants, a pending user can not be in the list of participants, so this code will never be executed")
+            
+//            if let user = user {
+//                if user.hasAccepted == .pending {
+//                    answerCell.separatorInset = separatorInset
+//                    answerCell.delegate = self
+//                    return answerCell
+//                }
+//        }
+            #warning("Modify this, a user should not be nil, the way the user is fetched is wrong")
+                if user == nil {
                     answerCell.separatorInset = separatorInset
                     answerCell.delegate = self
                     return answerCell
-                }
             }
         case RowItemNumber.title.rawValue:
             titleCell.titleLabel.text = Event.shared.dinnerName
