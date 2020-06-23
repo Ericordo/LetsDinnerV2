@@ -14,6 +14,11 @@ enum LDError : Error {
     case parsingFail
     case eventFetchingFail
     case profilePicUploadFail
+    case recipeSaveRealmFail
+    case deleteRealmContentFail
+    case transferToRealmFail
+    case recipeUpdateRealmFail
+    case recipeDeleteRealmFail
 }
 
 #warning("Write descriptions")
@@ -29,6 +34,16 @@ extension LDError {
         case .eventFetchingFail:
             return ""
         case .profilePicUploadFail:
+            return ""
+        case .recipeSaveRealmFail:
+            return ""
+        case .deleteRealmContentFail:
+            return ""
+        case .transferToRealmFail:
+            return ""
+        case .recipeUpdateRealmFail:
+            return ""
+        case .recipeDeleteRealmFail:
             return ""
         }
     }

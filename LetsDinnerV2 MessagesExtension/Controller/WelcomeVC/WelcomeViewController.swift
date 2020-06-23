@@ -83,7 +83,7 @@ class WelcomeViewController: UIViewController {
     }
     
     @objc private func didTapPolicy() {
-        // TODO: - Change url
+        #warning("Change url")
         let url = URL(string: "https://twitter.com/letsdinnerapp")
         let vc = CustomSafariVC(url: url!)
         self.present(vc, animated: true, completion: nil)

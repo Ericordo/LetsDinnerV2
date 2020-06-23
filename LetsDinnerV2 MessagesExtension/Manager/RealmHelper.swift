@@ -8,6 +8,8 @@
 
 import Foundation
 import RealmSwift
+import ReactiveSwift
+import CloudKit
 
 class RealmHelper {
     
@@ -21,29 +23,162 @@ class RealmHelper {
         return realm.objects(CustomRecipe.self)
     }
     
-    func saveRecipeInRealm(_ recipe: LDRecipe) {
-        
+    func saveRecipeInRealm(_ recipe: LDRecipe, recordID: String) -> SignalProducer<Void, LDError> {
+        return SignalProducer { observer, _ in
+            let recipeModel = self.convertLDRecipeToRLRecipe(recipe)
+            recipeModel.recordId = recordID
+            do {
+                try self.realm.write {
+                    self.realm.add(recipeModel)
+                    observer.send(value: ())
+                    observer.sendCompleted()
+                }
+            } catch {
+                observer.send(error: .recipeSaveRealmFail)
+            }
+        }
     }
     
-    func updateRecipeInRealm(_ recipe: LDRecipe) {
-        
+    func updateRecipeInRealm(_ currentRecipe: LDRecipe, _ newRecipe: LDRecipe) -> SignalProducer<Void, LDError> {
+        let convertedCurrentRecipe = self.convertLDRecipeToRLRecipe(currentRecipe)
+        let predicate = NSPredicate(format: "id == %@", convertedCurrentRecipe.id)
+        let realmNewRecipe = self.convertLDRecipeToRLRecipe(newRecipe)
+        return SignalProducer { observer, _ in
+            do {
+                try self.realm.write {
+                    let realmCurrentRecipeResults = self.realm.objects(CustomRecipe.self).filter(predicate)
+                    let realmCurrentRecipe = realmCurrentRecipeResults.first
+                    if let realmCurrentRecipe = realmCurrentRecipe {
+                        realmCurrentRecipe.title = realmNewRecipe.title
+                        realmCurrentRecipe.downloadUrl = realmNewRecipe.downloadUrl
+                        realmCurrentRecipe.servings = realmNewRecipe.servings
+                        realmCurrentRecipe.comments = realmNewRecipe.comments
+                        realmCurrentRecipe.cookingSteps.removeAll()
+                        realmCurrentRecipe.cookingSteps.append(objectsIn: realmNewRecipe.cookingSteps)
+                        realmCurrentRecipe.ingredients.removeAll()
+                        realmCurrentRecipe.ingredients.append(objectsIn: realmNewRecipe.ingredients)
+                    }
+                    observer.send(value: ())
+                    observer.sendCompleted()
+                }
+            } catch {
+                observer.send(error: .recipeUpdateRealmFail)
+            }
+        }
     }
     
-    func deleteRecipeInRealm(_ recipe: LDRecipe) {
-        convertLDRecipeToRLRecipe()
-        //            do {
-         //                try self.realm.write {
-         //                    self.realm.delete(recipe)
-         //                }
-         //            } catch {
-         //                print(error)
-         //            }
-        
+    func deleteRecipeInRealm(_ recipe: LDRecipe) -> SignalProducer<Void, LDError> {
+        return SignalProducer { observer, _ in
+            let realmRecipe = self.convertLDRecipeToRLRecipe(recipe)
+            let predicate = NSPredicate(format: "id == %@", realmRecipe.id)
+            do {
+                try self.realm.write {
+                    let recipeToDelete = self.realm.objects(CustomRecipe.self).filter(predicate)
+                          self.realm.delete(recipeToDelete)
+                    
+//                    if let recipeToDelete = self.realm.object(ofType: CustomRecipe.self, forPrimaryKey: realmRecipe.id){
+//                          self.realm.delete(recipeToDelete)
+//                    }
+//                    self.realm.delete(realmRecipe)
+                    observer.send(value: ())
+                    observer.sendCompleted()
+                }
+            } catch {
+                observer.send(error: .recipeDeleteRealmFail)
+            }
+        }
     }
     
-    func convertLDRecipeToRLRecipe() {
-        
+    func deleteAllRecipes() {
+             do {
+                 let recipes = self.loadCustomRecipes()
+                 try self.realm.write {
+                     if let recipes = recipes {
+                         self.realm.delete(recipes)
+                     }
+                 }
+             } catch {
+                 print(error)
+             }
+     }
+    
+    func transferCloudRecipesToRealm(_ recipes: [LDRecipe]) -> SignalProducer<Void, LDError> {
+        self.deleteAllRecipes()
+        return SignalProducer { observer, _ in
+            let realmRecipes = recipes.map { self.convertLDRecipeToRLRecipe($0) }
+            do {
+                try self.realm.write {
+                    self.realm.add(realmRecipes)
+                    observer.send(value: ())
+                    observer.sendCompleted()
+                }
+            } catch {
+                observer.send(error: .transferToRealmFail)
+            }
+        }
     }
     
+    func convertRLRecipeToLDRecipe(_ recipe: CustomRecipe) -> LDRecipe {
+        let ingredients = recipe.ingredients
+        var convertedIngredients = [LDIngredient]()
+        ingredients.forEach { ingredient in
+            convertedIngredients.append(self.convertRLIngredientToLDIngredient(ingredient))
+        }
+        let steps = recipe.cookingSteps
+        var convertedSteps = [String]()
+        steps.forEach { step in
+            convertedSteps.append(step)
+        }
+        var ckRecordID : CKRecord.ID? = nil
+        if let recordId = recipe.recordId {
+            ckRecordID = CKRecord.ID(recordName: recordId)
+        }
+        let LDrecipe = LDRecipe(id: recipe.id,
+                                title: recipe.title,
+                                servings: recipe.servings,
+                                downloadUrl: recipe.downloadUrl,
+                                cookingSteps: convertedSteps,
+                                comments: recipe.comments,
+                                ingredients: convertedIngredients,
+                                recordID: ckRecordID)
+        return LDrecipe
+    }
     
+    func convertRLIngredientToLDIngredient(_ ingredient: CustomIngredient) -> LDIngredient {
+        var ckRecordID : CKRecord.ID? = nil
+        if let recordId = ingredient.recordId {
+            ckRecordID = CKRecord.ID(recordName: recordId)
+        }
+        let LDingredient = LDIngredient(name: ingredient.name,
+                                        amount: ingredient.amount.value,
+                                        unit: ingredient.unit,
+                                        recordID: ckRecordID)
+        return LDingredient
+    }
+    
+    private func convertLDRecipeToRLRecipe(_ recipe: LDRecipe) -> CustomRecipe {
+        let customRecipe = CustomRecipe()
+        customRecipe.title = recipe.title
+        customRecipe.id = recipe.id
+        customRecipe.servings = recipe.servings
+        customRecipe.comments = recipe.comments
+        customRecipe.downloadUrl = recipe.downloadUrl
+        recipe.cookingSteps.forEach { step in
+            customRecipe.cookingSteps.append(step)
+        }
+        recipe.ingredients.forEach { ingredient in
+            customRecipe.ingredients.append(convertLDIngredientToRLIngredient(ingredient))
+        }
+        customRecipe.recordId = recipe.recordID?.recordName
+        return customRecipe
+    }
+    
+    private func convertLDIngredientToRLIngredient(_ ingredient: LDIngredient) -> CustomIngredient {
+        let customIngredient = CustomIngredient()
+        customIngredient.name = ingredient.name
+        customIngredient.amount.value = ingredient.amount
+        customIngredient.unit = ingredient.unit
+        customIngredient.recordId = ingredient.recordID?.recordName
+        return customIngredient
+    }
 }
