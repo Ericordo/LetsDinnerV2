@@ -95,7 +95,6 @@ class ManagementViewController: LDNavigationViewController {
     private var addThingView : AddNewThingView? = nil
     
     private var tapGestureToHideKeyboard = UITapGestureRecognizer()
-    
     private var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
     #warning("Solve problem with section selection input")
@@ -219,8 +218,7 @@ class ManagementViewController: LDNavigationViewController {
         addThingView = AddNewThingView(type: .manageTask,
                                        sectionNames: viewModel.sectionNames.value,
                                        selectedSection: selectedSection)
-        addThingView?.addThingDelegate = self
-        addThingView?.addShadow()
+        addThingView?.addThingDelegate = self        
     }
     
     

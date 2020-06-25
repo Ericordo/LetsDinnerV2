@@ -29,6 +29,8 @@ protocol AddThingDelegate: class {
 
 class AddNewThingView: UIView {
     
+    weak var addThingDelegate: AddThingDelegate?
+
     var type: AddNewThingViewType!
     var sectionNames: [String]? {
         didSet {
@@ -40,14 +42,15 @@ class AddNewThingView: UIView {
             self.updateUI(type: type, selectedSection: selectedSection)
         }
     }
-    weak var addThingDelegate: AddThingDelegate?
     
+    // UILayout Variable
     var amountTextFieldWidthConstraint: NSLayoutConstraint!
     var unitTextFieldWidthConstraint: NSLayoutConstraint!
     
     let containerView: UIView = {
         let view = UIView(frame: CGRect.zero)
         view.backgroundColor = .backgroundSystemColor
+        view.addShadow()
         return view
     }()
     
@@ -106,10 +109,11 @@ class AddNewThingView: UIView {
         let button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 35, height: 40)
         button.setBackgroundImage(image, for: UIControl.State.normal)
-//        button.setImage(image, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    private var shadowLayer: CAShapeLayer!
     
     lazy var sectionSelectionInput = SectionSelectionInput(type: type)
     
@@ -139,23 +143,23 @@ class AddNewThingView: UIView {
     }
     
     override func layoutSubviews() {
-        addConstraints()
+        super.layoutSubviews()
+        self.addShadowLayer()
     }
     
     // MARK: Configure UI
     private func configureUI(sectionNames: [String], selectedSection: String?) {
+        
+        self.backgroundColor = .backgroundSystemColor
+        
         mainTextField.delegate = self
         amountTextField.delegate = self
         unitTextField.delegate = self
         sectionSelectionInput.sectionSelectionInputDelegate = self
-        
-        // Init Constraint
-        amountTextFieldWidthConstraint = amountTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 50)
-        unitTextFieldWidthConstraint = unitTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 20)
-        
-        
+
+        // Set Corners for childView
         containerView.roundCorners([.topLeft, .topRight], radius: 10)
-        
+                
         if let selectedSection = selectedSection {
             updateSelectedSection(sectionName: selectedSection)
         }
@@ -163,8 +167,7 @@ class AddNewThingView: UIView {
         sectionSelectionInput.configureInput(sections: sectionNames)
 //        self.setDefaultSelectedSection(type: type)
         
-        
-
+        self.addConstraints()
     }
     
     // MARK: Update UI
@@ -402,12 +405,12 @@ extension AddNewThingView {
     // MARK: Constraints
     private func addConstraints() {
         self.addSubview(containerView)
-        self.addSubview(mainTextField)
-        self.addSubview(amountTextField)
-        self.addSubview(unitTextField)
-        self.addSubview(sectionSelectionInput)
-        self.addSubview(dragIndicator)
-        self.addSubview(addButton)
+        containerView.addSubview(mainTextField)
+        containerView.addSubview(amountTextField)
+        containerView.addSubview(unitTextField)
+        containerView.addSubview(sectionSelectionInput)
+        containerView.addSubview(dragIndicator)
+        containerView.addSubview(addButton)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         mainTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -417,7 +420,9 @@ extension AddNewThingView {
         dragIndicator.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
-
+        // Init Constraint
+        amountTextFieldWidthConstraint = amountTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 50)
+        unitTextFieldWidthConstraint = unitTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 20)
         
         containerView.anchor(top: self.topAnchor, leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor)
         containerView.heightAnchor.constraint(equalToConstant: 94).isActive = true
@@ -457,8 +462,23 @@ extension AddNewThingView {
         addButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        
-        
-        
+    }
+    
+    private func addShadowLayer() {
+        guard shadowLayer == nil else { return }
+
+        shadowLayer = CAShapeLayer()
+          
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+        shadowLayer.fillColor = UIColor.black.cgColor
+
+        shadowLayer.shadowColor = Colors.separatorGrey.cgColor
+        shadowLayer.shadowPath = shadowLayer.path
+        shadowLayer.shadowOffset = .zero
+        shadowLayer.shadowOpacity = 0.7
+        shadowLayer.shadowRadius = 10
+        shadowLayer.shouldRasterize = true
+        shadowLayer.rasterizationScale = UIScreen.main.scale
+        self.layer.insertSublayer(shadowLayer, at: 0)
     }
 }
