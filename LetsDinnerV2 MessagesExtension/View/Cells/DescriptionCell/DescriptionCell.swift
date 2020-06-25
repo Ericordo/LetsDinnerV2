@@ -93,11 +93,12 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         if let customIndex = customIndex {
             let selectedCustomRecipe = selectedCustomRecipes[customIndex]
-            let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
-            customRecipeDetailsVC.modalPresentationStyle = .fullScreen
-            customRecipeDetailsVC.selectedRecipe = selectedCustomRecipe
-            customRecipeDetailsVC.existingEvent = true
-            self.window?.rootViewController?.present(customRecipeDetailsVC, animated: true, completion: nil)
+
+            let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+            viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
+            viewCustomRecipeVC.recipeToEdit = selectedCustomRecipe
+            viewCustomRecipeVC.viewExistingRecipe = true
+            self.window?.rootViewController?.present(viewCustomRecipeVC, animated: true, completion: nil)
         }
     }
     
@@ -113,10 +114,8 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    
     func mergeRecipeTitles() {
         allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipeTitlesInCustomOrder()
-        
     }
 
 }

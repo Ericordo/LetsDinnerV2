@@ -90,9 +90,8 @@ class ManagementViewController: LDNavigationViewController {
         return label
     }()
     
-    private var headerView : ExpandableTaskHeaderView? = nil
-    
-    private var addThingView : AddNewThingView? = nil
+    private var headerView : ExpandableTaskHeaderView?
+    private var addThingView : AddNewThingView?
     
     private var tapGestureToHideKeyboard = UITapGestureRecognizer()
     private var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
@@ -121,8 +120,8 @@ class ManagementViewController: LDNavigationViewController {
         configureTableView()
         bindViewModel()
         addKeyboardNotifications()
-        setupGestures()
         configureAddThingView()
+        configureGestures()
         setupUI()
     }
     
@@ -218,11 +217,11 @@ class ManagementViewController: LDNavigationViewController {
         addThingView = AddNewThingView(type: .manageTask,
                                        sectionNames: viewModel.sectionNames.value,
                                        selectedSection: selectedSection)
-        addThingView?.addThingDelegate = self        
+        addThingView?.addThingDelegate = self
     }
     
     
-    private func setupGestures() {
+    private func configureGestures() {
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view,
                                                           action: #selector(UIView.endEditing(_:)))
@@ -237,18 +236,19 @@ class ManagementViewController: LDNavigationViewController {
     
     private func setupUI() {
         view.backgroundColor = .backgroundColor
-        addThingView?.addShadow()
+        view.addSubview(servingsView)
+        view.addSubview(tasksTableView)
+        view.addSubview(bottomView)
+        view.addSubview(addThingView!)
+        
         navigationBar.titleLabel.text = LabelStrings.manageThings
         navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
         navigationBar.previousButton.setTitle(LabelStrings.recipes, for: .normal)
-        view.addSubview(servingsView)
         servingsView.addSubview(servingsLabel)
         servingsView.addSubview(servingsStepper)
         servingsView.addSubview(separator)
-        view.addSubview(tasksTableView)
-        view.addSubview(bottomView)
+
         bottomView.addSubview(addButton)
-        view.addSubview(addThingView!)
         addConstraints()
     }
     
@@ -492,7 +492,7 @@ extension ManagementViewController: TaskManagementCellDelegate {
 }
 
 extension ManagementViewController: AddThingDelegate {
-    func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
+    func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
         viewModel.prepareData()
     }
     

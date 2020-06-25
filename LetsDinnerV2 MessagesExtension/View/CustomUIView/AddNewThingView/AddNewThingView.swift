@@ -22,7 +22,7 @@ enum MainTextFieldCharacterLimit: Int {
 
 protocol AddThingDelegate: class {
     func doneEditThing(selectedSection: String?,
-                       mainContent: String?,
+                       item: String?,
                        amount: String?,
                        unit: String?)
 }
@@ -303,28 +303,33 @@ extension AddNewThingView: UITextFieldDelegate {
     }
     
     private func addThing(type: AddNewThingViewType) {
-        guard !mainTextField.text!.isEmpty else { return  mainTextField.shake() }
+        guard let item = mainTextField.text else { return  mainTextField.shake() }
         
         switch type {
         case .createRecipe:
             
             // Pass selectedSection and the content to CreateRecipeVC
-            addThingDelegate?.doneEditThing(selectedSection: selectedSection, mainContent: mainTextField.text, amount: amountTextField.text, unit: unitTextField.text)
+            addThingDelegate?.doneEditThing(selectedSection: selectedSection,
+                                            item: item,
+                                            amount: amountTextField.text,
+                                            unit: unitTextField.text)
            
         case .manageTask:
-                // Pass to Global Varaible
-                let newTask = Task(taskName: mainTextField.text!,
-                                   assignedPersonUid: "nil",
-                                   taskState: TaskState.unassigned.rawValue,
-                                   taskUid: "nil",
-                                   assignedPersonName: "nil",
-                                   isCustom: true,
-                                   parentRecipe: self.selectedSection ?? "Miscellaneous")
+            let taskName = item + ", " + String(amountTextField.text ?? "") + " " + String(unitTextField.text ?? "")
+            
+            // Pass to Global Varaible
+            let newTask = Task(taskName: taskName,
+                               assignedPersonUid: "nil",
+                               taskState: TaskState.unassigned.rawValue,
+                               taskUid: "nil",
+                               assignedPersonName: "nil",
+                               isCustom: true,
+                               parentRecipe: self.selectedSection ?? "Miscellaneous")
                 
-                Event.shared.tasks.append(newTask)
-                
-                // Work on ManagmentVC
-                addThingDelegate?.doneEditThing(selectedSection: nil, mainContent: nil, amount: nil, unit: nil)
+            Event.shared.tasks.append(newTask)
+            
+            // Work on ManagmentVC
+            addThingDelegate?.doneEditThing(selectedSection: nil, item: nil, amount: nil, unit: nil)
         }
         
         self.clearAllTextField()
@@ -340,7 +345,6 @@ extension AddNewThingView: UITextFieldDelegate {
         amountTextField.text = ""
         unitTextField.text = ""
     }
-    
     
     // MARK: Validation
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

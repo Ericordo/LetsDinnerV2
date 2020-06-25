@@ -121,8 +121,8 @@ class RecipeCreationViewController: UIViewController  {
     
     private var servings : Int = 2 {
         didSet {
+            #warning("Localized String")
             servingsLabel.text = "For \(servings) people"
-            
             self.updateRecipeIsEditedStatus()
         }
     }
@@ -132,6 +132,7 @@ class RecipeCreationViewController: UIViewController  {
     var editingMode = false
     var viewExistingRecipe = false
     var editExistingRecipe = false
+    var isAllowedToEditRecipe = false
     var isExistingRecipeAlreadyLoaded = false
     var isRecipeEdited = false
     
@@ -255,7 +256,9 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: Configure UI
     private func configureUI() {
         
-        bottomView.isHidden = true
+        if !isAllowedToEditRecipe {
+            bottomView.isHidden = true
+        }
         
 //        addThingView.addShadow()
         
@@ -376,7 +379,6 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func updateEditingModeUI(enterEditingMode bool: Bool) {
-        bottomView.isHidden = bool
         
         // TableViews
         [ingredientTableView, stepTableView].forEach {
@@ -404,6 +406,10 @@ class RecipeCreationViewController: UIViewController  {
                 placeholderLabel.text = nil
                 placeholderLabel.isHidden = true
             }
+        }
+        
+        if !isAllowedToEditRecipe {
+            bottomView.isHidden = true
         }
     }
     
@@ -1287,7 +1293,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
 extension RecipeCreationViewController: AddThingDelegate {
     
     // Pass thing from AddThingView
-    func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
+    func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
 //        switch selectedSection {
 //        case CreateRecipeSections.name.rawValue:
 //            recipeNameTextField.text = mainContent

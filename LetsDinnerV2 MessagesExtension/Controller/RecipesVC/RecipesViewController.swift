@@ -358,18 +358,12 @@ extension RecipesViewController: RecipeCellDelegate {
     }
     
     func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-//        let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
-//        customRecipeDetailsVC.modalPresentationStyle = .fullScreen
-//        customRecipeDetailsVC.selectedRecipe = customRecipe
-//        customRecipeDetailsVC.customRecipeDetailsDelegate = self
-//
-//        present(customRecipeDetailsVC, animated: true, completion: nil)
-        
         let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
         viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
         viewCustomRecipeVC.recipeCreationVCDelegate = self
         viewCustomRecipeVC.recipeToEdit = customRecipe
         viewCustomRecipeVC.viewExistingRecipe = true
+        viewCustomRecipeVC.isAllowedToEditRecipe = true
         self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
     
