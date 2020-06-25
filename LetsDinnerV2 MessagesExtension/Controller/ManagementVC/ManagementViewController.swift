@@ -15,13 +15,17 @@ protocol ManagementViewControllerDelegate: class {
 }
 
 class ManagementViewController: LDNavigationViewController {
+    
+    weak var delegate: ManagementViewControllerDelegate?
+
     // MARK: Properties
-    private let tasksTableView : UITableView = {
+    lazy private var tasksTableView : UITableView = {
         let tv = UITableView()
         tv.separatorStyle = .none
         tv.rowHeight = 120
         tv.showsVerticalScrollIndicator = false
         tv.backgroundColor = .backgroundColor
+        tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGFloat(self.bottomViewHeight), right: 0)
         return tv
     }()
     
@@ -60,7 +64,7 @@ class ManagementViewController: LDNavigationViewController {
     private let bottomView : UIView = {
         let view = UIView()
         view.alpha = 0.9
-        view.backgroundColor = UIColor(named: "bottomViewColor")
+        view.backgroundColor = UIColor.bottomViewColor
         return view
     }()
     
@@ -90,18 +94,18 @@ class ManagementViewController: LDNavigationViewController {
         return label
     }()
     
-    private var headerView : ExpandableTaskHeaderView?
-    private var addThingView : AddNewThingView?
+    private var headerView: ExpandableTaskHeaderView?
+    private var addThingView: AddNewThingView?
     
     private var tapGestureToHideKeyboard = UITapGestureRecognizer()
     private var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
     #warning("Solve problem with section selection input")
     private var selectedSection : String?
-    
-    weak var delegate: ManagementViewControllerDelegate?
-    
+
     private let viewModel: ManagementViewModel
+    
+    let bottomViewHeight = UIDevice.current.hasHomeButton ? 60 : 83
     
     //MARK: Init
     init(viewModel: ManagementViewModel, delegate: ManagementViewControllerDelegate) {
@@ -280,9 +284,8 @@ class ManagementViewController: LDNavigationViewController {
             make.top.equalTo(servingsView.snp.bottom)
         }
         
-        let height = UIDevice.current.hasHomeButton ? 60 : 83
         bottomView.snp.makeConstraints { make in
-            make.height.equalTo(height)
+            make.height.equalTo(bottomViewHeight)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
