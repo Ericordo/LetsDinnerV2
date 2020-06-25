@@ -303,7 +303,7 @@ extension AddNewThingView: UITextFieldDelegate {
     }
     
     private func addThing(type: AddNewThingViewType) {
-        guard let item = mainTextField.text else { return  mainTextField.shake() }
+        guard let item = mainTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !item.isEmpty else { return mainTextField.shake() }
         
         switch type {
         case .createRecipe:
@@ -341,9 +341,9 @@ extension AddNewThingView: UITextFieldDelegate {
     }
     
     private func clearAllTextField() {
-        mainTextField.text = ""
-        amountTextField.text = ""
-        unitTextField.text = ""
+        [mainTextField, amountTextField, unitTextField].forEach {
+            $0.text = ""
+        }
     }
     
     // MARK: Validation

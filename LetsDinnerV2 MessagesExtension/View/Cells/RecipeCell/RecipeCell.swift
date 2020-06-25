@@ -49,7 +49,6 @@ class RecipeCell: UITableViewCell {
         
         backgroundCellView.clipsToBounds = true
         backgroundCellView.layer.cornerRadius = 10
-//        backgroundCellView.backgroundColor = UIColor.secondaryTextLabel
         backgroundCellView.backgroundColor = .backgroundColor
         
 //        chooseButton.clipsToBounds = true

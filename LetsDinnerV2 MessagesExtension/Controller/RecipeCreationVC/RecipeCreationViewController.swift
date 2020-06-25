@@ -428,7 +428,8 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func hideBottomView(_ bool: Bool) {
-        bottomViewBottomConstraint.constant = bool ? -60 : 0
+        bottomView.isHidden = bool
+        bottomViewBottomConstraint.constant = bool ? -100 : 0
         self.view.layoutIfNeeded()
     }
     

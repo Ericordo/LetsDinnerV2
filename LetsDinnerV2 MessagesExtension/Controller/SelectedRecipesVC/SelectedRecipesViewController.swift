@@ -486,26 +486,22 @@ extension SelectedRecipesViewController: UITableViewDropDelegate, UITableViewDra
 
 extension SelectedRecipesViewController: RecipeCellDelegate {
     
-    func recipeCellDidSelectRecipe(_ recipe: Recipe) {
-        print("Disabled")
-    }
+    func recipeCellDidSelectRecipe(_ recipe: Recipe) {}
     
-    func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {
-        print("Disabled")
-    }
+    func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {}
     
     func recipeCellDidSelectView(_ recipe: Recipe) {
         openRecipeInSafari(recipe: recipe)
     }
     
     func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-        let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
-        customRecipeDetailsVC.modalPresentationStyle = .fullScreen
-        customRecipeDetailsVC.selectedRecipe = customRecipe
-//        customRecipeDetailsVC.customRecipeDetailsDelegate = self
-
-        present(customRecipeDetailsVC, animated: true, completion: nil)
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+        viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
+//        viewCustomRecipeVC.recipeCreationVCDelegate = self
+        viewCustomRecipeVC.recipeToEdit = customRecipe
+        viewCustomRecipeVC.viewExistingRecipe = true
+        #warning("TBC: is it allowed to be edit in selected Recipe")
+        viewCustomRecipeVC.isAllowedToEditRecipe = false
+        self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
-    
-    
 }
