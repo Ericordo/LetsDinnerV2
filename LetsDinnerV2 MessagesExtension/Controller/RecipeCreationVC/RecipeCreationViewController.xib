@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -120,7 +120,7 @@
                                             </connections>
                                         </stepper>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="yH8-oq-wFL" firstAttribute="top" secondItem="E2F-qp-Aha" secondAttribute="bottom" id="5ab-Aj-nG3"/>
                                         <constraint firstItem="if1-uB-ttS" firstAttribute="leading" secondItem="fLe-z6-bqe" secondAttribute="leading" constant="30" id="9gy-r2-swn"/>
@@ -226,7 +226,7 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="fgj-kE-tot" firstAttribute="top" secondItem="FwZ-UV-5Yd" secondAttribute="bottom" constant="5" id="15j-om-c6R"/>
                                         <constraint firstItem="FwZ-UV-5Yd" firstAttribute="top" secondItem="Iua-MW-GQ4" secondAttribute="top" constant="10" id="1Xx-VY-XT5"/>
@@ -298,7 +298,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="ljr-Ze-0NW" firstAttribute="leading" secondItem="RT4-nI-w9r" secondAttribute="leading" constant="30" id="04m-FN-aaM"/>
                                                 <constraint firstItem="ebn-sw-okY" firstAttribute="centerY" secondItem="RT4-nI-w9r" secondAttribute="centerY" id="6QN-wr-Dyq"/>
@@ -314,7 +314,7 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="TCW-X4-FRP" firstAttribute="leading" secondItem="JnC-qW-IKu" secondAttribute="leading" constant="30" id="6Ct-pe-Z0v"/>
                                         <constraint firstAttribute="trailing" secondItem="5Y6-VZ-Obb" secondAttribute="trailing" constant="20" id="Ewb-yJ-p2K"/>
@@ -362,7 +362,7 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="backgroundColor" name="backgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="mod-HC-GoK" secondAttribute="trailing" id="CIG-1w-TZ4"/>
                                         <constraint firstAttribute="trailing" secondItem="ekF-nx-uSZ" secondAttribute="trailing" id="RrQ-8N-eB3"/>

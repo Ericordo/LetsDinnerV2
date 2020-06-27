@@ -22,7 +22,7 @@ class TestManager {
     // ==========================================================================
     
     // MARK: Test Configuration
-    var isDarkModeOn = false
+    var isDarkModeOn = true
     
     var isHost = true
     var isStatusPending = true // isHost need to be false
@@ -35,7 +35,11 @@ class TestManager {
     
     func darkModeOn(view: UIViewController) {
         if #available(iOSApplicationExtension 13.0, *) {
-            self.isDarkModeOn ? (view.overrideUserInterfaceStyle = .dark) : (view.overrideUserInterfaceStyle = .light)
+            if isDarkModeOn {
+                view.overrideUserInterfaceStyle = .dark
+            } else {
+                view.overrideUserInterfaceStyle = .light
+            }
         }
     }
     

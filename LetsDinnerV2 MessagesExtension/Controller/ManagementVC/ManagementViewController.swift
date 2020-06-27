@@ -168,8 +168,7 @@ class ManagementViewController: LDNavigationViewController {
         .take(duringLifetimeOf: self)
         .startWithValues { [weak self] servings in
             guard let self = self else { return }
-            #warning("localize")
-            self.servingsLabel.text = "\(servings) servings"
+            self.servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingDisplayLabel, String(servings))
             self.servingsStepper.value = Double(servings)
             Event.shared.servings = servings
         }

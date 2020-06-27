@@ -15,6 +15,7 @@ class CreateRecipeIngredientCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .backgroundColor
     }
     
     func configureCell(ingredient: LDIngredient) {
@@ -25,24 +26,14 @@ class CreateRecipeIngredientCell: UITableViewCell {
         ingredientLabel.text = name
         
         if let amount = amount {
-            amountLabel.text = String(amount)
+            amountLabel.text = amount.trailingZero
             
             if let unit = unit {
                 amountLabel.text! += " " + unit
             }
             
         } else {
-            // If amount == nil
             amountLabel.text = ""
-            
-//            ingredientLabel.snp.makeConstraints{ make in
-//                make.centerY.equalToSuperview()
-//            }
         }
-        
-        
-        
     }
-
-    
 }
