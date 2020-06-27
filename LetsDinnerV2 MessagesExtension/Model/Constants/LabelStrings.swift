@@ -162,6 +162,9 @@ enum LabelStrings {
     static let thankYouDescriptionPartTwo = NSLocalizedString("With your one time purchase you help to keep our costs down and ensure future development.", comment: "Thank you Description Part 2")
     static let okLetsDinner = "Ok, Let's Dinner!"
     
-    //ExpiredEventVC
+    // ExpiredEventVC
     static let createNewEvent = NSLocalizedString("Create a new Event", comment: "create a new event")
+    
+    // RecipeDetails
+    static let servingLabel = NSLocalizedString("For %@ people", comment: "servingLabel")
 }

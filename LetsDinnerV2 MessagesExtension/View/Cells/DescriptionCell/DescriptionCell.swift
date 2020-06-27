@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
+class DescriptionCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -18,6 +18,8 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     private let selectedRecipes = Event.shared.selectedRecipes
     private let selectedCustomRecipes = Event.shared.selectedCustomRecipes
     private var allRecipesTitles = [String]()
+    
+    private let collectionViewMinimumLineSpacing = CGFloat(20)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,18 +33,11 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty {
             recipesCollectionView.removeFromSuperview()
         }
-        
     }
     
     override func layoutSubviews() {
-           super.layoutSubviews()
-           descriptionLabel.sizeToFit()
-       }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        super.layoutSubviews()
+        descriptionLabel.sizeToFit()
     }
     
     private func configureUI() {
@@ -60,8 +55,11 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         self.descriptionLabel.backgroundColor = nil
         self.descriptionLabel.textColor = Colors.dullGrey
     }
-
     
+}
+
+extension DescriptionCell: UICollectionViewDelegate, UICollectionViewDataSource {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allRecipesTitles.count
      }
@@ -72,9 +70,7 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell
      }
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipeName = allRecipesTitles[indexPath.row]
         
@@ -98,14 +94,18 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
             viewCustomRecipeVC.recipeToEdit = selectedCustomRecipe
             viewCustomRecipeVC.viewExistingRecipe = true
+            viewCustomRecipeVC.isAllowedToEditRecipe = false
             self.window?.rootViewController?.present(viewCustomRecipeVC, animated: true, completion: nil)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
+        return collectionViewMinimumLineSpacing
     }
-        
+}
+
+// MARK: Helper
+extension DescriptionCell {
     private func openRecipeInSafari(recipe: Recipe) {
         guard let sourceUrl = recipe.sourceUrl else { return }
         if let url = URL(string: sourceUrl) {
@@ -117,5 +117,4 @@ class DescriptionCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     func mergeRecipeTitles() {
         allRecipesTitles = CustomOrderHelper.shared.mergeAllRecipeTitlesInCustomOrder()
     }
-
 }

@@ -66,7 +66,7 @@
                                     <rect key="frame" x="0.0" y="22" width="375" height="111.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INFORMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azN-Yf-CJz">
-                                            <rect key="frame" x="30" y="0.0" width="330" height="16"/>
+                                            <rect key="frame" x="30" y="0.0" width="335" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="7Qf-wV-tOA"/>
                                             </constraints>
@@ -127,7 +127,7 @@
                                         <constraint firstItem="AhA-gS-yRY" firstAttribute="leading" secondItem="fLe-z6-bqe" secondAttribute="leading" constant="30" id="MZl-uc-T55"/>
                                         <constraint firstItem="E2F-qp-Aha" firstAttribute="leading" secondItem="fLe-z6-bqe" secondAttribute="leading" constant="30" id="O9Y-Vc-uP3"/>
                                         <constraint firstItem="mhq-Q2-2gs" firstAttribute="centerY" secondItem="AhA-gS-yRY" secondAttribute="centerY" id="Oee-PM-Mhu"/>
-                                        <constraint firstAttribute="trailing" secondItem="azN-Yf-CJz" secondAttribute="trailing" constant="15" id="PNW-R2-jDt"/>
+                                        <constraint firstAttribute="trailing" secondItem="azN-Yf-CJz" secondAttribute="trailing" constant="10" id="PNW-R2-jDt"/>
                                         <constraint firstItem="if1-uB-ttS" firstAttribute="top" secondItem="AhA-gS-yRY" secondAttribute="bottom" id="RBf-vC-BYd"/>
                                         <constraint firstAttribute="trailing" secondItem="cbH-if-lec" secondAttribute="trailing" id="Sz0-bw-U8w"/>
                                         <constraint firstAttribute="trailing" secondItem="if1-uB-ttS" secondAttribute="trailing" id="T8t-if-why"/>

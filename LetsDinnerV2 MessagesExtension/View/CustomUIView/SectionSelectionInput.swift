@@ -81,13 +81,6 @@ class SectionSelectionInput : UIView {
     }
     
     private func addConstraints() {
-//        addSubview(arrowImage)
-//
-//        arrowImage.translatesAutoresizingMaskIntoConstraints = false
-//        arrowImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-//        arrowImage.widthAnchor.constraint(equalToConstant: 24).isActive = true
-//        arrowImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
-//        arrowImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
 
         addSubview(sectionsCollectionView)
         
@@ -117,8 +110,7 @@ extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         sectionSelectionInputDelegate?.updateSelectedSection(sectionName: sections[indexPath.row])
     }
-    
-    
+ 
 }
 
 extension SectionSelectionInput: UICollectionViewDelegateFlowLayout {

@@ -399,13 +399,16 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.isHidden = !bool
         
         if viewExistingRecipe {
-            if commentsTextView.text.isEmpty {
-                placeholderLabel.text = "Any Tips and comment?"
-                placeholderLabel.isHidden = false
-            } else {
-                placeholderLabel.text = nil
-                placeholderLabel.isHidden = true
-            }
+            
+                if commentsTextView.text.isEmpty {
+                    if bool {
+                        placeholderLabel.text = "Any Tips and comment?"
+                        placeholderLabel.isHidden = false
+                    }
+                } else {
+                    placeholderLabel.text = nil
+                    placeholderLabel.isHidden = true
+                }
         }
         
         if !isAllowedToEditRecipe {
@@ -445,7 +448,6 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: - Load Existing Custom Recipe
     private func loadExistingCustomRecipe() {
-        // Insert the Data into VC
         
         guard let recipe = recipeToEdit else { return }
 //        headerLabel.text = recipe.title
@@ -466,7 +468,7 @@ class RecipeCreationViewController: UIViewController  {
         
         downloadUrl = recipe.downloadUrl
         recipeNameTextField.text = recipe.title
-        servingsLabel.text = "For \(recipe.servings) people"
+        servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, String(recipe.servings))
         servingsStepper.value = Double(recipe.servings)
         
         recipe.ingredients.forEach { customIngredient in
@@ -482,7 +484,6 @@ class RecipeCreationViewController: UIViewController  {
         
         if let comments = recipe.comments {
             commentsTextView.text = comments
-            
         } else {
             placeholderLabel.text = LabelStrings.noTipsAndComments
         }
@@ -501,7 +502,7 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: Present Action Sheet
     private func presentEditActionSheet() {
-        let alert = UIAlertController(title: "", message: recipeToEdit?.title ?? "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, recipeToEdit?.title ?? ""), preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = bottomEditButton
         alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
         let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
@@ -882,7 +883,7 @@ class RecipeCreationViewController: UIViewController  {
         case .addPic:
             presentImagePicker()
         case .deleteOrModifyPic:
-            let alert = UIAlertController(title: AlertStrings.myImage, message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "", message: AlertStrings.changeImageActionSheetMessage, preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = addImageButton
             alert.popoverPresentationController?.sourceRect = addImageButton.bounds
             let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
@@ -1169,7 +1170,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         let yOffset = scrollView.contentOffset.y
         print(yOffset)
         
-        if yOffset < -topViewMaxHeight {
+        if yOffset <= -topViewMaxHeight {
             headerViewHeightConstraint.constant = self.topViewMaxHeight
             recipeImageView.layer.cornerRadius = 15
             
@@ -1232,11 +1233,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
 //        if activeField == nil {
 //            scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
 //        }
-        
-
-    
-        // AddThingView Respone
-//        showAddThingView(true, keyboardHeight: keyboardFrame.height)
         
     }
     

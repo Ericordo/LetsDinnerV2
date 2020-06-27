@@ -151,11 +151,6 @@ class AddNewThingView: UIView {
     private func configureUI(sectionNames: [String], selectedSection: String?) {
         
         self.backgroundColor = .backgroundSystemColor
-        
-        mainTextField.delegate = self
-        amountTextField.delegate = self
-        unitTextField.delegate = self
-        sectionSelectionInput.sectionSelectionInputDelegate = self
 
         // Set Corners for childView
         containerView.roundCorners([.topLeft, .topRight], radius: 10)
@@ -168,6 +163,11 @@ class AddNewThingView: UIView {
 //        self.setDefaultSelectedSection(type: type)
         
         self.addConstraints()
+        
+        mainTextField.delegate = self
+        amountTextField.delegate = self
+        unitTextField.delegate = self
+        sectionSelectionInput.sectionSelectionInputDelegate = self
     }
     
     // MARK: Update UI
@@ -204,12 +204,13 @@ class AddNewThingView: UIView {
                 break
             }
             
-            mainTextField.becomeFirstResponder()
-            
             // Move the bubble to corresponding SectionInputCV
             sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .centeredHorizontally)
-            
         }
+        
+        mainTextField.becomeFirstResponder()
+        
+        
     }
     
     private func hideAmountAndUnitTextField(_ bool: Bool) {
@@ -307,7 +308,6 @@ extension AddNewThingView: UITextFieldDelegate {
         
         switch type {
         case .createRecipe:
-            
             // Pass selectedSection and the content to CreateRecipeVC
             addThingDelegate?.doneEditThing(selectedSection: selectedSection,
                                             item: item,
@@ -330,12 +330,14 @@ extension AddNewThingView: UITextFieldDelegate {
             
             // Work on ManagmentVC
             addThingDelegate?.doneEditThing(selectedSection: nil, item: nil, amount: nil, unit: nil)
+            
+            self.updateUI(type: .manageTask, selectedSection: selectedSection)
         }
         
         self.clearAllTextField()
+
     }
     
-    // For CreateRecipeVC
     @objc func addButtonTapped(sender: UIButton) {
         self.addThing(type: type)
     }
