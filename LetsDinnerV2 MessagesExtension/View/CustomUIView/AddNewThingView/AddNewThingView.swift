@@ -39,7 +39,7 @@ class AddNewThingView: UIView {
     }
     var selectedSection: String? {
         didSet {
-            self.updateUI(type: type, selectedSection: selectedSection)
+//            self.updateUI(type: type, selectedSection: selectedSection)
         }
     }
     
@@ -135,7 +135,7 @@ class AddNewThingView: UIView {
         self.selectedSection = selectedSection ?? section
         super.init(frame: CGRect.zero)
         
-        configureUI(sectionNames: sectionNames, selectedSection: selectedSection)
+        config(sectionNames: sectionNames, selectedSection: selectedSection)
     }
     
     required init?(coder: NSCoder) {
@@ -148,7 +148,7 @@ class AddNewThingView: UIView {
     }
     
     // MARK: Configure UI
-    private func configureUI(sectionNames: [String], selectedSection: String?) {
+    private func config(sectionNames: [String], selectedSection: String?) {
         
         self.backgroundColor = .backgroundSystemColor
 
@@ -159,7 +159,7 @@ class AddNewThingView: UIView {
             updateSelectedSection(sectionName: selectedSection)
         }
         
-        sectionSelectionInput.configureInput(sections: sectionNames)
+        self.sectionSelectionInput.configureInput(sections: sectionNames)
 //        self.setDefaultSelectedSection(type: type)
         
         self.addConstraints()
@@ -171,45 +171,52 @@ class AddNewThingView: UIView {
     }
     
     // MARK: Update UI
-    func updateUI(type: AddNewThingViewType, selectedSection: String?) {
+    func updateUIAfterPressingAddButton(type: AddNewThingViewType, selectedSection: String?) {
         var position = 0
         
         if type == .createRecipe {
             switch selectedSection {
             case CreateRecipeSections.name.rawValue:
+                position = 0
                 mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "e.g. Spaghetti Carbonara"
-                position = 0
                 hideAmountAndUnitTextField(true)
-  
             case CreateRecipeSections.ingredient.rawValue:
+                position = 1
                 mainTextField.returnKeyType = .next
                 mainTextField.placeholder = "e.g. Milk"
-                position = 1
                 hideAmountAndUnitTextField(false)
-                
             case CreateRecipeSections.step.rawValue:
+                position = 2
                 mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "e.g. Pour the milk into a bowl"
-                position = 2
                 hideAmountAndUnitTextField(true)
-
             case CreateRecipeSections.comment.rawValue:
+                position = 3
                 mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "Any tips want to mention?"
-                position = 3
                 hideAmountAndUnitTextField(true)
-            
             default:
                 break
             }
+        } else if type == .manageTask {
             
-            // Move the bubble to corresponding SectionInputCV
-            sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .centeredHorizontally)
+            guard let sectionNames = sectionNames else { return }
+            for (index, sectionName) in sectionNames.enumerated() {
+                if selectedSection == "Miscellaneous" {
+                    position = 0
+                    break
+                } else if selectedSection == sectionName {
+                    position = index + 1
+                    break
+                }
+            }
         }
         
-        mainTextField.becomeFirstResponder()
+        // Move the bubble to corresponding SectionInputCV
+        sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .top)
         
+//        mainTextField.becomeFirstResponder()
         
     }
     
@@ -243,12 +250,11 @@ class AddNewThingView: UIView {
         self.sectionSelectionInput.sections.removeAll()
         
         // Recreate the sections everytime
-        if type == .manageTask{
-            self.sectionSelectionInput.sections.append("Miscellaneous")
+        if type == .manageTask {
+            self.sectionSelectionInput.sections.insert("Miscellaneous", at: 0)
         }
         
         self.sectionSelectionInput.sections += sectionNames
-        self.sectionSelectionInput.sectionsCollectionView.reloadData()
     }
     
     private func setDefaultSelectedSection(type: AddNewThingViewType) {
@@ -270,8 +276,6 @@ extension AddNewThingView: SectionSelectionInputDelegate {
 }
 
 // MARK: TextField Delegate
-
-
 extension AddNewThingView: UITextFieldDelegate {
     
     // Add things
@@ -296,11 +300,9 @@ extension AddNewThingView: UITextFieldDelegate {
                 addThing(type: type)
                 textField.resignFirstResponder()
             }
-            
         }
   
         return true
-        
     }
     
     private func addThing(type: AddNewThingViewType) {
@@ -315,7 +317,11 @@ extension AddNewThingView: UITextFieldDelegate {
                                             unit: unitTextField.text)
            
         case .manageTask:
-            let taskName = item + ", " + String(amountTextField.text ?? "") + " " + String(unitTextField.text ?? "")
+            var taskName = item
+            
+            if let amount = amountTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !amount.isEmpty {
+                taskName += ", " + amount + " " + String(unitTextField.text ?? "")
+            }
             
             // Pass to Global Varaible
             let newTask = Task(taskName: taskName,
@@ -331,7 +337,7 @@ extension AddNewThingView: UITextFieldDelegate {
             // Work on ManagmentVC
             addThingDelegate?.doneEditThing(selectedSection: nil, item: nil, amount: nil, unit: nil)
             
-            self.updateUI(type: .manageTask, selectedSection: selectedSection)
+            self.updateUIAfterPressingAddButton(type: .manageTask, selectedSection: selectedSection)
         }
         
         self.clearAllTextField()

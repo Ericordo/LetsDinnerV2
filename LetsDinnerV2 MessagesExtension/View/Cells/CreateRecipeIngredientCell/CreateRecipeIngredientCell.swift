@@ -29,7 +29,7 @@ class CreateRecipeIngredientCell: UITableViewCell {
             amountLabel.text = amount.trailingZero
             
             if let unit = unit {
-                amountLabel.text! += " " + unit
+                amountLabel.text = amountLabel.text ?? "" + " \(unit)"
             }
             
         } else {

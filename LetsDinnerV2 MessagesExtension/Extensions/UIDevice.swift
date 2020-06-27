@@ -22,7 +22,7 @@ extension UIDevice {
         case iPhone_11_Pro
     }
 
-     var hasHomeButton: Bool {
+    var hasHomeButton: Bool {
         switch type {
         case .iPhone_X_Xs, .iPhone_Xr_11, .iPhone_Xs_11_Pro_Max, .iPhone_11_Pro:
             return false

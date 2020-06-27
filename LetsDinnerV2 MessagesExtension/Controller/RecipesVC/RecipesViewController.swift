@@ -39,7 +39,7 @@ class RecipesViewController: LDNavigationViewController {
         tableView.rowHeight = 120
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+
         return tableView
     }()
     
@@ -50,6 +50,8 @@ class RecipesViewController: LDNavigationViewController {
     weak var delegate: RecipesViewControllerDelegate?
     
     private let viewModel: RecipesViewModel
+    
+    let toolBarHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
 
     // MARK: Init
     init(viewModel: RecipesViewModel, delegate: RecipesViewControllerDelegate) {
@@ -75,10 +77,7 @@ class RecipesViewController: LDNavigationViewController {
         super.viewWillAppear(animated)
         StepStatus.currentStep = .recipesVC
     }
-    
 
-    
-    
     // MARK: ViewModel Binding
     private func bindViewModel() {
         navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
@@ -231,6 +230,7 @@ class RecipesViewController: LDNavigationViewController {
         recipesTableView.dataSource = self
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil),
                                   forCellReuseIdentifier: CellNibs.recipeCell)
+        recipesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.toolBarHeight, right: 0)
     }
     
     private func setupUI() {
@@ -271,11 +271,11 @@ class RecipesViewController: LDNavigationViewController {
             make.bottom.equalToSuperview()
         }
         
-        let height = UIDevice.current.hasHomeButton ? 60 : 83
+        
         toolbar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(height)
+            make.height.equalTo(toolBarHeight)
         }
     }
     

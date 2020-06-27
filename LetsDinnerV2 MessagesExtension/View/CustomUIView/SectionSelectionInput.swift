@@ -12,6 +12,17 @@ protocol SectionSelectionInputDelegate : class {
     func updateSelectedSection(sectionName: String)
 }
 
+enum DefaultSectionName {
+    case miscellaneous
+    
+    var labelString: String {
+        switch self {
+        case .miscellaneous:
+            return "Miscellaneous"
+        }
+    }
+}
+
 class SectionSelectionInput : UIView {
     
     var type: AddNewThingViewType!
@@ -25,18 +36,8 @@ class SectionSelectionInput : UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
-    var sections = [String]()
-    
+
     weak var sectionSelectionInputDelegate : SectionSelectionInputDelegate?
-    
-    private let arrowImage : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "arrowIcon")
-        return imageView
-    }()
     
     let sectionsCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -48,9 +49,15 @@ class SectionSelectionInput : UIView {
         return cv
     }()
     
+    var sections = [String]() {
+        didSet {
+            sectionsCollectionView.reloadData()
+        }
+    }
+    
     private func configureView() {
         if type == .manageTask {
-            sections.append("Miscellaneous")
+            sections.insert(DefaultSectionName.miscellaneous.labelString, at: 0)
         }
         
         self.backgroundColor = .backgroundSystemColor
@@ -58,18 +65,19 @@ class SectionSelectionInput : UIView {
         sectionsCollectionView.delegate = self
         sectionsCollectionView.register(UINib(nibName: CellNibs.sectionInputCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.sectionInputCell)
         
-// These 2 lines did not fix the bug of the toolbar not always appearing
-      self.sizeToFit()
-      self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    
+        // These 2 lines did not fix the bug of the toolbar not always appearing
+        self.sizeToFit()
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        addSubview(sectionsCollectionView)
     }
     
     override func layoutSubviews() {
-    // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
+        // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
         addConstraints()
         
         // Control the selected bubble
-        sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .left)
+        sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .top)
     }
     
     func configureInput(sections: [String]) {
@@ -81,17 +89,13 @@ class SectionSelectionInput : UIView {
     }
     
     private func addConstraints() {
-
-        addSubview(sectionsCollectionView)
-        
         sectionsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         sectionsCollectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
         sectionsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         sectionsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
     }
-    
-    
+  
 }
 
 extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -103,7 +107,7 @@ extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.sectionInputCell, for: indexPath) as! SectionInputCell
         let section = sections[indexPath.row]
-        cell.configureCell(sectionName: section)
+        cell.configure(sectionName: section)
         return cell
     }
     

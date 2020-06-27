@@ -105,7 +105,8 @@ class ManagementViewController: LDNavigationViewController {
 
     private let viewModel: ManagementViewModel
     
-    let bottomViewHeight = UIDevice.current.hasHomeButton ? 60 : 83
+    let bottomViewHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
+    let addThingViewHeight: CGFloat = 94
     
     //MARK: Init
     init(viewModel: ManagementViewModel, delegate: ManagementViewControllerDelegate) {
@@ -234,7 +235,7 @@ class ManagementViewController: LDNavigationViewController {
                                                                   action: #selector(UIView.endEditing(_:)))
         swipeDownGestureToHideKeyBoard.direction = .down
 
-        self.view.addSwipeGestureRecognizer(action: { self.delegate?.managementVCDidTapBack() })
+//        self.view.addSwipeGestureRecognizer(action: { self.delegate?.managementVCDidTapBack() })
     }
     
     private func setupUI() {
@@ -497,32 +498,7 @@ extension ManagementViewController: AddThingDelegate {
     func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
         viewModel.prepareData()
     }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else {return}
-        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardFrame = keyboardSize.cgRectValue
-        
-        UIView.animate(withDuration: 1) {
-            self.showAddThingView(offset: keyboardFrame.height)
-        }
-        self.view.layoutIfNeeded()
-        
-        
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        UIView.animate(withDuration: 1) {
-            self.removeAddThingView()
-        }
-        self.view.layoutIfNeeded()
-        
-        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
-        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
-    }
-    
+
     private func showAddThingView(offset: CGFloat) {
         guard let addThingView = addThingView else { return }
         var offset = offset
@@ -534,7 +510,7 @@ extension ManagementViewController: AddThingDelegate {
         }
         addThingView.snp.updateConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(94)
+            make.height.equalTo(addThingViewHeight)
             make.bottom.equalToSuperview().offset(-offset)
         }
     }
@@ -546,6 +522,37 @@ extension ManagementViewController: AddThingDelegate {
             make.height.equalTo(94)
             make.bottom.equalToSuperview().offset(94)
         }
+    }
+}
+
+extension ManagementViewController {
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        UIView.animate(withDuration: 1) {
+            self.showAddThingView(offset: keyboardFrame.height)
+        }
+        
+        self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height + addThingViewHeight, right: 0)
+        
+        self.view.layoutIfNeeded()
+        
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 1) {
+            self.removeAddThingView()
+        }
+        self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        self.view.layoutIfNeeded()
+        
+        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
     }
 }
 
