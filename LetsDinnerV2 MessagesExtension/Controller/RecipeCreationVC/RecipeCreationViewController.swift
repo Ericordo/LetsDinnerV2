@@ -96,7 +96,7 @@ class RecipeCreationViewController: UIViewController  {
     
     // Data
     let customRecipe = CustomRecipe()
-
+    
     private var temporaryIngredients = [LDIngredient]() {
         didSet {
             ingredientTableView.reloadData()
@@ -121,8 +121,7 @@ class RecipeCreationViewController: UIViewController  {
     
     private var servings : Int = 2 {
         didSet {
-            #warning("Localized String")
-            servingsLabel.text = "For \(servings) people"
+            servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, servings)
             self.updateRecipeIsEditedStatus()
         }
     }
@@ -551,11 +550,13 @@ class RecipeCreationViewController: UIViewController  {
         // Check if amountString have unit
         if var amountString = amountString {
             amountString = amountString.trimmingCharacters(in: .whitespacesAndNewlines)
+            
             if amountString.hasWhiteSpace {
                 let amountStringArray = amountString.split(separator: " ")
                 amount = String(amountStringArray[0])
+                
                 for index in 1...amountStringArray.count - 1 {
-                    unit += " " + String(amountStringArray[index])
+                    unit += String(amountStringArray[index]) + " "
                 }
             } else {
                 amount = amountString
@@ -859,7 +860,7 @@ class RecipeCreationViewController: UIViewController  {
 
     }
     
-    @IBAction func didTapAddCookingStepButton(_ sender: UIButton) {
+    @IBAction func didTapAddStepButton(_ sender: UIButton) {
         if let step = stepTextField.text {
             if step.isEmpty {
                 addCookingStepButton.shake()
@@ -972,6 +973,12 @@ extension RecipeCreationViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let cs = CharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+        let filtered: String = (string.components(separatedBy: cs) as NSArray).componentsJoined(by: "")
+        return (string == filtered)
     }
 }
 

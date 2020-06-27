@@ -76,7 +76,7 @@ class SectionSelectionInput : UIView {
         // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
         addConstraints()
         
-        // Control the selected bubble
+        // Control the selected bubble (First time)
         sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .top)
     }
     

@@ -117,6 +117,8 @@ class AddNewThingView: UIView {
     
     lazy var sectionSelectionInput = SectionSelectionInput(type: type)
     
+    let RISTRICTED_CHARACTERS = "'*=+[]\\|;:'\",<>/?%"
+    
     init(type: AddNewThingViewType, sectionNames: [String], selectedSection: String?) {
         
         let section: String = {
@@ -357,14 +359,18 @@ extension AddNewThingView: UITextFieldDelegate {
     // MARK: Validation
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        // Guarding character limit
-        guard let textFieldText = textField.text, let rangeOfTextToReplace = Range(range, in: textFieldText) else { return false }
+        // Guarding count limit
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else { return false }
         
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
         
         switch textField {
         case mainTextField:
+            
+            
+            
             switch selectedSection {
             case CreateRecipeSections.name.rawValue :
                 return count <= MainTextFieldCharacterLimit.name.rawValue
@@ -383,6 +389,10 @@ extension AddNewThingView: UITextFieldDelegate {
             return count <= 10
         default:
             return count <= 0
+        }
+        
+        if textField == mainTextField {
+            
         }
 
     }

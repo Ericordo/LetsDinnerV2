@@ -281,7 +281,7 @@
                                                     </constraints>
                                                     <state key="normal" image="addButton"/>
                                                     <connections>
-                                                        <action selector="didTapAddCookingStepButton:" destination="-1" eventType="touchUpInside" id="Pkr-5A-7Ts"/>
+                                                        <action selector="didTapAddStepButton:" destination="-1" eventType="touchUpInside" id="Pkr-5A-7Ts"/>
                                                     </connections>
                                                 </button>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. Pour the milk" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sdW-3C-FYb">
