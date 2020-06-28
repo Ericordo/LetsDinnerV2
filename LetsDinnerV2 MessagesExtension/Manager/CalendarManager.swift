@@ -8,6 +8,7 @@
 
 import UIKit
 import EventKit
+import ReactiveSwift
 
 class CalendarManager {
     
@@ -59,6 +60,37 @@ class CalendarManager {
                 }
             } else {
                 print("error = \(String(describing: error?.localizedDescription))")
+            }
+        }
+    }
+    
+    func addNewEventToCalendar(title: String, eventStartDate: Date, location: String) {
+        let event = EKEvent.init(eventStore: self.store)
+        event.title = title
+        event.calendar = self.store.defaultCalendarForNewEvents
+        event.startDate = eventStartDate
+        event.endDate = Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)
+        event.location = location
+        
+        let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
+        event.addAlarm(alarm)
+        
+        do {
+            try self.store.save(event, span: .thisEvent)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func requestAccessToCalendarIfNeeded() -> SignalProducer<Bool, Never> {
+        return SignalProducer { observer, _ in
+            self.store.requestAccess(to: .event) { (approval, error) in
+                if error != nil {
+                    observer.send(value: false)
+                } else {
+                    observer.send(value: approval)
+                }
+                observer.sendCompleted()
             }
         }
     }

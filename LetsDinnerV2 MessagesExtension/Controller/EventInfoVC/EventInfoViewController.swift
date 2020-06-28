@@ -102,11 +102,13 @@ class EventInfoViewController: LDNavigationViewController {
     
     @objc private func didTapRemindersButton() {
         #warning("BUG If access is denied once, it's not asked again after other tap")
+        #warning("Show alert like in ReviewVC")
         ReminderManager.shared.addToReminder(view: self)
     }
     
     @objc private func didTapCalendarButton() {
         #warning("BUG If access is denied once, it's not asked again after other tap")
+        #warning("Show alert like in ReviewVC")
         let title = Event.shared.dinnerName
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation

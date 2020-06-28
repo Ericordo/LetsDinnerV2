@@ -57,7 +57,7 @@ enum Keys {
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
     static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
-    
+    static let addEventCalendar = "addEventCalendar"
 }
 
 enum Images {
