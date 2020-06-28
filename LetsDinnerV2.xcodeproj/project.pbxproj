@@ -69,6 +69,8 @@
 		88349F422370D10A002A1879 /* RecipeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F402370D10A002A1879 /* RecipeCell.xib */; };
 		883A29FA2371D15D0099ECDF /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 883A29F92371D15D0099ECDF /* Readme.md */; };
 		883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A052372E9910099ECDF /* GoogleService-Info.plist */; };
+		884A5D8D24A3662D00CBF8AF /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */; };
+		884A5D8F24A3674700CBF8AF /* RecipeBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A5D8E24A3674700CBF8AF /* RecipeBookViewController.swift */; };
 		884CE1B0245ED1A6001062BF /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CE1AF245ED1A6001062BF /* RecipesViewController.swift */; };
 		884CE1B2245ED1E1001062BF /* RecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CE1B1245ED1E1001062BF /* RecipesViewModel.swift */; };
 		884CE1B4245ED52C001062BF /* LDNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CE1B3245ED52C001062BF /* LDNavBar.swift */; };
@@ -267,6 +269,8 @@
 		88349F402370D10A002A1879 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
 		883A29F92371D15D0099ECDF /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
+		884A5D8E24A3674700CBF8AF /* RecipeBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeBookViewController.swift; sourceTree = "<group>"; };
 		884CE1AF245ED1A6001062BF /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		884CE1B1245ED1E1001062BF /* RecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewModel.swift; sourceTree = "<group>"; };
 		884CE1B3245ED52C001062BF /* LDNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDNavBar.swift; sourceTree = "<group>"; };
@@ -653,6 +657,7 @@
 				32B49DD523E87CCC0010669A /* ExpiredEventVC */,
 				B86F7006238435830010AB7C /* EventInfoVC */,
 				880B13662374BDAE003E29AC /* TasksListVC */,
+				884A5D8E24A3674700CBF8AF /* RecipeBookViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -979,6 +984,7 @@
 				B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */,
 				884CE1B9246086CC001062BF /* RealmHelper.swift */,
 				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
+				884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1279,6 +1285,7 @@
 				885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */,
 				886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */,
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
+				884A5D8D24A3662D00CBF8AF /* PDFCreator.swift in Sources */,
 				880B1358237474A4003E29AC /* Task.swift in Sources */,
 				B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
@@ -1348,6 +1355,7 @@
 				880B13312372FA08003E29AC /* User.swift in Sources */,
 				B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */,
 				884CE1C92465C515001062BF /* CKIngredient.swift in Sources */,
+				884A5D8F24A3674700CBF8AF /* RecipeBookViewController.swift in Sources */,
 				88D9AB41246FE72A007716E6 /* ReviewViewModel.swift in Sources */,
 				880B1343237376D6003E29AC /* InfoCell.swift in Sources */,
 				B87C103F2408E9AC004AD951 /* Thread.swift in Sources */,
