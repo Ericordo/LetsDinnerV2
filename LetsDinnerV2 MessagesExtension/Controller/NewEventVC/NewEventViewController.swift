@@ -39,9 +39,8 @@ class NewEventViewController: LDNavigationViewController {
     
     private let datePicker = LDDatePicker()
 
-    private let infoInput = InfoInputView()
-    
-    private let eventInput = EventInputView()
+    private let infoInputView = InfoInputView()
+    private let eventInputView = EventInputView()
     
     private let errorLabel : UILabel = {
         let label = UILabel()
@@ -154,21 +153,21 @@ class NewEventViewController: LDNavigationViewController {
             self.viewModel.date.value = datePicker.date
         }
         
-        eventInput.breakfastButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+        eventInputView.breakfastButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.updateEventName(LabelStrings.breakfast)
         }
         
-        eventInput.lunchButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+        eventInputView.lunchButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.updateEventName(LabelStrings.lunch)
         }
         
-        eventInput.dinnerButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+        eventInputView.dinnerButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.updateEventName(LabelStrings.dinner)
         }
         
-        infoInput.addButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.activeField?.text = self.infoInput.addButton.title(for: .normal)
-            self.infoInput.isHidden = true
+        infoInputView.addButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.activeField?.text = self.infoInputView.addButton.title(for: .normal)
+            self.infoInputView.isHidden = true
             if self.hostNameTextField.isEditing {
                 self.locationTextField.becomeFirstResponder()
             } else if self.locationTextField.isEditing {
@@ -235,12 +234,13 @@ class NewEventViewController: LDNavigationViewController {
     private func updateEventName(_ name: String) {
         #warning("make it reactive")
         self.viewModel.eventName.value = name
-        eventInput.isHidden = true
+        eventInputView.isHidden = true
         hostNameTextField.becomeFirstResponder()
     }
     
     private func setupUI() {
         view.backgroundColor = .backgroundColor
+        
         navigationBar.titleLabel.text = LabelStrings.addEventDetails
         navigationBar.previousButton.setImage(Images.settingsButtonOutlined, for: .normal)
         scrollView.delegate = self
@@ -257,6 +257,9 @@ class NewEventViewController: LDNavigationViewController {
         contentView.addSubview(errorLabel)
         contentView.addSubview(quickFillButton)
         contentView.addSubview(quickEventButton)
+        
+        view.addSubview(infoInputView)
+        view.addSubview(eventInputView)
         addConstraints()
     }
     
@@ -311,6 +314,18 @@ class NewEventViewController: LDNavigationViewController {
             make.leading.equalToSuperview().offset(20)
             make.height.equalTo(30)
         }
+        
+        infoInputView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+            make.bottom.equalToSuperview().offset(50)
+        }
+        
+        eventInputView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+            make.bottom.equalToSuperview().offset(50)
+        }
     }
     
     private func textField(placeholder: String, image: UIImage) -> UITextField {
@@ -352,19 +367,19 @@ extension NewEventViewController: UITextFieldDelegate {
         activeField = textField
         switch textField {
         case eventNameTextField:
-            infoInput.isHidden = true
-            eventInput.isHidden = false
+            infoInputView.isHidden = true
+            eventInputView.isHidden = false
         case hostNameTextField:
-            eventInput.isHidden = true
-            infoInput.isHidden = defaults.username.isEmpty
-            infoInput.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+            eventInputView.isHidden = true
+            infoInputView.isHidden = defaults.username.isEmpty
+            infoInputView.assignInfoInput(textField: hostNameTextField, info: defaults.username)
         case locationTextField:
-            eventInput.isHidden = true
-            infoInput.isHidden = defaults.address.isEmpty
-            infoInput.assignInfoInput(textField: locationTextField, info: defaults.address)
+            eventInputView.isHidden = true
+            infoInputView.isHidden = defaults.address.isEmpty
+            infoInputView.assignInfoInput(textField: locationTextField, info: defaults.address)
         case dateTextField:
-            eventInput.isHidden = true
-            infoInput.isHidden = true
+            eventInputView.isHidden = true
+            infoInputView.isHidden = true
         default:
             break
         }
@@ -380,8 +395,10 @@ extension NewEventViewController: UIScrollViewDelegate {
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardFrame = keyboardSize.cgRectValue
+        
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
         var rectangle = self.view.frame
         rectangle.size.height -= keyboardFrame.height
         if let activeField = activeField {
@@ -390,11 +407,19 @@ extension NewEventViewController: UIScrollViewDelegate {
             }
         }
         
-        if activeField == locationTextField || activeField == hostNameTextField {
-            showInputView(inputView: self.infoInput, offset: keyboardFrame.height)
-        } else {
-            showInputView(inputView: self.eventInput, offset: keyboardFrame.height)
-        }
+        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+
+        let animationCurveRawNSN = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+        let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
+        let animationCurve: UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
+        
+//        if activeField == locationTextField || activeField == hostNameTextField {
+//            showInputView(inputView: self.infoInputView, offset: keyboardFrame.height, duration: duration, animationCurve: animationCurve )
+//        } else {
+//            showInputView(inputView: self.eventInputView, offset: keyboardFrame.height, duration: duration, animationCurve: animationCurve )
+//        }
+        
+        showInputView(inputView: UIView(), offset: keyboardFrame.height, duration: duration!, animationCurve: animationCurve)
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -403,7 +428,8 @@ extension NewEventViewController: UIScrollViewDelegate {
         removeInputViews()
     }
     
-    private func showInputView(inputView: UIView, offset: CGFloat) {
+    private func showInputView(inputView: UIView, offset: CGFloat, duration: TimeInterval, animationCurve: UIView.AnimationOptions) {
+        
         var offset = offset
         #warning("Temporary solve for iPad ios13")
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -411,21 +437,42 @@ extension NewEventViewController: UIScrollViewDelegate {
                 offset += 20
             }
         }
-        inputView.alpha = 0
-        self.view.addSubview(inputView)
-        inputView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
-            make.bottom.equalToSuperview().offset(-offset)
+//        inputView.alpha = 0
+        
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 2) {
+            self.eventInputView.snp.updateConstraints { make in
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+                make.bottom.equalToSuperview().offset(-offset)
+            }
+            self.infoInputView.snp.updateConstraints { make in
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+                make.bottom.equalToSuperview().offset(-offset)
+            }
         }
-        UIView.animate(withDuration: 1) {
-            inputView.alpha = 1
-        }
+        
+    
+//        UIView.animate(withDuration: 1,
+//                        delay: TimeInterval(0),
+//                        options: animationCurve,
+//                        animations: {},
+//                        completion: {  _ in self.eventInputView.snp.updateConstraints { make in
+//                        make.bottom.equalToSuperview().offset(-offset)
+//                            } } )
+        
     }
     
     private func removeInputViews() {
-        self.eventInput.removeFromSuperview()
-        self.infoInput.removeFromSuperview()
+//        self.eventInputView.removeFromSuperview()
+//        self.infoInputView.removeFromSuperview()
+        eventInputView.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(50)
+        }
+        infoInputView.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(50)
+        }
     }
 }
 
