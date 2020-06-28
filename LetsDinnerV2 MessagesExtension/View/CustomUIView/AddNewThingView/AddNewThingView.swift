@@ -135,7 +135,7 @@ class AddNewThingView: UIView {
         self.selectedSection = selectedSection ?? section
         super.init(frame: CGRect.zero)
         
-        config(sectionNames: sectionNames, selectedSection: selectedSection)
+        configureView(sectionNames: sectionNames, selectedSection: selectedSection)
     }
     
     required init?(coder: NSCoder) {
@@ -148,7 +148,7 @@ class AddNewThingView: UIView {
     }
     
     // MARK: Configure UI
-    private func config(sectionNames: [String], selectedSection: String?) {
+    private func configureView(sectionNames: [String], selectedSection: String?) {
         
         self.backgroundColor = .backgroundSystemColor
 
