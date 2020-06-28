@@ -34,7 +34,7 @@ extension LDError {
         case .parsingFail:
             return ""
         case .eventFetchingFail:
-            return ""
+            return AlertStrings.eventFetchingFail
         case .profilePicUploadFail:
             return ""
         case .recipeSaveRealmFail:
