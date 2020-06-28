@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import EventKit
 import ReactiveSwift
 
 protocol ReviewViewControllerDelegate: class {
@@ -74,14 +73,35 @@ class ReviewViewController: UIViewController {
         tableView.separatorColor = .cellSeparatorLine
         return tableView
     }()
+    
+    private let calendarStackView : UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.spacing = 40
+        return sv
+    }()
+    
+    private let calendarLabel : UILabel = {
+        let label = UILabel()
+        label.text = LabelStrings.addToCalendar
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .textLabel
+        return label
+    }()
+    
+    private let calendarSwitch : UISwitch = {
+        let control = UISwitch()
+        control.onTintColor = .activeButton
+        control.isOn = defaults.addToCalendar
+        return control
+    }()
 
     weak var delegate: ReviewViewControllerDelegate?
     
     private let darkView = UIView()
     
     private var isChecking = false
-    
-    private let store = EKEventStore()
     
     private let loadingView = LDLoadingView()
     
@@ -118,8 +138,10 @@ class ReviewViewController: UIViewController {
         }
         
         sendButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.isChecking ? self.showCalendarAlert() : self.reviewBeforeSending()
+            self.isChecking ? self.viewModel.uploadEvent() : self.reviewBeforeSending()
         }
+                
+        viewModel.addToCalendar <~ calendarSwitch.reactive.isOnValues
         
         self.viewModel.isLoading.producer
             .observe(on: UIScheduler())
@@ -137,14 +159,31 @@ class ReviewViewController: UIViewController {
                 }
         }
         
+        self.viewModel.addToCalendar.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .filter { $0 }
+            .startWithValues { [weak self] _ in
+                guard let self = self else { return }
+                CalendarManager.shared.requestAccessToCalendarIfNeeded()
+                    .observe(on: UIScheduler())
+                    .take(duringLifetimeOf: self)
+                    .filter { !$0 }
+                    .startWithValues { [weak self] _ in
+                        guard let self = self else { return }
+                        self.calendarSwitch.setOn(false, animated: true)
+                        if self.isChecking {
+                            self.showBasicAlert(title: AlertStrings.calendarAccess, message: LDError.calendarDenied.description)
+                        }
+                }
+        }
+        
         self.viewModel.dataUploadSignal.observe(on: UIScheduler())
             .observeResult { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                #warning("Modify error message")
-                #warning("In case of failure, the event will already have been added to the calendar, so there will be a duplicate")
-                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+                self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(()):
                 self.sendInvitation()
             }
@@ -167,6 +206,7 @@ class ReviewViewController: UIViewController {
         darkView.alpha = 0.1
         darkView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelSending)))
         self.view.addSubview(darkView)
+        self.showCalendarSwitch()
         UIView.animate(withDuration: 1,
                        delay: 0,
                        usingSpringWithDamping: 1,
@@ -178,7 +218,7 @@ class ReviewViewController: UIViewController {
                             make.leading.equalTo(self.buttonStackView.snp.leading)
                         }
                         self.view.layoutIfNeeded()
-                        self.sendButton.setTitle("Confirm", for: .normal)
+                        self.sendButton.setTitle(AlertStrings.confirm, for: .normal)
                         self.sendButton.setTitleColor(.white, for: .normal)
                         self.sendButton.backgroundColor = Colors.customBlue
         }) { (_) in
@@ -189,10 +229,11 @@ class ReviewViewController: UIViewController {
     @objc private func cancelSending() {
         self.isChecking = false
         darkView.removeFromSuperview()
+        hideCalendarSwitch()
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
             self.sendButton.snp.removeConstraints()
             self.view.layoutIfNeeded()
-            self.sendButton.setTitle("Send", for: .normal)
+            self.sendButton.setTitle(LabelStrings.send, for: .normal)
             self.sendButton.setTitleColor(Colors.customBlue, for: .normal)
             self.sendButton.backgroundColor = Colors.paleGray
         })
@@ -209,31 +250,47 @@ class ReviewViewController: UIViewController {
         }
     }
     
-    private func showCalendarAlert() {
-        #warning("It seems that if you press don't allow access to calendar once, and then send a new event later and tap on add to calendar, the alert to ask for persmission will not be displayed and the event not added to calendar")
-        let alert = UIAlertController(title: AlertStrings.addToCalendarAlertTitle,
-                                      message: AlertStrings.addToCalendarAlertMessage,
-                                      preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: AlertStrings.nope,
-                                      style: UIAlertAction.Style.destructive,
-                                      handler: { (_) in self.viewModel.uploadEvent()}))
-        alert.addAction(UIAlertAction(title: AlertStrings.add,
-                                      style: UIAlertAction.Style.default,
-                                      handler: { (_) in self.addEventToCalendarAndUpload() }))
-        self.present(alert, animated: true, completion: nil)
+    private func showCalendarSwitch() {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveLinear,
+                       animations: {
+                        self.calendarStackView.snp.remakeConstraints { make in
+                            make.top.equalToSuperview().offset(10)
+                            make.centerX.equalToSuperview()
+                        }
+                        self.topLabel.snp.remakeConstraints { make in
+                            make.top.equalToSuperview().offset(10)
+                            make.trailing.equalTo(self.headerView.snp.leading).offset(-20)
+                        }
+                        self.view.layoutIfNeeded()
+        }) { (_) in
+         
+        }
     }
     
-    func addEventToCalendarAndUpload() {
-        let title = Event.shared.dinnerName
-        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-        let location = Event.shared.dinnerLocation
-        
-        CalendarManager.shared.addEventToCalendar(view: self,
-                                           with: title,
-                                           forDate: date,
-                                           location: location)
-        
-        self.viewModel.uploadEvent()
+    private func hideCalendarSwitch() {
+        UIView.animate(withDuration: 1,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveLinear,
+                       animations: {
+                        self.calendarStackView.snp.remakeConstraints { make in
+                            make.top.equalToSuperview().offset(10)
+                            make.leading.equalTo(self.headerView.snp.trailing).offset(20)
+                        }
+                        self.topLabel.snp.remakeConstraints { make in
+                            make.top.equalToSuperview().offset(10)
+                            make.leading.equalToSuperview().offset(30)
+                            make.trailing.equalToSuperview().offset(-30)
+                        }
+                        self.view.layoutIfNeeded()
+        }) { (_) in
+         
+        }
     }
     
     private func setupUI() {
@@ -245,6 +302,9 @@ class ReviewViewController: UIViewController {
         buttonStackView.addArrangedSubview(sendButton)
         headerView.addSubview(separator)
         view.addSubview(summaryTableView)
+        calendarStackView.addArrangedSubview(calendarLabel)
+        calendarStackView.addArrangedSubview(calendarSwitch)
+        headerView.addSubview(calendarStackView)
         addConstraints()
     }
     
@@ -275,6 +335,12 @@ class ReviewViewController: UIViewController {
         summaryTableView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom)
+        }
+
+        calendarStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalTo(headerView.snp.trailing).offset(20)
+            
         }
     }
 }

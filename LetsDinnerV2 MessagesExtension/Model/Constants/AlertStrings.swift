@@ -13,7 +13,9 @@ enum AlertStrings {
     static let calendarAlert = "This event was successfully added to your calendar."
     static let addToCalendarAlertTitle = "Add to calendar?"
     static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
-    
+    static let calendarDenied = NSLocalizedString("The app is not permitted to access your calendar, make sure to grant permission in the settings and try again.", comment: "access to calendar denied")
+    static let calendarAccess = NSLocalizedString("Calendar access", comment: "calendar access")
+
     // Accept Or Decline Alert
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
     static let userHasDeclinedAlert = "You declined the invitation, you are not able to manage the tasks."
@@ -56,11 +58,14 @@ enum AlertStrings {
     static let requestLimit = "Too many requests"
     static let tryAgain = "You can try again in a minute"
     static let myImage = NSLocalizedString("My image", comment: "my image")
-    static let oops = NSLocalizedString("Oops", comment: "string")
+    static let oops = NSLocalizedString("Oops!", comment: "string")
     static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
     
     // Create Recipe VC
     static let retrieveImageErrorMessage = NSLocalizedString("Error while retrieving image", comment: "retrieve image error message")
+    
+    // ReviewVC
+    static let eventUploadFail = NSLocalizedString("We could not save your Event, please try again.", comment: "could not upload event")
 
     
     // Action Sheet

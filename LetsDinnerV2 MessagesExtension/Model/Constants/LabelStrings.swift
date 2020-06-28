@@ -38,7 +38,6 @@ enum LabelStrings {
     static let host = NSLocalizedString("Host", comment: "host")
     static let date = NSLocalizedString("Date", comment: "date")
     static let location = NSLocalizedString("Location", comment: "location")
-    static let addToCalendar = "Add to Calendar"
     static let addEventDetails = NSLocalizedString("Add Event Details", comment: "title")
     static let eventName = NSLocalizedString("Event name", comment: "event name")
     static let allFieldsRequired = NSLocalizedString("All fields are required 🤓", comment: "all fields required")
@@ -100,6 +99,7 @@ enum LabelStrings {
     static let update = NSLocalizedString("Update", comment: "update")
     static let send = NSLocalizedString("Send", comment: "send")
     static let edit = NSLocalizedString("Edit", comment: "edit")
+    static let addToCalendar = NSLocalizedString("Add to Calendar", comment: "Add to calendar")
     
     // EventSummaryVC
     static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"

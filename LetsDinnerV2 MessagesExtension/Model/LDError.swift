@@ -19,6 +19,8 @@ enum LDError : Error {
     case transferToRealmFail
     case recipeUpdateRealmFail
     case recipeDeleteRealmFail
+    case addToCalendarFail
+    case calendarDenied
 }
 
 #warning("Write descriptions")
@@ -28,7 +30,7 @@ extension LDError {
         case .noUserIdentifier:
             return ""
         case .eventUploadFail:
-            return ""
+            return AlertStrings.eventUploadFail
         case .parsingFail:
             return ""
         case .eventFetchingFail:
@@ -45,6 +47,10 @@ extension LDError {
             return ""
         case .recipeDeleteRealmFail:
             return ""
+        case .addToCalendarFail:
+            return ""
+        case .calendarDenied:
+            return AlertStrings.calendarDenied
         }
     }
 }

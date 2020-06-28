@@ -34,4 +34,8 @@ extension UserDefaults {
         set { set(newValue, forKey: Keys.searchType) }
     }
     
+    var addToCalendar : Bool {
+        get { return bool(forKey: Keys.addEventCalendar) }
+        set { set(newValue, forKey: Keys.addEventCalendar) }
+    }
 }
