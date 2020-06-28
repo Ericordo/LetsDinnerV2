@@ -95,6 +95,7 @@ enum Images {
     static let recipeBookButtonOutlined = UIImage(named: "recipeBookButtonOutlined")!
     static let listButtonOutlined = UIImage(named: "listButtonOutlined")!
     static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
+    static let emptyPlate = UIImage(named: "emptyPlate")!
     
     // CustomRecipeDetailsVC
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
@@ -111,6 +112,9 @@ enum Images {
     static let assignedImage = UIImage(named: "checkboxAssignedOutlined")!
     static let completedImage = UIImage(named: "checkboxAssignedCompleted")!
     static let completedByOtherImage = UIImage(named: "checkBoxCompleted")!
+    
+    // PDFCreator
+    static let pdfLogo = UIImage(named: "pdfLogo")!
 }
 
 enum ButtonTitle {
@@ -155,6 +159,7 @@ enum DataKeys {
     static let hasAccepted = "hasAccepted"
     static let profilePicUrl = "profilePicUrl"
     static let participants = "participants"
+    static let imageUrl = "imageUrl"
 }
 
 

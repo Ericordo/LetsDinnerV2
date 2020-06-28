@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PDFKit
 
 protocol EventInfoViewControllerDelegate: class {
     func eventInfoVCDidTapBackButton()
@@ -18,6 +19,7 @@ class EventInfoViewController: LDNavigationViewController {
         let button = PrimaryButton()
         button.setTitle(LabelStrings.cookingManual, for: .normal)
         button.addTarget(self, action: #selector(didTapManualButton), for: .touchUpInside)
+        button.isHidden = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count == 0
         return button
     }()
     
@@ -89,8 +91,8 @@ class EventInfoViewController: LDNavigationViewController {
         setupTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         StepStatus.currentStep = .eventInfoVC
     }
     
@@ -116,7 +118,10 @@ class EventInfoViewController: LDNavigationViewController {
     }
     
     @objc private func didTapManualButton() {
-        self.showBasicAlert(title: "Success", message: "All your pictures were successfully deleted.")
+        let pdfCreator = PDFCreator()
+        let data = pdfCreator.createBook()
+        let recipeBook = RecipeBookViewController(documentData: data)
+        self.present(recipeBook, animated: true, completion: nil)
     }
     
     private func setupTableView() {

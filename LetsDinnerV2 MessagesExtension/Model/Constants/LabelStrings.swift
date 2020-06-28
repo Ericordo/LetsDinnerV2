@@ -164,4 +164,13 @@ enum LabelStrings {
     
     //ExpiredEventVC
     static let createNewEvent = NSLocalizedString("Create a new Event", comment: "create a new event")
+    
+    // RecipeBookVC + PDFCreator
+    static let recipeBook = NSLocalizedString("Cooking Manual", comment: "Recipe book")
+    static let recipe = NSLocalizedString("Recipe", comment: "recipe")
+    static let tipsAndComments = NSLocalizedString("Tips & Comments", comment: "tips and comments")
+    static let link = NSLocalizedString("Link: %@", comment: "Recipe link")
+    static let ingredientTitle = NSLocalizedString("Ingredients for %d people \n\n", comment: "Ingredients for 2 people")
+    static let instructions = NSLocalizedString("Instructions", comment: "instructions")
+    
 }
