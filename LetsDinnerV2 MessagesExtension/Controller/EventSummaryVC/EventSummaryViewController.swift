@@ -112,8 +112,8 @@ class EventSummaryViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                #warning("Modify error message")
-                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+                LostEventView().show(superView: self.view)
+                self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(()):
                 self.updateTable()
             }

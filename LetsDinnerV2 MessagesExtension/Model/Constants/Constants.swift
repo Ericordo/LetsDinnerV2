@@ -96,6 +96,7 @@ enum Images {
     static let listButtonOutlined = UIImage(named: "listButtonOutlined")!
     static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
     static let emptyPlate = UIImage(named: "emptyPlate")!
+    static let mealPlaceholder = UIImage(named: "mealPlaceholderImage")
     
     // CustomRecipeDetailsVC
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")

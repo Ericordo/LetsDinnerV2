@@ -66,6 +66,9 @@ enum AlertStrings {
     
     // ReviewVC
     static let eventUploadFail = NSLocalizedString("We could not save your Event, please try again.", comment: "could not upload event")
+    
+    // EventSummaryVC
+    static let eventFetchingFail = NSLocalizedString("We could not retrieve the information for this event.", comment: "could not fetch event")
 
     
     // Action Sheet

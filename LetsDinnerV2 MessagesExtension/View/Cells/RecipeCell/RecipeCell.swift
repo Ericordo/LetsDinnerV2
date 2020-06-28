@@ -124,7 +124,7 @@ class RecipeCell: UITableViewCell {
                 }
             }
         } else {
-            recipeImageView.image = UIImage(named: "mealPlaceholderImage")
+            recipeImageView.image = Images.mealPlaceholder
             recipeImageView.alpha = 0.8
             backgroundImageView.image = nil
             backgroundImageView.backgroundColor = UIColor.customRecipeBackground
