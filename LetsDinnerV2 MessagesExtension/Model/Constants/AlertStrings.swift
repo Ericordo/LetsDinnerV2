@@ -69,6 +69,9 @@ enum AlertStrings {
     
     // EventSummaryVC
     static let eventFetchingFail = NSLocalizedString("We could not retrieve the information for this event.", comment: "could not fetch event")
+    static let changedMind = NSLocalizedString("Changed your mind?", comment: "changed your mind")
+    static let updateDeclinedStatus = NSLocalizedString("Would you like to accept this invitation?", comment: "accept this invitation")
+    static let updateAcceptedStatus = NSLocalizedString("Would you like to decline this invitation?", comment: "decline this invitation")
 
     
     // Action Sheet

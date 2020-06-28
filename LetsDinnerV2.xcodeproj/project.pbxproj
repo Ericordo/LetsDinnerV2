@@ -143,9 +143,7 @@
 		B8652A2C23C729B300F176CC /* ReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8652A2B23C729B300F176CC /* ReminderManager.swift */; };
 		B86F6FF2238178F40010AB7C /* Pods_LetsDinnerV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */; };
 		B86F6FF6238195D10010AB7C /* AnswerDeclinedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */; };
-		B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */; };
 		B86F6FFB2381A8830010AB7C /* AnswerAcceptedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */; };
-		B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */; };
 		B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86F700A238521810010AB7C /* UIButtonClass.swift */; };
 		B87C10382402A8E6004AD951 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10372402A8E6004AD951 /* Date.swift */; };
 		B87C103A2403E607004AD951 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10392403E607004AD951 /* UIViewController.swift */; };
@@ -342,9 +340,7 @@
 		B8630E3B23FFF6AB00E48A38 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		B8652A2B23C729B300F176CC /* ReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManager.swift; sourceTree = "<group>"; };
 		B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerDeclinedCell.swift; sourceTree = "<group>"; };
-		B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerDeclinedCell.xib; sourceTree = "<group>"; };
 		B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerAcceptedCell.swift; sourceTree = "<group>"; };
-		B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerAcceptedCell.xib; sourceTree = "<group>"; };
 		B86F700A238521810010AB7C /* UIButtonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonClass.swift; sourceTree = "<group>"; };
 		B87C10372402A8E6004AD951 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		B87C10392403E607004AD951 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -437,9 +433,7 @@
 				880B133D237376C7003E29AC /* AnswerCell.swift */,
 				880B133E237376C7003E29AC /* AnswerCell.xib */,
 				B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */,
-				B86F6FF7238199AD0010AB7C /* AnswerDeclinedCell.xib */,
 				B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */,
-				B86F6FFF2381A9110010AB7C /* AnswerAcceptedCell.xib */,
 				886EB36723DDFF11002CFCB5 /* CancelCell.swift */,
 				886EB36823DDFF11002CFCB5 /* CancelCell.xib */,
 			);
@@ -1105,8 +1099,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
-				B86F70002381A9D20010AB7C /* AnswerAcceptedCell.xib in Resources */,
-				B86F6FF82381A4100010AB7C /* AnswerDeclinedCell.xib in Resources */,
 				886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */,
 				88C95B3423986413000E750A /* RecipeCreationViewController.xib in Resources */,
 				B87C106524126B39004AD951 /* SelectedRecipesViewController.xib in Resources */,
