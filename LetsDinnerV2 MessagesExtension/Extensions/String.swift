@@ -14,7 +14,7 @@ import Foundation
 // for example = FE
 // "" = ??
 
-let ACCEPTABLE_CHARACTERS = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_."
+public let textFieldAllowedCharacters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_."
 
 extension String {
     

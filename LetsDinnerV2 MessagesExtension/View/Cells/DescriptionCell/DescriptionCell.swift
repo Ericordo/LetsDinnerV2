@@ -19,14 +19,12 @@ class DescriptionCell: UITableViewCell {
     private let selectedCustomRecipes = Event.shared.selectedCustomRecipes
     private var allRecipesTitles = [String]()
     
-    private let collectionViewMinimumLineSpacing = CGFloat(20)
+    private let collectionViewMinimumLineSpacing: CGFloat = 20
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.backgroundColor = .backgroundColor
-
-        // Initialization code
         self.configureUI()
         self.mergeRecipeTitles()
         
@@ -55,7 +53,6 @@ class DescriptionCell: UITableViewCell {
         self.descriptionLabel.backgroundColor = nil
         self.descriptionLabel.textColor = Colors.dullGrey
     }
-    
 }
 
 extension DescriptionCell: UICollectionViewDelegate, UICollectionViewDataSource {

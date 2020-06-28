@@ -255,10 +255,8 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: Configure UI
     private func configureUI() {
         
-        if !isAllowedToEditRecipe {
-            bottomView.isHidden = true
-        }
-        
+        bottomView.isHidden = !isAllowedToEditRecipe
+
 //        addThingView.addShadow()
         
         recipeImageView.layer.cornerRadius = 15
@@ -353,7 +351,6 @@ class RecipeCreationViewController: UIViewController  {
         
 //        swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer(target: newThingView, action: #selector(UIView.endEditing(_:)))
 //        swipeDownGestureToHideKeyBoard.direction = .down
-        
     }
     
     private func updateTableViewHeightConstraint(tableView: UITableView) {
@@ -398,21 +395,19 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.isHidden = !bool
         
         if viewExistingRecipe {
-            
-                if commentsTextView.text.isEmpty {
-                    if bool {
-                        placeholderLabel.text = "Any Tips and comment?"
-                        placeholderLabel.isHidden = false
-                    }
-                } else {
-                    placeholderLabel.text = nil
-                    placeholderLabel.isHidden = true
+            if commentsTextView.text.isEmpty {
+                if bool {
+                    placeholderLabel.text = "Any Tips and comment?"
+                    placeholderLabel.isHidden = false
                 }
+            } else {
+                placeholderLabel.text = nil
+                placeholderLabel.isHidden = true
+            }
         }
         
-        if !isAllowedToEditRecipe {
-            bottomView.isHidden = true
-        }
+       
+        bottomView.isHidden = !isAllowedToEditRecipe
     }
     
     private func hideTextFieldView(_ bool: Bool) {
@@ -488,7 +483,6 @@ class RecipeCreationViewController: UIViewController  {
         }
         
         self.isExistingRecipeAlreadyLoaded = true
-        
     }
     
     private func presentImagePicker() {
@@ -976,7 +970,7 @@ extension RecipeCreationViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let cs = CharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+        let cs = CharacterSet(charactersIn: textFieldAllowedCharacters).inverted
         let filtered: String = (string.components(separatedBy: cs) as NSArray).componentsJoined(by: "")
         return (string == filtered)
     }

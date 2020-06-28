@@ -51,7 +51,7 @@ class RecipesViewController: LDNavigationViewController {
     
     private let viewModel: RecipesViewModel
     
-    let toolBarHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
+    private let toolbarHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
 
     // MARK: Init
     init(viewModel: RecipesViewModel, delegate: RecipesViewControllerDelegate) {
@@ -70,7 +70,6 @@ class RecipesViewController: LDNavigationViewController {
         setupUI()
         setupTableView()
         bindViewModel()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -162,8 +161,6 @@ class RecipesViewController: LDNavigationViewController {
                 guard let self = self else { return }
                 self.showError(error)
         }
-        
-       
     }
         
     // MARK: Methods
@@ -230,7 +227,7 @@ class RecipesViewController: LDNavigationViewController {
         recipesTableView.dataSource = self
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil),
                                   forCellReuseIdentifier: CellNibs.recipeCell)
-        recipesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.toolBarHeight, right: 0)
+        recipesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.toolbarHeight, right: 0)
     }
     
     private func setupUI() {
@@ -271,11 +268,10 @@ class RecipesViewController: LDNavigationViewController {
             make.bottom.equalToSuperview()
         }
         
-        
         toolbar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(toolBarHeight)
+            make.height.equalTo(toolbarHeight)
         }
     }
     

@@ -364,14 +364,14 @@ class Event {
                                             title: key,
                                             servings: servings)
                 
+                #warning("temp solution until change the object struct")
                 if let ingredients = dict[DataKeys.ingredients] as? [String : String] {
                     ingredients.forEach { key, value in
-                        var name: String
+                        let name = key
                         var amount: Double? = nil
                         var unit: String? = nil
                         
                         let itemArray = value.components(separatedBy: ",")
-                        name = itemArray[0]
 
                         if itemArray.count > 1 {
                             let amountArray = (itemArray[1].trimmingCharacters(in: .whitespacesAndNewlines)).components(separatedBy: " ")
@@ -384,7 +384,8 @@ class Event {
                             }
                         }
                         
-                        let customIngredient = LDIngredient(name: key + name, amount: amount, unit: unit)
+//                        let customIngredient = LDIngredient(name: key + value)
+                        let customIngredient = LDIngredient(name: name, amount: amount, unit: unit)
                         customRecipe.ingredients.append(customIngredient)
                     }
                 }

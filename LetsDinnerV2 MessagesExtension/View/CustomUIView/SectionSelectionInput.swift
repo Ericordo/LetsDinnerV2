@@ -18,7 +18,7 @@ enum DefaultSectionName {
     var labelString: String {
         switch self {
         case .miscellaneous:
-            return "Miscellaneous"
+            return LabelStrings.miscellaneous
         }
     }
 }

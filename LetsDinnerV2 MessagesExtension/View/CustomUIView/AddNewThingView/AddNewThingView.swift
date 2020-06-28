@@ -105,9 +105,9 @@ class AddNewThingView: UIView {
     }()
     
     let addButton: UIButton = {
-        let image = UIImage(named: "plusButton.png")
+        let image = Images.addTask
         let button = UIButton()
-        button.frame = CGRect(x: 0, y: 0, width: 35, height: 40)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setBackgroundImage(image, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         return button
@@ -116,9 +116,7 @@ class AddNewThingView: UIView {
     private var shadowLayer: CAShapeLayer!
     
     lazy var sectionSelectionInput = SectionSelectionInput(type: type)
-    
-    let RISTRICTED_CHARACTERS = "'*=+[]\\|;:'\",<>/?%"
-    
+        
     init(type: AddNewThingViewType, sectionNames: [String], selectedSection: String?) {
         
         let section: String = {
@@ -127,7 +125,7 @@ class AddNewThingView: UIView {
             case .createRecipe:
                 section = "Name"
             case .manageTask:
-                section = "Miscellaneous"
+                section = DefaultSectionName.miscellaneous.labelString
             }
             return section
         }()
@@ -244,7 +242,7 @@ class AddNewThingView: UIView {
         
         // Remove duplication
         for (i , name) in sectionNames.enumerated() {
-            if name == "Miscellaneous" {
+            if name == DefaultSectionName.miscellaneous.labelString {
                 sectionNames.remove(at: i)
             }
         }
@@ -253,7 +251,7 @@ class AddNewThingView: UIView {
         
         // Recreate the sections everytime
         if type == .manageTask {
-            self.sectionSelectionInput.sections.insert("Miscellaneous", at: 0)
+            self.sectionSelectionInput.sections.insert(DefaultSectionName.miscellaneous.labelString, at: 0)
         }
         
         self.sectionSelectionInput.sections += sectionNames
@@ -265,7 +263,7 @@ class AddNewThingView: UIView {
             case .createRecipe:
                 selectedSection = "Name"
             case .manageTask:
-                selectedSection = "Miscellaneous"
+                selectedSection = DefaultSectionName.miscellaneous.labelString
             }
         }
     }
@@ -332,7 +330,7 @@ extension AddNewThingView: UITextFieldDelegate {
                                taskUid: "nil",
                                assignedPersonName: "nil",
                                isCustom: true,
-                               parentRecipe: self.selectedSection ?? "Miscellaneous")
+                               parentRecipe: self.selectedSection ?? DefaultSectionName.miscellaneous.labelString)
                 
             Event.shared.tasks.append(newTask)
             
@@ -368,9 +366,6 @@ extension AddNewThingView: UITextFieldDelegate {
         
         switch textField {
         case mainTextField:
-            
-            
-            
             switch selectedSection {
             case CreateRecipeSections.name.rawValue :
                 return count <= MainTextFieldCharacterLimit.name.rawValue
@@ -390,11 +385,6 @@ extension AddNewThingView: UITextFieldDelegate {
         default:
             return count <= 0
         }
-        
-        if textField == mainTextField {
-            
-        }
-
     }
     
     private func isNumberValidated(textField: UITextField, string: String) -> Bool {

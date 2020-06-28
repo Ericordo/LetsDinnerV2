@@ -19,13 +19,12 @@ class ManagementViewController: LDNavigationViewController {
     weak var delegate: ManagementViewControllerDelegate?
 
     // MARK: Properties
-    lazy private var tasksTableView : UITableView = {
+    private let tasksTableView : UITableView = {
         let tv = UITableView()
         tv.separatorStyle = .none
         tv.rowHeight = 120
         tv.showsVerticalScrollIndicator = false
         tv.backgroundColor = .backgroundColor
-        tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGFloat(self.bottomViewHeight), right: 0)
         return tv
     }()
     
@@ -105,8 +104,8 @@ class ManagementViewController: LDNavigationViewController {
 
     private let viewModel: ManagementViewModel
     
-    let bottomViewHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
-    let addThingViewHeight: CGFloat = 94
+    private let bottomViewHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
+    private let addThingViewHeight: CGFloat = 94
     
     //MARK: Init
     init(viewModel: ManagementViewModel, delegate: ManagementViewControllerDelegate) {
@@ -197,6 +196,9 @@ class ManagementViewController: LDNavigationViewController {
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil),
                                 forCellReuseIdentifier: CellNibs.taskManagementCell)
+        
+        tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.bottomViewHeight, right: 0)
+
         footerView.addSubview(deleteTaskLabel)
         footerView.addSubview(assignTaskLabel)
         tasksTableView.tableFooterView = footerView
@@ -420,7 +422,9 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         })
         
         assignToMyselfAction.backgroundColor = .swipeRightButton
+        assignToMyselfAction.image = Images.swipeActionAssign
         completedAction.backgroundColor = .activeButton
+        completedAction.image = Images.swipeActionComplete
         
         let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
         configuration.performsFirstActionWithFullSwipe = false
@@ -536,7 +540,6 @@ extension ManagementViewController {
         }
         
         self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height + addThingViewHeight, right: 0)
-        
         self.view.layoutIfNeeded()
         
         self.view.addGestureRecognizer(tapGestureToHideKeyboard)
@@ -547,8 +550,7 @@ extension ManagementViewController {
         UIView.animate(withDuration: 1) {
             self.removeAddThingView()
         }
-        self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
+        self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomViewHeight, right: 0)
         self.view.layoutIfNeeded()
         
         self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
