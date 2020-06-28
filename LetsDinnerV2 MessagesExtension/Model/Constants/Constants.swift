@@ -19,8 +19,6 @@ enum CellNibs {
     static let titleCell = "TitleCell"
     static let recipeCell = "RecipeCell"
     static let answerCell = "AnswerCell"
-    static let answerDeclinedCell = "AnswerDeclinedCell"
-    static let answerAcceptedCell = "AnswerAcceptedCell"
     static let infoCell = "InfoCell"
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
@@ -116,6 +114,8 @@ enum Images {
     
     // PDFCreator
     static let pdfLogo = UIImage(named: "pdfLogo")!
+    
+    static let warning = UIImage(named: "warning")!
 }
 
 enum ButtonTitle {
