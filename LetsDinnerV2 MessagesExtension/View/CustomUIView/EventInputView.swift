@@ -72,37 +72,37 @@ class EventInputView: UIView {
     }()
     
     private func configureView() {
+        self.configEventInput()
+
         self.backgroundColor = UIColor.keyboardBackground
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        self.configEventInput()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        addEventInputConstraints()
     }
     
     func configEventInput() {
-        stackView.addArrangedSubview(breakfastButton)
-        stackView.addArrangedSubview(separatorOne)
-        stackView.addArrangedSubview(lunchButton)
-        stackView.addArrangedSubview(separatorTwo)
-        stackView.addArrangedSubview(dinnerButton)
-        
-        addEventInputConstraints()
-
-    }
-    
-    private func addEventInputConstraints() {
         addSubview(stackView)
-        
-        let buttonWidth = self.frame.width / 3
         
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
+        stackView.addArrangedSubview(breakfastButton)
+        stackView.addArrangedSubview(separatorOne)
+        stackView.addArrangedSubview(lunchButton)
+        stackView.addArrangedSubview(separatorTwo)
+        stackView.addArrangedSubview(dinnerButton)
+    }
+    
+    private func addEventInputConstraints() {
+
+        let buttonWidth = self.frame.width / 3
+        
         // Remove Constraints (For Rotation)
         breakfastButton.removeAllConstraints()
         lunchButton.removeAllConstraints()
