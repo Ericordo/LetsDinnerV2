@@ -389,7 +389,8 @@ extension NewEventViewController: UITextFieldDelegate {
         activeField = nil
     }
 }
-    //MARK: ScrollViewDelegate
+
+// MARK: ScrollViewDelegate
 extension NewEventViewController: UIScrollViewDelegate {
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {return}
@@ -406,20 +407,14 @@ extension NewEventViewController: UIScrollViewDelegate {
                 scrollView.scrollRectToVisible(activeField.frame, animated: true)
             }
         }
-        
-        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
 
-        let animationCurveRawNSN = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
-        let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
-        let animationCurve: UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
-        
 //        if activeField == locationTextField || activeField == hostNameTextField {
 //            showInputView(inputView: self.infoInputView, offset: keyboardFrame.height, duration: duration, animationCurve: animationCurve )
 //        } else {
 //            showInputView(inputView: self.eventInputView, offset: keyboardFrame.height, duration: duration, animationCurve: animationCurve )
 //        }
         
-        showInputView(inputView: UIView(), offset: keyboardFrame.height, duration: duration!, animationCurve: animationCurve)
+        showInputView(offset: keyboardFrame.height)
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -428,19 +423,16 @@ extension NewEventViewController: UIScrollViewDelegate {
         removeInputViews()
     }
     
-    private func showInputView(inputView: UIView, offset: CGFloat, duration: TimeInterval, animationCurve: UIView.AnimationOptions) {
+    private func showInputView(offset: CGFloat) {
         
         var offset = offset
         #warning("Temporary solve for iPad ios13")
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if #available(iOS 13.0, *) {
-                offset += 20
-            }
+            if #available(iOS 13.0, *) { offset += 20 }
         }
-//        inputView.alpha = 0
         
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 2) {
+        UIView.animate(withDuration: 1) {
             self.eventInputView.snp.updateConstraints { make in
                 make.leading.trailing.equalToSuperview()
                 make.height.equalTo(50)
@@ -451,27 +443,21 @@ extension NewEventViewController: UIScrollViewDelegate {
                 make.height.equalTo(50)
                 make.bottom.equalToSuperview().offset(-offset)
             }
+            self.view.layoutIfNeeded()
         }
-        
-    
-//        UIView.animate(withDuration: 1,
-//                        delay: TimeInterval(0),
-//                        options: animationCurve,
-//                        animations: {},
-//                        completion: {  _ in self.eventInputView.snp.updateConstraints { make in
-//                        make.bottom.equalToSuperview().offset(-offset)
-//                            } } )
-        
     }
     
     private func removeInputViews() {
-//        self.eventInputView.removeFromSuperview()
-//        self.infoInputView.removeFromSuperview()
-        eventInputView.snp.updateConstraints { make in
-            make.bottom.equalToSuperview().offset(50)
-        }
-        infoInputView.snp.updateConstraints { make in
-            make.bottom.equalToSuperview().offset(50)
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.7) {
+            self.eventInputView.snp.updateConstraints { make in
+               make.bottom.equalToSuperview().offset(50)
+               self.view.layoutIfNeeded()
+           }
+            self.infoInputView.snp.updateConstraints { make in
+               make.bottom.equalToSuperview().offset(50)
+               self.view.layoutIfNeeded()
+           }
         }
     }
 }

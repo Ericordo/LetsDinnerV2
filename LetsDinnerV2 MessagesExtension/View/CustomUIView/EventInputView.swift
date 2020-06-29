@@ -51,22 +51,22 @@ class EventInputView: UIView {
         return button
     }()
     
-    let separatorOne : UIView = {
+    private let separatorOne : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.keyboardSeparator
         return view
     }()
     
-    let separatorTwo : UIView = {
+    private let separatorTwo : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.keyboardSeparator
         return view
     }()
     
-    let stackView : UIStackView = {
+    private let stackView : UIStackView = {
         let sv = UIStackView()
         sv.axis = .horizontal
-        sv.distribution = .fillProportionally
+        sv.distribution = .fill
         sv.alignment = .center
         return sv
     }()
@@ -82,6 +82,12 @@ class EventInputView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        stackView.addArrangedSubview(breakfastButton)
+        stackView.addArrangedSubview(separatorOne)
+        stackView.addArrangedSubview(lunchButton)
+        stackView.addArrangedSubview(separatorTwo)
+        stackView.addArrangedSubview(dinnerButton)
+        
         addEventInputConstraints()
     }
     
@@ -91,12 +97,6 @@ class EventInputView: UIView {
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
-        stackView.addArrangedSubview(breakfastButton)
-        stackView.addArrangedSubview(separatorOne)
-        stackView.addArrangedSubview(lunchButton)
-        stackView.addArrangedSubview(separatorTwo)
-        stackView.addArrangedSubview(dinnerButton)
     }
     
     private func addEventInputConstraints() {
