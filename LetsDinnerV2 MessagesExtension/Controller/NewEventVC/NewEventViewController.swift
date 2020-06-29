@@ -61,7 +61,7 @@ class NewEventViewController: LDNavigationViewController {
     
     private let quickEventButton : UIButton = {
         let button = UIButton()
-        button.setTitle("☢️ Quick event aka quicky ☢️", for: .normal)
+        button.setTitle("☢️ Quick event ☢️", for: .normal)
         button.setTitleColor(.red, for: .normal)
         return button
     }()

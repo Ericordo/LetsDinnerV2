@@ -19,8 +19,6 @@ enum CellNibs {
     static let titleCell = "TitleCell"
     static let recipeCell = "RecipeCell"
     static let answerCell = "AnswerCell"
-    static let answerDeclinedCell = "AnswerDeclinedCell"
-    static let answerAcceptedCell = "AnswerAcceptedCell"
     static let infoCell = "InfoCell"
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
@@ -57,7 +55,7 @@ enum Keys {
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
     static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
-    
+    static let addEventCalendar = "addEventCalendar"
 }
 
 enum Images {
@@ -95,6 +93,8 @@ enum Images {
     static let recipeBookButtonOutlined = UIImage(named: "recipeBookButtonOutlined")!
     static let listButtonOutlined = UIImage(named: "listButtonOutlined")!
     static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
+    static let emptyPlate = UIImage(named: "emptyPlate")!
+    static let mealPlaceholder = UIImage(named: "mealPlaceholderImage")
     
     // CustomRecipeDetailsVC
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
@@ -118,6 +118,11 @@ enum Images {
     static let assignedImage = UIImage(named: "checkboxAssignedOutlined")!
     static let completedImage = UIImage(named: "checkboxAssignedCompleted")!
     static let completedByOtherImage = UIImage(named: "checkBoxCompleted")!
+    
+    // PDFCreator
+    static let pdfLogo = UIImage(named: "pdfLogo")!
+    
+    static let warning = UIImage(named: "warning")!
 }
 
 enum ButtonTitle {
@@ -163,6 +168,7 @@ enum DataKeys {
     static let hasAccepted = "hasAccepted"
     static let profilePicUrl = "profilePicUrl"
     static let participants = "participants"
+    static let imageUrl = "imageUrl"
 }
 
 

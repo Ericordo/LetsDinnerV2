@@ -8,33 +8,65 @@
 
 import UIKit
 
+protocol AnswerAcceptedCellDelegate: class {
+    func showUpdateAcceptedStatusAlert()
+}
+
 class AnswerAcceptedCell: UITableViewCell {
-
-    @IBOutlet weak var acceptIcon: UIButton!
-    @IBOutlet weak var updateButton: UIButton!
-    @IBOutlet weak var acceptLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
+    static let reuseID = "AnswerAcceptedCell"
+    
+    private lazy var acceptButton : UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .secondaryButtonBackground
+        button.layer.cornerRadius = 21
+        button.clipsToBounds = true
+        button.setImage(Images.checkmark, for: .normal)
+        button.addTarget(self, action: #selector(didTapAccept), for: .touchUpInside)
+        return button
+    }()
+    
+    private let acceptLabel : UILabel = {
+        let label = UILabel()
+        label.text = LabelStrings.acceptedLabel
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textColor = .secondaryTextLabel
+        return label
+    }()
+    
+    weak var delegate: AnswerAcceptedCellDelegate?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func didTapAccept() {
+        delegate?.showUpdateAcceptedStatusAlert()
+    }
+    
+     private func setupUI() {
         self.backgroundColor = .backgroundColor
-
-        acceptIcon.clipsToBounds = true
-        acceptIcon.layer.cornerRadius = acceptIcon.frame.height / 2
-        
-        acceptLabel.text = LabelStrings.acceptedLabel
-        
-        updateButton.layer.masksToBounds = true
-        updateButton.layer.cornerRadius = 8.0
-//        updateButton.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
-        updateButton.isHidden = true
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+        self.selectionStyle = .none
+        self.addSubview(acceptButton)
+        self.addSubview(acceptLabel)
+        addConstraints()
     }
     
-    @IBAction func didTapUpdateButton(_ sender: Any) {
-        //update
+    private func addConstraints() {
+        acceptButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.height.width.equalTo(42)
+            make.centerY.equalToSuperview()
+        }
+        
+        acceptLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(acceptButton.snp.centerY)
+            make.leading.equalTo(acceptButton.snp.trailing).offset(10)
+        }
     }
 }

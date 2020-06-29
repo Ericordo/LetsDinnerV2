@@ -16,7 +16,7 @@ struct Recipe {
     var ingredientList: [Ingredient]?
     var servings: Int?
     var id: Int?
-//    var customOrder: Int = 0 // start from 1 ...
+    var instructions: [String]?
     
     init() {}
     
@@ -24,7 +24,6 @@ struct Recipe {
         self.sourceUrl = sourceUrl
         self.title = title
         self.id = id
-//        self.customOrder = customOrder
     }
         
     init(dict: Dictionary<String, Any>) {
@@ -73,18 +72,23 @@ struct Recipe {
             }
             self.ingredientList = ingredientList
         }
+
+        if let analyzedInstructions = dict["analyzedInstructions"] as? [[String:Any]] {
+            var procedure = [String]()
+            analyzedInstructions.forEach { analyzedInstruction in
+                if let steps = analyzedInstruction["steps"] as? [[String:Any]] {
+                    steps.forEach { dict in
+                        if let step = dict["step"] as? String {
+                            procedure.append(step)
+                        }
+                    }
+                }
+            }
+            self.instructions = procedure
+        }
     }
-    
-//    // MARK: To be remove
-//    mutating func assignCustomOrder(customOrder: Int) {
-//        self.customOrder = customOrder
-//    }
     
     var isSelected : Bool {
         return Event.shared.selectedRecipes.contains { $0.id == self.id }
     }
-
-    
-
-    
 }

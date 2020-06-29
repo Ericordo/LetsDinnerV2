@@ -169,8 +169,12 @@ class Event {
         if !selectedRecipes.isEmpty {
             var recipesInfo : [String : Any] = [:]
             selectedRecipes.forEach { recipe in
-                let recipeInfo : [String : Any] = [DataKeys.sourceUrl : recipe.sourceUrl ?? "",
-                                                   DataKeys.id : recipe.id ?? 0]
+                var recipeInfo : [String : Any] = [DataKeys.sourceUrl : recipe.sourceUrl ?? "",
+                                                   DataKeys.id : recipe.id ?? 0,
+                                                   DataKeys.imageUrl : recipe.imageUrl ?? ""]
+                if let cookingSteps = recipe.instructions {
+                    recipeInfo[DataKeys.cookingSteps] = cookingSteps
+                }
                 recipesInfo[recipe.title ?? "Unknown title"] = recipeInfo
             }
             eventInfo[DataKeys.recipes] = recipesInfo
@@ -341,12 +345,17 @@ class Event {
             selectedRecipes.forEach { (key, value) in
                 guard let dict = value as? [String : Any] else { return }
                 guard let sourceUrl = dict[DataKeys.sourceUrl] as? String,
-                    let id = dict[DataKeys.id] as? Int
+                    let id = dict[DataKeys.id] as? Int,
+                    let imageUrl = dict[DataKeys.imageUrl] as? String
                     else { return }
                 
-                let recipe = Recipe(title: key,
+                var recipe = Recipe(title: key,
                                     sourceUrl: sourceUrl,
                                     id: id)
+                recipe.imageUrl = imageUrl
+                if let instructions = dict[DataKeys.cookingSteps] as? [String] {
+                    recipe.instructions = instructions
+                }
                 recipes.append(recipe)
             }
         }

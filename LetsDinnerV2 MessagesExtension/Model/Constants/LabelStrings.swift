@@ -38,7 +38,6 @@ enum LabelStrings {
     static let host = NSLocalizedString("Host", comment: "host")
     static let date = NSLocalizedString("Date", comment: "date")
     static let location = NSLocalizedString("Location", comment: "location")
-    static let addToCalendar = "Add to Calendar"
     static let addEventDetails = NSLocalizedString("Add Event Details", comment: "title")
     static let eventName = NSLocalizedString("Event name", comment: "event name")
     static let allFieldsRequired = NSLocalizedString("All fields are required 🤓", comment: "all fields required")
@@ -100,14 +99,16 @@ enum LabelStrings {
     static let update = NSLocalizedString("Update", comment: "update")
     static let send = NSLocalizedString("Send", comment: "send")
     static let edit = NSLocalizedString("Edit", comment: "edit")
+    static let addToCalendar = NSLocalizedString("Add to Calendar", comment: "Add to calendar")
     
     // EventSummaryVC
-    static let invitationText = "Hey you received an invite! 🤩 \nDo you want to accept it?"
-    static let acceptedLabel = "You've accepted the invitation"
-    static let declinedLabel = "You've declined the invitation"
-    static let allDoneLabel = "All done, greatjob! Everything has been taken care of. Let the party begins! 😎🥳"
-    static let nothingToDoLabel = "Nope! Either, there is nothing to do or the host is handling everything 😬🙌"
+    static let invitationText = NSLocalizedString("Hey you received an invite! 🤩 \nDo you want to accept it?", comment: "invite received")
+    static let acceptedLabel = NSLocalizedString("You've accepted the invitation", comment: "invitation accepted")
+    static let declinedLabel = NSLocalizedString("You've declined the invitation", comment: "invitation declined")
+    static let allDoneLabel = NSLocalizedString("All done, greatjob! Everything has been taken care of. Let the party begins! 😎🥳", comment: "all tasks done")
+    static let nothingToDoLabel = NSLocalizedString("Nope! Either, there is nothing to do or the host is handling everything 😬🙌", comment: "no tasks to do")
     static let eventInfo = NSLocalizedString("Event Info", comment: "event info")
+    static let eventUnavailable = NSLocalizedString("We could not find this event, you may want to check your internet connection and try again. Events that are too old may not be available anymore.", comment: "event not found in firebase")
     
     // TasksListVC
     static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now. Your choices may be overwritten, please come back later! 😬", comment: "multiple users checking")
@@ -168,4 +169,12 @@ enum LabelStrings {
     // RecipeDetails
     static let servingLabel = NSLocalizedString("For %@ people", comment: "servingLabel")
     static let servingDisplayLabel = NSLocalizedString("%@ servings", comment: "servingDisplayLabel")
+
+    // RecipeBookVC + PDFCreator
+    static let recipeBook = NSLocalizedString("Cooking Manual", comment: "Recipe book")
+    static let recipe = NSLocalizedString("Recipe", comment: "recipe")
+    static let tipsAndComments = NSLocalizedString("Tips & Comments", comment: "tips and comments")
+    static let link = NSLocalizedString("Link: %@", comment: "Recipe link")
+    static let ingredientTitle = NSLocalizedString("Ingredients for %d people \n\n", comment: "Ingredients for 2 people")
+    static let instructions = NSLocalizedString("Instructions", comment: "instructions")
 }

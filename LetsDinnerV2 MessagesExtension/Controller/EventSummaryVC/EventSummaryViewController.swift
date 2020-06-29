@@ -112,8 +112,8 @@ class EventSummaryViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                #warning("Modify error message")
-                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+                LostEventView().show(superView: self.view)
+                self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(()):
                 self.updateTable()
             }
@@ -151,13 +151,15 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.dataSource = self
         summaryTableView.registerCells(CellNibs.titleCell,
                                        CellNibs.answerCell,
-                                       CellNibs.answerDeclinedCell,
-                                       CellNibs.answerAcceptedCell,
                                        CellNibs.infoCell,
                                        CellNibs.descriptionCell,
                                        CellNibs.taskSummaryCell,
                                        CellNibs.userCell,
                                        CellNibs.cancelCell)
+        summaryTableView.register(AnswerDeclinedCell.self,
+                                  forCellReuseIdentifier: AnswerDeclinedCell.reuseID)
+        summaryTableView.register(AnswerAcceptedCell.self,
+                                  forCellReuseIdentifier: AnswerAcceptedCell.reuseID)
     }
         
     private func setupUI() {
@@ -190,8 +192,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
-        let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerDeclinedCell) as! AnswerDeclinedCell
-        let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerAcceptedCell) as! AnswerAcceptedCell
+        let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: AnswerDeclinedCell.reuseID) as! AnswerDeclinedCell
+        let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: AnswerAcceptedCell.reuseID) as! AnswerAcceptedCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
@@ -228,8 +230,10 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                     cancelCell.delegate = self
                     return cancelCell
                 } else if user.hasAccepted == .declined {
+                    answerDeclinedCell.delegate = self
                     return answerDeclinedCell
                 } else if user.hasAccepted == .accepted {
+                    answerAcceptedCell.delegate = self
                     return answerAcceptedCell
                 }
             }
@@ -428,15 +432,51 @@ extension EventSummaryViewController: AnswerCellDelegate {
                                        handler: { (_) in
                                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "TappedDecline"), object: nil)
         }))
-        alert.addAction(UIAlertAction(title: "No",
+        alert.addAction(UIAlertAction(title: AlertStrings.no,
                                       style: UIAlertAction.Style.cancel,
                                       handler: nil ))
         self.present(alert, animated: true, completion: nil)
     }
 }
 
-// MARK: - TaskSummary Cell Delegate
+// MARK: - AnswerDeclined Cell Delegate
+extension EventSummaryViewController: AnswerDeclinedCellDelegate {
+    func showUpdateDeclinedStatusAlert() {
+        let alert = UIAlertController(title: AlertStrings.changedMind,
+                                      message: AlertStrings.updateDeclinedStatus,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: AlertStrings.cancel,
+                                      style: .cancel,
+                                      handler: nil))
+        alert.addAction(UIAlertAction(title: AlertStrings.yes,
+                                      style: .default,
+                                      handler: { _ in
+                                        self.didTapAccept()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
 
+// MARK: - AnswerAccepted Cell Delegate
+extension EventSummaryViewController: AnswerAcceptedCellDelegate {
+    func showUpdateAcceptedStatusAlert() {
+        let alert = UIAlertController(title: AlertStrings.changedMind,
+                                      message: AlertStrings.updateAcceptedStatus,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: AlertStrings.cancel,
+                                      style: .cancel,
+                                      handler: nil))
+        alert.addAction(UIAlertAction(title: AlertStrings.yes,
+                                      style: .default,
+                                      handler: { _ in
+                                        self.declineInvitation()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - TaskSummary Cell Delegate
 extension EventSummaryViewController: TaskSummaryCellDelegate {
     func taskSummaryCellDidTapSeeAll() {
         if let user = user {
