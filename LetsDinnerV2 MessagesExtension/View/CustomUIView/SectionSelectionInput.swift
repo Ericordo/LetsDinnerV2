@@ -14,11 +14,14 @@ protocol SectionSelectionInputDelegate : class {
 
 enum DefaultSectionName {
     case miscellaneous
+    case name
     
     var labelString: String {
         switch self {
         case .miscellaneous:
-            return LabelStrings.miscellaneous
+            return LabelStrings.misc
+        default:
+            return "Name"
         }
     }
 }

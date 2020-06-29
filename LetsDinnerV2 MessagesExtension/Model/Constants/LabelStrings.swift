@@ -168,7 +168,4 @@ enum LabelStrings {
     // RecipeDetails
     static let servingLabel = NSLocalizedString("For %@ people", comment: "servingLabel")
     static let servingDisplayLabel = NSLocalizedString("%@ servings", comment: "servingDisplayLabel")
-    
-    // AddThingsView
-    static let miscellaneous = NSLocalizedString("Miscellaneous", comment: "miscellaneous")
 }
