@@ -142,7 +142,7 @@ class EventInfoViewController: LDNavigationViewController {
         navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
         navigationBar.previousButton.setTitle(LabelStrings.back, for: .normal)
         navigationBar.previousButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        view.addSwipeGestureRecognizer(action: { self.delegate?.eventInfoVCDidTapBackButton() })
+//        view.addSwipeGestureRecognizer(action: { self.delegate?.eventInfoVCDidTapBackButton() })
         view.addSubview(manualButton)
         view.addSubview(header)
         header.addSubview(separator)

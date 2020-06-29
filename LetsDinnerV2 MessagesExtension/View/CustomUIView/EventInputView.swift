@@ -51,19 +51,19 @@ class EventInputView: UIView {
         return button
     }()
     
-    let separatorOne : UIView = {
+    private let separatorOne : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.keyboardSeparator
         return view
     }()
     
-    let separatorTwo : UIView = {
+    private let separatorTwo : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.keyboardSeparator
         return view
     }()
     
-    let stackView : UIStackView = {
+    private let stackView : UIStackView = {
         let sv = UIStackView()
         sv.axis = .horizontal
         sv.distribution = .fillProportionally
@@ -72,6 +72,8 @@ class EventInputView: UIView {
     }()
     
     private func configureView() {
+        self.configEventInput()
+
         self.backgroundColor = UIColor.keyboardBackground
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -79,26 +81,27 @@ class EventInputView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        addConstraints()
-    }
-    
-    private func addConstraints() {
-        addSubview(stackView)
         
-        let buttonWidth = self.frame.width / 3
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        stackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
-        // In Order
         stackView.addArrangedSubview(breakfastButton)
         stackView.addArrangedSubview(separatorOne)
         stackView.addArrangedSubview(lunchButton)
         stackView.addArrangedSubview(separatorTwo)
         stackView.addArrangedSubview(dinnerButton)
+        
+        addEventInputConstraints()
+    }
+    
+    func configEventInput() {
+        addSubview(stackView)
+        
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    private func addEventInputConstraints() {
+
+        let buttonWidth = self.frame.width / 3
         
         // Remove Constraints (For Rotation)
         breakfastButton.removeAllConstraints()

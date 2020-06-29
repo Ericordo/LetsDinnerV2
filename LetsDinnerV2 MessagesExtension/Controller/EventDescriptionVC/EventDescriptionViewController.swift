@@ -120,7 +120,7 @@ class EventDescriptionViewController: LDNavigationViewController {
     // MARK: Methods
     private func setupUI() {
         view.backgroundColor = .backgroundColor
-        view.addSwipeGestureRecognizer(action: { self.delegate?.eventDescriptionVCDidTapPrevious(controller: self) })
+//        view.addSwipeGestureRecognizer(action: { self.delegate?.eventDescriptionVCDidTapPrevious(controller: self) })
         view.addTapGestureToHideKeyboard()
         navigationBar.titleLabel.text = LabelStrings.addDescription
         navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)

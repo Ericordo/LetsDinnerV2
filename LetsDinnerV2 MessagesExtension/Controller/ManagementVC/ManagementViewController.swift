@@ -508,7 +508,6 @@ extension ManagementViewController: AddThingDelegate {
         }
         self.view.layoutIfNeeded()
         
-        
         self.view.addGestureRecognizer(tapGestureToHideKeyboard)
         self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
     }

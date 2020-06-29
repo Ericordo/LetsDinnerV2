@@ -97,8 +97,6 @@ class SectionSelectionInput : UIView {
         sectionsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
     }
-    
-    
 }
 
 extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataSource {
