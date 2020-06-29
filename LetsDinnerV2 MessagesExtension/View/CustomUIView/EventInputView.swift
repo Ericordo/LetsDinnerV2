@@ -66,7 +66,7 @@ class EventInputView: UIView {
     private let stackView : UIStackView = {
         let sv = UIStackView()
         sv.axis = .horizontal
-        sv.distribution = .fill
+        sv.distribution = .fillProportionally
         sv.alignment = .center
         return sv
     }()
