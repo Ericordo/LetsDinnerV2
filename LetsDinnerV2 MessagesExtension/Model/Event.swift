@@ -287,54 +287,9 @@ class Event {
         }
         self.participants = users
         
-        self.currentConversationTaskStates.removeAll()
-        var tasks = [Task]()
         if let currentTasks = value[DataKeys.tasks] as? [String : Any] {
-            currentTasks.forEach { (key, value) in
-                guard let dict = value as? [String : Any] else { return }
-                guard let title = dict[DataKeys.title] as? String,
-                    let ownerName = dict[DataKeys.ownerName] as? String,
-                    let ownerUid = dict[DataKeys.ownerUid] as? String,
-                    let state = dict[DataKeys.state] as? Int,
-                    let isCustom = dict[DataKeys.isCustom] as? Bool,
-                    let parentRecipe = dict[DataKeys.parentRecipe] as? String
-                    else { return }
-                
-                #warning("fix this duplication and make sure it works")
-                let task = Task(taskName: title,
-                                assignedPersonUid: ownerUid,
-                                taskState: state,
-                                taskUid: key,
-                                assignedPersonName: ownerName,
-                                isCustom: isCustom,
-                                parentRecipe: parentRecipe)
-                
-                if let amount = dict[DataKeys.metricAmount] as? Double {
-                    task.metricAmount = amount
-                }
-                if let unit = dict[DataKeys.metricUnit] as? String {
-                    task.metricUnit = unit
-                }
-                tasks.append(task)
-                
-                let newTask = Task(taskName: title,
-                                   assignedPersonUid: ownerUid,
-                                   taskState: state,
-                                   taskUid: key,
-                                   assignedPersonName: ownerName,
-                                   isCustom: isCustom,
-                                   parentRecipe: parentRecipe)
-                
-                if let amount = dict[DataKeys.metricAmount] as? Double {
-                    newTask.metricAmount = amount
-                }
-                if let unit = dict[DataKeys.metricUnit] as? String {
-                    newTask.metricUnit = unit
-                }
-                self.currentConversationTaskStates.append(newTask)
-            }
+            self.parseEventTasks(currentTasks)
         }
-        self.tasks = tasks
         
         if let customOrder = value[DataKeys.customOrder] as? [String] {
             CustomOrderHelper.shared.customOrder = CustomOrderHelper.shared.convertingArrayToTuple(from: customOrder)
@@ -415,6 +370,100 @@ class Event {
                 observer.sendCompleted()
             }
         }
+    }
+    
+    private func fetchTasks() -> SignalProducer<Void, LDError> {
+        return SignalProducer { observer, _ in
+            self.database
+                .child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .child(DataKeys.tasks)
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard let value = snapshot.value as? [String : Any] else {
+                        let error = LDError.eventFetchingFail
+                        observer.send(error: error)
+                        return }
+                self.parseEventTasks(value)
+                observer.send(value: ())
+                observer.sendCompleted()
+                
+            }
+        }
+    }
+    
+    private func fetchServings() -> SignalProducer<Void, LDError> {
+        return SignalProducer { observer, _ in
+            self.database
+                .child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .child(DataKeys.servings)
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard let value = snapshot.value as? Int else {
+                        let error = LDError.eventFetchingFail
+                        observer.send(error: error)
+                        return }
+                self.servings = value
+                observer.send(value: ())
+                observer.sendCompleted()
+            }
+        }
+    }
+    
+    func fetchTasksAndServings() -> SignalProducer<Void, LDError> {
+        return fetchTasks().flatMap(.latest) { _ -> SignalProducer<Void, LDError> in
+            return self.fetchServings()
+        }
+    }
+    
+    private func parseEventTasks(_ taskDict: [String : Any]) {
+        self.currentConversationTaskStates.removeAll()
+        var tasks = [Task]()
+        taskDict.forEach { (key, value) in
+            guard let dict = value as? [String : Any] else { return }
+            guard let title = dict[DataKeys.title] as? String,
+                let ownerName = dict[DataKeys.ownerName] as? String,
+                let ownerUid = dict[DataKeys.ownerUid] as? String,
+                let state = dict[DataKeys.state] as? Int,
+                let isCustom = dict[DataKeys.isCustom] as? Bool,
+                let parentRecipe = dict[DataKeys.parentRecipe] as? String
+                else { return }
+            
+            #warning("fix this duplication and make sure it works, update: seems necessary otherwise app doesnt see difference between current tasks and updated tasks by user when going back, keep it or implement a comparison method")
+            let task = Task(taskName: title,
+                            assignedPersonUid: ownerUid,
+                            taskState: state,
+                            taskUid: key,
+                            assignedPersonName: ownerName,
+                            isCustom: isCustom,
+                            parentRecipe: parentRecipe)
+            
+            if let amount = dict[DataKeys.metricAmount] as? Double {
+                task.metricAmount = amount
+            }
+            if let unit = dict[DataKeys.metricUnit] as? String {
+                task.metricUnit = unit
+            }
+            tasks.append(task)
+
+            let newTask = Task(taskName: title,
+                               assignedPersonUid: ownerUid,
+                               taskState: state,
+                               taskUid: key,
+                               assignedPersonName: ownerName,
+                               isCustom: isCustom,
+                               parentRecipe: parentRecipe)
+
+            if let amount = dict[DataKeys.metricAmount] as? Double {
+                newTask.metricAmount = amount
+            }
+            if let unit = dict[DataKeys.metricUnit] as? String {
+                newTask.metricUnit = unit
+            }
+            self.currentConversationTaskStates.append(newTask)
+        }
+        self.tasks = tasks
     }
     
     // MARK: Update Firebase Tasks

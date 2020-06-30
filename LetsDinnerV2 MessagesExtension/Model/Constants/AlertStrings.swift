@@ -40,7 +40,7 @@ enum AlertStrings {
     static let no = "No"
     
     // TaskListVC Alert
-    static let unsubmittedTasks = NSLocalizedString("Dismiss changes?", comment: "dismiss changes?")
+    static let unsubmittedTasks = NSLocalizedString("Pending changes", comment: "pending changes")
     static let submitQuestion = NSLocalizedString("You made changes in this list. Would you like to update it?", comment: "you made changes")
     static let syncTitle = NSLocalizedString("Things synchronization", comment: "things synchronization")
     static let syncMessage = NSLocalizedString("Changes made, can end up unsaved. Whoever updates first, saves their changes.", comment: "sync message")

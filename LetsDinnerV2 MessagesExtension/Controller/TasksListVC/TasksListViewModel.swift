@@ -18,23 +18,34 @@ class TasksListViewModel {
         .child(Event.shared.firebaseEventUid)
         .child(DataKeys.onlineUsers)
     
+    private let tasksChild = Database.database().reference()
+        .child(Event.shared.hostIdentifier)
+        .child(DataKeys.events)
+        .child(Event.shared.firebaseEventUid)
+        .child(DataKeys.tasks)
+        
     let tasks : MutableProperty<[Task]>
     let servings : MutableProperty<Int>
     var classifiedTasks = [[Task]]()
     var expandableTasks = [ExpandableTasks]()
     let sectionNames = MutableProperty<[String]>([])
     
-    let newDataSignal : Signal<Void, Never>
-    private let newDataObserver : Signal<Void, Never>.Observer
+    let isLoading = MutableProperty<Bool>(false)
+    
+    let newDataSignal : Signal<Void, LDError>
+    private let newDataObserver : Signal<Void, LDError>.Observer
     
     let onlineUsersSignal : Signal<Int, Never>
     private let onlineUsersObserver : Signal<Int, Never>.Observer
+    
+    let taskUpdateSignal : Signal<Void, Never>
+    private let taskUpdateObserver : Signal<Void, Never>.Observer
     
     init() {
         tasks = MutableProperty<[Task]>(Event.shared.tasks.sorted { $0.taskName < $1.taskName })
         servings = MutableProperty<Int>(Event.shared.servings)
         
-        let (newDataSignal, newDataObserver) = Signal<Void, Never>.pipe()
+        let (newDataSignal, newDataObserver) = Signal<Void, LDError>.pipe()
         self.newDataSignal = newDataSignal
         self.newDataObserver = newDataObserver
         
@@ -42,9 +53,17 @@ class TasksListViewModel {
         self.onlineUsersSignal = onlineUsersSignal
         self.onlineUsersObserver = onlineUsersObserver
         
+        let (taskUpdateSignal, taskUpdateObserver) = Signal<Void, Never>.pipe()
+        self.taskUpdateSignal = taskUpdateSignal
+        self.taskUpdateObserver = taskUpdateObserver
+        
         usersChild.observe(.value) { snapshot in
             guard let value = snapshot.value as? Int else { return }
             onlineUsersObserver.send(value: value)
+        }
+        
+        tasksChild.observe(.childChanged) { _ in
+            taskUpdateObserver.send(value: ())
         }
         
         servings.producer.observe(on: UIScheduler())
@@ -143,5 +162,43 @@ class TasksListViewModel {
             let updatedOnlineUsers = number - 1
             self.usersChild.setValue(updatedOnlineUsers)
         }
+    }
+    
+    func updateTasks() {
+        Event.shared.fetchTasksAndServings()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .observe(on: UIScheduler())
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.newDataObserver.send(error: error)
+                case .success():
+                    self.tasks.value = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+                    self.servings.value = Event.shared.servings
+                }
+        }
+    }
+    
+    func restoreTasks() {
+        var newTasks = [Task]()
+        Event.shared.currentConversationTaskStates.forEach { task in
+            let newTask = Task(taskName: task.taskName,
+                               assignedPersonUid: task.assignedPersonUid,
+                               taskState: task.taskState.rawValue,
+                               taskUid: task.taskUid,
+                               assignedPersonName: task.assignedPersonName,
+                               isCustom: task.isCustom,
+                               parentRecipe: task.parentRecipe)
+            if let amount = task.metricAmount,
+                let unit = task.metricUnit {
+                newTask.metricAmount = amount
+                newTask.metricUnit = unit
+            }
+            newTasks.append(newTask)
+        }
+        Event.shared.tasks = newTasks
+        self.prepareTasks()
     }
 }
