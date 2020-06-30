@@ -31,7 +31,11 @@ class TasksListViewController: LDNavigationViewController {
     
     private let alertBanner = LDAlertBanner(LabelStrings.multipleUsers)
     
+    private let updateBanner = LDUpdateBanner()
+    
     private let servingsView = LDServingsView()
+    
+    private let loadingView = LDLoadingView()
     
     private let tasksTableView : UITableView = {
         let tv = UITableView()
@@ -99,6 +103,11 @@ class TasksListViewController: LDNavigationViewController {
             self.delegate?.tasksListVCDidTapSubmit()
         }
         
+        updateBanner.updateButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.updateBanner.disappear()
+            self.viewModel.updateTasks()
+        }
+        
         self.viewModel.newDataSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
@@ -120,13 +129,37 @@ class TasksListViewController: LDNavigationViewController {
                 }
         }
         
+        self.viewModel.taskUpdateSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] _ in
+                guard let self = self else { return }
+                self.updateBanner.appear()
+        }
+        
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.leading.trailing.bottom.equalToSuperview()
+                        make.top.equalTo(self.updateBanner.snp.bottom)
+                    }
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
+        
         viewModel.servings.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
             .startWithValues { [weak self] servings in
                 guard let self = self else { return }
-                #warning("localize")
-                self.servingsView.label.text = "Update servings? \(servings)"
+                self.servingsView.label.text = String.localizedStringWithFormat(LabelStrings.updateServings, servings)
                 self.servingsView.stepper.value = Double(servings)
                 self.servingsView.label.textColor = Event.shared.servingsNeedUpdate ? .activeButton : .textLabel
                 self.updateSubmitButton()
@@ -141,31 +174,13 @@ class TasksListViewController: LDNavigationViewController {
     }
     
     private func displayPendingChangesAlert() {
-        #warning("The text of this alert is very bad, the title and the message are not the same questions")
         let alert = UIAlertController(title: AlertStrings.unsubmittedTasks,
                                       message: AlertStrings.submitQuestion,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: AlertStrings.nope,
                                       style: .destructive,
                                       handler: { _ in
-                                        var newTasks = [Task]()
-                                        Event.shared.currentConversationTaskStates.forEach { task in
-                                            let newTask = Task(taskName: task.taskName,
-                                                               assignedPersonUid: task.assignedPersonUid,
-                                                               taskState: task.taskState.rawValue,
-                                                               taskUid: task.taskUid,
-                                                               assignedPersonName: task.assignedPersonName,
-                                                               isCustom: task.isCustom,
-                                                               parentRecipe: task.parentRecipe)
-                                            if let amount = task.metricAmount,
-                                                let unit = task.metricUnit {
-                                                newTask.metricAmount = amount
-                                                newTask.metricUnit = unit
-                                            }
-                                            newTasks.append(newTask)
-                                        }
-                                        Event.shared.tasks = newTasks
-                                        self.viewModel.prepareTasks()
+                                        self.viewModel.restoreTasks()
                                         self.delegate?.tasksListVCDidTapBackButton()
         }))
         alert.addAction(UIAlertAction(title: AlertStrings.update,
@@ -201,6 +216,7 @@ class TasksListViewController: LDNavigationViewController {
         view.addSubview(submitButton)
         view.addSubview(navigationSeparator)
         view.addSubview(alertBanner)
+        view.addSubview(updateBanner)
         view.addSubview(servingsView)
         view.addSubview(tasksTableView)
         addConstraints()
@@ -223,6 +239,11 @@ class TasksListViewController: LDNavigationViewController {
             make.leading.trailing.equalToSuperview()
         }
         
+        updateBanner.snp.makeConstraints { make in
+            make.top.equalTo(alertBanner.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+        
         var servingsViewHeight = 0
         
         if Event.shared.currentUser?.identifier == Event.shared.hostIdentifier {
@@ -240,7 +261,7 @@ class TasksListViewController: LDNavigationViewController {
         
         servingsView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(alertBanner.snp.bottom)
+            make.top.equalTo(updateBanner.snp.bottom)
             make.height.equalTo(servingsViewHeight)
         }
         

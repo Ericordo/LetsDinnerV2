@@ -116,6 +116,7 @@ enum LabelStrings {
     static let reminders = NSLocalizedString("Reminders", comment: "reminders")
     static let cookingManual = NSLocalizedString("Create Cooking Manual", comment: "create cooking manual")
     static let back = NSLocalizedString(" Back", comment: "back")
+    static let updateServings = NSLocalizedString("Update servings? %d", comment: "update servings")
     
     // EventInfoVC
     static let eventInfoLabel = NSLocalizedString("You can sync the things assigned to you with Reminders and add the event to your Calendar.", comment: "sync description")
