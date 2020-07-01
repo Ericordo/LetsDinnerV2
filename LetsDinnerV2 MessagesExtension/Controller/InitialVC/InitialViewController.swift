@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 protocol InitialViewControllerDelegate: class {
     func initialVCDidTapStartButton()
@@ -86,6 +87,7 @@ class InitialViewController: UIViewController {
     
     @objc private func didTapNewEvent() {
         delegate?.initialVCDidTapStartButton()
+        Analytics.logEvent("New event", parameters: nil)
     }
     
     @objc private func didTapSettings() {
