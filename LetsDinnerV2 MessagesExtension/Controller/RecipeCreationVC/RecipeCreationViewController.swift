@@ -121,7 +121,7 @@ class RecipeCreationViewController: UIViewController  {
     
     private var servings : Int = 2 {
         didSet {
-            servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, servings)
+            servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, String(servings))
             self.updateRecipeIsEditedStatus()
         }
     }
