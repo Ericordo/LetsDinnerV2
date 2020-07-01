@@ -758,6 +758,8 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: Did Tap Buttons
     @IBAction func didTapDoneButton(_ sender: Any) {
         
+        view.endEditing(true)
+        
         guard editingMode else {
             self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
             self.dismiss(animated: true, completion: nil)

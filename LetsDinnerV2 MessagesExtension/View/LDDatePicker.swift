@@ -22,8 +22,6 @@ class LDDatePicker: UIDatePicker {
     func setupPicker() {
         datePickerMode = .dateAndTime
         backgroundColor = UIColor.backgroundColor
-        #warning("This locale may be responsible for the bug of different date in bubble and viewcontroller")
-        locale = Locale(identifier: "en_GB")
         minimumDate = Date()
         tintColor = UIColor.textLabel
     }

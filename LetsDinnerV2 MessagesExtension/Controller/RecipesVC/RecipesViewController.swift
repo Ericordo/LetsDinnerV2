@@ -235,7 +235,7 @@ class RecipesViewController: LDNavigationViewController {
         navigationBar.titleLabel.text = LabelStrings.chooseRecipes
         navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
         navigationBar.previousButton.setTitle(LabelStrings.details, for: .normal)
-        view.addSwipeGestureRecognizer(action: { self.delegate?.recipeVCDidTapPrevious() })
+//        view.addSwipeGestureRecognizer(action: { self.delegate?.recipeVCDidTapPrevious() })
         view.addTapGestureToHideKeyboard()
         view.addSubview(searchBar)
         view.addSubview(headerLabel)

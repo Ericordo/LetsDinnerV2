@@ -541,7 +541,7 @@ extension ManagementViewController {
         
         self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height + addThingViewHeight, right: 0)
         self.view.layoutIfNeeded()
-        
+
         self.view.addGestureRecognizer(tapGestureToHideKeyboard)
         self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
     }

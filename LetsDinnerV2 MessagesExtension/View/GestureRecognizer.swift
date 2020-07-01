@@ -45,9 +45,7 @@ extension UIView {
     
     public func addTapGestureToHideKeyboard() {
         self.isUserInteractionEnabled = true
-        
         let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self, action: #selector(self.endEditing(_:)))
-        
         self.addGestureRecognizer(tapGestureToHideKeyboard)
     }
     
