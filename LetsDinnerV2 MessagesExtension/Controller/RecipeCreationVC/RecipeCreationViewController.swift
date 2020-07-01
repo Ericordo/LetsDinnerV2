@@ -150,7 +150,8 @@ class RecipeCreationViewController: UIViewController  {
     
     private let loadingView = LDLoadingView()
     
-    private let viewModel: RecipeCreationViewModel
+    let viewModel: RecipeCreationViewModel
+    private let actionSheetManager = ActionSheetManager()
     
     init(viewModel: RecipeCreationViewModel) {
         self.viewModel = viewModel
@@ -374,8 +375,7 @@ class RecipeCreationViewController: UIViewController  {
         updateEditingModeUI(enterEditingMode: false)
     }
     
-    private func updateEditingModeUI(enterEditingMode bool: Bool) {
-        
+    func updateEditingModeUI(enterEditingMode bool: Bool) {
         // TableViews
         [ingredientTableView, stepTableView].forEach {
             $0?.isEditing = bool
@@ -405,8 +405,6 @@ class RecipeCreationViewController: UIViewController  {
                 placeholderLabel.isHidden = true
             }
         }
-        
-       
         bottomView.isHidden = !isAllowedToEditRecipe
     }
     
@@ -495,42 +493,12 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: Present Action Sheet
     private func presentEditActionSheet() {
-        let alert = UIAlertController(title: "", message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, recipeToEdit?.title ?? ""), preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = bottomEditButton
-        alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
-        let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        let edit = UIAlertAction(title: AlertStrings.editAction, style: .default) { action in
-            self.editingMode = true
-            self.editExistingRecipe = true
-            self.updateEditingModeUI(enterEditingMode: true)
-        }
-        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
-            guard let recipe = self.recipeToEdit else { return }
-            self.viewModel.deleteRecipe(recipe)
-        }
-        alert.addAction(cancel)
-        alert.addAction(edit)
-        alert.addAction(delete)
+        let alert = actionSheetManager.presentEditActionSheetInRecipeCreationVC(controller: self)
         self.present(alert, animated: true, completion: nil)
-        
     }
     
     private func presentDoneActionSheet() {
-        let alert = UIAlertController(title: "", message: AlertStrings.doneActionSheetMessage, preferredStyle: .actionSheet)
-        
-        alert.popoverPresentationController?.sourceView = doneButton
-        alert.popoverPresentationController?.sourceRect = doneButton.bounds
-
-        let saveAction = UIAlertAction(title: AlertStrings.save, style: .default) {
-            _ in self.saveRecipe()
-        }
-        let discardAction = UIAlertAction(title: AlertStrings.discard, style: .destructive) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        let cancelAction = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        alert.addAction(cancelAction)
-        alert.addAction(saveAction)
-        alert.addAction(discardAction)
+        let alert = actionSheetManager.presentDoneActionSheetInRecipeCreationVC(controller: self)
         self.present(alert, animated: true, completion: nil)
     }
     

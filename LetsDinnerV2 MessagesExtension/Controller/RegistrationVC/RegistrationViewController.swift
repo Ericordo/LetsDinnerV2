@@ -43,7 +43,7 @@ class RegistrationViewController: LDNavigationViewController {
         return iv
     }()
     
-    private let addPicButton : UIButton = {
+    let addPicButton : UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 17)
         button.setTitleColor(.activeButton, for: .normal)
@@ -73,7 +73,7 @@ class RegistrationViewController: LDNavigationViewController {
     private lazy var sixthSeparator = separator()
     private lazy var seventhSeparator = separator()
     
-    private let firstNameTextField : UITextField = {
+    let firstNameTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = LabelStrings.firstName
         textField.autocapitalizationType = .words
@@ -87,7 +87,7 @@ class RegistrationViewController: LDNavigationViewController {
         return textField
     }()
     
-    private let lastNameTextField : UITextField = {
+    let lastNameTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = LabelStrings.lastName
         textField.returnKeyType = .next
@@ -129,7 +129,7 @@ class RegistrationViewController: LDNavigationViewController {
         return label
     }()
     
-    private let errorLabel : UILabel = {
+    let errorLabel : UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
@@ -141,14 +141,14 @@ class RegistrationViewController: LDNavigationViewController {
     private let metricImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = Images.checkmark
+        iv.image = Images.checkmark.withColor(.activeButton)
         return iv
     }()
     
     private let imperialImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = Images.checkmark
+        iv.image = Images.checkmark.withColor(.activeButton)
         return iv
     }()
     
@@ -180,7 +180,7 @@ class RegistrationViewController: LDNavigationViewController {
     
     private let topViewMaxHeight: CGFloat = 170
     
-    private let viewModel : RegistrationViewModel
+    let viewModel : RegistrationViewModel
     
     private var activeField: UITextField?
     
@@ -188,11 +188,13 @@ class RegistrationViewController: LDNavigationViewController {
     
     private let locationManager = CLLocationManager()
     
-    private weak var delegate: RegistrationViewControllerDelegate?
+    weak var delegate: RegistrationViewControllerDelegate?
     
-    private let previousStep: StepTracking
+    let previousStep: StepTracking
     
     private let loadingView = LDLoadingView()
+    
+    private let actionSheetManager = ActionSheetManager()
     
     // MARK: Init
     init(viewModel: RegistrationViewModel,
@@ -311,13 +313,8 @@ class RegistrationViewController: LDNavigationViewController {
         }
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.view.endEditing(true)
-            self.firstNameTextField.animateEmpty()
-            self.lastNameTextField.animateEmpty()
-            self.errorLabel.isHidden = self.viewModel.infoIsValid()
-            if self.viewModel.infoIsValid() {
-                self.viewModel.saveUserInformation()
-            }
+            let alert = self.actionSheetManager.presentSaveActionSheetInReigstrationVC(controller: self)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -377,10 +374,10 @@ class RegistrationViewController: LDNavigationViewController {
     private func setupMeasurementSystem(_ system: MeasurementSystem) {
         switch system {
         case .metric:
-            metricImageView.image = Images.checkmark
+            metricImageView.image = Images.checkmark.withColor(.activeButton)
             imperialImageView.image = nil
         case .imperial:
-            imperialImageView.image = Images.checkmark
+            imperialImageView.image = Images.checkmark.withColor(.activeButton)
             metricImageView.image = nil
         }
         defaults.measurementSystem = system.rawValue
@@ -405,7 +402,7 @@ class RegistrationViewController: LDNavigationViewController {
         }
     }
     
-    private func presentPicker() {
+    func presentPicker() {
         picturePicker.popoverPresentationController?.sourceView = addPicButton
         picturePicker.popoverPresentationController?.sourceRect = addPicButton.bounds
         picturePicker.sourceType = .photoLibrary
@@ -414,19 +411,7 @@ class RegistrationViewController: LDNavigationViewController {
     }
     
     private func presentDeleteOrModifyOptions() {
-        let alert = UIAlertController(title: AlertStrings.myImage, message: "", preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = addPicButton
-        alert.popoverPresentationController?.sourceRect = addPicButton.bounds
-        let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        let change = UIAlertAction(title: AlertStrings.change, style: .default) { action in
-            self.presentPicker()
-        }
-        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
-            self.viewModel.deleteProfilePicture()
-        }
-        alert.addAction(cancel)
-        alert.addAction(change)
-        alert.addAction(delete)
+        let alert = actionSheetManager.presentDeleteOrChangeImage(controller: self)
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -466,7 +451,8 @@ class RegistrationViewController: LDNavigationViewController {
         navigationBar.titleLabel.text = LabelStrings.profile
         #warning("fix previous button leading constraint")
         navigationBar.previousButton.setTitle(AlertStrings.cancel, for: .normal)
-        navigationBar.nextButton.setTitle(LabelStrings.save, for: .normal)
+        navigationBar.previousButton.isHidden = true
+        navigationBar.nextButton.setTitle(ButtonTitle.done, for: .normal)
         progressViewContainer.isHidden = true
         errorLabel.isHidden = true
         scrollView.delegate = self
@@ -537,6 +523,7 @@ class RegistrationViewController: LDNavigationViewController {
             make.top.equalToSuperview().offset(10)
             make.width.equalTo(userPic.snp.height)
             make.bottom.equalTo(addPicButton.snp.top).offset(-10)
+            make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
         
@@ -741,7 +728,7 @@ extension RegistrationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
         userPic.layer.cornerRadius = userPic.frame.height / 2
-        if yOffset < -topViewMaxHeight {
+        if yOffset <= -topViewMaxHeight {
             headerView.snp.remakeConstraints { make in
                 make.top.equalTo(navigationBar.snp.bottom)
                 make.trailing.leading.equalToSuperview()
