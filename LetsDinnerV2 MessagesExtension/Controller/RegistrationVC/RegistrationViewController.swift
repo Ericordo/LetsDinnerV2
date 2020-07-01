@@ -261,7 +261,7 @@ class RegistrationViewController: LDNavigationViewController {
                 } else {
                     self.userPic.image = UIImage(data: data!)
                     self.imageState = .deleteOrModifyPic
-                    self.addPicButton.setTitle(LabelStrings.modifyImage, for: .normal)
+                    self.addPicButton.setTitle(ButtonTitle.edit, for: .normal)
                 }
         }
 
@@ -366,10 +366,10 @@ class RegistrationViewController: LDNavigationViewController {
                              strokeColor: Colors.customGray,
                              textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light),
                                               NSAttributedString.Key.foregroundColor: UIColor.white])
-            addPicButton.setTitle(LabelStrings.addImage, for: .normal)
+            addPicButton.setTitle(ButtonTitle.addImage, for: .normal)
         } else {
             userPic.image = Images.profilePlaceholder
-            addPicButton.setTitle(LabelStrings.addImage, for: .normal)
+            addPicButton.setTitle(ButtonTitle.addImage, for: .normal)
         }
         imageState = .addPic
     }
@@ -436,7 +436,7 @@ class RegistrationViewController: LDNavigationViewController {
             userPic.kf.setImage(with: imageURL, placeholder: Images.profilePlaceholder) { result in
                 switch result {
                 case .success:
-                    self.addPicButton.setTitle(LabelStrings.modifyImage, for: .normal)
+                    self.addPicButton.setTitle(ButtonTitle.edit, for: .normal)
                     self.imageState = .deleteOrModifyPic
                 case .failure:
                     self.showBasicAlert(title: AlertStrings.oops, message: AlertStrings.errorFetchImage)

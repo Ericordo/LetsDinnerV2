@@ -100,13 +100,20 @@ enum Images {
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
     static let recipeBookIcon = UIImage(named: "recipeBookIcon")
     
+    // ManagementVC
+    static let swipeActionAssign = UIImage(named: "swipeActionAssign")
+    static let swipeActionComplete = UIImage(named: "swipeActionComplete")
+    
+    // AddThingView
+    static let addTask = UIImage(named: "sendFill")
+    
     // TasksListVC
     static let sortIcon = UIImage(named: "sortButtonOutlined")!
     
     // ThankYou Screen
     static let heartIcon = "heartButtonOutlined"
     
-    //TaskStatusButton
+    // TaskStatusButton
     static let checkboxOutlined = UIImage(named: "checkboxOutlined")!
     static let assignedImage = UIImage(named: "checkboxAssignedOutlined")!
     static let completedImage = UIImage(named: "checkboxAssignedCompleted")!
@@ -123,6 +130,7 @@ enum ButtonTitle {
     static let back = NSLocalizedString("Back", comment: "back")
     static let editImage = NSLocalizedString("Edit Image", comment: "edit image")
     static let addImage = NSLocalizedString("Add Image", comment: "add image")
+    static let edit = NSLocalizedString("Edit", comment: "edit")
 }
 
 enum DataKeys {

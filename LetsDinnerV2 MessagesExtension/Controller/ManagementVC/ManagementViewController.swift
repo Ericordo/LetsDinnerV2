@@ -15,6 +15,9 @@ protocol ManagementViewControllerDelegate: class {
 }
 
 class ManagementViewController: LDNavigationViewController {
+    
+    weak var delegate: ManagementViewControllerDelegate?
+
     // MARK: Properties
     private let tasksTableView : UITableView = {
         let tv = UITableView()
@@ -60,7 +63,7 @@ class ManagementViewController: LDNavigationViewController {
     private let bottomView : UIView = {
         let view = UIView()
         view.alpha = 0.9
-        view.backgroundColor = UIColor(named: "bottomViewColor")
+        view.backgroundColor = UIColor.bottomViewColor
         return view
     }()
     
@@ -90,20 +93,19 @@ class ManagementViewController: LDNavigationViewController {
         return label
     }()
     
-    private var headerView : ExpandableTaskHeaderView? = nil
-    
-    private var addThingView : AddNewThingView? = nil
+    private var headerView: ExpandableTaskHeaderView?
+    private var addThingView: AddNewThingView?
     
     private var tapGestureToHideKeyboard = UITapGestureRecognizer()
-    
     private var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
     #warning("Solve problem with section selection input")
     private var selectedSection : String?
-    
-    weak var delegate: ManagementViewControllerDelegate?
-    
+
     private let viewModel: ManagementViewModel
+    
+    private let bottomViewHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
+    private let addThingViewHeight: CGFloat = 94
     
     //MARK: Init
     init(viewModel: ManagementViewModel, delegate: ManagementViewControllerDelegate) {
@@ -122,8 +124,8 @@ class ManagementViewController: LDNavigationViewController {
         configureTableView()
         bindViewModel()
         addKeyboardNotifications()
-        setupGestures()
         configureAddThingView()
+        configureGestures()
         setupUI()
     }
     
@@ -166,8 +168,7 @@ class ManagementViewController: LDNavigationViewController {
         .take(duringLifetimeOf: self)
         .startWithValues { [weak self] servings in
             guard let self = self else { return }
-            #warning("localize")
-            self.servingsLabel.text = "\(servings) servings"
+            self.servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingDisplayLabel, String(servings))
             self.servingsStepper.value = Double(servings)
             Event.shared.servings = servings
         }
@@ -195,6 +196,9 @@ class ManagementViewController: LDNavigationViewController {
         tasksTableView.dataSource = self
         tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil),
                                 forCellReuseIdentifier: CellNibs.taskManagementCell)
+        
+        tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.bottomViewHeight, right: 0)
+
         footerView.addSubview(deleteTaskLabel)
         footerView.addSubview(assignTaskLabel)
         tasksTableView.tableFooterView = footerView
@@ -220,11 +224,10 @@ class ManagementViewController: LDNavigationViewController {
                                        sectionNames: viewModel.sectionNames.value,
                                        selectedSection: selectedSection)
         addThingView?.addThingDelegate = self
-        addThingView?.addShadow()
     }
     
     
-    private func setupGestures() {
+    private func configureGestures() {
         // Should only tap on the view not on the keyboard
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view,
                                                           action: #selector(UIView.endEditing(_:)))
@@ -234,23 +237,24 @@ class ManagementViewController: LDNavigationViewController {
                                                                   action: #selector(UIView.endEditing(_:)))
         swipeDownGestureToHideKeyBoard.direction = .down
 
-        self.view.addSwipeGestureRecognizer(action: { self.delegate?.managementVCDidTapBack() })
+//        self.view.addSwipeGestureRecognizer(action: { self.delegate?.managementVCDidTapBack() })
     }
     
     private func setupUI() {
         view.backgroundColor = .backgroundColor
-        addThingView?.addShadow()
+        view.addSubview(servingsView)
+        view.addSubview(tasksTableView)
+        view.addSubview(bottomView)
+        view.addSubview(addThingView!)
+        
         navigationBar.titleLabel.text = LabelStrings.manageThings
         navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
         navigationBar.previousButton.setTitle(LabelStrings.recipes, for: .normal)
-        view.addSubview(servingsView)
         servingsView.addSubview(servingsLabel)
         servingsView.addSubview(servingsStepper)
         servingsView.addSubview(separator)
-        view.addSubview(tasksTableView)
-        view.addSubview(bottomView)
+
         bottomView.addSubview(addButton)
-        view.addSubview(addThingView!)
         addConstraints()
     }
     
@@ -282,9 +286,8 @@ class ManagementViewController: LDNavigationViewController {
             make.top.equalTo(servingsView.snp.bottom)
         }
         
-        let height = UIDevice.current.hasHomeButton ? 60 : 83
         bottomView.snp.makeConstraints { make in
-            make.height.equalTo(height)
+            make.height.equalTo(bottomViewHeight)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
@@ -419,7 +422,9 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         })
         
         assignToMyselfAction.backgroundColor = .swipeRightButton
+        assignToMyselfAction.image = Images.swipeActionAssign
         completedAction.backgroundColor = .activeButton
+        completedAction.image = Images.swipeActionComplete
         
         let configuration = UISwipeActionsConfiguration(actions: [assignToMyselfAction, completedAction])
         configuration.performsFirstActionWithFullSwipe = false
@@ -494,34 +499,10 @@ extension ManagementViewController: TaskManagementCellDelegate {
 }
 
 extension ManagementViewController: AddThingDelegate {
-    func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
+    func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
         viewModel.prepareData()
     }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else {return}
-        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardFrame = keyboardSize.cgRectValue
-        
-        UIView.animate(withDuration: 1) {
-            self.showAddThingView(offset: keyboardFrame.height)
-        }
-        self.view.layoutIfNeeded()
-        
-        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
-        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        UIView.animate(withDuration: 1) {
-            self.removeAddThingView()
-        }
-        self.view.layoutIfNeeded()
-        
-        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
-        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
-    }
-    
+
     private func showAddThingView(offset: CGFloat) {
         guard let addThingView = addThingView else { return }
         var offset = offset
@@ -533,7 +514,7 @@ extension ManagementViewController: AddThingDelegate {
         }
         addThingView.snp.updateConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(94)
+            make.height.equalTo(addThingViewHeight)
             make.bottom.equalToSuperview().offset(-offset)
         }
     }
@@ -545,6 +526,35 @@ extension ManagementViewController: AddThingDelegate {
             make.height.equalTo(94)
             make.bottom.equalToSuperview().offset(94)
         }
+    }
+}
+
+extension ManagementViewController {
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardSize.cgRectValue
+        
+        UIView.animate(withDuration: 1) {
+            self.showAddThingView(offset: keyboardFrame.height)
+        }
+        
+        self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height + addThingViewHeight, right: 0)
+        self.view.layoutIfNeeded()
+
+        self.view.addGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.addGestureRecognizer(swipeDownGestureToHideKeyBoard)
+    }
+    
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 1) {
+            self.removeAddThingView()
+        }
+        self.tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomViewHeight, right: 0)
+        self.view.layoutIfNeeded()
+        
+        self.view.removeGestureRecognizer(tapGestureToHideKeyboard)
+        self.view.removeGestureRecognizer(swipeDownGestureToHideKeyBoard)
     }
 }
 

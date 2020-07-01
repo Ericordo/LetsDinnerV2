@@ -14,6 +14,8 @@ import Foundation
 // for example = FE
 // "" = ??
 
+public let textFieldAllowedCharacters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_."
+
 extension String {
     
     public var initials: String {
@@ -67,9 +69,7 @@ extension String {
         
         return firstChar + secondChar
     }
-    
-    
-    
+
     func capitalizingFirstLetter() -> String {
         return prefix(1).capitalized + dropFirst()
     }

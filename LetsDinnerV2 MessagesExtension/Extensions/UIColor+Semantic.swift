@@ -38,6 +38,11 @@ extension UIColor {
         } else { return Colors.allWhite }
     }
     
+    static var bottomViewColor: UIColor {
+        return UIColor(named: "bottomViewColor") ?? self.backgroundColor
+    }
+    
+    
     // MARK: Text Label Color
     static var textLabel: UIColor {
         if #available(iOS 13, *) {
@@ -138,7 +143,6 @@ extension UIColor {
             } else { return Colors.dullGrey }
     }
 
-    
     static var link: UIColor {
         if #available(iOS 13, *) {
             return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -175,9 +179,7 @@ extension UIColor {
         } else { return Colors.bubbleGrey }
     }
 
-    
     // MARK: Keyboard
-    
     static var keyboardBackground: UIColor {
            if #available(iOS 13, *) {
                return UIColor { (traitCollection: UITraitCollection) -> UIColor in
@@ -204,9 +206,7 @@ extension UIColor {
                 } else { return Colors.paleGray }}
         } else { return Colors.paleGray }
     }
-    
-    
-    
+
     // MARK: - Functions
     
     func image(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {

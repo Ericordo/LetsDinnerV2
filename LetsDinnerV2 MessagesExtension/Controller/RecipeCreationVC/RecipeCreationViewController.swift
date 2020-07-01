@@ -96,7 +96,7 @@ class RecipeCreationViewController: UIViewController  {
     
     // Data
     let customRecipe = CustomRecipe()
-
+    
     private var temporaryIngredients = [LDIngredient]() {
         didSet {
             ingredientTableView.reloadData()
@@ -121,8 +121,7 @@ class RecipeCreationViewController: UIViewController  {
     
     private var servings : Int = 2 {
         didSet {
-            servingsLabel.text = "For \(servings) people"
-            
+            servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, servings)
             self.updateRecipeIsEditedStatus()
         }
     }
@@ -132,6 +131,7 @@ class RecipeCreationViewController: UIViewController  {
     var editingMode = false
     var viewExistingRecipe = false
     var editExistingRecipe = false
+    var isAllowedToEditRecipe = false
     var isExistingRecipeAlreadyLoaded = false
     var isRecipeEdited = false
     
@@ -255,8 +255,8 @@ class RecipeCreationViewController: UIViewController  {
     // MARK: Configure UI
     private func configureUI() {
         
-        bottomView.isHidden = true
-        
+        bottomView.isHidden = !isAllowedToEditRecipe
+
 //        addThingView.addShadow()
         
         recipeImageView.layer.cornerRadius = 15
@@ -351,7 +351,6 @@ class RecipeCreationViewController: UIViewController  {
         
 //        swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer(target: newThingView, action: #selector(UIView.endEditing(_:)))
 //        swipeDownGestureToHideKeyBoard.direction = .down
-        
     }
     
     private func updateTableViewHeightConstraint(tableView: UITableView) {
@@ -376,7 +375,6 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func updateEditingModeUI(enterEditingMode bool: Bool) {
-        bottomView.isHidden = bool
         
         // TableViews
         [ingredientTableView, stepTableView].forEach {
@@ -398,13 +396,18 @@ class RecipeCreationViewController: UIViewController  {
         
         if viewExistingRecipe {
             if commentsTextView.text.isEmpty {
-                placeholderLabel.text = "Any Tips and comment?"
-                placeholderLabel.isHidden = false
+                if bool {
+                    placeholderLabel.text = "Any Tips and comment?"
+                    placeholderLabel.isHidden = false
+                }
             } else {
                 placeholderLabel.text = nil
                 placeholderLabel.isHidden = true
             }
         }
+        
+       
+        bottomView.isHidden = !isAllowedToEditRecipe
     }
     
     private func hideTextFieldView(_ bool: Bool) {
@@ -422,7 +425,8 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func hideBottomView(_ bool: Bool) {
-        bottomViewBottomConstraint.constant = bool ? -60 : 0
+        bottomView.isHidden = bool
+        bottomViewBottomConstraint.constant = bool ? -100 : 0
         self.view.layoutIfNeeded()
     }
     
@@ -438,7 +442,6 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: - Load Existing Custom Recipe
     private func loadExistingCustomRecipe() {
-        // Insert the Data into VC
         
         guard let recipe = recipeToEdit else { return }
 //        headerLabel.text = recipe.title
@@ -459,7 +462,7 @@ class RecipeCreationViewController: UIViewController  {
         
         downloadUrl = recipe.downloadUrl
         recipeNameTextField.text = recipe.title
-        servingsLabel.text = "For \(recipe.servings) people"
+        servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, String(recipe.servings))
         servingsStepper.value = Double(recipe.servings)
         
         recipe.ingredients.forEach { customIngredient in
@@ -475,13 +478,11 @@ class RecipeCreationViewController: UIViewController  {
         
         if let comments = recipe.comments {
             commentsTextView.text = comments
-            
         } else {
             placeholderLabel.text = LabelStrings.noTipsAndComments
         }
         
         self.isExistingRecipeAlreadyLoaded = true
-        
     }
     
     private func presentImagePicker() {
@@ -494,7 +495,7 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: Present Action Sheet
     private func presentEditActionSheet() {
-        let alert = UIAlertController(title: "", message: recipeToEdit?.title ?? "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, recipeToEdit?.title ?? ""), preferredStyle: .actionSheet)
         alert.popoverPresentationController?.sourceView = bottomEditButton
         alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
         let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
@@ -543,11 +544,13 @@ class RecipeCreationViewController: UIViewController  {
         // Check if amountString have unit
         if var amountString = amountString {
             amountString = amountString.trimmingCharacters(in: .whitespacesAndNewlines)
+            
             if amountString.hasWhiteSpace {
                 let amountStringArray = amountString.split(separator: " ")
                 amount = String(amountStringArray[0])
+                
                 for index in 1...amountStringArray.count - 1 {
-                    unit += " " + String(amountStringArray[index])
+                    unit += String(amountStringArray[index]) + " "
                 }
             } else {
                 amount = amountString
@@ -853,7 +856,7 @@ class RecipeCreationViewController: UIViewController  {
 
     }
     
-    @IBAction func didTapAddCookingStepButton(_ sender: UIButton) {
+    @IBAction func didTapAddStepButton(_ sender: UIButton) {
         if let step = stepTextField.text {
             if step.isEmpty {
                 addCookingStepButton.shake()
@@ -877,7 +880,7 @@ class RecipeCreationViewController: UIViewController  {
         case .addPic:
             presentImagePicker()
         case .deleteOrModifyPic:
-            let alert = UIAlertController(title: AlertStrings.myImage, message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "", message: AlertStrings.changeImageActionSheetMessage, preferredStyle: .actionSheet)
             alert.popoverPresentationController?.sourceView = addImageButton
             alert.popoverPresentationController?.sourceRect = addImageButton.bounds
             let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
@@ -966,6 +969,12 @@ extension RecipeCreationViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let cs = CharacterSet(charactersIn: textFieldAllowedCharacters).inverted
+        let filtered: String = (string.components(separatedBy: cs) as NSArray).componentsJoined(by: "")
+        return (string == filtered)
     }
 }
 
@@ -1164,7 +1173,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         let yOffset = scrollView.contentOffset.y
         print(yOffset)
         
-        if yOffset < -topViewMaxHeight {
+        if yOffset <= -topViewMaxHeight {
             headerViewHeightConstraint.constant = self.topViewMaxHeight
             recipeImageView.layer.cornerRadius = 15
             
@@ -1228,11 +1237,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
 //            scrollView.scrollRectToVisible(commentsTextView.frame, animated: true)
 //        }
         
-
-    
-        // AddThingView Respone
-//        showAddThingView(true, keyboardHeight: keyboardFrame.height)
-        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -1289,7 +1293,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
 extension RecipeCreationViewController: AddThingDelegate {
     
     // Pass thing from AddThingView
-    func doneEditThing(selectedSection: String?, mainContent: String?, amount: String?, unit: String?) {
+    func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
 //        switch selectedSection {
 //        case CreateRecipeSections.name.rawValue:
 //            recipeNameTextField.text = mainContent

@@ -164,9 +164,13 @@ enum LabelStrings {
     static let thankYouDescriptionPartTwo = NSLocalizedString("With your one time purchase you help to keep our costs down and ensure future development.", comment: "Thank you Description Part 2")
     static let okLetsDinner = "Ok, Let's Dinner!"
     
-    //ExpiredEventVC
+    // ExpiredEventVC
     static let createNewEvent = NSLocalizedString("Create a new Event", comment: "create a new event")
     
+    // RecipeDetails
+    static let servingLabel = NSLocalizedString("For %@ people", comment: "servingLabel")
+    static let servingDisplayLabel = NSLocalizedString("%@ servings", comment: "servingDisplayLabel")
+
     // RecipeBookVC + PDFCreator
     static let recipeBook = NSLocalizedString("Cooking Manual", comment: "Recipe book")
     static let recipe = NSLocalizedString("Recipe", comment: "recipe")
@@ -174,5 +178,4 @@ enum LabelStrings {
     static let link = NSLocalizedString("Link: %@", comment: "Recipe link")
     static let ingredientTitle = NSLocalizedString("Ingredients for %d people \n\n", comment: "Ingredients for 2 people")
     static let instructions = NSLocalizedString("Instructions", comment: "instructions")
-    
 }

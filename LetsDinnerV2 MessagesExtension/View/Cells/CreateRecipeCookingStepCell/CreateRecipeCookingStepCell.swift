@@ -15,8 +15,8 @@ class CreateRecipeCookingStepCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = .backgroundColor
         stepNumberLabel.font = .systemFont(ofSize: 17, weight: .semibold)
-        
     }
     
     func configureCell(stepDetail: String, stepNumber: Int) {
@@ -27,10 +27,4 @@ class CreateRecipeCookingStepCell: UITableViewCell {
         cookingStepLabel.lineBreakMode = .byWordWrapping
         cookingStepLabel.sizeToFit()
     }
-
-    
-    
-
-  
-    
 }

@@ -155,6 +155,7 @@
 		B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */; };
 		B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* AddNewThingView.xib */; };
 		B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* AddNewThingView.swift */; };
+		B88457E024A72CE000077C0F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88457DF24A72CE000077C0F /* Double.swift */; };
 		B886BD93246C340C0069C248 /* RecipeCreationWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886BD92246C340C0069C248 /* RecipeCreationWelcomeViewController.swift */; };
 		B886BD982470EFBF0069C248 /* CreateRecipeIngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886BD962470EFBF0069C248 /* CreateRecipeIngredientCell.swift */; };
 		B886BD992470EFBF0069C248 /* CreateRecipeIngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B886BD972470EFBF0069C248 /* CreateRecipeIngredientCell.xib */; };
@@ -353,6 +354,7 @@
 		B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTaskHeader.swift; sourceTree = "<group>"; };
 		B87C106C24176309004AD951 /* AddNewThingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewThingView.xib; sourceTree = "<group>"; };
 		B87C106E2417631F004AD951 /* AddNewThingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewThingView.swift; sourceTree = "<group>"; };
+		B88457DF24A72CE000077C0F /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		B886BD92246C340C0069C248 /* RecipeCreationWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCreationWelcomeViewController.swift; sourceTree = "<group>"; };
 		B886BD962470EFBF0069C248 /* CreateRecipeIngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeIngredientCell.swift; sourceTree = "<group>"; };
 		B886BD972470EFBF0069C248 /* CreateRecipeIngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateRecipeIngredientCell.xib; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 				B87C1067241387E6004AD951 /* UITableViewCell.swift */,
 				88349F2B236F7145002A1879 /* UserDefaults.swift */,
 				88B7832F23717E3E009E4F3C /* String.swift */,
+				B88457DF24A72CE000077C0F /* Double.swift */,
 				880B135923747578003E29AC /* Array.swift */,
 				B87C10372402A8E6004AD951 /* Date.swift */,
 				880B135B2374758F003E29AC /* TaskExtension.swift */,
@@ -1267,6 +1270,7 @@
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				B886BD9C24790B7B0069C248 /* CreateRecipeCookingStepCell.swift in Sources */,
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
+				B88457E024A72CE000077C0F /* Double.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
 				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,
 				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,

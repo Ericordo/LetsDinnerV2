@@ -39,7 +39,7 @@ class RecipesViewController: LDNavigationViewController {
         tableView.rowHeight = 120
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+
         return tableView
     }()
     
@@ -50,6 +50,8 @@ class RecipesViewController: LDNavigationViewController {
     weak var delegate: RecipesViewControllerDelegate?
     
     private let viewModel: RecipesViewModel
+    
+    private let toolbarHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 75)
 
     // MARK: Init
     init(viewModel: RecipesViewModel, delegate: RecipesViewControllerDelegate) {
@@ -68,17 +70,13 @@ class RecipesViewController: LDNavigationViewController {
         setupUI()
         setupTableView()
         bindViewModel()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         StepStatus.currentStep = .recipesVC
     }
-    
 
-    
-    
     // MARK: ViewModel Binding
     private func bindViewModel() {
         navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
@@ -163,8 +161,6 @@ class RecipesViewController: LDNavigationViewController {
                 guard let self = self else { return }
                 self.showError(error)
         }
-        
-       
     }
         
     // MARK: Methods
@@ -231,6 +227,7 @@ class RecipesViewController: LDNavigationViewController {
         recipesTableView.dataSource = self
         recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil),
                                   forCellReuseIdentifier: CellNibs.recipeCell)
+        recipesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.toolbarHeight, right: 0)
     }
     
     private func setupUI() {
@@ -271,11 +268,10 @@ class RecipesViewController: LDNavigationViewController {
             make.bottom.equalToSuperview()
         }
         
-        let height = UIDevice.current.hasHomeButton ? 60 : 83
         toolbar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
-            make.height.equalTo(height)
+            make.height.equalTo(toolbarHeight)
         }
     }
     
@@ -358,18 +354,12 @@ extension RecipesViewController: RecipeCellDelegate {
     }
     
     func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-//        let customRecipeDetailsVC = CustomRecipeDetailsViewController(viewModel: CustomRecipeDetailsViewModel())
-//        customRecipeDetailsVC.modalPresentationStyle = .fullScreen
-//        customRecipeDetailsVC.selectedRecipe = customRecipe
-//        customRecipeDetailsVC.customRecipeDetailsDelegate = self
-//
-//        present(customRecipeDetailsVC, animated: true, completion: nil)
-        
         let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
         viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
         viewCustomRecipeVC.recipeCreationVCDelegate = self
         viewCustomRecipeVC.recipeToEdit = customRecipe
         viewCustomRecipeVC.viewExistingRecipe = true
+        viewCustomRecipeVC.isAllowedToEditRecipe = true
         self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
     

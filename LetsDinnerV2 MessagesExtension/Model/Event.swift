@@ -328,9 +328,28 @@ class Event {
                                             title: key,
                                             servings: servings)
                 
+                #warning("temp solution until change the object struct")
                 if let ingredients = dict[DataKeys.ingredients] as? [String : String] {
                     ingredients.forEach { key, value in
-                        let customIngredient = LDIngredient(name: key + value)
+                        let name = key
+                        var amount: Double? = nil
+                        var unit: String? = nil
+                        
+                        let itemArray = value.components(separatedBy: ",")
+
+                        if itemArray.count > 1 {
+                            let amountArray = (itemArray[1].trimmingCharacters(in: .whitespacesAndNewlines)).components(separatedBy: " ")
+
+                            amount = Double(amountArray[0])
+                            if amountArray.count > 1 {
+                                for index in 1...amountArray.count - 1 {
+                                    unit = (unit ?? "") + String(amountArray[index]) + " "
+                                }
+                            }
+                        }
+                        
+//                        let customIngredient = LDIngredient(name: key + value)
+                        let customIngredient = LDIngredient(name: name, amount: amount, unit: unit)
                         customRecipe.ingredients.append(customIngredient)
                     }
                 }

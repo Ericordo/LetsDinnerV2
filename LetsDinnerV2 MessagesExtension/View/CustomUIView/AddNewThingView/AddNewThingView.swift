@@ -22,13 +22,15 @@ enum MainTextFieldCharacterLimit: Int {
 
 protocol AddThingDelegate: class {
     func doneEditThing(selectedSection: String?,
-                       mainContent: String?,
+                       item: String?,
                        amount: String?,
                        unit: String?)
 }
 
 class AddNewThingView: UIView {
     
+    weak var addThingDelegate: AddThingDelegate?
+
     var type: AddNewThingViewType!
     var sectionNames: [String]? {
         didSet {
@@ -37,17 +39,18 @@ class AddNewThingView: UIView {
     }
     var selectedSection: String? {
         didSet {
-            self.updateUI(type: type, selectedSection: selectedSection)
+//            self.updateUI(type: type, selectedSection: selectedSection)
         }
     }
-    weak var addThingDelegate: AddThingDelegate?
     
+    // UILayout Variable
     var amountTextFieldWidthConstraint: NSLayoutConstraint!
     var unitTextFieldWidthConstraint: NSLayoutConstraint!
     
     let containerView: UIView = {
         let view = UIView(frame: CGRect.zero)
         view.backgroundColor = .backgroundSystemColor
+        view.addShadow()
         return view
     }()
     
@@ -102,17 +105,18 @@ class AddNewThingView: UIView {
     }()
     
     let addButton: UIButton = {
-        let image = UIImage(named: "plusButton.png")
+        let image = Images.addTask
         let button = UIButton()
-        button.frame = CGRect(x: 0, y: 0, width: 35, height: 40)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setBackgroundImage(image, for: UIControl.State.normal)
-//        button.setImage(image, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    lazy var sectionSelectionInput = SectionSelectionInput(type: type)
+    private var shadowLayer: CAShapeLayer!
     
+    lazy var sectionSelectionInput = SectionSelectionInput(type: type)
+        
     init(type: AddNewThingViewType, sectionNames: [String], selectedSection: String?) {
         
         let section: String = {
@@ -121,7 +125,7 @@ class AddNewThingView: UIView {
             case .createRecipe:
                 section = "Name"
             case .manageTask:
-                section = "Miscellaneous"
+                section = DefaultSectionName.miscellaneous.labelString
             }
             return section
         }()
@@ -131,7 +135,7 @@ class AddNewThingView: UIView {
         self.selectedSection = selectedSection ?? section
         super.init(frame: CGRect.zero)
         
-        configureUI(sectionNames: sectionNames, selectedSection: selectedSection)
+        configureView(sectionNames: sectionNames, selectedSection: selectedSection)
     }
     
     required init?(coder: NSCoder) {
@@ -139,74 +143,81 @@ class AddNewThingView: UIView {
     }
     
     override func layoutSubviews() {
-        addConstraints()
+        super.layoutSubviews()
+        self.addShadowLayer()
     }
     
     // MARK: Configure UI
-    private func configureUI(sectionNames: [String], selectedSection: String?) {
-        mainTextField.delegate = self
-        amountTextField.delegate = self
-        unitTextField.delegate = self
-        sectionSelectionInput.sectionSelectionInputDelegate = self
+    private func configureView(sectionNames: [String], selectedSection: String?) {
         
-        // Init Constraint
-        amountTextFieldWidthConstraint = amountTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 50)
-        unitTextFieldWidthConstraint = unitTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 20)
-        
-        
+        self.backgroundColor = .backgroundSystemColor
+
+        // Set Corners for childView
         containerView.roundCorners([.topLeft, .topRight], radius: 10)
-        
+                
         if let selectedSection = selectedSection {
             updateSelectedSection(sectionName: selectedSection)
         }
         
-        sectionSelectionInput.configureInput(sections: sectionNames)
+        self.sectionSelectionInput.configureInput(sections: sectionNames)
 //        self.setDefaultSelectedSection(type: type)
         
+        self.addConstraints()
         
-
+        mainTextField.delegate = self
+        amountTextField.delegate = self
+        unitTextField.delegate = self
+        sectionSelectionInput.sectionSelectionInputDelegate = self
     }
     
     // MARK: Update UI
-    func updateUI(type: AddNewThingViewType, selectedSection: String?) {
+    func updateUIAfterPressingAddButton(type: AddNewThingViewType, selectedSection: String?) {
         var position = 0
         
         if type == .createRecipe {
             switch selectedSection {
             case CreateRecipeSections.name.rawValue:
+                position = 0
                 mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "e.g. Spaghetti Carbonara"
-                position = 0
                 hideAmountAndUnitTextField(true)
-  
             case CreateRecipeSections.ingredient.rawValue:
+                position = 1
                 mainTextField.returnKeyType = .next
                 mainTextField.placeholder = "e.g. Milk"
-                position = 1
                 hideAmountAndUnitTextField(false)
-                
             case CreateRecipeSections.step.rawValue:
+                position = 2
                 mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "e.g. Pour the milk into a bowl"
-                position = 2
                 hideAmountAndUnitTextField(true)
-
             case CreateRecipeSections.comment.rawValue:
+                position = 3
                 mainTextField.returnKeyType = .done
                 mainTextField.placeholder = "Any tips want to mention?"
-                position = 3
                 hideAmountAndUnitTextField(true)
-            
             default:
                 break
             }
+        } else if type == .manageTask {
             
-            mainTextField.becomeFirstResponder()
-            
-            // Move the bubble to corresponding SectionInputCV
-            sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .centeredHorizontally)
-            
+            guard let sectionNames = sectionNames else { return }
+            for (index, sectionName) in sectionNames.enumerated() {
+                if selectedSection == "Miscellaneous" {
+                    position = 0
+                    break
+                } else if selectedSection == sectionName {
+                    position = index + 1
+                    break
+                }
+            }
         }
+        
+        // Move the bubble to corresponding SectionInputCV
+        sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .top)
+        
+//        mainTextField.becomeFirstResponder()
+        
     }
     
     private func hideAmountAndUnitTextField(_ bool: Bool) {
@@ -231,7 +242,7 @@ class AddNewThingView: UIView {
         
         // Remove duplication
         for (i , name) in sectionNames.enumerated() {
-            if name == "Miscellaneous" {
+            if name == DefaultSectionName.miscellaneous.labelString {
                 sectionNames.remove(at: i)
             }
         }
@@ -239,12 +250,11 @@ class AddNewThingView: UIView {
         self.sectionSelectionInput.sections.removeAll()
         
         // Recreate the sections everytime
-        if type == .manageTask{
-            self.sectionSelectionInput.sections.append("Miscellaneous")
+        if type == .manageTask {
+            self.sectionSelectionInput.sections.insert(DefaultSectionName.miscellaneous.labelString, at: 0)
         }
         
         self.sectionSelectionInput.sections += sectionNames
-        self.sectionSelectionInput.sectionsCollectionView.reloadData()
     }
     
     private func setDefaultSelectedSection(type: AddNewThingViewType) {
@@ -253,7 +263,7 @@ class AddNewThingView: UIView {
             case .createRecipe:
                 selectedSection = "Name"
             case .manageTask:
-                selectedSection = "Miscellaneous"
+                selectedSection = DefaultSectionName.miscellaneous.labelString
             }
         }
     }
@@ -266,8 +276,6 @@ extension AddNewThingView: SectionSelectionInputDelegate {
 }
 
 // MARK: TextField Delegate
-
-
 extension AddNewThingView: UITextFieldDelegate {
     
     // Add things
@@ -292,58 +300,66 @@ extension AddNewThingView: UITextFieldDelegate {
                 addThing(type: type)
                 textField.resignFirstResponder()
             }
-            
         }
   
         return true
-        
     }
     
     private func addThing(type: AddNewThingViewType) {
-        guard !mainTextField.text!.isEmpty else { return  mainTextField.shake() }
+        guard let item = mainTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !item.isEmpty else { return mainTextField.shake() }
         
         switch type {
         case .createRecipe:
-            
             // Pass selectedSection and the content to CreateRecipeVC
-            addThingDelegate?.doneEditThing(selectedSection: selectedSection, mainContent: mainTextField.text, amount: amountTextField.text, unit: unitTextField.text)
+            addThingDelegate?.doneEditThing(selectedSection: selectedSection,
+                                            item: item,
+                                            amount: amountTextField.text,
+                                            unit: unitTextField.text)
            
         case .manageTask:
-                // Pass to Global Varaible
-                let newTask = Task(taskName: mainTextField.text!,
-                                   assignedPersonUid: "nil",
-                                   taskState: TaskState.unassigned.rawValue,
-                                   taskUid: "nil",
-                                   assignedPersonName: "nil",
-                                   isCustom: true,
-                                   parentRecipe: self.selectedSection ?? "Miscellaneous")
+            var taskName = item
+            
+            if let amount = amountTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !amount.isEmpty {
+                taskName += ", " + amount + " " + String(unitTextField.text ?? "")
+            }
+            
+            // Pass to Global Varaible
+            let newTask = Task(taskName: taskName,
+                               assignedPersonUid: "nil",
+                               taskState: TaskState.unassigned.rawValue,
+                               taskUid: "nil",
+                               assignedPersonName: "nil",
+                               isCustom: true,
+                               parentRecipe: self.selectedSection ?? DefaultSectionName.miscellaneous.labelString)
                 
-                Event.shared.tasks.append(newTask)
-                
-                // Work on ManagmentVC
-                addThingDelegate?.doneEditThing(selectedSection: nil, mainContent: nil, amount: nil, unit: nil)
+            Event.shared.tasks.append(newTask)
+            
+            // Work on ManagmentVC
+            addThingDelegate?.doneEditThing(selectedSection: nil, item: nil, amount: nil, unit: nil)
+            
+            self.updateUIAfterPressingAddButton(type: .manageTask, selectedSection: selectedSection)
         }
         
         self.clearAllTextField()
+
     }
     
-    // For CreateRecipeVC
     @objc func addButtonTapped(sender: UIButton) {
         self.addThing(type: type)
     }
     
     private func clearAllTextField() {
-        mainTextField.text = ""
-        amountTextField.text = ""
-        unitTextField.text = ""
+        [mainTextField, amountTextField, unitTextField].forEach {
+            $0.text = ""
+        }
     }
-    
     
     // MARK: Validation
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        // Guarding character limit
-        guard let textFieldText = textField.text, let rangeOfTextToReplace = Range(range, in: textFieldText) else { return false }
+        // Guarding count limit
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else { return false }
         
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
@@ -369,7 +385,6 @@ extension AddNewThingView: UITextFieldDelegate {
         default:
             return count <= 0
         }
-
     }
     
     private func isNumberValidated(textField: UITextField, string: String) -> Bool {
@@ -402,12 +417,12 @@ extension AddNewThingView {
     // MARK: Constraints
     private func addConstraints() {
         self.addSubview(containerView)
-        self.addSubview(mainTextField)
-        self.addSubview(amountTextField)
-        self.addSubview(unitTextField)
-        self.addSubview(sectionSelectionInput)
-        self.addSubview(dragIndicator)
-        self.addSubview(addButton)
+        containerView.addSubview(mainTextField)
+        containerView.addSubview(amountTextField)
+        containerView.addSubview(unitTextField)
+        containerView.addSubview(sectionSelectionInput)
+        containerView.addSubview(dragIndicator)
+        containerView.addSubview(addButton)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         mainTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -417,7 +432,9 @@ extension AddNewThingView {
         dragIndicator.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
-
+        // Init Constraint
+        amountTextFieldWidthConstraint = amountTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 50)
+        unitTextFieldWidthConstraint = unitTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: 20)
         
         containerView.anchor(top: self.topAnchor, leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor)
         containerView.heightAnchor.constraint(equalToConstant: 94).isActive = true
@@ -457,8 +474,23 @@ extension AddNewThingView {
         addButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15).isActive = true
         addButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         addButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        
-        
-        
+    }
+    
+    private func addShadowLayer() {
+        guard shadowLayer == nil else { return }
+
+        shadowLayer = CAShapeLayer()
+          
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+        shadowLayer.fillColor = UIColor.black.cgColor
+
+        shadowLayer.shadowColor = Colors.separatorGrey.cgColor
+        shadowLayer.shadowPath = shadowLayer.path
+        shadowLayer.shadowOffset = .zero
+        shadowLayer.shadowOpacity = 0.7
+        shadowLayer.shadowRadius = 10
+        shadowLayer.shouldRasterize = true
+        shadowLayer.rasterizationScale = UIScreen.main.scale
+        self.layer.insertSublayer(shadowLayer, at: 0)
     }
 }
