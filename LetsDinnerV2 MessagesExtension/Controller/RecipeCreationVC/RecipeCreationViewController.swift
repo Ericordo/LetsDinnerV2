@@ -92,7 +92,6 @@ class RecipeCreationViewController: UIViewController  {
     private var activeField: UITextField?
 
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
-//    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
     // Data
     let customRecipe = CustomRecipe()
@@ -150,7 +149,7 @@ class RecipeCreationViewController: UIViewController  {
     
     private let loadingView = LDLoadingView()
     
-    let viewModel: RecipeCreationViewModel
+    private let viewModel: RecipeCreationViewModel
     private let actionSheetManager = ActionSheetManager()
     
     init(viewModel: RecipeCreationViewModel) {
@@ -169,7 +168,6 @@ class RecipeCreationViewController: UIViewController  {
         configureUI()
         configureTableView()
         configureDelegate()
-//        configureNewThingView()
         configureGestureRecognizers()
         configureObservers()
         
@@ -257,8 +255,6 @@ class RecipeCreationViewController: UIViewController  {
     private func configureUI() {
         
         bottomView.isHidden = !isAllowedToEditRecipe
-
-//        addThingView.addShadow()
         
         recipeImageView.layer.cornerRadius = 15
 
@@ -295,7 +291,6 @@ class RecipeCreationViewController: UIViewController  {
 
         stepTableView.isEditing = true
         stepTableView.allowsSelectionDuringEditing = false
-//        stepsTableView.rowHeight = rowHeight
         stepsTableViewHeightConstraint.constant = 0
     }
     
@@ -375,7 +370,7 @@ class RecipeCreationViewController: UIViewController  {
         updateEditingModeUI(enterEditingMode: false)
     }
     
-    func updateEditingModeUI(enterEditingMode bool: Bool) {
+    private func updateEditingModeUI(enterEditingMode bool: Bool) {
         // TableViews
         [ingredientTableView, stepTableView].forEach {
             $0?.isEditing = bool
@@ -493,17 +488,31 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: Present Action Sheet
     private func presentEditActionSheet() {
-        let alert = actionSheetManager.presentEditActionSheetInRecipeCreationVC(controller: self)
+        let alert = actionSheetManager.presentEditActionSheet(
+            sourceView: self.bottomEditButton,
+            message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, self.recipeToEdit?.title ?? ""),
+            editActionCompletion: { _ in
+                self.editingMode = true
+                self.editExistingRecipe = true
+                self.updateEditingModeUI(enterEditingMode: true)},
+            deleteActionCompletion: { _ in
+                guard let recipe = self.recipeToEdit else { return }
+                self.viewModel.deleteRecipe(recipe)})
         self.present(alert, animated: true, completion: nil)
     }
     
     private func presentDoneActionSheet() {
-        let alert = actionSheetManager.presentDoneActionSheetInRecipeCreationVC(controller: self)
+        let alert = actionSheetManager.presentDoneActionSheet(
+            sourceView: self.doneButton,
+            message: AlertStrings.doneActionSheetMessage,
+            saveActionCompletion: { _ in
+                self.saveRecipe() },
+            discardActionCompletion: { _ in
+                self.dismiss(animated: true, completion: nil) })
         self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: Functions
-
     private func addIngredient(name: String?, amountString: String?) {
         var unit = ""
         var amount = ""
@@ -598,9 +607,8 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func createDefaultImage() -> UIImage {
-        let imageName = "emptyPlate"
-        let image = UIImage(named: imageName)
-        return image!
+        let image = Images.emptyPlate
+        return image
     }
     
     private func shakeEmptyTextFields() {

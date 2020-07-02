@@ -9,46 +9,25 @@
 import UIKit
 
 class ActionSheetManager {
-        
-    init() {
-    }
     
+    typealias ActionCompletion = ((UIAlertAction?) -> Void)
+
+    init() {}
+        
     let cancelAction = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
     
-    // MARK: RegistrationVC
-    func presentSaveActionSheetInReigstrationVC(controller: RegistrationViewController) -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: AlertStrings.doneActionSheetMessage, preferredStyle: .actionSheet)
-        
-        alert.popoverPresentationController?.sourceView = controller.navigationBar.nextButton
-        alert.popoverPresentationController?.sourceRect = controller.navigationBar.nextButton.bounds
-        
-        let saveAction = UIAlertAction(title: AlertStrings.save, style: .default) { _ in
-            controller.view.endEditing(true)
-            controller.firstNameTextField.animateEmpty()
-            controller.lastNameTextField.animateEmpty()
-            controller.errorLabel.isHidden = controller.viewModel.infoIsValid()
-            if controller.viewModel.infoIsValid() {
-                controller.viewModel.saveUserInformation()
-            }
-        }
-        let discardAction = UIAlertAction(title: AlertStrings.discard, style: .destructive) { _ in
-            controller.delegate?.registrationVCDidTapCancelButton()
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(saveAction)
-        alert.addAction(discardAction)
-        return alert
-    }
-    
-    func presentDeleteOrChangeImage (controller: RegistrationViewController) -> UIAlertController {
+    // MARK: Edit Image ActionSheet
+    func presentEditImageActionSheet (sourceView: UIView,
+                                                changeActionCompletion: @escaping ActionCompletion,
+                                                deleteActionCompletion: @escaping ActionCompletion) -> UIAlertController {
         let alert = UIAlertController(title: nil, message: AlertStrings.changeImageActionSheetMessage, preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = controller.addPicButton
-        alert.popoverPresentationController?.sourceRect = controller.addPicButton.bounds
-        let change = UIAlertAction(title: AlertStrings.change, style: .default) { action in
-            controller.presentPicker()
+        alert.popoverPresentationController?.sourceView = sourceView
+        alert.popoverPresentationController?.sourceRect = sourceView.bounds
+        let change = UIAlertAction(title: AlertStrings.change, style: .default) { _ in
+            changeActionCompletion(nil)
         }
-        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
-            controller.viewModel.deleteProfilePicture()
+        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { _ in
+            deleteActionCompletion(nil)
         }
         alert.addAction(cancelAction)
         alert.addAction(change)
@@ -56,36 +35,42 @@ class ActionSheetManager {
         return alert
     }
     
-    // MARK: RecipeCreationVC
-    func presentEditActionSheetInRecipeCreationVC(controller: RecipeCreationViewController) -> UIAlertController {
-        let alert = UIAlertController(title: nil,
-                                      message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, controller.recipeToEdit?.title ?? ""), preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = controller.bottomEditButton
-        alert.popoverPresentationController?.sourceRect = controller.bottomEditButton.bounds
+    // MARK: EditMode ActionSheet
+    func presentEditActionSheet(sourceView: UIView,
+                                                  message: String,
+                                                  editActionCompletion: @escaping ActionCompletion,
+                                                  deleteActionCompletion: @escaping ActionCompletion) -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = sourceView
+        alert.popoverPresentationController?.sourceRect = sourceView.bounds
         
         let editAction = UIAlertAction(title: AlertStrings.editAction, style: .default) { _ in
-            controller.editingMode = true
-            controller.editExistingRecipe = true
-            controller.updateEditingModeUI(enterEditingMode: true) }
+            editActionCompletion(nil)
+        }
         let deleteAction = UIAlertAction(title: AlertStrings.delete, style: .destructive) { _ in
-            guard let recipe = controller.recipeToEdit else { return }
-            controller.viewModel.deleteRecipe(recipe) }
+            deleteActionCompletion(nil)
+        }
         alert.addAction(cancelAction)
         alert.addAction(editAction)
         alert.addAction(deleteAction)
         return alert
     }
     
-    func presentDoneActionSheetInRecipeCreationVC(controller: RecipeCreationViewController) -> UIAlertController {
-    
-        let alert = UIAlertController(title: nil, message: AlertStrings.doneActionSheetMessage, preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = controller.doneButton
-        alert.popoverPresentationController?.sourceRect = controller.doneButton.bounds
+    // MARK: Done/Save ActionSheet
+    func presentDoneActionSheet(sourceView: UIView,
+                                  message: String,
+                                  saveActionCompletion: @escaping ActionCompletion,
+                                  discardActionCompletion: @escaping ActionCompletion) -> UIAlertController {
+        
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.sourceView = sourceView
+        alert.popoverPresentationController?.sourceRect = sourceView.bounds
 
-        let saveAction = UIAlertAction(title: AlertStrings.save, style: .default) { _ in controller.saveRecipe()
+        let saveAction = UIAlertAction(title: AlertStrings.save, style: .default) { _ in
+            saveActionCompletion(nil)
         }
         let discardAction = UIAlertAction(title: AlertStrings.discard, style: .destructive) { _ in
-            controller.dismiss(animated: true, completion: nil)
+            discardActionCompletion(nil)
         }
         alert.addAction(cancelAction)
         alert.addAction(saveAction)

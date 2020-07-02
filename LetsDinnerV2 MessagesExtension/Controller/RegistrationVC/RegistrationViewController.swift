@@ -43,7 +43,7 @@ class RegistrationViewController: LDNavigationViewController {
         return iv
     }()
     
-    let addPicButton : UIButton = {
+    private let addPicButton : UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 17)
         button.setTitleColor(.activeButton, for: .normal)
@@ -73,7 +73,7 @@ class RegistrationViewController: LDNavigationViewController {
     private lazy var sixthSeparator = separator()
     private lazy var seventhSeparator = separator()
     
-    let firstNameTextField : UITextField = {
+    private let firstNameTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = LabelStrings.firstName
         textField.autocapitalizationType = .words
@@ -87,7 +87,7 @@ class RegistrationViewController: LDNavigationViewController {
         return textField
     }()
     
-    let lastNameTextField : UITextField = {
+    private let lastNameTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = LabelStrings.lastName
         textField.returnKeyType = .next
@@ -129,7 +129,7 @@ class RegistrationViewController: LDNavigationViewController {
         return label
     }()
     
-    let errorLabel : UILabel = {
+    private let errorLabel : UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14)
@@ -177,10 +177,10 @@ class RegistrationViewController: LDNavigationViewController {
     private let picturePicker = UIImagePickerController()
     
     private let topViewMinHeight: CGFloat = 90
-    
+
     private let topViewMaxHeight: CGFloat = 170
     
-    let viewModel : RegistrationViewModel
+    private let viewModel : RegistrationViewModel
     
     private var activeField: UITextField?
     
@@ -188,7 +188,7 @@ class RegistrationViewController: LDNavigationViewController {
     
     private let locationManager = CLLocationManager()
     
-    weak var delegate: RegistrationViewControllerDelegate?
+    private weak var delegate: RegistrationViewControllerDelegate?
     
     let previousStep: StepTracking
     
@@ -313,7 +313,19 @@ class RegistrationViewController: LDNavigationViewController {
         }
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let alert = self.actionSheetManager.presentSaveActionSheetInReigstrationVC(controller: self)
+            let alert = self.actionSheetManager.presentDoneActionSheet(
+                sourceView: self.navigationBar.nextButton,
+                message: AlertStrings.doneActionSheetMessage,
+                saveActionCompletion: { _ in
+                    self.view.endEditing(true)
+                    self.firstNameTextField.animateEmpty()
+                    self.lastNameTextField.animateEmpty()
+                    self.errorLabel.isHidden = self.viewModel.infoIsValid()
+                    if self.viewModel.infoIsValid() {
+                       self.viewModel.saveUserInformation()
+                    }},
+                discardActionCompletion: { _ in
+                    self.delegate?.registrationVCDidTapCancelButton() })
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -402,7 +414,7 @@ class RegistrationViewController: LDNavigationViewController {
         }
     }
     
-    func presentPicker() {
+    private func presentPicker() {
         picturePicker.popoverPresentationController?.sourceView = addPicButton
         picturePicker.popoverPresentationController?.sourceRect = addPicButton.bounds
         picturePicker.sourceType = .photoLibrary
@@ -411,7 +423,13 @@ class RegistrationViewController: LDNavigationViewController {
     }
     
     private func presentDeleteOrModifyOptions() {
-        let alert = actionSheetManager.presentDeleteOrChangeImage(controller: self)
+        let alert = actionSheetManager.presentEditImageActionSheet(
+            sourceView: self.addPicButton,
+            changeActionCompletion: { _ in
+                self.presentPicker() },
+            deleteActionCompletion: { _ in
+                self.viewModel.deleteProfilePicture()}
+        )
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -523,7 +541,6 @@ class RegistrationViewController: LDNavigationViewController {
             make.top.equalToSuperview().offset(10)
             make.width.equalTo(userPic.snp.height)
             make.bottom.equalTo(addPicButton.snp.top).offset(-10)
-            make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
         
