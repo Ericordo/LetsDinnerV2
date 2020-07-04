@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,6 +36,7 @@
                 <outlet property="ingredientsTableViewHeightConstraint" destination="RF0-PX-Egh" id="Vp4-MP-093"/>
                 <outlet property="recipeImageView" destination="LAq-Zi-jDD" id="60w-et-i3l"/>
                 <outlet property="recipeNameTextField" destination="E2F-qp-Aha" id="3Sz-en-9Ff"/>
+                <outlet property="recipeTitleLabel" destination="LOD-cq-mPe" id="4SS-iH-Mdi"/>
                 <outlet property="scrollView" destination="IX3-8C-tjn" id="Ngd-uD-xM8"/>
                 <outlet property="servingsLabel" destination="AhA-gS-yRY" id="1uh-qj-wa8"/>
                 <outlet property="servingsStepper" destination="mhq-Q2-2gs" id="6kq-aL-k9x"/>
@@ -426,6 +427,12 @@
                                 <action selector="didTapAddImage:" destination="-1" eventType="touchUpInside" id="yaM-Hg-iZt"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LOD-cq-mPe" userLabel="recipeTitleLabel">
+                            <rect key="frame" x="30" y="168" width="315" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HOy-Oe-3gA" userLabel="Navigation View">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                             <subviews>
@@ -464,14 +471,19 @@
                     </subviews>
                     <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
+                        <constraint firstItem="LOD-cq-mPe" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" constant="30" id="06B-95-Usp"/>
+                        <constraint firstAttribute="bottom" secondItem="LOD-cq-mPe" secondAttribute="bottom" constant="8" id="1QB-Cz-kb5"/>
                         <constraint firstItem="2qy-GP-8lc" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="86p-Gn-bUQ"/>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" id="Aqf-KX-MTC"/>
                         <constraint firstItem="HOy-Oe-3gA" firstAttribute="top" secondItem="NMe-Pr-15z" secondAttribute="top" id="CC5-MG-zae"/>
                         <constraint firstAttribute="bottom" secondItem="2qy-GP-8lc" secondAttribute="bottom" id="GWX-6G-QWS"/>
                         <constraint firstItem="LAq-Zi-jDD" firstAttribute="centerY" secondItem="NMe-Pr-15z" secondAttribute="centerY" id="WdQ-Vm-INb"/>
                         <constraint firstAttribute="trailing" secondItem="2qy-GP-8lc" secondAttribute="trailing" id="ajQ-8b-Ixl"/>
+                        <constraint firstItem="LOD-cq-mPe" firstAttribute="centerX" secondItem="NMe-Pr-15z" secondAttribute="centerX" id="b5X-gt-6LH"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="leading" secondItem="NMe-Pr-15z" secondAttribute="leading" constant="30" id="f1c-gw-dJf"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="centerX" secondItem="NMe-Pr-15z" secondAttribute="centerX" id="fbD-4O-qWF"/>
+                        <constraint firstAttribute="trailing" secondItem="LOD-cq-mPe" secondAttribute="trailing" constant="30" id="hqD-EQ-gO9"/>
+                        <constraint firstItem="LOD-cq-mPe" firstAttribute="top" secondItem="LAq-Zi-jDD" secondAttribute="bottom" constant="8" id="kxg-xg-C87"/>
                         <constraint firstAttribute="trailing" secondItem="rqH-8E-4XD" secondAttribute="trailing" constant="30" id="lPE-Hk-HZB"/>
                         <constraint firstItem="rqH-8E-4XD" firstAttribute="top" secondItem="LAq-Zi-jDD" secondAttribute="bottom" constant="8" id="lPz-Ul-cvQ"/>
                         <constraint firstAttribute="bottom" secondItem="rqH-8E-4XD" secondAttribute="bottom" constant="8" id="mTJ-XW-Nhc"/>
@@ -484,7 +496,7 @@
                     <rect key="frame" x="0.0" y="767" width="375" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3o1-zm-OSL">
-                            <rect key="frame" x="20" y="15" width="80" height="44"/>
+                            <rect key="frame" x="20" y="15" width="58" height="22"/>
                             <state key="normal" title=" Edit" image="editButton">
                                 <color key="titleColor" name="highlightRed"/>
                             </state>

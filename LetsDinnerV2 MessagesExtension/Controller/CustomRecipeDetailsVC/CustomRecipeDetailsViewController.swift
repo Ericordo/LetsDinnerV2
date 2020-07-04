@@ -334,7 +334,7 @@ extension CustomRecipeDetailsViewController: UIScrollViewDelegate {
     }
 }
 
-extension CustomRecipeDetailsViewController: RecipeCreationVCUpdateDelegate {
+extension CustomRecipeDetailsViewController {
     
     func recipeCreationVCDidUpdateRecipe() {
         setupUI()

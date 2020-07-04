@@ -530,13 +530,13 @@ class RegistrationViewController: LDNavigationViewController {
         addPicButton.snp.makeConstraints { make in
             make.height.equalTo(20)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-10)
+            make.bottom.equalToSuperview().offset(-8)
         }
         
         userPic.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.width.equalTo(userPic.snp.height)
-            make.bottom.equalTo(addPicButton.snp.top).offset(-10)
+            make.bottom.equalTo(addPicButton.snp.top).offset(-8)
             make.centerX.equalToSuperview()
         }
         
