@@ -141,14 +141,14 @@ class RegistrationViewController: LDNavigationViewController {
     private let metricImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = Images.checkmark.withColor(.activeButton)
+        iv.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
         return iv
     }()
     
     private let imperialImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = Images.checkmark.withColor(.activeButton)
+        iv.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
         return iv
     }()
     
@@ -288,7 +288,7 @@ class RegistrationViewController: LDNavigationViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+                self.showBasicAlert(title: AlertStrings.oopsErrorTitle, message: error.localizedDescription)
                 self.checkUsername()
             case.success(()):
                 self.delegate?.registrationVCDidTapSaveButton(previousStep: self.previousStep)
@@ -386,10 +386,12 @@ class RegistrationViewController: LDNavigationViewController {
     private func setupMeasurementSystem(_ system: MeasurementSystem) {
         switch system {
         case .metric:
-            metricImageView.image = Images.checkmark.withColor(.activeButton)
+            metricImageView.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
+            metricImageView.tintColor = .activeButton
             imperialImageView.image = nil
         case .imperial:
-            imperialImageView.image = Images.checkmark.withColor(.activeButton)
+            imperialImageView.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
+            imperialImageView.tintColor = .activeButton
             metricImageView.image = nil
         }
         defaults.measurementSystem = system.rawValue
@@ -403,7 +405,6 @@ class RegistrationViewController: LDNavigationViewController {
     @objc private func didTapMetricView() {
         setupMeasurementSystem(.metric)
     }
-    
     
     private func findCurrentLocation() {
         locationManager.requestAlwaysAuthorization()

@@ -579,7 +579,6 @@ class RecipeCreationViewController: UIViewController  {
             }
         }
         stepTextField.text = ""
-        
     }
     
     private func addComment(comment: String?) {
@@ -600,15 +599,9 @@ class RecipeCreationViewController: UIViewController  {
         }
         if recipeImage == nil {
             // setup an default image
-            recipeImage = createDefaultImage()
+            recipeImage = Images.emptyPlate
         }
-        
         return false
-    }
-    
-    private func createDefaultImage() -> UIImage {
-        let image = Images.emptyPlate
-        return image
     }
     
     private func shakeEmptyTextFields() {
