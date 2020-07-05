@@ -141,14 +141,14 @@ class RegistrationViewController: LDNavigationViewController {
     private let metricImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = Images.checkmark
+        iv.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
         return iv
     }()
     
     private let imperialImageView : UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.image = Images.checkmark
+        iv.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
         return iv
     }()
     
@@ -177,7 +177,7 @@ class RegistrationViewController: LDNavigationViewController {
     private let picturePicker = UIImagePickerController()
     
     private let topViewMinHeight: CGFloat = 90
-    
+
     private let topViewMaxHeight: CGFloat = 170
     
     private let viewModel : RegistrationViewModel
@@ -190,9 +190,11 @@ class RegistrationViewController: LDNavigationViewController {
     
     private weak var delegate: RegistrationViewControllerDelegate?
     
-    private let previousStep: StepTracking
+    let previousStep: StepTracking
     
     private let loadingView = LDLoadingView()
+    
+    private let actionSheetManager = ActionSheetManager()
     
     // MARK: Init
     init(viewModel: RegistrationViewModel,
@@ -286,7 +288,7 @@ class RegistrationViewController: LDNavigationViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                self.showBasicAlert(title: "Oops!", message: error.localizedDescription)
+                self.showBasicAlert(title: AlertStrings.oopsErrorTitle, message: error.localizedDescription)
                 self.checkUsername()
             case.success(()):
                 self.delegate?.registrationVCDidTapSaveButton(previousStep: self.previousStep)
@@ -311,13 +313,20 @@ class RegistrationViewController: LDNavigationViewController {
         }
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.view.endEditing(true)
-            self.firstNameTextField.animateEmpty()
-            self.lastNameTextField.animateEmpty()
-            self.errorLabel.isHidden = self.viewModel.infoIsValid()
-            if self.viewModel.infoIsValid() {
-                self.viewModel.saveUserInformation()
-            }
+            let alert = self.actionSheetManager.presentDoneActionSheet(
+                sourceView: self.navigationBar.nextButton,
+                message: AlertStrings.doneActionSheetMessage,
+                saveActionCompletion: { _ in
+                    self.view.endEditing(true)
+                    self.firstNameTextField.animateEmpty()
+                    self.lastNameTextField.animateEmpty()
+                    self.errorLabel.isHidden = self.viewModel.infoIsValid()
+                    if self.viewModel.infoIsValid() {
+                       self.viewModel.saveUserInformation()
+                    }},
+                discardActionCompletion: { _ in
+                    self.delegate?.registrationVCDidTapCancelButton() })
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -377,10 +386,12 @@ class RegistrationViewController: LDNavigationViewController {
     private func setupMeasurementSystem(_ system: MeasurementSystem) {
         switch system {
         case .metric:
-            metricImageView.image = Images.checkmark
+            metricImageView.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
+            metricImageView.tintColor = .activeButton
             imperialImageView.image = nil
         case .imperial:
-            imperialImageView.image = Images.checkmark
+            imperialImageView.image = Images.checkmark.withRenderingMode(.alwaysTemplate)
+            imperialImageView.tintColor = .activeButton
             metricImageView.image = nil
         }
         defaults.measurementSystem = system.rawValue
@@ -394,7 +405,6 @@ class RegistrationViewController: LDNavigationViewController {
     @objc private func didTapMetricView() {
         setupMeasurementSystem(.metric)
     }
-    
     
     private func findCurrentLocation() {
         locationManager.requestAlwaysAuthorization()
@@ -414,19 +424,13 @@ class RegistrationViewController: LDNavigationViewController {
     }
     
     private func presentDeleteOrModifyOptions() {
-        let alert = UIAlertController(title: AlertStrings.myImage, message: "", preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = addPicButton
-        alert.popoverPresentationController?.sourceRect = addPicButton.bounds
-        let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        let change = UIAlertAction(title: AlertStrings.change, style: .default) { action in
-            self.presentPicker()
-        }
-        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
-            self.viewModel.deleteProfilePicture()
-        }
-        alert.addAction(cancel)
-        alert.addAction(change)
-        alert.addAction(delete)
+        let alert = actionSheetManager.presentEditImageActionSheet(
+            sourceView: self.addPicButton,
+            changeActionCompletion: { _ in
+                self.presentPicker() },
+            deleteActionCompletion: { _ in
+                self.viewModel.deleteProfilePicture()}
+        )
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -466,7 +470,8 @@ class RegistrationViewController: LDNavigationViewController {
         navigationBar.titleLabel.text = LabelStrings.profile
         #warning("fix previous button leading constraint")
         navigationBar.previousButton.setTitle(AlertStrings.cancel, for: .normal)
-        navigationBar.nextButton.setTitle(LabelStrings.save, for: .normal)
+        navigationBar.previousButton.isHidden = true
+        navigationBar.nextButton.setTitle(ButtonTitle.done, for: .normal)
         progressViewContainer.isHidden = true
         errorLabel.isHidden = true
         scrollView.delegate = self
@@ -741,7 +746,7 @@ extension RegistrationViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
         userPic.layer.cornerRadius = userPic.frame.height / 2
-        if yOffset < -topViewMaxHeight {
+        if yOffset <= -topViewMaxHeight {
             headerView.snp.remakeConstraints { make in
                 make.top.equalTo(navigationBar.snp.bottom)
                 make.trailing.leading.equalToSuperview()

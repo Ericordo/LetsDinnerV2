@@ -28,6 +28,7 @@ enum DefaultSectionName {
 
 class SectionSelectionInput : UIView {
     
+    private var viewFirstInit = true
     var type: AddNewThingViewType!
         
     init(type: AddNewThingViewType) {
@@ -79,8 +80,12 @@ class SectionSelectionInput : UIView {
         // Maybe adding constraints in layoutSubviews fix the bug of the toolnar not always appearing
         addConstraints()
         
-        // Control the selected bubble (First time)
-        sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .top)
+        if viewFirstInit {
+            // Show the selected bubble (First time)
+            sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .top)
+            viewFirstInit = false
+        }
+        
     }
     
     func configureInput(sections: [String]) {
