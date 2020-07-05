@@ -92,7 +92,6 @@ class RecipeCreationViewController: UIViewController  {
     private var activeField: UITextField?
 
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
-//    weak var recipeCreationVCUpdateDelegate: RecipeCreationVCUpdateDelegate?
     
     // Data
     let customRecipe = CustomRecipe()
@@ -151,6 +150,7 @@ class RecipeCreationViewController: UIViewController  {
     private let loadingView = LDLoadingView()
     
     private let viewModel: RecipeCreationViewModel
+    private let actionSheetManager = ActionSheetManager()
     
     init(viewModel: RecipeCreationViewModel) {
         self.viewModel = viewModel
@@ -168,7 +168,6 @@ class RecipeCreationViewController: UIViewController  {
         configureUI()
         configureTableView()
         configureDelegate()
-//        configureNewThingView()
         configureGestureRecognizers()
         configureObservers()
         
@@ -256,8 +255,6 @@ class RecipeCreationViewController: UIViewController  {
     private func configureUI() {
         
         bottomView.isHidden = !isAllowedToEditRecipe
-
-//        addThingView.addShadow()
         
         recipeImageView.layer.cornerRadius = 15
 
@@ -294,7 +291,6 @@ class RecipeCreationViewController: UIViewController  {
 
         stepTableView.isEditing = true
         stepTableView.allowsSelectionDuringEditing = false
-//        stepsTableView.rowHeight = rowHeight
         stepsTableViewHeightConstraint.constant = 0
     }
     
@@ -375,7 +371,6 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func updateEditingModeUI(enterEditingMode bool: Bool) {
-        
         // TableViews
         [ingredientTableView, stepTableView].forEach {
             $0?.isEditing = bool
@@ -405,8 +400,6 @@ class RecipeCreationViewController: UIViewController  {
                 placeholderLabel.isHidden = true
             }
         }
-        
-       
         bottomView.isHidden = !isAllowedToEditRecipe
     }
     
@@ -495,47 +488,31 @@ class RecipeCreationViewController: UIViewController  {
     
     // MARK: Present Action Sheet
     private func presentEditActionSheet() {
-        let alert = UIAlertController(title: "", message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, recipeToEdit?.title ?? ""), preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.sourceView = bottomEditButton
-        alert.popoverPresentationController?.sourceRect = bottomEditButton.bounds
-        let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        let edit = UIAlertAction(title: AlertStrings.editAction, style: .default) { action in
-            self.editingMode = true
-            self.editExistingRecipe = true
-            self.updateEditingModeUI(enterEditingMode: true)
-        }
-        let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
-            guard let recipe = self.recipeToEdit else { return }
-            self.viewModel.deleteRecipe(recipe)
-        }
-        alert.addAction(cancel)
-        alert.addAction(edit)
-        alert.addAction(delete)
+        let alert = actionSheetManager.presentEditActionSheet(
+            sourceView: self.bottomEditButton,
+            message: String.localizedStringWithFormat(AlertStrings.editRecipeActionSheetMessage, self.recipeToEdit?.title ?? ""),
+            editActionCompletion: { _ in
+                self.editingMode = true
+                self.editExistingRecipe = true
+                self.updateEditingModeUI(enterEditingMode: true)},
+            deleteActionCompletion: { _ in
+                guard let recipe = self.recipeToEdit else { return }
+                self.viewModel.deleteRecipe(recipe)})
         self.present(alert, animated: true, completion: nil)
-        
     }
     
     private func presentDoneActionSheet() {
-        let alert = UIAlertController(title: "", message: AlertStrings.doneActionSheetMessage, preferredStyle: .actionSheet)
-        
-        alert.popoverPresentationController?.sourceView = doneButton
-        alert.popoverPresentationController?.sourceRect = doneButton.bounds
-
-        let saveAction = UIAlertAction(title: AlertStrings.save, style: .default) {
-            _ in self.saveRecipe()
-        }
-        let discardAction = UIAlertAction(title: AlertStrings.discard, style: .destructive) { _ in
-            self.dismiss(animated: true, completion: nil)
-        }
-        let cancelAction = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-        alert.addAction(cancelAction)
-        alert.addAction(saveAction)
-        alert.addAction(discardAction)
+        let alert = actionSheetManager.presentDoneActionSheet(
+            sourceView: self.doneButton,
+            message: AlertStrings.doneActionSheetMessage,
+            saveActionCompletion: { _ in
+                self.saveRecipe() },
+            discardActionCompletion: { _ in
+                self.dismiss(animated: true, completion: nil) })
         self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: Functions
-
     private func addIngredient(name: String?, amountString: String?) {
         var unit = ""
         var amount = ""
@@ -602,7 +579,6 @@ class RecipeCreationViewController: UIViewController  {
             }
         }
         stepTextField.text = ""
-        
     }
     
     private func addComment(comment: String?) {
@@ -623,16 +599,9 @@ class RecipeCreationViewController: UIViewController  {
         }
         if recipeImage == nil {
             // setup an default image
-            recipeImage = createDefaultImage()
+            recipeImage = Images.emptyPlate
         }
-        
         return false
-    }
-    
-    private func createDefaultImage() -> UIImage {
-        let imageName = "emptyPlate"
-        let image = UIImage(named: imageName)
-        return image!
     }
     
     private func shakeEmptyTextFields() {
