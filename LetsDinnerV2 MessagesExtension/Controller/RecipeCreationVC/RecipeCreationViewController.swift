@@ -70,12 +70,14 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var ingredientSectionView: UIView!
     @IBOutlet weak var stepSectionView: UIView!
     @IBOutlet weak var tipsSectionView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
     private let realm = try! Realm()
     
     private let rowHeight : CGFloat = 66
     private let topViewMinHeight: CGFloat = 55
     private let topViewMaxHeight: CGFloat = 200
+    private let bottomViewHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 90)
 
     // Image
     private let picturePicker = UIImagePickerController()
@@ -271,6 +273,8 @@ class RecipeCreationViewController: UIViewController  {
         placeholderLabel.textColor = .placeholderText
         placeholderLabel.font = .systemFont(ofSize: 17)
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
+        
+        self.updateBottomViewContraint()
     }
     
     private func configureTableView() {
@@ -317,7 +321,6 @@ class RecipeCreationViewController: UIViewController  {
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
     }
     
-    
     func presentCreateRecipeWelcomeVCIfNeeded() {
         if defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited) != true {
             let welcomeVC = RecipeCreationWelcomeViewController()
@@ -340,6 +343,13 @@ class RecipeCreationViewController: UIViewController  {
         }
         
         contentViewHeightConstraint.constant = 650 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant + 100
+    }
+    
+    private func updateBottomViewContraint() {
+        bottomView.removeConstraint(bottomViewHeightConstraint)
+        bottomView.snp.makeConstraints { make in
+            make.height.equalTo(bottomViewHeight)
+        }
     }
     
     // MARK: Edit Mode UI
