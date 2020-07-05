@@ -21,7 +21,6 @@
                 <outlet property="bottomEditButton" destination="3o1-zm-OSL" id="L9e-pi-xZP"/>
                 <outlet property="bottomView" destination="Zjm-0i-uqd" id="lz2-bX-uAZ"/>
                 <outlet property="bottomViewBottomConstraint" destination="LxK-Nu-ta4" id="q2E-vL-hrp"/>
-                <outlet property="bottomViewHeightConstraint" destination="xCq-6p-kOy" id="Rh3-8h-bOe"/>
                 <outlet property="commentsTextView" destination="hMw-Vr-xbb" id="nDU-Ks-ETG"/>
                 <outlet property="contentViewHeightConstraint" destination="fOO-vV-X9S" id="Jb4-PC-cd7"/>
                 <outlet property="doneButton" destination="UEw-H2-uNc" id="Nq3-jR-pAF"/>
@@ -527,7 +526,7 @@
                 <constraint firstItem="Zjm-0i-uqd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="5jW-e2-uCz"/>
                 <constraint firstItem="NMe-Pr-15z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="JwP-pf-XYy"/>
                 <constraint firstAttribute="bottom" secondItem="I2j-RK-drp" secondAttribute="bottom" constant="-94" id="KWL-Qe-GsQ"/>
-                <constraint firstAttribute="bottom" secondItem="Zjm-0i-uqd" secondAttribute="bottom" id="LxK-Nu-ta4"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Zjm-0i-uqd" secondAttribute="bottom" id="LxK-Nu-ta4"/>
                 <constraint firstItem="IX3-8C-tjn" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="OFw-p2-skS"/>
                 <constraint firstItem="NMe-Pr-15z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="QHR-gm-zps"/>
                 <constraint firstItem="Zjm-0i-uqd" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ShG-OI-kfv"/>
