@@ -89,6 +89,7 @@ class RecipeCreationViewController: UIViewController  {
     private var activeField: UITextField?
 
     weak var recipeCreationVCDelegate: RecipeCreationVCDelegate?
+    private let actionSheetManager = ActionSheetManager()
     
     // Data
     let customRecipe = CustomRecipe()
@@ -863,41 +864,24 @@ class RecipeCreationViewController: UIViewController  {
         case .addPic:
             presentImagePicker()
         case .deleteOrModifyPic:
-            let alert = UIAlertController(title: "", message: AlertStrings.changeImageActionSheetMessage, preferredStyle: .actionSheet)
-            alert.popoverPresentationController?.sourceView = addImageButton
-            alert.popoverPresentationController?.sourceRect = addImageButton.bounds
-            let cancel = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
-            let change = UIAlertAction(title: AlertStrings.change, style: .default) { action in
-                self.presentImagePicker()
-            }
-            let delete = UIAlertAction(title: AlertStrings.delete, style: .destructive) { action in
-                self.recipeImageView.image = Images.imagePlaceholderBig
-                self.addImageButton.setTitle(ButtonTitle.addImage, for: .normal)
-                self.imageState = .addPic
-                self.downloadUrl = nil
-            }
-            alert.addAction(cancel)
-            alert.addAction(change)
-            alert.addAction(delete)
+            let alert = actionSheetManager.presentEditImageActionSheet(
+                sourceView: self.addImageButton,
+                changeActionCompletion: { _ in
+                    self.presentImagePicker() },
+                deleteActionCompletion: { _ in
+                    self.recipeImageView.image = Images.imagePlaceholderBig
+                    self.addImageButton.setTitle(ButtonTitle.addImage, for: .normal)
+                    self.imageState = .addPic
+                    self.downloadUrl = nil
+            })
             self.present(alert, animated: true, completion: nil)
         }
         
         self.isRecipeEdited = true
     }
     
-    @IBAction func didTapBottomAdd(_ sender: Any) {
-//        self.removeStartView()
-        
-//        if !editingMode {
-//            newThingView?.mainTextField.becomeFirstResponder()
-//            newThingView?.updateUI(type: .createRecipe, selectedSection: "Name")
-//            bottomEditButton.isHidden = false
-//        }
-    }
-    
     @IBAction func didTapBottomEditButton(_ sender: Any) {
-        if self.editingMode {
-        } else {
+        if !self.editingMode {
             self.presentEditActionSheet()
         }
     }
@@ -908,28 +892,6 @@ class RecipeCreationViewController: UIViewController  {
 extension RecipeCreationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         activeField = textField
-        
-        // Pass to AddThingView
-//        DispatchQueue.main.async {
-//
-//            switch textField {
-//            case self.recipeNameTextField:
-//                self.newThingView?.selectedSection = CreateRecipeSections.name.rawValue
-//
-//            case self.ingredientTextField:
-//
-//                self.newThingView?.selectedSection = CreateRecipeSections.ingredient.rawValue
-//
-//
-//            case self.stepTextField:
-//                self.newThingView?.selectedSection = CreateRecipeSections.step.rawValue
-//            default:
-//                break
-//            }
-//
-//            self.newThingView?.mainTextField.becomeFirstResponder()
-//        }
-        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -962,12 +924,6 @@ extension RecipeCreationViewController: UITextFieldDelegate {
 }
 
 extension RecipeCreationViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-//        if textView == commentsTextView {
-//            newThingView?.mainTextField.becomeFirstResponder()
-//            newThingView?.selectedSection = CreateRecipeSections.comment.rawValue
-//        }
-    }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
        commentsTextView.resignFirstResponder()
@@ -1014,7 +970,6 @@ extension RecipeCreationViewController: UIImagePickerControllerDelegate, UINavig
                 }
             }
         }
-        
         
     }
 }
@@ -1092,60 +1047,8 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
         default:
             break
         }
-        
-        
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-//        if editingMode {
-//            switch tableView {
-//
-//            case ingredientsTableView:
-//                selectedRowIngredient = indexPath.row
-//                let selectedIngredient = temporaryIngredients[indexPath.row]
-//
-//                // pop up at the addthingview
-//                sendDataToNewThingView(selectedItem: selectedIngredient)
-//
-//            case stepsTableView:
-//                selectedRowStep = indexPath.row
-//                let selectedStep = temporarySteps[indexPath.row]
-//
-//                sendDataToNewThingView(selectedItem: selectedStep)
-//
-//            default:
-//                break
-//            }
-//        }
-    }
-    
-    private func sendDataToNewThingView(selectedItem: Any) {
-        
-//        if selectedItem is TemporaryIngredient {
-//            let selectedIngredient = selectedItem as! TemporaryIngredient
-//            newThingView?.selectedSection = CreateRecipeSections.ingredient.rawValue
-//            newThingView?.mainTextField.becomeFirstResponder()
-//            newThingView?.mainTextField.text = selectedIngredient.name
-//
-////            ingredientTextField.text = selectedIngredient.name
-//
-//            if let amount = selectedIngredient.amount {
-////                amountTextField.text = String(amount)
-//                newThingView?.amountTextField.text = String(amount)
-//            }
-//            if let unit = selectedIngredient.unit {
-////                unitTextField.text = unit
-//                newThingView?.unitTextField.text = unit
-//            }
-//        } else if selectedItem is String {
-//            let selectedStep = selectedItem as! String
-//            newThingView?.selectedSection = CreateRecipeSections.step.rawValue
-//            newThingView?.mainTextField.becomeFirstResponder()
-//            newThingView?.mainTextField.text = selectedStep
-//        }
-            
-    }
 }
 
 // MARK: ScrollView Delegate
