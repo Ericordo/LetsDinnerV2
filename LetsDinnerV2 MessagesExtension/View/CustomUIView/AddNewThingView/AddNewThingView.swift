@@ -217,7 +217,6 @@ class AddNewThingView: UIView {
         sectionSelectionInput.sectionsCollectionView.selectItem(at: [0, position], animated: true, scrollPosition: .top)
         
 //        mainTextField.becomeFirstResponder()
-        
     }
     
     private func hideAmountAndUnitTextField(_ bool: Bool) {
