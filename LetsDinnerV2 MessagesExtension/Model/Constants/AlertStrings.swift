@@ -93,5 +93,8 @@ enum AlertStrings {
     static let discard = NSLocalizedString("Discard", comment: "discard")
     static let change = NSLocalizedString("Change", comment: "change")
     static let nope = NSLocalizedString("Nope", comment: "nope")
+    
+    // Error
+    static let oopsErrorTitle = NSLocalizedString("Oops!", comment: "oops")
 
 }
