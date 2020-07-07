@@ -15,11 +15,6 @@ protocol RecipeCreationVCDelegate: class {
     func recipeCreationVCDidTapDone()
 }
 
-protocol RecipeCreationVCUpdateDelegate: class {
-    #warning("Will be Removed")
-    func recipeCreationVCDidUpdateRecipe()
-}
-
 struct TemporaryIngredient {
     let name: String
     let amount: Double?
@@ -32,13 +27,13 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var servingsLabel: UILabel!
     @IBOutlet weak var servingsStepper: UIStepper!
+    @IBOutlet weak var recipeTitleLabel: UILabel!
     
     // TextField Outlet
     @IBOutlet weak var recipeNameTextField: UITextField!
     @IBOutlet weak var ingredientTextField: UITextField!
 
     @IBOutlet weak var amountTextField: UITextField!
-    //    @IBOutlet weak var unitTextField: UITextField!
     @IBOutlet weak var stepTextField: UITextField!
     @IBOutlet weak var commentsTextView: UITextView!
     
@@ -75,12 +70,14 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var ingredientSectionView: UIView!
     @IBOutlet weak var stepSectionView: UIView!
     @IBOutlet weak var tipsSectionView: UIView!
+    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
     
     private let realm = try! Realm()
     
     private let rowHeight : CGFloat = 66
     private let topViewMinHeight: CGFloat = 55
     private let topViewMaxHeight: CGFloat = 200
+    private let bottomViewHeight: CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 90)
 
     // Image
     private let picturePicker = UIImagePickerController()
@@ -137,17 +134,13 @@ class RecipeCreationViewController: UIViewController  {
     private var selectedRowIngredient: Int?
     private var selectedRowStep: Int?
     
-    private lazy var createRecipeStartView = CreateRecipeStartView()
-    
-    // New Thing View
-//    var newThingView: AddNewThingView?
-//    var sectionNames = [CreateRecipeSections.name.rawValue, CreateRecipeSections.ingredient.rawValue, CreateRecipeSections.step.rawValue, CreateRecipeSections.comment.rawValue]
-    
     var placeholderLabel = UILabel()
+    
     var tapGestureToHideKeyboard = UITapGestureRecognizer()
     var swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer()
     
     private let loadingView = LDLoadingView()
+    private lazy var createRecipeStartView = CreateRecipeStartView()
     
     private let viewModel: RecipeCreationViewModel
     private let actionSheetManager = ActionSheetManager()
@@ -248,7 +241,6 @@ class RecipeCreationViewController: UIViewController  {
                 self.dismiss(animated: true, completion: nil)
             }
         }
-        
     }
     
     // MARK: Configure UI
@@ -256,13 +248,17 @@ class RecipeCreationViewController: UIViewController  {
         
         bottomView.isHidden = !isAllowedToEditRecipe
         
+        recipeTitleLabel.isHidden = true
+        recipeTitleLabel.textAlignment = .center
+
         recipeImageView.layer.cornerRadius = 15
 
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
-        
-        servingsLabel.text = "For \(servings) people"
+    
+        servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, String(servings))
+
         servingsStepper.minimumValue = 2
         servingsStepper.maximumValue = 12
         servingsStepper.stepValue = 1
@@ -278,6 +274,8 @@ class RecipeCreationViewController: UIViewController  {
         placeholderLabel.textColor = .placeholderText
         placeholderLabel.font = .systemFont(ofSize: 17)
         placeholderLabel.isHidden = !commentsTextView.text.isEmpty
+        
+        self.updateBottomViewContraint()
     }
     
     private func configureTableView() {
@@ -310,19 +308,6 @@ class RecipeCreationViewController: UIViewController  {
         commentsTextView.delegate = self
     }
     
-    private func configureNewThingView() {
-//        newThingView = AddNewThingView(type: .createRecipe, sectionNames: sectionNames, selectedSection: nil)
-//        newThingView?.addThingDelegate = self
-//
-//        addThingView.addSubview(newThingView!)
-//
-//        newThingView!.translatesAutoresizingMaskIntoConstraints = false
-//        newThingView!.anchor(top: addThingView.topAnchor,
-//                             leading: addThingView.leadingAnchor,
-//                             bottom: addThingView.bottomAnchor,
-//                             trailing: addThingView.trailingAnchor)
-    }
-    
     private func configureObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
         
@@ -331,6 +316,11 @@ class RecipeCreationViewController: UIViewController  {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
     }
+
+    private func configureGestureRecognizers() {
+        // Should only tap on the view not on the keyboard
+        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+    }
     
     func presentCreateRecipeWelcomeVCIfNeeded() {
         if defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited) != true {
@@ -338,15 +328,6 @@ class RecipeCreationViewController: UIViewController  {
             welcomeVC.modalPresentationStyle = .overFullScreen
             self.present(welcomeVC, animated: true, completion: nil)
         }
-    }
-
-    private func configureGestureRecognizers() {
-        // Should only tap on the view not on the keyboard
-        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tapGestureToHideKeyboard.delegate = self
-        
-//        swipeDownGestureToHideKeyBoard = UISwipeGestureRecognizer(target: newThingView, action: #selector(UIView.endEditing(_:)))
-//        swipeDownGestureToHideKeyBoard.direction = .down
     }
     
     private func updateTableViewHeightConstraint(tableView: UITableView) {
@@ -365,8 +346,16 @@ class RecipeCreationViewController: UIViewController  {
         contentViewHeightConstraint.constant = 650 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant + 100
     }
     
+    private func updateBottomViewContraint() {
+        bottomView.removeConstraint(bottomViewHeightConstraint)
+        bottomView.snp.makeConstraints { make in
+            make.height.equalTo(bottomViewHeight)
+        }
+    }
+    
     // MARK: Edit Mode UI
     func updateViewExistingRecipeUI() {
+        self.recipeTitleLabel.isHidden = false
         updateEditingModeUI(enterEditingMode: false)
     }
     
@@ -387,7 +376,8 @@ class RecipeCreationViewController: UIViewController  {
         self.hideBottomView(bool)
         self.updateTableViewLeading(enterEditingMode: bool)
         self.addImageButton.isHidden = !bool
-        servingsStepper.isHidden = !bool
+        self.servingsStepper.isHidden = !bool
+        self.recipeTitleLabel.isHidden = bool
         
         if viewExistingRecipe {
             if commentsTextView.text.isEmpty {
@@ -455,6 +445,7 @@ class RecipeCreationViewController: UIViewController  {
         
         downloadUrl = recipe.downloadUrl
         recipeNameTextField.text = recipe.title
+        recipeTitleLabel.text = recipe.title
         servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, String(recipe.servings))
         servingsStepper.value = Double(recipe.servings)
         
@@ -512,7 +503,7 @@ class RecipeCreationViewController: UIViewController  {
         self.present(alert, animated: true, completion: nil)
     }
     
-    // MARK: Functions
+    // MARK: Helpers
     private func addIngredient(name: String?, amountString: String?) {
         var unit = ""
         var amount = ""
@@ -1157,7 +1148,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         }
         
         addImageButton.alpha = (headerViewHeightConstraint.constant == topViewMaxHeight) ? 1 : 0
- 
+        recipeTitleLabel.alpha = (headerViewHeightConstraint.constant == topViewMaxHeight) ? 1 : 0
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
@@ -1216,82 +1207,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
             self.scrollView.setContentOffset(CGPoint(x: 0, y: -96), animated: true)
         }
         
-//        showAddThingView(false, keyboardHeight: nil)
         self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
-        self.deselectSelectedRow()
     }
-    
-//    private func showAddThingView(_ bool: Bool, keyboardHeight: CGFloat?) {
-//        if bool {
-//
-//            guard let keyboardHeight = keyboardHeight else {return}
-//
-//            UIView.animate(withDuration: 1) {
-//                self.addThingViewBottomConstraint.constant = keyboardHeight
-//
-//                if UIDevice.current.userInterfaceIdiom == .pad {
-//                    self.addThingViewBottomConstraint.constant += 20
-//                }
-//
-//            }
-//
-//            self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
-//            self.view.addGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
-//
-//        } else {
-//
-//            UIView.animate(withDuration: 1) {
-//                self.addThingViewBottomConstraint.constant = -100
-//
-//                if UIDevice.current.userInterfaceIdiom == .pad {
-//                    self.addThingViewBottomConstraint.constant -= 20
-//                }
-//            }
-//
-//           self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
-//           self.view.removeGestureRecognizer(self.swipeDownGestureToHideKeyBoard)
-//        }
-//
-//        self.view.layoutIfNeeded()
-//
-//    }
-    
-}
-
-
-extension RecipeCreationViewController: AddThingDelegate {
-    
-    // Pass thing from AddThingView
-    func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
-//        switch selectedSection {
-//        case CreateRecipeSections.name.rawValue:
-//            recipeNameTextField.text = mainContent
-//        case CreateRecipeSections.ingredient.rawValue:
-//            addIngredient(name: mainContent, amount: amount, unit: unit)
-//        case CreateRecipeSections.step.rawValue:
-//            addCookingStep(step: mainContent)
-//        case CreateRecipeSections.comment.rawValue:
-//            addComment(comment: mainContent)
-//        default:
-//            break
-//        }
-//
-//        self.deselectSelectedRow()
-        
-    }
-    
-    private func deselectSelectedRow() {
-//        ingredientsTableView.deselectSelectedRow(animated: true)
-//        stepsTableView.deselectSelectedRow(animated: true)
-    }
-}
-
-extension RecipeCreationViewController: UIGestureRecognizerDelegate {
-    // To prevent touch in "Add Thing" View
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-//        if touch.view!.isDescendant(of: addThingView) {
-//            return false
-//        }
-//        return true
-//    }
 }

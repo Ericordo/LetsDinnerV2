@@ -34,13 +34,21 @@ class RecipeCell: UITableViewCell {
     var searchType: SearchType = .apiRecipes
 
     weak var recipeCellDelegate: RecipeCellDelegate?
-    
-    // Drag and drop
-    weak var reorderControl: UIView?
-    
+ 
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCell()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if #available(iOSApplicationExtension 13.0, *) {
+            if self.traitCollection.userInterfaceStyle == .dark {
+                let blurEffect = UIBlurEffect(style: .dark)
+                self.visualEffectView.effect = blurEffect
+            }
+        }
     }
 
     func setupCell() {
@@ -77,13 +85,6 @@ class RecipeCell: UITableViewCell {
         chooseButton.isHidden = recipe.isSelected
         chosenButton.isHidden = !recipe.isSelected
         recipeNameLabel.sizeToFit()
-
-        if #available(iOSApplicationExtension 13.0, *) {
-            if self.traitCollection.userInterfaceStyle == .dark {
-                let blurEffect = UIBlurEffect(style: .dark)
-                self.visualEffectView.effect = blurEffect
-            }
-        }
     }
     
 //    func configureCellWithCustomRecipe(_ customRecipe: CustomRecipe) {
