@@ -278,7 +278,7 @@ class RecipeCreationViewController: UIViewController  {
         recipeImageView.layer.cornerRadius = 15
 
         scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: topViewMaxHeight, left: 0, bottom: bottomViewHeight, right: 0)
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     
         servingsLabel.text = String.localizedStringWithFormat(LabelStrings.servingLabel, String(servings))
@@ -1174,33 +1174,7 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
 //            }
 //        }
     }
-    
-    private func sendDataToNewThingView(selectedItem: Any) {
-        
-//        if selectedItem is TemporaryIngredient {
-//            let selectedIngredient = selectedItem as! TemporaryIngredient
-//            newThingView?.selectedSection = CreateRecipeSections.ingredient.rawValue
-//            newThingView?.mainTextField.becomeFirstResponder()
-//            newThingView?.mainTextField.text = selectedIngredient.name
-//
-////            ingredientTextField.text = selectedIngredient.name
-//
-//            if let amount = selectedIngredient.amount {
-////                amountTextField.text = String(amount)
-//                newThingView?.amountTextField.text = String(amount)
-//            }
-//            if let unit = selectedIngredient.unit {
-////                unitTextField.text = unit
-//                newThingView?.unitTextField.text = unit
-//            }
-//        } else if selectedItem is String {
-//            let selectedStep = selectedItem as! String
-//            newThingView?.selectedSection = CreateRecipeSections.step.rawValue
-//            newThingView?.mainTextField.becomeFirstResponder()
-//            newThingView?.mainTextField.text = selectedStep
-//        }
-            
-    }
+
 }
 
 // MARK: ScrollView Delegate
@@ -1281,7 +1255,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
     @objc func keyboardWillHide(notification: NSNotification) {
         
         DispatchQueue.main.async {
-            self.scrollView.contentInset = UIEdgeInsets(top: self.topViewMaxHeight, left: 0, bottom: 0, right: 0)
+            self.scrollView.contentInset = UIEdgeInsets(top: self.topViewMaxHeight, left: 0, bottom: self.bottomViewHeight, right: 0)
             self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
             self.scrollView.setContentOffset(CGPoint(x: 0, y: -96), animated: true)
         }
