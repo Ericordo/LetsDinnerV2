@@ -81,9 +81,12 @@ class RecipeCreationViewController: UIViewController  {
     
     @IBOutlet weak var ingredientSectionView: UIView!
     @IBOutlet weak var stepSectionView: UIView!
+<<<<<<< HEAD
     @IBOutlet weak var commentSectionView: UIView!
+=======
     @IBOutlet weak var tipsSectionView: UIView!
     @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
+>>>>>>> develop
     
     private let realm = try! Realm()
     
@@ -297,9 +300,13 @@ class RecipeCreationViewController: UIViewController  {
 //        placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
         placeholderLabel.textColor = .placeholderText
         placeholderLabel.font = .systemFont(ofSize: 17)
+<<<<<<< HEAD
 //        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
+=======
+        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
         
         self.updateBottomViewContraint()
+>>>>>>> develop
     }
     
     private func configureTableView() {

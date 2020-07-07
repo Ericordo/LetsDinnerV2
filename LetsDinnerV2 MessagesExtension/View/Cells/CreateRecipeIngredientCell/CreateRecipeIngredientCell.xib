@@ -39,7 +39,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" name="backgroundColor"/>
                         <constraints>
                             <constraint firstItem="Gha-YE-s6m" firstAttribute="leading" secondItem="7r7-5K-GeY" secondAttribute="leading" constant="10" id="6hO-Yz-qVG"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Gha-YE-s6m" secondAttribute="trailing" constant="10" id="B4c-3N-c7P"/>
@@ -64,6 +64,9 @@
         </tableViewCell>
     </objects>
     <resources>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
