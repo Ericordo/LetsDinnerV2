@@ -40,6 +40,7 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var amountTextField: UITextField!
     //    @IBOutlet weak var unitTextField: UITextField!
     @IBOutlet weak var stepTextField: UITextField!
+    @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var commentsTextView: UITextView!
     
     // Button
@@ -48,33 +49,44 @@ class RecipeCreationViewController: UIViewController  {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var addIngredientButton: UIButton!
     @IBOutlet weak var addCookingStepButton: UIButton!
+    @IBOutlet weak var addCommentButton: UIButton!
     
     // View
     @IBOutlet weak var ingredientCellSeparator: UIView!
     @IBOutlet weak var stepCellSeparator: UIView!
     @IBOutlet weak var ingredientTableView: UITableView!
     @IBOutlet weak var stepTableView: UITableView!
+    @IBOutlet weak var commentTableView: UITableView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var addThingView: UIView!
     @IBOutlet weak var ingredientTextFieldView: UIView!
     @IBOutlet weak var stepTextFieldView: UIView!
+    @IBOutlet weak var commentTextFieldView: UIView!
     
     // Constraints
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var stepsTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var ingredientsTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var addThingViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
+    
+    // TableView Height Constraint
+    @IBOutlet weak var stepTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ingredientTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var commentTableViewHeightConstraint: NSLayoutConstraint!
+    
+    // TextField View Height Constraint
     @IBOutlet weak var ingredientTextFieldViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepTextFieldViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var commentTextFieldViewHeightConstraint: NSLayoutConstraint!
+    
+    // TableView Leading Constraint
     @IBOutlet weak var ingredientTableViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var stepTableViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var commentTableViewLeadingConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var ingredientSectionView: UIView!
     @IBOutlet weak var stepSectionView: UIView!
-    @IBOutlet weak var tipsSectionView: UIView!
+    @IBOutlet weak var commentSectionView: UIView!
     
     private let realm = try! Realm()
     
@@ -109,9 +121,19 @@ class RecipeCreationViewController: UIViewController  {
         didSet {
             stepTableView.reloadData()
             stepTableView.layoutIfNeeded()
-            if !temporarySteps.isEmpty {
-                updateTableViewHeightConstraint(tableView: stepTableView)
-            }
+            updateTableViewHeightConstraint(tableView: stepTableView)
+            viewWillLayoutSubviews()
+            
+            self.updateRecipeIsEditedStatus()
+        }
+    }
+    
+    private var temporaryComments = [String]() {
+        didSet {
+            commentTableView.reloadData()
+            commentTableView.layoutIfNeeded()
+            // BUG
+            updateTableViewHeightConstraint(tableView: commentTableView)
             viewWillLayoutSubviews()
             
             self.updateRecipeIsEditedStatus()
@@ -136,6 +158,7 @@ class RecipeCreationViewController: UIViewController  {
     
     private var selectedRowIngredient: Int?
     private var selectedRowStep: Int?
+    private var selectedRowComment: Int?
     
     private lazy var createRecipeStartView = CreateRecipeStartView()
     
@@ -268,46 +291,56 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.stepValue = 1
         servingsStepper.value = Double(servings)
         
-        commentsTextView.tintColor = Colors.highlightRed
-        commentsTextView.font = UIFont.systemFont(ofSize: 17)
-        commentsTextView.addSubview(placeholderLabel)
+//        commentsTextView.tintColor = Colors.highlightRed
+//        commentsTextView.font = UIFont.systemFont(ofSize: 17)
+//        commentsTextView.addSubview(placeholderLabel)
 
         placeholderLabel.text = LabelStrings.cookingTipsPlaceholder
         placeholderLabel.sizeToFit()
-        placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
+//        placeholderLabel.frame.origin = CGPoint(x: 5, y: (commentsTextView.font?.pointSize)! / 2)
         placeholderLabel.textColor = .placeholderText
         placeholderLabel.font = .systemFont(ofSize: 17)
-        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
+//        placeholderLabel.isHidden = !commentsTextView.text.isEmpty
     }
     
     private func configureTableView() {
         ingredientTableView.registerCells(CellNibs.createRecipeIngredientCell)
         stepTableView.registerCells(CellNibs.createRecipeCookingStepCell)
+        #warning("build his own cell later")
+        commentTableView.registerCells(CellNibs.createRecipeCookingStepCell)
 
         ingredientTableView.isEditing = true
         ingredientTableView.allowsSelectionDuringEditing = false
         ingredientTableView.rowHeight = rowHeight
-        ingredientsTableViewHeightConstraint.constant = 0
+        ingredientTableViewHeightConstraint.constant = 0
 
         stepTableView.isEditing = true
         stepTableView.allowsSelectionDuringEditing = false
-        stepsTableViewHeightConstraint.constant = 0
+        stepTableViewHeightConstraint.constant = 0
+        
+        commentTableView.isEditing = true
+        commentTableView.allowsSelectionDuringEditing = false
+        commentTableViewHeightConstraint.constant = 0
     }
     
     private func configureDelegate() {
         recipeNameTextField.delegate = self
         ingredientTextField.delegate = self
         amountTextField.delegate = self
+        stepTextField.delegate = self
+        commentTextField.delegate = self
         
         ingredientTableView.dataSource = self
         ingredientTableView.delegate = self
         stepTableView.delegate = self
         stepTableView.dataSource = self
+        commentTableView.dataSource = self
+        commentTableView.delegate = self
         
         picturePicker.delegate = self
         scrollView.delegate = self
-        stepTextField.delegate = self
-        commentsTextView.delegate = self
+
+//        commentsTextView.delegate = self
     }
     
     private func configureNewThingView() {
@@ -352,17 +385,19 @@ class RecipeCreationViewController: UIViewController  {
     private func updateTableViewHeightConstraint(tableView: UITableView) {
         switch tableView {
         case ingredientTableView:
-            ingredientsTableViewHeightConstraint.constant = CGFloat(temporaryIngredients.count) * rowHeight
+            ingredientTableViewHeightConstraint.constant = CGFloat(temporaryIngredients.count) * rowHeight
         case stepTableView:
             #warning("may need to be enhance the code")
             print(self.stepTableView.contentSize.height)
-            stepsTableViewHeightConstraint.constant = self.stepTableView.contentSize.height + 3
+            stepTableViewHeightConstraint.constant = self.stepTableView.contentSize.height + 3
 //            stepsTableViewHeightConstraint.constant = CGFloat(temporarySteps.count) * rowHeight
+        case commentTableView:
+            commentTableViewHeightConstraint.constant = self.commentTableView.contentSize.height + 3
         default:
             break
         }
         
-        contentViewHeightConstraint.constant = 650 + ingredientsTableViewHeightConstraint.constant + stepsTableViewHeightConstraint.constant + 100
+        contentViewHeightConstraint.constant = 650 + ingredientTableViewHeightConstraint.constant + stepTableViewHeightConstraint.constant + commentTableViewHeightConstraint.constant + 100
     }
     
     // MARK: Edit Mode UI
@@ -372,7 +407,7 @@ class RecipeCreationViewController: UIViewController  {
     
     private func updateEditingModeUI(enterEditingMode bool: Bool) {
         // TableViews
-        [ingredientTableView, stepTableView].forEach {
+        [ingredientTableView, stepTableView, commentTableView].forEach {
             $0?.isEditing = bool
             $0?.allowsSelection = bool
             $0?.isUserInteractionEnabled = bool
@@ -381,7 +416,7 @@ class RecipeCreationViewController: UIViewController  {
         // TextFields
         self.hideTextFieldView(!bool)
         recipeNameTextField.isEnabled = bool
-        commentsTextView.isEditable = bool
+//        commentsTextView.isEditable = bool
         
         // Other
         self.hideBottomView(bool)
@@ -390,30 +425,33 @@ class RecipeCreationViewController: UIViewController  {
         servingsStepper.isHidden = !bool
         
         if viewExistingRecipe {
-            if commentsTextView.text.isEmpty {
-                if bool {
-                    placeholderLabel.text = "Any Tips and comment?"
-                    placeholderLabel.isHidden = false
-                }
-            } else {
-                placeholderLabel.text = nil
-                placeholderLabel.isHidden = true
-            }
+//            if commentsTextView.text.isEmpty {
+//                if bool {
+//                    placeholderLabel.text = "Any Tips and comment?"
+//                    placeholderLabel.isHidden = false
+//                }
+//            } else {
+//                placeholderLabel.text = nil
+//                placeholderLabel.isHidden = true
+//            }
         }
         bottomView.isHidden = !isAllowedToEditRecipe
     }
     
     private func hideTextFieldView(_ bool: Bool) {
         if bool {
-            ingredientTextFieldViewHeightConstraint.constant = 0
-            stepTextFieldViewHeightConstraint.constant = 0
+            [ingredientTextFieldViewHeightConstraint, stepTextFieldViewHeightConstraint, commentTextFieldViewHeightConstraint].forEach {
+                $0.constant = 0
+            }
         } else {
             ingredientTextFieldViewHeightConstraint.constant = 66
             stepTextFieldViewHeightConstraint.constant = 44
+            commentTextFieldViewHeightConstraint.constant = 44
         }
         
         ingredientTextFieldView.isHidden = bool
         stepTextFieldView.isHidden = bool
+        commentTextFieldView.isHidden = bool
         self.view.layoutIfNeeded()
     }
     
@@ -426,9 +464,11 @@ class RecipeCreationViewController: UIViewController  {
     private func updateTableViewLeading(enterEditingMode bool: Bool) {
         ingredientTableViewLeadingConstraint.constant = bool ? 14 : 20
         stepTableViewLeadingConstraint.constant = bool ? 14 : 20
+        commentTableViewLeadingConstraint.constant = bool ? 14 : 20
 
         ingredientTableView.separatorInset.left = bool ? 15 : 10
         stepTableView.separatorInset.left = bool ? 15 : 10
+        commentTableView.separatorInset.left = bool ? 15 : 10
         
         self.view.layoutIfNeeded()
     }
@@ -469,11 +509,11 @@ class RecipeCreationViewController: UIViewController  {
             temporarySteps.append(step)
         }
         
-        if let comments = recipe.comments {
-            commentsTextView.text = comments
-        } else {
-            placeholderLabel.text = LabelStrings.noTipsAndComments
-        }
+//        if let comments = recipe.comments {
+//            commentsTextView.text = comments
+//        } else {
+//            placeholderLabel.text = LabelStrings.noTipsAndComments
+//        }
         
         self.isExistingRecipeAlreadyLoaded = true
     }
@@ -582,10 +622,10 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func addComment(comment: String?) {
-        if let comment = comment {
-            commentsTextView.text = comment
-            placeholderLabel.isHidden = !commentsTextView.text.isEmpty
-        }
+//        if let comment = comment {
+//            commentsTextView.text = comment
+//            placeholderLabel.isHidden = !commentsTextView.text.isEmpty
+//        }
     }
     
     private func verifyInformation() -> Bool {
@@ -610,7 +650,7 @@ class RecipeCreationViewController: UIViewController  {
     }
     
     private func allTextFieldsAreEmpty() -> Bool {
-        if recipeNameTextField.text == "" && commentsTextView.text == "" && ingredientTextField.text == "" && amountTextField.text == "" && stepTextField.text == "" {
+        if recipeNameTextField.text == "" && commentTextField.text == "" && ingredientTextField.text == "" && amountTextField.text == "" && stepTextField.text == "" {
             return true
         }
         return false
@@ -796,7 +836,8 @@ class RecipeCreationViewController: UIViewController  {
 //                }
         
         if verifyInformation() {
-            let comments = commentsTextView.text.isEmpty ? nil : commentsTextView.text
+//            let comments = commentsTextView.text.isEmpty ? nil : commentsTextView.text
+            let comments = ""
             
             let recipe = LDRecipe(title: self.recipeNameTextField.text!,
                                   servings: self.servings,
@@ -822,7 +863,6 @@ class RecipeCreationViewController: UIViewController  {
         self.addIngredient(name: ingredientTextField.text,
                            amountString: amountTextField.text)
         ingredientTextField.becomeFirstResponder()
-
     }
     
     @IBAction func didTapAddStepButton(_ sender: UIButton) {
@@ -843,6 +883,26 @@ class RecipeCreationViewController: UIViewController  {
         stepTextField.text = ""
         stepTextField.becomeFirstResponder()
     }
+    
+    @IBAction func didTapAddCommentButton(_ sender: UIButton) {
+        if let comment = commentTextField.text {
+            if comment.isEmpty {
+                addCommentButton.shake()
+                return
+            } else {
+                if let row = selectedRowComment {
+                    temporaryComments.remove(at: row)
+                    temporaryComments.insert(comment, at: row)
+                    selectedRowComment = nil
+                } else {
+                    temporaryComments.append(comment)
+                }
+            }
+        }
+        commentTextField.text = nil
+        commentTextField.becomeFirstResponder()
+    }
+    
         
     @IBAction func didTapAddImage(_ sender: UIButton) {
         switch imageState {
@@ -933,6 +993,8 @@ extension RecipeCreationViewController: UITextFieldDelegate {
             self.ingredientTextField.resignFirstResponder()
         case stepTextField:
             self.stepTextField.becomeFirstResponder()
+        case commentTextField:
+            self.commentTextField.becomeFirstResponder()
         default:
             break
         }
@@ -941,6 +1003,8 @@ extension RecipeCreationViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        self.updateRecipeIsEditedStatus()
+        
         let cs = CharacterSet(charactersIn: textFieldAllowedCharacters).inverted
         let filtered: String = (string.components(separatedBy: cs) as NSArray).componentsJoined(by: "")
         return (string == filtered)
@@ -956,12 +1020,12 @@ extension RecipeCreationViewController: UITextViewDelegate {
     }
     
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-       commentsTextView.resignFirstResponder()
+//       commentsTextView.resignFirstResponder()
        return true
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        placeholderLabel.isHidden = !textView.text.isEmpty
+//        placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
 }
@@ -1014,6 +1078,8 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             return temporaryIngredients.count
         case stepTableView:
             return temporarySteps.count
+        case commentTableView:
+            return temporaryComments.count
         default:
             return 0
         }
@@ -1042,28 +1108,37 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             stepCell.configureCell(stepDetail: step, stepNumber: indexPath.row + 1)
 
             return stepCell
+        case commentTableView:
+            let commentCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.createRecipeCookingStepCell, for: indexPath) as! CreateRecipeCookingStepCell
+            
+            let step = temporaryComments[indexPath.row]
+            commentCell.configureCell(stepDetail: step, stepNumber: indexPath.row + 100)
+            
+            return commentCell
+
         default:
             return UITableViewCell()
         }
     }
     
-        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            return true
-        }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
         
-        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-            if (editingStyle == .delete) {
-                switch tableView {
-                case ingredientTableView:
-                    temporaryIngredients.remove(at: indexPath.row)
-                case stepTableView:
-                    temporarySteps.remove(at: indexPath.row)
-                default:
-                    break
-                }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            switch tableView {
+            case ingredientTableView:
+                temporaryIngredients.remove(at: indexPath.row)
+            case stepTableView:
+                temporarySteps.remove(at: indexPath.row)
+            case commentTableView:
+                temporaryComments.remove(at: indexPath.row)
+            default:
+                break
             }
         }
-    
+    }
     
      func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         switch tableView {
@@ -1075,11 +1150,13 @@ extension RecipeCreationViewController: UITableViewDelegate, UITableViewDataSour
             let movedObject = temporarySteps[sourceIndexPath.row]
             temporarySteps.remove(at: sourceIndexPath.row)
             temporarySteps.insert(movedObject, at: destinationIndexPath.row)
+        case commentTableView:
+            let movedObject = temporaryComments[sourceIndexPath.row]
+            temporaryComments.remove(at: sourceIndexPath.row)
+            temporaryComments.insert(movedObject, at: destinationIndexPath.row)
         default:
             break
         }
-        
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -1140,7 +1217,7 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-        print(yOffset)
+//        print(yOffset)
         
         if yOffset <= -topViewMaxHeight {
             headerViewHeightConstraint.constant = self.topViewMaxHeight
@@ -1181,11 +1258,12 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         case recipeNameTextField:
             activeFieldYPosition = 0
         case ingredientTextField, amountTextField:
-            activeFieldYPosition = ingredientSectionView.frame.origin.y + ingredientsTableViewHeightConstraint.constant
+            activeFieldYPosition = ingredientSectionView.frame.origin.y + ingredientTableViewHeightConstraint.constant
         case stepTextField:
-            activeFieldYPosition = stepSectionView.frame.origin.y +  stepsTableViewHeightConstraint.constant
-        default: // For Comment Section
-            activeFieldYPosition = tipsSectionView.frame.origin.y
+            activeFieldYPosition = stepSectionView.frame.origin.y +  stepTableViewHeightConstraint.constant
+        case commentTextField:
+            activeFieldYPosition = commentSectionView.frame.origin.y + commentTableViewHeightConstraint.constant
+        default: break// For Comment Section
         }
         
         DispatchQueue.main.async {
