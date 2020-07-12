@@ -84,11 +84,13 @@ class PDFCreator {
                 var topPosition : CGFloat = titleBottom + 15.0
                 let imageBottom = addImage(imageUrl: recipe.downloadUrl ?? "", pageRect: pageRect, imageTop: topPosition)
                 topPosition = imageBottom + 15
-                // MARK: Needed to be CHANGED
-//                if let comments = recipe.comments, !comments.isEmpty {
-//                    let commentsBottom = addComments(comments: comments, pageRect: pageRect, textTop: topPosition)
-//                    topPosition = commentsBottom + 15.0
-//                }
+                
+                if !recipe.comments.isEmpty {
+                    let commentTitleBottom = addCommentTitle(pageRect: pageRect, textTop: topPosition)
+                    let commentsBottom = addComments(comments: recipe.comments, pageRect: pageRect, textTop: commentTitleBottom + 15.0)
+                    topPosition = commentsBottom + 10
+                }
+                
                 if Event.shared.tasks.contains(where: { $0.parentRecipe == recipe.title }) {
                     let ingredientsBottom = addIngredients(recipeName: recipe.title, pageRect: pageRect, textTop: topPosition)
                     topPosition = ingredientsBottom + 10
@@ -97,6 +99,7 @@ class PDFCreator {
                     let procedureTitleBottom = addProcedureTitle(pageRect: pageRect, textTop: topPosition)
                     addSteps(steps: recipe.cookingSteps, pageRect: pageRect, textTop: procedureTitleBottom + 15.0, context: context)
                 }
+                
             }
         }
         
@@ -263,15 +266,35 @@ class PDFCreator {
         }
     }
     
-    private func addComments(comments: String, pageRect: CGRect, textTop: CGFloat) -> CGFloat {
-        let attributedText = NSMutableAttributedString(string: "\(LabelStrings.tipsAndComments)\n\n", attributes: textAttributes)
-        let attributedComment = NSAttributedString(string: comments, attributes: subtextAttributes)
-        attributedText.append(attributedComment)
-        let commentsStringSize = attributedText.boundingRect(with: pageRect.size, options: [.usesFontLeading, .usesLineFragmentOrigin], context: nil)
-        let textRect = CGRect(x: marginSide, y: textTop, width: pageRect.width - marginSide - 20,
-                              height: commentsStringSize.height)
-        attributedText.draw(in: textRect)
-        return textRect.origin.y + textRect.size.height
+    private func addCommentTitle(pageRect: CGRect, textTop: CGFloat) -> CGFloat {
+        let attributedText = NSMutableAttributedString(string: LabelStrings.tipsAndComments, attributes: textAttributes)
+        
+        let procedureStringSize = attributedText.size()
+        let procedureStringRect = CGRect(x: marginSide,
+                                     y: textTop, width: procedureStringSize.width,
+                                     height: procedureStringSize.height)
+
+        attributedText.draw(in: procedureStringRect)
+
+        return procedureStringRect.origin.y + procedureStringRect.size.height
+    }
+    
+    private func addComments(comments: [String], pageRect: CGRect, textTop: CGFloat) -> CGFloat {
+        
+        var yPosition = textTop
+        
+        comments.forEach { comment in
+            let attributedText = NSMutableAttributedString(string: comment, attributes: subtextAttributes)
+            let commentsStringSize = attributedText.boundingRect(with: pageRect.size, options: [.usesFontLeading, .usesLineFragmentOrigin], context: nil)
+            
+            let textRect = CGRect(x: marginSide, y: yPosition, width: pageRect.width - marginSide - 20,
+            height: commentsStringSize.height)
+            yPosition = yPosition + commentsStringSize.height + 5
+            
+            attributedText.draw(in: textRect)
+        }
+        
+        return yPosition
     }
     
     private func formatAmount(_ amount: Double) -> String {
