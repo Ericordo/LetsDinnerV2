@@ -138,6 +138,8 @@
 		88FE71A623901E2A00652429 /* InfoInputToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FE71A523901E2A00652429 /* InfoInputToolbar.swift */; };
 		B815358723E3FE2000BBD5FB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B815358623E3FE2000BBD5FB /* Colors.swift */; };
 		B842CE3C241A03F000380229 /* CustomSafariVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B842CE3B241A03F000380229 /* CustomSafariVC.swift */; };
+		B84A8DFF24BB322000CF993D /* CreateRecipeCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84A8DFD24BB322000CF993D /* CreateRecipeCommentCell.swift */; };
+		B84A8E0024BB322000CF993D /* CreateRecipeCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B84A8DFE24BB322000CF993D /* CreateRecipeCommentCell.xib */; };
 		B85071D12391690600632026 /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D02391690600632026 /* TestManager.swift */; };
 		B85071D32392723D00632026 /* GestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85071D22392723D00632026 /* GestureRecognizer.swift */; };
 		B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8630E3B23FFF6AB00E48A38 /* UIImage.swift */; };
@@ -339,6 +341,8 @@
 		88FE71A523901E2A00652429 /* InfoInputToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputToolbar.swift; sourceTree = "<group>"; };
 		B815358623E3FE2000BBD5FB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B842CE3B241A03F000380229 /* CustomSafariVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSafariVC.swift; sourceTree = "<group>"; };
+		B84A8DFD24BB322000CF993D /* CreateRecipeCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeCommentCell.swift; sourceTree = "<group>"; };
+		B84A8DFE24BB322000CF993D /* CreateRecipeCommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateRecipeCommentCell.xib; sourceTree = "<group>"; };
 		B85071D02391690600632026 /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
 		B85071D22392723D00632026 /* GestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureRecognizer.swift; sourceTree = "<group>"; };
 		B8630E3B23FFF6AB00E48A38 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -735,6 +739,7 @@
 				88349F3E2370D0C9002A1879 /* RecipeCell */,
 				B886BD952470EF6E0069C248 /* CreateRecipeIngredientCell */,
 				B886BD9E24790B7F0069C248 /* CreateRecipeCookingStepCell */,
+				B8C9518324B621B700EE6480 /* CreateRecipeCommentCell */,
 				B8E4CA7923812174006DD095 /* TitleCell */,
 				880B133823737619003E29AC /* InfoCell */,
 				880B133923737622003E29AC /* DescriptionCell */,
@@ -1003,6 +1008,15 @@
 			path = ProgressVC;
 			sourceTree = "<group>";
 		};
+		B8C9518324B621B700EE6480 /* CreateRecipeCommentCell */ = {
+			isa = PBXGroup;
+			children = (
+				B84A8DFD24BB322000CF993D /* CreateRecipeCommentCell.swift */,
+				B84A8DFE24BB322000CF993D /* CreateRecipeCommentCell.xib */,
+			);
+			path = CreateRecipeCommentCell;
+			sourceTree = "<group>";
+		};
 		B8E4CA7923812174006DD095 /* TitleCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1114,6 +1128,7 @@
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
+				B84A8E0024BB322000CF993D /* CreateRecipeCommentCell.xib in Resources */,
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
 				B886BD992470EFBF0069C248 /* CreateRecipeIngredientCell.xib in Resources */,
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
@@ -1323,6 +1338,7 @@
 				B87C106424126B39004AD951 /* SelectedRecipesViewController.swift in Sources */,
 				884CE1B4245ED52C001062BF /* LDNavBar.swift in Sources */,
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
+				B84A8DFF24BB322000CF993D /* CreateRecipeCommentCell.swift in Sources */,
 				880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */,
 				880B133523736D5C003E29AC /* EventSummaryViewController.swift in Sources */,
 				880B1376237576C3003E29AC /* UIImageView.swift in Sources */,

@@ -173,9 +173,9 @@ class CustomRecipeDetailsViewController: UIViewController {
              }
          }
         commentsLabel.sizeToFit()
-        if let comments = recipe.comments {
-            commentsLabel.text = comments
-        }
+//        if let comments = recipe.comments {
+//            commentsLabel.text = comments
+//        }
         
         chosenButton.isHidden = true
         chooseButton.isHidden = true

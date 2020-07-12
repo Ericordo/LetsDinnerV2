@@ -52,7 +52,8 @@ class RealmHelper {
                         realmCurrentRecipe.title = realmNewRecipe.title
                         realmCurrentRecipe.downloadUrl = realmNewRecipe.downloadUrl
                         realmCurrentRecipe.servings = realmNewRecipe.servings
-                        realmCurrentRecipe.comments = realmNewRecipe.comments
+                        realmCurrentRecipe.comments.removeAll()
+                        realmCurrentRecipe.comments.append(objectsIn: realmNewRecipe.comments)
                         realmCurrentRecipe.cookingSteps.removeAll()
                         realmCurrentRecipe.cookingSteps.append(objectsIn: realmNewRecipe.cookingSteps)
                         realmCurrentRecipe.ingredients.removeAll()
@@ -129,6 +130,11 @@ class RealmHelper {
         steps.forEach { step in
             convertedSteps.append(step)
         }
+        let comments = recipe.comments
+        var convertedComments = [String]()
+        comments.forEach { comment in
+            convertedComments.append(comment)
+        }
         var ckRecordID : CKRecord.ID? = nil
         if let recordId = recipe.recordId {
             ckRecordID = CKRecord.ID(recordName: recordId)
@@ -138,7 +144,7 @@ class RealmHelper {
                                 servings: recipe.servings,
                                 downloadUrl: recipe.downloadUrl,
                                 cookingSteps: convertedSteps,
-                                comments: recipe.comments,
+                                comments: convertedComments,
                                 ingredients: convertedIngredients,
                                 recordID: ckRecordID)
         return LDrecipe
@@ -161,10 +167,11 @@ class RealmHelper {
         customRecipe.title = recipe.title
         customRecipe.id = recipe.id
         customRecipe.servings = recipe.servings
-        customRecipe.comments = recipe.comments
         customRecipe.downloadUrl = recipe.downloadUrl
         recipe.cookingSteps.forEach { step in
-            customRecipe.cookingSteps.append(step)
+            customRecipe.cookingSteps.append(step)}
+        recipe.comments.forEach { comment in
+            customRecipe.comments.append(comment)
         }
         recipe.ingredients.forEach { ingredient in
             customRecipe.ingredients.append(convertLDIngredientToRLIngredient(ingredient))

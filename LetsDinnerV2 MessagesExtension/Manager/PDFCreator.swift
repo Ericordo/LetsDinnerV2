@@ -84,10 +84,11 @@ class PDFCreator {
                 var topPosition : CGFloat = titleBottom + 15.0
                 let imageBottom = addImage(imageUrl: recipe.downloadUrl ?? "", pageRect: pageRect, imageTop: topPosition)
                 topPosition = imageBottom + 15
-                if let comments = recipe.comments, !comments.isEmpty {
-                    let commentsBottom = addComments(comments: comments, pageRect: pageRect, textTop: topPosition)
-                    topPosition = commentsBottom + 15.0
-                }
+                // MARK: Needed to be CHANGED
+//                if let comments = recipe.comments, !comments.isEmpty {
+//                    let commentsBottom = addComments(comments: comments, pageRect: pageRect, textTop: topPosition)
+//                    topPosition = commentsBottom + 15.0
+//                }
                 if Event.shared.tasks.contains(where: { $0.parentRecipe == recipe.title }) {
                     let ingredientsBottom = addIngredients(recipeName: recipe.title, pageRect: pageRect, textTop: topPosition)
                     topPosition = ingredientsBottom + 10

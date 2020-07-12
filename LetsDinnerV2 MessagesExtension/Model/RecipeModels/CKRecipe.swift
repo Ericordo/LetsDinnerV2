@@ -15,7 +15,7 @@ struct CKRecipe {
      var servings: Int = 0
      var downloadUrl: String? = nil
      var cookingSteps: [String] = [String]()
-     var comments: String? = nil
+     var comments: [String] = [String]()
      var ingredients: [CKIngredient] = [CKIngredient]()
      var recordID: CKRecord.ID? = nil
  }

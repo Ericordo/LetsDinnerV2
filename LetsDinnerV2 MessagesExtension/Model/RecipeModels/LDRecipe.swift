@@ -15,7 +15,7 @@ struct LDRecipe {
     var servings: Int = 0
     var downloadUrl: String?
     var cookingSteps: [String] = [String]()
-    var comments: String?
+    var comments: [String] = [String]()
     var ingredients: [LDIngredient] = [LDIngredient]()
     var recordID: CKRecord.ID?
     

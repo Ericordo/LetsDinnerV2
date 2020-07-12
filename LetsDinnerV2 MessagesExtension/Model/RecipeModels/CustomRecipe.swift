@@ -15,12 +15,10 @@ class CustomRecipe: Object {
     @objc dynamic var servings: Int = 0
     @objc dynamic var downloadUrl: String? = nil
     var cookingSteps = List<String>() 
-    @objc dynamic var comments: String? = nil
+    var comments = List<String>()
     var ingredients = List<CustomIngredient>()
     @objc dynamic var recordId: String? = nil
-    
-    
-
+   
     #warning("Check if id is working correctly, otherwise use title")
     #warning("This should not be necessary anyway as we used LDRecipe for interaction")
     var isSelected : Bool {

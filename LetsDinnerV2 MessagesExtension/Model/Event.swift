@@ -197,8 +197,10 @@ class Event {
                 if let downloadUrl = recipe.downloadUrl {
                     recipeInfo[DataKeys.downloadUrl] = downloadUrl
                 }
-                if let comments = recipe.comments {
-                    recipeInfo[DataKeys.comments] = comments
+
+                if !recipe.comments.isEmpty {
+                    recipeInfo[DataKeys.comments] = recipe.comments
+
                 }
                 if !recipe.cookingSteps.isEmpty {
                     recipeInfo[DataKeys.cookingSteps] = recipe.cookingSteps
@@ -361,8 +363,10 @@ class Event {
                         customRecipe.cookingSteps.append(value)
                     }
                 }
-                if let comments = dict[DataKeys.comments] as? String {
-                    customRecipe.comments = comments
+                if let comments = dict[DataKeys.comments] as? [String] {
+                    comments.forEach { value in
+                        customRecipe.comments.append(value)
+                    }
                 }
                 customRecipes.append(customRecipe)
                 
