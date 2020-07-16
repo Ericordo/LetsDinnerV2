@@ -118,7 +118,7 @@ class CloudManager {
             record[.downloadUrl] = downloadUrl
         }
         record[.cookingSteps] = recipe.cookingSteps
-        record[.comments] = recipe.comments
+        record[.tips] = recipe.comments
         return record
     }
     
@@ -294,7 +294,7 @@ class CloudManager {
                     record[.downloadUrl] = downloadUrl
                 }
                 record[.cookingSteps] = newRecipe.cookingSteps
-                record[.comments] = newRecipe.comments
+                record[.tips] = newRecipe.comments
                 
                 self.privateDatabase.save(record) { (_, error) in
                     if let error = error {
@@ -352,7 +352,7 @@ class CloudManager {
                if let downloadUrl = record.value(forKey: LDRecipeKey.downloadUrl.rawValue) as? String {
                    recipe.downloadUrl = downloadUrl
                }
-               if let comments = record.value(forKey: LDRecipeKey.comments.rawValue) as? String {
+               if let comments = record.value(forKey: LDRecipeKey.tips.rawValue) as? [String] {
                    recipe.comments = comments
                }
                if let cloudCookingSteps = record.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
@@ -418,8 +418,13 @@ class CloudManager {
             if let downloadUrl = cloudRecipe.value(forKey: LDRecipeKey.downloadUrl.rawValue) as? String {
                 customRecipe.downloadUrl = downloadUrl
             }
-            if let comments = cloudRecipe.value(forKey: LDRecipeKey.comments.rawValue) as? String {
-                customRecipe.comments = comments
+            
+            var comments = [String]()
+            if let cloudComments = cloudRecipe.value(forKey: LDRecipeKey.tips.rawValue) as? [String] {
+                comments = cloudComments
+            }
+            comments.forEach { comment in
+                customRecipe.comments.append(comment)
             }
             var cookingSteps = [String]()
             if let cloudCookingSteps = cloudRecipe.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
@@ -562,6 +567,7 @@ enum LDRecipeKey : String {
     case downloadUrl
     case cookingSteps
     case comments
+    case tips
 }
 
 enum LDIngredientKey: String {

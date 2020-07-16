@@ -32,6 +32,7 @@ enum CellNibs {
     static let ingredientCell = "IngredientCell"
     static let createRecipeIngredientCell = "CreateRecipeIngredientCell"
     static let createRecipeCookingStepCell = "CreateRecipeCookingStepCell"
+    static let createRecipeCommentCell = "CreateRecipeCommentCell"
     static let cancelCell = "CancelCell"
     static let expiredEventCell = "ExpiredEventCell"
 }
