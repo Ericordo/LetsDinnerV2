@@ -171,6 +171,8 @@ enum DataKeys {
     static let profilePicUrl = "profilePicUrl"
     static let participants = "participants"
     static let imageUrl = "imageUrl"
+    static let amount = "amount"
+    static let unit = "unit"
 }
 
 
