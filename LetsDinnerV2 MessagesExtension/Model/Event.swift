@@ -185,13 +185,14 @@ class Event {
             selectedCustomRecipes.forEach { recipe in
                 var recipeInfo : [String : Any] = [DataKeys.id : recipe.id,
                                                    DataKeys.servings : recipe.servings]
-                var ingredientsInfo : [String : String] = [:]
+                var ingredientsInfo : [String : [String : Any]] = [:]
                 recipe.ingredients.forEach { ingredient in
+                    var ingredientInfo : [String : Any] = [:]
                     if let amount = ingredient.amount {
-                        ingredientsInfo[ingredient.name] = ", \(amount) \(ingredient.unit ?? "")"
-                    } else {
-                        ingredientsInfo[ingredient.name] = String()
+                        ingredientInfo[DataKeys.amount] = amount
                     }
+                    ingredientInfo[DataKeys.unit] = ingredient.unit ?? ""
+                    ingredientsInfo[ingredient.name] = ingredientInfo
                 }
                 recipeInfo[DataKeys.ingredients] = ingredientsInfo
                 if let downloadUrl = recipe.downloadUrl {
@@ -329,47 +330,38 @@ class Event {
                 var customRecipe = LDRecipe(id: id,
                                             title: key,
                                             servings: servings)
-                
-                #warning("temp solution until change the object struct")
-                if let ingredients = dict[DataKeys.ingredients] as? [String : String] {
+                if let ingredients = dict[DataKeys.ingredients] as? [String : [String : Any]] {
                     ingredients.forEach { key, value in
                         let name = key
-                        var amount: Double? = nil
-                        var unit: String? = nil
-                        
-                        let itemArray = value.components(separatedBy: ",")
-
-                        if itemArray.count > 1 {
-                            let amountArray = (itemArray[1].trimmingCharacters(in: .whitespacesAndNewlines)).components(separatedBy: " ")
-
-                            amount = Double(amountArray[0])
-                            if amountArray.count > 1 {
-                                for index in 1...amountArray.count - 1 {
-                                    unit = (unit ?? "") + String(amountArray[index]) + " "
-                                }
-                            }
+                        var amount: Double?
+                        var unit: String?
+                        if let ingredientAmount = value[DataKeys.amount] as? Double {
+                            amount = ingredientAmount
                         }
-                        
-//                        let customIngredient = LDIngredient(name: key + value)
+                        if let ingredientUnit = value[DataKeys.unit] as? String, !ingredientUnit.isEmpty {
+                            unit = ingredientUnit
+                        }
                         let customIngredient = LDIngredient(name: name, amount: amount, unit: unit)
                         customRecipe.ingredients.append(customIngredient)
                     }
                 }
+                
                 if let downloadUrl = dict[DataKeys.downloadUrl] as? String {
                     customRecipe.downloadUrl = downloadUrl
                 }
+                
                 if let cookingSteps = dict[DataKeys.cookingSteps] as? [String] {
                     cookingSteps.forEach { value in
                         customRecipe.cookingSteps.append(value)
                     }
                 }
+                
                 if let comments = dict[DataKeys.comments] as? [String] {
                     comments.forEach { value in
                         customRecipe.comments.append(value)
                     }
                 }
                 customRecipes.append(customRecipe)
-                
             }
         }
         self.selectedCustomRecipes = customRecipes
