@@ -43,14 +43,9 @@ class Event {
     var eventDescription = String()
     var selectedRecipes = [Recipe]()
     var selectedCustomRecipes = [LDRecipe]()
-//    var recipeTitles: String {
-//          let titles = selectedRecipes.map { $0.title! }
-//          return titles.joined(separator:", ")
-//    }
     
     // Helpful variable
     var hostIsRegistered = false
-    var statusNeedUpdate = false
     var tasksNeedUpdate : Bool {
         return !tasks.difference(from: currentConversationTaskStates).isEmpty
     }
@@ -90,7 +85,6 @@ class Event {
         hostIdentifier.removeAll()
         participants.removeAll()
         hostIsRegistered = false
-        statusNeedUpdate = false
         servings = 2
         currentConversationServings = 2
         isCancelled = false
@@ -427,7 +421,7 @@ class Event {
     }
     
     func fetchTasksAndServings() -> SignalProducer<Void, LDError> {
-        return fetchTasks().flatMap(.latest) { _ -> SignalProducer<Void, LDError> in
+        return fetchTasks().flatMap(.concat) { _ -> SignalProducer<Void, LDError> in
             return self.fetchServings()
         }
     }
@@ -482,34 +476,49 @@ class Event {
     }
     
     // MARK: Update Firebase Tasks
-
-    func updateFirebaseTasks() {
+    
+    func updateFirebaseTasks() -> SignalProducer<Void, LDError> {
+        var parameters : [String : [String: Any]] = [:]
         tasks.forEach { task in
-//            Added isCustom in the parameters
-            var parameters: [String : Any] = ["title" : task.taskName,
-                                              "ownerName" : task.assignedPersonName,
-                                              "ownerUid" : task.assignedPersonUid ?? "nil",
-                                              "state" : task.taskState.rawValue,
-                                              "isCustom" : task.isCustom,
-                                              "parentRecipe" : task.parentRecipe]
+            var taskParameters: [String : Any] = [DataKeys.title: task.taskName,
+                                                  DataKeys.ownerName : task.assignedPersonName,
+                                                  DataKeys.ownerUid : task.assignedPersonUid ?? "nil",
+                                                  DataKeys.state : task.taskState.rawValue,
+                                                  DataKeys.isCustom : task.isCustom,
+                                                  DataKeys.parentRecipe : task.parentRecipe]
             if let amount = task.metricAmount {
-                parameters["metricAmount"] = amount
+                taskParameters[DataKeys.metricAmount] = amount
             }
             if let unit = task.metricUnit {
-                parameters["metricUnit"] = unit
+                taskParameters[DataKeys.metricUnit] = unit
             }
-                        
-            let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("tasks").child(task.taskUid)
-            childUid.updateChildValues(parameters, withCompletionBlock: { (error, reference) in
-                if error != nil {
-                    print(error!.localizedDescription)
-                } else {
-                    self.resetEvent()
-                }
-                
-            })
+            
+            parameters[task.taskUid] = taskParameters
+        }
+        
+        return SignalProducer { observer, _ in
+            
+            self.database.child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .child(DataKeys.tasks)
+                .updateChildValues(parameters, withCompletionBlock: { error, _ in
+                    if error != nil {
+                        observer.send(error: .taskUpdateFail)
+                    } else {
+                        observer.send(value: ())
+                        observer.sendCompleted()
+                    }
+                })
         }
     }
+    
+    func updateFirebaseTasksAndServings() -> SignalProducer<Void, LDError> {
+        return updateFirebaseServings().flatMap(.concat) { _ -> SignalProducer<Void, LDError> in
+            return self.updateFirebaseTasks()
+        }
+    }
+
     
     func updateFirebaseDate(_ dateTimestamp: Double) {
         self.dateTimestamp = dateTimestamp
@@ -523,15 +532,20 @@ class Event {
             }
         }
     }
-    
-    func updateFirebaseServings() {
-        let parameters: [String : Any] = ["servings" : servings]
-        let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid)
-        childUid.updateChildValues(parameters) { (error, reference) in
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                self.resetEvent()
+        
+    private func updateFirebaseServings() -> SignalProducer<Void, LDError> {
+        let parameters: [String : Any] = [DataKeys.servings : servings]
+        return SignalProducer { observer, _ in
+            self.database.child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .updateChildValues(parameters) { error, _ in
+                if error != nil {
+                    observer.send(error: .taskUpdateFail)
+                } else {
+                    observer.send(value: ())
+                    observer.sendCompleted()
+                }
             }
         }
     }
@@ -577,17 +591,32 @@ class Event {
         return unassignedStatusCount
     }
     
-    func updateAcceptStateToFirebase(hasAccepted: Invitation) {
-        guard let currentUser = currentUser else {return}
-        let identifier = currentUser.identifier
-
-        let participantsParameters: [String: Any] = ["fullName": defaults.username,
-                                                     "hasAccepted": currentUser.hasAccepted.rawValue,
-                                                     "profilePicUrl" : defaults.profilePicUrl]
-        Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid).child("participants").child(identifier).updateChildValues(participantsParameters)
-        
+    func updateFirebaseStatus(status: Invitation) -> SignalProducer<Void, LDError> {
+        return SignalProducer { observer, _ in
+            guard let user = self.currentUser else {
+                observer.send(error: .noUserIdentifier)
+                return
+            }
+            
+            let participantsParameters: [String: Any] = [DataKeys.fullName: defaults.username,
+                                                         DataKeys.hasAccepted: user.hasAccepted.rawValue,
+                                                         DataKeys.profilePicUrl : defaults.profilePicUrl]
+            
+            self.database.child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .child(DataKeys.participants)
+                .child(user.identifier)
+                .updateChildValues(participantsParameters) { error, _ in
+                    if error != nil {
+                        observer.send(error: .statusUpdateFail)
+                    } else {
+                        observer.send(value: ())
+                        observer.sendCompleted()
+                    }
+            }
+        }
     }
-        
 
     // MARK: Event Task Management
     

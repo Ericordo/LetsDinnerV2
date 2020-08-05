@@ -107,7 +107,9 @@ class EventSummaryViewController: UIViewController {
                 }
         }
         
-        self.viewModel.eventFetchSignal.observe(on: UIScheduler())
+        self.viewModel.eventFetchSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
             .observeResult { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -116,6 +118,19 @@ class EventSummaryViewController: UIViewController {
                 self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(()):
                 self.updateTable()
+            }
+        }
+        
+        self.viewModel.statusUpdateSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                self.showBasicAlert(title: AlertStrings.oops, message: error.description)
+            case.success(let status):
+                self.delegate?.eventSummaryVCDidAnswer(hasAccepted: status)
             }
         }
     }
@@ -127,7 +142,7 @@ class EventSummaryViewController: UIViewController {
     }
     
     private func updateTable() {
-        // For Test Only
+        #warning("For test only, to delete")
         self.testOverride()
         
         summaryTableView.reloadData()
@@ -398,13 +413,11 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func declineInvitation() {
-        Event.shared.statusNeedUpdate = true
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: .declined)
+        self.viewModel.updateStatus(.declined)
     }
     
     func didTapAccept() {
-        Event.shared.statusNeedUpdate = true
-        delegate?.eventSummaryVCDidAnswer(hasAccepted: .accepted)
+        self.viewModel.updateStatus(.accepted)
     }
     
     func addToCalendarAlert() {

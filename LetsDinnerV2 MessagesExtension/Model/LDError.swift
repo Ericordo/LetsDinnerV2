@@ -21,6 +21,8 @@ enum LDError : Error {
     case recipeDeleteRealmFail
     case addToCalendarFail
     case calendarDenied
+    case statusUpdateFail
+    case taskUpdateFail
 }
 
 #warning("Write descriptions")
@@ -51,6 +53,10 @@ extension LDError {
             return ""
         case .calendarDenied:
             return AlertStrings.calendarDenied
+        case .statusUpdateFail:
+            return ""
+        case .taskUpdateFail:
+            return ""
         }
     }
 }
