@@ -100,7 +100,11 @@ class TasksListViewController: LDNavigationViewController {
         }
         
         submitButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.delegate?.tasksListVCDidTapSubmit()
+            if Event.shared.servingsNeedUpdate {
+                self.viewModel.uploadUpdatedTasksAndServings()
+            } else {
+                self.viewModel.uploadUpdatedTasks()
+            }
         }
         
         updateBanner.updateButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
@@ -137,6 +141,19 @@ class TasksListViewController: LDNavigationViewController {
                 self.updateBanner.appear()
         }
         
+        self.viewModel.taskUploadSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                self.showBasicAlert(title: AlertStrings.oops, message: error.description)
+            case.success():
+                self.delegate?.tasksListVCDidTapSubmit()
+            }
+        }
+
         self.viewModel.isLoading.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
@@ -154,7 +171,7 @@ class TasksListViewController: LDNavigationViewController {
                 }
         }
         
-        viewModel.servings.producer
+        self.viewModel.servings.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
             .startWithValues { [weak self] servings in

@@ -157,27 +157,13 @@ class MessagesViewController: MSMessagesAppViewController {
         // Auto Accept the dinner for host creating event
         guard let currentUser = Event.shared.currentUser else {return}
         
+        #warning("Why using this? When we send event we register host")
         // First Time Create Event session
         if !Event.shared.hostIsRegistered {
             if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
                 // To identify the first participant (Host)
                 currentUser.hasAccepted = .accepted
                 Event.shared.hostIsRegistered = true
-            }
-        }
-        
-        // Update Invitation State
-        if Event.shared.statusNeedUpdate {
-            Event.shared.updateAcceptStateToFirebase(hasAccepted: currentUser.hasAccepted)
-            Event.shared.statusNeedUpdate = false
-        }
-
-        if !Event.shared.eventCreation {
-            if Event.shared.servingsNeedUpdate {
-                Event.shared.updateFirebaseServings()
-                Event.shared.updateFirebaseTasks()
-            } else if Event.shared.tasksNeedUpdate {
-                Event.shared.updateFirebaseTasks()
             }
         }
     }
@@ -664,7 +650,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession,
                                                   eventCreation: Event.shared.eventCreation,
                                                   action: .answerInvitation)
-        sendMessage(message: message)
+        sendMessageDirectly(message: message)
     }
     
     func eventSummaryVCOpenEventInfo() {
@@ -687,7 +673,7 @@ extension MessagesViewController: TasksListViewControllerDelegate {
         let message = Event.shared.prepareMessage(session: currentSession,
                                                   eventCreation: Event.shared.eventCreation,
                                                   action: .updateTasks)
-        sendMessage(message: message)
+        sendMessageDirectly(message: message)
     }
 }
 

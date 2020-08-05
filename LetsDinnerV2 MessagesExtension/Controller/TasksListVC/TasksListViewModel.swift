@@ -41,6 +41,9 @@ class TasksListViewModel {
     let taskUpdateSignal : Signal<Void, Never>
     private let taskUpdateObserver : Signal<Void, Never>.Observer
     
+    let taskUploadSignal : Signal<Void, LDError>
+    private let taskUploadObserver : Signal<Void, LDError>.Observer
+    
     init() {
         tasks = MutableProperty<[Task]>(Event.shared.tasks.sorted { $0.taskName < $1.taskName })
         servings = MutableProperty<Int>(Event.shared.servings)
@@ -56,6 +59,10 @@ class TasksListViewModel {
         let (taskUpdateSignal, taskUpdateObserver) = Signal<Void, Never>.pipe()
         self.taskUpdateSignal = taskUpdateSignal
         self.taskUpdateObserver = taskUpdateObserver
+        
+        let (taskUploadSignal, taskUploadObserver) = Signal<Void, LDError>.pipe()
+        self.taskUploadSignal = taskUploadSignal
+        self.taskUploadObserver = taskUploadObserver
         
         usersChild.observe(.value) { snapshot in
             guard let value = snapshot.value as? Int else { return }
@@ -168,7 +175,7 @@ class TasksListViewModel {
         Event.shared.fetchTasksAndServings()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
             .startWithResult { [weak self] result in
                 guard let self = self else { return }
                 switch result {
@@ -201,4 +208,37 @@ class TasksListViewModel {
         Event.shared.tasks = newTasks
         self.prepareTasks()
     }
+    
+    func uploadUpdatedTasks() {
+        Event.shared.updateFirebaseTasks()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.taskUploadObserver.send(error: error)
+                case .success():
+                    self.taskUploadObserver.send(value: ())
+                }
+        }
+    }
+    
+    func uploadUpdatedTasksAndServings() {
+        Event.shared.updateFirebaseTasksAndServings()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.taskUploadObserver.send(error: error)
+                case .success():
+                    self.taskUploadObserver.send(value: ())
+                }
+        }
+    }
 }
+
