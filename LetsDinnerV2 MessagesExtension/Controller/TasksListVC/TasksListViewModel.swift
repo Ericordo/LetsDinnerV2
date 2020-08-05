@@ -32,6 +32,8 @@ class TasksListViewModel {
     
     let isLoading = MutableProperty<Bool>(false)
     
+    var isSending = false
+    
     let newDataSignal : Signal<Void, LDError>
     private let newDataObserver : Signal<Void, LDError>.Observer
     
@@ -70,7 +72,9 @@ class TasksListViewModel {
         }
         
         tasksChild.observe(.childChanged) { _ in
-            taskUpdateObserver.send(value: ())
+            if !self.isSending {
+                taskUpdateObserver.send(value: ())
+            }
         }
         
         servings.producer.observe(on: UIScheduler())

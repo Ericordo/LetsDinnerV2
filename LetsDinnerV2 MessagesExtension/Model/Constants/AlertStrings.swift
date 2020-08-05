@@ -42,9 +42,8 @@ enum AlertStrings {
     // TaskListVC Alert
     static let unsubmittedTasks = NSLocalizedString("Pending changes", comment: "pending changes")
     static let submitQuestion = NSLocalizedString("You made changes in this list. Would you like to update it?", comment: "you made changes")
-    static let syncTitle = NSLocalizedString("Things synchronization", comment: "things synchronization")
-    static let syncMessage = NSLocalizedString("Changes made, can end up unsaved. Whoever updates first, saves their changes.", comment: "sync message")
-    static let goodToKnow = NSLocalizedString("Good to know!", comment: "good to know")
+    static let updateTitle = NSLocalizedString("Update required", comment: "update required")
+    static let updateDescription = NSLocalizedString("Some tasks have been updated by other participants, let's refresh!", comment: "update instructions")
     
     // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
@@ -72,6 +71,8 @@ enum AlertStrings {
     static let changedMind = NSLocalizedString("Changed your mind?", comment: "changed your mind")
     static let updateDeclinedStatus = NSLocalizedString("Would you like to accept this invitation?", comment: "accept this invitation")
     static let updateAcceptedStatus = NSLocalizedString("Would you like to decline this invitation?", comment: "decline this invitation")
+    
+    
 
     
     // Action Sheet

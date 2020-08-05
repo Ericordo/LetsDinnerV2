@@ -31,8 +31,6 @@ class TasksListViewController: LDNavigationViewController {
     
     private let alertBanner = LDAlertBanner(LabelStrings.multipleUsers)
     
-    private let updateBanner = LDUpdateBanner()
-    
     private let servingsView = LDServingsView()
     
     private let loadingView = LDLoadingView()
@@ -100,16 +98,12 @@ class TasksListViewController: LDNavigationViewController {
         }
         
         submitButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.viewModel.isSending = true
             if Event.shared.servingsNeedUpdate {
                 self.viewModel.uploadUpdatedTasksAndServings()
             } else {
                 self.viewModel.uploadUpdatedTasks()
             }
-        }
-        
-        updateBanner.updateButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.updateBanner.disappear()
-            self.viewModel.updateTasks()
         }
         
         self.viewModel.newDataSignal
@@ -127,10 +121,6 @@ class TasksListViewController: LDNavigationViewController {
             .observeValues { [weak self] value in
                 guard let self = self else { return }
                 value > 1 ? self.alertBanner.appear() : self.alertBanner.disappear()
-                if value > 1 && !Event.shared.shouldShowSyncAlert {
-                    self.showSyncAlert()
-                    Event.shared.shouldShowSyncAlert = true
-                }
         }
         
         self.viewModel.taskUpdateSignal
@@ -138,7 +128,7 @@ class TasksListViewController: LDNavigationViewController {
             .take(duringLifetimeOf: self)
             .observeValues { [weak self] _ in
                 guard let self = self else { return }
-                self.updateBanner.appear()
+                self.displayUpdateNeededAlert()
         }
         
         self.viewModel.taskUploadSignal
@@ -160,12 +150,7 @@ class TasksListViewController: LDNavigationViewController {
             .startWithValues { [weak self] isLoading in
                 guard let self = self else { return }
                 if isLoading {
-                    self.view.addSubview(self.loadingView)
-                    self.loadingView.snp.makeConstraints { make in
-                        make.leading.trailing.bottom.equalToSuperview()
-                        make.top.equalTo(self.updateBanner.snp.bottom)
-                    }
-                    self.loadingView.start()
+                    self.showLoadingView()
                 } else {
                     self.loadingView.stop()
                 }
@@ -208,13 +193,24 @@ class TasksListViewController: LDNavigationViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func showSyncAlert() {
-        let alert = UIAlertController(title: AlertStrings.syncTitle,
-                                      message: AlertStrings.syncMessage,
+    private func showLoadingView() {
+        self.view.addSubview(self.loadingView)
+        self.loadingView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(self.alertBanner.snp.bottom)
+        }
+        self.loadingView.start()
+    }
+    
+    private func displayUpdateNeededAlert() {
+        let alert = UIAlertController(title: AlertStrings.updateTitle,
+                                      message: AlertStrings.updateDescription,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: AlertStrings.goodToKnow,
-                                      style: .cancel,
-                                      handler: nil))
+        alert.addAction(UIAlertAction(title: AlertStrings.update,
+                                      style: .default,
+                                      handler: { _ in
+                                        self.viewModel.updateTasks()
+        }))
         present(alert, animated: true, completion: nil)
     }
     
@@ -233,7 +229,6 @@ class TasksListViewController: LDNavigationViewController {
         view.addSubview(submitButton)
         view.addSubview(navigationSeparator)
         view.addSubview(alertBanner)
-        view.addSubview(updateBanner)
         view.addSubview(servingsView)
         view.addSubview(tasksTableView)
         addConstraints()
@@ -256,11 +251,6 @@ class TasksListViewController: LDNavigationViewController {
             make.leading.trailing.equalToSuperview()
         }
         
-        updateBanner.snp.makeConstraints { make in
-            make.top.equalTo(alertBanner.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
-        
         var servingsViewHeight = 0
         
         if Event.shared.currentUser?.identifier == Event.shared.hostIdentifier {
@@ -278,7 +268,7 @@ class TasksListViewController: LDNavigationViewController {
         
         servingsView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(updateBanner.snp.bottom)
+            make.top.equalTo(alertBanner.snp.bottom)
             make.height.equalTo(servingsViewHeight)
         }
         
