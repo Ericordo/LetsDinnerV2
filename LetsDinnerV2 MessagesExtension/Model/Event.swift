@@ -62,7 +62,6 @@ class Event {
     
     var isAllTasksCompleted = false
     var isCancelled = false
-    var shouldShowSyncAlert = false
     
     var localEventId = ""
     var eventCreation = false
@@ -89,7 +88,6 @@ class Event {
         currentConversationServings = 2
         isCancelled = false
         eventCreation = false
-        shouldShowSyncAlert = false
     }
     
     func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {

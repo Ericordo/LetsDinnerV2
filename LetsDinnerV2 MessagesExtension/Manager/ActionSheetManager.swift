@@ -17,7 +17,7 @@ class ActionSheetManager {
     let cancelAction = UIAlertAction(title: AlertStrings.cancel, style: .cancel, handler: nil)
     
     // MARK: Edit Image ActionSheet
-    func presentEditImageActionSheet (sourceView: UIView,
+    func presentEditImageActionSheet(sourceView: UIView,
                                                 changeActionCompletion: @escaping ActionCompletion,
                                                 deleteActionCompletion: @escaping ActionCompletion) -> UIAlertController {
         let alert = UIAlertController(title: nil, message: AlertStrings.changeImageActionSheetMessage, preferredStyle: .actionSheet)

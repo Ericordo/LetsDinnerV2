@@ -68,7 +68,6 @@
 		88349F412370D10A002A1879 /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88349F3F2370D10A002A1879 /* RecipeCell.swift */; };
 		88349F422370D10A002A1879 /* RecipeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88349F402370D10A002A1879 /* RecipeCell.xib */; };
 		88382A3424A908770016E68F /* LostEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88382A3324A908770016E68F /* LostEventView.swift */; };
-		88382A3624AB1F220016E68F /* LDUpdateBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88382A3524AB1F220016E68F /* LDUpdateBanner.swift */; };
 		883A29FA2371D15D0099ECDF /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 883A29F92371D15D0099ECDF /* Readme.md */; };
 		883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 883A2A052372E9910099ECDF /* GoogleService-Info.plist */; };
 		884A5D8D24A3662D00CBF8AF /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */; };
@@ -272,7 +271,6 @@
 		88349F3F2370D10A002A1879 /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		88349F402370D10A002A1879 /* RecipeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCell.xib; sourceTree = "<group>"; };
 		88382A3324A908770016E68F /* LostEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LostEventView.swift; sourceTree = "<group>"; };
-		88382A3524AB1F220016E68F /* LDUpdateBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDUpdateBanner.swift; sourceTree = "<group>"; };
 		883A29F92371D15D0099ECDF /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		883A2A052372E9910099ECDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
@@ -905,7 +903,6 @@
 				88056E6B2475335B00F0D90F /* LDAlertBanner.swift */,
 				88056E6D24758BFE00F0D90F /* LDServingsView.swift */,
 				88382A3324A908770016E68F /* LostEventView.swift */,
-				88382A3524AB1F220016E68F /* LDUpdateBanner.swift */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1322,7 +1319,6 @@
 				882B9CC623998738001634D9 /* CustomRecipe.swift in Sources */,
 				B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */,
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
-				88382A3624AB1F220016E68F /* LDUpdateBanner.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
 				B886BD982470EFBF0069C248 /* CreateRecipeIngredientCell.swift in Sources */,
