@@ -15,7 +15,6 @@ import FirebaseAuth
 class MessagesViewController: MSMessagesAppViewController {
         
     private var newNameRequested = false
-    private var isProgressBarVCInitiated = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,11 +61,9 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewWillLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
-
     }
     
     // MARK: - Conversation Handling
-    
     
     override func willBecomeActive(with conversation: MSConversation) {
         
@@ -81,57 +78,27 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to configure the extension and restore previously stored state.
     }
     
-    override func didBecomeActive(with conversation: MSConversation) {
-        // After you just created event, this session will run one more time, after this, you will run message sent
+    override func didBecomeActive(with conversation: MSConversation) {        
+        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         
-        guard let currentUserUid = activeConversation?.localParticipantIdentifier.uuidString else { return }
+        let currentUserUid = conversation.localParticipantIdentifier.uuidString
         
-        if CloudManager.shared.retrieveUserIdOnCloud() == nil {
+        let cloudId = CloudManager.shared.retrieveUserIdOnCloud()
+        
+        if cloudId == nil {
             CloudManager.shared.saveUserInfoOnCloud(currentUserUid, key: Keys.userUid)
         }
         
-        // Internal checking
-        func userHasReplied() -> Bool {
-            if currentUserUid == Event.shared.hostIdentifier {
-                print("I am the Host")
-                return true
-            } else {
-                for participant in Event.shared.participants {
-                    if currentUserUid == participant.identifier {
-                        if participant.hasAccepted != .pending {
-                            return true
-                        }
-                    }
-                }
-            }
-            return false
-        }
-        
-        // Everytime terminate the app, it will forget the event.shared.currentUser is Nil
-        
-        // Check if it is a new event
-        if Event.shared.currentUser == nil {
-            
-            // Initiate as a new user (Here is the only place to have a pending status)
-            // Need to guard when user has already been in the group
-            guard userHasReplied() == false else { return }
-            var identifier = String()
-            if let cloudID = CloudManager.shared.retrieveUserIdOnCloud(), !cloudID.isEmpty {
-                identifier = cloudID
-            } else {
-                identifier = currentUserUid
-            }
-            
-            Event.shared.currentUser = User(identifier: identifier,
-                                            fullName: defaults.username,
-                                            hasAccepted: .pending)
+        var identifier = String()
+        if let cloudID = CloudManager.shared.retrieveUserIdOnCloud(), !cloudID.isEmpty {
+            identifier = cloudID
         } else {
-            
-            // Guard first time to create event
-            guard !Event.shared.hostIdentifier.isEmpty else { return }
-            print("hostID: \(Event.shared.hostIdentifier)")
-            
+            identifier = currentUserUid
         }
+        
+        Event.shared.currentUser = User(identifier: identifier,
+                                        fullName: defaults.username,
+                                        hasAccepted: .pending)
     }
     
     override func didResignActive(with conversation: MSConversation) {
@@ -153,19 +120,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didStartSending(_ message: MSMessage, conversation: MSConversation) {
-        
-        // Auto Accept the dinner for host creating event
-        guard let currentUser = Event.shared.currentUser else {return}
-        
-        #warning("Why using this? When we send event we register host")
-        // First Time Create Event session
-        if !Event.shared.hostIsRegistered {
-            if !Event.shared.participants.contains(where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-                // To identify the first participant (Host)
-                currentUser.hasAccepted = .accepted
-                Event.shared.hostIsRegistered = true
-            }
-        }
+
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
@@ -176,25 +131,13 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.willTransition(to: presentationStyle)
-        
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTransition"), object: nil)
-        
-        // For Hiding ProgressBar
-        let presentationStyle:[String: Int] = ["style": Int(presentationStyle.rawValue)]
-
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ProgressBarWillTransition"), object: nil, userInfo:  presentationStyle)
-        
-//        if self.view.layer.sublayers!.count < 1 {
-//            self.view.addBackground()
-//        }
-        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTransition"),
+                                        object: nil)
         removeViewController()
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         super.didTransition(to: presentationStyle)
-        
         guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         presentViewController(for: conversation, with: presentationStyle)
     }
@@ -234,7 +177,6 @@ class MessagesViewController: MSMessagesAppViewController {
                     } else {
                         controller = instantiateEventSummaryViewController()
                     }
-                    
                 } else {
                     switch StepStatus.currentStep {
                     case .initialVC:
@@ -263,16 +205,11 @@ class MessagesViewController: MSMessagesAppViewController {
                         controller = instantiateNewEventViewController()
                     case .expiredEventVC:
                         controller = instantiateExpiredEventViewController()
-                        
                     }
                 }
-                
             }
         }
-        
         self.addChildViewController(controller: controller)
-        
-
     }
     
     // MARK: Transcript View
@@ -310,7 +247,8 @@ class MessagesViewController: MSMessagesAppViewController {
         
         // Transition animation
         if transition != .noTransition {
-            controller.view.layer.add(configureTransitionAnimation(transition: transition), forKey: nil)
+            controller.view.layer.add(configureTransitionAnimation(transition: transition),
+                                      forKey: nil)
         }
         
 //        self.view.insertSubview(controller.view, at: 1)
@@ -324,7 +262,6 @@ class MessagesViewController: MSMessagesAppViewController {
         ])
         
         controller.didMove(toParent: self)
-        
     }
     
     private func configureTransitionAnimation(transition: VCTransitionDirection) -> CATransition {
@@ -348,13 +285,11 @@ class MessagesViewController: MSMessagesAppViewController {
     }
         
     private func removeViewController(transition: VCTransitionDirection = .noTransition) {
-        
-        var timeDelay = 0.0
+        var delay = 0.0
         
         for child in children {
-            
             if transition != .noTransition {
-                timeDelay = 0.3
+                delay = 0.3
                 child.configureDismissVCTransitionAnimation(transition: transition)
             }
             
@@ -366,20 +301,13 @@ class MessagesViewController: MSMessagesAppViewController {
             
             child.willMove(toParent: nil)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + timeDelay) { //
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 child.view.removeFromSuperview()
                 child.removeFromParent()
             }
-
         }
     }
-    
-    private func removeAllSubviews() {
-        for view in self.view.subviews {
-            view.removeFromSuperview()
-        }
-    }
-    
+        
     // MARK: Init the VC
     
     private func instantiateProgressViewController() -> UIViewController {

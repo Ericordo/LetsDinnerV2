@@ -45,14 +45,12 @@ class Event {
     var selectedCustomRecipes = [LDRecipe]()
     
     // Helpful variable
-    var hostIsRegistered = false
     var tasksNeedUpdate : Bool {
         return !tasks.difference(from: currentConversationTaskStates).isEmpty
     }
     var servingsNeedUpdate : Bool {
         return servings != currentConversationServings
     }
-    
     var servings = 2
     var currentConversationServings = 2
     var hostIdentifier = ""
@@ -60,7 +58,10 @@ class Event {
     var participants = [User]()
     var tasks = [Task]()
     
-    var isAllTasksCompleted = false
+    var allTasksCompleted : Bool {
+        return calculateTaskCompletionPercentage() == 1
+    }
+    
     var isCancelled = false
     
     var localEventId = ""
@@ -83,7 +84,6 @@ class Event {
         currentSession = nil
         hostIdentifier.removeAll()
         participants.removeAll()
-        hostIsRegistered = false
         servings = 2
         currentConversationServings = 2
         isCancelled = false
@@ -281,6 +281,11 @@ class Event {
             users.append(user)
         }
         self.participants = users
+        
+        let currentUser = self.participants.first { $0.identifier == self.currentUser?.identifier  }
+        if let user = currentUser {
+            self.currentUser?.hasAccepted = user.hasAccepted
+        }
         
         if let currentTasks = value[DataKeys.tasks] as? [String : Any] {
             self.parseEventTasks(currentTasks)
@@ -631,13 +636,4 @@ class Event {
         
         return percentage
     }
-    
-    func checkIsAllTasksCompleted() -> Bool {
-        if calculateTaskCompletionPercentage() == 1 {
-            return true
-        } else {
-            return false
-        }
-    }
-
 }

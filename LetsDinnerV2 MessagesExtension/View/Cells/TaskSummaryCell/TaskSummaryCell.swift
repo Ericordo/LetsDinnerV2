@@ -50,8 +50,6 @@ class TaskSummaryCell: UITableViewCell {
         seeAllButton.titleLabel?.textColor = UIColor.activeButton
         seeAllBeforeCreateEvent.titleLabel?.textColor = UIColor.activeButton
         
-        Event.shared.isAllTasksCompleted = Event.shared.checkIsAllTasksCompleted()
-        
         updateTaskSummaryLabel()
         
         if !Event.shared.tasks.isEmpty {
@@ -71,38 +69,25 @@ class TaskSummaryCell: UITableViewCell {
             taskSummaryLabel.isHidden = false
             tasksCollectionView.isHidden = true
             tasksCollectionViewHeightConstraint.isActive = false
-            
             taskSummaryLabel.text = LabelStrings.nothingToDoLabel
         } else {
-            
-            // Check is All Tasks Completed
-            if Event.shared.isAllTasksCompleted {
+            if Event.shared.allTasksCompleted {
                 taskSummaryLabel.isHidden = false
                 tasksCollectionView.isHidden = true
                 tasksCollectionViewHeightConstraint.isActive = false
-
                 taskSummaryLabel.text = LabelStrings.allDoneLabel
-                
             } else {
                 taskSummaryLabel.isHidden = true
-                // Show the task
                 tasksCollectionView.isHidden = false
                 tasksCollectionViewHeightConstraint.isActive = true
-
             }
         }
-
     }
     
     @objc func updateTable() {
-           tasksCollectionView.reloadData()
+        tasksCollectionView.reloadData()
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-    
     @IBAction func didTapSeeAllButton(_ sender: UIButton) {
         delegate?.taskSummaryCellDidTapSeeAll()
     }
@@ -171,5 +156,4 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
         targetContentOffset.pointee.x = CGFloat(currentOffset)
         scrollView.setContentOffset(CGPoint(x: CGFloat(newTargetOffset), y: scrollView.contentOffset.y), animated: true)
     }
-    
 }

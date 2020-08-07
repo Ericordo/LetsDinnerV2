@@ -257,7 +257,6 @@ class NewEventViewController: LDNavigationViewController {
         contentView.addSubview(errorLabel)
         contentView.addSubview(quickFillButton)
         contentView.addSubview(quickEventButton)
-        
         view.addSubview(infoInputView)
         view.addSubview(eventInputView)
         addConstraints()
