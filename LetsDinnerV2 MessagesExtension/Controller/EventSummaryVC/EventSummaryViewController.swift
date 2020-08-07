@@ -44,17 +44,7 @@ class EventSummaryViewController: UIViewController {
     }()
     
     private let loadingView = LDLoadingView()
-    
-    #warning("Modify this, a user should not be nil, the way the user is fetched is wrong, you can be a user but not a participant")
-    private var user : User? { // User Status should be fetched from here
-        if let index = Event.shared.participants.firstIndex (where: { $0.identifier == Event.shared.currentUser?.identifier }) {
-            let user = Event.shared.participants[index]
-            return user
-        } else {
-            return nil
-        }
-    }
-    
+        
     private let store = EKEventStore()
     
     private let darkView = UIView()
@@ -219,28 +209,20 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
         switch indexPath.row {
         case RowItemNumber.invite.rawValue:
-            #warning("Logic here: user is nil if it's not in the list of participants, a pending user can not be in the list of participants, so this code will never be executed")
-            
-//            if let user = user {
-//                if user.hasAccepted == .pending {
-//                    answerCell.separatorInset = separatorInset
-//                    answerCell.delegate = self
-//                    return answerCell
-//                }
-//        }
-            #warning("Modify this, a user should not be nil, the way the user is fetched is wrong")
-                if user == nil {
+            if let user = Event.shared.currentUser {
+                if user.hasAccepted == .pending {
                     answerCell.separatorInset = separatorInset
                     answerCell.delegate = self
                     return answerCell
+                }
             }
+            return UITableViewCell()
         case RowItemNumber.title.rawValue:
             titleCell.titleLabel.text = Event.shared.dinnerName
             titleCell.separatorInset = separatorInset
             return titleCell
         case RowItemNumber.answerCell.rawValue:
-            // Check the currentUser has accepted or not
-            if let user = user {
+            if let user = Event.shared.currentUser {
                 if user.identifier == Event.shared.hostIdentifier {
                     cancelCell.delegate = self
                     return cancelCell
@@ -253,9 +235,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 }
             }
             return UITableViewCell()
-
         case RowItemNumber.hostInfo.rawValue:
-            if let user = user {
+            if let user = Event.shared.currentUser {
                 switch user.hasAccepted {
                 case .accepted:
                     infoCell.titleLabel.text = LabelStrings.eventInfo
@@ -303,7 +284,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        // 3 conditions: accept(/Host) / Neutral / or decline)
+        // 3 conditions: accept(/Host) / pending / or decline)
         
         // Default Height:
         // title 120
@@ -312,10 +293,8 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         // taskInfo: 350
         // userInfo: 160
         
-        if let user = user {
-            
+        if let user = Event.shared.currentUser {
             if user.hasAccepted == .accepted {
-                
                 // Accept or Host
                 switch indexPath.row {
                 case RowItemNumber.invite.rawValue:
@@ -400,7 +379,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     // MARK: - Select Row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let user = user, user.hasAccepted == .accepted else { return }
+        guard let user = Event.shared.currentUser, user.hasAccepted == .accepted else { return }
         if indexPath.row == RowItemNumber.hostInfo.rawValue {
             self.delegate?.eventSummaryVCOpenEventInfo()
         } else if indexPath.row == RowItemNumber.taskInfo.rawValue && !Event.shared.firebaseEventUid.isEmpty {
@@ -437,9 +416,6 @@ extension EventSummaryViewController: AnswerCellDelegate {
         let alert = UIAlertController(title: AlertStrings.declineEventAlertTitle,
                                       message: AlertStrings.declineEventAlertMessage,
                                       preferredStyle: UIAlertController.Style.alert)
-//        alert.addAction(UIAlertAction(title: "Decline",
-//                                      style: UIAlertAction.Style.destructive,
-//                                      handler: { (_) in self.didTapDecline()}))
         alert.addAction(UIAlertAction(title: AlertStrings.decline,
                                        style: UIAlertAction.Style.destructive,
                                        handler: { (_) in
@@ -492,7 +468,7 @@ extension EventSummaryViewController: AnswerAcceptedCellDelegate {
 // MARK: - TaskSummary Cell Delegate
 extension EventSummaryViewController: TaskSummaryCellDelegate {
     func taskSummaryCellDidTapSeeAll() {
-        if let user = user {
+        if let user = Event.shared.currentUser {
             if user.hasAccepted == .accepted {
                 delegate?.eventSummaryVCOpenTasksList()
             } else {
@@ -593,7 +569,7 @@ extension EventSummaryViewController {
             testManager.createHostStatus()
             
             if testManager.isHost == false {
-                if let user = user {
+                if let user = Event.shared.currentUser {
                     testManager.createPendingStatus(user: user)
                     
                     if testManager.isStatusPending == false {

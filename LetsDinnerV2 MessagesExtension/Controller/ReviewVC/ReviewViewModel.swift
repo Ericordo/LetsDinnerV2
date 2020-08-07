@@ -40,6 +40,7 @@ class ReviewViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
+                    self.isLoading.value = false
                     self.dataUploadObserver.send(error: error)
                 case .success():
                     if self.addToCalendar.value {
