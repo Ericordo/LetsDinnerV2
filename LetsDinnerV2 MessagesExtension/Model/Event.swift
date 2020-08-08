@@ -98,8 +98,8 @@ class Event {
         layout.imageSubtitle = dinnerDate
         layout.caption = "Tap to view Dinner! "
         let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
-        message.layout = layout
-//        message.layout = bubbleManager.prepareMessageBubble()
+//        message.layout = layout
+        message.layout = bubbleManager.prepareMessageBubble()
         message.summaryText = summary
         message.md.set(value: dinnerName, forKey: "dinnerName")
         message.md.set(value: hostName, forKey: "hostName")
@@ -620,6 +620,17 @@ class Event {
             }
         }
     }
+//    
+//    func fetchUserStatus(completion: @escaping (Result<Invitation,LDError>) -> Void) {
+//        guard let user = self.currentUser else {
+//            DispatchQueue.main.async {
+//                completion(.failure(.noUserIdentifier))
+//            }
+//        }
+//        
+//        
+//        
+//    }
 
     // MARK: Event Task Management
     

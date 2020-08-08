@@ -217,16 +217,16 @@ class MessagesViewController: MSMessagesAppViewController {
         let bubbleManager = BubbleManager()
         guard conversation.selectedMessage?.url != nil else { return }
         guard let message = conversation.selectedMessage else { return }
+        let messageIsFromMe = message.senderParticipantIdentifier == conversation.localParticipantIdentifier
         let bubbleInfo = bubbleManager.fetchBubbleInformation(for: message)
         let transcriptView = EventTranscriptView(bubbleInfo: bubbleInfo,
-                                                 delegate: self)
+                                                 delegate: self,
+                                                 messageIsFromMe: messageIsFromMe)
         view.addSubview(transcriptView)
         transcriptView.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstant: CGFloat = conversation.isSelectedMessageFromMe ? 0 : 1
-        let trailingConstant: CGFloat = conversation.isSelectedMessageFromMe ? -1 : 0
         NSLayoutConstraint.activate([
-            transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstant),
-            transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstant),
+            transcriptView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            transcriptView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             transcriptView.topAnchor.constraint(equalTo: view.topAnchor),
             transcriptView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
