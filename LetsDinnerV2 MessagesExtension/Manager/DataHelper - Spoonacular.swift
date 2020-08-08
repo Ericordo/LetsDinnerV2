@@ -9,12 +9,19 @@
 import Foundation
 import ReactiveSwift
 
+/*
+Free plan 150 Points/day
+Cook plan 1500 Points/day 29$
+Culinarian plan 4500 Points/day 79$
+ */
+
 class DataHelper {
     
     static let shared = DataHelper()
     
     private init() {}
     
+    // Cost 1 point + 0.01 point per result returned (1.15 for 15 results)
     private func fetchRecipesIds(keyword: String) -> SignalProducer<[Int],ApiError> {
         return SignalProducer { observer, disposable in
             var recipesIds = [Int]()
@@ -27,15 +34,12 @@ class DataHelper {
             request.httpMethod = "GET"
             
             let dataTask = session.dataTask(with: request) { (data, response, error) in
-                
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 402 {
                         observer.send(error: .requestLimit)
                     }
                 }
-                
                 guard let dataResponse = data else {
-                    
                     if let networkError = error as NSError? {
                         if networkError.code == -1009 {
                             observer.send(error: .noNetwork)
@@ -52,7 +56,6 @@ class DataHelper {
                             recipesIds.append(recipeId)
                         }
                     }
-                    print(recipesIds)
                     observer.send(value: recipesIds)
                     observer.sendCompleted()
                 } catch {
@@ -63,6 +66,7 @@ class DataHelper {
         }
     }
     
+    // Cost 1 point (15 for 15 results)
     private func loadSearchResults(recipeId: Int, completion: @escaping (Result<Recipe, ApiError>) -> Void) {
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
         let endpoint = String(format: "https://api.spoonacular.com/recipes/\(recipeId)/information?includeNutrition=false&apiKey=\(ApiKeys.apiKeySpoonacular)")
@@ -75,36 +79,31 @@ class DataHelper {
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 402 {
-                        completion(.failure(ApiError.requestLimit))
+                    completion(.failure(ApiError.requestLimit))
                 }
             }
             guard let dataResponse = data else {
-                print("Invalid payload")
-
                 if let networkError = error as NSError? {
                     if networkError.code == -1009 {
-                            completion(.failure(ApiError.noNetwork))
+                        completion(.failure(ApiError.noNetwork))
                     }
                 }
                 return
             }
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: dataResponse, options: .mutableLeaves) as? Dictionary<String, Any>
-
-
+                
                 guard let recipeInfo = jsonData else { return }
                 let recipe = Recipe(dict: recipeInfo)
-
-                    completion(.success(recipe))
+                completion(.success(recipe))
             } catch {
-                print("JSON decoding failed", error, error.localizedDescription)
-                    completion(.failure(ApiError.decodingFailed))
+                completion(.failure(ApiError.decodingFailed))
             }
         }
         dataTask.resume()
     }
     
-// To reactive later to be fully reactive
+// To reactivate later to be fully reactive
 //    private func fetchAPIRecipe(recipeId: Int) -> SignalProducer<Recipe, ApiError> {
 //        return SignalProducer { observer, disposable in
 //            let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -184,10 +183,66 @@ class DataHelper {
             }
         }
     }
-        
+    
+    // Cost 16.15 points for 15 results
     func fetchSearchResults(keyword: String) -> SignalProducer<[Recipe], ApiError> {
-        return self.fetchRecipesIds(keyword: keyword).flatMap(.latest) { (recipeIds) -> SignalProducer<[Recipe], ApiError> in
+        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], ApiError> in
             return self.fetchAPIRecipes(recipeIds: recipeIds)
         }
             }
+    
+    // Cost 9.15 points for 15 results
+    func fetchSearchResultsBulk(keyword: String) -> SignalProducer<[Recipe], ApiError> {
+        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], ApiError> in
+            return self.fetchAPIRecipesBulk(recipeIds: recipeIds)
+        }
+    }
+    
+    // Cost 1 point for first recipe then 0.5 for each recipe (8 for 15 results)
+    private func fetchAPIRecipesBulk(recipeIds: [Int]) -> SignalProducer<[Recipe], ApiError> {
+        return SignalProducer { observer, _ in
+            let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
+            var recipeIdsList = ""
+            recipeIds.forEach { recipeId in
+                recipeIdsList += "\(recipeId),"
+            }
+            recipeIdsList.remove(at: recipeIdsList.index(before: recipeIdsList.endIndex))
+            let endpoint = String(format: "https://api.spoonacular.com/recipes/informationBulk?ids=\(recipeIdsList)&apiKey=\(ApiKeys.apiKeySpoonacular)")
+            print(endpoint)
+            
+            guard let endpointURL = URL(string: endpoint) else { return }
+            var request = URLRequest(url: endpointURL)
+            request.httpMethod = "GET"
+            let dataTask = session.dataTask(with: request) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 402 {
+                        observer.send(error: .requestLimit)
+                    }
+                }
+                guard let dataResponse = data else {
+                    if let networkError = error as NSError? {
+                        if networkError.code == -1009 {
+                            observer.send(error: .noNetwork)
+                        }
+                    }
+                    return
+                }
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: dataResponse, options: .mutableLeaves) as? [[String:Any]]
+                    
+                    guard let recipesInfo = jsonData else { return }
+                    var recipes = [Recipe]()
+                    recipesInfo.forEach { recipeInfo in
+                        let recipe = Recipe(dict: recipeInfo)
+                        recipes.append(recipe)
+                    }
+                    observer.send(value: recipes)
+                    observer.sendCompleted()
+                } catch {
+                    observer.send(error: .decodingFailed)
+                }
+            }
+            dataTask.resume()
+        }
+    }
 }

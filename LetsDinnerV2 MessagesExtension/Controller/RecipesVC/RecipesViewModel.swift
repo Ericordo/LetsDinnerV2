@@ -78,7 +78,7 @@ class RecipesViewModel {
     }
     
     private func fetchSearchResults(keyword: String) {
-        DataHelper.shared.fetchSearchResults(keyword: keyword)
+        DataHelper.shared.fetchSearchResultsBulk(keyword: keyword)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .observe(on: UIScheduler())
