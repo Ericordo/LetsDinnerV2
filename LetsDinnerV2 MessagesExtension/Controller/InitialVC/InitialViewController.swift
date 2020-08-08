@@ -87,7 +87,7 @@ class InitialViewController: UIViewController {
     
     @objc private func didTapNewEvent() {
         delegate?.initialVCDidTapStartButton()
-        Analytics.logEvent("New event", parameters: nil)
+        Analytics.logEvent("new_event", parameters: nil)
     }
     
     @objc private func didTapSettings() {

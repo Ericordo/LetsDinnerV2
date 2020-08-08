@@ -22,17 +22,6 @@ class MessagesViewController: MSMessagesAppViewController {
         print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.backgroundColor = .backgroundColor
         
-        if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
-        }
-        
-        //        Database.database().isPersistenceEnabled = true
-        
-        Auth.auth().signInAnonymously { (authResult, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
         #warning("Get rid of that and just reinstall the app")
         let config = Realm.Configuration(
             schemaVersion: 1,
@@ -44,7 +33,7 @@ class MessagesViewController: MSMessagesAppViewController {
         do {
             _ = try Realm()
         } catch {
-            print("ERROR", error, error.localizedDescription)
+            print(error.localizedDescription)
         }
 
 //        CloudManager.shared.checkUserCloudStatus {
@@ -66,6 +55,16 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Conversation Handling
     
     override func willBecomeActive(with conversation: MSConversation) {
+        
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+        
+        Auth.auth().signInAnonymously { (authResult, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
         
         if presentationStyle == .transcript {
             presentTranscriptView(for: conversation)
