@@ -18,22 +18,10 @@ class EventTranscriptView: UIView {
     
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
-        if defaults.username == "Eric Ordonneau" {
-            imageView.image = UIImage(named: "veroBackground")
-        } else {
-            imageView.image = UIImage(named: Images.premiumBackground)
-        }
+        imageView.image = UIImage(named: Images.premiumBackground)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
-//    private let gradientView: UIView = {
-//        let view = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
-//        view.layer.masksToBounds = true
-//        view.alpha = 0.72
-//        view.setDiagonalGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
-//        return view
-//    }()
     
     private let mainInfoLabel: UILabel = {
         let label = UILabel()
@@ -86,9 +74,13 @@ class EventTranscriptView: UIView {
     
     weak var delegate: EventTranscriptViewDelegate?
     
+    private let messageIsFromMe : Bool
+    
         init(bubbleInfo: BubbleInfo,
-            delegate: EventTranscriptViewDelegate) {
+            delegate: EventTranscriptViewDelegate,
+            messageIsFromMe: Bool) {
             self.delegate = delegate
+            self.messageIsFromMe = messageIsFromMe
             super.init(frame: .zero)
             setupInformation(bubbleInfo: bubbleInfo)
             setupView()
@@ -112,6 +104,7 @@ class EventTranscriptView: UIView {
         delegate?.didTapBubble()
     }
     
+    #warning("To test on real device")
     private func updateUserStatus(_ value: String) {
         if let status = Invitation(rawValue: value) {
             switch status {
@@ -130,7 +123,6 @@ class EventTranscriptView: UIView {
     private func setupView() {
         preservesSuperviewLayoutMargins = true 
         addSubview(backgroundImage)
-//        backgroundImage.addSubview(gradientView)
         addSubview(bottomView)
         addSubview(secondaryInfoLabel)
         addSubview(mainInfoLabel)
@@ -144,6 +136,9 @@ class EventTranscriptView: UIView {
     }
     
     private func addConstraints() {
+        #warning("To test on real device, messageIsFromMe seems to be false on simulator even when I send it")
+        let leadingConstant: CGFloat = messageIsFromMe ? 0 : 3
+        let trailingConstant: CGFloat = messageIsFromMe ? -3 : 0
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bottomView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -151,14 +146,6 @@ class EventTranscriptView: UIView {
             bottomView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             bottomView.heightAnchor.constraint(equalToConstant: 41)
         ])
-        
-//        backgroundImage.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            backgroundImage.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            backgroundImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            backgroundImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            backgroundImage.topAnchor.constraint(equalTo: self.topAnchor)
-//        ])
         
         backgroundImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -168,27 +155,19 @@ class EventTranscriptView: UIView {
             backgroundImage.topAnchor.constraint(equalTo: self.topAnchor)
         ])
         
-//        gradientView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            gradientView.bottomAnchor.constraint(equalTo: backgroundImage.bottomAnchor),
-//            gradientView.leadingAnchor.constraint(equalTo: backgroundImage.leadingAnchor),
-//            gradientView.trailingAnchor.constraint(equalTo: backgroundImage.trailingAnchor),
-//            gradientView.topAnchor.constraint(equalTo: backgroundImage.topAnchor)
-//        ])
-        
         secondaryInfoLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             secondaryInfoLabel.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -7),
-            secondaryInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7),
-            secondaryInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -7),
+            secondaryInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7 + leadingConstant),
+            secondaryInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -7 + trailingConstant),
             secondaryInfoLabel.heightAnchor.constraint(equalToConstant: secondaryInfoLabel.font.lineHeight)
         ])
         
         mainInfoLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainInfoLabel.bottomAnchor.constraint(equalTo: secondaryInfoLabel.topAnchor, constant: -2),
-            mainInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7),
-            mainInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -7),
+            mainInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7 + leadingConstant),
+            mainInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -7 + trailingConstant),
             mainInfoLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
         
@@ -196,7 +175,7 @@ class EventTranscriptView: UIView {
         NSLayoutConstraint.activate([
             statusIcon.widthAnchor.constraint(equalToConstant: 27),
             statusIcon.heightAnchor.constraint(equalToConstant: 27),
-            statusIcon.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7),
+            statusIcon.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 7 + leadingConstant),
             statusIcon.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor)
         ])
         

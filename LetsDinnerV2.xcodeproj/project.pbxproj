@@ -90,7 +90,6 @@
 		885133AF2430F14C004CD858 /* BubbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133AE2430F14C004CD858 /* BubbleManager.swift */; };
 		885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133B024310C32004CD858 /* EventTranscriptView.swift */; };
 		885133B3243283AF004CD858 /* SendAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133B2243283AF004CD858 /* SendAction.swift */; };
-		885133B72434B99A004CD858 /* MSConversation+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133B62434B999004CD858 /* MSConversation+Ext.swift */; };
 		8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */; };
 		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
 		885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */; };
@@ -293,7 +292,6 @@
 		885133AE2430F14C004CD858 /* BubbleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleManager.swift; sourceTree = "<group>"; };
 		885133B024310C32004CD858 /* EventTranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTranscriptView.swift; sourceTree = "<group>"; };
 		885133B2243283AF004CD858 /* SendAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAction.swift; sourceTree = "<group>"; };
-		885133B62434B999004CD858 /* MSConversation+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MSConversation+Ext.swift"; sourceTree = "<group>"; };
 		885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+EmptyScreen.swift"; sourceTree = "<group>"; };
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
 		885C60BA2380311100ED3A17 /* TaskManagementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskManagementCell.xib; sourceTree = "<group>"; };
@@ -687,7 +685,6 @@
 				880B135B2374758F003E29AC /* TaskExtension.swift */,
 				B87C103E2408E9AC004AD951 /* Thread.swift */,
 				8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */,
-				885133B62434B999004CD858 /* MSConversation+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1365,7 +1362,6 @@
 				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
 				8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
-				885133B72434B99A004CD858 /* MSConversation+Ext.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */,
 				884CE1CD246709F8001062BF /* CustomRecipeDetailsViewModel.swift in Sources */,
