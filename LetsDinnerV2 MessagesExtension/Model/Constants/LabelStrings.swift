@@ -149,6 +149,11 @@ enum LabelStrings {
     
     // Message Bubble
     static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
+    static let task = NSLocalizedString("task", comment: "task")
+    static let tasks = NSLocalizedString("tasks", comment: "tasks")
+    static let updatedServingsSummary = NSLocalizedString("%@ updated the servings!", comment: "updated the servings")
+    static let updatedTasksSummary = NSLocalizedString("%@ updated %d %@!", comment: "username updated numberOfTask task(s)!")
+    static let updatedTasksAndServingsSummary = NSLocalizedString("%@ updated %d %@ and the servings!", comment: "username updated numberOfTask task(s) and the servings!")
     
     // Premium Screen
     static let restore = NSLocalizedString("Restore purchases", comment: "Restore purchases")

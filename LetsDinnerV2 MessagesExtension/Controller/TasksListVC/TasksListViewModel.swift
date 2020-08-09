@@ -34,6 +34,9 @@ class TasksListViewModel {
     
     var isSending = false
     
+    var pendingTasks = [Task]()
+    var tasksToUpdate = [Task]()
+    
     let newDataSignal : Signal<Void, LDError>
     private let newDataObserver : Signal<Void, LDError>.Observer
     
@@ -83,6 +86,8 @@ class TasksListViewModel {
                 guard let self = self else { return }
                 self.updateServings(servings: servings)
         }
+        
+        self.updateTasks()
     }
     
     private func updateServings(servings: Int) {
@@ -137,12 +142,11 @@ class TasksListViewModel {
     }
     
     func updateSummaryText() {
-        #warning("localize")
         let numberOfUpdatedTasks = Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()
-        let taskString = numberOfUpdatedTasks == 1 ? "task" : "tasks"
-        let summaryForServings = "\(defaults.username) updated the servings!"
-        let summaryForTasks = "\(defaults.username) updated \(numberOfUpdatedTasks) \(taskString)."
-        let summaryForTasksAndServings = "\(defaults.username) updated \(numberOfUpdatedTasks) \(taskString) and the servings!"
+        let taskString = numberOfUpdatedTasks == 1 ? LabelStrings.task : LabelStrings.tasks
+        let summaryForServings = String.localizedStringWithFormat(LabelStrings.updatedServingsSummary, defaults.username)
+        let summaryForTasks = String.localizedStringWithFormat(LabelStrings.updatedTasksSummary, defaults.username, numberOfUpdatedTasks, taskString)
+        let summaryForTasksAndServings = String.localizedStringWithFormat(LabelStrings.updatedTasksAndServingsSummary, defaults.username, numberOfUpdatedTasks, taskString)
         let tasksUpdate = Event.shared.tasksNeedUpdate
         let servingsUpdate = Event.shared.servingsNeedUpdate
         if tasksUpdate && servingsUpdate {
@@ -176,6 +180,7 @@ class TasksListViewModel {
     }
     
     func updateTasks() {
+        self.pendingTasks = Event.shared.tasks
         Event.shared.fetchTasksAndServings()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
@@ -243,6 +248,31 @@ class TasksListViewModel {
                     self.taskUploadObserver.send(value: ())
                 }
         }
+    }
+    
+    func pendingChanges() -> Bool {
+        let pendingAssignedTasks = self.pendingTasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier }
+        let freeTasks = Event.shared.tasks.filter { $0.taskState == .unassigned }
+        
+        pendingAssignedTasks.forEach { pendingTask in
+            if freeTasks.contains(where: { $0.taskUid == pendingTask.taskUid }) {
+                tasksToUpdate.append(pendingTask)
+            }
+        }
+        return !tasksToUpdate.isEmpty
+    }
+    
+    func applyPendingChanges() {
+        tasksToUpdate.forEach { taskUpdate in
+            let index = Event.shared.tasks.firstIndex { $0.taskUid == taskUpdate.taskUid }
+            if let index = index {
+                Event.shared.tasks[index] = taskUpdate
+            }
+        }
+        self.pendingTasks.removeAll()
+        self.tasksToUpdate.removeAll()
+        self.tasks.value = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+        self.prepareTasks()
     }
 }
 

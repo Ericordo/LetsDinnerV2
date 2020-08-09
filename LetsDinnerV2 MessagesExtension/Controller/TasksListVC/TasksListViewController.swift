@@ -113,6 +113,9 @@ class TasksListViewController: LDNavigationViewController {
                 guard let self = self else { return }
                 self.tasksTableView.reloadData()
                 self.updateSubmitButton()
+                if self.viewModel.pendingChanges() {
+                    self.displayPendingChangesAfterUpdateAlert()
+                }
         }
         
         self.viewModel.onlineUsersSignal
@@ -189,6 +192,23 @@ class TasksListViewController: LDNavigationViewController {
                                       style: .default,
                                       handler: { _ in
                                         self.delegate?.tasksListVCDidTapSubmit()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func displayPendingChangesAfterUpdateAlert() {
+        let alert = UIAlertController(title: AlertStrings.unsubmittedTasks,
+                                      message: AlertStrings.applyChanges,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: AlertStrings.nope,
+                                      style: .destructive,
+                                      handler: { _ in
+                                        
+        }))
+        alert.addAction(UIAlertAction(title: AlertStrings.yes,
+                                      style: .default,
+                                      handler: { _ in
+                                        self.viewModel.applyPendingChanges()
         }))
         present(alert, animated: true, completion: nil)
     }
