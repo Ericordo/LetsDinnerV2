@@ -44,6 +44,7 @@ enum AlertStrings {
     static let submitQuestion = NSLocalizedString("You made changes in this list. Would you like to update it?", comment: "you made changes")
     static let updateTitle = NSLocalizedString("Update required", comment: "update required")
     static let updateDescription = NSLocalizedString("Some tasks have been updated by other participants, let's refresh!", comment: "update instructions")
+    static let applyChanges = NSLocalizedString("Some of the tasks you wanted are still free, would you like to take them?", comment: "reapply previous changes after external update")
     
     // Decline Event Alert
     static let declineEventAlertTitle = "Do you want to decline?"
