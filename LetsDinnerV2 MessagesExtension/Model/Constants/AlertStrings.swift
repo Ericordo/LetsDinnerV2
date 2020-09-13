@@ -78,7 +78,6 @@ enum AlertStrings {
     
     // Action Sheet
     static let doneActionSheetMessage = NSLocalizedString("Save or Discard your changes?", comment: "save or discard")
-    static let errorTitle = NSLocalizedString("Error", comment: "error")
     static let saveImageErrorMessage = NSLocalizedString("Image cannot be saved", comment: "save image error message")
     static let changeImageActionSheetMessage = NSLocalizedString("Change or Delete your image?", comment: "change image")
     static let editRecipeActionSheetMessage = NSLocalizedString("Do you want to Edit or Delete %@ ?", comment: "edit recipe")
@@ -95,8 +94,4 @@ enum AlertStrings {
     static let discard = NSLocalizedString("Discard", comment: "discard")
     static let change = NSLocalizedString("Change", comment: "change")
     static let nope = NSLocalizedString("Nope", comment: "nope")
-    
-    // Error
-    static let oopsErrorTitle = NSLocalizedString("Oops!", comment: "oops")
-
 }

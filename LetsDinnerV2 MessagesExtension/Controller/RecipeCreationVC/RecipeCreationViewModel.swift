@@ -8,35 +8,77 @@
 
 import Foundation
 import ReactiveSwift
+import CloudKit
 
 class RecipeCreationViewModel {
     
-    let recipeUploadSignal : Signal<Void, Error>
-    private let recipeUploadObserver : Signal<Void, Error>.Observer
+    let recipeSignal : Signal<Void, LDError>
+    private let recipeObserver : Signal<Void, LDError>.Observer
     
-    let recipeUpdateSignal : Signal<Void, Error>
-    private let recipeUpdateObserver : Signal<Void, Error>.Observer
-    
-    let deleteRecipeSignal : Signal<Void, Error>
-    private let deleteRecipeObserver : Signal<Void, Error>.Observer
+    let doneActionSignal : Signal<Void, Never>
+    private let doneActionObserver : Signal<Void, Never>.Observer
     
     let isLoading = MutableProperty<Bool>(false)
     
-    init() {
-        let (recipeUploadSignal, recipeUploadObserver) = Signal<Void, Error>.pipe()
-        self.recipeUploadSignal = recipeUploadSignal
-        self.recipeUploadObserver = recipeUploadObserver
-        
-        let (recipeUpdateSignal, recipeUpdateObserver) = Signal<Void, Error>.pipe()
-        self.recipeUpdateSignal = recipeUpdateSignal
-        self.recipeUpdateObserver = recipeUpdateObserver
-        
-        // Delete Recipe
-        let (deleteRecipeSignal, deleteRecipeObserver) = Signal<Void, Error>.pipe()
-        self.deleteRecipeSignal = deleteRecipeSignal
-        self.deleteRecipeObserver = deleteRecipeObserver
+    let recipe : LDRecipe?
+    
+    let recipePicData : MutableProperty<Data?>
+    let downloadUrl : MutableProperty<String?>
+    let recipeName : MutableProperty<String>
+    let servings : MutableProperty<Int>
+    let ingredients = MutableProperty<[LDIngredient]>([])
+    let steps = MutableProperty<[String]>([])
+    let comments = MutableProperty<[String]>([])
+    
+    let creationMode : MutableProperty<Bool>
+    
+    var editingAllowed : Bool {
+        return StepStatus.currentStep == .recipesVC && self.recipe != nil
     }
     
+    private var informationIsValid : Bool {
+        return !self.recipeName.value.isEmpty
+    }
+    
+    private var informationIsEmpty : Bool {
+        return self.recipePicData.value == nil
+            && recipeName.value.isEmpty
+            && ingredients.value.isEmpty
+            && steps.value.isEmpty
+            && comments.value.isEmpty
+    }
+    
+    init(with recipe: LDRecipe? = nil, creationMode: Bool) {
+        self.recipe = recipe
+        self.recipePicData = MutableProperty(nil)
+        self.downloadUrl = MutableProperty(nil)
+        self.recipeName = MutableProperty<String>("")
+        self.servings = MutableProperty<Int>(2)
+        self.creationMode = MutableProperty(creationMode)
+        
+        let (recipeUploadSignal, recipeUploadObserver) = Signal<Void, LDError>.pipe()
+        self.recipeSignal = recipeUploadSignal
+        self.recipeObserver = recipeUploadObserver
+
+        let (doneActionSignal, doneActionObserver) = Signal<Void, Never>.pipe()
+        self.doneActionSignal = doneActionSignal
+        self.doneActionObserver = doneActionObserver
+        
+        if let recipe = recipe {
+            self.displayRecipe(recipe)
+        }
+    }
+    
+    private func displayRecipe(_ recipe: LDRecipe) {
+        self.recipeName.value = recipe.title
+        self.servings.value = recipe.servings
+        self.downloadUrl.value = recipe.downloadUrl
+        self.ingredients.value = recipe.ingredients
+        self.steps.value = recipe.cookingSteps
+        self.comments.value = recipe.comments
+    }
+    
+    // To delete
     func saveRecipe(_ recipe: LDRecipe) {
         CloudManager.shared.saveRecipeAndIngredientsOnCloud(recipe)
             .on(starting: { self.isLoading.value = true })
@@ -48,39 +90,79 @@ class RecipeCreationViewModel {
                 case .success(let recordID):
                     RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
                         .startWithCompleted {
-                            self.recipeUploadObserver.send(value: ())
+                            self.recipeObserver.send(value: ())
                     }
-                    
+
                 case .failure(let error):
-                    self.recipeUploadObserver.send(error: error)
+                    print(error.localizedDescription)
+                    self.recipeObserver.send(error: .recipeSaveCloudFail)
                 }
         }
     }
     
-    func updateRecipe(currentRecipe: LDRecipe, newRecipe: LDRecipe) {
-        CloudManager.shared.updateRecipeInCloud(currentRecipe, newRecipe)
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
-            .take(duringLifetimeOf: self)
-            .startWithResult { result in
-                switch result {
-                case .success():
-                    RealmHelper.shared.updateRecipeInRealm(currentRecipe, newRecipe)
-                        .startWithCompleted {
-                            self.recipeUploadObserver.send(value: ())
-                    }
-                case .failure(let error):
-                    self.recipeUpdateObserver.send(error: error)
+    func didTapDone() {
+        if !self.creationMode.value {
+            recipeObserver.send(value: ())
+        } else if self.recipe == nil {
+            if self.informationIsEmpty {
+                self.recipeObserver.send(value: ())
+            } else {
+                self.doneActionObserver.send(value: ())
+            }
+        } else {
+            if let recipe = self.recipe, recipe == self.prepareRecipe()  {
+                if recipe.downloadUrl == nil && self.recipePicData.value != nil {
+                    self.doneActionObserver.send(value: ())
+                } else {
+                    self.recipeObserver.send(value: ())
                 }
+            } else {
+                self.doneActionObserver.send(value: ())
+            }
         }
-        
+    }
+
+    private func prepareRecipe() -> LDRecipe {
+        return LDRecipe(title: recipeName.value,
+        servings: self.servings.value,
+        downloadUrl: self.downloadUrl.value,
+        cookingSteps: self.steps.value,
+        comments: self.comments.value,
+        ingredients: self.ingredients.value)
+ }
+
+    func saveRecipe() {
+        guard informationIsValid else {
+            self.recipeObserver.send(error: .recipeNameMissing)
+            return
+        }
+        if let data = self.recipePicData.value {
+            self.saveRecipePictureAndInfo(data, id: UUID().uuidString)
+            return
+        }
+        let recipe = self.prepareRecipe()
+        self.saveRecipeInformation(recipe)
+    }
+    
+    func updateRecipe() {
+        guard informationIsValid else {
+            self.recipeObserver.send(error: .recipeNameMissing)
+            return
+        }
+        guard let currentRecipe = self.recipe else { return }
+        if let data = self.recipePicData.value {
+            self.updateRecipePictureAndInfo(data, id: currentRecipe.id)
+            return
+        }
+        var newRecipe = self.prepareRecipe()
+        newRecipe.id = currentRecipe.id
+        self.updateRecipeInformation(currentRecipe, newRecipe)
     }
     
     func deleteRecipe(_ recipe: LDRecipe) {
-    if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipe.id }) {
-        Event.shared.selectedCustomRecipes.remove(at: index)
-    }
+        if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipe.id }) {
+            Event.shared.selectedCustomRecipes.remove(at: index)
+        }
         CloudManager.shared.deleteRecipeFromCloud(recipe)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
@@ -91,13 +173,89 @@ class RecipeCreationViewModel {
                 case .success():
                     RealmHelper.shared.deleteRecipeInRealm(recipe)
                         .startWithCompleted {
-                             self.deleteRecipeObserver.send(value: ())
+                            self.recipeObserver.send(value: ())
                     }
                 case .failure(let error):
-                    self.deleteRecipeObserver.send(error: error)
+                    self.isLoading.value = false
+                    self.recipeObserver.send(error: .recipeDeleteCloudFail)
                 }
         }
     }
     
+    private func saveRecipePictureAndInfo(_ imageData: Data, id: String) {
+        ImageHelper.shared.saveRecipePicToFirebase(imageData, id: id)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.recipeObserver.send(error: error)
+                case .success(let url):
+                    var recipe = self.prepareRecipe()
+                    recipe.id = id
+                    recipe.downloadUrl = url
+                    self.saveRecipeInformation(recipe)
+                }
+        }
+    }
     
+    private func saveRecipeInformation(_ recipe: LDRecipe) {
+        CloudManager.shared.saveRecipeAndIngredientsOnCloud(recipe)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithResult { result in
+                switch result {
+                case .success(let recordID):
+                    RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
+                        .startWithCompleted {
+                            self.recipeObserver.send(value: ())
+                    }
+                case .failure(let error):
+                    self.isLoading.value = false
+                    print(error.localizedDescription)
+                    self.recipeObserver.send(error: .recipeSaveCloudFail)
+                }
+        }
+    }
+    
+    private func updateRecipePictureAndInfo(_ imageData: Data, id: String) {
+        ImageHelper.shared.saveRecipePicToFirebase(imageData, id: id)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.recipeObserver.send(error: error)
+                case .success(let url):
+                    guard let currentRecipe = self.recipe else { return }
+                    var newRecipe = self.prepareRecipe()
+                    newRecipe.id = id
+                    newRecipe.downloadUrl = url
+                    self.updateRecipeInformation(currentRecipe, newRecipe)
+                }
+        }
+    }
+    
+    private func updateRecipeInformation(_ currentRecipe: LDRecipe, _ newRecipe: LDRecipe) {
+        CloudManager.shared.updateRecipeInCloud(currentRecipe, newRecipe)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithResult { result in
+                switch result {
+                case .success():
+                    RealmHelper.shared.updateRecipeInRealm(currentRecipe, newRecipe)
+                        .startWithCompleted {
+                            self.recipeObserver.send(value: ())
+                    }
+                case .failure(let error):
+                    self.recipeObserver.send(error: .recipeUpdateCloudFail)
+                }
+        }
+    }
 }

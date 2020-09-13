@@ -8,6 +8,7 @@
 
 import UIKit
 
+#warning("is it used?")
 class IngredientCell: UITableViewCell {
 
     @IBOutlet weak var ingredientLabel: UILabel!

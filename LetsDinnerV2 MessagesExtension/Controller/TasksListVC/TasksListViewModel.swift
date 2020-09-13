@@ -189,6 +189,7 @@ class TasksListViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
+                    self.isLoading.value = false
                     self.newDataObserver.send(error: error)
                 case .success():
                     self.tasks.value = Event.shared.tasks.sorted { $0.taskName < $1.taskName }

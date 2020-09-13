@@ -281,7 +281,7 @@ class TasksListViewController: LDNavigationViewController {
         }
         
         if Event.shared.selectedRecipes.isEmpty && Event.shared.selectedCustomRecipes.isEmpty ||
-            Event.shared.isCancelled {
+        Event.shared.isCancelled || Event.shared.tasks.isEmpty {
             servingsViewHeight = 0
             servingsView.hide()
         }

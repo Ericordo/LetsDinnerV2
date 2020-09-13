@@ -30,7 +30,7 @@ class ImageHelper {
                 if error != nil {
                     observer.send(error: .profilePicUploadFail)
                 }
-                storageRef.downloadURL { (url, error ) in
+                storageRef.downloadURL { (url, error) in
                     if error != nil {
                         observer.send(error: .profilePicUploadFail)
                     }
@@ -43,40 +43,45 @@ class ImageHelper {
         }
     }
     
-    func saveRecipePicToFirebase(_ image: UIImage, id: String, completion: @escaping (Result<String, Error>) -> Void) {
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.4) else { return }
-                
-        let storageRef = storage.child(DataKeys.recipePictures).child(id)
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpg"
-        
-        storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
-            if error != nil {
-                DispatchQueue.main.async {
-                    completion(.failure(error!))
-                }
-            }
-            storageRef.downloadURL { (url, error ) in
+    func saveRecipePicToFirebase(_ imageData: Data, id: String) -> SignalProducer<String, LDError> {
+        return SignalProducer { observer, _ in
+            
+            let storageRef = self.storage.child(DataKeys.recipePictures).child(id)
+            
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpg"
+            
+            storageRef.putData(imageData, metadata: metadata) { (metaData, error) in
                 if error != nil {
-                    DispatchQueue.main.async {
-                        completion(.failure(error!))
-                    }
+                    observer.send(error: .recipePicUploadFail)
                 }
-                if let downloadUrl = url?.absoluteString {
-                    DispatchQueue.main.async {
-                        completion(.success(downloadUrl))
+                storageRef.downloadURL { (url, error) in
+                    if error != nil {
+                        observer.send(error: .recipePicUploadFail)
                     }
-                    
+                    if let downloadUrl = url?.absoluteString {
+                        observer.send(value: (downloadUrl))
+                        observer.sendCompleted()
+                    }
                 }
             }
         }
     }
-    
+
     #warning("To implement")
     func deleteUserPicOnFirebase() {
         let reference = storage.child(DataKeys.profilePictures).child(Event.shared.currentUser?.identifier ?? UUID().uuidString)
+        
+        reference.delete { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+     #warning("To implement")
+    func deleteRecipePicOnFirebase(_ id: String) {
+        let reference = self.storage.child(DataKeys.recipePictures).child(id)
         
         reference.delete { error in
             if let error = error {

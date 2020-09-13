@@ -51,11 +51,7 @@ class RegistrationViewController: LDNavigationViewController {
         return button
     }()
     
-    private let headerSeparator : UIView = {
-        let view = UIView()
-        view.backgroundColor = .sectionSeparatorLine
-        return view
-    }()
+    private lazy var headerSeparator = separator()
     
     private let infoLabel : UILabel = {
         let label = UILabel()
@@ -288,7 +284,7 @@ class RegistrationViewController: LDNavigationViewController {
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                self.showBasicAlert(title: AlertStrings.oopsErrorTitle, message: error.localizedDescription)
+                self.showBasicAlert(title: AlertStrings.oops, message: error.localizedDescription)
                 self.checkUsername()
             case.success(()):
                 self.delegate?.registrationVCDidTapSaveButton(previousStep: self.previousStep)
@@ -688,13 +684,7 @@ class RegistrationViewController: LDNavigationViewController {
             make.top.equalTo(imperialView.snp.bottom)
         }
     }
-    
-    private func separator() -> UIView {
-        let view = UIView()
-        view.backgroundColor = .sectionSeparatorLine
-        return view
-    }
-    
+        
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {return}
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }

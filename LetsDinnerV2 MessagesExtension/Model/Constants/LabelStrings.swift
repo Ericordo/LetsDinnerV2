@@ -67,12 +67,16 @@ enum LabelStrings {
     static let noCustomRecipeMessage = NSLocalizedString("You can create your own recipe!", comment: "no recipe message")
     
     // CreateRecipeVC
-    static let cookingTipsPlaceholder = NSLocalizedString("Anything else you want to mention?", comment: "cooking tips placeholder")
+    static let cookingTipPlaceholder = NSLocalizedString("Better with almond milk", comment: "cooking tips placeholder")
+    static let ingredientPlaceholder = NSLocalizedString("Milk", comment: "ingredient placeholder")
+    static let stepPlaceholder = NSLocalizedString("Warm the milk", comment: "step placeholder")
     static let startCreateRecipeTitle = NSLocalizedString("Create your own custom recipes to cook your favourite meals!", comment: "create recipe title")
     static let startCreateRecipeMessage1 = NSLocalizedString("A great recipe provides you with all the information you need to cook it along the way.", comment: "create recipe message 1")
     static let startCreateRecipeMessage2 = NSLocalizedString("Start with an Image and a name. Then add ingredients, cooking steps or any other information such as tips to your recipe.", comment: "create recipe message 2")
     static let startCreateRecipeMessage3 = NSLocalizedString("Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty.", comment: "create recipe message 3")
     static let noTipsAndComments = NSLocalizedString("No Tips & Comments", comment: "no Tips And Comments")
+    static let done = NSLocalizedString("Done", comment: "done")
+    static let recipeName = NSLocalizedString("Recipe name", comment: "recipe name")
     
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")
@@ -146,7 +150,6 @@ enum LabelStrings {
     static let recipesAndTasksDescription = NSLocalizedString("Create your own or search among 360K+ recipes. Ingredients become tasks that your guests can pick to get everything ready!", comment: "in WelcomeVC")
     static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶", comment: "in WelcomeVC")
     
-    
     // Message Bubble
     static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
     static let task = NSLocalizedString("task", comment: "task")
@@ -171,6 +174,12 @@ enum LabelStrings {
     
     // ExpiredEventVC
     static let createNewEvent = NSLocalizedString("Create a new Event", comment: "create a new event")
+    
+    // RecipeCreationVC
+    static let information = NSLocalizedString("INFORMATION", comment: "information")
+    static let ingredients = NSLocalizedString("INGREDIENTS", comment: "ingredients")
+    static let cookingSteps = NSLocalizedString("COOKING STEPS", comment: "cooking steps")
+    static let amountPlaceholder = NSLocalizedString("500 mL", comment: "amount in metric or imperial")
     
     // RecipeDetails
     static let servingLabel = NSLocalizedString("For %@ people", comment: "servingLabel")
