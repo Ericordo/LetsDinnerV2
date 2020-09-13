@@ -14,8 +14,6 @@ import Foundation
 // for example = FE
 // "" = ??
 
-public let textFieldAllowedCharacters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_."
-
 extension String {
     
     public var initials: String {

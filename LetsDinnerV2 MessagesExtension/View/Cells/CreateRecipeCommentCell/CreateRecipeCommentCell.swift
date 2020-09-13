@@ -9,18 +9,45 @@
 import UIKit
 
 class CreateRecipeCommentCell: UITableViewCell {
-
-    @IBOutlet weak var commentLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.backgroundColor = .backgroundColor
+    static let reuseID = "CreateRecipeCommentCell"
+    
+    private let commentLabel : UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textColor = .textLabel
+        return label
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configureCell(comment: String) {
         commentLabel.text = comment
-        commentLabel.numberOfLines = 0
-        commentLabel.lineBreakMode = .byWordWrapping
-        commentLabel.sizeToFit()
+//        commentLabel.sizeToFit()
+    }
+    
+    private func setupUI() {
+        self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
+        self.contentView.addSubview(commentLabel)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        commentLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+//            make.height.greaterThanOrEqualTo(44)
+        }
     }
 }

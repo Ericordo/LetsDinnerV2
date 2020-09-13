@@ -495,13 +495,9 @@ extension SelectedRecipesViewController: RecipeCellDelegate {
     }
     
     func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: customRecipe, creationMode: false),
+                                                              delegate: nil)
         viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
-//        viewCustomRecipeVC.recipeCreationVCDelegate = self
-        viewCustomRecipeVC.recipeToEdit = customRecipe
-        viewCustomRecipeVC.viewExistingRecipe = true
-        #warning("TBC: is it allowed to be edit in selected Recipe")
-        viewCustomRecipeVC.isAllowedToEditRecipe = false
         self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
 }

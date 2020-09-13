@@ -192,4 +192,10 @@ extension UITableView {
             self.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
         }
     }
+    
+    func registerCellsFromReuseID(_ reuseIDs: String...) {
+        reuseIDs.forEach { reuseID in
+            self.register(NSClassFromString(reuseID), forCellReuseIdentifier: reuseID)
+        }
+    }
 }

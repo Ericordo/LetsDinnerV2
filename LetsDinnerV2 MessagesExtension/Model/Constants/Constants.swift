@@ -10,11 +10,6 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
-enum VCNibs {
-    static let recipeCreationViewController = "RecipeCreationViewController"
-    static let customRecipeDetailsViewController = "CustomRecipeDetailsViewController"
-}
-
 enum CellNibs {
     static let titleCell = "TitleCell"
     static let recipeCell = "RecipeCell"
@@ -30,9 +25,6 @@ enum CellNibs {
     static let recipeCVCell = "RecipeCVCell"
     static let sectionInputCell = "SectionInputCell"
     static let ingredientCell = "IngredientCell"
-    static let createRecipeIngredientCell = "CreateRecipeIngredientCell"
-    static let createRecipeCookingStepCell = "CreateRecipeCookingStepCell"
-    static let createRecipeCommentCell = "CreateRecipeCommentCell"
     static let cancelCell = "CancelCell"
     static let expiredEventCell = "ExpiredEventCell"
 }
@@ -97,7 +89,9 @@ enum Images {
     static let emptyPlate = UIImage(named: "emptyPlate")!
     static let mealPlaceholder = UIImage(named: "mealPlaceholderImage")
     
-    // CustomRecipeDetailsVC
+    // RecipeCreationVC
+    static let editButton = UIImage(named: "editButton")
+    static let addButton = UIImage(named: "addButton")
     static let imagePlaceholderBig = UIImage(named: "imagePlaceholderBig")
     static let recipeBookIcon = UIImage(named: "recipeBookIcon")
     

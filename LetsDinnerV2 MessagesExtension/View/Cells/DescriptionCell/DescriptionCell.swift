@@ -87,11 +87,9 @@ extension DescriptionCell: UICollectionViewDelegate, UICollectionViewDataSource 
         if let customIndex = customIndex {
             let selectedCustomRecipe = selectedCustomRecipes[customIndex]
 
-            let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+            let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: selectedCustomRecipe, creationMode: false),
+                                                                  delegate: nil)
             viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
-            viewCustomRecipeVC.recipeToEdit = selectedCustomRecipe
-            viewCustomRecipeVC.viewExistingRecipe = true
-            viewCustomRecipeVC.isAllowedToEditRecipe = false
             self.window?.rootViewController?.present(viewCustomRecipeVC, animated: true, completion: nil)
         }
     }

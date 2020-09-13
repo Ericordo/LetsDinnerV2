@@ -276,10 +276,8 @@ class RecipesViewController: LDNavigationViewController {
     }
     
     private func presentRecipeCreationVC(animated: Bool) {
-        let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
-        recipeCreationVC.modalPresentationStyle = .fullScreen
-        recipeCreationVC.editingMode = true
-        recipeCreationVC.recipeCreationVCDelegate = self
+        let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(creationMode: true),
+                                                            delegate: self)
         self.present(recipeCreationVC, animated: animated, completion: nil)
     }
 }
@@ -354,12 +352,8 @@ extension RecipesViewController: RecipeCellDelegate {
     }
     
     func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel())
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: customRecipe, creationMode: false), delegate: self)
         viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
-        viewCustomRecipeVC.recipeCreationVCDelegate = self
-        viewCustomRecipeVC.recipeToEdit = customRecipe
-        viewCustomRecipeVC.viewExistingRecipe = true
-        viewCustomRecipeVC.isAllowedToEditRecipe = true
         self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
     
@@ -391,16 +385,5 @@ extension RecipesViewController: RecipeCellDelegate {
     }
 }
 
-    //MARK: CustomRecipeDetailsVCDelegate
-extension RecipesViewController: CustomRecipeDetailsVCDelegate {
-    func customRecipeDetailsVCShouldDismiss() {
-        updateState()
-    }
-    
-    func didDeleteCustomRecipe() {
-        self.viewModel.searchType.value = .customRecipes
-        updateState()
-    }
-}
 
 

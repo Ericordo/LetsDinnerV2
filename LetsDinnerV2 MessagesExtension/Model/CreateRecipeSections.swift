@@ -13,4 +13,30 @@ enum CreateRecipeSections: String {
     case ingredient = "Ingredient"
     case step = "Cooking Step"
     case comment = "Comment"
+    
+    var title : String {
+        switch self {
+        case .name:
+            return ""
+        case .ingredient:
+            return LabelStrings.ingredients
+        case .step:
+            return LabelStrings.cookingSteps
+        case .comment:
+            return LabelStrings.tipsAndComments.uppercased()
+        }
+    }
+    
+    var placeholder : String {
+        switch self {
+        case .name:
+            return ""
+        case .ingredient:
+            return LabelStrings.ingredientPlaceholder
+        case .step:
+            return LabelStrings.stepPlaceholder
+        case .comment:
+            return LabelStrings.cookingTipPlaceholder
+        }
+    }
 }

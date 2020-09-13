@@ -15,6 +15,7 @@ enum LDError : Error {
     case eventFetchingFail
     case profilePicUploadFail
     case recipeSaveRealmFail
+    
     case deleteRealmContentFail
     case transferToRealmFail
     case recipeUpdateRealmFail
@@ -23,6 +24,11 @@ enum LDError : Error {
     case calendarDenied
     case statusUpdateFail
     case taskUpdateFail
+    case recipeNameMissing
+    case recipeSaveCloudFail
+    case recipePicUploadFail
+    case recipeUpdateCloudFail
+    case recipeDeleteCloudFail
 }
 
 #warning("Write descriptions")
@@ -56,6 +62,16 @@ extension LDError {
         case .statusUpdateFail:
             return ""
         case .taskUpdateFail:
+            return ""
+        case .recipeNameMissing:
+            return ""
+        case .recipeSaveCloudFail:
+            return ""
+        case .recipePicUploadFail:
+            return AlertStrings.saveImageErrorMessage
+        case .recipeUpdateCloudFail:
+            return ""
+        case .recipeDeleteCloudFail:
             return ""
         }
     }
