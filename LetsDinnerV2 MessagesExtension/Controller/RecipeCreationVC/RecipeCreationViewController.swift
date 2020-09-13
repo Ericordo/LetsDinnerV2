@@ -292,7 +292,7 @@ class RecipeCreationViewController: UIViewController {
         self.viewModel.recipeSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeResult { [weak self] result in
+            .observeValues({ [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
@@ -306,7 +306,7 @@ class RecipeCreationViewController: UIViewController {
                     self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
                     self.dismiss(animated: true, completion: nil)
                 }
-        }
+            })
     }
     
     private func updateLayoutConstraints() {

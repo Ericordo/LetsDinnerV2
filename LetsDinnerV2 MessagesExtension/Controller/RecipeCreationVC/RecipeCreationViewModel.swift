@@ -12,8 +12,8 @@ import CloudKit
 
 class RecipeCreationViewModel {
     
-    let recipeSignal : Signal<Void, LDError>
-    private let recipeObserver : Signal<Void, LDError>.Observer
+    let recipeSignal : Signal<Result<Void, LDError>, Never>
+    private let recipeObserver : Signal<Result<Void, LDError>, Never>.Observer
     
     let doneActionSignal : Signal<Void, Never>
     private let doneActionObserver : Signal<Void, Never>.Observer
@@ -56,9 +56,9 @@ class RecipeCreationViewModel {
         self.servings = MutableProperty<Int>(2)
         self.creationMode = MutableProperty(creationMode)
         
-        let (recipeUploadSignal, recipeUploadObserver) = Signal<Void, LDError>.pipe()
-        self.recipeSignal = recipeUploadSignal
-        self.recipeObserver = recipeUploadObserver
+        let (recipeSignal, recipeObserver) = Signal<Result<Void, LDError>, Never>.pipe()
+        self.recipeSignal = recipeSignal
+        self.recipeObserver = recipeObserver
 
         let (doneActionSignal, doneActionObserver) = Signal<Void, Never>.pipe()
         self.doneActionSignal = doneActionSignal
@@ -90,22 +90,25 @@ class RecipeCreationViewModel {
                 case .success(let recordID):
                     RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
                         .startWithCompleted {
-                            self.recipeObserver.send(value: ())
+                            self.recipeObserver.send(value: .success(()))
+//                            self.recipeObserver.send(value: ())
                     }
 
                 case .failure(let error):
                     print(error.localizedDescription)
-                    self.recipeObserver.send(error: .recipeSaveCloudFail)
+                    self.recipeObserver.send(value: .failure(.recipeSaveCloudFail))
+//                    self.recipeObserver.send(error: .recipeSaveCloudFail)
                 }
         }
     }
     
     func didTapDone() {
         if !self.creationMode.value {
-            recipeObserver.send(value: ())
+//            recipeObserver.send(value: ())
+            self.recipeObserver.send(value: .success(()))
         } else if self.recipe == nil {
             if self.informationIsEmpty {
-                self.recipeObserver.send(value: ())
+                self.recipeObserver.send(value: .success(()))
             } else {
                 self.doneActionObserver.send(value: ())
             }
@@ -114,7 +117,7 @@ class RecipeCreationViewModel {
                 if recipe.downloadUrl == nil && self.recipePicData.value != nil {
                     self.doneActionObserver.send(value: ())
                 } else {
-                    self.recipeObserver.send(value: ())
+                    self.recipeObserver.send(value: .success(()))
                 }
             } else {
                 self.doneActionObserver.send(value: ())
@@ -133,7 +136,7 @@ class RecipeCreationViewModel {
 
     func saveRecipe() {
         guard informationIsValid else {
-            self.recipeObserver.send(error: .recipeNameMissing)
+            self.recipeObserver.send(value: .failure(.recipeNameMissing))
             return
         }
         if let data = self.recipePicData.value {
@@ -146,7 +149,7 @@ class RecipeCreationViewModel {
     
     func updateRecipe() {
         guard informationIsValid else {
-            self.recipeObserver.send(error: .recipeNameMissing)
+            self.recipeObserver.send(value: .failure(.recipeNameMissing))
             return
         }
         guard let currentRecipe = self.recipe else { return }
@@ -173,11 +176,11 @@ class RecipeCreationViewModel {
                 case .success():
                     RealmHelper.shared.deleteRecipeInRealm(recipe)
                         .startWithCompleted {
-                            self.recipeObserver.send(value: ())
+                            self.recipeObserver.send(value: .success(()))
                     }
                 case .failure(let error):
                     self.isLoading.value = false
-                    self.recipeObserver.send(error: .recipeDeleteCloudFail)
+                    self.recipeObserver.send(value: .failure(.recipeDeleteCloudFail))
                 }
         }
     }
@@ -190,7 +193,7 @@ class RecipeCreationViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    self.recipeObserver.send(error: error)
+                     self.recipeObserver.send(value: .failure(error))
                 case .success(let url):
                     var recipe = self.prepareRecipe()
                     recipe.id = id
@@ -211,12 +214,12 @@ class RecipeCreationViewModel {
                 case .success(let recordID):
                     RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
                         .startWithCompleted {
-                            self.recipeObserver.send(value: ())
+                            self.recipeObserver.send(value: .success(()))
                     }
                 case .failure(let error):
                     self.isLoading.value = false
                     print(error.localizedDescription)
-                    self.recipeObserver.send(error: .recipeSaveCloudFail)
+                    self.recipeObserver.send(value: .failure(.recipeSaveCloudFail))
                 }
         }
     }
@@ -229,7 +232,7 @@ class RecipeCreationViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    self.recipeObserver.send(error: error)
+                     self.recipeObserver.send(value: .failure(error))
                 case .success(let url):
                     guard let currentRecipe = self.recipe else { return }
                     var newRecipe = self.prepareRecipe()
@@ -251,10 +254,10 @@ class RecipeCreationViewModel {
                 case .success():
                     RealmHelper.shared.updateRecipeInRealm(currentRecipe, newRecipe)
                         .startWithCompleted {
-                            self.recipeObserver.send(value: ())
+                           self.recipeObserver.send(value: .success(()))
                     }
                 case .failure(let error):
-                    self.recipeObserver.send(error: .recipeUpdateCloudFail)
+                     self.recipeObserver.send(value: .failure(.recipeUpdateCloudFail))
                 }
         }
     }
