@@ -49,8 +49,6 @@
 		881AC72E245218750055F120 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881AC72D245218750055F120 /* ImageHelper.swift */; };
 		8821535724E0A9BD008A8DD8 /* RecipeCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8821535624E0A9BD008A8DD8 /* RecipeCreationViewController.swift */; };
 		8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88224909239D67FC0054C24E /* AmountPicker.swift */; };
-		8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8822490C239D7AAF0054C24E /* IngredientCell.swift */; };
-		8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8822490D239D7AAF0054C24E /* IngredientCell.xib */; };
 		8827BB2623F4A91400DEDC39 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8827BB2523F4A91400DEDC39 /* CloudKit.framework */; };
 		8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */; };
 		8827BB2A23F875B600DEDC39 /* SFSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */; };
@@ -150,7 +148,6 @@
 		B87C103F2408E9AC004AD951 /* Thread.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C103E2408E9AC004AD951 /* Thread.swift */; };
 		B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C1067241387E6004AD951 /* UITableViewCell.swift */; };
 		B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */; };
-		B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B87C106C24176309004AD951 /* AddNewThingView.xib */; };
 		B87C106F2417631F004AD951 /* AddNewThingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87C106E2417631F004AD951 /* AddNewThingView.swift */; };
 		B88457E024A72CE000077C0F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88457DF24A72CE000077C0F /* Double.swift */; };
 		B88457E224AC9B9400077C0F /* ActionSheetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88457E124AC9B9400077C0F /* ActionSheetManager.swift */; };
@@ -242,8 +239,6 @@
 		881AC72D245218750055F120 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		8821535624E0A9BD008A8DD8 /* RecipeCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCreationViewController.swift; sourceTree = "<group>"; };
 		88224909239D67FC0054C24E /* AmountPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountPicker.swift; sourceTree = "<group>"; };
-		8822490C239D7AAF0054C24E /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
-		8822490D239D7AAF0054C24E /* IngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IngredientCell.xib; sourceTree = "<group>"; };
 		8827BB2523F4A91400DEDC39 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariViewController.swift; sourceTree = "<group>"; };
@@ -345,7 +340,6 @@
 		B87C103E2408E9AC004AD951 /* Thread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thread.swift; sourceTree = "<group>"; };
 		B87C1067241387E6004AD951 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTaskHeader.swift; sourceTree = "<group>"; };
-		B87C106C24176309004AD951 /* AddNewThingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewThingView.xib; sourceTree = "<group>"; };
 		B87C106E2417631F004AD951 /* AddNewThingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewThingView.swift; sourceTree = "<group>"; };
 		B88457DF24A72CE000077C0F /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		B88457E124AC9B9400077C0F /* ActionSheetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetManager.swift; sourceTree = "<group>"; };
@@ -506,15 +500,6 @@
 				880B137223757224003E29AC /* UserCVCell.xib */,
 			);
 			path = UserCVCell;
-			sourceTree = "<group>";
-		};
-		8822490B239D79C20054C24E /* IngredientCell */ = {
-			isa = PBXGroup;
-			children = (
-				8822490C239D7AAF0054C24E /* IngredientCell.swift */,
-				8822490D239D7AAF0054C24E /* IngredientCell.xib */,
-			);
-			path = IngredientCell;
 			sourceTree = "<group>";
 		};
 		882C4C14237AEA470039B55F /* IdleVC */ = {
@@ -716,7 +701,6 @@
 		88349F3D2370D0C1002A1879 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				8822490B239D79C20054C24E /* IngredientCell */,
 				88C9650B239A9BEB00CFC710 /* SectionInputCell */,
 				880B133723737605003E29AC /* AnswerCell */,
 				885C60C423809F9300ED3A17 /* RecipeCVCell */,
@@ -915,7 +899,6 @@
 			isa = PBXGroup;
 			children = (
 				B87C106E2417631F004AD951 /* AddNewThingView.swift */,
-				B87C106C24176309004AD951 /* AddNewThingView.xib */,
 			);
 			path = AddNewThingView;
 			sourceTree = "<group>";
@@ -1107,8 +1090,6 @@
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				32603EB023F1BC4E00AB6B50 /* ExpiredEventCell.xib in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
-				8822490F239D7AAF0054C24E /* IngredientCell.xib in Resources */,
-				B87C106D24176309004AD951 /* AddNewThingView.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
 				88349F422370D10A002A1879 /* RecipeCell.xib in Resources */,
@@ -1332,7 +1313,6 @@
 				B89D473F248554D200F15B48 /* AlertStrings.swift in Sources */,
 				887BE721240470F6006619C7 /* LDLabel.swift in Sources */,
 				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
-				8822490E239D7AAF0054C24E /* IngredientCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */,
