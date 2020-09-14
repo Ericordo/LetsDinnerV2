@@ -22,8 +22,8 @@ class UserCell: UITableViewCell {
 
         peopleCollectionView.delegate = self
         peopleCollectionView.dataSource = self
-        peopleCollectionView.register(UINib(nibName: CellNibs.userCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.userCVCell)
-        
+        peopleCollectionView.register(UserCVCell.self,
+                                      forCellWithReuseIdentifier: UserCVCell.reuseID)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -40,7 +40,7 @@ extension UserCell: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let userCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.userCVCell, for: indexPath) as! UserCVCell
+        let userCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: UserCVCell.reuseID, for: indexPath) as! UserCVCell
         let user = sortedParticipants[indexPath.row]
         userCVCell.configureCell(user: user)
         return userCVCell

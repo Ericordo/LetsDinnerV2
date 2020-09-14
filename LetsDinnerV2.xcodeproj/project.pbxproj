@@ -42,7 +42,6 @@
 		880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B136C2374C6C7003E29AC /* TaskCell.swift */; };
 		880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B136D2374C6C7003E29AC /* TaskCell.xib */; };
 		880B137323757224003E29AC /* UserCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B137123757224003E29AC /* UserCVCell.swift */; };
-		880B137423757224003E29AC /* UserCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B137223757224003E29AC /* UserCVCell.xib */; };
 		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
 		881AC72E245218750055F120 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881AC72D245218750055F120 /* ImageHelper.swift */; };
@@ -230,7 +229,6 @@
 		880B136C2374C6C7003E29AC /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		880B136D2374C6C7003E29AC /* TaskCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskCell.xib; sourceTree = "<group>"; };
 		880B137123757224003E29AC /* UserCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCVCell.swift; sourceTree = "<group>"; };
-		880B137223757224003E29AC /* UserCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserCVCell.xib; sourceTree = "<group>"; };
 		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
 		880B13792376EB99003E29AC /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
@@ -494,7 +492,6 @@
 			isa = PBXGroup;
 			children = (
 				880B137123757224003E29AC /* UserCVCell.swift */,
-				880B137223757224003E29AC /* UserCVCell.xib */,
 			);
 			path = UserCVCell;
 			sourceTree = "<group>";
@@ -1080,7 +1077,6 @@
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
 				880B135023737700003E29AC /* UserCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
-				880B137423757224003E29AC /* UserCVCell.xib in Resources */,
 				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
