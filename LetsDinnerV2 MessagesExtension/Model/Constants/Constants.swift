@@ -11,7 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum CellNibs {
-    static let titleCell = "TitleCell"
     static let recipeCell = "RecipeCell"
     static let answerCell = "AnswerCell"
     static let infoCell = "InfoCell"

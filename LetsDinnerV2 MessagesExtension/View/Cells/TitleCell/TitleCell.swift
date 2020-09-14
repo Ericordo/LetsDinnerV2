@@ -10,17 +10,38 @@ import UIKit
 
 class TitleCell: UITableViewCell {
     
-    @IBOutlet weak var titleLabel: UILabel!
+    static let reuseID = "TitleCell"
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.backgroundColor = .backgroundColor
+    let titleLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 34, weight: .bold)
+        label.minimumScaleFactor = 0.5
+        label.textColor = UIColor.textLabel
+        label.numberOfLines = 0
+        return label
+    }()
     
-    }
+   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+       super.init(style: style, reuseIdentifier: reuseIdentifier)
+       setupCell()
+   }
+   
+   required init?(coder: NSCoder) {
+       fatalError("init(coder:) has not been implemented")
+   }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+    private func setupCell() {
+        self.backgroundColor = .backgroundColor
+        contentView.addSubview(titleLabel)
+        addConstraints()
     }
     
+    private func addConstraints() {
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+    }
 }

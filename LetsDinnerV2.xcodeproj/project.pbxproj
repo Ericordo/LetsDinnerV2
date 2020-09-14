@@ -161,7 +161,6 @@
 		B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */; };
 		B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D1CC9523F1309000E54E26 /* UIDevice.swift */; };
 		B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E4CA7723812157006DD095 /* TitleCell.swift */; };
-		B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8E4CA7A238122AD006DD095 /* TitleCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,7 +349,6 @@
 		B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOrderHelper.swift; sourceTree = "<group>"; };
 		B8D1CC9523F1309000E54E26 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		B8E4CA7723812157006DD095 /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
-		B8E4CA7A238122AD006DD095 /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		BB96E7D51A8DA2E7C1222239 /* Pods-LetsDinnerV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.release.xcconfig"; sourceTree = "<group>"; };
 		DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetsDinnerV2_MessagesExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -966,7 +964,6 @@
 			isa = PBXGroup;
 			children = (
 				B8E4CA7723812157006DD095 /* TitleCell.swift */,
-				B8E4CA7A238122AD006DD095 /* TitleCell.xib */,
 			);
 			path = TitleCell;
 			sourceTree = "<group>";
@@ -1073,7 +1070,6 @@
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
 				880B1344237376D6003E29AC /* InfoCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
-				B8E4CA7B238122AD006DD095 /* TitleCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
