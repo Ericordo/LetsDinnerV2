@@ -89,6 +89,9 @@ enum Images {
     static let emptyPlate = UIImage(named: "emptyPlate")!
     static let mealPlaceholder = UIImage(named: "mealPlaceholderImage")
     
+    // SelectedRecipesVC
+    static let deleteBin = UIImage(named: "deleteBin")!
+    
     // RecipeCreationVC
     static let editButton = UIImage(named: "editButton")
     static let addButton = UIImage(named: "addButton")
