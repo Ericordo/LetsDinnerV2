@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		32603EAF23F1BC4E00AB6B50 /* ExpiredEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32603EAD23F1BC4E00AB6B50 /* ExpiredEventCell.swift */; };
-		32603EB023F1BC4E00AB6B50 /* ExpiredEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32603EAE23F1BC4E00AB6B50 /* ExpiredEventCell.xib */; };
 		3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3270EC2424471A5E00E78445 /* ThankYouViewController.swift */; };
 		88056E5C24718FA400F0D90F /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E5B24718FA400F0D90F /* RegistrationViewController.swift */; };
 		88056E5E2471903000F0D90F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88056E5D2471903000F0D90F /* RegistrationViewModel.swift */; };
@@ -195,7 +194,6 @@
 		16492027AA4CC9A0444EDB54 /* Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2 MessagesExtension/Pods-LetsDinnerV2 MessagesExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		1D3EEB756B7462E534F70D74 /* Pods-LetsDinnerV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2.debug.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2/Pods-LetsDinnerV2.debug.xcconfig"; sourceTree = "<group>"; };
 		32603EAD23F1BC4E00AB6B50 /* ExpiredEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredEventCell.swift; sourceTree = "<group>"; };
-		32603EAE23F1BC4E00AB6B50 /* ExpiredEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpiredEventCell.xib; sourceTree = "<group>"; };
 		3270EC2424471A5E00E78445 /* ThankYouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouViewController.swift; sourceTree = "<group>"; };
 		4CE543C35F5CC3D6F4700FFB /* Pods-LetsDinnerV2 MessagesExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; path = "Target Support Files/Pods-LetsDinnerV2 MessagesExtension/Pods-LetsDinnerV2 MessagesExtension.release.xcconfig"; sourceTree = "<group>"; };
 		4F505819D4FB96BCBC222A90 /* Pods_LetsDinnerV2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetsDinnerV2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -387,7 +385,6 @@
 			isa = PBXGroup;
 			children = (
 				32603EAD23F1BC4E00AB6B50 /* ExpiredEventCell.swift */,
-				32603EAE23F1BC4E00AB6B50 /* ExpiredEventCell.xib */,
 			);
 			path = ExpiredEventCell;
 			sourceTree = "<group>";
@@ -1088,7 +1085,6 @@
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
-				32603EB023F1BC4E00AB6B50 /* ExpiredEventCell.xib in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,

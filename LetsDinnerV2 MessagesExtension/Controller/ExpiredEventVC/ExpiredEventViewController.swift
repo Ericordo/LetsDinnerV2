@@ -79,8 +79,9 @@ class ExpiredEventViewController: UIViewController {
         expiredEventTableView.delegate = self
         expiredEventTableView.dataSource = self
         expiredEventTableView.registerCells(CellNibs.titleCell,
-                                            CellNibs.infoCell,
-                                            CellNibs.expiredEventCell)
+                                            CellNibs.infoCell)
+        expiredEventTableView.register(ExpiredEventCell.self,
+                                       forCellReuseIdentifier: ExpiredEventCell.reuseID)
     }
     
     private func addConstraints() {
@@ -105,7 +106,7 @@ extension ExpiredEventViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
-        let expiredEventCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.expiredEventCell) as! ExpiredEventCell
+        let expiredEventCell = tableView.dequeueReusableCell(withIdentifier: ExpiredEventCell.reuseID) as! ExpiredEventCell
      
         switch indexPath.row {
         case RowItemNumber.title.rawValue:

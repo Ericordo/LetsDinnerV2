@@ -10,29 +10,38 @@ import UIKit
 
 class ExpiredEventCell: UITableViewCell {
     
+    static let reuseID = "ExpiredEventCell"
+    
     private let infoLabel = LDLabel()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func setupCell() {
-        
         self.backgroundColor = .backgroundColor
-
         if Event.shared.eventIsExpired {
-            infoLabel.configureText(title: LabelStrings.pastEventTitle, text: LabelStrings.pastEventDescription)
+            infoLabel.configureText(title: LabelStrings.pastEventTitle,
+                                    text: LabelStrings.pastEventDescription)
         } else if Event.shared.isCancelled {
-            infoLabel.configureText(title: LabelStrings.canceledEventTitle, text: LabelStrings.canceledEventDescription)
+            infoLabel.configureText(title: LabelStrings.canceledEventTitle,
+                                    text: LabelStrings.canceledEventDescription)
         }
-        addSubview(infoLabel)
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40)
-        ])
+        self.contentView.addSubview(infoLabel)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        infoLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-40)
+        }
     }
 }
 
