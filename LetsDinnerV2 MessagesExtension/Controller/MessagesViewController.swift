@@ -186,7 +186,7 @@ class MessagesViewController: MSMessagesAppViewController {
                         controller = instantiateNewEventViewController()
                     case .recipesVC:
                         controller = instantiateRecipesViewController()
-                    case .recipeDetailsVC:
+                    case .selectedRecipesVC:
                         controller = instantiateRecipesViewController()
                     case .managementVC:
                         controller = instantiateManagementViewController()

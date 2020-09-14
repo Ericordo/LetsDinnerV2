@@ -97,9 +97,9 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         toolbar.selectedRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let selectedRecipesVC = SelectedRecipesViewController()
+            let selectedRecipesVC = SelectedRecipesViewController(viewModel: SelectedRecipesViewModel(),
+                                                                  dismissDelegate: self)
             selectedRecipesVC.modalPresentationStyle = .fullScreen
-            selectedRecipesVC.dismissDelegate = self
             self.present(selectedRecipesVC, animated: true, completion: nil)
         }
         

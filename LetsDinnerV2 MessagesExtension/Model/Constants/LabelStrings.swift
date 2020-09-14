@@ -59,8 +59,11 @@ enum LabelStrings {
     
     
     // SelectedRecipe VC
-    static let deleteRecipeLabel = NSLocalizedString("To delete a recipes, swipe left.", comment: "delete instruction")
+    static let deleteRecipeLabel = NSLocalizedString("To delete a recipe, swipe left.", comment: "delete instruction")
     static let rearrangeRecipeLabel = NSLocalizedString("To rearrange the order, tap and hold to move.", comment: "rearrange instruction")
+    static let selectedRecipes = NSLocalizedString("YOU SELECTED %d RECIPE", comment: "you selected 1 recipe")
+    static let selectedRecipesPlural = NSLocalizedString("YOU SELECTED %d RECIPES", comment: "you selected number recipes")
+    static let selectedRecipesTitle = NSLocalizedString("Selected Recipes", comment: "selected recipes")
     
     // CustomRecipeVC
     static let noCustomRecipeTitle = NSLocalizedString("No recipe", comment: "no recipe title")
