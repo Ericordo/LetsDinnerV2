@@ -194,8 +194,8 @@ class ManagementViewController: LDNavigationViewController {
     private func configureTableView() {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
-        tasksTableView.register(UINib(nibName: CellNibs.taskManagementCell, bundle: nil),
-                                forCellReuseIdentifier: CellNibs.taskManagementCell)
+        tasksTableView.register(TaskManagementCell.self,
+                                forCellReuseIdentifier: TaskManagementCell.reuseID)
         
         tasksTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.bottomViewHeight, right: 0)
 
@@ -333,7 +333,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let taskManagementCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskManagementCell, for: indexPath) as! TaskManagementCell
+        let taskManagementCell = tableView.dequeueReusableCell(withIdentifier: TaskManagementCell.reuseID, for: indexPath) as! TaskManagementCell
         let task = viewModel.expandableTasks[indexPath.section].tasks[indexPath.row]
         taskManagementCell.configureCell(task: task)
         taskManagementCell.delegate = self

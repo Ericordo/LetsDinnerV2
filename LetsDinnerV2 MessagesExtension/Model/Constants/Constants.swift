@@ -16,7 +16,6 @@ enum CellNibs {
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
     static let taskCVCell = "TaskCVCell"
-    static let taskManagementCell = "TaskManagementCell"
     static let cancelCell = "CancelCell"
 }
 

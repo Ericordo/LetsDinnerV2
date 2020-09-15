@@ -48,10 +48,6 @@ class TaskCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     func didTapTaskStatusButton(indexPath: IndexPath) {
         guard let task = task else { return }
         switch task.taskState {
@@ -151,7 +147,7 @@ class TaskCell: UITableViewCell {
         taskNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(taskStatusButton.snp.trailing).offset(10)
             make.trailing.equalToSuperview().offset(-8)
-            make.top.equalTo(taskStatusButton)
+            make.centerY.equalTo(taskStatusButton)
         }
         
         personLabel.snp.makeConstraints { make in
@@ -162,9 +158,9 @@ class TaskCell: UITableViewCell {
         
         separatorLine.snp.makeConstraints { make in
             make.leading.equalTo(taskNameLabel)
-            make.trailing.equalToSuperview().offset(-4)
+            make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(0.5)
-            make.bottom.equalToSuperview().offset(-1)
+            make.bottom.equalToSuperview().offset(-0.5)
         }
     }
 }

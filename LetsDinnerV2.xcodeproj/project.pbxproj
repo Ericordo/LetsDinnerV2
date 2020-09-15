@@ -87,7 +87,6 @@
 		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
 		885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */; };
 		885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60B92380311100ED3A17 /* TaskManagementCell.swift */; };
-		885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60BA2380311100ED3A17 /* TaskManagementCell.xib */; };
 		885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60BD23805A3D00ED3A17 /* StepTracking.swift */; };
 		885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60C52380A15400ED3A17 /* RecipeCVCell.swift */; };
 		885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60D12381DD9A00ED3A17 /* ApiError.swift */; };
@@ -271,7 +270,6 @@
 		885133B2243283AF004CD858 /* SendAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAction.swift; sourceTree = "<group>"; };
 		885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+EmptyScreen.swift"; sourceTree = "<group>"; };
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
-		885C60BA2380311100ED3A17 /* TaskManagementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskManagementCell.xib; sourceTree = "<group>"; };
 		885C60BD23805A3D00ED3A17 /* StepTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracking.swift; sourceTree = "<group>"; };
 		885C60C52380A15400ED3A17 /* RecipeCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCVCell.swift; sourceTree = "<group>"; };
 		885C60D12381DD9A00ED3A17 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
@@ -737,7 +735,6 @@
 			isa = PBXGroup;
 			children = (
 				885C60B92380311100ED3A17 /* TaskManagementCell.swift */,
-				885C60BA2380311100ED3A17 /* TaskManagementCell.xib */,
 			);
 			path = TaskManagementCell;
 			sourceTree = "<group>";
@@ -1056,7 +1053,6 @@
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
-				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
