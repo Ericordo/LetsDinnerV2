@@ -38,7 +38,6 @@
 		880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13622374B37A003E29AC /* TaskStatusButton.swift */; };
 		880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13642374B3F2003E29AC /* TaskPersonLabel.swift */; };
 		880B136E2374C6C7003E29AC /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B136C2374C6C7003E29AC /* TaskCell.swift */; };
-		880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B136D2374C6C7003E29AC /* TaskCell.xib */; };
 		880B137323757224003E29AC /* UserCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B137123757224003E29AC /* UserCVCell.swift */; };
 		880B1376237576C3003E29AC /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1375237576C3003E29AC /* UIImageView.swift */; };
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
@@ -221,7 +220,6 @@
 		880B13622374B37A003E29AC /* TaskStatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatusButton.swift; sourceTree = "<group>"; };
 		880B13642374B3F2003E29AC /* TaskPersonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPersonLabel.swift; sourceTree = "<group>"; };
 		880B136C2374C6C7003E29AC /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
-		880B136D2374C6C7003E29AC /* TaskCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskCell.xib; sourceTree = "<group>"; };
 		880B137123757224003E29AC /* UserCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCVCell.swift; sourceTree = "<group>"; };
 		880B1375237576C3003E29AC /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		880B137823758109003E29AC /* Let's Dinner!Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Debug.entitlements"; sourceTree = "<group>"; };
@@ -473,7 +471,6 @@
 			isa = PBXGroup;
 			children = (
 				880B136C2374C6C7003E29AC /* TaskCell.swift */,
-				880B136D2374C6C7003E29AC /* TaskCell.xib */,
 			);
 			path = TaskCell;
 			sourceTree = "<group>";
@@ -1067,7 +1064,6 @@
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
-				880B136F2374C6C7003E29AC /* TaskCell.xib in Resources */,
 				88349F422370D10A002A1879 /* RecipeCell.xib in Resources */,
 				880B1340237376C7003E29AC /* AnswerCell.xib in Resources */,
 			);
