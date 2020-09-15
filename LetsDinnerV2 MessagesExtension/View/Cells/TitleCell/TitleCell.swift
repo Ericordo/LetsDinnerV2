@@ -32,6 +32,7 @@ class TitleCell: UITableViewCell {
 
     private func setupCell() {
         self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
         contentView.addSubview(titleLabel)
         addConstraints()
     }

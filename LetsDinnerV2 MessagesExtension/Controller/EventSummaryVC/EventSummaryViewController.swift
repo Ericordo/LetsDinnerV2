@@ -155,10 +155,11 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
         summaryTableView.registerCells(CellNibs.answerCell,
-                                       CellNibs.infoCell,
                                        CellNibs.descriptionCell,
                                        CellNibs.taskSummaryCell,
                                        CellNibs.cancelCell)
+        summaryTableView.register(InfoCell.self,
+                                  forCellReuseIdentifier: InfoCell.reuseID)
         summaryTableView.register(TitleCell.self,
                                   forCellReuseIdentifier: TitleCell.reuseID)
         summaryTableView.register(UserCell.self,
@@ -201,7 +202,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
         let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: AnswerDeclinedCell.reuseID) as! AnswerDeclinedCell
         let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: AnswerAcceptedCell.reuseID) as! AnswerAcceptedCell
-        let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
+        let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         let userCell = tableView.dequeueReusableCell(withIdentifier: UserCell.reuseID) as! UserCell

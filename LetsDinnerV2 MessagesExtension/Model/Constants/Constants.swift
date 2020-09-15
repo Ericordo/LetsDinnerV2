@@ -13,7 +13,6 @@ let defaults = UserDefaults.standard
 enum CellNibs {
     static let recipeCell = "RecipeCell"
     static let answerCell = "AnswerCell"
-    static let infoCell = "InfoCell"
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
     static let taskCVCell = "TaskCVCell"
