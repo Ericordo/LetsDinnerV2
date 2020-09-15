@@ -10,15 +10,36 @@ import UIKit
 
 class RecipeCVCell: UICollectionViewCell {
     
-    @IBOutlet weak var recipeLabel: UILabel!
+    static let reuseID = "RecipeCVCell"
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.backgroundColor = .backgroundColor
+    private let recipeLabel : UILabel = {
+        let label = UILabel()
+        label.textColor = .activeButton
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configureCell(recipeTitle: String) {
         recipeLabel.text = recipeTitle
     }
-
+    
+    private func setupCell() {
+        self.backgroundColor = .backgroundColor
+        contentView.addSubview(recipeLabel)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        recipeLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
 }

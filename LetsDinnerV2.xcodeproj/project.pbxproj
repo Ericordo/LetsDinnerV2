@@ -91,7 +91,6 @@
 		885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60BA2380311100ED3A17 /* TaskManagementCell.xib */; };
 		885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60BD23805A3D00ED3A17 /* StepTracking.swift */; };
 		885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60C52380A15400ED3A17 /* RecipeCVCell.swift */; };
-		885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 885C60C62380A15400ED3A17 /* RecipeCVCell.xib */; };
 		885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60D12381DD9A00ED3A17 /* ApiError.swift */; };
 		885C61142384B6D600ED3A17 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61132384B6D600ED3A17 /* UITextField.swift */; };
 		885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61412388852D00ED3A17 /* ExpandableTasks.swift */; };
@@ -278,7 +277,6 @@
 		885C60BA2380311100ED3A17 /* TaskManagementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskManagementCell.xib; sourceTree = "<group>"; };
 		885C60BD23805A3D00ED3A17 /* StepTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracking.swift; sourceTree = "<group>"; };
 		885C60C52380A15400ED3A17 /* RecipeCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCVCell.swift; sourceTree = "<group>"; };
-		885C60C62380A15400ED3A17 /* RecipeCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeCVCell.xib; sourceTree = "<group>"; };
 		885C60D12381DD9A00ED3A17 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		885C61132384B6D600ED3A17 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		885C61412388852D00ED3A17 /* ExpandableTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTasks.swift; sourceTree = "<group>"; };
@@ -762,7 +760,6 @@
 			isa = PBXGroup;
 			children = (
 				885C60C52380A15400ED3A17 /* RecipeCVCell.swift */,
-				885C60C62380A15400ED3A17 /* RecipeCVCell.xib */,
 			);
 			path = RecipeCVCell;
 			sourceTree = "<group>";
@@ -1067,7 +1064,6 @@
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,
 				885C60BC2380311100ED3A17 /* TaskManagementCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
-				885C60C82380A15400ED3A17 /* RecipeCVCell.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				88C9650F239A9C3600CFC710 /* SectionInputCell.xib in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,

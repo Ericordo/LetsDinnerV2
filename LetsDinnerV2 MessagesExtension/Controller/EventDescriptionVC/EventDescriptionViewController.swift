@@ -140,7 +140,8 @@ class EventDescriptionViewController: LDNavigationViewController {
     private func setupCollectionView() {
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
-        recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
+        recipesCollectionView.register(RecipeCVCell.self,
+                                       forCellWithReuseIdentifier: RecipeCVCell.reuseID)
     }
     
     private func addConstraints() {
@@ -186,7 +187,7 @@ extension EventDescriptionViewController: UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
+        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeCVCell.reuseID, for: indexPath) as! RecipeCVCell
         let recipeTitle = self.viewModel.allRecipeTitles[indexPath.row]
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell

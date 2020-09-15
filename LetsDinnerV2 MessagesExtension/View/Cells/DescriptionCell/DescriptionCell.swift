@@ -41,7 +41,8 @@ class DescriptionCell: UITableViewCell {
     private func configureUI() {
         self.recipesCollectionView.dataSource = self
         self.recipesCollectionView.delegate = self
-        self.recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
+        self.recipesCollectionView.register(RecipeCVCell.self,
+                                            forCellWithReuseIdentifier: RecipeCVCell.reuseID)
         
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -62,7 +63,7 @@ extension DescriptionCell: UICollectionViewDelegate, UICollectionViewDataSource 
      }
      
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
+        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeCVCell.reuseID, for: indexPath) as! RecipeCVCell
         let recipeTitle = allRecipesTitles[indexPath.row]
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell
