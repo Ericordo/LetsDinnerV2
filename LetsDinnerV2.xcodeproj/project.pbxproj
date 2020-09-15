@@ -93,7 +93,6 @@
 		885C61142384B6D600ED3A17 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61132384B6D600ED3A17 /* UITextField.swift */; };
 		885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61412388852D00ED3A17 /* ExpandableTasks.swift */; };
 		886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886EB36723DDFF11002CFCB5 /* CancelCell.swift */; };
-		886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 886EB36823DDFF11002CFCB5 /* CancelCell.xib */; };
 		886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886EB36B23DF77AE002CFCB5 /* LDRescheduleView.swift */; };
 		887BE721240470F6006619C7 /* LDLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887BE720240470F6006619C7 /* LDLabel.swift */; };
 		887CF811250E5A09001C1014 /* SelectedRecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887CF810250E5A09001C1014 /* SelectedRecipesViewModel.swift */; };
@@ -276,7 +275,6 @@
 		885C61132384B6D600ED3A17 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		885C61412388852D00ED3A17 /* ExpandableTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTasks.swift; sourceTree = "<group>"; };
 		886EB36723DDFF11002CFCB5 /* CancelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCell.swift; sourceTree = "<group>"; };
-		886EB36823DDFF11002CFCB5 /* CancelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CancelCell.xib; sourceTree = "<group>"; };
 		886EB36B23DF77AE002CFCB5 /* LDRescheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDRescheduleView.swift; sourceTree = "<group>"; };
 		887BE71823FEFA7C006619C7 /* Let's Dinner!Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Release.entitlements"; sourceTree = "<group>"; };
 		887BE720240470F6006619C7 /* LDLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDLabel.swift; sourceTree = "<group>"; };
@@ -406,7 +404,6 @@
 				B86F6FF5238195D10010AB7C /* AnswerDeclinedCell.swift */,
 				B86F6FFA2381A8830010AB7C /* AnswerAcceptedCell.swift */,
 				886EB36723DDFF11002CFCB5 /* CancelCell.swift */,
-				886EB36823DDFF11002CFCB5 /* CancelCell.xib */,
 			);
 			path = AnswerCell;
 			sourceTree = "<group>";
@@ -1049,7 +1046,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
-				886EB36A23DDFF11002CFCB5 /* CancelCell.xib in Resources */,
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
 				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B13612374B08A003E29AC /* TaskCVCell.xib in Resources */,

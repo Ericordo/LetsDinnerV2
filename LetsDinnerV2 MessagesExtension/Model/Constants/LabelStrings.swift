@@ -117,6 +117,7 @@ enum LabelStrings {
     static let eventInfo = NSLocalizedString("Event Info", comment: "event info")
     static let eventUnavailable = NSLocalizedString("We could not find this event, you may want to check your internet connection and try again. Events that are too old may not be available anymore.", comment: "event not found in firebase")
     static let whocoming = NSLocalizedString("Who's coming?", comment: "who is coming?")
+    static let cancelOrReschedule = NSLocalizedString("Not the right time or changed your mind all together? You can Cancel or Reschedule the event.", comment: "cancel or reschedule")
     
     // TasksListVC
     static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now, an update may be coming soon! 🚀", comment: "multiple users checking")

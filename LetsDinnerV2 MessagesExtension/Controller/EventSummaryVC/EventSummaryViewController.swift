@@ -156,8 +156,9 @@ class EventSummaryViewController: UIViewController {
         summaryTableView.dataSource = self
         summaryTableView.registerCells(CellNibs.answerCell,
                                        CellNibs.descriptionCell,
-                                       CellNibs.taskSummaryCell,
-                                       CellNibs.cancelCell)
+                                       CellNibs.taskSummaryCell)
+        summaryTableView.register(CancelCell.self,
+                                  forCellReuseIdentifier: CancelCell.reuseID)
         summaryTableView.register(InfoCell.self,
                                   forCellReuseIdentifier: InfoCell.reuseID)
         summaryTableView.register(TitleCell.self,
@@ -206,7 +207,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         let userCell = tableView.dequeueReusableCell(withIdentifier: UserCell.reuseID) as! UserCell
-        let cancelCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.cancelCell) as! CancelCell
+        let cancelCell = tableView.dequeueReusableCell(withIdentifier: CancelCell.reuseID) as! CancelCell
         
         let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
 

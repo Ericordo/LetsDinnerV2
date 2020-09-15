@@ -15,7 +15,8 @@ class TitleCell: UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 34, weight: .bold)
-        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
         label.textColor = UIColor.textLabel
         label.numberOfLines = 0
         return label

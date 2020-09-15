@@ -22,7 +22,19 @@ class InfoCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .secondaryTextLabel
         label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.2
+        label.numberOfLines = 2
         return label
+    }()
+    
+    private let stackView : UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.alignment = .fill
+        sv.distribution = .fillEqually
+        sv.spacing = 5
+        return sv
     }()
     
     let cellSeparator : UIView = {
@@ -46,8 +58,9 @@ class InfoCell: UITableViewCell {
         self.backgroundColor = .backgroundColor
         cellSeparator.isHidden = true
         self.contentView.addSubview(cellSeparator)
-        self.contentView.addSubview(infoLabel)
-        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(stackView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(infoLabel)
         addConstraints()
     }
     
@@ -58,15 +71,10 @@ class InfoCell: UITableViewCell {
             make.height.equalTo(0.3)
         }
         
-        infoLabel.snp.makeConstraints { make in
+        stackView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-33)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(33)
-            make.centerY.equalToSuperview()
-            make.trailing.greaterThanOrEqualTo(infoLabel.snp.leading).offset(15)
+            make.trailing.equalToSuperview().offset(-33)
         }
     }
 }

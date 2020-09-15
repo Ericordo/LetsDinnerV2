@@ -16,7 +16,6 @@ enum CellNibs {
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
     static let taskCVCell = "TaskCVCell"
-    static let cancelCell = "CancelCell"
 }
 
 enum ApiKeys {
@@ -120,6 +119,8 @@ enum ButtonTitle {
     static let addImage = NSLocalizedString("Add Image", comment: "add image")
     static let edit = NSLocalizedString("Edit", comment: "edit")
     static let done = NSLocalizedString("Done", comment: "done")
+    static let cancel = NSLocalizedString("Cancel", comment: "cancel")
+    static let reschedule = NSLocalizedString("Reschedule", comment: "reschedule")
 }
 
 enum DataKeys {
