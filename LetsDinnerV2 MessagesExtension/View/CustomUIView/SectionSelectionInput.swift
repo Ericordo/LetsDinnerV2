@@ -21,6 +21,7 @@ enum DefaultSectionName {
         case .miscellaneous:
             return LabelStrings.misc
         default:
+            #warning("Necessary? If yes localize")
             return "Name"
         }
     }
@@ -67,7 +68,8 @@ class SectionSelectionInput : UIView {
         self.backgroundColor = .backgroundSystemColor
         sectionsCollectionView.dataSource = self
         sectionsCollectionView.delegate = self
-        sectionsCollectionView.register(UINib(nibName: CellNibs.sectionInputCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.sectionInputCell)
+        sectionsCollectionView.register(SectionInputCell.self,
+                                        forCellWithReuseIdentifier: SectionInputCell.reuseID)
         
         // These 2 lines did not fix the bug of the toolbar not always appearing
         self.sizeToFit()
@@ -112,7 +114,7 @@ extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.sectionInputCell, for: indexPath) as! SectionInputCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SectionInputCell.reuseID, for: indexPath) as! SectionInputCell
         let section = sections[indexPath.row]
         cell.configure(sectionName: section)
         return cell
