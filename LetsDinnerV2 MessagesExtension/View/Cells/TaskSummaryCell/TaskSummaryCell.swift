@@ -38,7 +38,8 @@ class TaskSummaryCell: UITableViewCell {
         
         tasksCollectionView.delegate = self
         tasksCollectionView.dataSource = self
-        tasksCollectionView.register(UINib(nibName: CellNibs.taskCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.taskCVCell)
+        tasksCollectionView.register(TaskCVCell.self,
+                                     forCellWithReuseIdentifier: TaskCVCell.reuseID)
         NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
     }
     
@@ -103,7 +104,7 @@ extension TaskSummaryCell: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let taskCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.taskCVCell, for: indexPath) as! TaskCVCell
+        let taskCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCVCell.reuseID, for: indexPath) as! TaskCVCell
         let task = self.sortedTasks[indexPath.row]
         let count = Int(indexPath.row) + 1
         taskCVCell.configureCell(task: task, count: count)
