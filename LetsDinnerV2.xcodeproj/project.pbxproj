@@ -25,7 +25,6 @@
 		880B1340237376C7003E29AC /* AnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B133E237376C7003E29AC /* AnswerCell.xib */; };
 		880B1343237376D6003E29AC /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1341237376D6003E29AC /* InfoCell.swift */; };
 		880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1345237376E3003E29AC /* DescriptionCell.swift */; };
-		880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B1346237376E3003E29AC /* DescriptionCell.xib */; };
 		880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1349237376F3003E29AC /* TaskSummaryCell.swift */; };
 		880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B134A237376F3003E29AC /* TaskSummaryCell.xib */; };
 		880B134F23737700003E29AC /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B134D23737700003E29AC /* UserCell.swift */; };
@@ -202,7 +201,6 @@
 		880B133E237376C7003E29AC /* AnswerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnswerCell.xib; sourceTree = "<group>"; };
 		880B1341237376D6003E29AC /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
 		880B1345237376E3003E29AC /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
-		880B1346237376E3003E29AC /* DescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DescriptionCell.xib; sourceTree = "<group>"; };
 		880B1349237376F3003E29AC /* TaskSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSummaryCell.swift; sourceTree = "<group>"; };
 		880B134A237376F3003E29AC /* TaskSummaryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskSummaryCell.xib; sourceTree = "<group>"; };
 		880B134D23737700003E29AC /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -416,7 +414,6 @@
 			isa = PBXGroup;
 			children = (
 				880B1345237376E3003E29AC /* DescriptionCell.swift */,
-				880B1346237376E3003E29AC /* DescriptionCell.xib */,
 			);
 			path = DescriptionCell;
 			sourceTree = "<group>";
@@ -1041,7 +1038,6 @@
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
-				880B1348237376E3003E29AC /* DescriptionCell.xib in Resources */,
 				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,

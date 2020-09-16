@@ -20,7 +20,7 @@ class EventDescriptionViewController: LDNavigationViewController {
         let label = UILabel()
         #warning("To localize")
         label.text = "\(Event.shared.servings) SERVINGS OF"
-        label.textColor = Colors.dullGrey
+        label.textColor = .secondaryTextLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         return label
     }()
@@ -38,7 +38,7 @@ class EventDescriptionViewController: LDNavigationViewController {
     
     private let titleLabel : UILabel = {
         let label = UILabel()
-        label.textColor = Colors.dullGrey
+        label.textColor = .secondaryTextLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         label.text = LabelStrings.whatsThePlan.uppercased()
         return label

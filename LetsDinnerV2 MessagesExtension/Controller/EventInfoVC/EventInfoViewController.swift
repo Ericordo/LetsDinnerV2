@@ -129,7 +129,8 @@ class EventInfoViewController: LDNavigationViewController {
     private func setupTableView() {
         infoTableView.delegate = self
         infoTableView.dataSource = self
-        infoTableView.registerCells(CellNibs.descriptionCell)
+        infoTableView.register(DescriptionCell.self,
+                               forCellReuseIdentifier: DescriptionCell.reuseID)
         infoTableView.register(InfoCell.self,
                                forCellReuseIdentifier: InfoCell.reuseID)
     }
@@ -199,7 +200,7 @@ extension EventInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
-        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
+        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: DescriptionCell.reuseID) as! DescriptionCell
         switch indexPath.row {
         case 0:
             infoCell.titleLabel.text = LabelStrings.host

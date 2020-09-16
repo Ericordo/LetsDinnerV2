@@ -194,8 +194,8 @@ class ReviewViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.registerCells(CellNibs.descriptionCell,
-                                       CellNibs.taskSummaryCell)
+        summaryTableView.registerCells(CellNibs.taskSummaryCell)
+        summaryTableView.register(DescriptionCell.self, forCellReuseIdentifier: DescriptionCell.reuseID)
         summaryTableView.register(InfoCell.self, forCellReuseIdentifier: InfoCell.reuseID)
         summaryTableView.register(TitleCell.self, forCellReuseIdentifier: TitleCell.reuseID)
     }
@@ -353,7 +353,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let titleCell = tableView.dequeueReusableCell(withIdentifier: TitleCell.reuseID) as! TitleCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
-        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
+        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: DescriptionCell.reuseID) as! DescriptionCell
         let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
         
         switch indexPath.row {
