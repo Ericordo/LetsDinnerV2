@@ -225,8 +225,8 @@ class RecipesViewController: LDNavigationViewController {
     private func setupTableView() {
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
-        recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil),
-                                  forCellReuseIdentifier: CellNibs.recipeCell)
+        recipesTableView.register(RecipeCell.self,
+                                  forCellReuseIdentifier: RecipeCell.reuseID)
         recipesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.toolbarHeight, right: 0)
     }
     
@@ -317,7 +317,7 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = recipesTableView.dequeueReusableCell(withIdentifier: CellNibs.recipeCell, for: indexPath) as! RecipeCell
+        let cell = recipesTableView.dequeueReusableCell(withIdentifier: RecipeCell.reuseID, for: indexPath) as! RecipeCell
         switch viewModel.searchType.value {
         case .apiRecipes:
             let recipe = viewModel.recipes[indexPath.section]

@@ -11,7 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum CellNibs {
-    static let recipeCell = "RecipeCell"
     static let answerCell = "AnswerCell"
     static let descriptionCell = "DescriptionCell"
     static let taskSummaryCell = "TaskSummaryCell"
@@ -77,6 +76,7 @@ enum Images {
     static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
     static let emptyPlate = UIImage(named: "emptyPlate")!
     static let mealPlaceholder = UIImage(named: "mealPlaceholderImage")
+    static let checkedButton = UIImage(named: "checkedButton")
     
     // SelectedRecipesVC
     static let deleteBin = UIImage(named: "deleteBin")!
@@ -121,6 +121,8 @@ enum ButtonTitle {
     static let done = NSLocalizedString("Done", comment: "done")
     static let cancel = NSLocalizedString("Cancel", comment: "cancel")
     static let reschedule = NSLocalizedString("Reschedule", comment: "reschedule")
+    static let open = NSLocalizedString("Open", comment: "open")
+    static let add = NSLocalizedString("Add", comment: "add")
 }
 
 enum DataKeys {

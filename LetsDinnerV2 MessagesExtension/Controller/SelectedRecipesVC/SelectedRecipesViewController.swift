@@ -151,7 +151,8 @@ class SelectedRecipesViewController: UIViewController {
     }
     
     private func setupTableView() {
-        recipesTableView.register(UINib(nibName: CellNibs.recipeCell, bundle: nil), forCellReuseIdentifier: CellNibs.recipeCell)
+        recipesTableView.register(RecipeCell.self,
+                                  forCellReuseIdentifier: RecipeCell.reuseID)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
         recipesTableView.dragInteractionEnabled = true
@@ -222,7 +223,7 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = recipesTableView.dequeueReusableCell(withIdentifier: CellNibs.recipeCell, for: indexPath) as! RecipeCell
+        let cell = recipesTableView.dequeueReusableCell(withIdentifier: RecipeCell.reuseID, for: indexPath) as! RecipeCell
         cell.recipeCellDelegate = self
         cell.chosenButton.isUserInteractionEnabled = false
         
@@ -287,12 +288,10 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
                            options: .transitionCrossDissolve,
                            animations: {
                             cell.alpha = 0.3
-                            cell.heightConstraint.constant = 0
-                            cell.backgroundCellView.layoutIfNeeded() },
-                           completion: { (_) in
+                            cell.updateHeight(with: 0) },
+                            completion: { (_) in
+                            cell.updateHeight(with: 110)
                             self.recipesTableView.reloadData()
-                            cell.heightConstraint.constant = 110
-                            cell.backgroundCellView.layoutIfNeeded()
             })
             complete(true)
         }

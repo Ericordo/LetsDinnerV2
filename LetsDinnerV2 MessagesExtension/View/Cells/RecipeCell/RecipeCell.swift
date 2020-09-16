@@ -18,31 +18,95 @@ protocol RecipeCellDelegate: class {
 
 class RecipeCell: UITableViewCell {
     
-    @IBOutlet weak var backgroundCellView: UIView!
-    @IBOutlet weak var recipeImageView: UIImageView!
-    @IBOutlet weak var recipeNameLabel: UILabel!
-    @IBOutlet weak var chooseButton: UIButton!
-    @IBOutlet weak var chosenButton: UIButton!
-    @IBOutlet weak var backgroundImageView: UIImageView!
-    @IBOutlet weak var visualEffectView: UIVisualEffectView!
-    @IBOutlet weak var viewButton: UIButton!
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    static let reuseID = "RecipeCell"
+    
+    private let backgroundCellView : UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 10
+        view.backgroundColor = .backgroundColor
+        return view
+    }()
+    
+    private let backgroundImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    private lazy var visualEffectView : UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.frame = backgroundImageView.bounds
+        return blurredEffectView
+    }()
+    
+    private lazy var vibrancyEffectView : UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let vibrancyEffect = UIVibrancyEffect(blurEffect: blurEffect)
+        let vibrancyEffectView = UIVisualEffectView(effect: vibrancyEffect)
+        vibrancyEffectView.frame = backgroundImageView.bounds
+        return vibrancyEffectView
+    }()
+    
+    private let recipeImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
+        imageView.kf.indicatorType = .activity
+        return imageView
+    }()
+    
+    private let recipeNameLabel : UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 16)
+        label.numberOfLines = 3
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.textColor = .textLabel
+        return label
+    }()
+    
+    private lazy var viewButton : TertiaryButton = {
+        let button = TertiaryButton()
+        
+        button.setTitle(ButtonTitle.open, for: .normal)
+        button.addTarget(self, action: #selector(didTapViewButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var chooseButton : TertiaryButton = {
+        let button = TertiaryButton()
+        button.setTitle(ButtonTitle.add, for: .normal)
+        button.addTarget(self, action: #selector(didTapChooseButton), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var chosenButton : UIButton = {
+        let button = UIButton()
+        button.setImage(Images.checkedButton, for: .normal)
+        button.addTarget(self, action: #selector(didTapChosenButton), for: .touchUpInside)
+        return button
+    }()
     
     var selectedRecipe = Recipe(dict: [:])
-//    var selectedCustomRecipe = CustomRecipe()
     var selectedCustomRecipe = LDRecipe()
     var searchType: SearchType = .apiRecipes
 
     weak var recipeCellDelegate: RecipeCellDelegate?
- 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         if #available(iOSApplicationExtension 13.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
                 let blurEffect = UIBlurEffect(style: .dark)
@@ -54,27 +118,81 @@ class RecipeCell: UITableViewCell {
     func setupCell() {
         self.clipsToBounds = true
         self.layer.cornerRadius = 10
+        self.selectionStyle = .none
+        self.contentView.addSubview(backgroundCellView)
+        self.backgroundCellView.addSubview(backgroundImageView)
+        self.backgroundCellView.addSubview(visualEffectView)
+        self.visualEffectView.contentView.addSubview(vibrancyEffectView)
+        self.backgroundCellView.addSubview(recipeImageView)
+        self.backgroundCellView.addSubview(viewButton)
+        self.backgroundCellView.addSubview(chooseButton)
+        self.backgroundCellView.addSubview(chosenButton)
+        self.backgroundCellView.addSubview(recipeNameLabel)
+        addConstraints()
+    }
+    
+    func updateHeight(with value: CGFloat) {
+        backgroundCellView.snp.updateConstraints { make in
+            make.height.equalTo(value)
+        }
+        backgroundCellView.layoutIfNeeded()
+    }
+    
+    private func addConstraints() {
+        self.backgroundCellView.snp.makeConstraints { make in
+            make.height.equalTo(110)
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-5)
+            make.centerY.equalToSuperview()
+        }
         
-        backgroundCellView.clipsToBounds = true
-        backgroundCellView.layer.cornerRadius = 10
-        backgroundCellView.backgroundColor = .backgroundColor
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
-//        chooseButton.clipsToBounds = true
-//        chooseButton.layer.cornerRadius = 10
+        visualEffectView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
-        recipeImageView.clipsToBounds = true
-        recipeImageView.layer.cornerRadius = 10
-        recipeNameLabel.sizeToFit()
-        recipeImageView.kf.indicatorType = .activity
+        vibrancyEffectView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
-        heightConstraint.constant = 110
-        selectionStyle = .none
+        recipeImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.centerY.equalToSuperview()
+            make.height.width.equalTo(90)
+        }
+        
+        viewButton.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.leading.equalTo(recipeImageView.snp.trailing).offset(15)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+        
+        chooseButton.snp.makeConstraints { make in
+            make.height.equalTo(30)
+            make.trailing.equalToSuperview().offset(-15)
+            make.centerY.equalTo(viewButton)
+        }
+        
+        chosenButton.snp.makeConstraints { make in
+            make.height.equalTo(31)
+            make.trailing.equalToSuperview().offset(-15)
+            make.centerY.equalTo(chooseButton)
+        }
+        
+        recipeNameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(recipeImageView.snp.trailing).offset(15)
+            make.trailing.equalToSuperview().offset(-15)
+            make.top.equalTo(recipeImageView.snp.top)
+        }
     }
     
     func configureCell(_ recipe: Recipe) {
-        if let imageURL = URL(string: recipe.imageUrl!) {
-            recipeImageView.kf.setImage(with: imageURL)
-            backgroundImageView.kf.setImage(with: imageURL)
+        if let imageUrl = recipe.imageUrl {
+            recipeImageView.kf.setImage(with: URL(string: imageUrl))
+            backgroundImageView.kf.setImage(with: URL(string: imageUrl))
         }
         recipeImageView.isHidden = false
         visualEffectView.isHidden = false
@@ -86,31 +204,6 @@ class RecipeCell: UITableViewCell {
         chosenButton.isHidden = !recipe.isSelected
         recipeNameLabel.sizeToFit()
     }
-    
-//    func configureCellWithCustomRecipe(_ customRecipe: CustomRecipe) {
-//        if let downloadUrl = customRecipe.downloadUrl {
-//            recipeImageView.kf.setImage(with: URL(string: downloadUrl))
-//            backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
-//            visualEffectView.isHidden = false
-//            if #available(iOSApplicationExtension 13.0, *) {
-//                if self.traitCollection.userInterfaceStyle == .dark {
-//                    let blurEffect = UIBlurEffect(style: .dark)
-//                    self.visualEffectView.effect = blurEffect
-//                }
-//            }
-//        } else {
-//            recipeImageView.image = UIImage(named: "mealPlaceholderImage")
-//            recipeImageView.alpha = 0.8
-//            backgroundImageView.image = nil
-//            backgroundImageView.backgroundColor = UIColor.customRecipeBackground
-//            visualEffectView.isHidden = true
-//        }
-//        self.searchType = .customRecipes
-//        recipeNameLabel.text = customRecipe.title
-//        selectedCustomRecipe = customRecipe
-//        chooseButton.isHidden = customRecipe.isSelected
-//        chosenButton.isHidden = !customRecipe.isSelected
-//    }
     
     func configureCellWithCustomRecipe(_ customRecipe: LDRecipe) {
         if let downloadUrl = customRecipe.downloadUrl {
@@ -137,7 +230,7 @@ class RecipeCell: UITableViewCell {
         chosenButton.isHidden = !customRecipe.isSelected
     }
     
-    @IBAction func didTapChooseButton(_ sender: UIButton) {
+    @objc private func didTapChooseButton() {
         switch searchType {
         case .apiRecipes:
              recipeCellDelegate?.recipeCellDidSelectRecipe(selectedRecipe)
@@ -148,7 +241,7 @@ class RecipeCell: UITableViewCell {
         chosenButton.isHidden = !chooseButton.isHidden
     }
     
-    @IBAction func didTapChosenButton(_ sender: UIButton) {
+    @objc private func didTapChosenButton() {
         switch searchType {
         case .apiRecipes:
              recipeCellDelegate?.recipeCellDidSelectRecipe(selectedRecipe)
@@ -159,13 +252,12 @@ class RecipeCell: UITableViewCell {
         chosenButton.isHidden = !chooseButton.isHidden
     }
     
-    @IBAction func didTapViewButton(_ sender: UIButton) {
+    @objc private func didTapViewButton() {
         switch searchType {
         case .apiRecipes:
             recipeCellDelegate?.recipeCellDidSelectView(selectedRecipe)
         case .customRecipes:
             recipeCellDelegate?.recipeCellDidSelectCustomRecipeView(selectedCustomRecipe)
         }
-        
     }
 }
