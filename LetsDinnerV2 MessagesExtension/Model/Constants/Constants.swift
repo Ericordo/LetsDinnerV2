@@ -11,7 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum CellNibs {
-    static let answerCell = "AnswerCell"
     static let taskSummaryCell = "TaskSummaryCell"
 }
 
@@ -106,7 +105,6 @@ enum Images {
     
     // PDFCreator
     static let pdfLogo = UIImage(named: "pdfLogo")!
-    
     static let warning = UIImage(named: "warning")!
 }
 
@@ -121,6 +119,8 @@ enum ButtonTitle {
     static let reschedule = NSLocalizedString("Reschedule", comment: "reschedule")
     static let open = NSLocalizedString("Open", comment: "open")
     static let add = NSLocalizedString("Add", comment: "add")
+    static let accept = NSLocalizedString("Accept", comment: "accept")
+    static let decline = NSLocalizedString("Decline", comment: "decline")
 }
 
 enum DataKeys {

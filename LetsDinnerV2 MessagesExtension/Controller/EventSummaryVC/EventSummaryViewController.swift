@@ -154,8 +154,9 @@ class EventSummaryViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.registerCells(CellNibs.answerCell,
-                                       CellNibs.taskSummaryCell)
+        summaryTableView.registerCells(CellNibs.taskSummaryCell)
+        summaryTableView.register(AnswerCell.self,
+                                  forCellReuseIdentifier: AnswerCell.reuseID)
         summaryTableView.register(DescriptionCell.self,
                                   forCellReuseIdentifier: DescriptionCell.reuseID)
         summaryTableView.register(CancelCell.self,
@@ -201,7 +202,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let titleCell = tableView.dequeueReusableCell(withIdentifier: TitleCell.reuseID) as! TitleCell
-        let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
+        let answerCell = tableView.dequeueReusableCell(withIdentifier: AnswerCell.reuseID) as! AnswerCell
         let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: AnswerDeclinedCell.reuseID) as! AnswerDeclinedCell
         let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: AnswerAcceptedCell.reuseID) as! AnswerAcceptedCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
