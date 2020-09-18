@@ -68,6 +68,8 @@ class DescriptionCell: UITableViewCell {
     
     private func setupUI() {
         self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
+        self.clipsToBounds = true
         self.mergeRecipeTitles()
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(recipesCollectionView)

@@ -154,7 +154,8 @@ class EventSummaryViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.registerCells(CellNibs.taskSummaryCell)
+        summaryTableView.register(TaskSummaryCell.self,
+                                  forCellReuseIdentifier: TaskSummaryCell.reuseID)
         summaryTableView.register(AnswerCell.self,
                                   forCellReuseIdentifier: AnswerCell.reuseID)
         summaryTableView.register(DescriptionCell.self,
@@ -207,7 +208,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
         let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: AnswerAcceptedCell.reuseID) as! AnswerAcceptedCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: DescriptionCell.reuseID) as! DescriptionCell
-        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
+        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: TaskSummaryCell.reuseID) as! TaskSummaryCell
         let userCell = tableView.dequeueReusableCell(withIdentifier: UserCell.reuseID) as! UserCell
         let cancelCell = tableView.dequeueReusableCell(withIdentifier: CancelCell.reuseID) as! CancelCell
         
@@ -273,7 +274,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         case RowItemNumber.taskInfo.rawValue:
-            taskSummaryCell.seeAllBeforeCreateEvent.isHidden = true
             taskSummaryCell.delegate = self
             let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)

@@ -25,7 +25,6 @@
 		880B1343237376D6003E29AC /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1341237376D6003E29AC /* InfoCell.swift */; };
 		880B1347237376E3003E29AC /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1345237376E3003E29AC /* DescriptionCell.swift */; };
 		880B134B237376F3003E29AC /* TaskSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1349237376F3003E29AC /* TaskSummaryCell.swift */; };
-		880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 880B134A237376F3003E29AC /* TaskSummaryCell.xib */; };
 		880B134F23737700003E29AC /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B134D23737700003E29AC /* UserCell.swift */; };
 		880B135623746A5D003E29AC /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B135523746A5D003E29AC /* UIButton.swift */; };
 		880B1358237474A4003E29AC /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B1357237474A4003E29AC /* Task.swift */; };
@@ -200,7 +199,6 @@
 		880B1341237376D6003E29AC /* InfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
 		880B1345237376E3003E29AC /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		880B1349237376F3003E29AC /* TaskSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSummaryCell.swift; sourceTree = "<group>"; };
-		880B134A237376F3003E29AC /* TaskSummaryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskSummaryCell.xib; sourceTree = "<group>"; };
 		880B134D23737700003E29AC /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		880B135523746A5D003E29AC /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		880B1357237474A4003E29AC /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -419,7 +417,6 @@
 			isa = PBXGroup;
 			children = (
 				880B1349237376F3003E29AC /* TaskSummaryCell.swift */,
-				880B134A237376F3003E29AC /* TaskSummaryCell.xib */,
 			);
 			path = TaskSummaryCell;
 			sourceTree = "<group>";
@@ -807,8 +804,8 @@
 		B802F041242F4B8D00927649 /* CustomUIView */ = {
 			isa = PBXGroup;
 			children = (
-				B87C107024176329004AD951 /* AddNewThingView */,
 				B87C10692414BB21004AD951 /* ExpandableTaskHeader.swift */,
+				B87C106E2417631F004AD951 /* AddNewThingView.swift */,
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
 				88E203C423D33C6200514972 /* EventInputView.swift */,
@@ -852,14 +849,6 @@
 				887CF812250E665A001C1014 /* SelectedRecipesViewController.swift */,
 			);
 			path = SelectedRecipesVC;
-			sourceTree = "<group>";
-		};
-		B87C107024176329004AD951 /* AddNewThingView */ = {
-			isa = PBXGroup;
-			children = (
-				B87C106E2417631F004AD951 /* AddNewThingView.swift */,
-			);
-			path = AddNewThingView;
 			sourceTree = "<group>";
 		};
 		B886BD94246C46920069C248 /* RecipeCreateWelcomeVC */ = {
@@ -1035,7 +1024,6 @@
 			files = (
 				88349F0E236DE9FC002A1879 /* Assets.xcassets in Resources */,
 				88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */,
-				880B134C237376F3003E29AC /* TaskSummaryCell.xib in Resources */,
 				88349F0C236DE9FC002A1879 /* MainInterface.storyboard in Resources */,
 				883A2A062372E9910099ECDF /* GoogleService-Info.plist in Resources */,
 			);

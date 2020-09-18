@@ -102,6 +102,7 @@ class AnswerCell: UITableViewCell {
     
     private func setupUI() {
         self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(animateDecline),
                                                name: Notification.Name(rawValue: "TappedDecline"),

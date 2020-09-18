@@ -17,84 +17,179 @@ protocol TaskSummaryCellInReviewVCDelegate: class {
 }
 
 class TaskSummaryCell: UITableViewCell {
+    
+    static let reuseID = "TaskSummaryCell"
+    
+    private let titleLabel : UILabel = {
+        let label = UILabel()
+        label.text = LabelStrings.somethingMissing
+        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.textColor = .textLabel
+        return label
+    }()
+    
+    private lazy var seeAllButton : UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.activeButton, for: .normal)
+        button.addTarget(self, action: #selector(didTapSeeAll), for: .touchUpInside)
+        button.titleLabel?.font = .systemFont(ofSize: 14)
+        return button
+    }()
+    
+    let progressCircle = ProgressCircle(frame: CGRect(origin: .zero, size: CGSize(width: 30, height: 36.5)))
+    
+    private let taskSummaryLabel : UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryTextLabel
+        label.numberOfLines = 0
+        return label
+    }()
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var seeAllButton: UIButton!
-    @IBOutlet weak var seeAllBeforeCreateEvent: UIButton!
-    @IBOutlet weak var tasksCollectionView: UICollectionView!
-    @IBOutlet weak var progressCircle: ProgressCircle!
-    @IBOutlet weak var taskSummaryLabel: UILabel!
-    @IBOutlet weak var tasksCollectionViewHeightConstraint: NSLayoutConstraint!
+    private let tasksCollectionView : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .backgroundColor
+        cv.showsHorizontalScrollIndicator = false
+        return cv
+    }()
+    
+    private let separatorLine : UIView = {
+        let view = UIView()
+        view.backgroundColor = .sectionSeparatorLine
+        return view
+    }()
+    
+    private let chevronImage : UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = Images.chevronRight
+        return imageView
+    }()
     
     weak var delegate: TaskSummaryCellDelegate?
+    
     weak var reviewVCDelegate: TaskSummaryCellInReviewVCDelegate?
     
     let sortedTasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+        setupCollectionView()
+        updateTaskSummaryLabel()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
+        self.clipsToBounds = true
+        var buttonTitle = ""
+        if StepStatus.currentStep == .reviewVC {
+            buttonTitle = Event.shared.tasks.isEmpty ? LabelStrings.addSomeTasks : String.localizedStringWithFormat(LabelStrings.whatsNeeded, Event.shared.servings)
+        } else if StepStatus.currentStep == .eventSummaryVC {
+            buttonTitle = Event.shared.tasks.isEmpty ? LabelStrings.nothingToDo : String.localizedStringWithFormat(LabelStrings.whatsNeeded, Event.shared.servings)
+        }
+        self.seeAllButton.setTitle(buttonTitle, for: .normal)
         
-        configureUI()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateTable),
+                                               name: NSNotification.Name("updateTable"), object: nil)
+        self.contentView.addSubview(progressCircle)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(seeAllButton)
+        self.contentView.addSubview(chevronImage)
+        self.contentView.addSubview(separatorLine)
+        self.contentView.addSubview(tasksCollectionView)
+        self.contentView.addSubview(taskSummaryLabel)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        progressCircle.snp.makeConstraints { make in
+            make.width.equalTo(30)
+            make.height.equalTo(36.5)
+            make.leading.equalToSuperview().offset(27)
+            make.top.equalToSuperview().offset(10)
+        }
         
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(progressCircle.snp.trailing).offset(10)
+            make.centerY.equalTo(progressCircle)
+            make.height.equalTo(27)
+        }
+        
+        seeAllButton.snp.makeConstraints { make in
+            make.leading.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.height.equalTo(29)
+        }
+        
+        chevronImage.snp.makeConstraints { make in
+            make.height.width.equalTo(15)
+            make.leading.equalTo(seeAllButton.snp.trailing).offset(5)
+            make.centerY.equalTo(seeAllButton)
+        }
+        
+        separatorLine.snp.makeConstraints { make in
+            make.height.equalTo(0.3)
+            make.leading.equalToSuperview().offset(60)
+            make.trailing.equalToSuperview().offset(-30)
+            make.top.equalTo(seeAllButton.snp.bottom).offset(10)
+        }
+        
+        tasksCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(seeAllButton.snp.bottom).offset(15)
+            make.bottom.equalToSuperview().offset(-10)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(260)
+        }
+        
+        taskSummaryLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(33)
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(separatorLine.snp.bottom).offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+    }
+    
+    private func setupCollectionView() {
         tasksCollectionView.delegate = self
         tasksCollectionView.dataSource = self
         tasksCollectionView.register(TaskCVCell.self,
                                      forCellWithReuseIdentifier: TaskCVCell.reuseID)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateTable), name: NSNotification.Name("updateTable"), object: nil)
-    }
-    
-    private func configureUI() {
-        
-        self.backgroundColor = .backgroundColor
-        tasksCollectionView.backgroundColor = .backgroundColor
-
-        seeAllButton.titleLabel?.textColor = UIColor.activeButton
-        seeAllBeforeCreateEvent.titleLabel?.textColor = UIColor.activeButton
-        
-        updateTaskSummaryLabel()
-        
-        if !Event.shared.tasks.isEmpty {
-            seeAllButton.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
-            seeAllBeforeCreateEvent.setTitle("See what's needed for \(Event.shared.servings)!", for: .normal)
-        } else {
-            seeAllButton.setTitle("There is nothing to do!", for: .normal)
-            seeAllBeforeCreateEvent.setTitle("Add some tasks here!", for: .normal)
-        }
     }
     
     private func updateTaskSummaryLabel() {
-        
-        taskSummaryLabel.textColor = .secondaryTextLabel
-        
         if Event.shared.tasks.isEmpty {
             taskSummaryLabel.isHidden = false
-            tasksCollectionView.isHidden = true
-            tasksCollectionViewHeightConstraint.isActive = false
+            tasksCollectionView.removeFromSuperview()
             taskSummaryLabel.text = LabelStrings.nothingToDoLabel
         } else {
             if Event.shared.allTasksCompleted {
                 taskSummaryLabel.isHidden = false
-                tasksCollectionView.isHidden = true
-                tasksCollectionViewHeightConstraint.isActive = false
+                tasksCollectionView.removeFromSuperview()
                 taskSummaryLabel.text = LabelStrings.allDoneLabel
             } else {
                 taskSummaryLabel.isHidden = true
-                tasksCollectionView.isHidden = false
-                tasksCollectionViewHeightConstraint.isActive = true
             }
         }
     }
     
-    @objc func updateTable() {
+    @objc private func updateTable() {
         tasksCollectionView.reloadData()
     }
-
-    @IBAction func didTapSeeAllButton(_ sender: UIButton) {
-        delegate?.taskSummaryCellDidTapSeeAll()
-    }
     
-    @IBAction func didTapSeeAllBeforeCreateEvent(_ sender: UIButton) {
-        reviewVCDelegate?.taskSummaryDidTapSeeAllBeforeCreateEvent()
+    @objc private func didTapSeeAll() {
+        if StepStatus.currentStep == .eventSummaryVC {
+             delegate?.taskSummaryCellDidTapSeeAll()
+        } else if StepStatus.currentStep == .reviewVC {
+            reviewVCDelegate?.taskSummaryDidTapSeeAllBeforeCreateEvent()
+        }
     }
 }
 
@@ -146,14 +241,12 @@ extension TaskSummaryCell: UICollectionViewDelegateFlowLayout {
         } else { //if targetOffset < currentOffset
             newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth
         }
-        
         // and targetoffset is not over certain page
         if newTargetOffset < 0 {
             newTargetOffset = 0
         } else if (newTargetOffset > Float(scrollView.contentSize.width)){
             newTargetOffset = Float(scrollView.contentSize.width)
         }
-
         targetContentOffset.pointee.x = CGFloat(currentOffset)
         scrollView.setContentOffset(CGPoint(x: CGFloat(newTargetOffset), y: scrollView.contentOffset.y), animated: true)
     }

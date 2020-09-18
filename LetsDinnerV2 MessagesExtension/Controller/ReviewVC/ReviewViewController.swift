@@ -194,10 +194,14 @@ class ReviewViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.registerCells(CellNibs.taskSummaryCell)
-        summaryTableView.register(DescriptionCell.self, forCellReuseIdentifier: DescriptionCell.reuseID)
-        summaryTableView.register(InfoCell.self, forCellReuseIdentifier: InfoCell.reuseID)
-        summaryTableView.register(TitleCell.self, forCellReuseIdentifier: TitleCell.reuseID)
+        summaryTableView.register(TaskSummaryCell.self,
+                                  forCellReuseIdentifier: TaskSummaryCell.reuseID)
+        summaryTableView.register(DescriptionCell.self,
+                                  forCellReuseIdentifier: DescriptionCell.reuseID)
+        summaryTableView.register(InfoCell.self,
+                                  forCellReuseIdentifier: InfoCell.reuseID)
+        summaryTableView.register(TitleCell.self,
+                                  forCellReuseIdentifier: TitleCell.reuseID)
     }
     
     private func reviewBeforeSending() {
@@ -354,7 +358,7 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
         let titleCell = tableView.dequeueReusableCell(withIdentifier: TitleCell.reuseID) as! TitleCell
         let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
         let descriptionCell = tableView.dequeueReusableCell(withIdentifier: DescriptionCell.reuseID) as! DescriptionCell
-        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
+        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: TaskSummaryCell.reuseID) as! TaskSummaryCell
         
         switch indexPath.row {
         case 0:
@@ -378,7 +382,6 @@ extension ReviewViewController: UITableViewDelegate, UITableViewDataSource {
             descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         case 5:
-            taskSummaryCell.seeAllButton.isHidden = true
             taskSummaryCell.reviewVCDelegate = self
             let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)

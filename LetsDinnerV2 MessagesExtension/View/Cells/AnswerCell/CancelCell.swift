@@ -60,11 +60,6 @@ class CancelCell: UITableViewCell {
     
     weak var delegate: CancelCellDelegate?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupCell()
-    }
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
@@ -84,6 +79,7 @@ class CancelCell: UITableViewCell {
     
     private func setupCell() {
         self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
         contentView.addSubview(titleLabel)
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(cancelButton)

@@ -10,10 +10,6 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
-enum CellNibs {
-    static let taskSummaryCell = "TaskSummaryCell"
-}
-
 enum ApiKeys {
         static let appId =  "5dbeb10b"
         static let apiKey = "b92d6e0482b3e23150ef3060aec1fd31"
@@ -39,6 +35,7 @@ enum Keys {
 enum Images {
     
     static let chevronLeft = UIImage(named: "chevronLeft")
+    static let chevronRight = UIImage(named: "chevronRight")!
     static let settings = UIImage(named: "settingsButtonOutlinedWhite")
     static let logo = UIImage(named: "appIconWhite")
     // Welcome Screen

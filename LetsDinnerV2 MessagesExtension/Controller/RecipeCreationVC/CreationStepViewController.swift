@@ -306,7 +306,6 @@ extension CreationStepViewController: UITableViewDelegate, UITableViewDataSource
             commentCell.configureCell(comment: comment)
             return commentCell
         }
-
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -338,37 +337,37 @@ extension CreationStepViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
     
-        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-            if (editingStyle == .delete) {
-                switch self.section {
-                case .name:
-                    break
-                case .ingredient:
-                    self.viewModel.ingredients.value.remove(at: indexPath.row)
-                case .step:
-                    self.viewModel.steps.value.remove(at: indexPath.row)
-                case .comment:
-                    self.viewModel.comments.value.remove(at: indexPath.row)
-                }
-            }
-        }
-    
-         func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
             switch self.section {
             case .name:
                 break
             case .ingredient:
-                let movedObject = self.viewModel.ingredients.value[sourceIndexPath.row]
-                self.viewModel.ingredients.value.remove(at: sourceIndexPath.row)
-                self.viewModel.ingredients.value.insert(movedObject, at: destinationIndexPath.row)
+                self.viewModel.ingredients.value.remove(at: indexPath.row)
             case .step:
-                let movedObject = self.viewModel.steps.value[sourceIndexPath.row]
-                self.viewModel.steps.value.remove(at: sourceIndexPath.row)
-                self.viewModel.steps.value.insert(movedObject, at: destinationIndexPath.row)
+                self.viewModel.steps.value.remove(at: indexPath.row)
             case .comment:
-                let movedObject = self.viewModel.comments.value[sourceIndexPath.row]
-                self.viewModel.comments.value.remove(at: sourceIndexPath.row)
-                self.viewModel.comments.value.insert(movedObject, at: destinationIndexPath.row)
+                self.viewModel.comments.value.remove(at: indexPath.row)
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        switch self.section {
+        case .name:
+            break
+        case .ingredient:
+            let movedObject = self.viewModel.ingredients.value[sourceIndexPath.row]
+            self.viewModel.ingredients.value.remove(at: sourceIndexPath.row)
+            self.viewModel.ingredients.value.insert(movedObject, at: destinationIndexPath.row)
+        case .step:
+            let movedObject = self.viewModel.steps.value[sourceIndexPath.row]
+            self.viewModel.steps.value.remove(at: sourceIndexPath.row)
+            self.viewModel.steps.value.insert(movedObject, at: destinationIndexPath.row)
+        case .comment:
+            let movedObject = self.viewModel.comments.value[sourceIndexPath.row]
+            self.viewModel.comments.value.remove(at: sourceIndexPath.row)
+            self.viewModel.comments.value.insert(movedObject, at: destinationIndexPath.row)
+        }
+    }
 }
