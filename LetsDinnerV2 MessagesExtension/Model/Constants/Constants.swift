@@ -10,25 +10,6 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
-enum CellNibs {
-    static let titleCell = "TitleCell"
-    static let recipeCell = "RecipeCell"
-    static let answerCell = "AnswerCell"
-    static let infoCell = "InfoCell"
-    static let descriptionCell = "DescriptionCell"
-    static let taskSummaryCell = "TaskSummaryCell"
-    static let userCell = "UserCell"
-    static let taskCVCell = "TaskCVCell"
-    static let taskCell = "TaskCell"
-    static let userCVCell = "UserCVCell"
-    static let taskManagementCell = "TaskManagementCell"
-    static let recipeCVCell = "RecipeCVCell"
-    static let sectionInputCell = "SectionInputCell"
-    static let ingredientCell = "IngredientCell"
-    static let cancelCell = "CancelCell"
-    static let expiredEventCell = "ExpiredEventCell"
-}
-
 enum ApiKeys {
         static let appId =  "5dbeb10b"
         static let apiKey = "b92d6e0482b3e23150ef3060aec1fd31"
@@ -54,6 +35,7 @@ enum Keys {
 enum Images {
     
     static let chevronLeft = UIImage(named: "chevronLeft")
+    static let chevronRight = UIImage(named: "chevronRight")!
     static let settings = UIImage(named: "settingsButtonOutlinedWhite")
     static let logo = UIImage(named: "appIconWhite")
     // Welcome Screen
@@ -88,6 +70,7 @@ enum Images {
     static let discoverButtonOutlined = UIImage(named: "discoverButtonOutlined")!
     static let emptyPlate = UIImage(named: "emptyPlate")!
     static let mealPlaceholder = UIImage(named: "mealPlaceholderImage")
+    static let checkedButton = UIImage(named: "checkedButton")
     
     // SelectedRecipesVC
     static let deleteBin = UIImage(named: "deleteBin")!
@@ -119,7 +102,6 @@ enum Images {
     
     // PDFCreator
     static let pdfLogo = UIImage(named: "pdfLogo")!
-    
     static let warning = UIImage(named: "warning")!
 }
 
@@ -130,6 +112,12 @@ enum ButtonTitle {
     static let addImage = NSLocalizedString("Add Image", comment: "add image")
     static let edit = NSLocalizedString("Edit", comment: "edit")
     static let done = NSLocalizedString("Done", comment: "done")
+    static let cancel = NSLocalizedString("Cancel", comment: "cancel")
+    static let reschedule = NSLocalizedString("Reschedule", comment: "reschedule")
+    static let open = NSLocalizedString("Open", comment: "open")
+    static let add = NSLocalizedString("Add", comment: "add")
+    static let accept = NSLocalizedString("Accept", comment: "accept")
+    static let decline = NSLocalizedString("Decline", comment: "decline")
 }
 
 enum DataKeys {

@@ -175,7 +175,8 @@ class TasksListViewController: LDNavigationViewController {
     private func setupTableView() {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
-        tasksTableView.registerCells(CellNibs.taskCell)
+        tasksTableView.register(TaskCell.self,
+                                forCellReuseIdentifier: TaskCell.reuseID)
     }
     
     private func displayPendingChangesAlert() {
@@ -315,7 +316,7 @@ extension TasksListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let taskCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskCell, for: indexPath) as! TaskCell
+        let taskCell = tableView.dequeueReusableCell(withIdentifier: TaskCell.reuseID, for: indexPath) as! TaskCell
         let task = viewModel.expandableTasks[indexPath.section].tasks[indexPath.row]
         taskCell.configureCell(task: task, indexPath: indexPath.row)
         taskCell.delegate = self

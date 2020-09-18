@@ -13,15 +13,39 @@ protocol TaskManagementCellDelegate: class {
 }
 
 class TaskManagementCell: UITableViewCell {
+        
+    static let reuseID = "TaskManagementCell"
     
-    @IBOutlet weak var taskStatusButton: TaskStatusButton!
-    @IBOutlet weak var taskNameLabel: UILabel!
-    @IBOutlet weak var personLabel: TaskPersonLabel!
-    @IBOutlet weak var separatorLine: UIView!
+    private let taskStatusButton = TaskStatusButton()
+    
+    private let taskNameLabel : UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        label.textColor = .textLabel
+        return label
+    }()
+    
+    private let personLabel = TaskPersonLabel()
+    
+    private let separatorLine : UIView = {
+        let view = UIView()
+        view.backgroundColor = .sectionSeparatorLine
+        return view
+    }()
     
     var task: Task?
     
     weak var delegate: TaskManagementCellDelegate?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func configureCell(task: Task) {
         self.task = task
@@ -119,8 +143,43 @@ class TaskManagementCell: UITableViewCell {
         if let index = Event.shared.tasks.firstIndex(where: { $0.taskName == task.taskName }) {
             Event.shared.tasks[index] = task
         }
-        
     }
     
+    private func setupCell() {
+        self.backgroundColor = .backgroundColor
+        self.selectionStyle = .none
+        contentView.addSubview(taskStatusButton)
+        contentView.addSubview(taskNameLabel)
+        contentView.addSubview(personLabel)
+        contentView.addSubview(separatorLine)
+        addConstraints()
+    }
+    
+    private func addConstraints() {
+        taskStatusButton.snp.makeConstraints { make in
+            make.height.width.equalTo(22)
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(20)
+        }
+        
+        taskNameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(taskStatusButton.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().offset(-8)
+            make.centerY.equalTo(taskStatusButton)
+        }
+        
+        personLabel.snp.makeConstraints { make in
+            make.height.equalTo(16)
+            make.bottom.equalToSuperview().offset(-11)
+            make.leading.trailing.equalTo(taskNameLabel)
+        }
+        
+        separatorLine.snp.makeConstraints { make in
+            make.leading.equalTo(taskNameLabel)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(0.5)
+            make.bottom.equalToSuperview().offset(-0.5)
+        }
+    }
     
 }

@@ -107,6 +107,8 @@ enum LabelStrings {
     static let send = NSLocalizedString("Send", comment: "send")
     static let edit = NSLocalizedString("Edit", comment: "edit")
     static let addToCalendar = NSLocalizedString("Add to Calendar", comment: "Add to calendar")
+    static let addSomeTasks = NSLocalizedString("Add some tasks here!", comment: "Add some tasks")
+    static let whatsNeeded = NSLocalizedString("See what's needed for %d!", comment: "what's needed for number of people")
     
     // EventSummaryVC
     static let invitationText = NSLocalizedString("Hey you received an invite! 🤩 \nDo you want to accept it?", comment: "invite received")
@@ -116,6 +118,9 @@ enum LabelStrings {
     static let nothingToDoLabel = NSLocalizedString("Nope! Either, there is nothing to do or the host is handling everything 😬🙌", comment: "no tasks to do")
     static let eventInfo = NSLocalizedString("Event Info", comment: "event info")
     static let eventUnavailable = NSLocalizedString("We could not find this event, you may want to check your internet connection and try again. Events that are too old may not be available anymore.", comment: "event not found in firebase")
+    static let whocoming = NSLocalizedString("Who's coming?", comment: "who is coming?")
+    static let cancelOrReschedule = NSLocalizedString("Not the right time or changed your mind all together? You can Cancel or Reschedule the event.", comment: "cancel or reschedule")
+    static let somethingMissing = NSLocalizedString("Is something missing?", comment: "is sthg missing?")
     
     // TasksListVC
     static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now, an update may be coming soon! 🚀", comment: "multiple users checking")

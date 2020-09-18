@@ -20,7 +20,7 @@ class EventDescriptionViewController: LDNavigationViewController {
         let label = UILabel()
         #warning("To localize")
         label.text = "\(Event.shared.servings) SERVINGS OF"
-        label.textColor = Colors.dullGrey
+        label.textColor = .secondaryTextLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         return label
     }()
@@ -38,7 +38,7 @@ class EventDescriptionViewController: LDNavigationViewController {
     
     private let titleLabel : UILabel = {
         let label = UILabel()
-        label.textColor = Colors.dullGrey
+        label.textColor = .secondaryTextLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         label.text = LabelStrings.whatsThePlan.uppercased()
         return label
@@ -140,7 +140,8 @@ class EventDescriptionViewController: LDNavigationViewController {
     private func setupCollectionView() {
         recipesCollectionView.delegate = self
         recipesCollectionView.dataSource = self
-        recipesCollectionView.register(UINib(nibName: CellNibs.recipeCVCell, bundle: nil), forCellWithReuseIdentifier: CellNibs.recipeCVCell)
+        recipesCollectionView.register(RecipeCVCell.self,
+                                       forCellWithReuseIdentifier: RecipeCVCell.reuseID)
     }
     
     private func addConstraints() {
@@ -186,7 +187,7 @@ extension EventDescriptionViewController: UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: CellNibs.recipeCVCell, for: indexPath) as! RecipeCVCell
+        let recipeCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeCVCell.reuseID, for: indexPath) as! RecipeCVCell
         let recipeTitle = self.viewModel.allRecipeTitles[indexPath.row]
         recipeCVCell.configureCell(recipeTitle: recipeTitle)
         return recipeCVCell

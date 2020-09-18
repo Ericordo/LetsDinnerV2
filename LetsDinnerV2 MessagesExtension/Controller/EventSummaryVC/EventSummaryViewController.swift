@@ -154,13 +154,20 @@ class EventSummaryViewController: UIViewController {
     private func setupTableView() {
         summaryTableView.delegate = self
         summaryTableView.dataSource = self
-        summaryTableView.registerCells(CellNibs.titleCell,
-                                       CellNibs.answerCell,
-                                       CellNibs.infoCell,
-                                       CellNibs.descriptionCell,
-                                       CellNibs.taskSummaryCell,
-                                       CellNibs.userCell,
-                                       CellNibs.cancelCell)
+        summaryTableView.register(TaskSummaryCell.self,
+                                  forCellReuseIdentifier: TaskSummaryCell.reuseID)
+        summaryTableView.register(AnswerCell.self,
+                                  forCellReuseIdentifier: AnswerCell.reuseID)
+        summaryTableView.register(DescriptionCell.self,
+                                  forCellReuseIdentifier: DescriptionCell.reuseID)
+        summaryTableView.register(CancelCell.self,
+                                  forCellReuseIdentifier: CancelCell.reuseID)
+        summaryTableView.register(InfoCell.self,
+                                  forCellReuseIdentifier: InfoCell.reuseID)
+        summaryTableView.register(TitleCell.self,
+                                  forCellReuseIdentifier: TitleCell.reuseID)
+        summaryTableView.register(UserCell.self,
+                                  forCellReuseIdentifier: UserCell.reuseID)
         summaryTableView.register(AnswerDeclinedCell.self,
                                   forCellReuseIdentifier: AnswerDeclinedCell.reuseID)
         summaryTableView.register(AnswerAcceptedCell.self,
@@ -195,15 +202,15 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let titleCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.titleCell) as! TitleCell
-        let answerCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.answerCell) as! AnswerCell
+        let titleCell = tableView.dequeueReusableCell(withIdentifier: TitleCell.reuseID) as! TitleCell
+        let answerCell = tableView.dequeueReusableCell(withIdentifier: AnswerCell.reuseID) as! AnswerCell
         let answerDeclinedCell = tableView.dequeueReusableCell(withIdentifier: AnswerDeclinedCell.reuseID) as! AnswerDeclinedCell
         let answerAcceptedCell = tableView.dequeueReusableCell(withIdentifier: AnswerAcceptedCell.reuseID) as! AnswerAcceptedCell
-        let infoCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.infoCell) as! InfoCell
-        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.descriptionCell) as! DescriptionCell
-        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.taskSummaryCell) as! TaskSummaryCell
-        let userCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.userCell) as! UserCell
-        let cancelCell = tableView.dequeueReusableCell(withIdentifier: CellNibs.cancelCell) as! CancelCell
+        let infoCell = tableView.dequeueReusableCell(withIdentifier: InfoCell.reuseID) as! InfoCell
+        let descriptionCell = tableView.dequeueReusableCell(withIdentifier: DescriptionCell.reuseID) as! DescriptionCell
+        let taskSummaryCell = tableView.dequeueReusableCell(withIdentifier: TaskSummaryCell.reuseID) as! TaskSummaryCell
+        let userCell = tableView.dequeueReusableCell(withIdentifier: UserCell.reuseID) as! UserCell
+        let cancelCell = tableView.dequeueReusableCell(withIdentifier: CancelCell.reuseID) as! CancelCell
         
         let separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
 
@@ -267,7 +274,6 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
             descriptionCell.descriptionLabel.text = Event.shared.eventDescription
             return descriptionCell
         case RowItemNumber.taskInfo.rawValue:
-            taskSummaryCell.seeAllBeforeCreateEvent.isHidden = true
             taskSummaryCell.delegate = self
             let percentage = Event.shared.calculateTaskCompletionPercentage()
             taskSummaryCell.progressCircle.animate(percentage: percentage)

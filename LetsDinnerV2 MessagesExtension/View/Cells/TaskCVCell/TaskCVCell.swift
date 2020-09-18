@@ -9,21 +9,43 @@
 import UIKit
 
 class TaskCVCell: UICollectionViewCell {
-
-    @IBOutlet weak var taskStatusButton: TaskStatusButton!
-    @IBOutlet weak var taskNameLabel: UILabel!
-    @IBOutlet weak var personLabel: TaskPersonLabel!
-    @IBOutlet weak var separatorLine: UIView!
+    
+    static let reuseID = "TaskCVCell"
+    
+    private let taskStatusButton = TaskStatusButton()
+    
+    private let taskNameLabel : UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.font = .systemFont(ofSize: 17, weight: .semibold)
+        label.textColor = .textLabel
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        return label
+    }()
+    
+    private let personLabel = TaskPersonLabel()
+    
+    private let separatorLine : UIView = {
+        let view = UIView()
+        view.backgroundColor = .sectionSeparatorLine
+        return view
+    }()
+    
     
     var task: Task?
     var count : Int = 0
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func configureCell(task: Task, count: Int) {
-        
         self.isUserInteractionEnabled = true
         self.task = task
         if let amount = task.metricAmount {
@@ -60,41 +82,51 @@ class TaskCVCell: UICollectionViewCell {
                 personLabel.setTextAttributes(taskIsOwnedByUser: true)
                 taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
             }
-            
         } else {
             // Task Not Assigned
             personLabel.text = AlertStrings.noAssignment
             personLabel.setTextAttributes(taskIsOwnedByUser: false)
         }
-        
         // For deleting the line for the bottom last cell
         separatorLine.isHidden = false
-        separatorLine.backgroundColor = UIColor.cellSeparatorLine
-        
         if count % 3 == 0 {
             separatorLine.isHidden = true
         }
-
-//        guard let currentUser = Event.shared.currentUser else { return }
-//        if task.taskState == .assigned || task.taskState == .completed {
-//            isUserInteractionEnabled = task.assignedPersonUid == currentUser.identifier
-//            taskStatusButton.isEnabled = task.assignedPersonUid == currentUser.identifier
-//        } else {
-//            taskStatusButton.isEnabled = true
-//            isUserInteractionEnabled = true
-//        }
+    }
+        
+    private func setupUI() {
+        self.backgroundColor = .backgroundColor
+        contentView.addSubview(taskStatusButton)
+        contentView.addSubview(taskNameLabel)
+        contentView.addSubview(personLabel)
+        contentView.addSubview(separatorLine)
+        addConstraints()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        taskNameLabel.sizeToFit()
+    private func addConstraints() {
+        taskStatusButton.snp.makeConstraints { make in
+            make.height.width.equalTo(22)
+            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(6)
+        }
         
-//        guard let task = task else { return }
-//        if task.assignedPersonUid == "nil" {
-//            personLabel.isHidden = true
-//        } else {
-//            personLabel.isHidden = false
-//        }
+        taskNameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(taskStatusButton.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().offset(-5)
+            make.centerY.equalTo(taskStatusButton)
+        }
+        
+        personLabel.snp.makeConstraints { make in
+            make.height.equalTo(16)
+            make.bottom.equalToSuperview().offset(-10)
+            make.leading.trailing.equalTo(taskNameLabel)
+        }
+    
+        separatorLine.snp.makeConstraints { make in
+            make.leading.equalTo(taskNameLabel)
+            make.trailing.equalToSuperview().offset(-5)
+            make.height.equalTo(0.5)
+            make.bottom.equalToSuperview().offset(-0.5)
+        }
     }
-
 }
