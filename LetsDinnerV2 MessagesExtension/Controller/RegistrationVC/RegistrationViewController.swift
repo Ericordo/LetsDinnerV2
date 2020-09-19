@@ -253,8 +253,6 @@ class RegistrationViewController: LDNavigationViewController {
             .take(duringLifetimeOf: self)
             .startWithValues { data in
                 if data == nil {
-                    defaults.profilePicUrl = ""
-                    CloudManager.shared.saveUserInfoOnCloud("", key: Keys.profilePicUrl)
                     self.checkUsername()
                 } else {
                     self.userPic.image = UIImage(data: data!)
@@ -291,6 +289,13 @@ class RegistrationViewController: LDNavigationViewController {
             }
         }
         
+        self.viewModel.doneActionSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [unowned self] _ in
+                self.presentDoneActionSheet()
+        }
+        
         locationButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.findCurrentLocation()
         }
@@ -304,29 +309,37 @@ class RegistrationViewController: LDNavigationViewController {
             }
         }
         
-        navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            self.delegate?.registrationVCDidTapCancelButton()
-        }
+//        navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+//            self.delegate?.registrationVCDidTapCancelButton()
+//        }
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let alert = self.actionSheetManager.presentDoneActionSheet(
-                sourceView: self.navigationBar.nextButton,
-                message: AlertStrings.doneActionSheetMessage,
-                saveActionCompletion: { _ in
-                    self.view.endEditing(true)
-                    self.firstNameTextField.animateEmpty()
-                    self.lastNameTextField.animateEmpty()
-                    self.errorLabel.isHidden = self.viewModel.infoIsValid()
-                    if self.viewModel.infoIsValid() {
-                       self.viewModel.saveUserInformation()
-                    }},
-                discardActionCompletion: { _ in
-                    self.delegate?.registrationVCDidTapCancelButton() })
-            self.present(alert, animated: true, completion: nil)
+            self.view.endEditing(true)
+            self.viewModel.didTapDone()
         }
     }
     
     // MARK: Methods
+    private func presentDoneActionSheet() {
+        let alert = self.actionSheetManager.presentDoneActionSheet(
+            sourceView: self.navigationBar.nextButton,
+            message: AlertStrings.doneActionSheetMessage,
+            saveActionCompletion: { _ in
+                self.firstNameTextField.animateEmpty()
+                self.lastNameTextField.animateEmpty()
+                self.errorLabel.isHidden = self.viewModel.infoIsValid()
+                if self.viewModel.infoIsValid() {
+                    self.viewModel.saveUserInformation()
+                }},
+            discardActionCompletion: { _ in
+                if defaults.profilePicUrl != self.viewModel.initialUrl {
+                    defaults.profilePicUrl = self.viewModel.initialUrl
+                    CloudManager.shared.saveUserInfoOnCloud(self.viewModel.initialUrl, key: Keys.profilePicUrl)
+                }
+                self.delegate?.registrationVCDidTapCancelButton() })
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.keyboardWillShow),
@@ -425,7 +438,7 @@ class RegistrationViewController: LDNavigationViewController {
             changeActionCompletion: { _ in
                 self.presentPicker() },
             deleteActionCompletion: { _ in
-                self.viewModel.deleteProfilePicture()}
+                self.viewModel.profilePicData.value = nil }
         )
         self.present(alert, animated: true, completion: nil)
     }
@@ -436,8 +449,7 @@ class RegistrationViewController: LDNavigationViewController {
             userPic.kf.setImage(with: imageURL, placeholder: Images.profilePlaceholder) { result in
                 switch result {
                 case .success:
-                    self.addPicButton.setTitle(ButtonTitle.edit, for: .normal)
-                    self.imageState = .deleteOrModifyPic
+                    self.viewModel.profilePicData.value = self.userPic.image?.jpegData(compressionQuality: 0.4)
                 case .failure:
                     self.showBasicAlert(title: AlertStrings.oops, message: AlertStrings.errorFetchImage)
                     self.checkUsername()
@@ -464,8 +476,8 @@ class RegistrationViewController: LDNavigationViewController {
     private func setupUI() {
         view.backgroundColor = .backgroundColor
         navigationBar.titleLabel.text = LabelStrings.profile
-        #warning("fix previous button leading constraint")
-        navigationBar.previousButton.setTitle(AlertStrings.cancel, for: .normal)
+//        #warning("fix previous button leading constraint")
+//        navigationBar.previousButton.setTitle(AlertStrings.cancel, for: .normal)
         navigationBar.previousButton.isHidden = true
         navigationBar.nextButton.setTitle(ButtonTitle.done, for: .normal)
         progressViewContainer.isHidden = true
@@ -771,6 +783,7 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
         guard let imageEdited = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         guard let imageEditedData = imageEdited.jpegData(compressionQuality: 0.4) else { return }
         viewModel.profilePicData.value = imageEditedData
+        viewModel.profilePicUrl.value = ""
         picturePicker.dismiss(animated: true, completion: nil)
     }
 }

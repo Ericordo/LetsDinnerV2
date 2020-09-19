@@ -15,9 +15,19 @@ class RegistrationViewModel {
     let lastName : MutableProperty<String>
     let address : MutableProperty<String>
     let profilePicData: MutableProperty<Data?>
+    let profilePicUrl : MutableProperty<String?>
     let isLoading = MutableProperty<Bool>(false)
+    
     let dataUploadSignal: Signal<Void, LDError>
     private let dataUploadObserver: Signal<Void, LDError>.Observer
+    
+    let doneActionSignal : Signal<Void, Never>
+    private let doneActionObserver : Signal<Void, Never>.Observer
+    
+    private let initialFirstName : String
+    private let initialLastName : String
+    private let initialAddress : String
+    let initialUrl : String
     
     init() {
         let usernameArray = defaults.username.split(separator: " ")
@@ -25,9 +35,20 @@ class RegistrationViewModel {
         lastName = MutableProperty(String(usernameArray.last ?? ""))
         address = MutableProperty(defaults.address)
         profilePicData = MutableProperty(nil)
+        profilePicUrl = MutableProperty(defaults.profilePicUrl)
+        
         let (dataUploadSignal, dataUploadObserver) = Signal<Void, LDError>.pipe()
         self.dataUploadSignal = dataUploadSignal
         self.dataUploadObserver = dataUploadObserver
+        
+        let (doneActionSignal, doneActionObserver) = Signal<Void, Never>.pipe()
+        self.doneActionSignal = doneActionSignal
+        self.doneActionObserver = doneActionObserver
+        
+        initialFirstName = String(usernameArray.first ?? "")
+        initialLastName = String(usernameArray.last ?? "")
+        initialAddress = defaults.address
+        initialUrl = defaults.profilePicUrl
     }
     
     func infoIsValid() -> Bool {
@@ -35,6 +56,22 @@ class RegistrationViewModel {
             return false
         } else {
             return true
+        }
+    }
+    
+    func didTapDone() {
+        if initialAddress == address.value &&
+            initialUrl == profilePicUrl.value &&
+            initialFirstName == firstName.value &&
+            initialLastName == lastName.value {
+            if initialUrl.isEmpty && self.profilePicData.value != nil ||
+                !initialUrl.isEmpty && self.profilePicData.value == nil {
+                self.doneActionObserver.send(value: ())
+            } else {
+                self.dataUploadObserver.send(value: ())
+            }
+        } else {
+            self.doneActionObserver.send(value: ())
         }
     }
     
@@ -47,6 +84,10 @@ class RegistrationViewModel {
         if let data = profilePicData.value {
             self.saveProfilePicture(data)
         } else {
+            if !defaults.profilePicUrl.isEmpty {
+                ImageHelper.shared.deleteUserPicOnFirebase()
+            }
+            self.updateProfilePicUrl("")
             self.dataUploadObserver.send(value: ())
         }
     }
@@ -62,19 +103,16 @@ class RegistrationViewModel {
                 case .failure(let error):
                     self.dataUploadObserver.send(error: error)
                 case .success(let url):
-                    Event.shared.currentUser?.profilePicUrl = url
-                    defaults.profilePicUrl = url
-                    CloudManager.shared.saveUserInfoOnCloud(url, key: Keys.profilePicUrl)
+                    self.updateProfilePicUrl(url)
                     self.dataUploadObserver.send(value: ())
                 }
         }
     }
     
-    func deleteProfilePicture() {
-        self.profilePicData.value = nil
-        if !defaults.profilePicUrl.isEmpty {
-            ImageHelper.shared.deleteUserPicOnFirebase()
-        }
+    private func updateProfilePicUrl(_ url: String) {
+        Event.shared.currentUser?.profilePicUrl = url
+        defaults.profilePicUrl = url
+        CloudManager.shared.saveUserInfoOnCloud(url, key: Keys.profilePicUrl)
     }
 }
 

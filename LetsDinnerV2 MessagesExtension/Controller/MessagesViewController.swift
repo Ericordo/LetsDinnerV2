@@ -24,9 +24,9 @@ class MessagesViewController: MSMessagesAppViewController {
         
         #warning("Get rid of that and just reinstall the app")
         let config = Realm.Configuration(
-            schemaVersion: 1,
+            schemaVersion: 2,
             migrationBlock: { migration, oldSchemaVersion in
-                if (oldSchemaVersion < 1) {
+                if (oldSchemaVersion < 2) {
                 }
         })
         Realm.Configuration.defaultConfiguration = config
