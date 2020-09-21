@@ -191,8 +191,9 @@ class RecipesViewModel {
             Event.shared.tasks.forEach { task in
                 if !task.isCustom &&
                     !Event.shared.selectedRecipes.contains(where: { $0.title == task.parentRecipe }) &&
-                    !Event.shared.selectedCustomRecipes.contains(where: { $0.title == task.parentRecipe
-                }) {
+                    !Event.shared.selectedCustomRecipes.contains(where: { $0.title == task.parentRecipe }) &&
+                    task.parentRecipe != LabelStrings.misc
+                {
                     let index = Event.shared.tasks.firstIndex { $0.taskName == task.taskName }
                     Event.shared.tasks.remove(at: index!)
                 }
