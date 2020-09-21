@@ -125,7 +125,7 @@ class TaskCVCell: UICollectionViewCell {
         separatorLine.snp.makeConstraints { make in
             make.leading.equalTo(taskNameLabel)
             make.trailing.equalToSuperview().offset(-5)
-            make.height.equalTo(0.5)
+            make.height.equalTo(0.3)
             make.bottom.equalToSuperview().offset(-0.5)
         }
     }

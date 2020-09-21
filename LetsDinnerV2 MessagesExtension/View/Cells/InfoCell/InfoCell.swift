@@ -56,7 +56,7 @@ class InfoCell: UITableViewCell {
         self.selectionStyle = .none
         self.clipsToBounds = true
         self.backgroundColor = .backgroundColor
-        cellSeparator.isHidden = true
+        self.cellSeparator.isHidden = true
         self.contentView.addSubview(cellSeparator)
         self.contentView.addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)

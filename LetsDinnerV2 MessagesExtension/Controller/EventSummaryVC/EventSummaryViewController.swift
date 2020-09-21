@@ -247,7 +247,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 switch user.hasAccepted {
                 case .accepted:
                     infoCell.titleLabel.text = LabelStrings.eventInfo
-                    infoCell.infoLabel.text = Event.shared.hostName + " "
+                    infoCell.infoLabel.text = Event.shared.hostName
                     infoCell.accessoryType = .disclosureIndicator
                 case .declined:
                     infoCell.titleLabel.text = LabelStrings.host
@@ -255,6 +255,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 case .pending:
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
+                    infoCell.cellSeparator.isHidden = false
                 }
             } else {
                 infoCell.titleLabel.text = LabelStrings.host
