@@ -16,6 +16,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo()
     func eventSummaryVCDidUpdateDate(date: Double)
     func eventSummaryVCDidCancelEvent()
+    func eventSummaryVCOpenExpiredEvent()
 }
 
 private enum RowItemNumber: Int, CaseIterable {
@@ -107,7 +108,11 @@ class EventSummaryViewController: UIViewController {
                 LostEventView().show(superView: self.view)
                 self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(()):
-                self.updateTable()
+                if Event.shared.eventIsExpired || Event.shared.isCancelled {
+                    self.delegate?.eventSummaryVCOpenExpiredEvent()
+                } else {
+                    self.updateTable()
+                }
             }
         }
         
