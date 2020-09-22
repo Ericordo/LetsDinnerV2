@@ -200,4 +200,7 @@ enum LabelStrings {
     static let link = NSLocalizedString("Link: %@", comment: "Recipe link")
     static let ingredientTitle = NSLocalizedString("Ingredients for %d people \n\n", comment: "Ingredients for 2 people")
     static let instructions = NSLocalizedString("Instructions", comment: "instructions")
+    
+    // Reminder Manager
+    static let thingsToBring = NSLocalizedString("To bring", comment: "to bring")
 }

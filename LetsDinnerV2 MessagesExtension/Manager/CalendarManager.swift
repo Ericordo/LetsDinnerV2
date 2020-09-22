@@ -16,54 +16,51 @@ class CalendarManager {
     
     private init() {}
     
-    let store = EKEventStore()
+    private let store = EKEventStore()
     
-    func addEventToCalendar(view: UIViewController, with title: String, forDate eventStartDate: Date, location: String) {
+    func addEventToCalendar(view: UIViewController,
+                            with title: String,
+                            forDate eventStartDate: Date,
+                            location: String) {
+        // Event Information
+        let event = EKEvent.init(eventStore: self.store)
+        event.title = title
+        event.calendar = self.store.defaultCalendarForNewEvents
+        event.startDate = eventStartDate
+        event.endDate = Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)
+        event.location = location
         
-        store.requestAccess(to: .event) { (success, error) in
-            if error == nil {
+        let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
+        event.addAlarm(alarm)
+        
+        let predicate = self.store.predicateForEvents(withStart: eventStartDate,
+                                                      end: Calendar.current.date(byAdding: .minute,
+                                                                                 value: 60,
+                                                                                 to: eventStartDate)!,
+                                                      calendars: nil)
+        let existingEvents = self.store.events(matching: predicate)
+        let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
+            existingEvent.title == title && existingEvent.startDate == eventStartDate
+        }
+        
+        if eventAlreadyAdded {
+            self.showEventAlreadyAddedAlert(view: view)
+            
+        } else {
+            
+            do {
+                try self.store.save(event, span: .thisEvent)
                 
-                // Event Information
-                let event = EKEvent.init(eventStore: self.store)
-                event.title = title
-                event.calendar = self.store.defaultCalendarForNewEvents
-                event.startDate = eventStartDate
-                event.endDate = Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)
-                event.location = location
-                
-                let alarm = EKAlarm.init(absoluteDate: Date.init(timeInterval: -3600, since: event.startDate))
-                event.addAlarm(alarm)
-                
-                let predicate = self.store.predicateForEvents(withStart: eventStartDate,
-                                                              end: Calendar.current.date(byAdding: .minute, value: 60, to: eventStartDate)! ,
-                                                              calendars: nil)
-                let existingEvents = self.store.events(matching: predicate)
-                let eventAlreadyAdded = existingEvents.contains { (existingEvent) -> Bool in
-                    existingEvent.title == title && existingEvent.startDate == eventStartDate
+                DispatchQueue.main.async {
+                    self.showEventSucessfullySavedAlert(view: view)
                 }
                 
-                if eventAlreadyAdded {
-                    self.showEventAlreadyAddedAlert(view: view)
-                    
-                } else {
-                    
-                    do {
-                        try self.store.save(event, span: .thisEvent)
-                        
-                        DispatchQueue.main.async {
-                            self.showEventSucessfullySavedAlert(view: view)
-                        }
-                        
-                    } catch let error {
-                        print("failed to save event", error)
-                    }
-                }
-            } else {
-                print("error = \(String(describing: error?.localizedDescription))")
+            } catch let error {
+                print(error.localizedDescription)
             }
         }
     }
-    
+
     func addNewEventToCalendar(title: String, eventStartDate: Date, location: String) {
         let event = EKEvent.init(eventStore: self.store)
         event.title = title
@@ -94,12 +91,12 @@ class CalendarManager {
             }
         }
     }
-    
+
     private func showEventAlreadyAddedAlert(view: UIViewController) {
-        let alert = UIAlertController(title: "No updates",
+        let alert = UIAlertController(title: AlertStrings.noNeed,
                                       message: AlertStrings.eventExisted,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss",
+        alert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                       style: .default,
                                       handler: nil))
         
@@ -107,12 +104,12 @@ class CalendarManager {
             view.present(alert, animated: true)
         })
     }
-    
+
     private func showEventSucessfullySavedAlert(view: UIViewController) {
-        let doneAlert = UIAlertController(title: "Success",
+        let doneAlert = UIAlertController(title: AlertStrings.success,
                                           message: AlertStrings.calendarAlert,
                                           preferredStyle: .alert)
-        doneAlert.addAction(UIAlertAction(title: "Done",
+        doneAlert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
         view.present(doneAlert, animated: true, completion: nil)

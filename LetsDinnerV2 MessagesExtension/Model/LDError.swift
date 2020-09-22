@@ -15,13 +15,13 @@ enum LDError : Error {
     case eventFetchingFail
     case profilePicUploadFail
     case recipeSaveRealmFail
-    
     case deleteRealmContentFail
     case transferToRealmFail
     case recipeUpdateRealmFail
     case recipeDeleteRealmFail
     case addToCalendarFail
     case calendarDenied
+    case remindersDenied
     case statusUpdateFail
     case taskUpdateFail
     case recipeNameMissing
@@ -59,6 +59,8 @@ extension LDError {
             return ""
         case .calendarDenied:
             return AlertStrings.calendarDenied
+        case .remindersDenied:
+            return AlertStrings.remindersDenied
         case .statusUpdateFail:
             return ""
         case .taskUpdateFail:

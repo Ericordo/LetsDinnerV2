@@ -8,6 +8,7 @@
 
 import EventKit
 import UIKit
+import ReactiveSwift
 
 class ReminderManager {
 
@@ -15,82 +16,88 @@ class ReminderManager {
     
     private init() {}
     
-    let reminderStore = EKEventStore()
-    let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
+    private let reminderStore = EKEventStore()
+    
+    private let bundleName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
+    
+    private let listTitle = Event.shared.dinnerName + " - \(LabelStrings.thingsToBring)"
     
     func addToReminder(view: UIViewController) {
-          
-          // Get permission
-        reminderStore.requestAccess(to: EKEntityType.reminder, completion: { granted, error in
-
-            if !granted {
-                print("Access to store not granted")
-                
-            } else if (granted) && (error == nil) {
-
-                let calendars = self.reminderStore.calendars(for: .reminder)
-                let bundleList: EKCalendar
-
-                // Create List if if list not exist
-                if let bundleCalendar = calendars.first(where: {$0.title == (self.bundleName + " - Things To Buy")}) {
-                // If Exist
-                    bundleList = bundleCalendar
-                } else {
-                    // Create List
-                    do {
-                        bundleList = try self.createNewList(bundleName: self.bundleName)
-                    } catch {
-                        print("Cannot create new list")
-                        return
-                    }
-                }
-                
-                // Filter Assigned Tasks
-                guard Event.shared.tasks.count != 0 else { return self.alertNoTask(view: view) }
-                let assignedTask = self.filterAssignedTask()
-                
-                // Go ahead if Assignedtask is not nil
-                guard assignedTask.count != 0 else {return self.alertNoTask(view: view) } // No Tasks, return alert
-
-                // Delete Task if any
-                self.deleteExistingTasks()
-                
-                // Export tasks
-                let existingTasks = assignedTask.sorted { $0.taskName < $1.taskName } // TO BE EDIT
-                existingTasks.forEach { task in
-                    do {
-                        try self.importTasksToReminders(bundleList: bundleList, task: task)
-                    } catch {
-                        print("cannot save task")
-                        return
-                    }
-                }
-                
-                // Alert
-                self.alertSuccessPopup(view: view)
-                
+        
+        let calendars = self.reminderStore.calendars(for: .reminder)
+        let bundleList: EKCalendar
+        
+        // Create List if if list not exist
+        if let bundleCalendar = calendars.first(where: { $0.title == listTitle }) {
+            // If Exist
+            bundleList = bundleCalendar
+        } else {
+            // Create List
+            do {
+                bundleList = try self.createNewList(bundleName: self.bundleName)
+            } catch let error {
+                print(error.localizedDescription)
+                return
             }
-        })
+        }
+        
+        // Filter Assigned Tasks
+        guard Event.shared.tasks.count != 0 else { return self.alertNoTask(view: view) }
+        let assignedTask = self.filterAssignedTasks()
+        
+        // Go ahead if Assignedtask is not nil
+        guard assignedTask.count != 0 else { return self.alertNoTask(view: view) } // No Tasks, return alert
+        
+        // Delete Task if any
+        self.deleteExistingTasks()
+        
+        // Export tasks
+        let existingTasks = assignedTask.sorted { $0.taskName < $1.taskName } // TO BE EDIT
+        existingTasks.forEach { task in
+            do {
+                try self.importTasksToReminders(bundleList: bundleList, task: task)
+            } catch let error {
+                print(error.localizedDescription)
+                return
+            }
+        }
+        
+        // Alert
+        self.alertSuccessPopup(view: view)
     }
     
-    func createNewList(bundleName: String) throws -> EKCalendar {
-        let calendar = EKCalendar(for: .reminder, eventStore: self.reminderStore)
-        calendar.title = bundleName + " - Things To Buy" // Dinner title
+    func requestAccessToRemindersIfNeeded() -> SignalProducer<Bool, Never> {
+        return SignalProducer { observer, _ in
+            self.reminderStore.requestAccess(to: EKEntityType.reminder) { (approval, error) in
+                if error != nil {
+                    observer.send(value: false)
+                } else {
+                    observer.send(value: approval)
+                }
+                observer.sendCompleted()
+            }
+        }
+    }
+    
+    private func createNewList(bundleName: String) throws -> EKCalendar {
+        let calendar = EKCalendar(for: .reminder,
+                                  eventStore: self.reminderStore)
+        calendar.title = listTitle // Dinner title
         calendar.source = self.reminderStore.defaultCalendarForNewReminders()?.source
-
         if #available(iOSApplicationExtension 13.0, *) {
             calendar.cgColor = .init(srgbRed: 255, green: 0, blue: 0, alpha: 1)
         }
-        
-        try self.reminderStore.saveCalendar(calendar, commit: true)
+        do {
+            try self.reminderStore.saveCalendar(calendar, commit: true)
+        } catch let error {
+            print(error.localizedDescription)
+        }
         return calendar
     }
     
-    private func filterAssignedTask() -> [Task] {
+    private func filterAssignedTasks() -> [Task] {
         // Filter only Assigned and Incomplete Tasks
-        var resultArray = [Task]()
-        resultArray = Event.shared.tasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier && $0.taskState == .assigned}
-        return resultArray
+        return Event.shared.tasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier && $0.taskState == .assigned }
     }
     
     private func importTasksToReminders(bundleList: EKCalendar, task: Task) throws {
@@ -106,82 +113,63 @@ class ReminderManager {
         
         reminder.calendar = bundleList
         
-        //        reminder.completionDate = Date()
-        //                  reminder.priority = 2
-        //                  reminder.notes = "...this is a note"
-        //
-        //                  let alarmTime = Date().addingTimeInterval(1*60*24*3)
-        //                  let alarm = EKAlarm(absoluteDate: alarmTime)
-        //                  reminder.addAlarm(alarm)
-        
         try self.reminderStore.save(reminder, commit: true)
     }
     
-    func deleteExistingTasks() {
-        // If not nil, then clear ALL
-        
+    private func deleteExistingTasks() {
+        // If not nil, then clear all
         let predicate: NSPredicate? = reminderStore.predicateForReminders(in: nil)
         
         if let predicate = predicate {
             reminderStore.fetchReminders(matching: predicate) { foundReminders in
-    
+                
                 guard let foundReminders = foundReminders else { return }
                 
-                let remindersToDelete = !foundReminders.isEmpty
                 for reminder in foundReminders {
                     
                     // *** Remove only the lets dinner reminder *** Important
-                    if reminder.calendar.title == self.bundleName + " - Things To Buy" {
+                    if reminder.calendar.title == self.listTitle {
                         do {
                             try self.reminderStore.remove(reminder, commit: false)
-                        } catch {
-                            print("cannot remove")
+                        } catch let error {
+                            print(error.localizedDescription)
                             return
                         }
                     }
-                    
                 }
                 
-                if remindersToDelete {
+                if !foundReminders.isEmpty {
                     do {
                         try self.reminderStore.commit()
-                    } catch {
-                        print("cannot commit")
+                    } catch let error {
+                        print(error.localizedDescription)
                     }
                 }
             }
         }
-        
-        
-        /* predicateForRemindersInCalendars or
-         predicateForIncompleteRemindersWithDueDateStarting:ending:calendars: or
-         predicateForCompletedRemindersWithCompletionDateStarting:ending:calendars */
     }
     
-    func alertSuccessPopup(view: UIViewController) {
+    private func alertSuccessPopup(view: UIViewController) {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: AlertStrings.addToRemindersTitle,
+            let alert = UIAlertController(title: AlertStrings.success,
                                           message: AlertStrings.addToRemindersMessage,
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Done",
+            alert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
             view.present(alert, animated: true)
         }
     }
     
-    func alertNoTask(view: UIViewController) {
+    private func alertNoTask(view: UIViewController) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: AlertStrings.remindersNoTaskTitle,
                                           message: AlertStrings.remindersNoTaskMessage,
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss",
+            alert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
             view.present(alert, animated: true)
         }
-
     }
-    
-    
 }

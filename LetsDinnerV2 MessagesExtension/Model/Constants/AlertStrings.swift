@@ -9,12 +9,14 @@
 import Foundation
 
 enum AlertStrings {
+    #warning("Localize")
     // Add to Calendar Alert
     static let calendarAlert = "This event was successfully added to your calendar."
     static let addToCalendarAlertTitle = "Add to calendar?"
     static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
     static let calendarDenied = NSLocalizedString("The app is not permitted to access your calendar, make sure to grant permission in the settings and try again.", comment: "access to calendar denied")
     static let calendarAccess = NSLocalizedString("Calendar access", comment: "calendar access")
+    static let settings = NSLocalizedString("Settings", comment: "settings")
 
     // Accept Or Decline Alert
     static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
@@ -27,17 +29,20 @@ enum AlertStrings {
     static let cancelEventAlertMessage = "You are about to cancel this event, this action will delete the invitation you created. Are you sure you want to cancel the event?"
     
     // Add Reminder Alert
-    static let addToRemindersTitle = "Success"
-    static let addToRemindersMessage = "Your tasks now added to Reminders!"
-    static let remindersNoTaskTitle = "No updates"
-    static let remindersNoTaskMessage = "You have no assigned task at the moment."
+    static let success = NSLocalizedString("Success", comment: "success")
+    static let addToRemindersMessage = NSLocalizedString("Your tasks were added to your reminders!", comment: "tasks added to remiunders")
+    static let remindersNoTaskTitle = NSLocalizedString("No task!", comment: "no task")
+    static let remindersNoTaskMessage = NSLocalizedString("You have not selected any task yet.", comment: "no tasks selected yet")
+    static let remindersAccess = NSLocalizedString("Reminders access", comment: "reminders access")
+    static let remindersDenied = NSLocalizedString("The app is not permitted to access your reminders, make sure to grant permission in the settings and try again.", comment: "access to reminders denied")
     
-    static let eventExisted = "This event is already in your calendar"
+    static let eventExisted = NSLocalizedString("This event is already in your calendar.", comment: "event already in calendar ")
     static let completed = "Completed"
     static let assignedToMyself = "Assigned to myself"
     static let noAssignment = "No Assignment"
     static let yes = "Yes"
     static let no = "No"
+    static let noNeed = NSLocalizedString("No need!", comment: "no need to add event, already there")
     
     // TaskListVC Alert
     static let unsubmittedTasks = NSLocalizedString("Pending changes", comment: "pending changes")
@@ -47,8 +52,8 @@ enum AlertStrings {
     static let applyChanges = NSLocalizedString("Some of the tasks you wanted are still free, would you like to take them?", comment: "reapply previous changes after external update")
     
     // Decline Event Alert
-    static let declineEventAlertTitle = "Do you want to decline?"
-    static let declineEventAlertMessage = "By declining, you won't able to participate the event."
+    static let declineEventAlertTitle = "Decline?"
+    static let declineEventAlertMessage = "The others will miss you!"
     
     static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = "Add a thing"
