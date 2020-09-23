@@ -57,7 +57,6 @@ enum LabelStrings {
     static let searchMyRecipes = NSLocalizedString("Search my recipes", comment: "custom search placeholder")
     static let noResults = NSLocalizedString("No results! 😬", comment: "no results")
     
-    
     // SelectedRecipe VC
     static let deleteRecipeLabel = NSLocalizedString("To delete a recipe, swipe left.", comment: "delete instruction")
     static let rearrangeRecipeLabel = NSLocalizedString("To rearrange the order, tap and hold to move.", comment: "rearrange instruction")
@@ -165,6 +164,13 @@ enum LabelStrings {
     static let updatedServingsSummary = NSLocalizedString("%@ updated the servings!", comment: "updated the servings")
     static let updatedTasksSummary = NSLocalizedString("%@ updated %d %@!", comment: "username updated numberOfTask task(s)!")
     static let updatedTasksAndServingsSummary = NSLocalizedString("%@ updated %d %@ and the servings!", comment: "username updated numberOfTask task(s) and the servings!")
+    static let participantsNumber = NSLocalizedString("%d participants so far! 👩🏼‍🍳 👨🏾‍🍳", comment: "number of participants")
+    static let partyEmoji = "🥳"
+    static let sadEmoji = "😢"
+    static let payAttention = NSLocalizedString("Pay attention 👀", comment: "pay attention")
+    static let noTasksRemaining = NSLocalizedString("No tasks remaining! 💪", comment: "no tasks remaining")
+    static let numberOfRemainingTasks = NSLocalizedString("There are %d tasks remaining! 💪", comment: "number of remaining tasks")
+    static let oneTaskRemaining = NSLocalizedString("There is only one task remaining! 💪", comment: "only one task remaining")
     
     // Premium Screen
     static let restore = NSLocalizedString("Restore purchases", comment: "Restore purchases")
@@ -200,4 +206,7 @@ enum LabelStrings {
     static let link = NSLocalizedString("Link: %@", comment: "Recipe link")
     static let ingredientTitle = NSLocalizedString("Ingredients for %d people \n\n", comment: "Ingredients for 2 people")
     static let instructions = NSLocalizedString("Instructions", comment: "instructions")
+    
+    // Reminder Manager
+    static let thingsToBring = NSLocalizedString("To bring", comment: "to bring")
 }

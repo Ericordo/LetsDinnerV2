@@ -16,6 +16,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenEventInfo()
     func eventSummaryVCDidUpdateDate(date: Double)
     func eventSummaryVCDidCancelEvent()
+    func eventSummaryVCOpenExpiredEvent()
 }
 
 private enum RowItemNumber: Int, CaseIterable {
@@ -107,7 +108,11 @@ class EventSummaryViewController: UIViewController {
                 LostEventView().show(superView: self.view)
                 self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(()):
-                self.updateTable()
+                if Event.shared.eventIsExpired || Event.shared.isCancelled {
+                    self.delegate?.eventSummaryVCOpenExpiredEvent()
+                } else {
+                    self.updateTable()
+                }
             }
         }
         
@@ -247,7 +252,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 switch user.hasAccepted {
                 case .accepted:
                     infoCell.titleLabel.text = LabelStrings.eventInfo
-                    infoCell.infoLabel.text = Event.shared.hostName + " "
+                    infoCell.infoLabel.text = Event.shared.hostName
                     infoCell.accessoryType = .disclosureIndicator
                 case .declined:
                     infoCell.titleLabel.text = LabelStrings.host
@@ -255,6 +260,7 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
                 case .pending:
                     infoCell.titleLabel.text = LabelStrings.host
                     infoCell.infoLabel.text = Event.shared.hostName
+                    infoCell.cellSeparator.isHidden = false
                 }
             } else {
                 infoCell.titleLabel.text = LabelStrings.host

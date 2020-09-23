@@ -22,6 +22,7 @@ class UserCVCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 12)
+        label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail

@@ -8,6 +8,7 @@
 
 import UIKit
 import PDFKit
+import ReactiveSwift
 
 protocol EventInfoViewControllerDelegate: class {
     func eventInfoVCDidTapBackButton()
@@ -101,22 +102,39 @@ class EventInfoViewController: LDNavigationViewController {
     }
     
     @objc private func didTapRemindersButton() {
-        #warning("BUG If access is denied once, it's not asked again after other tap")
-        #warning("Show alert like in ReviewVC")
-        ReminderManager.shared.addToReminder(view: self)
+        ReminderManager.shared.requestAccessToRemindersIfNeeded()
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] approval in
+                guard let self = self else { return }
+                if approval {
+                    ReminderManager.shared.addToReminder(view: self)
+                } else {
+                    self.showBasicAlert(title: AlertStrings.remindersAccess,
+                                        message: LDError.remindersDenied.description)
+                }
+        }
     }
     
     @objc private func didTapCalendarButton() {
-        #warning("BUG If access is denied once, it's not asked again after other tap")
-        #warning("Show alert like in ReviewVC")
-        let title = Event.shared.dinnerName
-        let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-        let location = Event.shared.dinnerLocation
-        
-        CalendarManager.shared.addEventToCalendar(view: self,
-                                           with: title,
-                                           forDate: date,
-                                           location: location)
+        CalendarManager.shared.requestAccessToCalendarIfNeeded()
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] approval in
+                guard let self = self else { return }
+                if approval {
+                    let title = Event.shared.dinnerName
+                    let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+                    let location = Event.shared.dinnerLocation
+                    CalendarManager.shared.addEventToCalendar(view: self,
+                                                              with: title,
+                                                              forDate: date,
+                                                              location: location)
+                } else {
+                    self.showBasicAlert(title: AlertStrings.calendarAccess,
+                                        message: LDError.calendarDenied.description)
+                }
+        }
     }
     
     @objc private func didTapManualButton() {

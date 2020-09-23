@@ -165,17 +165,11 @@ class MessagesViewController: MSMessagesAppViewController {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep ?? StepTracking.eventSummaryVC)
             } else {
-                
                 if conversation.selectedMessage?.url != nil {
                     guard let message = conversation.selectedMessage else { return }
                     Event.shared.currentSession = message.session
                     Event.shared.parseMessage(message: message)
-                    
-                    if Event.shared.eventIsExpired || Event.shared.isCancelled {
-                        controller = instantiateExpiredEventViewController()
-                    } else {
-                        controller = instantiateEventSummaryViewController()
-                    }
+                    controller = instantiateEventSummaryViewController()
                 } else {
                     switch StepStatus.currentStep {
                     case .initialVC:
@@ -585,6 +579,12 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         removeViewController(transition: .VCGoForward)
         addChildViewController(controller: controller, transition: .VCGoForward)
     }
+    
+    func eventSummaryVCOpenExpiredEvent() {
+        let controller = instantiateExpiredEventViewController()
+        removeViewController(transition: .noTransition)
+        addChildViewController(controller: controller, transition: .noTransition)
+    }
 }
 
 extension MessagesViewController: TasksListViewControllerDelegate {
@@ -616,6 +616,8 @@ extension MessagesViewController: EventInfoViewControllerDelegate {
 extension MessagesViewController: ExpiredEventViewControllerDelegate {
     func expiredEventVCDidTapCreateNewEvent() {
         Event.shared.resetEvent()
+        CustomOrderHelper.shared.customOrder.removeAll()
+        activeConversation?.selectedMessage?.url = nil
         let controller = instantiateNewEventViewController()
         removeViewController()
         addChildViewController(controller: controller)

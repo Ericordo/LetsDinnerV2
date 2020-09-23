@@ -602,7 +602,7 @@ class Event {
             }
             
             let participantsParameters: [String: Any] = [DataKeys.fullName: defaults.username,
-                                                         DataKeys.hasAccepted: user.hasAccepted.rawValue,
+                                                         DataKeys.hasAccepted: status.rawValue,
                                                          DataKeys.profilePicUrl : defaults.profilePicUrl]
             
             self.database.child(self.hostIdentifier)

@@ -132,7 +132,7 @@ class AnswerCell: UITableViewCell {
         
         separatorLine.snp.makeConstraints { make in
             make.bottom.leading.trailing.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(0.3)
         }
     }
     

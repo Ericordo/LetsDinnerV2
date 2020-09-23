@@ -53,7 +53,7 @@ class AddNewThingView: UIView {
         view.addShadow()
         return view
     }()
-    
+    #warning("Localize")
     let mainTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .clear
@@ -316,20 +316,23 @@ extension AddNewThingView: UITextFieldDelegate {
                                             unit: unitTextField.text)
            
         case .manageTask:
-            var taskName = item
-            
-            if let amount = amountTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !amount.isEmpty {
-                taskName += ", " + amount + " " + String(unitTextField.text ?? "")
-            }
-            
+            let taskName = item
+            let amount = amountTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let unit = unitTextField.text!
+
             // Pass to Global Varaible
             let newTask = Task(taskName: taskName,
                                assignedPersonUid: "nil",
                                taskState: TaskState.unassigned.rawValue,
                                taskUid: "nil",
                                assignedPersonName: "nil",
-                               isCustom: true,
+                               isCustom: amount.isEmpty,
                                parentRecipe: self.selectedSection ?? DefaultSectionName.miscellaneous.labelString)
+            if !amount.isEmpty {
+                newTask.metricAmount = amount.doubleValue
+                newTask.servings = Event.shared.servings
+                newTask.metricUnit = unit
+            }
                 
             Event.shared.tasks.append(newTask)
             
