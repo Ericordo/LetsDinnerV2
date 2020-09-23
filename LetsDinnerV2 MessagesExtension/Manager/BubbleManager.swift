@@ -59,23 +59,25 @@ class BubbleManager {
         }
         switch sendAction {
         case .answerInvitation:
-            let secondaryInfo = "\(participantsConfirmed) participants so far! 👩🏼‍🍳 👨🏾‍🍳"
+            let secondaryInfo = String.localizedStringWithFormat(LabelStrings.participantsNumber, participantsConfirmed)
             message.md.set(value: secondaryInfo, forKey: Keys.secondaryInformation)
         case .createEvent:
-            let secondaryInfo = "🥳"
+            let secondaryInfo = LabelStrings.partyEmoji
             message.md.set(value: secondaryInfo, forKey: Keys.secondaryInformation)
         case.cancelEvent:
-            let secondaryInfo = "😢"
+            let secondaryInfo = LabelStrings.sadEmoji
             message.md.set(value: secondaryInfo, forKey: Keys.secondaryInformation)
         case.rescheduleEvent:
-            let secondaryInfo = "Pay attention 👀"
+            let secondaryInfo = LabelStrings.payAttention
             message.md.set(value: secondaryInfo, forKey: Keys.secondaryInformation)
         case.updateTasks:
             var secondaryInfo = ""
             if numberOfRemainingTasks == 0 {
-                secondaryInfo = "No tasks remaining!"
+                secondaryInfo = LabelStrings.noTasksRemaining
+            } else if numberOfRemainingTasks == 1 {
+                secondaryInfo = LabelStrings.oneTaskRemaining
             } else {
-                secondaryInfo = "There are \(numberOfRemainingTasks) tasks remaining! 💪"
+                secondaryInfo = String.localizedStringWithFormat(LabelStrings.numberOfRemainingTasks, numberOfRemainingTasks)
             }
             message.md.set(value: secondaryInfo, forKey: Keys.secondaryInformation)
         case .none:
@@ -132,5 +134,4 @@ class BubbleManager {
         let status = Invitation(rawValue: potentialStatus)
         return status ?? .pending
     }
-
 }
