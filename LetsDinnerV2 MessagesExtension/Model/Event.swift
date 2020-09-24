@@ -261,6 +261,17 @@ class Event {
         }
     }
     
+    func deleteEvent() {
+        guard let userID = self.currentUser?.identifier else { return }
+        let eventID = self.firebaseEventUid
+        guard !eventID.isEmpty else { return }
+        self.database
+        .child(userID)
+        .child(DataKeys.events)
+        .child(eventID)
+        .removeValue()
+    }
+    
     private func parseEventInfo(_ value: [String : Any]) {
         self.hostIdentifier = value[DataKeys.hostID] as! String
         self.isCancelled = value[DataKeys.isCancelled] as! Bool

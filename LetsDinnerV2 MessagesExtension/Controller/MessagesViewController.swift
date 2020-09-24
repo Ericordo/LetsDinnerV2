@@ -123,8 +123,10 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
+        if Event.shared.eventCreation {
+            Event.shared.deleteEvent()
+        }
         // Called when the user deletes the message without sending it.
-        #warning("If eventCreation, delete event on firebase")
         // Use this to clean up state related to the deleted message.
     }
     
