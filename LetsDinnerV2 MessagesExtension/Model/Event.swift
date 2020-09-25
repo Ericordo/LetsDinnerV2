@@ -387,7 +387,6 @@ class Event {
                         observer.send(error: error)
                         return }
                 self.parseEventInfo(value)
-                    #warning("To modify this notif, but it seems to be necessary for the TaskSummaryCell")
                 NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
                 observer.send(value: ())
                 observer.sendCompleted()

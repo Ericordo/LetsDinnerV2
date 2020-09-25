@@ -44,13 +44,13 @@ enum Images {
     static let thingsIcon = UIImage(named: "thingsIcon")!
     
     // MessageBubble
-    static let premiumBackground = "iMessageBackground"
-    static let premiumBackgroundOld = "iMessageBackgroundOld"
-    static let standardBackground = "bubbleBackground"
-    static let chevronDisclosure = "chevronDisclosure"
-    static let statusPending = "statusPending"
-    static let statusAccepted = "statusAccepted"
-    static let statusDeclined = "statusDeclined"
+    static let premiumBackground = UIImage(named: "iMessageBackground")
+    static let premiumBackgroundOld = UIImage(named: "iMessageBackgroundOld")
+    static let standardBackground = UIImage(named: "bubbleBackground")
+    static let chevronDisclosure = UIImage(named: "chevronDisclosure")
+    static let statusPending = UIImage(named: "statusPending")
+    static let statusAccepted = UIImage(named: "statusAccepted")
+    static let statusDeclined = UIImage(named: "statusDeclined")
     
     // RegistrationVC
     static let profilePlaceholder = UIImage(named: "profilePlaceholderBig")!
@@ -92,7 +92,7 @@ enum Images {
     static let sortIcon = UIImage(named: "sortButtonOutlined")!
     
     // ThankYou Screen
-    static let heartIcon = "heartButtonOutlined"
+    static let heartIcon = UIImage(named: "heartButtonOutlined")
     
     // TaskStatusButton
     static let checkboxOutlined = UIImage(named: "checkboxOutlined")!

@@ -9,11 +9,12 @@
 import Foundation
 
 extension Date {
+    #warning("To delete before release, just used for test")
     static var currentTimeStamp: Int64 {
         var dateComponents = DateComponents()
         dateComponents.year = 2020
-        dateComponents.month = 9
-        dateComponents.day = 23
+        dateComponents.month = 12
+        dateComponents.day = 31
         dateComponents.timeZone = TimeZone(abbreviation: "JST") // Japan Standard Time
         dateComponents.hour = 8
         dateComponents.minute = 30

@@ -111,7 +111,7 @@ class BubbleManager {
     
     private func prepareAlternateLayout() -> MSMessageTemplateLayout {
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: Images.standardBackground)
+        layout.image = Images.standardBackground
         layout.imageTitle = Event.shared.dinnerName
         layout.imageSubtitle = Event.shared.dinnerDate
         layout.caption = LabelStrings.caption

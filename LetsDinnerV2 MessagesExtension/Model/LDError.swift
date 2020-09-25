@@ -9,6 +9,7 @@
 import Foundation
 
 enum LDError : Error {
+    case genericError
     case noUserIdentifier
     case eventUploadFail
     case parsingFail
@@ -29,12 +30,18 @@ enum LDError : Error {
     case recipePicUploadFail
     case recipeUpdateCloudFail
     case recipeDeleteCloudFail
+    case notSignedInCloud
+    case apiRequestLimit
+    case noNetwork
+    case apiDecodingFailed
 }
 
 #warning("Write descriptions")
 extension LDError {
     var description : String {
         switch self {
+        case .genericError:
+            return ""
         case .noUserIdentifier:
             return ""
         case .eventUploadFail:
@@ -75,6 +82,15 @@ extension LDError {
             return ""
         case .recipeDeleteCloudFail:
             return ""
+        case .notSignedInCloud:
+            return ""
+        case .apiRequestLimit:
+            #warning("Improve error messages for next 3 messages")
+            return AlertStrings.requestLimit
+        case .noNetwork:
+            return AlertStrings.noNetwork
+        case .apiDecodingFailed:
+            return AlertStrings.decodingFailed
         }
     }
 }

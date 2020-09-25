@@ -84,7 +84,6 @@
 		885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60B92380311100ED3A17 /* TaskManagementCell.swift */; };
 		885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60BD23805A3D00ED3A17 /* StepTracking.swift */; };
 		885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60C52380A15400ED3A17 /* RecipeCVCell.swift */; };
-		885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C60D12381DD9A00ED3A17 /* ApiError.swift */; };
 		885C61142384B6D600ED3A17 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61132384B6D600ED3A17 /* UITextField.swift */; };
 		885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61412388852D00ED3A17 /* ExpandableTasks.swift */; };
 		886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886EB36723DDFF11002CFCB5 /* CancelCell.swift */; };
@@ -261,7 +260,6 @@
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
 		885C60BD23805A3D00ED3A17 /* StepTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracking.swift; sourceTree = "<group>"; };
 		885C60C52380A15400ED3A17 /* RecipeCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCVCell.swift; sourceTree = "<group>"; };
-		885C60D12381DD9A00ED3A17 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		885C61132384B6D600ED3A17 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		885C61412388852D00ED3A17 /* ExpandableTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTasks.swift; sourceTree = "<group>"; };
 		886EB36723DDFF11002CFCB5 /* CancelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCell.swift; sourceTree = "<group>"; };
@@ -540,7 +538,6 @@
 				880B13302372FA08003E29AC /* User.swift */,
 				880B1357237474A4003E29AC /* Task.swift */,
 				885C60BD23805A3D00ED3A17 /* StepTracking.swift */,
-				885C60D12381DD9A00ED3A17 /* ApiError.swift */,
 				885C61412388852D00ED3A17 /* ExpandableTasks.swift */,
 				B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */,
 				885133B2243283AF004CD858 /* SendAction.swift */,
@@ -1214,7 +1211,6 @@
 				B886BD93246C340C0069C248 /* RecipeCreationWelcomeViewController.swift in Sources */,
 				886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */,
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
-				885C60D22381DD9A00ED3A17 /* ApiError.swift in Sources */,
 				884CE1B4245ED52C001062BF /* LDNavBar.swift in Sources */,
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
 				B84A8DFF24BB322000CF993D /* CreateRecipeCommentCell.swift in Sources */,

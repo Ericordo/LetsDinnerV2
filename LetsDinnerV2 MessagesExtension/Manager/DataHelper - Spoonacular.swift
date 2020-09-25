@@ -22,8 +22,8 @@ class DataHelper {
     private init() {}
     
     // Cost 1 point + 0.01 point per result returned (1.15 for 15 results)
-    private func fetchRecipesIds(keyword: String) -> SignalProducer<[Int],ApiError> {
-        return SignalProducer { observer, disposable in
+    private func fetchRecipesIds(keyword: String) -> SignalProducer<[Int], LDError> {
+        return SignalProducer { observer, _ in
             var recipesIds = [Int]()
             let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
             let query = keyword.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -36,7 +36,7 @@ class DataHelper {
             let dataTask = session.dataTask(with: request) { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 402 {
-                        observer.send(error: .requestLimit)
+                        observer.send(error: .apiRequestLimit)
                     }
                 }
                 guard let dataResponse = data else {
@@ -59,7 +59,7 @@ class DataHelper {
                     observer.send(value: recipesIds)
                     observer.sendCompleted()
                 } catch {
-                    observer.send(error: .decodingFailed)
+                    observer.send(error: .apiDecodingFailed)
                 }
             }
             dataTask.resume()
@@ -67,7 +67,7 @@ class DataHelper {
     }
     
     // Cost 1 point (15 for 15 results)
-    private func loadSearchResults(recipeId: Int, completion: @escaping (Result<Recipe, ApiError>) -> Void) {
+    private func loadSearchResults(recipeId: Int, completion: @escaping (Result<Recipe, LDError>) -> Void) {
         let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
         let endpoint = String(format: "https://api.spoonacular.com/recipes/\(recipeId)/information?includeNutrition=false&apiKey=\(ApiKeys.apiKeySpoonacular)")
         guard let endpointURL = URL(string: endpoint) else {
@@ -79,13 +79,13 @@ class DataHelper {
         let dataTask = session.dataTask(with: request) { (data, response, error) in
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 402 {
-                    completion(.failure(ApiError.requestLimit))
+                    completion(.failure(.apiRequestLimit))
                 }
             }
             guard let dataResponse = data else {
                 if let networkError = error as NSError? {
                     if networkError.code == -1009 {
-                        completion(.failure(ApiError.noNetwork))
+                        completion(.failure(.noNetwork))
                     }
                 }
                 return
@@ -97,7 +97,7 @@ class DataHelper {
                 let recipe = Recipe(dict: recipeInfo)
                 completion(.success(recipe))
             } catch {
-                completion(.failure(ApiError.decodingFailed))
+                completion(.failure(.apiDecodingFailed))
             }
         }
         dataTask.resume()
@@ -140,10 +140,10 @@ class DataHelper {
 //        }
 //    }
     
-    private func fetchAPIRecipes(recipeIds: [Int]) -> SignalProducer<[Recipe], ApiError> {
+    private func fetchAPIRecipes(recipeIds: [Int]) -> SignalProducer<[Recipe], LDError> {
         let dispatchGroup = DispatchGroup()
         var recipes = [Recipe]()
-        return SignalProducer { observer, disposable in
+        return SignalProducer { observer, _ in
             recipeIds.forEach { recipeId in
                 dispatchGroup.enter()
                 self.loadSearchResults(recipeId: recipeId) { result in
@@ -163,8 +163,8 @@ class DataHelper {
         }
     }
     
-    func loadDefaultRecipes() -> SignalProducer<[Recipe], ApiError> {
-        return SignalProducer { observer, disposable in
+    func loadDefaultRecipes() -> SignalProducer<[Recipe], LDError> {
+        return SignalProducer { observer, _ in
             guard let path = Bundle.main.path(forResource: "SpoonacularRecipes", ofType: "json") else { return }
             var recipes = [Recipe]()
             do {
@@ -179,27 +179,27 @@ class DataHelper {
                 observer.send(value: recipes)
                 observer.sendCompleted()
             } catch {
-                observer.send(error: .decodingFailed)
+                observer.send(error: .apiDecodingFailed)
             }
         }
     }
     
     // Cost 16.15 points for 15 results
-    func fetchSearchResults(keyword: String) -> SignalProducer<[Recipe], ApiError> {
-        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], ApiError> in
+    func fetchSearchResults(keyword: String) -> SignalProducer<[Recipe], LDError> {
+        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], LDError> in
             return self.fetchAPIRecipes(recipeIds: recipeIds)
         }
             }
     
     // Cost 9.15 points for 15 results
-    func fetchSearchResultsBulk(keyword: String) -> SignalProducer<[Recipe], ApiError> {
-        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], ApiError> in
+    func fetchSearchResultsBulk(keyword: String) -> SignalProducer<[Recipe], LDError> {
+        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], LDError> in
             return self.fetchAPIRecipesBulk(recipeIds: recipeIds)
         }
     }
     
     // Cost 1 point for first recipe then 0.5 for each recipe (8 for 15 results)
-    private func fetchAPIRecipesBulk(recipeIds: [Int]) -> SignalProducer<[Recipe], ApiError> {
+    private func fetchAPIRecipesBulk(recipeIds: [Int]) -> SignalProducer<[Recipe], LDError> {
         return SignalProducer { observer, _ in
             let session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
             var recipeIdsList = ""
@@ -216,7 +216,7 @@ class DataHelper {
             let dataTask = session.dataTask(with: request) { (data, response, error) in
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 402 {
-                        observer.send(error: .requestLimit)
+                        observer.send(error: .apiRequestLimit)
                     }
                 }
                 guard let dataResponse = data else {
@@ -239,7 +239,7 @@ class DataHelper {
                     observer.send(value: recipes)
                     observer.sendCompleted()
                 } catch {
-                    observer.send(error: .decodingFailed)
+                    observer.send(error: .apiDecodingFailed)
                 }
             }
             dataTask.resume()

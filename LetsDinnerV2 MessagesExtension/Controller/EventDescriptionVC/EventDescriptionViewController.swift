@@ -18,8 +18,7 @@ class EventDescriptionViewController: LDNavigationViewController {
     // MARK: Properties
     private let servingsLabel : UILabel = {
         let label = UILabel()
-        #warning("To localize")
-        label.text = "\(Event.shared.servings) SERVINGS OF"
+        label.text = String.localizedStringWithFormat(LabelStrings.servingsOf, Event.shared.servings)
         label.textColor = .secondaryTextLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         return label
@@ -216,7 +215,8 @@ extension EventDescriptionViewController: UITextViewDelegate {
         placeholderLabel.isHidden = !textView.text.isEmpty
         let remainingChars = self.viewModel.maxCharsLength - textView.text.count
         if remainingChars == 0 {
-            self.showBasicAlert(title: "Oups!", message: LabelStrings.maxCount)
+            self.showBasicAlert(title: AlertStrings.oops,
+                                message: LabelStrings.maxCount)
         }
     }
     

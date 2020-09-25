@@ -78,7 +78,7 @@ enum LabelStrings {
     static let startCreateRecipeMessage3 = NSLocalizedString("Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty.", comment: "create recipe message 3")
     static let noTipsAndComments = NSLocalizedString("No Tips & Comments", comment: "no Tips And Comments")
     static let done = NSLocalizedString("Done", comment: "done")
-    static let recipeName = NSLocalizedString("Recipe name", comment: "recipe name")
+    static let recipeName = NSLocalizedString("Chocolate cake", comment: "recipe name")
     
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")
@@ -98,6 +98,8 @@ enum LabelStrings {
     static let things = NSLocalizedString(" Things", comment: "things")
     static let addDescription = NSLocalizedString("Add Description", comment: "add description")
     static let maxCount = NSLocalizedString("No more than 400 characters please! 😁", comment: "character limit")
+    static let servingsOf = NSLocalizedString("%d SERVINGS OF", comment: "number servings of")
+    
     
     // ReviewVC
     static let readyToSend1 = NSLocalizedString("You're all set now! 💪 \nReady to send your invite?", comment: "ready to send")
@@ -171,6 +173,9 @@ enum LabelStrings {
     static let noTasksRemaining = NSLocalizedString("No tasks remaining! 💪", comment: "no tasks remaining")
     static let numberOfRemainingTasks = NSLocalizedString("There are %d tasks remaining! 💪", comment: "number of remaining tasks")
     static let oneTaskRemaining = NSLocalizedString("There is only one task remaining! 💪", comment: "only one task remaining")
+    static let inviteSummary = NSLocalizedString("%@ is inviting you to an event!", comment: "name is inviting you to an event")
+    static let cancelSummary = NSLocalizedString("%@ canceled the event.", comment: "name canceled the event")
+    static let dateChangeSummary = NSLocalizedString("%@ changed the date!", comment: "name changed the date")
     
     // Premium Screen
     static let restore = NSLocalizedString("Restore purchases", comment: "Restore purchases")

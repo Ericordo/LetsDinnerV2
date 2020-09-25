@@ -9,24 +9,23 @@
 import Foundation
 
 enum AlertStrings {
-    #warning("Localize")
     // Add to Calendar Alert
-    static let calendarAlert = "This event was successfully added to your calendar."
-    static let addToCalendarAlertTitle = "Add to calendar?"
-    static let addToCalendarAlertMessage = "You can add this event to your calendar, to make sure you wont be running late!"
+    static let calendarAlert = NSLocalizedString("This event was successfully added to your calendar.", comment: "calendar alert success message")
+    static let addToCalendarAlertTitle = NSLocalizedString("Add to calendar?", comment: "calendar alert title")
+    static let addToCalendarAlertMessage = NSLocalizedString("You can add this event to your calendar, to make sure you wont be running late!", comment: "calendar alert description message")
     static let calendarDenied = NSLocalizedString("The app is not permitted to access your calendar, make sure to grant permission in the settings and try again.", comment: "access to calendar denied")
     static let calendarAccess = NSLocalizedString("Calendar access", comment: "calendar access")
     static let settings = NSLocalizedString("Settings", comment: "settings")
 
     // Accept Or Decline Alert
-    static let acceptInviteAlert = "Please accept the invitation to manage the tasks."
-    static let userHasDeclinedAlert = "You declined the invitation, you are not able to manage the tasks."
-    static let acceptedInvitation = " accepted the invitation"
-    static let declinedInvitation = " declined the invitation"
+    static let acceptInviteAlert = NSLocalizedString("Please accept the invitation to manage the tasks.", comment: "alert when someone wants to see the task before accepting")
+    static let userHasDeclinedAlert = NSLocalizedString("You declined the invitation, you are not able to manage the tasks.", comment: "alert when someone wants to update tasks despite declined")
+    static let acceptedInvitation = NSLocalizedString("%@ accepted the invitation", comment: "name accepted")
+    static let declinedInvitation = NSLocalizedString("%@ declined the invitation", comment: "name declined")
     
     // Cancel Event Alert
-    static let cancelEventAlertTitle = "Cancel Event?"
-    static let cancelEventAlertMessage = "You are about to cancel this event, this action will delete the invitation you created. Are you sure you want to cancel the event?"
+    static let cancelEventAlertTitle = NSLocalizedString("Cancel Event?", comment: "cancel event alert title")
+    static let cancelEventAlertMessage = NSLocalizedString("You are about to cancel this event, this action will delete the invitation you created. Are you sure you want to cancel the event?", comment: "cancel event alert description")
     
     // Add Reminder Alert
     static let success = NSLocalizedString("Success", comment: "success")
@@ -35,13 +34,12 @@ enum AlertStrings {
     static let remindersNoTaskMessage = NSLocalizedString("You have not selected any task yet.", comment: "no tasks selected yet")
     static let remindersAccess = NSLocalizedString("Reminders access", comment: "reminders access")
     static let remindersDenied = NSLocalizedString("The app is not permitted to access your reminders, make sure to grant permission in the settings and try again.", comment: "access to reminders denied")
-    
     static let eventExisted = NSLocalizedString("This event is already in your calendar.", comment: "event already in calendar ")
-    static let completed = "Completed"
-    static let assignedToMyself = "Assigned to myself"
-    static let noAssignment = "No Assignment"
-    static let yes = "Yes"
-    static let no = "No"
+    static let completed = NSLocalizedString("Completed", comment: "completed")
+    static let assignedToMyself = NSLocalizedString("Assigned to myself", comment: "assigned to myself")
+    static let noAssignment = NSLocalizedString("No assignment", comment: "no assignment")
+    static let yes = NSLocalizedString("Yes", comment: "yes")
+    static let no = NSLocalizedString("No", comment: "no")
     static let noNeed = NSLocalizedString("No need!", comment: "no need to add event, already there")
     
     // TaskListVC Alert
@@ -52,16 +50,14 @@ enum AlertStrings {
     static let applyChanges = NSLocalizedString("Some of the tasks you wanted are still free, would you like to take them?", comment: "reapply previous changes after external update")
     
     // Decline Event Alert
-    static let declineEventAlertTitle = "Decline?"
-    static let declineEventAlertMessage = "The others will miss you!"
-    
+    static let declineEventAlertTitle = NSLocalizedString("Decline?", comment: "decline event alert title")
+    static let declineEventAlertMessage = NSLocalizedString("The others will miss you!", comment: "decline event alert description")
     static let add = NSLocalizedString("Add", comment: "add")
-    static let addThing = "Add a thing"
-    static let thingToAdd = "Thing to add"
-    static let noNetwork = "No Network"
-    static let decodingFailed = "Failed to load recipes"
-    static let requestLimit = "Too many requests"
-    static let tryAgain = "You can try again in a minute"
+    static let addThing = NSLocalizedString("Add a thing", comment: "add a thing")
+    static let thingToAdd = NSLocalizedString("Thing to add", comment: "thing to add")
+    static let noNetwork = NSLocalizedString("No Network", comment: "no network")
+    static let decodingFailed = NSLocalizedString("Failed to load recipes", comment: "failed to load recipes")
+    static let requestLimit = NSLocalizedString("Too many requests", comment: "too many requests")
     static let myImage = NSLocalizedString("My image", comment: "my image")
     static let oops = NSLocalizedString("Oops!", comment: "string")
     static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
@@ -77,9 +73,6 @@ enum AlertStrings {
     static let changedMind = NSLocalizedString("Changed your mind?", comment: "changed your mind")
     static let updateDeclinedStatus = NSLocalizedString("Would you like to accept this invitation?", comment: "accept this invitation")
     static let updateAcceptedStatus = NSLocalizedString("Would you like to decline this invitation?", comment: "decline this invitation")
-    
-    
-
     
     // Action Sheet
     static let doneActionSheetMessage = NSLocalizedString("Save or Discard your changes?", comment: "save or discard")

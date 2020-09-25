@@ -10,7 +10,6 @@ import Foundation
 
 
 class PrimaryButton: UIButton {
-    #warning("make sure all these buttons are actually using this subclass")
     override var isEnabled: Bool {
         didSet{
             if isEnabled {
