@@ -20,9 +20,8 @@ enum DefaultSectionName {
         switch self {
         case .miscellaneous:
             return LabelStrings.misc
-        default:
-            #warning("Necessary? If yes localize")
-            return "Name"
+        case .name:
+            return LabelStrings.name
         }
     }
 }
@@ -71,6 +70,7 @@ class SectionSelectionInput : UIView {
         sectionsCollectionView.register(SectionInputCell.self,
                                         forCellWithReuseIdentifier: SectionInputCell.reuseID)
         
+        #warning("Check this")
         // These 2 lines did not fix the bug of the toolbar not always appearing
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]

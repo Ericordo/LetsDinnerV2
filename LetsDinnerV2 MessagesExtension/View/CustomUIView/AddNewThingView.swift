@@ -53,14 +53,14 @@ class AddNewThingView: UIView {
         view.addShadow()
         return view
     }()
-    #warning("Localize")
+
     let mainTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .clear
         textField.textColor = .textLabel
         textField.font = .systemFont(ofSize: 17)
         textField.autocapitalizationType = .sentences
-        textField.placeholder = "e.g. Milk"
+        textField.placeholder = LabelStrings.ingredientPlaceholder
         textField.textAlignment = .left
         textField.sizeToFit()
         textField.tag = 10
@@ -73,7 +73,7 @@ class AddNewThingView: UIView {
         textField.backgroundColor = .clear
         textField.textColor = .textLabel
         textField.font = .systemFont(ofSize: 17)
-        textField.placeholder = "500"
+        textField.placeholder = LabelStrings.amountOnlyPlaceholder
         textField.keyboardType = .numbersAndPunctuation
         textField.textAlignment = .right
         textField.sizeToFit()
@@ -88,7 +88,7 @@ class AddNewThingView: UIView {
         textField.textColor = .textLabel
         textField.font = .systemFont(ofSize: 17)
         textField.textAlignment = .right
-        textField.placeholder = "mL"
+        textField.placeholder = LabelStrings.unitOnlyPlaceholder
         textField.sizeToFit()
         textField.tag = 30
         textField.autocapitalizationType = .none
@@ -123,7 +123,7 @@ class AddNewThingView: UIView {
             let section: String!
             switch type {
             case .createRecipe:
-                section = "Name"
+                section = DefaultSectionName.name.labelString
             case .manageTask:
                 section = DefaultSectionName.miscellaneous.labelString
             }
@@ -173,28 +173,27 @@ class AddNewThingView: UIView {
     // MARK: Update UI
     func updateUIAfterPressingAddButton(type: AddNewThingViewType, selectedSection: String?) {
         var position = 0
-        #warning("Localize")
         if type == .createRecipe {
             switch selectedSection {
             case CreateRecipeSections.name.rawValue:
                 position = 0
                 mainTextField.returnKeyType = .done
-                mainTextField.placeholder = "e.g. Spaghetti Carbonara"
+                mainTextField.placeholder = LabelStrings.recipeNamePlaceholder
                 hideAmountAndUnitTextField(true)
             case CreateRecipeSections.ingredient.rawValue:
                 position = 1
                 mainTextField.returnKeyType = .next
-                mainTextField.placeholder = "e.g. Milk"
+                mainTextField.placeholder = LabelStrings.ingredientPlaceholder
                 hideAmountAndUnitTextField(false)
             case CreateRecipeSections.step.rawValue:
                 position = 2
                 mainTextField.returnKeyType = .done
-                mainTextField.placeholder = "e.g. Pour the milk into a bowl"
+                mainTextField.placeholder = LabelStrings.stepPlaceholder
                 hideAmountAndUnitTextField(true)
             case CreateRecipeSections.comment.rawValue:
                 position = 3
                 mainTextField.returnKeyType = .done
-                mainTextField.placeholder = "Any tips want to mention?"
+                mainTextField.placeholder = LabelStrings.cookingTipPlaceholder
                 hideAmountAndUnitTextField(true)
             default:
                 break
@@ -203,7 +202,7 @@ class AddNewThingView: UIView {
             
             guard let sectionNames = sectionNames else { return }
             for (index, sectionName) in sectionNames.enumerated() {
-                if selectedSection == "Miscellaneous" {
+                if selectedSection == LabelStrings.misc {
                     position = 0
                     break
                 } else if selectedSection == sectionName {
@@ -260,7 +259,7 @@ class AddNewThingView: UIView {
         if selectedSection == nil {
             switch type {
             case .createRecipe:
-                selectedSection = "Name"
+                selectedSection = DefaultSectionName.name.labelString
             case .manageTask:
                 selectedSection = DefaultSectionName.miscellaneous.labelString
             }

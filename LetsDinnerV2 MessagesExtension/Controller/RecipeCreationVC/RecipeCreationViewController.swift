@@ -68,7 +68,7 @@ class RecipeCreationViewController: UIViewController {
     
     private let recipeNameTextField : UITextField = {
         let textField = UITextField()
-        textField.placeholder = LabelStrings.recipeName
+        textField.placeholder = LabelStrings.recipeNamePlaceholder
         textField.autocapitalizationType = .words
         textField.returnKeyType = .next
         textField.borderStyle = .none
@@ -300,8 +300,8 @@ class RecipeCreationViewController: UIViewController {
                         self.recipeNameTextField.shake()
                         return
                     }
-                    print(error.localizedDescription)
-                    self.showBasicAlert(title: AlertStrings.oops, message: error.localizedDescription)
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: error.description)
                 case.success(()):
                     self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
                     self.dismiss(animated: true, completion: nil)
@@ -313,7 +313,6 @@ class RecipeCreationViewController: UIViewController {
         let ingredientsContainerHeight : CGFloat = ingredientsVC.preferredContentSize.height
         let stepsContainerHeight : CGFloat = stepsVC.preferredContentSize.height
         let commentsContainerHeight : CGFloat = commentsVC.preferredContentSize.height
-        
         
         self.ingredientsContainer.snp.updateConstraints { make in
             make.height.equalTo(ingredientsContainerHeight)
