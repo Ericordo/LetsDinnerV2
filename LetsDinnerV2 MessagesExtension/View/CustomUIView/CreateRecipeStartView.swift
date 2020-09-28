@@ -66,7 +66,7 @@ class CreateRecipeStartView: UIView {
         
     let buttonImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "addButtonOutlined.png")
+        imageView.image = Images.addButtonOutlined
         return imageView
     }()
     

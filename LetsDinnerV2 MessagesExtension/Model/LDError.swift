@@ -12,15 +12,15 @@ enum LDError : Error {
     case genericError
     case noUserIdentifier
     case eventUploadFail
-    case parsingFail
     case eventFetchingFail
     case profilePicUploadFail
     case recipeSaveRealmFail
-    case deleteRealmContentFail
     case transferToRealmFail
     case recipeUpdateRealmFail
     case recipeDeleteRealmFail
+    // TODO: Use the following two errors
     case addToCalendarFail
+    case addToRemindersFail
     case calendarDenied
     case remindersDenied
     case statusUpdateFail
@@ -30,62 +30,59 @@ enum LDError : Error {
     case recipePicUploadFail
     case recipeUpdateCloudFail
     case recipeDeleteCloudFail
+    case recipeFetchCloudFail
     case notSignedInCloud
     case apiRequestLimit
     case noNetwork
     case apiDecodingFailed
 }
 
-#warning("Write descriptions")
 extension LDError {
     var description : String {
         switch self {
-        case .genericError:
-            return ""
-        case .noUserIdentifier:
-            return ""
+        case .genericError, .noUserIdentifier:
+            return AlertStrings.genericError
         case .eventUploadFail:
             return AlertStrings.eventUploadFail
-        case .parsingFail:
-            return ""
         case .eventFetchingFail:
             return AlertStrings.eventFetchingFail
         case .profilePicUploadFail:
-            return ""
+            return AlertStrings.profilePicUploadError
         case .recipeSaveRealmFail:
-            return ""
-        case .deleteRealmContentFail:
-            return ""
+            return AlertStrings.recipeSaveRealmError
         case .transferToRealmFail:
-            return ""
+            return AlertStrings.transferToRealmError
         case .recipeUpdateRealmFail:
-            return ""
+            return AlertStrings.recipeUpdateRealmError
         case .recipeDeleteRealmFail:
-            return ""
+            return AlertStrings.recipeDeleteRealmError
         case .addToCalendarFail:
-            return ""
+            return AlertStrings.addToCalendarError
+        case .addToRemindersFail:
+            return AlertStrings.addToRemindersError
         case .calendarDenied:
             return AlertStrings.calendarDenied
         case .remindersDenied:
             return AlertStrings.remindersDenied
         case .statusUpdateFail:
-            return ""
+            return AlertStrings.statusUpdateError
         case .taskUpdateFail:
-            return ""
+            return AlertStrings.taskUpdateFail
         case .recipeNameMissing:
-            return ""
+            return AlertStrings.recipeNameMissing
         case .recipeSaveCloudFail:
-            return ""
+            return AlertStrings.recipeSaveCloudError
         case .recipePicUploadFail:
             return AlertStrings.saveImageErrorMessage
         case .recipeUpdateCloudFail:
-            return ""
+            return AlertStrings.recipeUpdateCloudError
         case .recipeDeleteCloudFail:
-            return ""
+            return AlertStrings.recipeDeleteCloudError
+        case .recipeFetchCloudFail:
+            return AlertStrings.recipeFetchCloudError
         case .notSignedInCloud:
-            return ""
+            return AlertStrings.notSignedInCloudError
         case .apiRequestLimit:
-            #warning("Improve error messages for next 3 messages")
             return AlertStrings.requestLimit
         case .noNetwork:
             return AlertStrings.noNetwork

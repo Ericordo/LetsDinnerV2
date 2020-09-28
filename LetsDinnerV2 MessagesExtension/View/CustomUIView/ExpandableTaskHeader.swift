@@ -50,7 +50,7 @@ class ExpandableTaskHeaderView: UIView {
         
         let percentage: Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
         progressCircle.animate(percentage: percentage)
-
+        #warning("Localize")
         if numberOfUnassignedTasks == 0 {
             progressLabel.text = "All items assigned"
         } else if numberOfUnassignedTasks == 1 {
@@ -82,7 +82,7 @@ class ExpandableTaskHeaderView: UIView {
     
     let collapseImage : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "chevronDisclosureCollapsed")
+        image.image = Images.chevronDisclosureCollapsed
         image.contentMode = .scaleAspectFit
         
 //        if !expandableTasks[section].isExpanded {

@@ -18,7 +18,7 @@ class CalendarManager {
     
     private let store = EKEventStore()
     
-    func addEventToCalendar(view: UIViewController,
+    func addEventToCalendar(on viewController: UIViewController,
                             with title: String,
                             forDate eventStartDate: Date,
                             location: String) {
@@ -44,17 +44,16 @@ class CalendarManager {
         }
         
         if eventAlreadyAdded {
-            self.showEventAlreadyAddedAlert(view: view)
-            
+            DispatchQueue.main.async {
+                self.showEventAlreadyAddedAlert(on: viewController)
+            }
         } else {
             
             do {
                 try self.store.save(event, span: .thisEvent)
-                
                 DispatchQueue.main.async {
-                    self.showEventSucessfullySavedAlert(view: view)
+                    self.showEventSucessfullySavedAlert(on: viewController)
                 }
-                
             } catch let error {
                 print(error.localizedDescription)
             }
@@ -74,8 +73,8 @@ class CalendarManager {
         
         do {
             try self.store.save(event, span: .thisEvent)
-        } catch {
-            print(error)
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
     
@@ -92,27 +91,23 @@ class CalendarManager {
         }
     }
 
-    private func showEventAlreadyAddedAlert(view: UIViewController) {
+    private func showEventAlreadyAddedAlert(on viewController: UIViewController) {
         let alert = UIAlertController(title: AlertStrings.noNeed,
                                       message: AlertStrings.eventExisted,
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                       style: .default,
                                       handler: nil))
-        
-        DispatchQueue.main.async(execute: {
-            view.present(alert, animated: true)
-        })
+        viewController.present(alert, animated: true)
     }
 
-    private func showEventSucessfullySavedAlert(view: UIViewController) {
+    private func showEventSucessfullySavedAlert(on viewController: UIViewController) {
         let doneAlert = UIAlertController(title: AlertStrings.success,
                                           message: AlertStrings.calendarAlert,
                                           preferredStyle: .alert)
         doneAlert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
-        view.present(doneAlert, animated: true, completion: nil)
+        viewController.present(doneAlert, animated: true, completion: nil)
     }
-    
 }

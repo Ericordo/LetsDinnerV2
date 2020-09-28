@@ -173,7 +173,7 @@ class AddNewThingView: UIView {
     // MARK: Update UI
     func updateUIAfterPressingAddButton(type: AddNewThingViewType, selectedSection: String?) {
         var position = 0
-        
+        #warning("Localize")
         if type == .createRecipe {
             switch selectedSection {
             case CreateRecipeSections.name.rawValue:

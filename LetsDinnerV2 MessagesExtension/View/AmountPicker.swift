@@ -13,6 +13,7 @@ protocol ToolbarAmountPickerDelegate: class {
     func didTapCancel()
 }
 
+#warning("Not used, to delete")
 class AmountPicker: UIPickerView {
     
     let toolbar = UIToolbar()

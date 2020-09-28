@@ -91,8 +91,8 @@ class RecipesViewModel {
             .take(duringLifetimeOf: self)
             .startWithResult { [unowned self] result in
                 switch result {
-                case .failure:
-                    self.errorObserver.send(value: .notSignedInCloud)
+                case .failure(let error):
+                    self.errorObserver.send(value: error)
                 case .success(let userIsLoggedIn):
                     if userIsLoggedIn {
                         self.createRecipeObserver.send(value: ())

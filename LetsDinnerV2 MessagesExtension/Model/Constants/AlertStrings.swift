@@ -16,6 +16,7 @@ enum AlertStrings {
     static let calendarDenied = NSLocalizedString("The app is not permitted to access your calendar, make sure to grant permission in the settings and try again.", comment: "access to calendar denied")
     static let calendarAccess = NSLocalizedString("Calendar access", comment: "calendar access")
     static let settings = NSLocalizedString("Settings", comment: "settings")
+    static let addToCalendarError = NSLocalizedString("We could not add the Event to your calendar", comment: "add to calendar error")
 
     // Accept Or Decline Alert
     static let acceptInviteAlert = NSLocalizedString("Please accept the invitation to manage the tasks.", comment: "alert when someone wants to see the task before accepting")
@@ -41,6 +42,7 @@ enum AlertStrings {
     static let yes = NSLocalizedString("Yes", comment: "yes")
     static let no = NSLocalizedString("No", comment: "no")
     static let noNeed = NSLocalizedString("No need!", comment: "no need to add event, already there")
+    static let addToRemindersError = NSLocalizedString("We could not add the tasks to your reminders", comment: "add to reminders error")
     
     // TaskListVC Alert
     static let unsubmittedTasks = NSLocalizedString("Pending changes", comment: "pending changes")
@@ -48,6 +50,7 @@ enum AlertStrings {
     static let updateTitle = NSLocalizedString("Update required", comment: "update required")
     static let updateDescription = NSLocalizedString("Some tasks have been updated by other participants, let's refresh!", comment: "update instructions")
     static let applyChanges = NSLocalizedString("Some of the tasks you wanted are still free, would you like to take them?", comment: "reapply previous changes after external update")
+    static let taskUpdateFail = NSLocalizedString("We could not update your tasks.", comment: "task update error")
     
     // Decline Event Alert
     static let declineEventAlertTitle = NSLocalizedString("Decline?", comment: "decline event alert title")
@@ -55,16 +58,27 @@ enum AlertStrings {
     static let add = NSLocalizedString("Add", comment: "add")
     static let addThing = NSLocalizedString("Add a thing", comment: "add a thing")
     static let thingToAdd = NSLocalizedString("Thing to add", comment: "thing to add")
-    static let noNetwork = NSLocalizedString("No Network", comment: "no network")
-    static let decodingFailed = NSLocalizedString("Failed to load recipes", comment: "failed to load recipes")
-    static let requestLimit = NSLocalizedString("Too many requests", comment: "too many requests")
+    static let noNetwork = NSLocalizedString("It seems that the network is not available.", comment: "no network")
+    static let decodingFailed = NSLocalizedString("We could not load the recipes.", comment: "failed to load recipes")
+    static let requestLimit = NSLocalizedString("You did a lot of searches for now! Please try again later.", comment: "too many requests")
     static let myImage = NSLocalizedString("My image", comment: "my image")
     static let oops = NSLocalizedString("Oops!", comment: "string")
     static let errorFetchImage = NSLocalizedString("Your image could not be found", comment: "your image could not be found")
+    static let statusUpdateError = NSLocalizedString("We could not save your reply.", comment: "status update error")
     
     // Create Recipe VC
-    static let retrieveImageErrorMessage = NSLocalizedString("Error while retrieving image", comment: "retrieve image error message")
-    
+    static let retrieveImageErrorMessage = NSLocalizedString("We could not retrieve the picture.", comment: "retrieve image error message")
+    static let recipeNameMissing = NSLocalizedString("Please give a name to your recipe.", comment: "recipe name missing error")
+    static let recipeSaveCloudError = NSLocalizedString("We could not save your recipe.", comment: "recipe save error")
+    static let recipeUpdateCloudError = NSLocalizedString("We could not update your recipe.", comment: "recipe update error")
+    static let recipeDeleteCloudError = NSLocalizedString("We could not delete your recipe.", comment: "recipe delete error")
+    static let recipeFetchCloudError = NSLocalizedString("We could not retrieve your recipes.", comment: "recipe fetch error")
+    static let notSignedInCloudError = NSLocalizedString("You need to be signed into iCloud to do this.", comment: "not signed into iCloud error")
+    static let recipeSaveRealmError = NSLocalizedString("We could not save the recipe in your device, but it was saved in iCloud.", comment: "save recipe locally error")
+    static let transferToRealmError = NSLocalizedString("We could not back-up your recipes to your device.", comment: "recipes back up error")
+    static let recipeUpdateRealmError = NSLocalizedString("We could not update the recipe in your device, but it was updated in iCloud.", comment: "recipe update realm error")
+    static let recipeDeleteRealmError = NSLocalizedString("We could not delete the recipe in your device, but it was deleted in iCloud", comment: "recipe delete realm error")
+
     // ReviewVC
     static let eventUploadFail = NSLocalizedString("We could not save your Event, please try again.", comment: "could not upload event")
     
@@ -74,11 +88,14 @@ enum AlertStrings {
     static let updateDeclinedStatus = NSLocalizedString("Would you like to accept this invitation?", comment: "accept this invitation")
     static let updateAcceptedStatus = NSLocalizedString("Would you like to decline this invitation?", comment: "decline this invitation")
     
+    // RegistrationVC
+    static let profilePicUploadError = NSLocalizedString("We could not save your profile picture", comment: "error saving provfile pic")
     // Action Sheet
     static let doneActionSheetMessage = NSLocalizedString("Save or Discard your changes?", comment: "save or discard")
     static let saveImageErrorMessage = NSLocalizedString("Image cannot be saved", comment: "save image error message")
     static let changeImageActionSheetMessage = NSLocalizedString("Change or Delete your image?", comment: "change image")
     static let editRecipeActionSheetMessage = NSLocalizedString("Do you want to Edit or Delete %@ ?", comment: "edit recipe")
+    static let genericError = NSLocalizedString("Sorry, something went wrong!", comment: "generic error message")
     
     // MARK: Action
     static let okAction = NSLocalizedString("OK", comment: "ok")

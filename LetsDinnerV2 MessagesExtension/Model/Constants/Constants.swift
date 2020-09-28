@@ -42,6 +42,7 @@ enum Images {
     static let chatIcon = UIImage(named: "chatIcon")!
     static let inviteIcon = UIImage(named: "inviteIcon")!
     static let thingsIcon = UIImage(named: "thingsIcon")!
+    static let chevronDisclosureCollapsed = UIImage(named: "chevronDisclosureCollapsed")
     
     // MessageBubble
     static let premiumBackground = UIImage(named: "iMessageBackground")

@@ -78,33 +78,8 @@ class RecipeCreationViewModel {
         self.comments.value = recipe.comments
     }
     
-    // To delete
-    func saveRecipe(_ recipe: LDRecipe) {
-        CloudManager.shared.saveRecipeAndIngredientsOnCloud(recipe)
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
-            .take(duringLifetimeOf: self)
-            .startWithResult { result in
-                switch result {
-                case .success(let recordID):
-                    RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
-                        .startWithCompleted {
-                            self.recipeObserver.send(value: .success(()))
-//                            self.recipeObserver.send(value: ())
-                    }
-
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    self.recipeObserver.send(value: .failure(.recipeSaveCloudFail))
-//                    self.recipeObserver.send(error: .recipeSaveCloudFail)
-                }
-        }
-    }
-    
     func didTapDone() {
         if !self.creationMode.value {
-//            recipeObserver.send(value: ())
             self.recipeObserver.send(value: .success(()))
         } else if self.recipe == nil {
             if self.informationIsEmpty {
@@ -180,11 +155,11 @@ class RecipeCreationViewModel {
                     }
                 case .failure(let error):
                     self.isLoading.value = false
-                    self.recipeObserver.send(value: .failure(.recipeDeleteCloudFail))
+                    self.recipeObserver.send(value: .failure(error))
                 }
         }
     }
-    
+
     private func saveRecipePictureAndInfo(_ imageData: Data, id: String) {
         ImageHelper.shared.saveRecipePicToFirebase(imageData, id: id)
             .on(starting: { self.isLoading.value = true })
@@ -218,8 +193,7 @@ class RecipeCreationViewModel {
                     }
                 case .failure(let error):
                     self.isLoading.value = false
-                    print(error.localizedDescription)
-                    self.recipeObserver.send(value: .failure(.recipeSaveCloudFail))
+                    self.recipeObserver.send(value: .failure(error))
                 }
         }
     }
@@ -257,7 +231,7 @@ class RecipeCreationViewModel {
                            self.recipeObserver.send(value: .success(()))
                     }
                 case .failure(let error):
-                     self.recipeObserver.send(value: .failure(.recipeUpdateCloudFail))
+                     self.recipeObserver.send(value: .failure(error))
                 }
         }
     }

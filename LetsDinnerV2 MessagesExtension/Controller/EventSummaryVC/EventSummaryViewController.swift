@@ -148,7 +148,7 @@ class EventSummaryViewController: UIViewController {
         let title = Event.shared.dinnerName
         let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
         let location = Event.shared.dinnerLocation
-        CalendarManager.shared.addEventToCalendar(view: self,
+        CalendarManager.shared.addEventToCalendar(on: self,
                                            with: title,
                                            forDate: date,
                                            location: location)
