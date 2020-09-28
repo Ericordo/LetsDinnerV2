@@ -1,5 +1,5 @@
 //
-//  InfoInputView.swift
+//  ExpandableTaskHeaderView.swift
 //  LetsDinnerV2 MessagesExtension
 //
 //  Created by Eric Ordonneau on 14/12/2019.
@@ -17,37 +17,36 @@ class ExpandableTaskHeaderView: UIView {
     var numberOfCompletedTasks = 0
     var numberOfUnassignedTasks = 0
 
-    init(expandableTasks: [ExpandableTasks], section: Int, sectionNames: [String]) {
+    init(expandableTasks: [ExpandableTasks], section: Int,
+         sectionNames: [String]) {
         self.expandableTasks = expandableTasks
         self.section = section
         self.sectionNames = sectionNames
         super.init(frame: CGRect.zero)
-        configureView(expandableTasks: expandableTasks, section: section, sectionNames: sectionNames)
-
+        configureView(expandableTasks: expandableTasks,
+                      section: section,
+                      sectionNames: sectionNames)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configureView(expandableTasks: expandableTasks!, section: section!, sectionNames: sectionNames!)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
     
-    private func configureView(expandableTasks: [ExpandableTasks], section: Int, sectionNames: [String]) {
+    private func configureView(expandableTasks: [ExpandableTasks],
+                               section: Int,
+                               sectionNames: [String]) {
         self.backgroundColor = .backgroundColor
-        
         // Update View
         expandableTasks[section].tasks.forEach { task in
             if task.taskState == .completed {
                 numberOfCompletedTasks += 1
             }
         }
-        
         expandableTasks[section].tasks.forEach { task in
             if task.taskState == .unassigned {
                 numberOfUnassignedTasks += 1
             }
         }
-        
         let percentage: Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
         progressCircle.animate(percentage: percentage)
         #warning("Localize")
@@ -65,8 +64,6 @@ class ExpandableTaskHeaderView: UIView {
         if !expandableTasks[section].isExpanded {
               collapseImage.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
               }
-        
-        
     }
     
     //        let collapseButton : UIButton = {
@@ -84,11 +81,9 @@ class ExpandableTaskHeaderView: UIView {
         let image = UIImageView()
         image.image = Images.chevronDisclosureCollapsed
         image.contentMode = .scaleAspectFit
-        
 //        if !expandableTasks[section].isExpanded {
 //        image.transform = CGAffineTransform(rotationAngle: -CGFloat((Double.pi/2)))
 //        }
-        
         image.restorationIdentifier = "collapse"
         return image
     }()
@@ -130,10 +125,10 @@ class ExpandableTaskHeaderView: UIView {
         self.addSubview(separator)
         
 //        collapseButton.translatesAutoresizingMaskIntoConstraints = false
-//                collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-//                collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
-//                collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
-//                collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
+//        collapseButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+//        collapseButton.heightAnchor.constraint(equalToConstant: 29).isActive = true
+//        collapseButton.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15).isActive = true
+//        collapseButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: 0).isActive = true
 
         collapseImage.translatesAutoresizingMaskIntoConstraints = false
         collapseImage.widthAnchor.constraint(equalToConstant: 15).isActive = true
@@ -159,7 +154,6 @@ class ExpandableTaskHeaderView: UIView {
         progressLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         progressLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0).isActive = true
 //        progressLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
-        
         
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.heightAnchor.constraint(equalToConstant: 0.75).isActive = true

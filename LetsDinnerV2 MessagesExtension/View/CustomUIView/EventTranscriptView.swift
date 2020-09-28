@@ -115,8 +115,7 @@ class EventTranscriptView: UIView {
                 statusIcon.image = Images.statusPending
             }
         } else {
-            #warning("Use other image")
-            statusIcon.image = Images.statusPending
+            statusIcon.image = Images.noStatus
         }
     }
     

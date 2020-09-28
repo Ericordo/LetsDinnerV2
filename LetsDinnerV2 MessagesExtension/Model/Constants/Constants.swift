@@ -52,6 +52,7 @@ enum Images {
     static let statusPending = UIImage(named: "statusPending")
     static let statusAccepted = UIImage(named: "statusAccepted")
     static let statusDeclined = UIImage(named: "statusDeclined")
+    static let noStatus = UIImage(named: "noStatus")
     
     // RegistrationVC
     static let profilePlaceholder = UIImage(named: "profilePlaceholderBig")!
