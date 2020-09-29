@@ -319,8 +319,8 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
         return RegistrationViewController(viewModel: RegistrationViewModel(),
-                                                       previousStep: previousStep,
-                                                       delegate: self)
+                                          previousStep: previousStep,
+                                          delegate: self)
     }
     
     private func instantiateNewEventViewController() -> UIViewController {

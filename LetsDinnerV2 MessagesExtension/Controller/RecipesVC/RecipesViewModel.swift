@@ -92,6 +92,7 @@ class RecipesViewModel {
             .startWithResult { [unowned self] result in
                 switch result {
                 case .failure(let error):
+                    self.isLoading.value = false
                     self.errorObserver.send(value: error)
                 case .success(let userIsLoggedIn):
                     if userIsLoggedIn {

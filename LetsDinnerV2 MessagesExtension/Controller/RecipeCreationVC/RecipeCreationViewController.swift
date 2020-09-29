@@ -204,7 +204,7 @@ class RecipeCreationViewController: UIViewController {
             .controlEvents(.touchUpInside)
             .take(duringLifetimeOf: self)
             .observeValues { [unowned self] _ in
-                self.presentEditActionSheet()
+                self.viewModel.didTapEdit()
         }
         
         doneButton.reactive
@@ -287,6 +287,13 @@ class RecipeCreationViewController: UIViewController {
             .take(duringLifetimeOf: self)
             .observeValues { [unowned self] _ in
                 self.presentDoneActionSheet()
+        }
+        
+        self.viewModel.editActionSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [unowned self] _ in
+                self.presentEditActionSheet()
         }
         
         self.viewModel.recipeSignal

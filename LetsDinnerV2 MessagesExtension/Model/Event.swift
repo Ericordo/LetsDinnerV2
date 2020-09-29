@@ -451,8 +451,7 @@ class Event {
                 let isCustom = dict[DataKeys.isCustom] as? Bool,
                 let parentRecipe = dict[DataKeys.parentRecipe] as? String
                 else { return }
-            
-            #warning("fix this duplication and make sure it works, update: seems necessary otherwise app doesnt see difference between current tasks and updated tasks by user when going back, keep it or implement a comparison method")
+
             let task = Task(taskName: title,
                             assignedPersonUid: ownerUid,
                             taskState: state,
@@ -469,6 +468,7 @@ class Event {
             }
             tasks.append(task)
 
+            // TODO: Fix this duplication at some point and make sure it works, update: seems necessary otherwise app doesnt see difference between current tasks and updated tasks by user when going back, keep it or implement a comparison method
             let newTask = Task(taskName: title,
                                assignedPersonUid: ownerUid,
                                taskState: state,

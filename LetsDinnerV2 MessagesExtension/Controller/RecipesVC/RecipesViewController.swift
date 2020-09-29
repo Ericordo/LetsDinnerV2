@@ -97,7 +97,7 @@ class RecipesViewController: LDNavigationViewController {
         toolbar.selectedRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             let selectedRecipesVC = SelectedRecipesViewController(viewModel: SelectedRecipesViewModel(),
                                                                   dismissDelegate: self)
-            selectedRecipesVC.modalPresentationStyle = .fullScreen
+            selectedRecipesVC.modalPresentationStyle = .overFullScreen
             self.present(selectedRecipesVC, animated: true, completion: nil)
         }
         
@@ -274,6 +274,7 @@ class RecipesViewController: LDNavigationViewController {
     private func presentRecipeCreationVC(animated: Bool) {
         let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(creationMode: true),
                                                             delegate: self)
+        recipeCreationVC.modalPresentationStyle = .overFullScreen
         self.present(recipeCreationVC, animated: animated, completion: nil)
     }
 }
