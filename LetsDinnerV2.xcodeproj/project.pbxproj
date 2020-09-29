@@ -39,7 +39,6 @@
 		880B137A2376EB99003E29AC /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880B13792376EB99003E29AC /* ProgressCircle.swift */; };
 		881AC72E245218750055F120 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881AC72D245218750055F120 /* ImageHelper.swift */; };
 		8821535724E0A9BD008A8DD8 /* RecipeCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8821535624E0A9BD008A8DD8 /* RecipeCreationViewController.swift */; };
-		8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88224909239D67FC0054C24E /* AmountPicker.swift */; };
 		8827BB2623F4A91400DEDC39 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8827BB2523F4A91400DEDC39 /* CloudKit.framework */; };
 		8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */; };
 		8827BB2A23F875B600DEDC39 /* SFSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */; };
@@ -144,7 +143,6 @@
 		B8AC7CB8239AA95C0079EADB /* VCTransitionDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */; };
 		B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AED7D2239E357F00F2F633 /* CalendarManager.swift */; };
 		B8C4E82523E5ACDF00D752F1 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */; };
-		B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */; };
 		B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */; };
 		B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */; };
 		B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D1CC9523F1309000E54E26 /* UIDevice.swift */; };
@@ -213,7 +211,6 @@
 		880B13792376EB99003E29AC /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		881AC72D245218750055F120 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		8821535624E0A9BD008A8DD8 /* RecipeCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCreationViewController.swift; sourceTree = "<group>"; };
-		88224909239D67FC0054C24E /* AmountPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountPicker.swift; sourceTree = "<group>"; };
 		8827BB2523F4A91400DEDC39 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8827BB2723F5DDAB00DEDC39 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		8827BB2923F875B600DEDC39 /* SFSafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariViewController.swift; sourceTree = "<group>"; };
@@ -320,7 +317,6 @@
 		B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTransitionDirection.swift; sourceTree = "<group>"; };
 		B8AED7D2239E357F00F2F633 /* CalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarManager.swift; sourceTree = "<group>"; };
 		B8C4E82323E5ACDF00D752F1 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
-		B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeStartView.swift; sourceTree = "<group>"; };
 		B8C4F1C2244D693B001359B9 /* CreateRecipeSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecipeSections.swift; sourceTree = "<group>"; };
 		B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOrderHelper.swift; sourceTree = "<group>"; };
 		B8D1CC9523F1309000E54E26 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
@@ -556,7 +552,6 @@
 				88349F322370302E002A1879 /* LDDatePicker.swift */,
 				88FE71A523901E2A00652429 /* InfoInputToolbar.swift */,
 				B842CE3B241A03F000380229 /* CustomSafariVC.swift */,
-				88224909239D67FC0054C24E /* AmountPicker.swift */,
 				B85071D22392723D00632026 /* GestureRecognizer.swift */,
 				88B7832B23717CF7009E4F3C /* LDSearchBar.swift */,
 				880B13642374B3F2003E29AC /* TaskPersonLabel.swift */,
@@ -809,7 +804,6 @@
 				886EB36B23DF77AE002CFCB5 /* LDRescheduleView.swift */,
 				885133B024310C32004CD858 /* EventTranscriptView.swift */,
 				88E5B0BF2438A39600D519E2 /* ConfettiView.swift */,
-				B8C4F1C024473A88001359B9 /* CreateRecipeStartView.swift */,
 				884CE1B3245ED52C001062BF /* LDNavBar.swift */,
 				884CE1BB24608799001062BF /* RecipesToolbar.swift */,
 				884CE1BF24614151001062BF /* LDLoadingView.swift */,
@@ -1159,7 +1153,6 @@
 				884CE1C72465C50A001062BF /* CKRecipe.swift in Sources */,
 				885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */,
 				8821535724E0A9BD008A8DD8 /* RecipeCreationViewController.swift in Sources */,
-				B8C4F1C124473A88001359B9 /* CreateRecipeStartView.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
 				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
 				B886BD9C24790B7B0069C248 /* CreateRecipeCookingStepCell.swift in Sources */,
@@ -1262,7 +1255,6 @@
 				884CE1BA246086CC001062BF /* RealmHelper.swift in Sources */,
 				88056E782477A9A900F0D90F /* InitialViewController.swift in Sources */,
 				880B135623746A5D003E29AC /* UIButton.swift in Sources */,
-				8822490A239D67FC0054C24E /* AmountPicker.swift in Sources */,
 				88E5C52A2467F3E20060823B /* NewEventViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
