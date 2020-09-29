@@ -127,15 +127,17 @@ enum LabelStrings {
     
     // TasksListVC
     static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now, an update may be coming soon! 🚀", comment: "multiple users checking")
-    static let calendar = NSLocalizedString("Calendar", comment: "calendar")
-    static let reminders = NSLocalizedString("Reminders", comment: "reminders")
-    static let cookingManual = NSLocalizedString("Create Cooking Manual", comment: "create cooking manual")
     static let back = NSLocalizedString(" Back", comment: "back")
     static let updateServings = NSLocalizedString("Update servings? %d", comment: "update servings")
+    static let allItemsAssigned = NSLocalizedString("All items assigned", comment: "all items assigned")
+    static let oneItemUnassigned = NSLocalizedString("1 item not assigned", comment: "one item not assigned")
+    static let itemsUnassigned = NSLocalizedString("%d items not assigned", comment: "number of items not assigned")
     
     // EventInfoVC
     static let eventInfoLabel = NSLocalizedString("You can sync the things assigned to you with Reminders and add the event to your Calendar.", comment: "sync description")
-    
+    static let calendar = NSLocalizedString("Calendar", comment: "calendar")
+    static let reminders = NSLocalizedString("Reminders", comment: "reminders")
+    static let cookingManual = NSLocalizedString("Create Cooking Manual", comment: "create cooking manual")
     
     // Reschedule
     static let rescheduleTitle = NSLocalizedString("Need to reschedule?", comment: "need to reschedule?")

@@ -49,13 +49,12 @@ class ExpandableTaskHeaderView: UIView {
         }
         let percentage: Double = Double(numberOfCompletedTasks)/Double(expandableTasks[section].tasks.count)
         progressCircle.animate(percentage: percentage)
-        #warning("Localize")
         if numberOfUnassignedTasks == 0 {
-            progressLabel.text = "All items assigned"
+            progressLabel.text = LabelStrings.allItemsAssigned
         } else if numberOfUnassignedTasks == 1 {
-            progressLabel.text = "\(numberOfUnassignedTasks) item unassigned"
+            progressLabel.text = LabelStrings.oneItemUnassigned
         } else {
-            progressLabel.text = "\(numberOfUnassignedTasks) items unassigned"
+            progressLabel.text = String.localizedStringWithFormat(LabelStrings.itemsUnassigned, numberOfUnassignedTasks)
         }
         
         nameLabel.text = sectionNames[section]
