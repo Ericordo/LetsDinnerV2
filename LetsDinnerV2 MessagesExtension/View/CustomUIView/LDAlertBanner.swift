@@ -10,7 +10,7 @@ import UIKit
 
 class LDAlertBanner: UIView {
 
-    private let warning : UILabel = {
+    let warning : UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 14)
@@ -35,6 +35,7 @@ class LDAlertBanner: UIView {
     }
     
     func appear() {
+        self.superview?.layoutIfNeeded()
         UIView.animate(withDuration: 0.2) {
             self.snp.updateConstraints { make in
                 make.height.equalTo(60)
@@ -52,7 +53,22 @@ class LDAlertBanner: UIView {
         }
     }
     
+    func appearAndDisappear() {
+        self.appear()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.snp.updateConstraints { make in
+                    make.height.equalTo(0)
+                }
+                self.superview?.layoutIfNeeded()
+            }) { _ in
+                self.removeFromSuperview()
+            }
+        }
+    }
+    
     private func setup() {
+        backgroundColor = .backgroundColor
         addSubview(separator)
         addSubview(warning)
         self.frame.size.height = 0

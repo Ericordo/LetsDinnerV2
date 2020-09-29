@@ -68,7 +68,7 @@ enum AlertStrings {
     
     // Create Recipe VC
     static let retrieveImageErrorMessage = NSLocalizedString("We could not retrieve the picture.", comment: "retrieve image error message")
-    static let recipeNameMissing = NSLocalizedString("Please give a name to your recipe.", comment: "recipe name missing error")
+    static let recipeNameMissing = NSLocalizedString("Please give a name to your recipe. 😄", comment: "recipe name missing error")
     static let recipeSaveCloudError = NSLocalizedString("We could not save your recipe.", comment: "recipe save error")
     static let recipeUpdateCloudError = NSLocalizedString("We could not update your recipe.", comment: "recipe update error")
     static let recipeDeleteCloudError = NSLocalizedString("We could not delete your recipe.", comment: "recipe delete error")

@@ -305,6 +305,7 @@ class RecipeCreationViewController: UIViewController {
                 case .failure(let error):
                     if error == .recipeNameMissing {
                         self.recipeNameTextField.shake()
+                        self.showErrorBanner(message: error.description)
                         return
                     }
                     self.showBasicAlert(title: AlertStrings.oops,
@@ -354,6 +355,16 @@ class RecipeCreationViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    private func showErrorBanner(message: String) {
+        let banner = LDAlertBanner(message)
+        banner.warning.textAlignment = .center
+        headerView.addSubview(banner)
+        banner.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+        }
+        banner.appearAndDisappear()
+    }
     
     private func setupCreationInterface(_ bool: Bool) {
         if self.viewModel.editingAllowed && !bool {
