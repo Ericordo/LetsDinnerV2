@@ -143,6 +143,7 @@ class TasksListViewController: LDNavigationViewController {
             case .failure(let error):
                 self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success():
+                self.generator.notificationOccurred(.success)
                 self.delegate?.tasksListVCDidTapSubmit()
             }
         }
