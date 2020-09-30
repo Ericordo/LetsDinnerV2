@@ -77,6 +77,7 @@
 		885133AF2430F14C004CD858 /* BubbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133AE2430F14C004CD858 /* BubbleManager.swift */; };
 		885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133B024310C32004CD858 /* EventTranscriptView.swift */; };
 		885133B3243283AF004CD858 /* SendAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885133B2243283AF004CD858 /* SendAction.swift */; };
+		885846392524E61300B818AD /* LDRescheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885846382524E61300B818AD /* LDRescheduleView.swift */; };
 		8858BF2D2371CAF900133877 /* Pods_LetsDinnerV2_MessagesExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA83141D400FE826D22FC36 /* Pods_LetsDinnerV2_MessagesExtension.framework */; };
 		8858BF302371CAFD00133877 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88349F05236DE9FC002A1879 /* Messages.framework */; };
 		885C6097237F6E6000ED3A17 /* UITableView+EmptyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */; };
@@ -86,7 +87,6 @@
 		885C61142384B6D600ED3A17 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61132384B6D600ED3A17 /* UITextField.swift */; };
 		885C61422388852D00ED3A17 /* ExpandableTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C61412388852D00ED3A17 /* ExpandableTasks.swift */; };
 		886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886EB36723DDFF11002CFCB5 /* CancelCell.swift */; };
-		886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886EB36B23DF77AE002CFCB5 /* LDRescheduleView.swift */; };
 		887BE721240470F6006619C7 /* LDLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887BE720240470F6006619C7 /* LDLabel.swift */; };
 		887CF811250E5A09001C1014 /* SelectedRecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887CF810250E5A09001C1014 /* SelectedRecipesViewModel.swift */; };
 		887CF813250E665A001C1014 /* SelectedRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887CF812250E665A001C1014 /* SelectedRecipesViewController.swift */; };
@@ -253,6 +253,7 @@
 		885133AE2430F14C004CD858 /* BubbleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleManager.swift; sourceTree = "<group>"; };
 		885133B024310C32004CD858 /* EventTranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTranscriptView.swift; sourceTree = "<group>"; };
 		885133B2243283AF004CD858 /* SendAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAction.swift; sourceTree = "<group>"; };
+		885846382524E61300B818AD /* LDRescheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDRescheduleView.swift; sourceTree = "<group>"; };
 		885C6096237F6E6000ED3A17 /* UITableView+EmptyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+EmptyScreen.swift"; sourceTree = "<group>"; };
 		885C60B92380311100ED3A17 /* TaskManagementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementCell.swift; sourceTree = "<group>"; };
 		885C60BD23805A3D00ED3A17 /* StepTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracking.swift; sourceTree = "<group>"; };
@@ -260,7 +261,6 @@
 		885C61132384B6D600ED3A17 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		885C61412388852D00ED3A17 /* ExpandableTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableTasks.swift; sourceTree = "<group>"; };
 		886EB36723DDFF11002CFCB5 /* CancelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCell.swift; sourceTree = "<group>"; };
-		886EB36B23DF77AE002CFCB5 /* LDRescheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDRescheduleView.swift; sourceTree = "<group>"; };
 		887BE71823FEFA7C006619C7 /* Let's Dinner!Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Let's Dinner!Release.entitlements"; sourceTree = "<group>"; };
 		887BE720240470F6006619C7 /* LDLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDLabel.swift; sourceTree = "<group>"; };
 		887CF810250E5A09001C1014 /* SelectedRecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedRecipesViewModel.swift; sourceTree = "<group>"; };
@@ -801,7 +801,6 @@
 				88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */,
 				88D33F0823A534C70061AD9A /* InfoInputView.swift */,
 				88E203C423D33C6200514972 /* EventInputView.swift */,
-				886EB36B23DF77AE002CFCB5 /* LDRescheduleView.swift */,
 				885133B024310C32004CD858 /* EventTranscriptView.swift */,
 				88E5B0BF2438A39600D519E2 /* ConfettiView.swift */,
 				884CE1B3245ED52C001062BF /* LDNavBar.swift */,
@@ -811,6 +810,7 @@
 				88056E6D24758BFE00F0D90F /* LDServingsView.swift */,
 				88382A3324A908770016E68F /* LostEventView.swift */,
 				88F94EBC24EC0DAC00FFBB14 /* LDListItemAdditionView.swift */,
+				885846382524E61300B818AD /* LDRescheduleView.swift */,
 			);
 			path = CustomUIView;
 			sourceTree = "<group>";
@@ -1194,15 +1194,14 @@
 				88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */,
 				88B7833023717E3E009E4F3C /* String.swift in Sources */,
 				B8D1CC9623F1309000E54E26 /* UIDevice.swift in Sources */,
+				885846392524E61300B818AD /* LDRescheduleView.swift in Sources */,
 				B886BD982470EFBF0069C248 /* CreateRecipeIngredientCell.swift in Sources */,
 				B8C4F1C3244D693B001359B9 /* CreateRecipeSections.swift in Sources */,
 				B87C1068241387E6004AD951 /* UITableViewCell.swift in Sources */,
 				887CF811250E5A09001C1014 /* SelectedRecipesViewModel.swift in Sources */,
 				B86F700B238521810010AB7C /* UIButtonClass.swift in Sources */,
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,
-				886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */,
 				B886BD93246C340C0069C248 /* RecipeCreationWelcomeViewController.swift in Sources */,
-				886EB36C23DF77AE002CFCB5 /* LDRescheduleView.swift in Sources */,
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				884CE1B4245ED52C001062BF /* LDNavBar.swift in Sources */,
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
