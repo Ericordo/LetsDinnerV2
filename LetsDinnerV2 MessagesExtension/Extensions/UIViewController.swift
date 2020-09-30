@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 
 extension UIViewController {
+    
+    var generator : UINotificationFeedbackGenerator {
+        return UINotificationFeedbackGenerator()
+    }
 
     func presentDetail(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()

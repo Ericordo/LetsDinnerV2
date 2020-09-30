@@ -125,6 +125,11 @@ class EventSummaryViewController: UIViewController {
             case .failure(let error):
                 self.showBasicAlert(title: AlertStrings.oops, message: error.description)
             case.success(let status):
+                if status == .accepted {
+                    self.generator.notificationOccurred(.success)
+                } else if status == .declined {
+                    self.generator.notificationOccurred(.error)
+                }
                 self.delegate?.eventSummaryVCDidAnswer(hasAccepted: status)
             }
         }
