@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 protocol IdleViewControllerDelegate: class {
     func idleVCDidTapContinue()
@@ -105,6 +106,7 @@ class IdleViewController: UIViewController {
     }
     
     @objc private func didTapNewEvent() {
+        Analytics.logEvent("new_event", parameters: nil)
         delegate?.idleVCDidTapNewDinner()
     }
     

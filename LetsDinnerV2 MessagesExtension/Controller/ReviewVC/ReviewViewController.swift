@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol ReviewViewControllerDelegate: class {
     func reviewVCDidTapPrevious()
@@ -246,6 +247,7 @@ class ReviewViewController: UIViewController {
     }
     
     private func sendInvitation() {
+        Analytics.logEvent("send_invitation", parameters: nil)
         darkView.removeFromSuperview()
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.summaryTableView.alpha = 0.65

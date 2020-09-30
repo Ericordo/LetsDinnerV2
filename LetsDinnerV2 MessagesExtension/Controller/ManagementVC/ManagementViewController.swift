@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol ManagementViewControllerDelegate: class {
     func managementVCDidTapBack()
@@ -500,6 +501,7 @@ extension ManagementViewController: TaskManagementCellDelegate {
 
 extension ManagementViewController: AddThingDelegate {
     func doneEditThing(selectedSection: String?, item: String?, amount: String?, unit: String?) {
+        Analytics.logEvent("add_custom_task", parameters: nil)
         viewModel.prepareData()
     }
 

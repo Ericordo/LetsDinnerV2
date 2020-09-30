@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol RecipeCreationVCDelegate: class {
     func recipeCreationVCDidTapDone()
@@ -308,6 +309,7 @@ class RecipeCreationViewController: UIViewController {
                         self.showErrorBanner(message: error.description)
                         return
                     }
+                    Analytics.logEvent(error.description, parameters: nil)
                     self.showBasicAlert(title: AlertStrings.oops,
                                         message: error.description)
                 case.success(()):
@@ -348,6 +350,7 @@ class RecipeCreationViewController: UIViewController {
             sourceView: self.doneButton,
             message: AlertStrings.doneActionSheetMessage,
             saveActionCompletion: { _ in
+                Analytics.logEvent("save_or_update_recipe", parameters: nil)
                 self.viewModel.recipe == nil ? self.viewModel.saveRecipe() : self.viewModel.updateRecipe()
         },
             discardActionCompletion: { _ in

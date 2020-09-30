@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import RealmSwift
 import SafariServices
 import ReactiveCocoa
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol ModalViewHandler: class {
     func reloadTableAfterModalDismissed()
@@ -112,6 +112,11 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         searchBar.reactive.searchButtonClicked.observeValues { _ in
+            if self.viewModel.searchType.value == .apiRecipes {
+                Analytics.logEvent("api_recipes_search", parameters: nil)
+            } else {
+                Analytics.logEvent("custom_recipes_search", parameters: nil)
+            }
             self.searchBar.resignFirstResponder()
             guard let keyword = self.searchBar.text else { return }
             self.viewModel.keyword.value = keyword
@@ -122,6 +127,7 @@ class RecipesViewController: LDNavigationViewController {
         .take(duringLifetimeOf: self)
         .observeValues { [weak self] _ in
             guard let self = self else { return }
+            Analytics.logEvent("create_recipe", parameters: nil)
             let isAnimated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
             self.presentRecipeCreationVC(animated: isAnimated)
         }
@@ -166,6 +172,9 @@ class RecipesViewController: LDNavigationViewController {
             .take(duringLifetimeOf: self)
             .observeValues { [weak self] error in
                 guard let self = self else { return }
+                if error == .apiRequestLimit {
+                    Analytics.logEvent("api_limit_reached", parameters: nil)
+                }
                 self.showBasicAlert(title: AlertStrings.oops,
                                     message: error.description)
         }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 private enum RowItemNumber: Int, CaseIterable {
     case title = 0
@@ -65,6 +66,7 @@ class ExpiredEventViewController: UIViewController {
     
     // MARK: Methods
     @objc private func didTapNewEvent() {
+        Analytics.logEvent("new_event", parameters: nil)
         delegate?.expiredEventVCDidTapCreateNewEvent()
     }
     
