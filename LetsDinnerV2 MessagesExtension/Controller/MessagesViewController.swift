@@ -123,8 +123,10 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
+        if Event.shared.eventCreation {
+            Event.shared.deleteEvent()
+        }
         // Called when the user deletes the message without sending it.
-        #warning("If eventCreation, delete event on firebase")
         // Use this to clean up state related to the deleted message.
     }
     
@@ -317,8 +319,8 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private func instantiateRegistrationViewController(previousStep: StepTracking) -> UIViewController {
         return RegistrationViewController(viewModel: RegistrationViewModel(),
-                                                       previousStep: previousStep,
-                                                       delegate: self)
+                                          previousStep: previousStep,
+                                          delegate: self)
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
@@ -506,8 +508,8 @@ extension MessagesViewController: ReviewViewControllerDelegate {
     
     func reviewVCDidTapSend() {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
-        #warning("Localize")
-        Event.shared.summary = "\(defaults.username) is inviting you to an event!"
+        Event.shared.summary = String.localizedStringWithFormat(LabelStrings.inviteSummary,
+                                                                defaults.username)
         Event.shared.eventCreation = true
         let message = Event.shared.prepareMessage(session: currentSession,
                                                   eventCreation: Event.shared.eventCreation,
@@ -527,8 +529,8 @@ extension MessagesViewController: ReviewViewControllerDelegate {
 extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCDidCancelEvent() {
         Event.shared.cancelFirebaseEvent()
-        #warning("Localize")
-        Event.shared.summary = "\(defaults.username) canceled the event."
+        Event.shared.summary = String.localizedStringWithFormat(LabelStrings.cancelSummary,
+                                                                defaults.username)
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession,
                                                   eventCreation: Event.shared.eventCreation,
@@ -538,8 +540,8 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     
     func eventSummaryVCDidUpdateDate(date: Double) {
         Event.shared.updateFirebaseDate(date)
-        #warning("Localize")
-        Event.shared.summary = "\(defaults.username) changed the date!"
+        Event.shared.summary = String.localizedStringWithFormat(LabelStrings.dateChangeSummary,
+                                                                defaults.username)
         Event.shared.eventCreation = false
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession,
@@ -558,9 +560,11 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
     func eventSummaryVCDidAnswer(hasAccepted: Invitation) {
         // Instant MessageUI update
         if hasAccepted == .accepted {
-            Event.shared.summary = defaults.username + AlertStrings.acceptedInvitation
+            Event.shared.summary = String.localizedStringWithFormat(AlertStrings.acceptedInvitation,
+                                                                    defaults.username)
         } else if hasAccepted == .declined {
-            Event.shared.summary = defaults.username + AlertStrings.declinedInvitation
+            Event.shared.summary = String.localizedStringWithFormat(AlertStrings.declinedInvitation,
+                                                                    defaults.username)
         }
         
         Event.shared.currentUser?.hasAccepted = hasAccepted

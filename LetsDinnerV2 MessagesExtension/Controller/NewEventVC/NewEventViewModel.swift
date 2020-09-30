@@ -85,7 +85,6 @@ class NewEventViewModel {
         CloudManager.shared.userIsLoggedIn()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
             .startWithResult { result in
                 switch result {
                 case .failure:
@@ -95,7 +94,6 @@ class NewEventViewModel {
                         CloudManager.shared.fetchLDRecipesFromCloud()
                             .on(starting: { self.isLoading.value = true })
                             .on(completed: { self.isLoading.value = false })
-                            .observe(on: UIScheduler())
                             .startWithResult { [weak self] result in
                                 guard let self = self else { return }
                                 switch result {

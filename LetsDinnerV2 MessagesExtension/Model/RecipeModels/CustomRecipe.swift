@@ -18,12 +18,6 @@ class CustomRecipe: Object {
     var comments = List<String>()
     var ingredients = List<CustomIngredient>()
     @objc dynamic var recordId: String? = nil
-   
-    #warning("Check if id is working correctly, otherwise use title")
-    #warning("This should not be necessary anyway as we used LDRecipe for interaction")
-    var isSelected : Bool {
-        return Event.shared.selectedCustomRecipes.contains { $0.id == self.id }
-    }
 }
 
 

@@ -261,6 +261,17 @@ class Event {
         }
     }
     
+    func deleteEvent() {
+        guard let userID = self.currentUser?.identifier else { return }
+        let eventID = self.firebaseEventUid
+        guard !eventID.isEmpty else { return }
+        self.database
+        .child(userID)
+        .child(DataKeys.events)
+        .child(eventID)
+        .removeValue()
+    }
+    
     private func parseEventInfo(_ value: [String : Any]) {
         self.hostIdentifier = value[DataKeys.hostID] as! String
         self.isCancelled = value[DataKeys.isCancelled] as! Bool
@@ -376,7 +387,6 @@ class Event {
                         observer.send(error: error)
                         return }
                 self.parseEventInfo(value)
-                    #warning("To modify this notif, but it seems to be necessary for the TaskSummaryCell")
                 NotificationCenter.default.post(name: NSNotification.Name("updateTable"), object: nil)
                 observer.send(value: ())
                 observer.sendCompleted()
@@ -441,8 +451,7 @@ class Event {
                 let isCustom = dict[DataKeys.isCustom] as? Bool,
                 let parentRecipe = dict[DataKeys.parentRecipe] as? String
                 else { return }
-            
-            #warning("fix this duplication and make sure it works, update: seems necessary otherwise app doesnt see difference between current tasks and updated tasks by user when going back, keep it or implement a comparison method")
+
             let task = Task(taskName: title,
                             assignedPersonUid: ownerUid,
                             taskState: state,
@@ -459,6 +468,7 @@ class Event {
             }
             tasks.append(task)
 
+            // TODO: Fix this duplication at some point and make sure it works, update: seems necessary otherwise app doesnt see difference between current tasks and updated tasks by user when going back, keep it or implement a comparison method
             let newTask = Task(taskName: title,
                                assignedPersonUid: ownerUid,
                                taskState: state,

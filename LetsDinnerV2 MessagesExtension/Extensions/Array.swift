@@ -14,7 +14,6 @@ extension Array where Element: Hashable {
         let otherSet = Set(other)
         return Array(thisSet.symmetricDifference(otherSet))
     }
-    
 }
 
 extension Array where Element: Comparable {

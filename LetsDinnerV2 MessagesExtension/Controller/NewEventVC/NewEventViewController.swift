@@ -232,7 +232,6 @@ class NewEventViewController: LDNavigationViewController {
     }
     
     private func updateEventName(_ name: String) {
-        #warning("make it reactive")
         self.viewModel.eventName.value = name
         eventInputView.isHidden = true
         hostNameTextField.becomeFirstResponder()

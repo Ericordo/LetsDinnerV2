@@ -22,7 +22,7 @@ class ReminderManager {
     
     private let listTitle = Event.shared.dinnerName + " - \(LabelStrings.thingsToBring)"
     
-    func addToReminder(view: UIViewController) {
+    func addToReminder(on viewController: UIViewController) {
         
         let calendars = self.reminderStore.calendars(for: .reminder)
         let bundleList: EKCalendar
@@ -42,11 +42,11 @@ class ReminderManager {
         }
         
         // Filter Assigned Tasks
-        guard Event.shared.tasks.count != 0 else { return self.alertNoTask(view: view) }
+        guard Event.shared.tasks.count != 0 else { return self.showAlertNoTask(on: viewController) }
         let assignedTask = self.filterAssignedTasks()
         
         // Go ahead if Assignedtask is not nil
-        guard assignedTask.count != 0 else { return self.alertNoTask(view: view) } // No Tasks, return alert
+        guard assignedTask.count != 0 else { return self.showAlertNoTask(on: viewController) } // No Tasks, return alert
         
         // Delete Task if any
         self.deleteExistingTasks()
@@ -63,7 +63,7 @@ class ReminderManager {
         }
         
         // Alert
-        self.alertSuccessPopup(view: view)
+        self.showAlertSuccessPopup(on: viewController)
     }
     
     func requestAccessToRemindersIfNeeded() -> SignalProducer<Bool, Never> {
@@ -149,7 +149,7 @@ class ReminderManager {
         }
     }
     
-    private func alertSuccessPopup(view: UIViewController) {
+    private func showAlertSuccessPopup(on viewController: UIViewController) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: AlertStrings.success,
                                           message: AlertStrings.addToRemindersMessage,
@@ -157,11 +157,11 @@ class ReminderManager {
             alert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
-            view.present(alert, animated: true)
+            viewController.present(alert, animated: true)
         }
     }
     
-    private func alertNoTask(view: UIViewController) {
+    private func showAlertNoTask(on viewController: UIViewController) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: AlertStrings.remindersNoTaskTitle,
                                           message: AlertStrings.remindersNoTaskMessage,
@@ -169,7 +169,7 @@ class ReminderManager {
             alert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
-            view.present(alert, animated: true)
+            viewController.present(alert, animated: true)
         }
     }
 }

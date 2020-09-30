@@ -14,7 +14,7 @@ class ThankYouViewController: UIViewController {
     
     private let heartIcon : UIImageView = {
         let icon = UIImageView()
-        icon.image = UIImage(named: Images.heartIcon)?.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0))
+        icon.image = Images.heartIcon?.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0))
         icon.contentMode = .scaleAspectFit
         return icon
     }()
@@ -48,13 +48,8 @@ class ThankYouViewController: UIViewController {
         return label
     }()
     
-    private lazy var continueButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 253, height: 50))
-        button.layer.masksToBounds = true
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 14
-        button.titleLabel!.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        button.setGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
+    private lazy var continueButton : PrimaryButton = {
+        let button = PrimaryButton()
         button.setTitle(ButtonTitle.letsGo, for: .normal)
         button.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
         return button
@@ -72,12 +67,13 @@ class ThankYouViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(closeVC),
+                                               name: Notification.Name(rawValue: "WillTransition"),
+                                               object: nil)
     }
     
     @objc private func didTapContinue() {
-        print("tap")
         confettiView.startConfetti()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.dismiss(animated: true, completion: nil)
@@ -124,8 +120,6 @@ class ThankYouViewController: UIViewController {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             continueButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            continueButton.widthAnchor.constraint(equalToConstant: 253),
-            continueButton.heightAnchor.constraint(equalToConstant: 50),
             continueButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         ])
         
@@ -141,5 +135,4 @@ class ThankYouViewController: UIViewController {
             ])
         }
     }
-    
 }

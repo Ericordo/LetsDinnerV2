@@ -108,7 +108,7 @@ class EventInfoViewController: LDNavigationViewController {
             .startWithValues { [weak self] approval in
                 guard let self = self else { return }
                 if approval {
-                    ReminderManager.shared.addToReminder(view: self)
+                    ReminderManager.shared.addToReminder(on: self)
                 } else {
                     self.showBasicAlert(title: AlertStrings.remindersAccess,
                                         message: LDError.remindersDenied.description)
@@ -126,7 +126,7 @@ class EventInfoViewController: LDNavigationViewController {
                     let title = Event.shared.dinnerName
                     let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
                     let location = Event.shared.dinnerLocation
-                    CalendarManager.shared.addEventToCalendar(view: self,
+                    CalendarManager.shared.addEventToCalendar(on: self,
                                                               with: title,
                                                               forDate: date,
                                                               location: location)

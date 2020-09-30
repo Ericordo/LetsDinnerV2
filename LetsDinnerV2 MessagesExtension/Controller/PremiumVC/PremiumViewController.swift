@@ -81,13 +81,8 @@ class PremiumViewController: UIViewController {
         return button
     }()
     
-    private lazy var subscribeButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 253, height: 50))
-        button.layer.masksToBounds = true
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 14
-        button.titleLabel!.font = .systemFont(ofSize: 17, weight: .semibold)
-        button.setGradient(colorOne: Colors.peachPink, colorTwo: Colors.highlightRed)
+    private lazy var subscribeButton : PrimaryButton = {
+        let button = PrimaryButton()
         button.setTitle(LabelStrings.premiumSubscribe, for: .normal)
         button.addTarget(self, action: #selector(didTapSubscribe), for: .touchUpInside)
         return button
@@ -183,8 +178,6 @@ class PremiumViewController: UIViewController {
         subscribeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             subscribeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            subscribeButton.widthAnchor.constraint(equalToConstant: 253),
-            subscribeButton.heightAnchor.constraint(equalToConstant: 50),
             subscribeButton.bottomAnchor.constraint(equalTo: laterButton.topAnchor, constant: -20)
         ])
     }

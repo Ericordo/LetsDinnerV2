@@ -91,15 +91,13 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         toolbar.createRecipeButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            
-            let isAnimated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
-            self.presentRecipeCreationVC(animated: isAnimated)
+            self.viewModel.openRecipeCreationVCIfPossible()
         }
         
         toolbar.selectedRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             let selectedRecipesVC = SelectedRecipesViewController(viewModel: SelectedRecipesViewModel(),
                                                                   dismissDelegate: self)
-            selectedRecipesVC.modalPresentationStyle = .fullScreen
+            selectedRecipesVC.modalPresentationStyle = .overFullScreen
             self.present(selectedRecipesVC, animated: true, completion: nil)
         }
         
@@ -117,6 +115,15 @@ class RecipesViewController: LDNavigationViewController {
             self.searchBar.resignFirstResponder()
             guard let keyword = self.searchBar.text else { return }
             self.viewModel.keyword.value = keyword
+        }
+        
+        self.viewModel.createRecipeSignal
+        .observe(on: UIScheduler())
+        .take(duringLifetimeOf: self)
+        .observeValues { [weak self] _ in
+            guard let self = self else { return }
+            let isAnimated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
+            self.presentRecipeCreationVC(animated: isAnimated)
         }
         
         self.viewModel.searchType.producer
@@ -159,7 +166,8 @@ class RecipesViewController: LDNavigationViewController {
             .take(duringLifetimeOf: self)
             .observeValues { [weak self] error in
                 guard let self = self else { return }
-                self.showError(error)
+                self.showBasicAlert(title: AlertStrings.oops,
+                                    message: error.description)
         }
     }
         
@@ -208,18 +216,6 @@ class RecipesViewController: LDNavigationViewController {
         recipesTableView.reloadData()
         configureNextAndSelectedRecipesButtons()
         StepStatus.currentStep = .recipesVC
-    }
-    
-    private func showError(_ error: ApiError) {
-        #warning("Improve error messages")
-        switch error {
-        case .decodingFailed:
-            self.showBasicAlert(title: AlertStrings.decodingFailed, message: "")
-        case .noNetwork:
-            self.showBasicAlert(title: AlertStrings.noNetwork, message: "")
-        case.requestLimit:
-            self.showBasicAlert(title: AlertStrings.requestLimit, message: AlertStrings.tryAgain)
-        }
     }
     
     private func setupTableView() {
@@ -278,6 +274,7 @@ class RecipesViewController: LDNavigationViewController {
     private func presentRecipeCreationVC(animated: Bool) {
         let recipeCreationVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(creationMode: true),
                                                             delegate: self)
+        recipeCreationVC.modalPresentationStyle = .overFullScreen
         self.present(recipeCreationVC, animated: animated, completion: nil)
     }
 }

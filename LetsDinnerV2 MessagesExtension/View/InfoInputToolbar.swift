@@ -32,7 +32,7 @@ class InfoInputToolbar : UIToolbar {
     private let addButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setImage(UIImage(named: "addButton"), for: .normal)
+        button.setImage(Images.addButton, for: .normal)
         button.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         return button
     }()

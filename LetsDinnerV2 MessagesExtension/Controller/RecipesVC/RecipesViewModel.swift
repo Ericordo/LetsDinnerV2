@@ -16,10 +16,7 @@ enum SearchType: String {
 }
 
 class RecipesViewModel {
-    
-    let dataChangeSignal: Signal<Void, Never>
-    let errorSignal: Signal<ApiError, Never>
-    
+
     let keyword = MutableProperty<String>("")
     
     var recipes = [Recipe]()
@@ -27,8 +24,14 @@ class RecipesViewModel {
 //    var customSearchResults = [LDRecipe]()
     var customRecipes = [LDRecipe]()
 
+    let dataChangeSignal: Signal<Void, Never>
     private let dataChangeObserver: Signal<Void, Never>.Observer
-    private let errorObserver: Signal<ApiError, Never>.Observer
+    
+    let errorSignal: Signal<LDError, Never>
+    private let errorObserver: Signal<LDError, Never>.Observer
+    
+    let createRecipeSignal : Signal<Void, Never>
+    private let createRecipeObserver : Signal<Void, Never>.Observer
     
     let searchType : MutableProperty<SearchType>
     let isLoading = MutableProperty<Bool>(false)
@@ -45,9 +48,13 @@ class RecipesViewModel {
         self.dataChangeSignal = dataChangeSignal
         self.dataChangeObserver = dataChangeObserver
         
-        let (errorSignal, errorObserver) = Signal<ApiError, Never>.pipe()
+        let (errorSignal, errorObserver) = Signal<LDError, Never>.pipe()
         self.errorSignal = errorSignal
         self.errorObserver = errorObserver
+        
+        let (createRecipeSignal, createRecipeObserver) = Signal<Void, Never>.pipe()
+        self.createRecipeSignal = createRecipeSignal
+        self.createRecipeObserver = createRecipeObserver
         
         self.searchType.producer
         .observe(on: UIScheduler())
@@ -75,6 +82,26 @@ class RecipesViewModel {
         }
         
         loadRecipes()
+    }
+    
+    func openRecipeCreationVCIfPossible() {
+        CloudManager.shared.userIsLoggedIn()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithResult { [unowned self] result in
+                switch result {
+                case .failure(let error):
+                    self.isLoading.value = false
+                    self.errorObserver.send(value: error)
+                case .success(let userIsLoggedIn):
+                    if userIsLoggedIn {
+                        self.createRecipeObserver.send(value: ())
+                    } else {
+                        self.errorObserver.send(value: .notSignedInCloud)
+                    }
+                }
+        }
     }
     
     private func fetchSearchResults(keyword: String) {
@@ -113,7 +140,6 @@ class RecipesViewModel {
                     self.dataChangeObserver.send(value: ())
                 }
         }
-        
     }
     
     private func addSelectedRecipesToDefaultRecipes() {
@@ -124,47 +150,6 @@ class RecipesViewModel {
         }
         recipes.sort { $0.isSelected && !$1.isSelected }
     }
-    
-//    private func loadCustomRecipes() {
-//        CloudManager.shared.userIsLoggedIn()
-//            .on(starting: { self.isLoading.value = true })
-//            .on(completed: { self.isLoading.value = false })
-//            .observe(on: UIScheduler())
-//            .startWithResult { result in
-//                switch result {
-//                case .failure(let error):
-//                    #warning("modify error")
-//                    self.errorObserver.send(value: .noNetwork)
-//                case .success(let userIsLoggedIn):
-//                    if userIsLoggedIn {
-//                        CloudManager.shared.fetchLDRecipesFromCloud()
-//                            .on(starting: { self.isLoading.value = true })
-//                            .on(completed: { self.isLoading.value = false })
-//                            .observe(on: UIScheduler())
-//                            .startWithResult { [weak self] result in
-//                                guard let self = self else { return }
-//                                switch result {
-//                                case .failure(let error):
-//                                    self.isLoading.value = false
-//                                    self.errorObserver.send(value: .noNetwork)
-//                                case .success(let recipes):
-//                                    self.customRecipes = recipes
-//                                    self.customRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
-//                                    self.customRecipes.sort { $0.isSelected && !$1.isSelected }
-//                                    self.dataChangeObserver.send(value: ())
-//                                }
-//                        }
-//                    } else {
-//                        #warning("modify error")
-//                        #warning("load realm back up")
-//                        self.errorObserver.send(value: .noNetwork)
-//
-//                    }
-//                }
-//        }
-//
-//    }
-    
     
     private func loadCustomRecipes() {
         let recipes = RealmHelper.shared.loadCustomRecipes()

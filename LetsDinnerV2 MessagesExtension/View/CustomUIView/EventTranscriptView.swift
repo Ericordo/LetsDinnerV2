@@ -18,7 +18,7 @@ class EventTranscriptView: UIView {
     
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 110))
-        imageView.image = UIImage(named: Images.premiumBackground)
+        imageView.image = Images.premiumBackground
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -67,7 +67,7 @@ class EventTranscriptView: UIView {
     
     private let chevronImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: Images.chevronDisclosure)
+        imageView.image = Images.chevronDisclosure
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -104,19 +104,18 @@ class EventTranscriptView: UIView {
         delegate?.didTapBubble()
     }
     
-    #warning("To test on real device")
     private func updateUserStatus(_ value: String) {
         if let status = Invitation(rawValue: value) {
             switch status {
             case .accepted:
-                statusIcon.image = UIImage(named: Images.statusAccepted)
+                statusIcon.image = Images.statusAccepted
             case .declined:
-                statusIcon.image = UIImage(named: Images.statusDeclined)
+                statusIcon.image = Images.statusDeclined
             case .pending:
-                statusIcon.image = UIImage(named: Images.statusPending)
+                statusIcon.image = Images.statusPending
             }
         } else {
-            statusIcon.image = UIImage(named: Images.statusPending)
+            statusIcon.image = Images.noStatus
         }
     }
     

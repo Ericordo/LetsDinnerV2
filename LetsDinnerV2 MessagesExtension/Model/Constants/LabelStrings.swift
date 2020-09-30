@@ -78,7 +78,6 @@ enum LabelStrings {
     static let startCreateRecipeMessage3 = NSLocalizedString("Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty.", comment: "create recipe message 3")
     static let noTipsAndComments = NSLocalizedString("No Tips & Comments", comment: "no Tips And Comments")
     static let done = NSLocalizedString("Done", comment: "done")
-    static let recipeName = NSLocalizedString("Recipe name", comment: "recipe name")
     
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")
@@ -90,6 +89,9 @@ enum LabelStrings {
     static let recipes = NSLocalizedString(" Recipes", comment: "recipes")
     static let addThing = NSLocalizedString("  Add Thing", comment: "add thing")
     static let misc = NSLocalizedString("Miscellaneous", comment: "miscellaneous")
+    static let amountOnlyPlaceholder = NSLocalizedString("500", comment: "amount only")
+    static let unitOnlyPlaceholder = NSLocalizedString("mL", comment: "unit only")
+    static let name = NSLocalizedString("Name", comment: "name (of recipe)")
     
     // DescriptionVC
     static let whatsThePlan = NSLocalizedString("What's the plan?", comment: "what's the plan")
@@ -98,6 +100,8 @@ enum LabelStrings {
     static let things = NSLocalizedString(" Things", comment: "things")
     static let addDescription = NSLocalizedString("Add Description", comment: "add description")
     static let maxCount = NSLocalizedString("No more than 400 characters please! 😁", comment: "character limit")
+    static let servingsOf = NSLocalizedString("%d SERVINGS OF", comment: "number servings of")
+    
     
     // ReviewVC
     static let readyToSend1 = NSLocalizedString("You're all set now! 💪 \nReady to send your invite?", comment: "ready to send")
@@ -123,15 +127,17 @@ enum LabelStrings {
     
     // TasksListVC
     static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now, an update may be coming soon! 🚀", comment: "multiple users checking")
-    static let calendar = NSLocalizedString("Calendar", comment: "calendar")
-    static let reminders = NSLocalizedString("Reminders", comment: "reminders")
-    static let cookingManual = NSLocalizedString("Create Cooking Manual", comment: "create cooking manual")
     static let back = NSLocalizedString(" Back", comment: "back")
     static let updateServings = NSLocalizedString("Update servings? %d", comment: "update servings")
+    static let allItemsAssigned = NSLocalizedString("All items assigned", comment: "all items assigned")
+    static let oneItemUnassigned = NSLocalizedString("1 item not assigned", comment: "one item not assigned")
+    static let itemsUnassigned = NSLocalizedString("%d items not assigned", comment: "number of items not assigned")
     
     // EventInfoVC
     static let eventInfoLabel = NSLocalizedString("You can sync the things assigned to you with Reminders and add the event to your Calendar.", comment: "sync description")
-    
+    static let calendar = NSLocalizedString("Calendar", comment: "calendar")
+    static let reminders = NSLocalizedString("Reminders", comment: "reminders")
+    static let cookingManual = NSLocalizedString("Create Cooking Manual", comment: "create cooking manual")
     
     // Reschedule
     static let rescheduleTitle = NSLocalizedString("Need to reschedule?", comment: "need to reschedule?")
@@ -171,6 +177,9 @@ enum LabelStrings {
     static let noTasksRemaining = NSLocalizedString("No tasks remaining! 💪", comment: "no tasks remaining")
     static let numberOfRemainingTasks = NSLocalizedString("There are %d tasks remaining! 💪", comment: "number of remaining tasks")
     static let oneTaskRemaining = NSLocalizedString("There is only one task remaining! 💪", comment: "only one task remaining")
+    static let inviteSummary = NSLocalizedString("%@ is inviting you to an event!", comment: "name is inviting you to an event")
+    static let cancelSummary = NSLocalizedString("%@ canceled the event.", comment: "name canceled the event")
+    static let dateChangeSummary = NSLocalizedString("%@ changed the date!", comment: "name changed the date")
     
     // Premium Screen
     static let restore = NSLocalizedString("Restore purchases", comment: "Restore purchases")
@@ -194,6 +203,7 @@ enum LabelStrings {
     static let ingredients = NSLocalizedString("INGREDIENTS", comment: "ingredients")
     static let cookingSteps = NSLocalizedString("COOKING STEPS", comment: "cooking steps")
     static let amountPlaceholder = NSLocalizedString("500 mL", comment: "amount in metric or imperial")
+    static let recipeNamePlaceholder = NSLocalizedString("Chocolate cake", comment: "recipe name placeholder")
     
     // RecipeDetails
     static let servingLabel = NSLocalizedString("For %@ people", comment: "servingLabel")

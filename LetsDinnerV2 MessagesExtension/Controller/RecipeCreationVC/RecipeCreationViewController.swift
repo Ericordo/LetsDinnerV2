@@ -68,7 +68,7 @@ class RecipeCreationViewController: UIViewController {
     
     private let recipeNameTextField : UITextField = {
         let textField = UITextField()
-        textField.placeholder = LabelStrings.recipeName
+        textField.placeholder = LabelStrings.recipeNamePlaceholder
         textField.autocapitalizationType = .words
         textField.returnKeyType = .next
         textField.borderStyle = .none
@@ -204,7 +204,7 @@ class RecipeCreationViewController: UIViewController {
             .controlEvents(.touchUpInside)
             .take(duringLifetimeOf: self)
             .observeValues { [unowned self] _ in
-                self.presentEditActionSheet()
+                self.viewModel.didTapEdit()
         }
         
         doneButton.reactive
@@ -289,6 +289,13 @@ class RecipeCreationViewController: UIViewController {
                 self.presentDoneActionSheet()
         }
         
+        self.viewModel.editActionSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [unowned self] _ in
+                self.presentEditActionSheet()
+        }
+        
         self.viewModel.recipeSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
@@ -298,10 +305,11 @@ class RecipeCreationViewController: UIViewController {
                 case .failure(let error):
                     if error == .recipeNameMissing {
                         self.recipeNameTextField.shake()
+                        self.showErrorBanner(message: error.description)
                         return
                     }
-                    print(error.localizedDescription)
-                    self.showBasicAlert(title: AlertStrings.oops, message: error.localizedDescription)
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: error.description)
                 case.success(()):
                     self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
                     self.dismiss(animated: true, completion: nil)
@@ -313,7 +321,6 @@ class RecipeCreationViewController: UIViewController {
         let ingredientsContainerHeight : CGFloat = ingredientsVC.preferredContentSize.height
         let stepsContainerHeight : CGFloat = stepsVC.preferredContentSize.height
         let commentsContainerHeight : CGFloat = commentsVC.preferredContentSize.height
-        
         
         self.ingredientsContainer.snp.updateConstraints { make in
             make.height.equalTo(ingredientsContainerHeight)
@@ -348,6 +355,16 @@ class RecipeCreationViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    private func showErrorBanner(message: String) {
+        let banner = LDAlertBanner(message)
+        banner.warning.textAlignment = .center
+        headerView.addSubview(banner)
+        banner.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+        }
+        banner.appearAndDisappear()
+    }
     
     private func setupCreationInterface(_ bool: Bool) {
         if self.viewModel.editingAllowed && !bool {

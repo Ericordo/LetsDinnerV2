@@ -173,7 +173,8 @@ class ReviewViewController: UIViewController {
                         guard let self = self else { return }
                         self.calendarSwitch.setOn(false, animated: true)
                         if self.isChecking {
-                            self.showBasicAlert(title: AlertStrings.calendarAccess, message: LDError.calendarDenied.description)
+                            self.showBasicAlert(title: AlertStrings.calendarAccess,
+                                                message: LDError.calendarDenied.description)
                         }
                 }
         }
