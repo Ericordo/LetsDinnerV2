@@ -9,6 +9,7 @@
 import UIKit
 import EventKit
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList()
@@ -409,10 +410,12 @@ extension EventSummaryViewController: UITableViewDelegate, UITableViewDataSource
 
 extension EventSummaryViewController: AnswerCellDelegate {
     func declineInvitation() {
+        Analytics.logEvent("decline_invitation", parameters: nil)
         self.viewModel.updateStatus(.declined)
     }
     
     func didTapAccept() {
+        Analytics.logEvent("accept_invitation", parameters: nil)
         self.viewModel.updateStatus(.accepted)
     }
     

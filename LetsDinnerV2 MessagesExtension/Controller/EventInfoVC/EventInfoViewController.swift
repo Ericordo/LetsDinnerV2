@@ -9,6 +9,7 @@
 import UIKit
 import PDFKit
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol EventInfoViewControllerDelegate: class {
     func eventInfoVCDidTapBackButton()
@@ -138,6 +139,7 @@ class EventInfoViewController: LDNavigationViewController {
     }
     
     @objc private func didTapManualButton() {
+        Analytics.logEvent("create_manual", parameters: nil)
         let pdfCreator = PDFCreator()
         let data = pdfCreator.createBook()
         let recipeBook = RecipeBookViewController(documentData: data)
