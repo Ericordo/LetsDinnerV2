@@ -195,6 +195,10 @@ class RecipesViewModel {
                     if !previouslySelectedRecipes.contains(where: { recipe.title == $0.title }) {
                         newRecipes.append(recipe)
                     }
+                    if previouslySelectedRecipes.contains(where: { recipe.title == $0.title }) &&
+                        !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
+                        newRecipes.append(recipe)
+                    }
                 }
             }
             
@@ -203,6 +207,10 @@ class RecipesViewModel {
             } else {
                 Event.shared.selectedCustomRecipes.forEach { recipe in
                     if !previouslySelectedCustomRecipes.contains(where: { recipe.id == $0.id }) {
+                        newCustomRecipes.append(recipe)
+                    }
+                    if previouslySelectedCustomRecipes.contains(where: { recipe.title == $0.title }) &&
+                        !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
                         newCustomRecipes.append(recipe)
                     }
                 }
