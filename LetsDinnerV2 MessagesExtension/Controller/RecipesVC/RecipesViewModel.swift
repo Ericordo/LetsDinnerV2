@@ -218,7 +218,7 @@ class RecipesViewModel {
 
             // According to api and custom
             newRecipes.forEach { recipe in
-                let recipeName = recipe.title ?? ""
+                let recipeName = recipe.title
                 let servings = Double(recipe.servings ?? 2)
                 let ingredients = recipe.ingredientList
                 

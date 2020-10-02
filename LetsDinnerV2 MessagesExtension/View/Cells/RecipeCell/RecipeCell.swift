@@ -198,7 +198,7 @@ class RecipeCell: UITableViewCell {
         visualEffectView.isHidden = false
 
         self.searchType = .apiRecipes
-        recipeNameLabel.text = recipe.title!
+        recipeNameLabel.text = recipe.title
         selectedRecipe = recipe
         chooseButton.isHidden = recipe.isSelected
         chosenButton.isHidden = !recipe.isSelected

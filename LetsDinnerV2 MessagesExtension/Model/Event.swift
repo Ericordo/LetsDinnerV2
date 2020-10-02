@@ -162,12 +162,12 @@ class Event {
             var recipesInfo : [String : Any] = [:]
             selectedRecipes.forEach { recipe in
                 var recipeInfo : [String : Any] = [DataKeys.sourceUrl : recipe.sourceUrl ?? "",
-                                                   DataKeys.id : recipe.id ?? 0,
+                                                   DataKeys.id : recipe.id,
                                                    DataKeys.imageUrl : recipe.imageUrl ?? ""]
                 if let cookingSteps = recipe.instructions {
                     recipeInfo[DataKeys.cookingSteps] = cookingSteps
                 }
-                recipesInfo[recipe.title ?? "Unknown title"] = recipeInfo
+                recipesInfo[recipe.title] = recipeInfo
             }
             eventInfo[DataKeys.recipes] = recipesInfo
         }
@@ -203,10 +203,8 @@ class Event {
             eventInfo[DataKeys.customRecipes] = customRecipesInfo
         }
         
-        #warning("Please refactor this, why using a set when we can directly store a dict?. Write a method that directly returns the dict instead of assigning it to a property that is then stored")
         if !CustomOrderHelper.shared.customOrder.isEmpty {
-            CustomOrderHelper.shared.convertedCustomOrderForFirebaseStorage = CustomOrderHelper.shared.convertingTupleToArray(from: CustomOrderHelper.shared.customOrder)
-            eventInfo[DataKeys.customOrder] = CustomOrderHelper.shared.convertedCustomOrderForFirebaseStorage
+            eventInfo[DataKeys.customOrder] = CustomOrderHelper.shared.customOrder
         }
         
         if !tasks.isEmpty {
@@ -302,8 +300,8 @@ class Event {
             self.parseEventTasks(currentTasks)
         }
         
-        if let customOrder = value[DataKeys.customOrder] as? [String] {
-            CustomOrderHelper.shared.customOrder = CustomOrderHelper.shared.convertingArrayToTuple(from: customOrder)
+        if let customOrder = value[DataKeys.customOrder] as? [String : Int] {
+            CustomOrderHelper.shared.customOrder = customOrder
         }
         
         var recipes = [Recipe]()
@@ -311,7 +309,7 @@ class Event {
             selectedRecipes.forEach { (key, value) in
                 guard let dict = value as? [String : Any] else { return }
                 guard let sourceUrl = dict[DataKeys.sourceUrl] as? String,
-                    let id = dict[DataKeys.id] as? Int,
+                    let id = dict[DataKeys.id] as? String,
                     let imageUrl = dict[DataKeys.imageUrl] as? String
                     else { return }
                 

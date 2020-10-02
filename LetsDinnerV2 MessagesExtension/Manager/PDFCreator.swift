@@ -60,7 +60,7 @@ class PDFCreator {
             
             recipes.forEach { recipe in
                 startNewPage(context: context, pageRect: pageRect)
-                let titleBottom = addTitle(recipeName: recipe.title ?? LabelStrings.recipe, pageRect: pageRect)
+                let titleBottom = addTitle(recipeName: recipe.title, pageRect: pageRect)
                 var topPosition : CGFloat = titleBottom + 15.0
                 let imageBottom = addImage(imageUrl: recipe.imageUrl ?? "", pageRect: pageRect, imageTop: topPosition)
                 topPosition = imageBottom + 15
@@ -69,7 +69,7 @@ class PDFCreator {
                     topPosition = linkBottom + 15.0
                 }
                 if Event.shared.tasks.contains(where: { $0.parentRecipe == recipe.title }) {
-                    let ingredientsBottom = addIngredients(recipeName: recipe.title ?? "", pageRect: pageRect, textTop: topPosition)
+                    let ingredientsBottom = addIngredients(recipeName: recipe.title, pageRect: pageRect, textTop: topPosition)
                     topPosition = ingredientsBottom + 10
                 }
                 if let steps = recipe.instructions, !steps.isEmpty {
