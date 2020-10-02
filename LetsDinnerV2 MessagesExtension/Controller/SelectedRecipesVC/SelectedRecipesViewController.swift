@@ -159,9 +159,10 @@ class SelectedRecipesViewController: UIViewController {
                                   forCellReuseIdentifier: RecipeCell.reuseID)
         recipesTableView.delegate = self
         recipesTableView.dataSource = self
-        recipesTableView.dragInteractionEnabled = true
-        recipesTableView.dragDelegate = self
-        recipesTableView.dropDelegate = self
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            recipesTableView.dragInteractionEnabled = true
+            recipesTableView.dragDelegate = self
+        }
         recipesTableView.tableFooterView = footerView
     }
     
@@ -239,19 +240,13 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
         }
         let recipeType = CustomOrderHelper.shared.recipeType(from: recipeId)
         
-        if recipeType == .apiRecipes {
-            #warning("use first not first index")
-            if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipeId }) {
-                let recipe = Event.shared.selectedRecipes[index]
-                cell.configureCell(recipe)
-            }
+        if recipeType == .apiRecipes, let recipe = Event.shared.selectedRecipes.first(where: { $0.id == recipeId
+        }) {
+            cell.configureCell(recipe)
             
-        } else if recipeType == .customRecipes {
-            if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipeId }) {
-                let recipe = Event.shared.selectedCustomRecipes[index]
-                cell.configureCellWithCustomRecipe(recipe)
-            }
-
+        } else if recipeType == .customRecipes, let recipe = Event.shared.selectedCustomRecipes.first(where: { $0.id == recipeId
+        }) {
+            cell.configureCellWithCustomRecipe(recipe)
         }
         return cell
     }
@@ -321,35 +316,6 @@ extension SelectedRecipesViewController: UITableViewDragDelegate {
             return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
         }
         return UITableViewDropProposal(operation: .cancel, intent: .unspecified)
-    }
-}
-
-extension SelectedRecipesViewController: UITableViewDropDelegate {
-    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
-        let destinationIndexPath: IndexPath
-        
-        if let indexPath = coordinator.destinationIndexPath {
-            destinationIndexPath = indexPath
-        } else {
-            // Get last index path of table view.
-            let section = tableView.numberOfSections - 1
-            let row = tableView.numberOfRows(inSection: section)
-            destinationIndexPath = IndexPath(row: row, section: section)
-        }
-        
-//        coordinator.session.loadObjects(ofClass: RecipeCell.self) { items in
-//            // Consume drag items.
-//            let stringItems = items as! [String]
-//
-//            var indexPaths = [IndexPath]()
-//            for (index, item) in stringItems.enumerated() {
-//                let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
-//                self.model.addItem(item, at: indexPath.row)
-//                indexPaths.append(indexPath)
-//            }
-//
-//            tableView.insertRows(at: indexPaths, with: .automatic)
-//        }
     }
 }
 
