@@ -139,6 +139,10 @@ class SelectedRecipesViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .backgroundColor
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(closeVC),
+                                               name: Notification.Name(rawValue: "WillTransition"),
+                                               object: nil)
         self.view.addSubview(navigationView)
         navigationView.addSubview(titleLabel)
         navigationView.addSubview(doneButton)
@@ -157,6 +161,7 @@ class SelectedRecipesViewController: UIViewController {
         recipesTableView.dataSource = self
         recipesTableView.dragInteractionEnabled = true
         recipesTableView.dragDelegate = self
+        recipesTableView.dropDelegate = self
         recipesTableView.tableFooterView = footerView
     }
     
@@ -228,36 +233,27 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
         cell.chosenButton.isUserInteractionEnabled = false
         
         // Present using CustomOrderHelper
-        /** Loop through the customOrderHelper
-         // check the order no. with the indexPath
-         // Find the RecipeID
-         // Check its custom or not <-
-         configure Cell
-         */
-        
-        for customOrder in CustomOrderHelper.shared.customOrder {
-            // If match
-            if customOrder.1 == indexPath.row + 1 {
-                let recipeType = CustomOrderHelper.shared.checkIfRecipeIsCustom(recipeId: customOrder.0)
-                switch recipeType {
-                case .apiRecipes:
-                    if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == Int(customOrder.0)} ) {
-                        let recipe = Event.shared.selectedRecipes[index]
-                        cell.configureCell(recipe)
-                        return cell
-                    }
-                case .customRecipes:
-                    if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customOrder.0} ) {
-                        let recipe = Event.shared.selectedCustomRecipes[index]
-                        cell.configureCellWithCustomRecipe(recipe)
-                        return cell
-                    }
-                default:
-                    break
-                }
-            }
+
+        guard let recipeId = CustomOrderHelper.shared.customOrder.first(where: { $0.value == indexPath.row })?.key else {
+            return UITableViewCell()
         }
-        return UITableViewCell()
+        let recipeType = CustomOrderHelper.shared.recipeType(from: recipeId)
+        
+        if recipeType == .apiRecipes {
+            #warning("use first not first index")
+            if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipeId }) {
+                let recipe = Event.shared.selectedRecipes[index]
+                cell.configureCell(recipe)
+            }
+            
+        } else if recipeType == .customRecipes {
+            if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipeId }) {
+                let recipe = Event.shared.selectedCustomRecipes[index]
+                cell.configureCellWithCustomRecipe(recipe)
+            }
+
+        }
+        return cell
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -276,7 +272,7 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
                 }
             case .apiRecipes:
                 if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == cell.selectedRecipe.id }) {
-                    CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(Event.shared.selectedRecipes[index].id!))
+                    CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(Event.shared.selectedRecipes[index].id))
                     Event.shared.selectedRecipes.remove(at: index)
                 }
             }
@@ -291,9 +287,9 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
                             cell.updateHeight(with: 0) },
                             completion: { (_) in
                             cell.updateHeight(with: 110)
-                            self.recipesTableView.reloadData()
             })
             complete(true)
+            self.recipesTableView.reloadData()
         }
         deleteAction.image = Images.deleteBin
         deleteAction.backgroundColor = UIColor.backgroundColor
@@ -305,8 +301,8 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
 
 extension SelectedRecipesViewController: UITableViewDragDelegate {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        CustomOrderHelper.shared.reorderRecipeCustomOrder(sourceOrder: sourceIndexPath.row + 1,
-                                                          destinationOrder: destinationIndexPath.row + 1)
+        CustomOrderHelper.shared.reorderRecipeCustomOrder(sourceOrder: sourceIndexPath.row,
+                                                          destinationOrder: destinationIndexPath.row)
         DispatchQueue.main.async {
             self.recipesTableView.reloadData()
         }
@@ -325,6 +321,35 @@ extension SelectedRecipesViewController: UITableViewDragDelegate {
             return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
         }
         return UITableViewDropProposal(operation: .cancel, intent: .unspecified)
+    }
+}
+
+extension SelectedRecipesViewController: UITableViewDropDelegate {
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        let destinationIndexPath: IndexPath
+        
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            // Get last index path of table view.
+            let section = tableView.numberOfSections - 1
+            let row = tableView.numberOfRows(inSection: section)
+            destinationIndexPath = IndexPath(row: row, section: section)
+        }
+        
+//        coordinator.session.loadObjects(ofClass: RecipeCell.self) { items in
+//            // Consume drag items.
+//            let stringItems = items as! [String]
+//
+//            var indexPaths = [IndexPath]()
+//            for (index, item) in stringItems.enumerated() {
+//                let indexPath = IndexPath(row: destinationIndexPath.row + index, section: destinationIndexPath.section)
+//                self.model.addItem(item, at: indexPath.row)
+//                indexPaths.append(indexPath)
+//            }
+//
+//            tableView.insertRows(at: indexPaths, with: .automatic)
+//        }
     }
 }
 

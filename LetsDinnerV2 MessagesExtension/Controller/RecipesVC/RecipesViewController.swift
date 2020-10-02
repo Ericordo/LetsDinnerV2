@@ -365,27 +365,25 @@ extension RecipesViewController: RecipeCellDelegate {
     
     func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
-            
             CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: customRecipe.id)
             Event.shared.selectedCustomRecipes.remove(at: index)
         } else {
             Event.shared.selectedCustomRecipes.append(customRecipe)
-            
-            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: customRecipe.id, order: CustomOrderHelper.shared.lastIndex + 1)
+            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: customRecipe.id,
+                                                             order: CustomOrderHelper.shared.newIndex)
         }
         configureNextAndSelectedRecipesButtons()
     }
     
     // MARK: Append Recipe to EventArray
     func recipeCellDidSelectRecipe(_ recipe: Recipe) {
-        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id! }) {
-            
-            CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(recipe.id!))
+        if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id }) {
+            CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: recipe.id)
             Event.shared.selectedRecipes.remove(at: index)
         } else {
             Event.shared.selectedRecipes.append(recipe)
-            
-            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: String(recipe.id!), order: CustomOrderHelper.shared.lastIndex + 1)
+            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: recipe.id,
+                                                             order: CustomOrderHelper.shared.newIndex)
         }
         configureNextAndSelectedRecipesButtons()
     }

@@ -92,7 +92,7 @@ class TestManager {
                     Event.shared.selectedRecipes.append(contentsOf: array)
                                                                                 
                       event.selectedRecipes.forEach { recipe in
-                          let recipeName = recipe.title ?? ""
+                          let recipeName = recipe.title
                           let servings = Double(recipe.servings ?? 2)
                           let ingredients = recipe.ingredientList
                           

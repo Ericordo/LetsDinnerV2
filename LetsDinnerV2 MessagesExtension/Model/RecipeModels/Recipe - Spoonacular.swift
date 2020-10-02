@@ -10,27 +10,22 @@ import Foundation
 
 struct Recipe {
     
-    var title: String?
+    var title: String
     var imageUrl: String?
     var sourceUrl: String?
     var ingredientList: [Ingredient]?
     var servings: Int?
-    var id: Int?
+    var id: String
     var instructions: [String]?
     
-    init() {}
-    
-    init(title: String, sourceUrl: String, id: Int) {
+    init(title: String, sourceUrl: String, id: String) {
         self.sourceUrl = sourceUrl
         self.title = title
         self.id = id
     }
         
     init(dict: Dictionary<String, Any>) {
-        
-        if let title = dict["title"] as? String {
-            self.title = title
-        }
+        self.title = dict["title"] as? String ?? LabelStrings.recipe
         if let imageUrl = dict["image"] as? String {
             self.imageUrl = imageUrl
         }
@@ -41,7 +36,9 @@ struct Recipe {
             self.servings = servings
         }
         if let id = dict["id"] as? Int {
-            self.id = id
+            self.id = String(id)
+        } else {
+            self.id = UUID().uuidString
         }
         if let ingredients = dict["extendedIngredients"] as? [[String:Any]] {
             var ingredientList = [Ingredient]()
