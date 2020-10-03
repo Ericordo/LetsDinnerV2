@@ -53,7 +53,7 @@ class NewEventViewController: LDNavigationViewController {
     
     private let restoreLabel : UILabel = {
         let label = UILabel()
-        label.text = "It seems you left us in the middle of creating an event! Would you like to restore it?"
+        label.text = LabelStrings.restoreEvent
         label.numberOfLines = 0
         label.textColor = .secondaryTextLabel
         label.font = UIFont.systemFont(ofSize: 14)
@@ -66,9 +66,8 @@ class NewEventViewController: LDNavigationViewController {
     
     private let restoreButton : SecondaryButton = {
         let button = SecondaryButton()
-        button.setTitle("Restore", for: .normal)
+        button.setTitle(LabelStrings.restore, for: .normal)
         button.isHidden = true
-        
         return button
     }()
     
@@ -259,8 +258,14 @@ class NewEventViewController: LDNavigationViewController {
     
     // MARK: Methods
     private func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func updateEventName(_ name: String) {
@@ -274,7 +279,11 @@ class NewEventViewController: LDNavigationViewController {
         navigationBar.titleLabel.text = LabelStrings.addEventDetails
         navigationBar.previousButton.setImage(Images.settingsButtonOutlined, for: .normal)
         scrollView.delegate = self
-        if defaults.value(forKey: Keys.eventBackup) != nil {
+        if defaults.value(forKey: Keys.eventBackup) != nil &&
+        Event.shared.dinnerName.isEmpty &&
+        Event.shared.hostName.isEmpty &&
+        Event.shared.dinnerLocation.isEmpty &&
+        Event.shared.dinnerDate.isEmpty {
             self.restoreLabel.isHidden = false
             self.restoreButton.isHidden = false
         }

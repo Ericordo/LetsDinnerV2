@@ -31,6 +31,8 @@ enum Keys {
     static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
     static let addEventCalendar = "addEventCalendar"
     static let eventBackup = "eventBackup"
+    static let recipeBackup = "recipeBackup"
+    static let recipePicBackup = "recipePickBackup"
 }
 
 enum Images {

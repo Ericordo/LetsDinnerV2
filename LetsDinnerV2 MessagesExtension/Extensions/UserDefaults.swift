@@ -85,4 +85,34 @@ extension UserDefaults {
         CustomOrderHelper.shared.customOrder = eventData.customOrder
         self.set(nil, forKey: Keys.eventBackup)
     }
+    
+    
+    func backupRecipeData(_ recipe: LDRecipe, imageData: Data?) {
+        do {
+            let encoder = JSONEncoder()
+            let recipeData = try encoder.encode(recipe)
+            self.set(recipeData, forKey: Keys.recipeBackup)
+            if let data = imageData {
+                self.set(data, forKey: Keys.recipePicBackup)
+            }
+        } catch {
+            
+        }
+    }
+    
+    func retrieveRecipeData() {
+        
+        
+    }
+    
+    private func restoreRecipeData() {
+        
+    }
+    
+    func deleteRecipeBackup() {
+        self.set(nil, forKey: Keys.recipeBackup)
+        self.set(nil, forKey: Keys.recipePicBackup)
+    }
+    
+    
 }

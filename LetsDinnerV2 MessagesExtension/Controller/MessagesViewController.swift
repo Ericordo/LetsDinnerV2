@@ -102,6 +102,8 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didResignActive(with conversation: MSConversation) {
         defaults.backupEventData()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "DidResignActive"),
+                                        object: nil)
         // Called when the extension is about to move from the active to inactive state.
         // This will happen when the user dissmises the extension, changes to a different
         // conversation or quits Messages.
