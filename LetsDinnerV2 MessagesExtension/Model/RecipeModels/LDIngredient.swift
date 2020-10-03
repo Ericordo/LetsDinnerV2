@@ -9,11 +9,15 @@
 import Foundation
 import CloudKit
 
-struct LDIngredient: Equatable {
+struct LDIngredient: Equatable, Codable {
     var name: String = ""
     var amount: Double?
     var unit: String?
     var recordID: CKRecord.ID?
+    
+    private enum CodingKeys: String, CodingKey {
+        case name, amount, unit
+    }
     
     static func == (lhs: LDIngredient, rhs: LDIngredient) -> Bool {
         return lhs.name == rhs.name &&

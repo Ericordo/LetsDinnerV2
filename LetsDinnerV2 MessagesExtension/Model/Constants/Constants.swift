@@ -30,6 +30,7 @@ enum Keys {
     static let searchType = "searchType"
     static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
     static let addEventCalendar = "addEventCalendar"
+    static let eventBackup = "eventBackup"
 }
 
 enum Images {

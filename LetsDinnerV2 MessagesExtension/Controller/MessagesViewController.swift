@@ -101,6 +101,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func didResignActive(with conversation: MSConversation) {
+        defaults.backupEventData()
         // Called when the extension is about to move from the active to inactive state.
         // This will happen when the user dissmises the extension, changes to a different
         // conversation or quits Messages.
@@ -108,7 +109,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to release shared resources, save user data, invalidate timers,
         // and store enough state information to restore your extension to its current state
         // in case it is terminated later.
-        print("Resign Active State")
     }
     
     override func didReceive(_ message: MSMessage, conversation: MSConversation) {
