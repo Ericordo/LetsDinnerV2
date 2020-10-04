@@ -86,7 +86,6 @@ extension UserDefaults {
         self.set(nil, forKey: Keys.eventBackup)
     }
     
-    
     func backupRecipeData(_ recipe: LDRecipe, imageData: Data?) {
         do {
             let encoder = JSONEncoder()
@@ -99,20 +98,9 @@ extension UserDefaults {
             
         }
     }
-    
-    func retrieveRecipeData() {
-        
-        
-    }
-    
-    private func restoreRecipeData() {
-        
-    }
-    
+
     func deleteRecipeBackup() {
         self.set(nil, forKey: Keys.recipeBackup)
         self.set(nil, forKey: Keys.recipePicBackup)
     }
-    
-    
 }
