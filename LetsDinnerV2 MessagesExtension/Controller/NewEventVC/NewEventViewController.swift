@@ -47,7 +47,28 @@ class NewEventViewController: LDNavigationViewController {
         label.text = LabelStrings.allFieldsRequired
         label.textColor = .activeButton
         label.font = UIFont.systemFont(ofSize: 16)
+        label.isHidden = true
         return label
+    }()
+    
+    private let restoreLabel : UILabel = {
+        let label = UILabel()
+        label.text = LabelStrings.restoreEvent
+        label.numberOfLines = 0
+        label.textColor = .secondaryTextLabel
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.7
+        label.isHidden = true
+        return label
+    }()
+    
+    private let restoreButton : SecondaryButton = {
+        let button = SecondaryButton()
+        button.setTitle(LabelStrings.restore, for: .normal)
+        button.isHidden = true
+        return button
     }()
     
     #warning("Delete before release")
@@ -174,6 +195,16 @@ class NewEventViewController: LDNavigationViewController {
                 self.dateTextField.becomeFirstResponder()
             }
         }
+        
+        restoreButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            defaults.retrieveEventData()
+            self.restoreButton.isHidden = true
+            self.restoreLabel.isHidden = true
+            self.viewModel.eventName.value = Event.shared.dinnerName
+            self.viewModel.date.value = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
+            self.viewModel.host.value = Event.shared.hostName
+            self.viewModel.location.value = Event.shared.dinnerLocation
+        }
     
         quickFillButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             let event = TestManager.quickFillIn()
@@ -227,8 +258,14 @@ class NewEventViewController: LDNavigationViewController {
     
     // MARK: Methods
     private func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func updateEventName(_ name: String) {
@@ -239,10 +276,10 @@ class NewEventViewController: LDNavigationViewController {
     
     private func setupUI() {
         view.backgroundColor = .backgroundColor
-        
         navigationBar.titleLabel.text = LabelStrings.addEventDetails
         navigationBar.previousButton.setImage(Images.settingsButtonOutlined, for: .normal)
         scrollView.delegate = self
+        showRestoreUIIfNeeeded()
         errorLabel.isHidden = true
         dateTextField.inputView = datePicker
         view.addTapGestureToHideKeyboard()
@@ -254,6 +291,8 @@ class NewEventViewController: LDNavigationViewController {
         stackView.addArrangedSubview(locationTextField)
         stackView.addArrangedSubview(dateTextField)
         contentView.addSubview(errorLabel)
+        contentView.addSubview(restoreLabel)
+        contentView.addSubview(restoreButton)
         contentView.addSubview(quickFillButton)
         contentView.addSubview(quickEventButton)
         view.addSubview(infoInputView)
@@ -301,8 +340,21 @@ class NewEventViewController: LDNavigationViewController {
             make.top.equalTo(stackView.snp.bottom).offset(30)
         }
         
+        restoreLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.top.equalTo(errorLabel.snp.bottom).offset(20)
+        }
+        
+        restoreButton.snp.makeConstraints { make in
+            make.height.equalTo(42)
+            make.width.equalTo(150)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(restoreLabel.snp.bottom).offset(20)
+        }
+        
         quickFillButton.snp.makeConstraints { make in
-            make.top.equalTo(errorLabel.snp.bottom).offset(30)
+            make.top.equalTo(restoreButton.snp.bottom).offset(30)
             make.leading.equalToSuperview().offset(20)
             make.height.equalTo(30)
         }
@@ -323,6 +375,17 @@ class NewEventViewController: LDNavigationViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
             make.bottom.equalToSuperview().offset(50)
+        }
+    }
+    
+    private func showRestoreUIIfNeeeded() {
+        if defaults.value(forKey: Keys.eventBackup) != nil &&
+        Event.shared.dinnerName.isEmpty &&
+        Event.shared.hostName.isEmpty &&
+        Event.shared.dinnerLocation.isEmpty &&
+        Event.shared.dinnerDate.isEmpty {
+            self.restoreLabel.isHidden = false
+            self.restoreButton.isHidden = false
         }
     }
     

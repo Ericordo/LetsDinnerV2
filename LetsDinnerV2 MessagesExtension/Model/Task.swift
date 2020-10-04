@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum TaskState: Int {
+enum TaskState: Int, Codable {
     case unassigned = 0
     case assigned = 1
     case completed = 2
 }
 
-class Task: Hashable {
+class Task: Hashable, Codable {
     var taskUid: String
     var taskName: String
     var assignedPersonName: String

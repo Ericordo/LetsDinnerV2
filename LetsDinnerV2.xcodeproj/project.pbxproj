@@ -90,6 +90,7 @@
 		887BE721240470F6006619C7 /* LDLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887BE720240470F6006619C7 /* LDLabel.swift */; };
 		887CF811250E5A09001C1014 /* SelectedRecipesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887CF810250E5A09001C1014 /* SelectedRecipesViewModel.swift */; };
 		887CF813250E665A001C1014 /* SelectedRecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887CF812250E665A001C1014 /* SelectedRecipesViewController.swift */; };
+		88B2F1212527E16000B1FE0F /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B2F1202527E16000B1FE0F /* EventData.swift */; };
 		88B7832C23717CF7009E4F3C /* LDSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* LDSearchBar.swift */; };
 		88B7832E23717D84009E4F3C /* UIColor+Semantic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */; };
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
@@ -265,6 +266,7 @@
 		887BE720240470F6006619C7 /* LDLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDLabel.swift; sourceTree = "<group>"; };
 		887CF810250E5A09001C1014 /* SelectedRecipesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedRecipesViewModel.swift; sourceTree = "<group>"; };
 		887CF812250E665A001C1014 /* SelectedRecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedRecipesViewController.swift; sourceTree = "<group>"; };
+		88B2F1202527E16000B1FE0F /* EventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
 		88B7832B23717CF7009E4F3C /* LDSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDSearchBar.swift; sourceTree = "<group>"; };
 		88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Semantic.swift"; sourceTree = "<group>"; };
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 				B8AC7CB7239AA95C0079EADB /* VCTransitionDirection.swift */,
 				885133B2243283AF004CD858 /* SendAction.swift */,
 				88D9AB44247063E9007716E6 /* LDError.swift */,
+				88B2F1202527E16000B1FE0F /* EventData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1179,6 +1182,7 @@
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
 				884A5D8D24A3662D00CBF8AF /* PDFCreator.swift in Sources */,
 				880B1358237474A4003E29AC /* Task.swift in Sources */,
+				88B2F1212527E16000B1FE0F /* EventData.swift in Sources */,
 				B87C106A2414BB21004AD951 /* ExpandableTaskHeader.swift in Sources */,
 				88349F1D236DEF15002A1879 /* Constants.swift in Sources */,
 				88D9AB45247063E9007716E6 /* LDError.swift in Sources */,

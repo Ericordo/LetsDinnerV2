@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-struct LDRecipe: Equatable {
+struct LDRecipe: Equatable, Codable {
     var id = UUID().uuidString
     var title: String = ""
     var servings: Int = 2
@@ -17,10 +17,14 @@ struct LDRecipe: Equatable {
     var cookingSteps: [String] = [String]()
     var comments: [String] = [String]()
     var ingredients: [LDIngredient] = [LDIngredient]()
-    var recordID: CKRecord.ID?
+    var recordID: CKRecord.ID? = nil
     
     var isSelected : Bool {
         return Event.shared.selectedCustomRecipes.contains { $0.id == self.id }
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, title, servings, downloadUrl, cookingSteps, comments, ingredients
     }
     
     static func == (lhs: LDRecipe, rhs: LDRecipe) -> Bool {

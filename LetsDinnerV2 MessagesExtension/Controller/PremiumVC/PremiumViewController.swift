@@ -17,7 +17,7 @@ class PremiumViewController: UIViewController {
     private let restoreButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.activeButton, for: .normal)
-        button.setTitle(LabelStrings.restore, for: .normal)
+        button.setTitle(LabelStrings.restorePurchases, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17)
         return button
     }()

@@ -10,6 +10,7 @@ import Foundation
 
 enum LabelStrings {
     static let next = NSLocalizedString("Next", comment: "Next")
+    static let restore = NSLocalizedString("Restore", comment: "restore")
     
     // InitialVC
     static let letsdinner = "Let's Dinner!"
@@ -44,6 +45,7 @@ enum LabelStrings {
     static let breakfast = NSLocalizedString("Breakfast", comment: "breakfast")
     static let lunch = NSLocalizedString("Lunch", comment: "lunch")
     static let dinner = NSLocalizedString("Dinner", comment: "dinner")
+    static let restoreEvent = NSLocalizedString("It seems that you left us in the middle of creating an event! Would you like to keep working on it?", comment: "restore event backup")
     
     // RecipesVC
     static let noRecipeTitle = NSLocalizedString("No recipes selected", comment: "no recipes selected")
@@ -182,7 +184,7 @@ enum LabelStrings {
     static let dateChangeSummary = NSLocalizedString("%@ changed the date!", comment: "name changed the date")
     
     // Premium Screen
-    static let restore = NSLocalizedString("Restore purchases", comment: "Restore purchases")
+    static let restorePurchases = NSLocalizedString("Restore purchases", comment: "Restore purchases")
     static let premiumAppName = "Let's Dinner "
     static let premiumPro = "Pro!"
     static let premiumDescription = NSLocalizedString("Let's Dinner! was created by six people from accross the world. Your Let's Dinner Pro! subscription will let you create events, enjoy neat features, and help to ensure future development! Have a look:", comment: "Premium description")

@@ -74,6 +74,15 @@ class RecipeCreationViewModel {
         if let recipe = recipe {
             self.displayRecipe(recipe)
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(backupRecipe),
+                                               name: Notification.Name(rawValue: "DidResignActive"),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(backupRecipe),
+                                               name: Notification.Name(rawValue: "WillTransition"),
+                                               object: nil)
     }
     
     private func displayRecipe(_ recipe: LDRecipe) {
@@ -258,13 +267,13 @@ class RecipeCreationViewModel {
         CloudManager.shared.saveRecipeAndIngredientsOnCloud(recipe)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
             .startWithResult { result in
                 switch result {
                 case .success(let recordID):
                     RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
                         .startWithCompleted {
+                            defaults.deleteRecipeBackup()
                             self.recipeObserver.send(value: .success(()))
                     }
                 case .failure(let error):
@@ -298,7 +307,6 @@ class RecipeCreationViewModel {
         CloudManager.shared.updateRecipeInCloud(currentRecipe, newRecipe)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
             .startWithResult { result in
                 switch result {
@@ -312,5 +320,46 @@ class RecipeCreationViewModel {
                     self.recipeObserver.send(value: .failure(error))
                 }
         }
+    }
+    
+    @objc private func backupRecipe() {
+        let recipe = LDRecipe(id: "",
+                              title: self.recipeName.value,
+                              servings: self.servings.value,
+                              downloadUrl: self.downloadUrl.value,
+                              cookingSteps: self.steps.value,
+                              comments: self.comments.value,
+                              ingredients: self.ingredients.value,
+                              recordID: nil)
+        defaults.backupRecipeData(recipe, imageData: self.recipePicData.value)
+    }
+    
+    func ongoingRecipe() -> Bool {
+        if defaults.value(forKey: Keys.recipeBackup) != nil || defaults.value(forKey: Keys.recipePicBackup) != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func restoreRecipeData() {
+        if let data = defaults.value(forKey: Keys.recipeBackup) as? Data {
+            do {
+                let decoder = JSONDecoder()
+                let recipeData = try decoder.decode(LDRecipe.self, from: data)
+                self.recipeName.value = recipeData.title
+                self.servings.value = recipeData.servings
+                self.downloadUrl.value = recipeData.downloadUrl
+                self.steps.value = recipeData.cookingSteps
+                self.comments.value = recipeData.comments
+                self.ingredients.value = recipeData.ingredients
+            } catch {
+                
+            }
+        }
+        if let imageData = defaults.value(forKey: Keys.recipePicBackup) as? Data {
+            self.recipePicData.value = imageData
+        }
+        defaults.deleteRecipeBackup()
     }
 }

@@ -38,4 +38,81 @@ extension UserDefaults {
         get { return bool(forKey: Keys.addEventCalendar) }
         set { set(newValue, forKey: Keys.addEventCalendar) }
     }
+    
+    func backupEventData() {
+        guard Event.shared.firebaseEventUid.isEmpty else { return }
+        let eventData = EventData(dinnerName: Event.shared.dinnerName,
+                                  hostName: Event.shared.hostName,
+                                  dateTimestamp: Event.shared.dateTimestamp,
+                                  dinnerLocation: Event.shared.dinnerLocation,
+                                  eventDescription: Event.shared.eventDescription,
+                                  selectedRecipes: Event.shared.selectedRecipes,
+                                  selectedCustomRecipes: Event.shared.selectedCustomRecipes,
+                                  servings: Event.shared.servings,
+                                  tasks: Event.shared.tasks,
+                                  customOrder: CustomOrderHelper.shared.customOrder)
+        do {
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(eventData)
+            self.set(data, forKey: Keys.eventBackup)
+        } catch {
+            
+        }
+    }
+    
+    func retrieveEventData() {
+        if let data = self.value(forKey: Keys.eventBackup) as? Data {
+            do {
+                let decoder = JSONDecoder()
+                let eventData = try decoder.decode(EventData.self, from: data)
+                self.restoreEventData(eventData)
+            } catch {
+                
+            }
+        }
+    }
+    
+    private func restoreEventData(_ eventData: EventData) {
+        Event.shared.dinnerName = eventData.dinnerName
+        Event.shared.hostName = eventData.hostName
+        Event.shared.dateTimestamp = eventData.dateTimestamp
+        Event.shared.dinnerLocation = eventData.dinnerLocation
+        Event.shared.eventDescription = eventData.eventDescription
+        Event.shared.selectedRecipes = eventData.selectedRecipes
+        Event.shared.selectedCustomRecipes = eventData.selectedCustomRecipes
+        Event.shared.servings = eventData.servings
+        Event.shared.tasks = eventData.tasks
+        CustomOrderHelper.shared.customOrder = eventData.customOrder
+        self.set(nil, forKey: Keys.eventBackup)
+    }
+    
+    
+    func backupRecipeData(_ recipe: LDRecipe, imageData: Data?) {
+        do {
+            let encoder = JSONEncoder()
+            let recipeData = try encoder.encode(recipe)
+            self.set(recipeData, forKey: Keys.recipeBackup)
+            if let data = imageData {
+                self.set(data, forKey: Keys.recipePicBackup)
+            }
+        } catch {
+            
+        }
+    }
+    
+    func retrieveRecipeData() {
+        
+        
+    }
+    
+    private func restoreRecipeData() {
+        
+    }
+    
+    func deleteRecipeBackup() {
+        self.set(nil, forKey: Keys.recipeBackup)
+        self.set(nil, forKey: Keys.recipePicBackup)
+    }
+    
+    
 }

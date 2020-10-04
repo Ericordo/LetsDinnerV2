@@ -184,12 +184,20 @@ class RecipeCreationViewController: UIViewController {
         setupObservers()
         bindViewModel()
         self.updateLayoutConstraints()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.presentCreateRecipeWelcomeVCIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.viewModel.ongoingRecipe() &&
+            self.viewModel.creationMode.value &&
+            self.viewModel.recipe == nil {
+            self.presentOngoingRecipeAlert()
+        }
     }
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
@@ -354,6 +362,7 @@ class RecipeCreationViewController: UIViewController {
                 self.viewModel.recipe == nil ? self.viewModel.saveRecipe() : self.viewModel.updateRecipe()
         },
             discardActionCompletion: { _ in
+                defaults.deleteRecipeBackup()
                 self.dismiss(animated: true, completion: nil) })
         self.present(alert, animated: true, completion: nil)
     }
@@ -498,6 +507,23 @@ class RecipeCreationViewController: UIViewController {
                                                                 guard let recipe = self.viewModel.recipe else { return }
                                                                 self.viewModel.deleteRecipe(recipe)
         })
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentOngoingRecipeAlert() {
+        let alert = UIAlertController(title: AlertStrings.ongoingRecipeTitle,
+                                      message: AlertStrings.ongoingRecipeDescription,
+                                      preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: AlertStrings.no,
+                                         style: .destructive) { _ in
+                                            defaults.deleteRecipeBackup()
+        }
+        let restoreAction = UIAlertAction(title: LabelStrings.restore,
+                                          style: .default) { _ in
+                                            self.viewModel.restoreRecipeData()
+        }
+        alert.addAction(deleteAction)
+        alert.addAction(restoreAction)
         self.present(alert, animated: true, completion: nil)
     }
     

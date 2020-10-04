@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Recipe {
+struct Recipe : Codable {
     
     var title: String
     var imageUrl: String?
@@ -17,6 +17,11 @@ struct Recipe {
     var servings: Int?
     var id: String
     var instructions: [String]?
+    
+    private enum CodingKeys: String, CodingKey {
+        case title, imageUrl, sourceUrl, ingredientList, servings, id, instructions
+    }
+    
     
     init(title: String, sourceUrl: String, id: String) {
         self.sourceUrl = sourceUrl
