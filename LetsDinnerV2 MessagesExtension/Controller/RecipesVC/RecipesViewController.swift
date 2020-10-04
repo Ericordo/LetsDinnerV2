@@ -85,8 +85,8 @@ class RecipesViewController: LDNavigationViewController {
         
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.viewModel.prepareTasks()
-            #warning("To avoid glitching during transition, check on real device if really necessary")
-            self.toolbar.removeFromSuperview()
+            #warning("To avoid glitching during transition, check on real device if really necessary, removed in 1.0.27 to test")
+//            self.toolbar.removeFromSuperview()
             self.delegate?.recipeVCDidTapNext()
         }
         
