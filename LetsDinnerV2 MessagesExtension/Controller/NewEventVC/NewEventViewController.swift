@@ -279,14 +279,7 @@ class NewEventViewController: LDNavigationViewController {
         navigationBar.titleLabel.text = LabelStrings.addEventDetails
         navigationBar.previousButton.setImage(Images.settingsButtonOutlined, for: .normal)
         scrollView.delegate = self
-        if defaults.value(forKey: Keys.eventBackup) != nil &&
-        Event.shared.dinnerName.isEmpty &&
-        Event.shared.hostName.isEmpty &&
-        Event.shared.dinnerLocation.isEmpty &&
-        Event.shared.dinnerDate.isEmpty {
-            self.restoreLabel.isHidden = false
-            self.restoreButton.isHidden = false
-        }
+        showRestoreUIIfNeeeded()
         errorLabel.isHidden = true
         dateTextField.inputView = datePicker
         view.addTapGestureToHideKeyboard()
@@ -382,6 +375,17 @@ class NewEventViewController: LDNavigationViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
             make.bottom.equalToSuperview().offset(50)
+        }
+    }
+    
+    private func showRestoreUIIfNeeeded() {
+        if defaults.value(forKey: Keys.eventBackup) != nil &&
+        Event.shared.dinnerName.isEmpty &&
+        Event.shared.hostName.isEmpty &&
+        Event.shared.dinnerLocation.isEmpty &&
+        Event.shared.dinnerDate.isEmpty {
+            self.restoreLabel.isHidden = false
+            self.restoreButton.isHidden = false
         }
     }
     
