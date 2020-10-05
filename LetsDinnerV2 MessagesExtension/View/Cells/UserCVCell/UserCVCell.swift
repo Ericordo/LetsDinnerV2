@@ -54,14 +54,14 @@ class UserCVCell: UICollectionViewCell {
             userPicture.layer.borderWidth = 2.0
             userPicture.layer.borderColor = strokeColor.cgColor
             userPicture.kf.setImage(with: imageURL)
-            userPicture.kf.setImage(with: imageURL, placeholder: Images.profilePlaceholder) { result in
+            userPicture.kf.setImage(with: imageURL, placeholder: Images.profilePlaceholder, completionHandler:  { result in
                 switch result {
                 case .success:
                     break
                 case .failure:
                     self.setUserPicWithInitials(initials: user.fullName.initials, strokeColor: strokeColor)
                 }
-            }
+            })
         } else {
             setUserPicWithInitials(initials: user.fullName.initials, strokeColor: strokeColor)
         }

@@ -282,6 +282,7 @@ class NewEventViewController: LDNavigationViewController {
         showRestoreUIIfNeeeded()
         errorLabel.isHidden = true
         dateTextField.inputView = datePicker
+        dateTextField.inputView?.backgroundColor = .backgroundColor
         view.addTapGestureToHideKeyboard()
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)

@@ -446,7 +446,7 @@ class RegistrationViewController: LDNavigationViewController {
     private func setupProfilePicture() {
         if let imageURL = URL(string: defaults.profilePicUrl) {
             addPicButton.isHidden = true
-            userPic.kf.setImage(with: imageURL, placeholder: Images.profilePlaceholder) { result in
+            userPic.kf.setImage(with: imageURL, placeholder: Images.profilePlaceholder, completionHandler:  { result in
                 switch result {
                 case .success:
                     self.viewModel.profilePicData.value = self.userPic.image?.jpegData(compressionQuality: 0.4)
@@ -455,7 +455,7 @@ class RegistrationViewController: LDNavigationViewController {
                     self.checkUsername()
                 }
                 self.addPicButton.isHidden = false
-            }
+            })
         } else if !defaults.username.isEmpty {
             userPic.setImage(string: defaults.username.initials,
                              color: .lightGray,

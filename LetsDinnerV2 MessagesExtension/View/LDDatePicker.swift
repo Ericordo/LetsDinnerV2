@@ -24,5 +24,8 @@ class LDDatePicker: UIDatePicker {
         backgroundColor = UIColor.backgroundColor
         minimumDate = Date()
         tintColor = UIColor.textLabel
+        if #available(iOSApplicationExtension 13.4, *) {
+            preferredDatePickerStyle = .wheels
+        }
     }
 }
