@@ -65,6 +65,7 @@ class AddNewThingView: UIView {
         textField.sizeToFit()
         textField.tag = 10
         textField.returnKeyType = .next
+        textField.tintColor = .activeButton
         return textField
     }()
     
@@ -78,6 +79,7 @@ class AddNewThingView: UIView {
         textField.textAlignment = .right
         textField.sizeToFit()
         textField.tag = 20
+        textField.tintColor = .activeButton
         textField.returnKeyType = .next
         return textField
     }()
@@ -91,6 +93,7 @@ class AddNewThingView: UIView {
         textField.placeholder = LabelStrings.unitOnlyPlaceholder
         textField.sizeToFit()
         textField.tag = 30
+        textField.tintColor = .activeButton
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
         return textField

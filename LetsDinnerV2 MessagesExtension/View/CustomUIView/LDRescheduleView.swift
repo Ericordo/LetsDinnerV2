@@ -58,6 +58,7 @@ class LDRescheduleView: UIView {
     
     private func setupView() {
         self.layer.cornerRadius = 20
+        self.backgroundColor = .backgroundColor
 //        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         datePicker.addTarget(self, action: #selector(didSelectDate), for: .valueChanged)
         self.backgroundColor = .backgroundColor

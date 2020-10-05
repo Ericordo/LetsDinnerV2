@@ -395,7 +395,7 @@ class RecipeCreationViewController: UIViewController {
     }
     
     private func setupRecipePicture(_ downloadUrl: String) {
-        recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: Images.imagePlaceholderBig) { result in
+        recipeImageView.kf.setImage(with: URL(string: downloadUrl), placeholder: Images.imagePlaceholderBig, completionHandler:  { result in
             switch result {
             case .success:
                 self.addImageButton.setTitle(ButtonTitle.editImage, for: .normal)
@@ -404,7 +404,7 @@ class RecipeCreationViewController: UIViewController {
             case .failure:
                 self.showBasicAlert(title: AlertStrings.oops, message: AlertStrings.retrieveImageErrorMessage)
             }
-        }
+        })
     }
     
     private func addChildController(_ controller: UIViewController, to container: UIView) {
