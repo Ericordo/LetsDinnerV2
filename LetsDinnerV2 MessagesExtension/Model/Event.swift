@@ -562,12 +562,12 @@ class Event {
     }
     
     func cancelFirebaseEvent() {
-        let cancelName = "Canceled: " + self.dinnerName
-        self.dinnerName = cancelName
+        self.dinnerName = LabelStrings.cancelledEvent + self.dinnerName
         self.tasks = []
-        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("isCancelled").setValue(true)
-        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("dinnerName").setValue(cancelName)
-        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("tasks").setValue([:])
+        let eventNode = Database.database().reference().child(hostIdentifier).child(DataKeys.events).child(self.firebaseEventUid)
+        eventNode.child(DataKeys.isCancelled).setValue(true)
+        eventNode.child(DataKeys.eventName).setValue(self.dinnerName)
+        eventNode.child(DataKeys.tasks).setValue([:])
     }
     
     func getAssignedNewTasks() -> Int {
