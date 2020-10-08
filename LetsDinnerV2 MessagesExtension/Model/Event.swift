@@ -530,17 +530,21 @@ class Event {
         }
     }
 
-    
-    func updateFirebaseDate(_ dateTimestamp: Double) {
+    func updateFirebaseDate(_ dateTimestamp: Double) -> SignalProducer<Void, LDError> {
         self.dateTimestamp = dateTimestamp
-        let parameters: [String : Any] = ["dateTimestamp" : dateTimestamp]
-        let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid)
-        childUid.updateChildValues(parameters) { (error, reference) in
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                self.resetEvent()
-            }
+        let parameters: [String : Any] = [DataKeys.dateTimestamp : dateTimestamp]
+        return SignalProducer { observer, _ in
+            self.database.child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .updateChildValues(parameters) { error, _ in
+                    if error != nil {
+                        observer.send(error: .rescheduleFail)
+                    } else {
+                        observer.send(value: ())
+                        observer.sendCompleted()
+                    }
+                }
         }
     }
         

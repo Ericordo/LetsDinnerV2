@@ -25,6 +25,7 @@ enum LDError : Error {
     case remindersDenied
     case statusUpdateFail
     case taskUpdateFail
+    case rescheduleFail
     case recipeNameMissing
     case recipeSaveCloudFail
     case recipePicUploadFail
@@ -68,6 +69,8 @@ extension LDError {
             return AlertStrings.statusUpdateError
         case .taskUpdateFail:
             return AlertStrings.taskUpdateFail
+        case .rescheduleFail:
+            return AlertStrings.rescheduleFail
         case .recipeNameMissing:
             return AlertStrings.recipeNameMissing
         case .recipeSaveCloudFail:

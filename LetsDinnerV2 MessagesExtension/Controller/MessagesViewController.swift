@@ -540,8 +540,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         sendMessageDirectly(message: message)
     }
     
-    func eventSummaryVCDidUpdateDate(date: Double) {
-        Event.shared.updateFirebaseDate(date)
+    func eventSummaryVCDidUpdateDate() {
         Event.shared.summary = String.localizedStringWithFormat(LabelStrings.dateChangeSummary,
                                                                 defaults.username)
         Event.shared.eventCreation = false

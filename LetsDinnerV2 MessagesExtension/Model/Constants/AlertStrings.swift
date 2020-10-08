@@ -89,6 +89,7 @@ enum AlertStrings {
     static let changedMind = NSLocalizedString("Changed your mind?", comment: "changed your mind")
     static let updateDeclinedStatus = NSLocalizedString("Would you like to accept this invitation?", comment: "accept this invitation")
     static let updateAcceptedStatus = NSLocalizedString("Would you like to decline this invitation?", comment: "decline this invitation")
+    static let rescheduleFail = NSLocalizedString("We could not change the date of your event.", comment: "could not reschedule event")
     
     // RegistrationVC
     static let profilePicUploadError = NSLocalizedString("We could not save your profile picture", comment: "error saving provfile pic")

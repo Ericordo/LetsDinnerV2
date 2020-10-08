@@ -15,7 +15,7 @@ protocol EventSummaryViewControllerDelegate: class {
     func eventSummaryVCOpenTasksList()
     func eventSummaryVCDidAnswer(hasAccepted: Invitation)
     func eventSummaryVCOpenEventInfo()
-    func eventSummaryVCDidUpdateDate(date: Double)
+    func eventSummaryVCDidUpdateDate()
     func eventSummaryVCDidCancelEvent()
     func eventSummaryVCOpenExpiredEvent()
 }
@@ -134,6 +134,19 @@ class EventSummaryViewController: UIViewController {
                 self.delegate?.eventSummaryVCDidAnswer(hasAccepted: status)
             }
         }
+        
+        self.viewModel.dateUpdateSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.showBasicAlert(title: AlertStrings.oops, message: error.description)
+                case .success():
+                    self.delegate?.eventSummaryVCDidUpdateDate()
+                }
+            }
     }
     
     private func configureGestureRecognizers() {
@@ -552,7 +565,9 @@ extension EventSummaryViewController: CancelCellDelegate {
                         }
                         self.view.layoutIfNeeded()
         }) { (_) in
-            self.rescheduleView.updateButton.addTarget(self, action: #selector(self.didConfirmDate), for: .touchUpInside)
+            self.rescheduleView.updateButton.addTarget(self,
+                                                       action: #selector(self.didConfirmDate),
+                                                       for: .touchUpInside)
         }
     }
     
@@ -576,7 +591,7 @@ extension EventSummaryViewController: CancelCellDelegate {
     }
     
     @objc private func didConfirmDate() {
-        delegate?.eventSummaryVCDidUpdateDate(date: rescheduleView.selectedDate)
+        self.viewModel.rescheduleEvent(date: rescheduleView.selectedDate)
     }
 }
 
