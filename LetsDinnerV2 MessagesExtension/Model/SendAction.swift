@@ -8,11 +8,11 @@
 
 import Foundation
 
-enum SendAction {
+enum SendAction : Equatable {
     case createEvent
     case rescheduleEvent
     case cancelEvent
-    case answerInvitation
+    case answerInvitation(Invitation)
     case updateTasks
     case none
 }

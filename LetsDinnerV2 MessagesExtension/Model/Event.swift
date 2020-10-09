@@ -93,10 +93,10 @@ class Event {
     func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {
         let bubbleManager = BubbleManager()
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "bubbleBackground")
+        layout.image = Images.standardBackground
         layout.imageTitle = dinnerName
         layout.imageSubtitle = dinnerDate
-        layout.caption = "Tap to view Dinner! "
+        layout.caption = LabelStrings.caption
         let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
 //        message.layout = layout
         message.layout = bubbleManager.prepareMessageBubble()
@@ -109,16 +109,16 @@ class Event {
         message.md.set(value: firebaseEventUid, forKey: "firebaseEventUid")
         
         if eventCreation {
-             localEventId = UUID().uuidString
+            localEventId = UUID().uuidString
             if let hostID = currentUser?.identifier {
                 message.md.set(value: hostID, forKey: "hostID")
             }
         } else {
             message.md.set(value: hostIdentifier, forKey: "hostID")
         }
-
+        
         bubbleManager.storeBubbleInformation(for: message, for: action)
-         return message
+        return message
     }
     
     func parseMessage(message: MSMessage) {

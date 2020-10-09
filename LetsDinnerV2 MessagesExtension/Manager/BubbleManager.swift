@@ -55,6 +55,9 @@ class BubbleManager {
                     number += 1
                 }
             }
+            if sendAction == .answerInvitation(.accepted) {
+                number += 1
+            }
             return number
         }
         switch sendAction {
@@ -118,20 +121,20 @@ class BubbleManager {
         return layout
     }
     
-    private func retrieveUserStatus(_ combinedStrings: [String], localIdentifier: String?) -> Invitation {
-        var statusDictionary = [String : String]()
-        combinedStrings.forEach { combinedString in
-            let components = combinedString.components(separatedBy: "+")
-            statusDictionary[components[0]] = components[1]
-        }
-        let cloudUserId = CloudManager.shared.retrieveUserIdOnCloud() ?? ""
-        var potentialStatus = ""
-        statusDictionary.forEach { (key, value) in
-            if key == cloudUserId || key == localIdentifier {
-                potentialStatus = value
-            }
-        }
-        let status = Invitation(rawValue: potentialStatus)
-        return status ?? .pending
-    }
+//    private func retrieveUserStatus(_ combinedStrings: [String], localIdentifier: String?) -> Invitation {
+//        var statusDictionary = [String : String]()
+//        combinedStrings.forEach { combinedString in
+//            let components = combinedString.components(separatedBy: "+")
+//            statusDictionary[components[0]] = components[1]
+//        }
+//        let cloudUserId = CloudManager.shared.retrieveUserIdOnCloud() ?? ""
+//        var potentialStatus = ""
+//        statusDictionary.forEach { (key, value) in
+//            if key == cloudUserId || key == localIdentifier {
+//                potentialStatus = value
+//            }
+//        }
+//        let status = Invitation(rawValue: potentialStatus)
+//        return status ?? .pending
+//    }
 }

@@ -575,7 +575,7 @@ extension MessagesViewController: EventSummaryViewControllerDelegate {
         let currentSession = activeConversation?.selectedMessage?.session ?? MSSession()
         let message = Event.shared.prepareMessage(session: currentSession,
                                                   eventCreation: Event.shared.eventCreation,
-                                                  action: .answerInvitation)
+                                                  action: .answerInvitation(hasAccepted))
         sendMessageDirectly(message: message)
     }
     
