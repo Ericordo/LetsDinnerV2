@@ -76,17 +76,17 @@ class EventTranscriptView: UIView {
     
     private let messageIsFromMe : Bool
     
-        init(bubbleInfo: BubbleInfo,
-            delegate: EventTranscriptViewDelegate,
-            messageIsFromMe: Bool) {
-            self.delegate = delegate
-            self.messageIsFromMe = messageIsFromMe
-            super.init(frame: .zero)
-            setupInformation(bubbleInfo: bubbleInfo)
-            setupView()
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-        }
+    init(bubbleInfo: BubbleInfo,
+         delegate: EventTranscriptViewDelegate,
+         messageIsFromMe: Bool) {
+        self.delegate = delegate
+        self.messageIsFromMe = messageIsFromMe
+        super.init(frame: .zero)
+        setupInformation(bubbleInfo: bubbleInfo)
+        setupView()
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -108,15 +108,11 @@ class EventTranscriptView: UIView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy h:mm a"
         let date = Date(timeIntervalSince1970: timestamp)
-        let dateString = dateFormatter.string(from: date)
+        let dateString = timestamp == 0 ? "" : dateFormatter.string(from: date)
         return dateString
     }
     
     private func updateUserStatus(_ value: String) {
-        guard !Event.shared.isCancelled || !Event.shared.eventIsExpired else {
-            statusIcon.image = Images.noStatus
-            return
-        }
         if let status = Invitation(rawValue: value) {
             switch status {
             case .accepted:

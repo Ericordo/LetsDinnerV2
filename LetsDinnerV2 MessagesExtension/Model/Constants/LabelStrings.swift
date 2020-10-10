@@ -173,7 +173,8 @@ enum LabelStrings {
     static let updatedServingsSummary = NSLocalizedString("%@ updated the servings!", comment: "updated the servings")
     static let updatedTasksSummary = NSLocalizedString("%@ updated %d %@!", comment: "username updated numberOfTask task(s)!")
     static let updatedTasksAndServingsSummary = NSLocalizedString("%@ updated %d %@ and the servings!", comment: "username updated numberOfTask task(s) and the servings!")
-    static let participantsNumber = NSLocalizedString("%d participants so far! 👩🏼‍🍳 👨🏾‍🍳", comment: "number of participants")
+    static let participantsNumberSingular = NSLocalizedString("%d participant so far! 👩🏼‍🍳 👨🏾‍🍳", comment: "number of participants for one")
+    static let participantsNumberPlural = NSLocalizedString("%d participants so far! 👩🏼‍🍳 👨🏾‍🍳", comment: "number of participants plural")
     static let partyEmoji = "🥳"
     static let sadEmoji = "😢"
     static let payAttention = NSLocalizedString("Pay attention 👀", comment: "pay attention")
