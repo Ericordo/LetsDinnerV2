@@ -72,6 +72,27 @@ extension UserDefaults {
         }
     }
     
+    func eventDataIsValid() -> Bool {
+        if let data = self.value(forKey: Keys.eventBackup) as? Data {
+            do {
+                let decoder = JSONDecoder()
+                let eventData = try decoder.decode(EventData.self, from: data)
+                if !eventData.dinnerName.isEmpty ||
+                    !eventData.hostName.isEmpty ||
+                    !eventData.dinnerLocation.isEmpty ||
+                    !eventData.dateTimestamp.isZero {
+                    return true
+                } else {
+                    return false
+                }
+            } catch {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
     private func restoreEventData(_ eventData: EventData) {
         Event.shared.dinnerName = eventData.dinnerName
         Event.shared.hostName = eventData.hostName

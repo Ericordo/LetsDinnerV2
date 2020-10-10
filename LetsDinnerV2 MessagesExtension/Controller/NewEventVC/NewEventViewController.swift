@@ -380,7 +380,7 @@ class NewEventViewController: LDNavigationViewController {
     }
     
     private func showRestoreUIIfNeeeded() {
-        if defaults.value(forKey: Keys.eventBackup) != nil &&
+        if defaults.eventDataIsValid() &&
         Event.shared.dinnerName.isEmpty &&
         Event.shared.hostName.isEmpty &&
         Event.shared.dinnerLocation.isEmpty &&
