@@ -49,6 +49,8 @@ class TasksListViewModel {
     let taskUploadSignal : Signal<Void, LDError>
     private let taskUploadObserver : Signal<Void, LDError>.Observer
     
+    var currentUserOnline = false
+    
     init() {
         tasks = MutableProperty<[Task]>(Event.shared.tasks.sorted { $0.taskName < $1.taskName })
         servings = MutableProperty<Int>(Event.shared.servings)
@@ -166,9 +168,11 @@ class TasksListViewModel {
     }
     
     func addOnlineUser() {
+        guard !currentUserOnline else { return }
         getNumberOfOnlineUsers { number in
             let updatedOnlineUsers = number + 1
             self.usersChild.setValue(updatedOnlineUsers)
+            self.currentUserOnline = true
         }
     }
     
@@ -176,6 +180,7 @@ class TasksListViewModel {
         getNumberOfOnlineUsers { number in
             let updatedOnlineUsers = number - 1
             self.usersChild.setValue(updatedOnlineUsers)
+            self.currentUserOnline = false
         }
     }
     
