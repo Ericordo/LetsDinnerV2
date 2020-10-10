@@ -48,6 +48,10 @@ class BubbleManager {
         message.md.set(value: eventDate, forKey: Keys.eventDate)
         message.md.set(value: Event.shared.summary, forKey: Keys.mainInformation)
         let numberOfRemainingTasks = Event.shared.getRemainingTasks()
+        var userAlreadyAccepted : Bool {
+            let user = Event.shared.participants.first(where: {  $0.identifier == Event.shared.currentUser?.identifier })
+            return user?.hasAccepted == .accepted
+        }
         var participantsConfirmed : Int {
             var number = 0
             Event.shared.participants.forEach { user in
@@ -57,6 +61,8 @@ class BubbleManager {
             }
             if sendAction == .answerInvitation(.accepted) {
                 number += 1
+            } else if sendAction == .answerInvitation(.declined) && userAlreadyAccepted {
+                number -= 1
             }
             return number
         }
