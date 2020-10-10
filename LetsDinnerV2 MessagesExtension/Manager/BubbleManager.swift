@@ -11,11 +11,11 @@ import Messages
 import iMessageDataKit
 
 struct BubbleInfo {
-    var eventName: String = ""
-    var eventDate: String = ""
-    var mainInformation: String = ""
-    var secondaryInformation: String = ""
-    var userStatus: String = ""
+    var eventName :            String = ""
+    var eventDateTimestamp :   Double = 0
+    var mainInformation :      String = ""
+    var secondaryInformation : String = ""
+    var userStatus :           String = ""
 }
 
 class BubbleManager {
@@ -24,7 +24,7 @@ class BubbleManager {
     
     private enum Keys {
         static let eventName = "eventName"
-        static let eventDate = "eventDate"
+        static let eventDateTimestamp = "eventDatetimestamp"
         static let mainInformation = "mainInformation"
         static let secondaryInformation = "secondaryInformation"
         static let status = "status"
@@ -38,14 +38,7 @@ class BubbleManager {
     
     func storeBubbleInformation(for message: MSMessage, for sendAction: SendAction) {
         message.md.set(value: Event.shared.dinnerName, forKey: Keys.eventName)
-        var eventDate : String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "E, d MMM yyyy h:mm a"
-            let date = Date(timeIntervalSince1970: Event.shared.dateTimestamp)
-            let dateString = dateFormatter.string(from: date)
-            return dateString
-        }
-        message.md.set(value: eventDate, forKey: Keys.eventDate)
+        message.md.set(value: Event.shared.dateTimestamp, forKey: Keys.eventDateTimestamp)
         message.md.set(value: Event.shared.summary, forKey: Keys.mainInformation)
         let numberOfRemainingTasks = Event.shared.getRemainingTasks()
         var userAlreadyAccepted : Bool {
@@ -100,8 +93,8 @@ class BubbleManager {
         if let eventName = message.md.string(forKey: Keys.eventName) {
             bubbleInfo.eventName = eventName
         }
-        if let eventDate = message.md.string(forKey: Keys.eventDate) {
-            bubbleInfo.eventDate = eventDate
+        if let eventDateTimestamp = message.md.double(forKey: Keys.eventDateTimestamp) {
+            bubbleInfo.eventDateTimestamp = eventDateTimestamp
         }
         if let mainInformation = message.md.string(forKey: Keys.mainInformation) {
             bubbleInfo.mainInformation = mainInformation
@@ -122,6 +115,7 @@ class BubbleManager {
         let layout = MSMessageTemplateLayout()
         layout.image = Images.standardBackground
         layout.imageTitle = Event.shared.dinnerName
+        // This will lead to incorrect date in the bubble if users are in different time zones, at the locale used will be the one of the currentUser, not the one of the host.
         layout.imageSubtitle = Event.shared.dinnerDate
         layout.caption = LabelStrings.caption
         return layout

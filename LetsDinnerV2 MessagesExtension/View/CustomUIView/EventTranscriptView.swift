@@ -93,15 +93,23 @@ class EventTranscriptView: UIView {
     }
     
     private func setupInformation(bubbleInfo: BubbleInfo) {
-            dateLabel.text = bubbleInfo.eventDate
-            titleLabel.text = bubbleInfo.eventName
-            mainInfoLabel.text = bubbleInfo.mainInformation
-            secondaryInfoLabel.text = bubbleInfo.secondaryInformation
-            updateUserStatus(bubbleInfo.userStatus)
-        }
+        dateLabel.text = self.setupDate(bubbleInfo.eventDateTimestamp)
+        titleLabel.text = bubbleInfo.eventName
+        mainInfoLabel.text = bubbleInfo.mainInformation
+        secondaryInfoLabel.text = bubbleInfo.secondaryInformation
+        updateUserStatus(bubbleInfo.userStatus)
+    }
     
     @objc private func didTapBubble() {
         delegate?.didTapBubble()
+    }
+    
+    private func setupDate(_ timestamp: Double) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM yyyy h:mm a"
+        let date = Date(timeIntervalSince1970: timestamp)
+        let dateString = dateFormatter.string(from: date)
+        return dateString
     }
     
     private func updateUserStatus(_ value: String) {
