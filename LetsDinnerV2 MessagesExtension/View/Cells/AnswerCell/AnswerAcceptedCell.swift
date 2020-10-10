@@ -52,8 +52,8 @@ class AnswerAcceptedCell: UITableViewCell {
      private func setupUI() {
         self.backgroundColor = .backgroundColor
         self.selectionStyle = .none
-        self.addSubview(acceptButton)
-        self.addSubview(acceptLabel)
+        self.contentView.addSubview(acceptButton)
+        self.contentView.addSubview(acceptLabel)
         addConstraints()
     }
     

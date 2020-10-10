@@ -52,8 +52,8 @@ class AnswerDeclinedCell: UITableViewCell {
     private func setupUI() {
         self.backgroundColor = .backgroundColor
         self.selectionStyle = .none
-        self.addSubview(declineButton)
-        self.addSubview(declineLabel)
+        self.contentView.addSubview(declineButton)
+        self.contentView.addSubview(declineLabel)
         addConstraints()
     }
     
