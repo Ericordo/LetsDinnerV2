@@ -126,6 +126,7 @@ enum LabelStrings {
     static let whocoming = NSLocalizedString("Who's coming?", comment: "who is coming?")
     static let cancelOrReschedule = NSLocalizedString("Not the right time or changed your mind all together? You can Cancel or Reschedule the event.", comment: "cancel or reschedule")
     static let somethingMissing = NSLocalizedString("Is something missing?", comment: "is sthg missing?")
+    static let cancelledEvent = NSLocalizedString("Canceled: ", comment: "canceled event title")
     
     // TasksListVC
     static let multipleUsers = NSLocalizedString("Other guests are selecting tasks now, an update may be coming soon! 🚀", comment: "multiple users checking")

@@ -19,6 +19,9 @@ class EventSummaryViewModel {
     let statusUpdateSignal: Signal<Invitation, LDError>
     private let statusUpdateObserver: Signal<Invitation, LDError>.Observer
     
+    let dateUpdateSignal: Signal<Result<Void, LDError>, Never>
+    private let dateUpdateObserver: Signal<Result<Void, LDError>, Never>.Observer
+    
     init() {
         let (eventFetchSignal, eventFetchObserver) = Signal<Void, LDError>.pipe()
         self.eventFetchSignal = eventFetchSignal
@@ -27,6 +30,10 @@ class EventSummaryViewModel {
         let (statusUpdateSignal, statusUpdateObserver) = Signal<Invitation, LDError>.pipe()
         self.statusUpdateSignal = statusUpdateSignal
         self.statusUpdateObserver = statusUpdateObserver
+        
+        let (dateUpdateSignal, dateUpdateObserver) = Signal<Result<Void, LDError>, Never>.pipe()
+        self.dateUpdateSignal = dateUpdateSignal
+        self.dateUpdateObserver = dateUpdateObserver
 
         self.fetchEvent()
     }
@@ -40,6 +47,7 @@ class EventSummaryViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
+                    self.isLoading.value = false
                     self.eventFetchObserver.send(error: error)
                 case .success():
                     self.eventFetchObserver.send(value: ())
@@ -56,6 +64,7 @@ class EventSummaryViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
+                    self.isLoading.value = false
                     self.statusUpdateObserver.send(error: error)
                 case .success():
                     if status == .declined {
@@ -88,9 +97,27 @@ class EventSummaryViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
+                    self.isLoading.value = false
                     self.statusUpdateObserver.send(error: error)
                 case .success():
                     self.statusUpdateObserver.send(value: (.declined))
+                }
+        }
+    }
+    
+    func rescheduleEvent(date: Double) {
+        Event.shared.updateFirebaseDate(date)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.isLoading.value = false
+                    self.dateUpdateObserver.send(value: .failure(error))
+                case .success():
+                    self.dateUpdateObserver.send(value: .success(()))
                 }
         }
     }

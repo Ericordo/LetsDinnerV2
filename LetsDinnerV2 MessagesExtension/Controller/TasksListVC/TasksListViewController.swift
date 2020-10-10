@@ -121,9 +121,11 @@ class TasksListViewController: LDNavigationViewController {
         self.viewModel.onlineUsersSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeValues { [weak self] value in
+            .filter { $0 > 1 }
+            .observeValues { [weak self] _ in
                 guard let self = self else { return }
-                value > 1 ? self.alertBanner.appear() : self.alertBanner.disappear()
+                self.viewModel.stopObservingOnlineUsers()
+                self.alertBanner.appearAndDisappear(delete: false)
         }
         
         self.viewModel.taskUpdateSignal

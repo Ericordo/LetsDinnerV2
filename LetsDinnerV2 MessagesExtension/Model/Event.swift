@@ -93,10 +93,10 @@ class Event {
     func prepareMessage(session: MSSession, eventCreation: Bool, action: SendAction) -> MSMessage {
         let bubbleManager = BubbleManager()
         let layout = MSMessageTemplateLayout()
-        layout.image = UIImage(named: "bubbleBackground")
+        layout.image = Images.standardBackground
         layout.imageTitle = dinnerName
         layout.imageSubtitle = dinnerDate
-        layout.caption = "Tap to view Dinner! "
+        layout.caption = LabelStrings.caption
         let message: MSMessage = MSMessage(session: currentSession ?? MSSession())
 //        message.layout = layout
         message.layout = bubbleManager.prepareMessageBubble()
@@ -109,16 +109,16 @@ class Event {
         message.md.set(value: firebaseEventUid, forKey: "firebaseEventUid")
         
         if eventCreation {
-             localEventId = UUID().uuidString
+            localEventId = UUID().uuidString
             if let hostID = currentUser?.identifier {
                 message.md.set(value: hostID, forKey: "hostID")
             }
         } else {
             message.md.set(value: hostIdentifier, forKey: "hostID")
         }
-
+        
         bubbleManager.storeBubbleInformation(for: message, for: action)
-         return message
+        return message
     }
     
     func parseMessage(message: MSMessage) {
@@ -530,17 +530,21 @@ class Event {
         }
     }
 
-    
-    func updateFirebaseDate(_ dateTimestamp: Double) {
+    func updateFirebaseDate(_ dateTimestamp: Double) -> SignalProducer<Void, LDError> {
         self.dateTimestamp = dateTimestamp
-        let parameters: [String : Any] = ["dateTimestamp" : dateTimestamp]
-        let childUid = Database.database().reference().child(hostIdentifier).child("Events").child(firebaseEventUid)
-        childUid.updateChildValues(parameters) { (error, reference) in
-            if error != nil {
-                print(error!.localizedDescription)
-            } else {
-                self.resetEvent()
-            }
+        let parameters: [String : Any] = [DataKeys.dateTimestamp : dateTimestamp]
+        return SignalProducer { observer, _ in
+            self.database.child(self.hostIdentifier)
+                .child(DataKeys.events)
+                .child(self.firebaseEventUid)
+                .updateChildValues(parameters) { error, _ in
+                    if error != nil {
+                        observer.send(error: .rescheduleFail)
+                    } else {
+                        observer.send(value: ())
+                        observer.sendCompleted()
+                    }
+                }
         }
     }
         
@@ -562,12 +566,12 @@ class Event {
     }
     
     func cancelFirebaseEvent() {
-        let cancelName = "Canceled: " + self.dinnerName
-        self.dinnerName = cancelName
+        self.dinnerName = LabelStrings.cancelledEvent + self.dinnerName
         self.tasks = []
-        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("isCancelled").setValue(true)
-        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("dinnerName").setValue(cancelName)
-        Database.database().reference().child(hostIdentifier).child("Events").child(self.firebaseEventUid).child("tasks").setValue([:])
+        let eventNode = Database.database().reference().child(hostIdentifier).child(DataKeys.events).child(self.firebaseEventUid)
+        eventNode.child(DataKeys.isCancelled).setValue(true)
+        eventNode.child(DataKeys.eventName).setValue(self.dinnerName)
+        eventNode.child(DataKeys.tasks).setValue([:])
     }
     
     func getAssignedNewTasks() -> Int {
