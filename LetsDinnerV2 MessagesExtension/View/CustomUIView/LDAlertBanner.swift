@@ -53,7 +53,7 @@ class LDAlertBanner: UIView {
         }
     }
     
-    func appearAndDisappear() {
+    func appearAndDisappear(delete: Bool = true) {
         self.appear()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             UIView.animate(withDuration: 0.2, animations: {
@@ -62,7 +62,9 @@ class LDAlertBanner: UIView {
                 }
                 self.superview?.layoutIfNeeded()
             }) { _ in
-                self.removeFromSuperview()
+                if delete {
+                    self.removeFromSuperview()
+                }
             }
         }
     }

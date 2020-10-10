@@ -179,6 +179,10 @@ class TasksListViewModel {
         }
     }
     
+    func stopObservingOnlineUsers() {
+        self.usersChild.removeAllObservers()
+    }
+    
     func updateTasks() {
         self.pendingTasks = Event.shared.tasks
         Event.shared.fetchTasksAndServings()
