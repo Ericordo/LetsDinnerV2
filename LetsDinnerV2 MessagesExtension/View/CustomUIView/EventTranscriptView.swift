@@ -113,6 +113,10 @@ class EventTranscriptView: UIView {
     }
     
     private func updateUserStatus(_ value: String) {
+        guard !Event.shared.isCancelled || !Event.shared.eventIsExpired else {
+            statusIcon.image = Images.noStatus
+            return
+        }
         if let status = Invitation(rawValue: value) {
             switch status {
             case .accepted:
@@ -123,7 +127,7 @@ class EventTranscriptView: UIView {
                 statusIcon.image = Images.statusPending
             }
         } else {
-            statusIcon.image = Images.noStatus
+            statusIcon.image = Images.statusPending
         }
     }
     
