@@ -61,7 +61,7 @@ class BubbleManager {
         }
         switch sendAction {
         case .answerInvitation:
-            let secondaryInfo = String.localizedStringWithFormat(LabelStrings.participantsNumber, participantsConfirmed)
+            let secondaryInfo = String.localizedStringWithFormat(participantsConfirmed > 1 ? LabelStrings.participantsNumberPlural : LabelStrings.participantsNumberSingular, participantsConfirmed)
             message.md.set(value: secondaryInfo, forKey: Keys.secondaryInformation)
         case .createEvent:
             let secondaryInfo = LabelStrings.partyEmoji

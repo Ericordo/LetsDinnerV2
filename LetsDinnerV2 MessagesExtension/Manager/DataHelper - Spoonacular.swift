@@ -206,6 +206,11 @@ class DataHelper {
             recipeIds.forEach { recipeId in
                 recipeIdsList += "\(recipeId),"
             }
+            guard !recipeIdsList.isEmpty else {
+                observer.send(value: [])
+                observer.sendCompleted()
+                return
+            }
             recipeIdsList.remove(at: recipeIdsList.index(before: recipeIdsList.endIndex))
             let endpoint = String(format: "https://api.spoonacular.com/recipes/informationBulk?ids=\(recipeIdsList)&apiKey=\(ApiKeys.apiKeySpoonacular)")
             print(endpoint)
