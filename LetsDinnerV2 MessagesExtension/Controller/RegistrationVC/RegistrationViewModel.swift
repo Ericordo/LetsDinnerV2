@@ -18,11 +18,11 @@ class RegistrationViewModel {
     let profilePicUrl : MutableProperty<String?>
     let isLoading = MutableProperty<Bool>(false)
     
-    let dataUploadSignal: Signal<Void, LDError>
-    private let dataUploadObserver: Signal<Void, LDError>.Observer
+    let dataUploadSignal: Signal<Result<Void, LDError>, Never>
+    private let dataUploadObserver: Signal<Result<Void, LDError>, Never>.Observer
     
-    let doneActionSignal : Signal<Void, Never>
-    private let doneActionObserver : Signal<Void, Never>.Observer
+    let doneActionSignal : Signal<Result<Void, LDError>, Never>
+    private let doneActionObserver : Signal<Result<Void, LDError>, Never>.Observer
     
     private let initialFirstName : String
     private let initialLastName : String
@@ -37,11 +37,11 @@ class RegistrationViewModel {
         profilePicData = MutableProperty(nil)
         profilePicUrl = MutableProperty(defaults.profilePicUrl)
         
-        let (dataUploadSignal, dataUploadObserver) = Signal<Void, LDError>.pipe()
+        let (dataUploadSignal, dataUploadObserver) = Signal<Result<Void, LDError>, Never>.pipe()
         self.dataUploadSignal = dataUploadSignal
         self.dataUploadObserver = dataUploadObserver
         
-        let (doneActionSignal, doneActionObserver) = Signal<Void, Never>.pipe()
+        let (doneActionSignal, doneActionObserver) = Signal<Result<Void, LDError>, Never>.pipe()
         self.doneActionSignal = doneActionSignal
         self.doneActionObserver = doneActionObserver
         
@@ -64,14 +64,16 @@ class RegistrationViewModel {
             initialUrl == profilePicUrl.value &&
             initialFirstName == firstName.value &&
             initialLastName == lastName.value {
-            if initialUrl.isEmpty && self.profilePicData.value != nil ||
+            if defaults.username.isEmpty && firstName.value.isEmpty || lastName.value.isEmpty {
+                self.doneActionObserver.send(value: .failure(.genericError))
+            } else if initialUrl.isEmpty && self.profilePicData.value != nil ||
                 !initialUrl.isEmpty && self.profilePicData.value == nil {
-                self.doneActionObserver.send(value: ())
+                self.doneActionObserver.send(value: .success(()))
             } else {
-                self.dataUploadObserver.send(value: ())
+                self.dataUploadObserver.send(value: .success(()))
             }
         } else {
-            self.doneActionObserver.send(value: ())
+            self.doneActionObserver.send(value: .success(()))
         }
     }
     
@@ -88,7 +90,7 @@ class RegistrationViewModel {
                 ImageHelper.shared.deleteUserPicOnFirebase()
             }
             self.updateProfilePicUrl("")
-            self.dataUploadObserver.send(value: ())
+            self.dataUploadObserver.send(value: .success(()))
         }
     }
     
@@ -101,10 +103,11 @@ class RegistrationViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    self.dataUploadObserver.send(error: error)
+                    self.isLoading.value = false
+                    self.dataUploadObserver.send(value: .failure(error))
                 case .success(let url):
                     self.updateProfilePicUrl(url)
-                    self.dataUploadObserver.send(value: ())
+                    self.dataUploadObserver.send(value: .success(()))
                 }
         }
     }
