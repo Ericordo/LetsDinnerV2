@@ -65,6 +65,7 @@ class TasksListViewController: LDNavigationViewController {
         setupTableView()
         setupUI()
         bindViewModel()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {

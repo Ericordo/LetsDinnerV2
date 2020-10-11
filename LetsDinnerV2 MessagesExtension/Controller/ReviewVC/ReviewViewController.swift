@@ -125,6 +125,7 @@ class ReviewViewController: UIViewController {
         setupUI()
         setupTableView()
         bindViewModel()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {

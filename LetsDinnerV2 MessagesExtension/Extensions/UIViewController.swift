@@ -6,8 +6,8 @@
 //  Copyright © 2020 Eric Ordonneau. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import FirebaseAuth
 
 extension UIViewController {
     
@@ -21,15 +21,13 @@ extension UIViewController {
         transition.type = CATransitionType.push
         transition.subtype = CATransitionSubtype.fromRight
         self.view.layer.add(transition, forKey: kCATransition)
-
-        present(viewControllerToPresent, animated: false)
+        self.present(viewControllerToPresent, animated: false)
     }
 
     func configureDismissVCTransitionAnimation(transition: VCTransitionDirection) {
         let transitionAnimation = CATransition()
         transitionAnimation.duration = 0.3
         transitionAnimation.type = CATransitionType.push
-        
         switch transition {
         case .VCGoBack:
             transitionAnimation.subtype = CATransitionSubtype.fromLeft
@@ -42,10 +40,8 @@ extension UIViewController {
         default:
             break
         }
-        
         self.view.layer.add(transitionAnimation, forKey: kCATransition)
-
-        dismiss(animated: false)
+        self.dismiss(animated: false)
     }
     
     @objc func closeVC() {
@@ -53,15 +49,54 @@ extension UIViewController {
     }
     
     func showBasicAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: AlertStrings.okAction, style: .default, handler: nil)
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: AlertStrings.okAction,
+                                   style: .default,
+                                   handler: nil)
         alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true,
+                     completion: nil)
     }
     
     func separator() -> UIView {
         let view = UIView()
         view.backgroundColor = .sectionSeparatorLine
         return view
+    }
+    
+    func checkAuthenticationStatus() {
+        let user = Auth.auth().currentUser
+        if user == nil {
+            self.reauthenticateUser()
+        }
+    }
+    
+    private func reauthenticateUser(showSuccess: Bool = false) {
+        Auth.auth().signInAnonymously { _, error in
+            DispatchQueue.main.async {
+                if error != nil {
+                    self.showFailedAuthenticationAlert()
+                } else if showSuccess {
+                    self.showBasicAlert(title: AlertStrings.success,
+                                        message: AlertStrings.loggedInSuccess)
+                }
+            }
+        }
+    }
+    
+    private func showFailedAuthenticationAlert() {
+        let alert = UIAlertController(title: AlertStrings.oops,
+                                      message: AlertStrings.userNotLoggedIn,
+                                      preferredStyle: .alert)
+        let connectAction = UIAlertAction(title: AlertStrings.connect,
+                                          style: .default) { _ in
+            self.reauthenticateUser(showSuccess: true)
+        }
+        alert.addAction(connectAction)
+        self.present(alert,
+                     animated: true,
+                     completion: nil)
     }
 }

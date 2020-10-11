@@ -100,6 +100,10 @@ enum AlertStrings {
     static let editRecipeActionSheetMessage = NSLocalizedString("Do you want to Edit or Delete %@ ?", comment: "edit recipe")
     static let genericError = NSLocalizedString("Sorry, something went wrong!", comment: "generic error message")
     
+    // MARK: Authentication
+    static let userNotLoggedIn = NSLocalizedString("We could not connect you to the database, this may be due to a network issue. Please check and try again!", comment: "not logged in firebase")
+    static let loggedInSuccess = NSLocalizedString("You are now connected!", comment: "anonymous reauth successful")
+    
     // MARK: Action
     static let okAction = NSLocalizedString("OK", comment: "ok")
     static let editAction = NSLocalizedString("Edit", comment: "edit")
@@ -112,4 +116,5 @@ enum AlertStrings {
     static let discard = NSLocalizedString("Discard", comment: "discard")
     static let change = NSLocalizedString("Change", comment: "change")
     static let nope = NSLocalizedString("Nope", comment: "nope")
+    static let connect = NSLocalizedString("Connect", comment: "connect")
 }

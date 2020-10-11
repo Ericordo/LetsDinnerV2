@@ -75,6 +75,7 @@ class EventSummaryViewController: UIViewController {
         setupTableView()
         configureGestureRecognizers()
         bindViewModel()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {

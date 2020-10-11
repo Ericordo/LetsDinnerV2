@@ -213,6 +213,7 @@ class RegistrationViewController: LDNavigationViewController {
         setupNotifications()
         bindViewModel()
         presentWelcomeVCIfNeeded()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
