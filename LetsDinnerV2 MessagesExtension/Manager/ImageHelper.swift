@@ -67,14 +67,16 @@ class ImageHelper {
             }
         }
     }
-
-    #warning("To implement")
-    func deleteUserPicOnFirebase() {
-        let reference = storage.child(DataKeys.profilePictures).child(Event.shared.currentUser?.identifier ?? UUID().uuidString)
-        
-        reference.delete { error in
-            if let error = error {
-                print(error.localizedDescription)
+    
+    func deleteUserPicOnFirebase() -> SignalProducer<Void, Never> {
+        return SignalProducer { observer, _ in
+            let reference = self.storage
+                .child(DataKeys.profilePictures)
+                .child(Event.shared.currentUser?.identifier ?? UUID().uuidString)
+            
+            reference.delete { _ in
+                observer.send(value: ())
+                observer.sendCompleted()
             }
         }
     }
@@ -89,6 +91,4 @@ class ImageHelper {
             }
         }
     }
-    
-    func updateUserPicOnFirebase() {}
 }

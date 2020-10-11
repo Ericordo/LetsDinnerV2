@@ -86,11 +86,7 @@ class RegistrationViewModel {
         if let data = profilePicData.value {
             self.saveProfilePicture(data)
         } else {
-            if !defaults.profilePicUrl.isEmpty {
-                ImageHelper.shared.deleteUserPicOnFirebase()
-            }
-            self.updateProfilePicUrl("")
-            self.dataUploadObserver.send(value: .success(()))
+            self.deleteProfilePictureIfNeeded()
         }
     }
     
@@ -98,7 +94,7 @@ class RegistrationViewModel {
         ImageHelper.shared.saveUserPicToFirebase(imageData)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
-            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
             .startWithResult { [weak self] result in
                 guard let self = self else { return }
                 switch result {
@@ -107,8 +103,21 @@ class RegistrationViewModel {
                     self.dataUploadObserver.send(value: .failure(error))
                 case .success(let url):
                     self.updateProfilePicUrl(url)
-                    self.dataUploadObserver.send(value: .success(()))
                 }
+        }
+    }
+    
+    private func deleteProfilePictureIfNeeded() {
+        if !defaults.profilePicUrl.isEmpty {
+            ImageHelper.shared.deleteUserPicOnFirebase()
+                .on(starting: { self.isLoading.value = true })
+                .on(completed: { self.isLoading.value = false })
+                .take(duringLifetimeOf: self)
+                .startWithCompleted {
+                    self.updateProfilePicUrl("")
+                }
+        } else {
+            self.updateProfilePicUrl("")
         }
     }
     
@@ -116,6 +125,7 @@ class RegistrationViewModel {
         Event.shared.currentUser?.profilePicUrl = url
         defaults.profilePicUrl = url
         CloudManager.shared.saveUserInfoOnCloud(url, key: Keys.profilePicUrl)
+        self.dataUploadObserver.send(value: .success(()))
     }
 }
 
