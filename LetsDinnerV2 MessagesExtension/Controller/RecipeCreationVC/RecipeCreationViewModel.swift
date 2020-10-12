@@ -230,18 +230,22 @@ class RecipeCreationViewModel {
                                             if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipe.id }) {
                                                 Event.shared.selectedCustomRecipes.remove(at: index)
                                             }
-                                            self.recipeObserver.send(value: .success(()))
-                                    }
+                                            if let downloadUrl = recipe.downloadUrl, !downloadUrl.isEmpty {
+                                                self.deleteRecipePicOnFirebase(recipe.id)
+                                            } else {
+                                                self.recipeObserver.send(value: .success(()))
+                                            }
+                                        }
                                 case .failure(let error):
                                     self.isLoading.value = false
                                     self.recipeObserver.send(value: .failure(error))
                                 }
-                        }
+                            }
                     } else {
                         self.recipeObserver.send(value: .failure(.notSignedInCloud))
                     }
                 }
-        }
+            }
     }
     
     private func saveRecipePictureAndInfo(_ imageData: Data, id: String) {
@@ -268,6 +272,7 @@ class RecipeCreationViewModel {
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
+            .observe(on: UIScheduler())
             .startWithResult { result in
                 switch result {
                 case .success(let recordID):
@@ -308,13 +313,18 @@ class RecipeCreationViewModel {
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
+            .observe(on: UIScheduler())
             .startWithResult { result in
                 switch result {
                 case .success():
                     RealmHelper.shared.updateRecipeInRealm(currentRecipe, newRecipe)
                         .startWithCompleted {
-                           self.recipeObserver.send(value: .success(()))
-                    }
+                            if let downloadUrl = currentRecipe.downloadUrl, !downloadUrl.isEmpty && self.recipePicData.value == nil {
+                                self.deleteRecipePicOnFirebase(currentRecipe.id)
+                            } else {
+                                self.recipeObserver.send(value: .success(()))
+                            }
+                        }
                 case .failure(let error):
                     self.isLoading.value = false
                     self.recipeObserver.send(value: .failure(error))
@@ -361,5 +371,15 @@ class RecipeCreationViewModel {
             self.recipePicData.value = imageData
         }
         defaults.deleteRecipeBackup()
+    }
+    
+    private func deleteRecipePicOnFirebase(_ id: String) {
+        ImageHelper.shared.deleteRecipePicOnFirebase(id)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithCompleted {
+                self.recipeObserver.send(value: .success(()))
+            }
     }
 }

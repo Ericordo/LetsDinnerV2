@@ -81,13 +81,15 @@ class ImageHelper {
         }
     }
     
-     #warning("To implement")
-    func deleteRecipePicOnFirebase(_ id: String) {
-        let reference = self.storage.child(DataKeys.recipePictures).child(id)
-        
-        reference.delete { error in
-            if let error = error {
-                print(error.localizedDescription)
+    func deleteRecipePicOnFirebase(_ id: String) -> SignalProducer<Void, Never> {
+        return SignalProducer { observer, _ in
+            let reference = self.storage
+                .child(DataKeys.recipePictures)
+                .child(id)
+            
+            reference.delete { _ in
+                observer.send(value: ())
+                observer.sendCompleted()
             }
         }
     }
