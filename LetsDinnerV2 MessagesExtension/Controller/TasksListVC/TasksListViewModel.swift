@@ -37,8 +37,8 @@ class TasksListViewModel {
     var pendingTasks = [Task]()
     var tasksToUpdate = [Task]()
     
-    let newDataSignal : Signal<Void, LDError>
-    private let newDataObserver : Signal<Void, LDError>.Observer
+    let newDataSignal : Signal<Result<Void, LDError>, Never>
+    private let newDataObserver : Signal<Result<Void, LDError>, Never>.Observer
     
     let onlineUsersSignal : Signal<Int, Never>
     private let onlineUsersObserver : Signal<Int, Never>.Observer
@@ -46,8 +46,8 @@ class TasksListViewModel {
     let taskUpdateSignal : Signal<Void, Never>
     private let taskUpdateObserver : Signal<Void, Never>.Observer
     
-    let taskUploadSignal : Signal<Void, LDError>
-    private let taskUploadObserver : Signal<Void, LDError>.Observer
+    let taskUploadSignal : Signal<Result<Void, LDError>, Never>
+    private let taskUploadObserver : Signal<Result<Void, LDError>, Never>.Observer
     
     var currentUserOnline = false
     
@@ -55,7 +55,7 @@ class TasksListViewModel {
         tasks = MutableProperty<[Task]>(Event.shared.tasks.sorted { $0.taskName < $1.taskName })
         servings = MutableProperty<Int>(Event.shared.servings)
         
-        let (newDataSignal, newDataObserver) = Signal<Void, LDError>.pipe()
+        let (newDataSignal, newDataObserver) = Signal<Result<Void, LDError>, Never>.pipe()
         self.newDataSignal = newDataSignal
         self.newDataObserver = newDataObserver
         
@@ -67,7 +67,7 @@ class TasksListViewModel {
         self.taskUpdateSignal = taskUpdateSignal
         self.taskUpdateObserver = taskUpdateObserver
         
-        let (taskUploadSignal, taskUploadObserver) = Signal<Void, LDError>.pipe()
+        let (taskUploadSignal, taskUploadObserver) = Signal<Result<Void, LDError>, Never>.pipe()
         self.taskUploadSignal = taskUploadSignal
         self.taskUploadObserver = taskUploadObserver
         
@@ -135,7 +135,7 @@ class TasksListViewModel {
                 sectionNames.value.append(sectionName)
             }
         }
-        newDataObserver.send(value: ())
+        newDataObserver.send(value: .success(()))
     }
     
     func sortTasks() {
@@ -199,7 +199,7 @@ class TasksListViewModel {
                 switch result {
                 case .failure(let error):
                     self.isLoading.value = false
-                    self.newDataObserver.send(error: error)
+                    self.newDataObserver.send(value: .failure(error))
                 case .success():
                     self.tasks.value = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
                     self.servings.value = Event.shared.servings
@@ -237,9 +237,9 @@ class TasksListViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    self.taskUploadObserver.send(error: error)
+                    self.taskUploadObserver.send(value: .failure(error))
                 case .success():
-                    self.taskUploadObserver.send(value: ())
+                    self.taskUploadObserver.send(value: .success(()))
                 }
         }
     }
@@ -253,9 +253,9 @@ class TasksListViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    self.taskUploadObserver.send(error: error)
+                    self.taskUploadObserver.send(value: .failure(error))
                 case .success():
-                    self.taskUploadObserver.send(value: ())
+                    self.taskUploadObserver.send(value: .success(()))
                 }
         }
     }

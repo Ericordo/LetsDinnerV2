@@ -184,6 +184,7 @@ class RecipeCreationViewController: UIViewController {
         setupObservers()
         bindViewModel()
         self.updateLayoutConstraints()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {

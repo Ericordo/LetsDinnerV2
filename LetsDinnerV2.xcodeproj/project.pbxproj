@@ -592,7 +592,7 @@
 				32B49DD523E87CCC0010669A /* ExpiredEventVC */,
 				B86F7006238435830010AB7C /* EventInfoVC */,
 				880B13662374BDAE003E29AC /* TasksListVC */,
-				884A5D8E24A3674700CBF8AF /* RecipeBookViewController.swift */,
+				884E0E562533560700E165C4 /* RecipeBookVC */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -702,6 +702,14 @@
 				884CE1C82465C515001062BF /* CKIngredient.swift */,
 			);
 			path = RecipeModels;
+			sourceTree = "<group>";
+		};
+		884E0E562533560700E165C4 /* RecipeBookVC */ = {
+			isa = PBXGroup;
+			children = (
+				884A5D8E24A3674700CBF8AF /* RecipeBookViewController.swift */,
+			);
+			path = RecipeBookVC;
 			sourceTree = "<group>";
 		};
 		8851335B24215A05004CD858 /* WelcomeVC */ = {

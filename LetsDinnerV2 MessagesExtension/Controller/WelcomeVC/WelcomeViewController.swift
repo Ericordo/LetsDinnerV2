@@ -10,9 +10,7 @@ import UIKit
 import SafariServices
 
 class WelcomeViewController: UIViewController {
-    
-    private lazy var confettiView = SAConfettiView(frame: view.bounds)
-    
+        
     private let titleLabel : UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -58,11 +56,17 @@ class WelcomeViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var firstHorizontalStackView = createHorizontalStackView(image: Images.inviteIcon, title: LabelStrings.createEvents, text: LabelStrings.createEventsDescription)
+    private lazy var firstHorizontalStackView = createHorizontalStackView(image: Images.inviteIcon,
+                                                                          title: LabelStrings.createEvents,
+                                                                          text: LabelStrings.createEventsDescription)
     
-    private lazy var secondHorizontalStackView = createHorizontalStackView(image: Images.thingsIcon, title: LabelStrings.recipesAndTasks, text: LabelStrings.recipesAndTasksDescription)
+    private lazy var secondHorizontalStackView = createHorizontalStackView(image: Images.thingsIcon,
+                                                                           title: LabelStrings.recipesAndTasks,
+                                                                           text: LabelStrings.recipesAndTasksDescription)
     
-    private lazy var thirdHorizontalStackView = createHorizontalStackView(image: Images.chatIcon, title: LabelStrings.neverLeave, text: LabelStrings.neverLeaveDescription)
+    private lazy var thirdHorizontalStackView = createHorizontalStackView(image: Images.chatIcon,
+                                                                          title: LabelStrings.neverLeave,
+                                                                          text: LabelStrings.neverLeaveDescription)
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -71,15 +75,15 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(closeVC),
+                                               name: Notification.Name(rawValue: "WillTransition"),
+                                               object: nil)
     }
     
     @objc private func didTapContinue() {
         defaults.set(true, forKey: Keys.onboardingComplete)
-        confettiView.startConfetti()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-           self.dismiss(animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func didTapPolicy() {
@@ -90,7 +94,6 @@ class WelcomeViewController: UIViewController {
     }
     private func setupUI() {
         view.backgroundColor = .backgroundColor
-        view.addSubview(confettiView)
         view.addSubview(policyLabel)
         view.addSubview(continueButton)
         view.addSubview(scrollView)

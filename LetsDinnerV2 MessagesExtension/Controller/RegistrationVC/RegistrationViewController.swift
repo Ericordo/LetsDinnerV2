@@ -213,6 +213,7 @@ class RegistrationViewController: LDNavigationViewController {
         setupNotifications()
         bindViewModel()
         presentWelcomeVCIfNeeded()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -278,11 +279,12 @@ class RegistrationViewController: LDNavigationViewController {
         }
         
         self.viewModel.dataUploadSignal.observe(on: UIScheduler())
-            .observeResult { [weak self] result in
+            .observeValues { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
-                self.showBasicAlert(title: AlertStrings.oops, message: error.localizedDescription)
+                self.showBasicAlert(title: AlertStrings.oops,
+                                    message: error.localizedDescription)
                 self.checkUsername()
             case.success(()):
                 self.delegate?.registrationVCDidTapSaveButton(previousStep: self.previousStep)
@@ -292,8 +294,13 @@ class RegistrationViewController: LDNavigationViewController {
         self.viewModel.doneActionSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeValues { [unowned self] _ in
-                self.presentDoneActionSheet()
+            .observeValues { [unowned self] result in
+                switch result {
+                case .failure(_):
+                    self.showMissingNameError()
+                case.success(()):
+                    self.presentDoneActionSheet()
+                }
         }
         
         locationButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
@@ -308,11 +315,7 @@ class RegistrationViewController: LDNavigationViewController {
                 self.presentDeleteOrModifyOptions()
             }
         }
-        
-//        navigationBar.previousButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-//            self.delegate?.registrationVCDidTapCancelButton()
-//        }
-        
+
         navigationBar.nextButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.view.endEditing(true)
             self.viewModel.didTapDone()
@@ -325,9 +328,7 @@ class RegistrationViewController: LDNavigationViewController {
             sourceView: self.navigationBar.nextButton,
             message: AlertStrings.doneActionSheetMessage,
             saveActionCompletion: { _ in
-                self.firstNameTextField.animateEmpty()
-                self.lastNameTextField.animateEmpty()
-                self.errorLabel.isHidden = self.viewModel.infoIsValid()
+                self.showMissingNameError()
                 if self.viewModel.infoIsValid() {
                     self.viewModel.saveUserInformation()
                 }},
@@ -357,6 +358,12 @@ class RegistrationViewController: LDNavigationViewController {
             welcomeVC.modalPresentationStyle = .overFullScreen
             self.present(welcomeVC, animated: true, completion: nil)
         }
+    }
+    
+    private func showMissingNameError() {
+        self.firstNameTextField.animateEmpty()
+        self.lastNameTextField.animateEmpty()
+        self.errorLabel.isHidden = self.viewModel.infoIsValid()
     }
     
     private func updateInitials() {
@@ -451,7 +458,8 @@ class RegistrationViewController: LDNavigationViewController {
                 case .success:
                     self.viewModel.profilePicData.value = self.userPic.image?.jpegData(compressionQuality: 0.4)
                 case .failure:
-                    self.showBasicAlert(title: AlertStrings.oops, message: AlertStrings.errorFetchImage)
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: AlertStrings.errorFetchImage)
                     self.checkUsername()
                 }
                 self.addPicButton.isHidden = false
@@ -476,8 +484,6 @@ class RegistrationViewController: LDNavigationViewController {
     private func setupUI() {
         view.backgroundColor = .backgroundColor
         navigationBar.titleLabel.text = LabelStrings.profile
-//        #warning("fix previous button leading constraint")
-//        navigationBar.previousButton.setTitle(AlertStrings.cancel, for: .normal)
         navigationBar.previousButton.isHidden = true
         navigationBar.nextButton.setTitle(ButtonTitle.done, for: .normal)
         progressViewContainer.isHidden = true

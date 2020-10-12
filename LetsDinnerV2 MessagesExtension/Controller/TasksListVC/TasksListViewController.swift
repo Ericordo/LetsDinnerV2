@@ -65,6 +65,7 @@ class TasksListViewController: LDNavigationViewController {
         setupTableView()
         setupUI()
         bindViewModel()
+        self.checkAuthenticationStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -139,7 +140,7 @@ class TasksListViewController: LDNavigationViewController {
         self.viewModel.taskUploadSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeResult { [weak self] result in
+            .observeValues { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
