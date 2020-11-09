@@ -9,8 +9,10 @@
 import UIKit
 import Messages
 import Firebase
-import RealmSwift
 import FirebaseAuth
+import FirebaseAnalytics
+import RealmSwift
+import SwiftyStoreKit
 
 class MessagesViewController: MSMessagesAppViewController {
         
@@ -19,7 +21,7 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
+//        print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
         self.view.backgroundColor = .backgroundColor
         
         #warning("Get rid of that and just reinstall the app")
@@ -36,9 +38,6 @@ class MessagesViewController: MSMessagesAppViewController {
             print(error.localizedDescription)
         }
 
-//        CloudManager.shared.checkUserCloudStatus {
-//                    CloudManager.shared.retrieveProfileInfo()
-//                }
         CloudManager.shared.retrieveProfileInfo()
         
         // Configure your testing condition in testManager
@@ -65,6 +64,8 @@ class MessagesViewController: MSMessagesAppViewController {
                 print(error.localizedDescription)
             }
         }
+        
+        IAPHelper.shared.startObserving()
         
         if presentationStyle == .transcript {
             presentTranscriptView(for: conversation)
@@ -104,6 +105,7 @@ class MessagesViewController: MSMessagesAppViewController {
         defaults.backupEventData()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "DidResignActive"),
                                         object: nil)
+        IAPHelper.shared.stopObserving()
         // Called when the extension is about to move from the active to inactive state.
         // This will happen when the user dissmises the extension, changes to a different
         // conversation or quits Messages.
@@ -155,7 +157,6 @@ class MessagesViewController: MSMessagesAppViewController {
         let controller: UIViewController
         
         if presentationStyle == .compact {
-            
             if Event.shared.dinnerName.isEmpty {
                 controller = instantiateInitialViewController()
             } else {
@@ -163,7 +164,6 @@ class MessagesViewController: MSMessagesAppViewController {
             }
             
         } else {
-            
             // Expanded Style
             if defaults.username.isEmpty || newNameRequested {
                 newNameRequested = false
@@ -177,7 +177,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 } else {
                     switch StepStatus.currentStep {
                     case .initialVC:
-                        controller = instantiateNewEventViewController()
+                        controller = instantiatePremiumCheckViewController()
                     case .registrationVC:
                         controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep!)
                     case .newEventVC:
@@ -199,9 +199,13 @@ class MessagesViewController: MSMessagesAppViewController {
                     case .eventInfoVC:
                         controller = instantiateEventInfoViewController()
                     case .none:
-                        controller = instantiateNewEventViewController()
+                        controller = instantiatePremiumCheckViewController()
                     case .expiredEventVC:
                         controller = instantiateExpiredEventViewController()
+                    case .premiumVC:
+                        controller = instantiatePremiumCheckViewController()
+                    case .thankYouVC:
+                        controller = instantiateThankYouViewController()
                     }
                 }
             }
@@ -235,7 +239,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: Controller Animation
-    func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
+   private func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
         
         addChild(controller)
         
@@ -326,6 +330,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateNewEventViewController() -> UIViewController {
+        Analytics.logEvent("new_event", parameters: nil)
         return NewEventViewController(viewModel: NewEventViewModel(), delegate: self)
     }
     
@@ -350,7 +355,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     private func instantiateExpiredEventViewController() -> UIViewController {
-        return ExpiredEventViewController(delegate: self)
+        return ExpiredEventViewController(delegate: self, viewModel: PremiumCheckViewModel())
     }
     
     private func instantiateTasksListViewController() -> UIViewController {
@@ -359,6 +364,20 @@ class MessagesViewController: MSMessagesAppViewController {
     
     private func instantiateEventInfoViewController() -> UIViewController {
         return EventInfoViewController(delegate: self)
+    }
+    
+    private func instantiatePremiumViewController(with newSubscription: NewSubscription) -> UIViewController {
+        return PremiumViewController(delegate: self,
+                                     viewModel: PremiumViewModel(with: newSubscription))
+    }
+    
+    private func instantiatePremiumCheckViewController() -> UIViewController {
+        return PremiumCheckViewController(viewModel: PremiumCheckViewModel(),
+                                          delegate: self)
+    }
+    
+    private func instantiateThankYouViewController() -> UIViewController {
+        return ThankYouViewController(delegate: self)
     }
     
     private func sendMessage(message: MSMessage) {
@@ -380,19 +399,24 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         self.dismiss()
     }
+    
+    private func resetEvent() {
+        activeConversation?.selectedMessage?.url = nil
+        Event.shared.resetEvent()
+        CustomOrderHelper.shared.customOrder.removeAll()
+    }
 }
 
 // MARK: Delegations
 
 extension MessagesViewController: InitialViewControllerDelegate {
-    func initialVCDidTapStartButton() {
+    func initialVCDidTapNewEvent() {
+        StepStatus.currentStep = .premiumVC
+        self.resetEvent()
         requestPresentationStyle(.expanded)
-        activeConversation?.selectedMessage?.url = nil
-        Event.shared.resetEvent()
-        CustomOrderHelper.shared.customOrder.removeAll()
     }
     
-    func initialVCDidTapInfoButton() {
+    func initialVCDidTapSettings() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
@@ -403,36 +427,38 @@ extension MessagesViewController: IdleViewControllerDelegate {
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapNewDinner() {
-        Event.shared.resetEvent()
-        CustomOrderHelper.shared.customOrder.removeAll()
-        activeConversation?.selectedMessage?.url = nil
-        StepStatus.currentStep = .newEventVC
+    func idleVCDidTapNewEvent() {
+        StepStatus.currentStep = .premiumVC
+        self.resetEvent()
         requestPresentationStyle(.expanded)
     }
     
-    func idleVCDidTapProfileButton() {
+    func idleVCDidTapSettings() {
         newNameRequested = true
         requestPresentationStyle(.expanded)
     }
 }
 
 extension MessagesViewController: RegistrationViewControllerDelegate {
-    func registrationVCDidTapSaveButton(previousStep: StepTracking) {
-        guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
-        if previousStep == .newEventVC {
-            StepStatus.currentStep = .newEventVC
-        } else if previousStep == .initialVC {
-            StepStatus.currentStep = .newEventVC
-        } else if previousStep == .eventSummaryVC {
-            StepStatus.currentStep = .eventSummaryVC
+    func didTapNext(previousStep: StepTracking, newSubscription: NewSubscription?) {
+        if let subscription = newSubscription {
+            let controller = instantiatePremiumViewController(with: subscription)
+            removeViewController(transition: .VCGoForward)
+            addChildViewController(controller: controller, transition: .VCGoForward)
         } else {
-            StepStatus.currentStep = .newEventVC
+            if previousStep == .eventSummaryVC {
+                StepStatus.currentStep = .eventSummaryVC
+                guard let conversation = activeConversation else { fatalError("Expected an active conversation") }
+                presentViewController(for: conversation, with: .expanded)
+            } else {
+                let controller = instantiateNewEventViewController()
+                removeViewController(transition: .VCGoForward)
+                addChildViewController(controller: controller, transition: .VCGoForward)
+            }
         }
-        presentViewController(for: conversation, with: .expanded)
     }
-    
-    func registrationVCDidTapCancelButton() {
+
+    func didTapCancel() {
         newNameRequested = false
         requestPresentationStyle(.compact)
     }
@@ -619,13 +645,59 @@ extension MessagesViewController: EventInfoViewControllerDelegate {
 }
 
 extension MessagesViewController: ExpiredEventViewControllerDelegate {
-    func expiredEventVCDidTapCreateNewEvent() {
-        Event.shared.resetEvent()
-        CustomOrderHelper.shared.customOrder.removeAll()
-        activeConversation?.selectedMessage?.url = nil
-        let controller = instantiateNewEventViewController()
+    func didTapNewEvent(newSubscription: NewSubscription?) {
+        self.resetEvent()
+        let controller : UIViewController
+        if let subscription = newSubscription {
+            controller = instantiatePremiumViewController(with: subscription)
+        } else {
+            controller = instantiateNewEventViewController()
+        }
         removeViewController()
         addChildViewController(controller: controller)
+    }
+}
+
+extension MessagesViewController: PremiumCheckViewControllerDelegate {
+    func subscriptionCheckDone(newSubscription: NewSubscription?) {
+        let controller : UIViewController
+        if let subscription = newSubscription {
+            controller = instantiatePremiumViewController(with: subscription)
+        } else {
+            controller = instantiateNewEventViewController()
+        }
+        removeViewController()
+        addChildViewController(controller: controller, transition: .VCGoUp)
+    }
+    
+    func subscriptionCheckFailed() {
+        requestPresentationStyle(.compact)
+    }
+}
+
+extension MessagesViewController: PremiumViewControllerDelegate {
+    func subscribeLater() {
+        requestPresentationStyle(.compact)
+    }
+    
+    func subscribedSuccessfully() {
+        let controller = instantiateThankYouViewController()
+        removeViewController()
+        addChildViewController(controller: controller, transition: .VCGoUp)
+    }
+    
+    func restoredSubscription() {
+        let controller = instantiatePremiumCheckViewController()
+        removeViewController(transition: .VCGoForward)
+        addChildViewController(controller: controller, transition: .VCGoForward)
+    }
+}
+
+extension MessagesViewController: ThankYouViewControllerDelegate {
+    func thankYouVCdidTapContinue() {
+        let controller = instantiateNewEventViewController()
+        removeViewController(transition: .VCGoForward)
+        addChildViewController(controller: controller, transition: .VCGoForward)
     }
 }
 

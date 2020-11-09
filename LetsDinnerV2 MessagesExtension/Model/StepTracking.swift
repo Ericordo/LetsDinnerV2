@@ -21,6 +21,8 @@ enum StepTracking {
     case tasksListVC
     case eventInfoVC
     case expiredEventVC
+    case premiumVC
+    case thankYouVC
 }
 
 extension StepTracking : CaseIterable {

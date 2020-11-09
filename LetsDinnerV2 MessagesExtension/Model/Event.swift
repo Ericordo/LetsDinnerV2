@@ -568,7 +568,10 @@ class Event {
     func cancelFirebaseEvent() {
         self.dinnerName = LabelStrings.cancelledEvent + self.dinnerName
         self.tasks = []
-        let eventNode = Database.database().reference().child(hostIdentifier).child(DataKeys.events).child(self.firebaseEventUid)
+        let eventNode = self.database
+            .child(hostIdentifier)
+            .child(DataKeys.events)
+            .child(self.firebaseEventUid)
         eventNode.child(DataKeys.isCancelled).setValue(true)
         eventNode.child(DataKeys.eventName).setValue(self.dinnerName)
         eventNode.child(DataKeys.tasks).setValue([:])

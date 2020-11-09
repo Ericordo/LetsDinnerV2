@@ -104,6 +104,19 @@ enum AlertStrings {
     static let userNotLoggedIn = NSLocalizedString("We could not connect you to the database, this may be due to a network issue. Please check and try again!", comment: "not logged in firebase")
     static let loggedInSuccess = NSLocalizedString("You are now connected!", comment: "anonymous reauth successful")
     
+    // MARK: Premium Subscription
+    static let noProductIDsFound = NSLocalizedString("Let's Dinner Pro! is not available at the moment, please try again later.", comment: "no product id found")
+    static let noProductsFound = NSLocalizedString("Let's Dinner Pro! is not available at the moment, please try again later.", comment: "no product found")
+    static let paymentWasCancelled = NSLocalizedString("The purchase has been cancelled.", comment: "purchase cancelled")
+    static let productRequestFailed = NSLocalizedString("Let's Dinner Pro! is not available at the moment, please try again later.", comment: "product request failed")
+    static let paymentNotAvailable = NSLocalizedString("We can not proceed with your purchase, please try again later.", comment: "payment not available")
+    static let purchaseFailed = NSLocalizedString("We can not proceed with your purchase, please try again later.", comment: "purchase failed")
+    static let secretNotFetched = NSLocalizedString("Let's Dinner Pro! is not available at the moment, please try again later.", comment: "secret not fetched from firebase")
+    static let receiptVerificationFail = NSLocalizedString("We could not verify your Let's Dinner Pro! subscription, please try again later.", comment: "receipt verification fail")
+    static let restoreFailed = NSLocalizedString("We could not restore your purchase, please try again later.", comment: "fail to restore")
+    static let nothingToRestore = NSLocalizedString("You do not have an ongoing subscription to Let's Dinner Pro!, so there is nothing to restore!", comment: "nothing to restore")
+    
+    
     // MARK: Action
     static let okAction = NSLocalizedString("OK", comment: "ok")
     static let editAction = NSLocalizedString("Edit", comment: "edit")
@@ -117,4 +130,5 @@ enum AlertStrings {
     static let change = NSLocalizedString("Change", comment: "change")
     static let nope = NSLocalizedString("Nope", comment: "nope")
     static let connect = NSLocalizedString("Connect", comment: "connect")
+    static let subscribe = NSLocalizedString("Subscribe", comment: "subscribe")
 }

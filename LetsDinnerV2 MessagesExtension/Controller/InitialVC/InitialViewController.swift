@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import FirebaseAnalytics
 
 protocol InitialViewControllerDelegate: class {
-    func initialVCDidTapStartButton()
-    func initialVCDidTapInfoButton()
+    func initialVCDidTapSettings()
+    func initialVCDidTapNewEvent()
 }
 
 class InitialViewController: UIViewController {
@@ -59,8 +58,8 @@ class InitialViewController: UIViewController {
         return label
     }()
     
-    weak var delegate: InitialViewControllerDelegate?
-    
+    weak var delegate : InitialViewControllerDelegate?
+
     init(delegate: InitialViewControllerDelegate) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
@@ -84,14 +83,13 @@ class InitialViewController: UIViewController {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
     }
-    
+
     @objc private func didTapNewEvent() {
-        delegate?.initialVCDidTapStartButton()
-        Analytics.logEvent("new_event", parameters: nil)
+        self.delegate?.initialVCDidTapNewEvent()
     }
     
     @objc private func didTapSettings() {
-        delegate?.initialVCDidTapInfoButton()
+        self.delegate?.initialVCDidTapSettings()
     }
     
     private func setupUI() {

@@ -50,6 +50,8 @@ class PrimaryButton: UIButton {
         self.layer.cornerRadius = 16
         self.setTitleColor(.white, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        self.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.titleLabel?.minimumScaleFactor = 0.7
         self.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.width.equalTo(253)

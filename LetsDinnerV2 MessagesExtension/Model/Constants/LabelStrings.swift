@@ -162,9 +162,9 @@ enum LabelStrings {
     static let createEvents = NSLocalizedString("Create Events", comment: "in WelcomeVC")
     static let recipesAndTasks = NSLocalizedString("Recipes and Tasks", comment: "in WelcomeVC")
     static let neverLeave = NSLocalizedString("Never leave your Chat", comment: "in WelcomeVC")
-    static let createEventsDescription = NSLocalizedString("Cooking is better together! Invite your loved ones and enjoy some quality time", comment: "in WelcomeVC")
+    static let createEventsDescription = NSLocalizedString("Cooking is better together! Invite your loved ones and enjoy some quality time.", comment: "in WelcomeVC")
     static let recipesAndTasksDescription = NSLocalizedString("Create your own or search among 360K+ recipes. Ingredients become tasks that your guests can pick to get everything ready!", comment: "in WelcomeVC")
-    static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶", comment: "in WelcomeVC")
+    static let neverLeaveDescription = NSLocalizedString("Let's Dinner! will not flood your chat, so you can keep on chatting about that new video 😻🐶.", comment: "in WelcomeVC")
     
     // Message Bubble
     static let caption = NSLocalizedString("Tap to view this event", comment: "Message caption")
@@ -191,7 +191,8 @@ enum LabelStrings {
     static let premiumPro = "Pro!"
     static let premiumDescription = NSLocalizedString("Let's Dinner! was created by six people from accross the world. Your Let's Dinner Pro! subscription will let you create events, enjoy neat features, and help to ensure future development! Have a look:", comment: "Premium description")
     static let premiumNoThanks = NSLocalizedString("No, thank you. Maybe later.", comment: "No thanks")
-    static let premiumSubscribe = NSLocalizedString("Subscribe for 0.99€ / month", comment: "Subscribe for")
+    static let freeTrial = NSLocalizedString("One-month free trial! 🥳", comment: "free trial period")
+    static let subscriptionInfo = NSLocalizedString("If you choose to subscribe, the purchase will be applied to your iTunes account at the end of the trial period. Subscriptions will automatically renew unless canceled within 24-hours before the end of the current period. You can cancel anytime in your iTunes account settings.", comment: "subscription legal info")
     
     //ThankYou Screen
     static let thankYou = NSLocalizedString("Thank you so much and\nwelcome to Let's Dinner Pro!", comment: "Thank you message")

@@ -161,32 +161,4 @@ class WelcomeViewController: UIViewController {
             ])
         }
     }
-    
-    private func createHorizontalStackView(image: UIImage, title: String, text: String) -> UIStackView {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 15
-        stackView.alignment = .leading
-        stackView.distribution = .fillProportionally
-        
-        let icon = UIImageView(image: image.withAlignmentRectInsets(UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)))
-        icon.contentMode = .scaleAspectFit
-        
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            icon.widthAnchor.constraint(equalToConstant: 60),
-            icon.heightAnchor.constraint(equalToConstant: 60)
-        ])
-        
-        let descriptionLabel : LDLabel = {
-            let label = LDLabel()
-            return label
-        }()
-        
-        descriptionLabel.configureTextForWelcomeScreen(title: title, text: text)
-        stackView.addArrangedSubview(icon)
-        stackView.addArrangedSubview(descriptionLabel)
-        
-        return stackView
-    }
 }
