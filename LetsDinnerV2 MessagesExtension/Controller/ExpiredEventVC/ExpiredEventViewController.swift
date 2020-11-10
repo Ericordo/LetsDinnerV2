@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FirebaseAnalytics
+import ReactiveSwift
 
 private enum RowItemNumber: Int, CaseIterable {
     case title = 0
@@ -18,14 +18,13 @@ private enum RowItemNumber: Int, CaseIterable {
 }
 
 protocol ExpiredEventViewControllerDelegate: class {
-    func expiredEventVCDidTapCreateNewEvent()
+    func didTapNewEvent(newSubscription: NewSubscription?)
 }
 
 class ExpiredEventViewController: UIViewController {
     // MARK: Properties
     private lazy var newEventButton : PrimaryButton = {
         let button = PrimaryButton()
-        button.addTarget(self, action: #selector(didTapNewEvent), for: .touchUpInside)
         button.setTitle(LabelStrings.createNewEvent, for: .normal)
         return button
     }()
@@ -40,11 +39,16 @@ class ExpiredEventViewController: UIViewController {
         return tableView
     }()
     
+    private let loadingView = LDLoadingView()
+    
+    private let viewModel : PremiumCheckViewModel
+    
     weak var delegate: ExpiredEventViewControllerDelegate?
     
     // MARK: Init
-    init(delegate: ExpiredEventViewControllerDelegate) {
+    init(delegate: ExpiredEventViewControllerDelegate, viewModel: PremiumCheckViewModel) {
         self.delegate = delegate
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,6 +61,7 @@ class ExpiredEventViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupTableView()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,12 +69,54 @@ class ExpiredEventViewController: UIViewController {
         StepStatus.currentStep = .expiredEventVC
     }
     
-    // MARK: Methods
-    @objc private func didTapNewEvent() {
-        Analytics.logEvent("new_event", parameters: nil)
-        delegate?.expiredEventVCDidTapCreateNewEvent()
+    private func bindViewModel() {
+        self.newEventButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.viewModel.checkIfUserIsSubscribed()
+        }
+        
+        self.viewModel.subscribedSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: error.description)
+                case.success():
+                    self.delegate?.didTapNewEvent(newSubscription: nil)
+                }
+            }
+        
+        self.viewModel.newSubscriptionSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: error.description)
+                case .success(let newSubscription):
+                    self.delegate?.didTapNewEvent(newSubscription: newSubscription)
+                }
+            }
+        
+        self.viewModel.isLoading.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [unowned self] isLoading in
+                if isLoading {
+                    self.loadingView.frame = self.view.frame
+                    self.view.addSubview(self.loadingView)
+                    self.loadingView.start()
+                } else {
+                    self.loadingView.stop()
+                }
+        }
     }
     
+    // MARK: Methods
     private func setupUI() {
         view.backgroundColor = .backgroundColor
         view.addSubview(newEventButton)

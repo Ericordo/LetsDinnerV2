@@ -21,8 +21,8 @@ enum MeasurementSystem : String {
 }
 
 protocol RegistrationViewControllerDelegate : class {
-    func registrationVCDidTapSaveButton(previousStep: StepTracking)
-    func registrationVCDidTapCancelButton()
+    func didTapCancel()
+    func didTapNext(previousStep: StepTracking, newSubscription: NewSubscription?)
 }
 
 class RegistrationViewController: LDNavigationViewController {
@@ -287,7 +287,11 @@ class RegistrationViewController: LDNavigationViewController {
                                     message: error.localizedDescription)
                 self.checkUsername()
             case.success(()):
-                self.delegate?.registrationVCDidTapSaveButton(previousStep: self.previousStep)
+                if self.previousStep == .eventSummaryVC {
+                    self.delegate?.didTapNext(previousStep: self.previousStep, newSubscription: nil)
+                } else {
+                    self.viewModel.checkIfUserIsSubscribed()
+                }
             }
         }
         
@@ -302,6 +306,34 @@ class RegistrationViewController: LDNavigationViewController {
                     self.presentDoneActionSheet()
                 }
         }
+        
+        self.viewModel.subscribedSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: error.description)
+                case.success():
+                    self.delegate?.didTapNext(previousStep: self.previousStep, newSubscription: nil)
+                }
+            }
+        
+        self.viewModel.newSubscriptionSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeValues { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.showBasicAlert(title: AlertStrings.oops,
+                                        message: error.description)
+                case .success(let newSubscription):
+                    self.delegate?.didTapNext(previousStep: self.previousStep, newSubscription: newSubscription)
+                }
+            }
         
         locationButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
             self.findCurrentLocation()
@@ -337,7 +369,7 @@ class RegistrationViewController: LDNavigationViewController {
                     defaults.profilePicUrl = self.viewModel.initialUrl
                     CloudManager.shared.saveUserInfoOnCloud(self.viewModel.initialUrl, key: Keys.profilePicUrl)
                 }
-                self.delegate?.registrationVCDidTapCancelButton() })
+                self.delegate?.didTapCancel() })
         self.present(alert, animated: true, completion: nil)
     }
     

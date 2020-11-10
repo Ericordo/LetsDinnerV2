@@ -88,6 +88,7 @@ class NewEventViewModel {
             .startWithResult { result in
                 switch result {
                 case .failure:
+                    self.isLoading.value = false
                     self.nextStepObserver.sendCompleted()
                 case .success(let userIsLoggedIn):
                     if userIsLoggedIn {
@@ -98,14 +99,19 @@ class NewEventViewModel {
                                 guard let self = self else { return }
                                 switch result {
                                 case .failure:
+                                    self.isLoading.value = false
                                     self.nextStepObserver.sendCompleted()
                                 case .success(let recipes):
+                                    self.isLoading.value = true
                                     RealmHelper.shared.transferCloudRecipesToRealm(recipes)
                                         .startWithResult { [weak self] result in
                                             guard let self = self else { return }
+                                            self.isLoading.value = false
                                             switch result {
                                             case .failure(let error):
                                                 print(error)
+                                                #warning("do something better")
+                                                self.nextStepObserver.sendCompleted()
                                             case.success:
                                                 self.nextStepObserver.sendCompleted()
                                             }
@@ -114,6 +120,7 @@ class NewEventViewModel {
                                 }
                         }
                     } else {
+                        self.isLoading.value = false
                         self.nextStepObserver.sendCompleted()
                     }
                 }

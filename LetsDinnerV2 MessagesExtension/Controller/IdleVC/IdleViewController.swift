@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import FirebaseAnalytics
 
 protocol IdleViewControllerDelegate: class {
     func idleVCDidTapContinue()
-    func idleVCDidTapNewDinner()
-    func idleVCDidTapProfileButton()
+    func idleVCDidTapNewEvent()
+    func idleVCDidTapSettings()
 }
 
 class IdleViewController: UIViewController {
@@ -79,7 +78,7 @@ class IdleViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapContinue), for: .touchUpInside)
         return button
     }()
-    
+
     weak var delegate: IdleViewControllerDelegate?
     
     init(delegate: IdleViewControllerDelegate) {
@@ -101,19 +100,18 @@ class IdleViewController: UIViewController {
         gradientLayers?.first?.frame = view.bounds
     }
     
-    @objc private func didTapSettings() {
-        delegate?.idleVCDidTapProfileButton()
-    }
-    
     @objc private func didTapNewEvent() {
-        Analytics.logEvent("new_event", parameters: nil)
-        delegate?.idleVCDidTapNewDinner()
+        self.delegate?.idleVCDidTapNewEvent()
     }
     
     @objc private func didTapContinue() {
-        delegate?.idleVCDidTapContinue()
+        self.delegate?.idleVCDidTapContinue()
     }
     
+    @objc private func didTapSettings() {
+        self.delegate?.idleVCDidTapSettings()
+    }
+
     private func setupUI() {
         view.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
         view.addSubview(settingsButton)

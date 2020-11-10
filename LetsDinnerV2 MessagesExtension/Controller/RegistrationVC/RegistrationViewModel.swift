@@ -9,15 +9,14 @@
 import Foundation
 import ReactiveSwift
 
-class RegistrationViewModel {
+class RegistrationViewModel: PremiumCheckViewModel {
     
     let firstName : MutableProperty<String>
     let lastName : MutableProperty<String>
     let address : MutableProperty<String>
     let profilePicData: MutableProperty<Data?>
     let profilePicUrl : MutableProperty<String?>
-    let isLoading = MutableProperty<Bool>(false)
-    
+
     let dataUploadSignal: Signal<Result<Void, LDError>, Never>
     private let dataUploadObserver: Signal<Result<Void, LDError>, Never>.Observer
     
@@ -29,7 +28,8 @@ class RegistrationViewModel {
     private let initialAddress : String
     let initialUrl : String
     
-    init() {
+    override init() {
+        #warning("BUG This will break composed first or last names")
         let usernameArray = defaults.username.split(separator: " ")
         firstName = MutableProperty(String(usernameArray.first ?? ""))
         lastName = MutableProperty(String(usernameArray.last ?? ""))
@@ -49,9 +49,12 @@ class RegistrationViewModel {
         initialLastName = String(usernameArray.last ?? "")
         initialAddress = defaults.address
         initialUrl = defaults.profilePicUrl
+        
+        super.init()
     }
     
     func infoIsValid() -> Bool {
+        #warning("should we actually ask for the full name??")
         if self.firstName.value.isEmpty || self.lastName.value.isEmpty {
             return false
         } else {

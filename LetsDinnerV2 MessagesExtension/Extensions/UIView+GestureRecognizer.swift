@@ -1,5 +1,5 @@
 //
-//  GestureControl.swift
+//  UIView+GestureRecognizer.swift
 //  LetsDinnerV2 MessagesExtension
 //
 //  Created by Alex Cheung on 30/11/2019.

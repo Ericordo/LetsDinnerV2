@@ -27,6 +27,7 @@ target 'LetsDinnerV2 MessagesExtension' do
   pod 'SnapKit', '~> 5.0.0'
   pod 'ReactiveSwift', '~> 6.1'
   pod 'ReactiveCocoa', '~> 10.1'
+  pod 'SwiftyStoreKit'
   
 end
 

@@ -123,9 +123,12 @@ enum ButtonTitle {
     static let add = NSLocalizedString("Add", comment: "add")
     static let accept = NSLocalizedString("Accept", comment: "accept")
     static let decline = NSLocalizedString("Decline", comment: "decline")
+    static let subscribeFor = NSLocalizedString("Subscribe for %@ / month", comment: "Subsribe for amount / month")
 }
 
 enum DataKeys {
+    static let appInfo = "AppInfo"
+    static let sharedSecret = "sharedSecret"
     static let events = "Events"
     static let recipePictures = "RecipePictures"
     static let profilePictures = "ProfilePictures"

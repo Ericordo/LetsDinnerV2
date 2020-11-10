@@ -1,0 +1,57 @@
+{
+  "products" : [
+
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : true,
+    "_failTransactionsEnabled" : true,
+    "_storeKitError" : 11,
+    "_timeRate" : 6
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "AB09FBD7",
+      "localizations" : [
+
+      ],
+      "name" : "Let's Dinner Pro!",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "F8730485",
+          "introductoryOffer" : {
+            "internalID" : "B4134466",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1M"
+          },
+          "localizations" : [
+            {
+              "description" : "Create amazing events!",
+              "displayName" : "Let's Dinner Pro!",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.EricOrdonneau.LetsDinner.ProSubscription",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Let's Dinner Pro! Monthly",
+          "subscriptionGroupID" : "AB09FBD7",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "subscriptionOffersKeyPair" : {
+    "id" : "5EBD63B1",
+    "privateKey" : "MF8CAQEEGP5bkNjDe6KHnzsdwhldSM8kJ1F93goQdqAKBggqhkjOPQMBAaE0AzIA\nBKOOcwM9hNt/wNRH7h63IuYKXC2YAsv1+uHsL/pMunY7xyNLkdKIZc5MY5rOKzOf\nVg==",
+    "publicKey" : "MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEo45zAz2E23/A1EfuHrci5gpcLZgC\ny/X64ewv+ky6djvHI0uR0ohlzkxjms4rM59W"
+  },
+  "version" : {
+    "major" : 1,
+    "minor" : 0
+  }
+}

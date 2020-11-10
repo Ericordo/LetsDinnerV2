@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ThankYouViewControllerDelegate: class {
+    func thankYouVCdidTapContinue()
+}
+
 class ThankYouViewController: UIViewController {
     
     private lazy var confettiView = SAConfettiView(frame: view.bounds)
@@ -63,21 +67,32 @@ class ThankYouViewController: UIViewController {
         stackView.alignment = .fill
         return stackView
     }()
-        
+    
+    weak var delegate : ThankYouViewControllerDelegate?
+    
+    init(delegate: ThankYouViewControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(closeVC),
-                                               name: Notification.Name(rawValue: "WillTransition"),
-                                               object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        StepStatus.currentStep = .thankYouVC
+        confettiView.startConfetti()
     }
     
     @objc private func didTapContinue() {
-        confettiView.startConfetti()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.dismiss(animated: true, completion: nil)
-        }
+        confettiView.stopConfetti()
+        self.delegate?.thankYouVCdidTapContinue()
     }
     
     private func setupUI() {
