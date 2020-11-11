@@ -157,9 +157,6 @@ class EventSummaryViewController: LDViewController {
     }
     
     private func updateTable() {
-        #warning("For test only, to delete")
-        self.testOverride()
-        
         summaryTableView.reloadData()
         summaryTableView.isHidden = false
     }
@@ -593,26 +590,5 @@ extension EventSummaryViewController: CancelCellDelegate {
     
     @objc private func didConfirmDate() {
         self.viewModel.rescheduleEvent(date: rescheduleView.selectedDate)
-    }
-}
-
-// MARK: Test Control
-extension EventSummaryViewController {
-    
-    fileprivate func testOverride() {
-        // MARK: Test Use
-        if testManager.isTesting {
-            testManager.createHostStatus()
-            
-            if testManager.isHost == false {
-                if let user = Event.shared.currentUser {
-                    testManager.createPendingStatus(user: user)
-                    
-                    if testManager.isStatusPending == false {
-                        testManager.createAcceptStatus(user: user)
-                    }
-                }
-            }
-        }
     }
 }

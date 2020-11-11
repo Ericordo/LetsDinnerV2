@@ -39,11 +39,6 @@ class MessagesViewController: MSMessagesAppViewController {
         }
 
         CloudManager.shared.retrieveProfileInfo()
-        
-        // Configure your testing condition in testManager
-        if testManager.isTesting {
-            overrideEnvironment()
-        }
     }
 
     override func viewWillLayoutSubviews() {
@@ -704,14 +699,5 @@ extension MessagesViewController: ThankYouViewControllerDelegate {
 extension MessagesViewController: EventTranscriptViewDelegate {
     func didTapBubble() {
         self.requestPresentationStyle(.expanded)
-    }
-}
-
-// MARK: For Test Only
-extension MessagesViewController {
-    private func overrideEnvironment() {
-        if testManager.isDarkModeOn {
-            testManager.darkModeOn(view: self)
-        }
     }
 }

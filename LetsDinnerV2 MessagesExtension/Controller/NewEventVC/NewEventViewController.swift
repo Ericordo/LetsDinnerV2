@@ -12,9 +12,6 @@ import ReactiveSwift
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
-
-    #warning("Delete before release")
-    func eventDescriptionVCDidTapFinish(controller: NewEventViewController)
 }
 
 class NewEventViewController: LDNavigationViewController {
@@ -68,21 +65,6 @@ class NewEventViewController: LDNavigationViewController {
         let button = SecondaryButton()
         button.setTitle(LabelStrings.restore, for: .normal)
         button.isHidden = true
-        return button
-    }()
-    
-    #warning("Delete before release")
-    private let quickFillButton : UIButton = {
-        let button = UIButton()
-        button.setTitle("☢️ Quick fill ☢️", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        return button
-    }()
-    
-    private let quickEventButton : UIButton = {
-        let button = UIButton()
-        button.setTitle("☢️ Quick event ☢️", for: .normal)
-        button.setTitleColor(.red, for: .normal)
         return button
     }()
     
@@ -205,26 +187,6 @@ class NewEventViewController: LDNavigationViewController {
             self.viewModel.host.value = Event.shared.hostName
             self.viewModel.location.value = Event.shared.dinnerLocation
         }
-    
-        quickFillButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let event = TestManager.quickFillIn()
-            Event.shared.dinnerName = event.dinnerName
-            Event.shared.hostName = event.hostName
-            Event.shared.eventDescription = event.eventDescription
-            Event.shared.dinnerLocation = event.dinnerLocation
-            Event.shared.dateTimestamp = event.dateTimestamp
-            self.delegate?.newEventVCDidTapNext(controller: self)
-        }
-        
-        quickEventButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let event = TestManager.createCaseOne()
-            Event.shared.dinnerName = event.dinnerName
-            Event.shared.hostName = event.hostName
-            Event.shared.eventDescription = event.eventDescription
-            Event.shared.dinnerLocation = event.dinnerLocation
-            Event.shared.dateTimestamp = event.dateTimestamp
-            self.delegate?.eventDescriptionVCDidTapFinish(controller: self)
-        }
         
         viewModel.infoValidity.producer.observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
@@ -294,8 +256,6 @@ class NewEventViewController: LDNavigationViewController {
         contentView.addSubview(errorLabel)
         contentView.addSubview(restoreLabel)
         contentView.addSubview(restoreButton)
-        contentView.addSubview(quickFillButton)
-        contentView.addSubview(quickEventButton)
         view.addSubview(infoInputView)
         view.addSubview(eventInputView)
         addConstraints()
@@ -352,18 +312,6 @@ class NewEventViewController: LDNavigationViewController {
             make.width.equalTo(150)
             make.centerX.equalToSuperview()
             make.top.equalTo(restoreLabel.snp.bottom).offset(20)
-        }
-        
-        quickFillButton.snp.makeConstraints { make in
-            make.top.equalTo(restoreButton.snp.bottom).offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.height.equalTo(30)
-        }
-        
-        quickEventButton.snp.makeConstraints { make in
-            make.top.equalTo(quickFillButton.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.height.equalTo(30)
         }
         
         infoInputView.snp.makeConstraints { make in
