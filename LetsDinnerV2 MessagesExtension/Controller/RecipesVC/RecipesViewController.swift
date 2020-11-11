@@ -126,7 +126,7 @@ class RecipesViewController: LDNavigationViewController {
         .observeValues { [weak self] _ in
             guard let self = self else { return }
             Analytics.logEvent("create_recipe", parameters: nil)
-            let isAnimated = defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited)
+            let isAnimated = defaults.bool(forKey: Keys.recipeOnboardingComplete)
             self.presentRecipeCreationVC(animated: isAnimated)
         }
         

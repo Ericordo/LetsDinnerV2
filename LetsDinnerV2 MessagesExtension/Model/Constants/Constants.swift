@@ -29,7 +29,7 @@ enum Keys {
     static let userUid = "userUid"
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
-    static let createCustomRecipeWelcomeVCVisited = "createCustomRecipeWelcomeVCVisited"
+    static let recipeOnboardingComplete = "recipeOnboardingComplete"
     static let addEventCalendar = "addEventCalendar"
     static let eventBackup = "eventBackup"
     static let recipeBackup = "recipeBackup"

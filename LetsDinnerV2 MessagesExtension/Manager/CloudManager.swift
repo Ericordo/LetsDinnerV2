@@ -61,7 +61,12 @@ class CloudManager {
         }
         if let measurementSystem = retrieveUserInfoOnCloud(key: Keys.measurementSystem), !measurementSystem.isEmpty {
             defaults.measurementSystem = measurementSystem
-            print(measurementSystem)
+        }
+        if let onboarding = retrieveUserInfoOnCloud(key: Keys.onboardingComplete), onboarding == "true" {
+            defaults.set(true, forKey: Keys.onboardingComplete)
+        }
+        if let recipeOnboarding = retrieveUserInfoOnCloud(key: Keys.recipeOnboardingComplete), recipeOnboarding == "true" {
+            defaults.setValue(true, forKey: Keys.recipeOnboardingComplete)
         }
     }
     

@@ -83,6 +83,7 @@ class WelcomeViewController: LDViewController {
     
     @objc private func didTapContinue() {
         defaults.set(true, forKey: Keys.onboardingComplete)
+        CloudManager.shared.saveUserInfoOnCloud("true", key: Keys.onboardingComplete)
         self.dismiss(animated: true, completion: nil)
     }
     

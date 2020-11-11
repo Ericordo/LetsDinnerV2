@@ -455,7 +455,7 @@ class RecipeCreationViewController: LDViewController {
     
     
     private func presentCreateRecipeWelcomeVCIfNeeded() {
-        if defaults.bool(forKey: Keys.createCustomRecipeWelcomeVCVisited) != true {
+        if defaults.bool(forKey: Keys.recipeOnboardingComplete) != true {
             let welcomeVC = RecipeCreationWelcomeViewController()
             welcomeVC.modalPresentationStyle = .overFullScreen
             self.present(welcomeVC, animated: true, completion: nil)

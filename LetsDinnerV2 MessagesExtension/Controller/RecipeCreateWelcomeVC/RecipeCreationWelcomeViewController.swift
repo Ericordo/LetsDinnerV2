@@ -31,7 +31,7 @@ class RecipeCreationWelcomeViewController: LDViewController {
         return stackView
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .boldSystemFont(ofSize: 22)
@@ -73,10 +73,10 @@ class RecipeCreationWelcomeViewController: LDViewController {
     
     private let bottomView = UIView()
     
-    private let confirmButton: PrimaryButton = {
+    private lazy var confirmButton : PrimaryButton = {
         let button = PrimaryButton()
         button.setTitle(ButtonTitle.letsGo, for: .normal)
-        button.addTarget(self, action: #selector(buttonGoDidPress), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
         return button
     }()
     
@@ -87,29 +87,28 @@ class RecipeCreationWelcomeViewController: LDViewController {
         self.setupUI()
     }
     
+    @objc func didTapConfirm() {
+        defaults.set(true, forKey: Keys.recipeOnboardingComplete)
+        CloudManager.shared.saveUserInfoOnCloud("true", key: Keys.recipeOnboardingComplete)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     private func setupUI() {
         self.view.backgroundColor = .backgroundColor
-        
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(descriptionLabelOne)
         stackView.addArrangedSubview(descriptionLabelTwo)
         stackView.addArrangedSubview(descriptionLabelThree)
-        
         self.view.addSubview(imageView)
         self.view.addSubview(bottomView)
         self.view.addSubview(scrollView)
-        
         bottomView.addSubview(confirmButton)
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
-        
-        
         self.addConstraints()
-        
     }
     
     private func addConstraints() {
-        
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(25)
             make.leading.equalToSuperview().offset(30)
@@ -148,10 +147,5 @@ class RecipeCreationWelcomeViewController: LDViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(bottomView.snp.top).offset(10)
         }
-    }
-    
-    @objc func buttonGoDidPress(_ sender: UIButton) {
-        defaults.set(true, forKey: Keys.createCustomRecipeWelcomeVCVisited)
-        self.dismiss(animated: true, completion: nil)
     }
 }
