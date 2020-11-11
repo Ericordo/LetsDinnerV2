@@ -14,7 +14,7 @@ enum TaskState: Int, Codable {
     case completed = 2
 }
 
-class Task: Hashable, Codable {
+class Task: Hashable, Codable, Equatable {
     var taskUid: String
     var taskName: String
     var assignedPersonName: String
@@ -39,6 +39,10 @@ class Task: Hashable, Codable {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(taskUid)
+    }
+    
+    static func ==(lhs: Task, rhs: Task) -> Bool {
+        return lhs.taskState == rhs.taskState && lhs.taskUid == rhs.taskUid
     }
     
     init(taskName: String, assignedPersonUid: String?, taskState: Int, taskUid: String, assignedPersonName: String, isCustom: Bool, parentRecipe: String) {
