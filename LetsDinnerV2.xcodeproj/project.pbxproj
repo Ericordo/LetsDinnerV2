@@ -103,6 +103,8 @@
 		88B7832C23717CF7009E4F3C /* LDSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832B23717CF7009E4F3C /* LDSearchBar.swift */; };
 		88B7832E23717D84009E4F3C /* UIColor+Semantic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */; };
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
+		88C44FCA255AFAB500748844 /* LandscapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C44FC9255AFAB500748844 /* LandscapeViewController.swift */; };
+		88C44FCE255B34DF00748844 /* LDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C44FCD255B34DF00748844 /* LDViewController.swift */; };
 		88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */; };
 		88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */; };
 		88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */; };
@@ -289,6 +291,8 @@
 		88B7832B23717CF7009E4F3C /* LDSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDSearchBar.swift; sourceTree = "<group>"; };
 		88B7832D23717D84009E4F3C /* UIColor+Semantic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Semantic.swift"; sourceTree = "<group>"; };
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		88C44FC9255AFAB500748844 /* LandscapeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeViewController.swift; sourceTree = "<group>"; };
+		88C44FCD255B34DF00748844 /* LDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDViewController.swift; sourceTree = "<group>"; };
 		88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataHelper - Spoonacular.swift"; sourceTree = "<group>"; };
 		88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe - Spoonacular.swift"; sourceTree = "<group>"; };
 		88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient - Spoonacular.swift"; sourceTree = "<group>"; };
@@ -610,6 +614,8 @@
 				B86F7006238435830010AB7C /* EventInfoVC */,
 				880B13662374BDAE003E29AC /* TasksListVC */,
 				884E0E562533560700E165C4 /* RecipeBookVC */,
+				88C44FC9255AFAB500748844 /* LandscapeViewController.swift */,
+				88C44FCD255B34DF00748844 /* LDViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1202,6 +1208,7 @@
 				88E5B0C02438A39600D519E2 /* ConfettiView.swift in Sources */,
 				8851335D24215A27004CD858 /* WelcomeViewController.swift in Sources */,
 				B842CE3C241A03F000380229 /* CustomSafariVC.swift in Sources */,
+				88C44FCE255B34DF00748844 /* LDViewController.swift in Sources */,
 				88056E622474400400F0D90F /* ExpiredEventViewController.swift in Sources */,
 				880B13632374B37A003E29AC /* TaskStatusButton.swift in Sources */,
 				88349F352370388C002A1879 /* Event.swift in Sources */,
@@ -1315,6 +1322,7 @@
 				B87C103F2408E9AC004AD951 /* Thread.swift in Sources */,
 				B815358723E3FE2000BBD5FB /* Colors.swift in Sources */,
 				880B135A23747578003E29AC /* Array.swift in Sources */,
+				88C44FCA255AFAB500748844 /* LandscapeViewController.swift in Sources */,
 				884CE1C52461FE02001062BF /* LDIngredient.swift in Sources */,
 				887721D7253652920004FB8E /* PremiumViewModel.swift in Sources */,
 				B85071D12391690600632026 /* TestManager.swift in Sources */,

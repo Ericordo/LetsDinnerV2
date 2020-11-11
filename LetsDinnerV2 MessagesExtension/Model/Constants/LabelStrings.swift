@@ -224,4 +224,7 @@ enum LabelStrings {
     
     // Reminder Manager
     static let thingsToBring = NSLocalizedString("To bring", comment: "to bring")
+    
+    // LandscapeVC
+    static let landscapeInstruction = NSLocalizedString("Let's Dinner! is more enjoyable in portait mode! Please switch 😃.", comment: "switch to portrait")
 }

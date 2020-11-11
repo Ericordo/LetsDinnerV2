@@ -12,7 +12,7 @@ protocol ThankYouViewControllerDelegate: class {
     func thankYouVCdidTapContinue()
 }
 
-class ThankYouViewController: UIViewController {
+class ThankYouViewController: LDViewController {
     
     private lazy var confettiView = SAConfettiView(frame: view.bounds)
     

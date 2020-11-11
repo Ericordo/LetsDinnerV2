@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-class WelcomeViewController: UIViewController {
+class WelcomeViewController: LDViewController {
         
     private let titleLabel : UILabel = {
         let label = UILabel()

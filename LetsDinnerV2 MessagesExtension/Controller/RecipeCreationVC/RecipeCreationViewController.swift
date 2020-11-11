@@ -14,7 +14,7 @@ protocol RecipeCreationVCDelegate: class {
     func recipeCreationVCDidTapDone()
 }
 
-class RecipeCreationViewController: UIViewController {
+class RecipeCreationViewController: LDViewController {
     
     private let headerView : UIView = {
         let view = UIView()

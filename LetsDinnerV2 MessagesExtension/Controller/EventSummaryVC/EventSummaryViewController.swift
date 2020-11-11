@@ -32,7 +32,7 @@ private enum RowItemNumber: Int, CaseIterable {
     case userInfo = 8
 }
 
-class EventSummaryViewController: UIViewController {
+class EventSummaryViewController: LDViewController {
     // MARK: - Properties
     private let summaryTableView : UITableView = {
         let tableView = UITableView()

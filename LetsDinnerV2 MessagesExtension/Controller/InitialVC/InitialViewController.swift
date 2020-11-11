@@ -79,9 +79,52 @@ class InitialViewController: UIViewController {
         StepStatus.currentStep = .initialVC
     }
     
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        if UIDevice.current.orientation.isLandscape {
+//            self.updateConstraintsForLandscape()
+//        }
+//    }
+    
     override func viewDidLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        switch newCollection.verticalSizeClass {
+        case .compact:
+            self.updateConstraintsForLandscape()
+        case .regular, .unspecified:
+            self.updateConstraintsForPortrait()
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    private func updateConstraintsForLandscape() {
+        logo.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(2)
+        }
+        subtitleLabel.snp.updateConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(2)
+        }
+        eventButton.snp.updateConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(5)
+        }
+    }
+    
+    private func updateConstraintsForPortrait() {
+        logo.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(55)
+        }
+        subtitleLabel.snp.updateConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+        }
+        eventButton.snp.updateConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(14)
+        }
     }
 
     @objc private func didTapNewEvent() {
@@ -109,8 +152,10 @@ class InitialViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-20)
         }
         
+        let logoTopOffset = self.isPhoneLandscape ? 2 : 55
+        print(logoTopOffset)
         logo.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(55)
+            make.top.equalToSuperview().offset(logoTopOffset)
             make.centerX.equalToSuperview()
             make.width.equalTo(47)
             make.height.equalTo(36)
@@ -122,17 +167,19 @@ class InitialViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        let subtitleTopOffset = self.isPhoneLandscape ? 2 : 8
         subtitleLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.top.equalTo(titleLabel.snp.bottom).offset(subtitleTopOffset)
             make.centerX.equalToSuperview()
         }
         
+        let eventButtonTopOffset = self.isPhoneLandscape ? 5 : 14
         eventButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.height.equalTo(34)
             make.width.equalTo(134)
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(14)
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(eventButtonTopOffset)
         }
     }
 }
