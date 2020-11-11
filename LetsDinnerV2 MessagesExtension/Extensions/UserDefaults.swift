@@ -9,7 +9,16 @@
 import Foundation
 
 extension UserDefaults {
-    var username: String {
+    var username : String {
+        return lastName.isEmpty ? firstName : firstName + " " + lastName
+    }
+    
+    var firstName: String {
+        get { return string(forKey: #function) ?? "" }
+        set { set(newValue, forKey: #function) }
+    }
+    
+    var lastName: String {
         get { return string(forKey: #function) ?? "" }
         set { set(newValue, forKey: #function) }
     }

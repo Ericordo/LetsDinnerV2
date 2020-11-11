@@ -381,12 +381,14 @@ extension NewEventViewController: UITextFieldDelegate {
             eventInputView.isHidden = false
         case hostNameTextField:
             eventInputView.isHidden = true
-            infoInputView.isHidden = defaults.username.isEmpty
-            infoInputView.assignInfoInput(textField: hostNameTextField, info: defaults.username)
+            infoInputView.isHidden = defaults.username.trimmed.isEmpty
+            infoInputView.assignInfoInput(textField: hostNameTextField,
+                                          info: defaults.username)
         case locationTextField:
             eventInputView.isHidden = true
             infoInputView.isHidden = defaults.address.isEmpty
-            infoInputView.assignInfoInput(textField: locationTextField, info: defaults.address)
+            infoInputView.assignInfoInput(textField: locationTextField,
+                                          info: defaults.address)
         case dateTextField:
             eventInputView.isHidden = true
             infoInputView.isHidden = true

@@ -160,7 +160,7 @@ class MessagesViewController: MSMessagesAppViewController {
             
         } else {
             // Expanded Style
-            if defaults.username.isEmpty || newNameRequested {
+            if defaults.username.trimmed.isEmpty || newNameRequested {
                 newNameRequested = false
                 controller = instantiateRegistrationViewController(previousStep: StepStatus.currentStep ?? StepTracking.eventSummaryVC)
             } else {

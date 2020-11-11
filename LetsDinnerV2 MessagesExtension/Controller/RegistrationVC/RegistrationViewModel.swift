@@ -28,11 +28,11 @@ class RegistrationViewModel: PremiumCheckViewModel {
     private let initialAddress : String
     let initialUrl : String
     
+    let maxCharsLength = 30
+    
     override init() {
-        #warning("BUG This will break composed first or last names")
-        let usernameArray = defaults.username.split(separator: " ")
-        firstName = MutableProperty(String(usernameArray.first ?? ""))
-        lastName = MutableProperty(String(usernameArray.last ?? ""))
+        firstName = MutableProperty(defaults.firstName)
+        lastName = MutableProperty(defaults.lastName)
         address = MutableProperty(defaults.address)
         profilePicData = MutableProperty(nil)
         profilePicUrl = MutableProperty(defaults.profilePicUrl)
@@ -45,8 +45,8 @@ class RegistrationViewModel: PremiumCheckViewModel {
         self.doneActionSignal = doneActionSignal
         self.doneActionObserver = doneActionObserver
         
-        initialFirstName = String(usernameArray.first ?? "")
-        initialLastName = String(usernameArray.last ?? "")
+        initialFirstName = defaults.firstName
+        initialLastName = defaults.lastName
         initialAddress = defaults.address
         initialUrl = defaults.profilePicUrl
         
@@ -67,7 +67,7 @@ class RegistrationViewModel: PremiumCheckViewModel {
             initialUrl == profilePicUrl.value &&
             initialFirstName == firstName.value &&
             initialLastName == lastName.value {
-            if defaults.username.isEmpty && firstName.value.isEmpty || lastName.value.isEmpty {
+            if defaults.firstName.isEmpty && firstName.value.isEmpty || lastName.value.isEmpty {
                 self.doneActionObserver.send(value: .failure(.genericError))
             } else if initialUrl.isEmpty && self.profilePicData.value != nil ||
                 !initialUrl.isEmpty && self.profilePicData.value == nil {
@@ -83,9 +83,10 @@ class RegistrationViewModel: PremiumCheckViewModel {
     func saveUserInformation() {
         defaults.address = address.value
         CloudManager.shared.saveUserInfoOnCloud(address.value, key: Keys.address)
-        let username = firstName.value.capitalized + " " + lastName.value.capitalized
-        defaults.username = username
-        CloudManager.shared.saveUserInfoOnCloud(username, key: Keys.username)
+        defaults.firstName = firstName.value.capitalized
+        CloudManager.shared.saveUserInfoOnCloud(firstName.value.capitalized, key: Keys.firstName)
+        defaults.lastName = lastName.value.capitalized
+        CloudManager.shared.saveUserInfoOnCloud(lastName.value.capitalized, key: Keys.lastName)
         if let data = profilePicData.value {
             self.saveProfilePicture(data)
         } else {

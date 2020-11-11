@@ -78,14 +78,7 @@ class InitialViewController: UIViewController {
         super.viewWillAppear(animated)
         StepStatus.currentStep = .initialVC
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        if UIDevice.current.orientation.isLandscape {
-//            self.updateConstraintsForLandscape()
-//        }
-//    }
-    
+
     override func viewDidLayoutSubviews() {
         let gradientLayers = view.layer.sublayers?.compactMap { $0 as? CAGradientLayer }
         gradientLayers?.first?.frame = view.bounds
@@ -153,7 +146,6 @@ class InitialViewController: UIViewController {
         }
         
         let logoTopOffset = self.isPhoneLandscape ? 2 : 55
-        print(logoTopOffset)
         logo.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(logoTopOffset)
             make.centerX.equalToSuperview()
