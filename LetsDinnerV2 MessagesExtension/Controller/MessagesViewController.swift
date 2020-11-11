@@ -234,12 +234,11 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: Controller Animation
-   private func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
-        
+    private func addChildViewController(controller: UIViewController, transition: VCTransitionDirection = .noTransition) {
+
         addChild(controller)
         
         controller.view.frame = view.bounds
-        controller.view.translatesAutoresizingMaskIntoConstraints = false
         
         // Transition animation
         if transition != .noTransition {
@@ -247,15 +246,10 @@ class MessagesViewController: MSMessagesAppViewController {
                                       forKey: nil)
         }
         
-//        self.view.insertSubview(controller.view, at: 1)
         view.addSubview(controller.view)
-        
-        NSLayoutConstraint.activate([
-            controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-            controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
-            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        controller.view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         controller.didMove(toParent: self)
     }

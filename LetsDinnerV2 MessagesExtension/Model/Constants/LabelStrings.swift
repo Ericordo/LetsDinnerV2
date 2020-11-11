@@ -27,7 +27,7 @@ enum LabelStrings {
     static let addImage = NSLocalizedString("Add image", comment: "add image")
     static let personalInfo = NSLocalizedString("PERSONAL INFORMATION", comment: "personal info")
     static let measurementSystem = NSLocalizedString("SYSTEM OF MEASUREMENT", comment: "system of measurement")
-    static let enterFullName = NSLocalizedString("Please enter your full name", comment: "please enter full name")
+    static let enterFirstName = NSLocalizedString("Please enter your first name", comment: "please enter full name")
     static let firstName = NSLocalizedString("First Name", comment: "first name")
     static let lastName = NSLocalizedString("Last Name", comment: "last name")
     static let address = NSLocalizedString("Address", comment: "address")

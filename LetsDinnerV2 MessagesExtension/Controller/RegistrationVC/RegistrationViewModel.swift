@@ -54,8 +54,7 @@ class RegistrationViewModel: PremiumCheckViewModel {
     }
     
     func infoIsValid() -> Bool {
-        #warning("should we actually ask for the full name??")
-        if self.firstName.value.isEmpty || self.lastName.value.isEmpty {
+        if self.firstName.value.isEmpty {
             return false
         } else {
             return true
@@ -67,7 +66,7 @@ class RegistrationViewModel: PremiumCheckViewModel {
             initialUrl == profilePicUrl.value &&
             initialFirstName == firstName.value &&
             initialLastName == lastName.value {
-            if defaults.firstName.isEmpty && firstName.value.isEmpty || lastName.value.isEmpty {
+            if defaults.firstName.isEmpty && firstName.value.isEmpty {
                 self.doneActionObserver.send(value: .failure(.genericError))
             } else if initialUrl.isEmpty && self.profilePicData.value != nil ||
                 !initialUrl.isEmpty && self.profilePicData.value == nil {
