@@ -17,7 +17,7 @@ protocol PremiumViewControllerDelegate: class {
     func restoredSubscription()
 }
 
-class PremiumViewController: UIViewController {
+class PremiumViewController: LDViewController {
 //    private let headerView = UIView()
 
     private let restoreButton: UIButton = {

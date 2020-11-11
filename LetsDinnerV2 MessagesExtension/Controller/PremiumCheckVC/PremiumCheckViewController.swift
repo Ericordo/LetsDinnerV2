@@ -14,7 +14,7 @@ protocol PremiumCheckViewControllerDelegate: class {
     func subscriptionCheckFailed()
 }
 
-class PremiumCheckViewController: UIViewController {
+class PremiumCheckViewController: LDViewController {
     
     private let logoImageView : UIImageView = {
         let iv = UIImageView()
@@ -81,8 +81,10 @@ class PremiumCheckViewController: UIViewController {
             .take(duringLifetimeOf: self)
             .startWithValues { [unowned self] isLoading in
                 if isLoading {
-                    self.loadingView.frame = self.view.frame
                     self.view.addSubview(self.loadingView)
+                    self.loadingView.snp.makeConstraints { make in
+                        make.edges.equalToSuperview()
+                    }
                     self.loadingView.start()
                 } else {
                     self.loadingView.stop()

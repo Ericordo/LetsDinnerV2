@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LDNavigationViewController: UIViewController {
+class LDNavigationViewController: LDViewController {
     
     let navigationBar = LDNavBar()
     

@@ -21,7 +21,7 @@ protocol ExpiredEventViewControllerDelegate: class {
     func didTapNewEvent(newSubscription: NewSubscription?)
 }
 
-class ExpiredEventViewController: UIViewController {
+class ExpiredEventViewController: LDViewController {
     // MARK: Properties
     private lazy var newEventButton : PrimaryButton = {
         let button = PrimaryButton()

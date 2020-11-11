@@ -14,6 +14,10 @@ extension UIViewController {
     var generator : UINotificationFeedbackGenerator {
         return UINotificationFeedbackGenerator()
     }
+    
+    var isPhoneLandscape : Bool {
+        return UIDevice.current.userInterfaceIdiom == .phone && (view.frame.width > view.frame.height * 1.5)
+    }
 
     func presentDetail(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()

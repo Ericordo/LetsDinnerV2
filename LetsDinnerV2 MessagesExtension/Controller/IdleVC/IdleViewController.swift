@@ -100,6 +100,42 @@ class IdleViewController: UIViewController {
         gradientLayers?.first?.frame = view.bounds
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        switch newCollection.verticalSizeClass {
+        case .compact:
+            self.updateConstraintsForLandscape()
+        case .regular, .unspecified:
+            self.updateConstraintsForPortrait()
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    private func updateConstraintsForLandscape() {
+        logo.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(2)
+        }
+        subtitleLabel.snp.updateConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(2)
+        }
+        buttonStackView.snp.updateConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(5)
+        }
+    }
+    
+    private func updateConstraintsForPortrait() {
+        logo.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(55)
+        }
+        subtitleLabel.snp.updateConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+        }
+        buttonStackView.snp.updateConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(14)
+        }
+    }
+    
     @objc private func didTapNewEvent() {
         self.delegate?.idleVCDidTapNewEvent()
     }
@@ -131,8 +167,9 @@ class IdleViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-20)
         }
         
+        let logoTopOffset = self.isPhoneLandscape ? 2 : 55
         logo.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(55)
+            make.top.equalToSuperview().offset(logoTopOffset)
             make.centerX.equalToSuperview()
             make.width.equalTo(47)
             make.height.equalTo(36)
@@ -144,9 +181,10 @@ class IdleViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+        let subtitleTopOffset = self.isPhoneLandscape ? 2 : 8
         subtitleLabel.snp.makeConstraints { make in
             make.height.equalTo(20)
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.top.equalTo(titleLabel.snp.bottom).offset(subtitleTopOffset)
             make.centerX.equalToSuperview()
         }
         
@@ -158,10 +196,11 @@ class IdleViewController: UIViewController {
             make.width.equalTo(134)
         }
         
+        let buttonStackViewTopOffset = isPhoneLandscape ? 5 : 14
         buttonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.height.equalTo(34)
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(14)
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(buttonStackViewTopOffset)
         }
     }
 }

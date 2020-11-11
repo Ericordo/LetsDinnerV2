@@ -11,7 +11,7 @@ import SafariServices
 import MobileCoreServices
 import ReactiveSwift
 
-class SelectedRecipesViewController: UIViewController {
+class SelectedRecipesViewController: LDViewController {
     
     private let navigationView = UIView()
     

@@ -16,7 +16,7 @@ protocol ReviewViewControllerDelegate: class {
     func reviewVCBackToManagementVC()
 }
 
-class ReviewViewController: UIViewController {
+class ReviewViewController: LDViewController {
     // MARK: Properties
     private let headerView : UIView = {
         let view = UIView()

@@ -214,6 +214,72 @@ class RegistrationViewController: LDNavigationViewController {
         bindViewModel()
         presentWelcomeVCIfNeeded()
         self.checkAuthenticationStatus()
+        
+      
+//        if view.frame.height > view.frame.width {
+//            children.forEach { child in
+//                if child.isKind(of: LandscapeViewController.self) {
+//                        child.willMove(toParent: nil)
+//                        child.view.removeFromSuperview()
+//                        child.removeFromParent()
+//                }
+//            }
+//        } else {
+//            if !children.contains(where: { $0.isKind(of: LandscapeViewController.self) }) {
+//                let controller = LandscapeViewController()
+//                addChild(controller)
+//                
+//                controller.view.frame = view.bounds
+//                controller.view.translatesAutoresizingMaskIntoConstraints = false
+//                
+//                view.addSubview(controller.view)
+//                
+//                NSLayoutConstraint.activate([
+//                    controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+//                    controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+//                    controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+//                    controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//                ])
+//                
+//                controller.didMove(toParent: self)
+//            }
+//
+//            print("landscape")
+//        }
+//        switch UIDevice.current.orientation {
+//        case .faceDown, .faceUp, .unknown:
+//            print(UIDevice.current.orientation.rawValue)
+//            break
+//        case .portrait, .portraitUpsideDown:
+//            children.forEach { child in
+//                if child.isKind(of: LandscapeViewController.self) {
+//                        child.willMove(toParent: nil)
+//                        child.view.removeFromSuperview()
+//                        child.removeFromParent()
+//                }
+//            }
+//        case .landscapeRight, .landscapeLeft:
+//            if !children.contains(where: { $0.isKind(of: LandscapeViewController.self) }) {
+//                let controller = LandscapeViewController()
+//                addChild(controller)
+//                
+//                controller.view.frame = view.bounds
+//                controller.view.translatesAutoresizingMaskIntoConstraints = false
+//                
+//                view.addSubview(controller.view)
+//                
+//                NSLayoutConstraint.activate([
+//                    controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+//                    controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+//                    controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+//                    controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//                ])
+//                
+//                controller.didMove(toParent: self)
+//            }
+//        @unknown default:
+//            break
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
