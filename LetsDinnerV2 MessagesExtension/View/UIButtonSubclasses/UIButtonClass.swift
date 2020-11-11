@@ -11,7 +11,7 @@ import Foundation
 
 class PrimaryButton: UIButton {
     override var isEnabled: Bool {
-        didSet{
+        didSet {
             if isEnabled {
                 self.setGradient(colorOne: Colors.newGradientPink, colorTwo: Colors.newGradientRed)
             } else {
