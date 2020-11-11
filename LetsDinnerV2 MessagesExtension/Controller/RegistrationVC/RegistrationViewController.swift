@@ -467,12 +467,14 @@ class RegistrationViewController: LDNavigationViewController {
     private func updateInitials() {
         if imageState == .addPic && headerView.frame.height == topViewMaxHeight {
             if !viewModel.firstName.value.isEmpty {
-                userPic.setImage(string: viewModel.firstName.value + " " + viewModel.lastName.value,
+                let username = viewModel.firstName.value + " " + viewModel.lastName.value
+                let initials = username.initials
+                userPic.setImage(string: username,
                                  color: .lightGray,
                                  circular: true,
                                  stroke: true,
                                  strokeColor: Colors.customGray,
-                                 textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light),
+                                 textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: initials.count > 3 ? 30 : 50, weight: .light),
                                                   NSAttributedString.Key.foregroundColor: UIColor.white])
             } else {
                 userPic.image = Images.profilePlaceholder
@@ -482,12 +484,13 @@ class RegistrationViewController: LDNavigationViewController {
     
     private func checkUsername() {
         if !defaults.username.isEmpty {
-            userPic.setImage(string: defaults.username.initials,
+            let username = defaults.username
+            userPic.setImage(string: username,
                              color: .lightGray,
                              circular: true,
                              stroke: true,
                              strokeColor: Colors.customGray,
-                             textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light),
+                             textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: username.initials.count > 3 ? 30 : 50, weight: .light),
                                               NSAttributedString.Key.foregroundColor: UIColor.white])
             addPicButton.setTitle(ButtonTitle.addImage, for: .normal)
         } else {
@@ -562,13 +565,14 @@ class RegistrationViewController: LDNavigationViewController {
                 }
                 self.addPicButton.isHidden = false
             })
-        } else if !defaults.username.isEmpty {
-            userPic.setImage(string: defaults.username.initials,
+        } else if !defaults.username.trimmed.isEmpty {
+            let username = defaults.username
+            userPic.setImage(string: username,
                              color: .lightGray,
                              circular: true,
                              stroke: true,
                              strokeColor: Colors.customGray,
-                             textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 50, weight: .light),
+                             textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: username.initials.count > 3 ? 30 : 50, weight: .light),
                                               NSAttributedString.Key.foregroundColor: UIColor.white])
             addPicButton.setTitle(LabelStrings.addImage, for: .normal)
             imageState = .addPic
@@ -844,6 +848,16 @@ extension RegistrationViewController: UITextFieldDelegate {
         }
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == firstNameTextField || textField == lastNameTextField {
+            guard let stringRange = Range(range, in: textField.text!) else { return false }
+            let updatedText = textField.text!.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= viewModel.maxCharsLength
+        } else {
+            return true
+        }
     }
 }
 

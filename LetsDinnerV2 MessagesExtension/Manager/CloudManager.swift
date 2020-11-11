@@ -47,8 +47,11 @@ class CloudManager {
     }
     
     func retrieveProfileInfo() {
-        if let username = retrieveUserInfoOnCloud(key: Keys.username), !username.isEmpty {
-            defaults.username = username
+        if let firstName = retrieveUserInfoOnCloud(key: Keys.firstName), !firstName.isEmpty {
+            defaults.firstName = firstName
+        }
+        if let lastName = retrieveUserInfoOnCloud(key: Keys.lastName), !lastName.isEmpty {
+            defaults.lastName = lastName
         }
         if let address = retrieveUserInfoOnCloud(key: Keys.address), !address.isEmpty {
             defaults.address = address

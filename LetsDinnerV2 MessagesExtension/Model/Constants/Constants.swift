@@ -19,7 +19,8 @@ enum ApiKeys {
 }
 
 enum Keys {
-    static let username = "username"
+    static let firstName = "firstName"
+    static let lastName = "lastName"
     static let profilePicUrl = "profilePicUrl"
     static let address = "address"
     static let measurementSystem = "measurementSystem"

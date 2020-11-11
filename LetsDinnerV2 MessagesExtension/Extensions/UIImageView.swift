@@ -18,7 +18,7 @@ extension UIImageView {
     ///   - circular: This boolean will determine if the image view will be clipped to a circular shape.
     ///   - textAttributes: This dictionary allows you to specify font, text color, shadow properties, etc.
     
-    open func setImage(string: String?,
+    func setImage(string: String?,
                        color: UIColor? = nil,
                        circular: Bool = false,
                        stroke: Bool = false,
@@ -60,7 +60,6 @@ extension UIImageView {
         }
         
         // Fill
-        
         context?.setFillColor(color.cgColor)
         context?.fill(CGRect(x: 0, y: 0, width: size.width, height: size.height))
         
@@ -99,6 +98,4 @@ extension UIImageView {
         
         return image
     }
-    
-    
 }

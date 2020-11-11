@@ -59,17 +59,17 @@ class UserCVCell: UICollectionViewCell {
                 case .success:
                     break
                 case .failure:
-                    self.setUserPicWithInitials(initials: user.fullName.initials, strokeColor: strokeColor)
+                    self.setUserPicWithInitials(name: user.fullName, strokeColor: strokeColor)
                 }
             })
         } else {
-            setUserPicWithInitials(initials: user.fullName.initials, strokeColor: strokeColor)
+            setUserPicWithInitials(name: user.fullName, strokeColor: strokeColor)
         }
         nameLabel.text = user.fullName
     }
     
-    private func setUserPicWithInitials(initials: String, strokeColor: UIColor) {
-        userPicture.setImage(string: initials, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
+    private func setUserPicWithInitials(name: String, strokeColor: UIColor) {
+        userPicture.setImage(string: name, color: .lightGray, circular: true, stroke: true, strokeColor: strokeColor, textAttributes: [NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont.systemFont(ofSize: name.initials.count > 3 ? 10 : 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
     private func setupUI() {

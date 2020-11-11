@@ -8,64 +8,76 @@
 
 import Foundation
 
-// MARK: String Helper
-// Example = EX
-// For Example = FE
-// for example = FE
-// "" = ??
-
 extension String {
     
-    public var initials: String {
-        
+//    public var initials : String {
+//
+//        let words = components(separatedBy: .whitespacesAndNewlines)
+//
+//        //to identify letters
+//        let letters = CharacterSet.letters
+//        var firstChar : String = ""
+//        var secondChar : String = ""
+//        var firstCharFoundIndex : Int = -1
+//        var firstCharFound : Bool = false
+//        var secondCharFound : Bool = false
+//
+//        for (index, item) in words.enumerated() {
+//
+//            if item.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//                continue
+//            }
+//
+//            //browse through the rest of the word
+//            for (_, char) in item.unicodeScalars.enumerated() {
+//
+//                //check if its a aplha
+//                if letters.contains(char) {
+//
+//                    if !firstCharFound {
+//                        firstChar = String(char).capitalized
+//                        firstCharFound = true
+//                        firstCharFoundIndex = index
+//
+//                    } else if !secondCharFound {
+//
+//                        secondChar = String(char).capitalized
+//                        if firstCharFoundIndex != index {
+//                            secondCharFound = true
+//                        }
+//
+//                        break
+//                    } else {
+//                        break
+//                    }
+//                }
+//            }
+//        }
+//
+//        if firstChar.isEmpty && secondChar.isEmpty {
+//            firstChar = "?"
+//            secondChar = ""
+//        }
+//
+//        return firstChar + secondChar
+//    }
+    
+    var initials : String {
         let words = components(separatedBy: .whitespacesAndNewlines)
-        
-        //to identify letters
         let letters = CharacterSet.letters
-        var firstChar : String = ""
-        var secondChar : String = ""
-        var firstCharFoundIndex : Int = -1
-        var firstCharFound : Bool = false
-        var secondCharFound : Bool = false
-        
-        for (index, item) in words.enumerated() {
-            
-            if item.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                continue
-            }
-            
-            //browse through the rest of the word
-            for (_, char) in item.unicodeScalars.enumerated() {
-                
-                //check if its a aplha
-                if letters.contains(char) {
-                    
-                    if !firstCharFound {
-                        firstChar = String(char).capitalized
-                        firstCharFound = true
-                        firstCharFoundIndex = index
-                        
-                    } else if !secondCharFound {
-                        
-                        secondChar = String(char).capitalized
-                        if firstCharFoundIndex != index {
-                            secondCharFound = true
-                        }
-                        
-                        break
-                    } else {
-                        break
-                    }
+        var initials = ""
+        words.forEach { word in
+            if !word.trimmed.isEmpty {
+                let firstLetter = word.prefix(1).capitalized
+                if letters.isSuperset(of: CharacterSet(charactersIn: firstLetter)) {
+                    initials.append(firstLetter)
                 }
             }
         }
-        
-        if firstChar.isEmpty && secondChar.isEmpty {
-            firstChar = "?"
-            secondChar = ""
+        if initials.isEmpty {
+            initials = "?"
         }
-        
-        return firstChar + secondChar
+        return initials
     }
 
     func capitalizingFirstLetter() -> String {
@@ -78,7 +90,7 @@ extension String {
     
     static let numberFormatter = NumberFormatter()
     
-    var doubleValue: Double {
+    var doubleValue : Double {
         String.numberFormatter.decimalSeparator = "."
         if let result =  String.numberFormatter.number(from: self) {
             return result.doubleValue
@@ -91,10 +103,13 @@ extension String {
         return 0
     }
     
-    var hasWhiteSpace: Bool {
+    var hasWhiteSpace : Bool {
        return self.contains(" ")
     }
     
+    var trimmed : String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 
