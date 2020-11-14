@@ -46,7 +46,7 @@ class PDFCreator {
         
         let pdfMetaData = [
             kCGPDFContextCreator: LabelStrings.letsdinner,
-            kCGPDFContextAuthor: "letsdinner.com",
+            kCGPDFContextAuthor: LabelStrings.letsdinner,
             kCGPDFContextTitle: Event.shared.dinnerName
         ]
         let format = UIGraphicsPDFRendererFormat()
