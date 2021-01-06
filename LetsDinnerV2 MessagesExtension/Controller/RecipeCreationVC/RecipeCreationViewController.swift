@@ -120,15 +120,6 @@ class RecipeCreationViewController: LDViewController {
         return view
     }()
     
-    private let sectionsStackView : UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .vertical
-        sv.distribution = .equalCentering
-        sv.alignment = .fill
-        sv.spacing = 30
-        return sv
-    }()
-    
     private var activeField: UITextField?
     
     private let scrollView = UIScrollView()

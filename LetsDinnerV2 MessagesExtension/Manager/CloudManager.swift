@@ -42,6 +42,27 @@ class CloudManager {
         keyValStore.synchronize()
     }
     
+    func increaseUserSearchCountOnCloud() {
+        let lastSearchDate = Date().timeIntervalSince1970
+        let searchNumber = self.retrieveUserSearchCountOnCloud() ?? 0
+        keyValStore.set(lastSearchDate, forKey: DataKeys.lastSearchDate)
+        keyValStore.set(searchNumber+1, forKey: DataKeys.searchNumber)
+        keyValStore.synchronize()
+    }
+    
+    func resetUserSearchCountOnCloud() {
+        keyValStore.set(0, forKey: DataKeys.searchNumber)
+        keyValStore.synchronize()
+    }
+    
+    func retrieveUserSearchCountOnCloud() -> Double? {
+        return keyValStore.double(forKey: DataKeys.searchNumber)
+    }
+    
+    func retrieveUserLastSearchDate() -> Double? {
+        return keyValStore.double(forKey: DataKeys.lastSearchDate)
+    }
+    
     func retrieveUserInfoOnCloud(key: String) -> String? {
         return keyValStore.string(forKey: key)
     }
@@ -398,7 +419,6 @@ class CloudManager {
             }
             return CustomRecipe()
         }
-
 }
 
 enum LDRecipeKey : String {

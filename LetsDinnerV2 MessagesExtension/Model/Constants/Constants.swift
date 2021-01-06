@@ -130,6 +130,10 @@ enum ButtonTitle {
 enum DataKeys {
     static let appInfo = "AppInfo"
     static let sharedSecret = "sharedSecret"
+    static let maxSearches = "maxSearches"
+    static let searchAllowed = "searchAllowed"
+    static let searchNumber = "searchNumber"
+    static let lastSearchDate = "lastSearchDate"
     static let events = "Events"
     static let recipePictures = "RecipePictures"
     static let profilePictures = "ProfilePictures"

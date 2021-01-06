@@ -110,6 +110,7 @@
 		88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88C95B2E23984736000E750A /* SpoonacularRecipes.json */; };
 		88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */; };
 		88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C9650C239A9C3600CFC710 /* SectionInputCell.swift */; };
+		88CCDF4E25A0DD6700D601A5 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */; };
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
 		88D9AB33246B19DD007716E6 /* EventDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */; };
 		88D9AB35246B1A02007716E6 /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */; };
@@ -295,6 +296,7 @@
 		88C95B2E23984736000E750A /* SpoonacularRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SpoonacularRecipes.json; sourceTree = "<group>"; };
 		88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSelectionInput.swift; sourceTree = "<group>"; };
 		88C9650C239A9C3600CFC710 /* SectionInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionInputCell.swift; sourceTree = "<group>"; };
+		88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
 		88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewModel.swift; sourceTree = "<group>"; };
 		88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
@@ -944,6 +946,7 @@
 				884CE1B9246086CC001062BF /* RealmHelper.swift */,
 				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
 				884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */,
+				88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1260,6 +1263,7 @@
 				885088C225548909002AFB92 /* PremiumCheckViewController.swift in Sources */,
 				B8630E3C23FFF6AB00E48A38 /* UIImage.swift in Sources */,
 				B886BD93246C340C0069C248 /* RecipeCreationWelcomeViewController.swift in Sources */,
+				88CCDF4E25A0DD6700D601A5 /* SearchManager.swift in Sources */,
 				88E5C5282467F3C20060823B /* NewEventViewModel.swift in Sources */,
 				884CE1B4245ED52C001062BF /* LDNavBar.swift in Sources */,
 				B8AED7D3239E357F00F2F633 /* CalendarManager.swift in Sources */,
