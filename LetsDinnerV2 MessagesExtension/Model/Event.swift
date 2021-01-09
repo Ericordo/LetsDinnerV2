@@ -15,7 +15,8 @@ import ReactiveSwift
 class Event {
     
     static let shared = Event()
-    init () {}
+    
+    private init () {}
     
     // Message Info
     var currentSession: MSSession?

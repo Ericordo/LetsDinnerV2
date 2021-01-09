@@ -107,7 +107,33 @@ class RecipeCreationViewController: LDViewController {
     private let commentsContainer = UIView()
     private let commentsVC : CreationStepViewController
     
-    let doneButton : LDNavButton = {
+    private let publicSwitch : UISwitch = {
+        let control = UISwitch()
+        control.onTintColor = .activeButton
+        return control
+    }()
+    
+    private let publicLabel : UILabel = {
+        let label = UILabel()
+        label.textColor = .secondaryTextLabel
+        label.font = .systemFont(ofSize: 13)
+        label.text = LabelStrings.publicRecipe
+        label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.7
+        return label
+    }()
+    
+    private let publicStackView : UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.alignment = .center
+        return sv
+    }()
+    
+    private lazy var fourthSeparator = separator()
+    
+    private let doneButton : LDNavButton = {
         let button = LDNavButton()
         button.setTitle(LabelStrings.done, for: .normal)
         button.contentHorizontalAlignment = .trailing
@@ -200,6 +226,7 @@ class RecipeCreationViewController: LDViewController {
     private func bindViewModel() {
         viewModel.servings <~ servingsStepper.reactive.values.map { Int($0) }
         viewModel.recipeName <~ recipeNameTextField.reactive.continuousTextValues
+        viewModel.isPublic <~ publicSwitch.reactive.isOnValues
         
         editButton.reactive
             .controlEvents(.touchUpInside)
@@ -238,6 +265,13 @@ class RecipeCreationViewController: LDViewController {
                 self.recipeTitleLabel.text = name
                 self.recipeNameTextField.text = name
         }
+        
+        self.viewModel.isPublic.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [unowned self] isPublic in
+                publicSwitch.isOn = isPublic
+            }
         
         self.viewModel.recipePicData.producer
             .observe(on: UIScheduler())
@@ -380,6 +414,8 @@ class RecipeCreationViewController: LDViewController {
         self.recipeTitleLabel.isHidden = !self.addImageButton.isHidden
         self.servingsStepper.isHidden = self.addImageButton.isHidden
         self.secondSeparator.isHidden = self.addImageButton.isHidden
+        self.publicStackView.isHidden = self.addImageButton.isHidden
+        self.fourthSeparator.isHidden = self.addImageButton.isHidden
         let textFieldHeight = bool ? 44 : 0
         self.recipeNameTextField.snp.updateConstraints { make in
             make.height.equalTo(textFieldHeight)
@@ -480,12 +516,17 @@ class RecipeCreationViewController: LDViewController {
         contentView.addSubview(ingredientsContainer)
         contentView.addSubview(stepsContainer)
         contentView.addSubview(commentsContainer)
+        contentView.addSubview(publicStackView)
+        publicStackView.addArrangedSubview(publicLabel)
+        publicStackView.addArrangedSubview(publicSwitch)
+        contentView.addSubview(fourthSeparator)
         view.addSubview(headerView)
         headerView.addSubview(doneButton)
         headerView.addSubview(addImageButton)
         headerView.addSubview(recipeTitleLabel)
         headerView.addSubview(recipeImageView)
         headerView.addSubview(headerSeparator)
+
         addConstraints()
     }
     
@@ -665,6 +706,20 @@ class RecipeCreationViewController: LDViewController {
             make.trailing.equalToSuperview()
             make.top.equalTo(stepsContainer.snp.bottom).offset(30)
             make.height.equalTo(200)
+        }
+        
+        publicStackView.snp.makeConstraints { make in
+            make.top.equalTo(commentsContainer.snp.bottom).offset(30)
+            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(30)
+            make.height.equalTo(44)
+        }
+        
+        fourthSeparator.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview()
+            make.height.equalTo(1)
+            make.top.equalTo(publicStackView.snp.bottom)
         }
     }
 }

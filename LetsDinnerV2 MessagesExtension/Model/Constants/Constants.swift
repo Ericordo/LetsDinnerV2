@@ -37,7 +37,6 @@ enum Keys {
 }
 
 enum Images {
-    
     static let chevronLeft = UIImage(named: "chevronLeft")
     static let chevronRight = UIImage(named: "chevronRight")!
     static let settings = UIImage(named: "settingsButtonOutlinedWhite")
@@ -135,6 +134,7 @@ enum DataKeys {
     static let searchNumber = "searchNumber"
     static let lastSearchDate = "lastSearchDate"
     static let events = "Events"
+    static let publicRecipes = "PublicRecipes"
     static let recipePictures = "RecipePictures"
     static let profilePictures = "ProfilePictures"
     static let eventName = "dinnerName"
@@ -171,6 +171,7 @@ enum DataKeys {
     static let imageUrl = "imageUrl"
     static let amount = "amount"
     static let unit = "unit"
+    static let isValidated = "isValidated"
 }
 
 

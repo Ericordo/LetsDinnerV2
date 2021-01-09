@@ -143,7 +143,6 @@ class EventTranscriptView: UIView {
     }
     
     private func addConstraints() {
-        #warning("To test on real device, messageIsFromMe seems to be false on simulator even when I send it")
         let leadingConstant: CGFloat = messageIsFromMe ? 0 : 3
         let trailingConstant: CGFloat = messageIsFromMe ? -3 : 0
         bottomView.translatesAutoresizingMaskIntoConstraints = false

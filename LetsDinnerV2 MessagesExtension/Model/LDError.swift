@@ -36,6 +36,8 @@ enum LDError : Error {
     case apiRequestLimit
     case noNetwork
     case apiDecodingFailed
+    case publicRecipeUploadFail
+    case publicRecipeUpdateFail
 }
 
 extension LDError {
@@ -91,6 +93,10 @@ extension LDError {
             return AlertStrings.noNetwork
         case .apiDecodingFailed:
             return AlertStrings.decodingFailed
+        case .publicRecipeUploadFail:
+            return AlertStrings.publicRecipeUploadFail
+        case .publicRecipeUpdateFail:
+            return AlertStrings.publicRecipeUpdateFail
         }
     }
 }

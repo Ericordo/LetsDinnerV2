@@ -32,8 +32,14 @@ class RecipeCreationViewModel {
     let ingredients = MutableProperty<[LDIngredient]>([])
     let steps = MutableProperty<[String]>([])
     let comments = MutableProperty<[String]>([])
+    let isPublic : MutableProperty<Bool>
     
     let creationMode : MutableProperty<Bool>
+    
+    private let realmHelper = RealmHelper.shared
+    private let cloudManager = CloudManager.shared
+    private let publicRecipeManager = PublicRecipeManager.shared
+    private let imageHelper = ImageHelper.shared
     
     var editingAllowed : Bool {
         return StepStatus.currentStep == .recipesVC && self.recipe != nil
@@ -58,6 +64,7 @@ class RecipeCreationViewModel {
         self.recipeName = MutableProperty<String>("")
         self.servings = MutableProperty<Int>(2)
         self.creationMode = MutableProperty(creationMode)
+        self.isPublic = MutableProperty(true)
         
         let (recipeSignal, recipeObserver) = Signal<Result<Void, LDError>, Never>.pipe()
         self.recipeSignal = recipeSignal
@@ -92,6 +99,7 @@ class RecipeCreationViewModel {
         self.ingredients.value = recipe.ingredients
         self.steps.value = recipe.cookingSteps
         self.comments.value = recipe.comments
+        self.isPublic.value = recipe.isPublic
     }
     
     func didTapDone() {
@@ -136,21 +144,9 @@ class RecipeCreationViewModel {
         }
     }
 
-    private func prepareRecipe() -> LDRecipe {
-        return LDRecipe(title: recipeName.value,
-        servings: self.servings.value,
-        downloadUrl: self.downloadUrl.value,
-        cookingSteps: self.steps.value,
-        comments: self.comments.value,
-        ingredients: self.ingredients.value)
- }
-
+    // MARK: Save recipe
     func saveRecipe() {
-        guard informationIsValid else {
-            self.recipeObserver.send(value: .failure(.recipeNameMissing))
-            return
-        }
-        CloudManager.shared.userIsLoggedIn()
+        self.savingFlow()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
@@ -159,179 +155,174 @@ class RecipeCreationViewModel {
                 case .failure(let error):
                     self.isLoading.value = false
                     self.recipeObserver.send(value: .failure(error))
-                case .success(let userIsLoggedIn):
-                    if userIsLoggedIn {
-                        if let data = self.recipePicData.value {
-                            self.saveRecipePictureAndInfo(data, id: UUID().uuidString)
-                            return
-                        }
-                        let recipe = self.prepareRecipe()
-                        self.saveRecipeInformation(recipe)
-                    } else {
-                        self.recipeObserver.send(value: .failure(.notSignedInCloud))
-                    }
-                }
-        }
-    }
-    
-    func updateRecipe() {
-        guard informationIsValid else {
-            self.recipeObserver.send(value: .failure(.recipeNameMissing))
-            return
-        }
-        CloudManager.shared.userIsLoggedIn()
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .take(duringLifetimeOf: self)
-            .startWithResult { [unowned self] result in
-                switch result {
-                case .failure(let error):
-                    self.isLoading.value = false
-                    self.recipeObserver.send(value: .failure(error))
-                case .success(let userIsLoggedIn):
-                    if userIsLoggedIn {
-                        guard let currentRecipe = self.recipe else { return }
-                        if let data = self.recipePicData.value {
-                            self.updateRecipePictureAndInfo(data, id: currentRecipe.id)
-                            return
-                        }
-                        var newRecipe = self.prepareRecipe()
-                        newRecipe.id = currentRecipe.id
-                        self.updateRecipeInformation(currentRecipe, newRecipe)
-                    } else {
-                        self.recipeObserver.send(value: .failure(.notSignedInCloud))
-                    }
-                }
-        }
-    }
-    
-    func deleteRecipe(_ recipe: LDRecipe) {
-        CloudManager.shared.userIsLoggedIn()
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .take(duringLifetimeOf: self)
-            .startWithResult { [unowned self] result in
-                switch result {
-                case .failure(let error):
-                    self.isLoading.value = false
-                    self.recipeObserver.send(value: .failure(error))
-                case .success(let userIsLoggedIn):
-                    if userIsLoggedIn {
-                        CloudManager.shared.deleteRecipeFromCloud(recipe)
-                            .on(starting: { self.isLoading.value = true })
-                            .on(completed: { self.isLoading.value = false })
-                            .observe(on: UIScheduler())
-                            .take(duringLifetimeOf: self)
-                            .startWithResult { result in
-                                switch result {
-                                case .success():
-                                    RealmHelper.shared.deleteRecipeInRealm(recipe)
-                                        .startWithCompleted {
-                                            if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipe.id }) {
-                                                Event.shared.selectedCustomRecipes.remove(at: index)
-                                            }
-                                            if let downloadUrl = recipe.downloadUrl, !downloadUrl.isEmpty {
-                                                self.deleteRecipePicOnFirebase(recipe.id)
-                                            } else {
-                                                self.recipeObserver.send(value: .success(()))
-                                            }
-                                        }
-                                case .failure(let error):
-                                    self.isLoading.value = false
-                                    self.recipeObserver.send(value: .failure(error))
-                                }
-                            }
-                    } else {
-                        self.recipeObserver.send(value: .failure(.notSignedInCloud))
-                    }
+                case .success():
+                    self.recipeObserver.send(value: .success(()))
                 }
             }
     }
     
-    private func saveRecipePictureAndInfo(_ imageData: Data, id: String) {
-        ImageHelper.shared.saveRecipePicToFirebase(imageData, id: id)
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .startWithResult { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .failure(let error):
-                    self.isLoading.value = false
-                    self.recipeObserver.send(value: .failure(error))
-                case .success(let url):
-                    var recipe = self.prepareRecipe()
-                    recipe.id = id
-                    recipe.downloadUrl = url
-                    self.saveRecipeInformation(recipe)
-                }
+    private func prepareRecipe() -> LDRecipe {
+        return LDRecipe(title: recipeName.value,
+                        servings: self.servings.value,
+                        downloadUrl: self.downloadUrl.value,
+                        cookingSteps: self.steps.value,
+                        comments: self.comments.value,
+                        ingredients: self.ingredients.value,
+                        isPublic: self.isPublic.value)
+    }
+    
+    private func saveRecipePictureIfNeeded(recipeId: String? = nil) -> SignalProducer<(String?, String), LDError> {
+        let id = recipeId ?? UUID().uuidString
+        if let data = self.recipePicData.value {
+            return self.imageHelper.saveRecipePicToFirebase(data, id: id).map { ($0, id) }
+        } else {
+            return SignalProducer(value: (nil, id))
         }
     }
     
-    private func saveRecipeInformation(_ recipe: LDRecipe) {
-        CloudManager.shared.saveRecipeAndIngredientsOnCloud(recipe)
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .take(duringLifetimeOf: self)
-            .observe(on: UIScheduler())
-            .startWithResult { result in
-                switch result {
-                case .success(let recordID):
-                    RealmHelper.shared.saveRecipeInRealm(recipe, recordID: recordID.recordName)
-                        .startWithCompleted {
-                            defaults.deleteRecipeBackup()
-                            self.recipeObserver.send(value: .success(()))
+    private func savingFlow() -> SignalProducer<Void, LDError> {
+        guard informationIsValid else { return SignalProducer(error: .recipeNameMissing) }
+        return self.cloudManager.userIsLoggedIn()
+            .flatMap(.concat) { [weak self] userIsLoggedIn -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                guard userIsLoggedIn else { return SignalProducer(error: .notSignedInCloud) }
+                return self.saveRecipePictureIfNeeded()
+            .flatMap(.concat) { [weak self] (downloadUrl, recipeId) -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                var recipe = self.prepareRecipe()
+                recipe.id = recipeId
+                recipe.downloadUrl = downloadUrl
+                return self.cloudManager.saveRecipeAndIngredientsOnCloud(recipe)
+            .flatMap(.concat) { [weak self] recordID -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                return self.realmHelper.saveRecipeInRealm(recipe, recordID: recordID.recordName)
+            .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                defaults.deleteRecipeBackup()
+                if self.isPublic.value {
+                    return self.publicRecipeManager.saveRecipe(recipe)
+                } else {
+                    return SignalProducer(value: ())
+                }
                     }
-                case .failure(let error):
-                    self.isLoading.value = false
-                    self.recipeObserver.send(value: .failure(error))
                 }
+            }
         }
     }
     
-    private func updateRecipePictureAndInfo(_ imageData: Data, id: String) {
-        ImageHelper.shared.saveRecipePicToFirebase(imageData, id: id)
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .startWithResult { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .failure(let error):
-                    self.isLoading.value = false
-                    self.recipeObserver.send(value: .failure(error))
-                case .success(let url):
-                    guard let currentRecipe = self.recipe else { return }
-                    var newRecipe = self.prepareRecipe()
-                    newRecipe.id = id
-                    newRecipe.downloadUrl = url
-                    self.updateRecipeInformation(currentRecipe, newRecipe)
-                }
-        }
-    }
-    
-    private func updateRecipeInformation(_ currentRecipe: LDRecipe, _ newRecipe: LDRecipe) {
-        CloudManager.shared.updateRecipeInCloud(currentRecipe, newRecipe)
+    // MARK: Delete recipe
+    func deleteRecipe(_ recipe: LDRecipe) {
+        self.deletingFlow(recipe)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
-            .observe(on: UIScheduler())
-            .startWithResult { result in
+            .startWithResult { [unowned self] result in
                 switch result {
-                case .success():
-                    RealmHelper.shared.updateRecipeInRealm(currentRecipe, newRecipe)
-                        .startWithCompleted {
-                            if let downloadUrl = currentRecipe.downloadUrl, !downloadUrl.isEmpty && self.recipePicData.value == nil {
-                                self.deleteRecipePicOnFirebase(currentRecipe.id)
-                            } else {
-                                self.recipeObserver.send(value: .success(()))
-                            }
-                        }
                 case .failure(let error):
                     self.isLoading.value = false
                     self.recipeObserver.send(value: .failure(error))
+                case .success():
+                    self.recipeObserver.send(value: .success(()))
                 }
+            }
+    }
+
+    private func deletingFlow(_ recipe: LDRecipe) -> SignalProducer<Void, LDError> {
+        return self.cloudManager.userIsLoggedIn()
+            .flatMap(.concat) { [weak self] userIsLoggedIn -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                guard userIsLoggedIn else { return SignalProducer(error: .notSignedInCloud) }
+                return self.cloudManager.deleteRecipeFromCloud(recipe)
+            .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                return self.realmHelper.deleteRecipeInRealm(recipe)
+            .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == recipe.id }) {
+                    Event.shared.selectedCustomRecipes.remove(at: index)
+                }
+                return self.deleteRecipePictureIfNeeded(recipe.id, recipe.downloadUrl)
+            .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                if recipe.isPublic {
+                    return self.publicRecipeManager.deleteRecipe(recipe).mapError { _ in .genericError }
+                } else {
+                    return SignalProducer(value: ())
+                }
+                    }
+                }
+            }
         }
     }
     
+    private func deleteRecipePictureIfNeeded(_ recipeId: String, _ downloadUrl: String?) -> SignalProducer<Void, LDError> {
+        if let url = downloadUrl, !url.isEmpty {
+            return self.imageHelper.deleteRecipePicOnFirebase(recipeId).mapError { _ in .genericError }
+        } else {
+            return SignalProducer(value: ())
+        }
+    }
+    
+    // MARK: Update recipe
+    func updateRecipe() {
+        self.updatingFlow()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithResult { [unowned self] result in
+                switch result {
+                case .failure(let error):
+                    self.isLoading.value = false
+                    self.recipeObserver.send(value: .failure(error))
+                case .success():
+                    self.recipeObserver.send(value: .success(()))
+                }
+            }
+    }
+    
+    private func updatingFlow() -> SignalProducer<Void, LDError> {
+        guard informationIsValid else { return SignalProducer(error: .recipeNameMissing) }
+        return self.cloudManager.userIsLoggedIn()
+        .flatMap(.concat) { [weak self] userIsLoggedIn -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError) }
+            guard userIsLoggedIn else { return SignalProducer(error: .notSignedInCloud) }
+            guard let currentRecipe = self.recipe else { return SignalProducer(error: .genericError) }
+            return self.saveRecipePictureIfNeeded(recipeId: currentRecipe.id)
+        .flatMap(.concat) { [weak self] (downloadUrl, recipeId) -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError) }
+            var newRecipe = self.prepareRecipe()
+            newRecipe.id = currentRecipe.id
+            newRecipe.downloadUrl = downloadUrl
+            return self.cloudManager.updateRecipeInCloud(currentRecipe, newRecipe)
+        .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError) }
+            return self.realmHelper.updateRecipeInRealm(currentRecipe, newRecipe)
+        .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError) }
+            return (self.recipePicData.value == nil ? self.deleteRecipePictureIfNeeded(currentRecipe.id, currentRecipe.downloadUrl) : SignalProducer(value: ()))
+        .flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError) }
+            return self.updatePublicRecipeIfNeeded(currentRecipe, newRecipe)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func updatePublicRecipeIfNeeded(_ currentRecipe: LDRecipe, _ newRecipe: LDRecipe) -> SignalProducer<Void, LDError> {
+        if currentRecipe.isPublic && !newRecipe.isPublic {
+            return publicRecipeManager.deleteRecipe(currentRecipe).mapError { _ in .genericError }
+        } else if !currentRecipe.isPublic && newRecipe.isPublic {
+            return publicRecipeManager.saveRecipe(newRecipe)
+        } else if currentRecipe.isPublic && newRecipe.isPublic {
+            return publicRecipeManager.updateRecipe(newRecipe)
+        } else {
+            return SignalProducer(value: ())
+        }
+    }
+    
+    // MARK: Temporary back-up
     @objc private func backupRecipe() {
         let recipe = LDRecipe(id: "",
                               title: self.recipeName.value,
@@ -340,6 +331,7 @@ class RecipeCreationViewModel {
                               cookingSteps: self.steps.value,
                               comments: self.comments.value,
                               ingredients: self.ingredients.value,
+                              isPublic: self.isPublic.value,
                               recordID: nil)
         defaults.backupRecipeData(recipe, imageData: self.recipePicData.value)
     }
@@ -363,6 +355,7 @@ class RecipeCreationViewModel {
                 self.steps.value = recipeData.cookingSteps
                 self.comments.value = recipeData.comments
                 self.ingredients.value = recipeData.ingredients
+                self.isPublic.value = recipeData.isPublic
             } catch {
                 
             }
@@ -371,15 +364,5 @@ class RecipeCreationViewModel {
             self.recipePicData.value = imageData
         }
         defaults.deleteRecipeBackup()
-    }
-    
-    private func deleteRecipePicOnFirebase(_ id: String) {
-        ImageHelper.shared.deleteRecipePicOnFirebase(id)
-            .on(starting: { self.isLoading.value = true })
-            .on(completed: { self.isLoading.value = false })
-            .take(duringLifetimeOf: self)
-            .startWithCompleted {
-                self.recipeObserver.send(value: .success(()))
-            }
     }
 }

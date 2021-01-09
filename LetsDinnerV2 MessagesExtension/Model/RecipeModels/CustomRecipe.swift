@@ -17,6 +17,7 @@ class CustomRecipe: Object {
     var cookingSteps = List<String>() 
     var comments = List<String>()
     var ingredients = List<CustomIngredient>()
+    @objc dynamic var isPublic: Bool = false
     @objc dynamic var recordId: String? = nil
 }
 

@@ -15,6 +15,5 @@ class CustomIngredient: Object {
     @objc dynamic var unit: String? = nil
     var parentRecipe = LinkingObjects(fromType: CustomRecipe.self, property: "ingredients")
     @objc dynamic var recordId: String? = nil
-    
 }
 

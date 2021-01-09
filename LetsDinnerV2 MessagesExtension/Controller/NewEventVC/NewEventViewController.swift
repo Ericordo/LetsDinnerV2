@@ -8,6 +8,7 @@
 
 import UIKit
 import ReactiveSwift
+import FirebaseAnalytics
 
 protocol NewEventViewControllerDelegate: class {
     func newEventVCDidTapNext(controller: NewEventViewController)
@@ -213,9 +214,16 @@ class NewEventViewController: LDNavigationViewController {
         self.viewModel.nextStepSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeCompleted {
-                self.delegate?.newEventVCDidTapNext(controller: self)
-        }
+            .observeValues({ [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    Analytics.logEvent(error.description, parameters: nil)
+                    self.showErrorAndContinue(error)
+                case.success(()):
+                    self.delegate?.newEventVCDidTapNext(controller: self)
+                }
+            })
     }
     
     // MARK: Methods
@@ -234,6 +242,18 @@ class NewEventViewController: LDNavigationViewController {
         self.viewModel.eventName.value = name
         eventInputView.isHidden = true
         hostNameTextField.becomeFirstResponder()
+    }
+    
+    private func showErrorAndContinue(_ error: LDError) {
+        let alert = UIAlertController(title: AlertStrings.oops,
+                                      message: error.description,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: AlertStrings.okAction,
+                                   style: .default) { _ in
+            self.delegate?.newEventVCDidTapNext(controller: self)
+        }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func setupUI() {
@@ -419,13 +439,6 @@ extension NewEventViewController: UIScrollViewDelegate {
                 scrollView.scrollRectToVisible(activeField.frame, animated: true)
             }
         }
-
-//        if activeField == locationTextField || activeField == hostNameTextField {
-//            showInputView(inputView: self.infoInputView, offset: keyboardFrame.height, duration: duration, animationCurve: animationCurve )
-//        } else {
-//            showInputView(inputView: self.eventInputView, offset: keyboardFrame.height, duration: duration, animationCurve: animationCurve )
-//        }
-        
         showInputView(offset: keyboardFrame.height)
     }
 
@@ -436,13 +449,11 @@ extension NewEventViewController: UIScrollViewDelegate {
     }
     
     private func showInputView(offset: CGFloat) {
-        
         var offset = offset
         #warning("Temporary solve for iPad ios13")
         if UIDevice.current.userInterfaceIdiom == .pad {
             if #available(iOS 13.0, *) { offset += 20 }
         }
-        
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1) {
             self.eventInputView.snp.updateConstraints { make in

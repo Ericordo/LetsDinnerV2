@@ -80,6 +80,8 @@ enum AlertStrings {
     static let recipeDeleteRealmError = NSLocalizedString("We could not delete the recipe in your device, but it was deleted in iCloud", comment: "recipe delete realm error")
     static let ongoingRecipeTitle = NSLocalizedString("Recipe in Progress! 👷🏻‍♂️", comment: "recipe in progress alert title")
     static let ongoingRecipeDescription = NSLocalizedString("It seems that you left the app while creating a recipe. Would you like to restore your progress?", comment: "recipe in progress alert description")
+    static let publicRecipeUploadFail = NSLocalizedString("", comment: "")
+    static let publicRecipeUpdateFail = NSLocalizedString("", comment: "")
 
     // ReviewVC
     static let eventUploadFail = NSLocalizedString("We could not save your Event, please try again.", comment: "could not upload event")
