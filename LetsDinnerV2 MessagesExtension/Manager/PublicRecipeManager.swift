@@ -34,7 +34,53 @@ class PublicRecipeManager {
     }
     
     private func parsePublicRecipes(_ value: [String : Any]) -> [LDRecipe] {
-        return []
+        var publicRecipes : [PublicRecipe] = []
+        value.forEach { (key, value) in
+            if let publicRecipe = self.parsePublicRecipe(recipeId: key, value as! [String : Any]) {
+                publicRecipes.append(publicRecipe)
+            }
+        }
+        return publicRecipes.filter { $0.validated }.map { $0.recipe }
+    }
+    
+    private func parsePublicRecipe(recipeId: String, _ value: [String : Any]) -> PublicRecipe? {
+        var recipe = LDRecipe()
+        recipe.id = recipeId
+        guard let language = value[DataKeys.language] as? String,
+              let isValidated = value[DataKeys.isValidated] as? Bool,
+              let recipeDict = value[DataKeys.recipe] as? [String : Any],
+              let servings = recipeDict[DataKeys.servings] as? Int,
+              let title = recipeDict[DataKeys.title] as? String
+        else { return nil }
+        recipe.title = title
+        recipe.servings = servings
+        if let comments = recipeDict[DataKeys.comments] as? [String] {
+            recipe.comments = comments
+        }
+        if let cookingSteps = recipeDict[DataKeys.cookingSteps] as? [String] {
+            recipe.cookingSteps = cookingSteps
+        }
+        if let downloadUrl = recipeDict[DataKeys.downloadUrl] as? String {
+            recipe.downloadUrl = downloadUrl
+        }
+        if let ingredients = recipeDict[DataKeys.ingredients] as? [String : [String : Any]] {
+            ingredients.forEach { key, value in
+                let name = key
+                var amount: Double?
+                var unit: String?
+                if let ingredientAmount = value[DataKeys.amount] as? Double {
+                    amount = ingredientAmount
+                }
+                if let ingredientUnit = value[DataKeys.unit] as? String, !ingredientUnit.isEmpty {
+                    unit = ingredientUnit
+                }
+                let customIngredient = LDIngredient(name: name, amount: amount, unit: unit)
+                recipe.ingredients.append(customIngredient)
+            }
+        }
+        return PublicRecipe(recipe: recipe,
+                            validated: isValidated,
+                            language: language)
     }
     
     private func createRecipeInfo(_ recipe: LDRecipe) -> [String : Any] {
@@ -63,7 +109,7 @@ class PublicRecipeManager {
         }
         let languageString = self.prepareLanguageString(recipe)
         let language = NSLinguisticTagger.dominantLanguage(for: languageString) ?? "en"
-        let publicRecipeInfo : [String : Any] = [recipe.title : recipeInfo,
+        let publicRecipeInfo : [String : Any] = [DataKeys.recipe : recipeInfo,
                                                  DataKeys.isValidated : false,
                                                  DataKeys.language : language]
         return publicRecipeInfo

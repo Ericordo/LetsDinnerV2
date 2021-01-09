@@ -10,6 +10,6 @@ import Foundation
 
 struct PublicRecipe {
     let recipe: LDRecipe
-    let validated: Bool = false
-    let language: String = "en"
+    let validated: Bool
+    let language: String
 }
