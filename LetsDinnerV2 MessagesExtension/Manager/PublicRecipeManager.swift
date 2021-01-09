@@ -61,9 +61,26 @@ class PublicRecipeManager {
         if !recipe.ingredients.isEmpty {
             recipeInfo[DataKeys.ingredients] = ingredientsInfo
         }
+        let languageString = self.prepareLanguageString(recipe)
+        let language = NSLinguisticTagger.dominantLanguage(for: languageString) ?? "en"
         let publicRecipeInfo : [String : Any] = [recipe.title : recipeInfo,
-                                                 DataKeys.isValidated : false]
+                                                 DataKeys.isValidated : false,
+                                                 DataKeys.language : language]
         return publicRecipeInfo
+    }
+    
+    private func prepareLanguageString(_ recipe: LDRecipe) -> String {
+        var languageString = recipe.title
+        recipe.comments.forEach { comment in
+            languageString.append(" \(comment)")
+        }
+        recipe.cookingSteps.forEach { cookingStep in
+            languageString.append(" \(cookingStep)")
+        }
+        recipe.ingredients.forEach { ingredient in
+            languageString.append(" \(ingredient.name)")
+        }
+        return languageString
     }
 
     func saveRecipe(_ recipe: LDRecipe) -> SignalProducer<Void, LDError> {

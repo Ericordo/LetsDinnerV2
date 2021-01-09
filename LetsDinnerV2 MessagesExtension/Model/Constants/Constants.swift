@@ -172,6 +172,7 @@ enum DataKeys {
     static let amount = "amount"
     static let unit = "unit"
     static let isValidated = "isValidated"
+    static let language = "language"
 }
 
 
