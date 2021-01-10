@@ -11,8 +11,23 @@ import UIKit
 class RecipesToolbar: UIView {
     
     lazy var createRecipeButton = toolbarItem(image: Images.addButtonOutlined)
-    lazy var recipeToggle = toolbarItem(image: Images.recipeBookButtonOutlined)
     lazy var selectedRecipesButton = toolbarItem(image: Images.listButtonOutlined)
+    
+    lazy var apiRecipesButton = toolbarItem(image: Images.recipeBookButtonOutlined,
+                                            tintColor: .inactiveButton)
+    lazy var publicRecipesButton = toolbarItem(image: Images.discoverButtonOutlined,
+                                               tintColor: .inactiveButton)
+    lazy var myRecipesButton = toolbarItem(image: Images.recipeBookButtonOutlined,
+                                           tintColor: .inactiveButton)
+    
+    
+    private let searchTypeStackView : UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.distribution = .equalSpacing
+        return sv
+    }()
     
     init() {
         super.init(frame: .zero)
@@ -30,7 +45,10 @@ class RecipesToolbar: UIView {
         selectedRecipesButton.setTitleColor(.activeButton, for: .normal)
         addBlurEffect()
         addSubview(createRecipeButton)
-        addSubview(recipeToggle)
+        addSubview(searchTypeStackView)
+        searchTypeStackView.addArrangedSubview(apiRecipesButton)
+        searchTypeStackView.addArrangedSubview(publicRecipesButton)
+        searchTypeStackView.addArrangedSubview(myRecipesButton)
         addSubview(selectedRecipesButton)
         addConstraints()
     }
@@ -42,10 +60,11 @@ class RecipesToolbar: UIView {
             make.top.equalToSuperview().offset(13)
         }
         
-        recipeToggle.snp.makeConstraints { make in
+        searchTypeStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalTo(createRecipeButton.snp.centerY)
-            make.height.width.equalTo(33)
+            make.height.equalTo(33)
+            make.width.equalTo(139)
         }
         
         selectedRecipesButton.snp.makeConstraints { make in
@@ -55,11 +74,27 @@ class RecipesToolbar: UIView {
         }
     }
     
-    private func toolbarItem(image: UIImage) -> UIButton {
-        let button = UIButton()
-        button.setImage(image, for: .normal)
-        return button
+    func updateTintColor(_ searchType: SearchType) {
+        switch searchType {
+        case .apiRecipes:
+            apiRecipesButton.tintColor = .activeButton
+            publicRecipesButton.tintColor = .inactiveButton
+            myRecipesButton.tintColor = .inactiveButton
+        case .customRecipes:
+            apiRecipesButton.tintColor = .inactiveButton
+            publicRecipesButton.tintColor = .inactiveButton
+            myRecipesButton.tintColor = .activeButton
+        case .publicRecipes:
+            apiRecipesButton.tintColor = .inactiveButton
+            publicRecipesButton.tintColor = .activeButton
+            myRecipesButton.tintColor = .inactiveButton
+        }
     }
     
-    
+    private func toolbarItem(image: UIImage, tintColor: UIColor = .activeButton) -> UIButton {
+        let button = UIButton()
+        button.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = tintColor
+        return button
+    }
 }

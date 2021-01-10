@@ -27,8 +27,11 @@ class NewEventViewModel {
     
     let isLoading = MutableProperty<Bool>(false)
     
-    let nextStepSignal: Signal<Void, Never>
-    private let nextStepObserver: Signal<Void, Never>.Observer
+    let nextStepSignal: Signal<Result<Void, LDError>, Never>
+    private let nextStepObserver: Signal<Result<Void, LDError>, Never>.Observer
+    
+    private let realmHelper = RealmHelper.shared
+    private let cloudManager = CloudManager.shared
  
     init() {
         eventName = MutableProperty(Event.shared.dinnerName)
@@ -38,7 +41,7 @@ class NewEventViewModel {
         date = MutableProperty(Date(timeIntervalSince1970: Event.shared.dateTimestamp))
         infoValidity = MutableProperty(false)
         
-        let (nextStepSignal, nextStepObserver) = Signal<Void, Never>.pipe()
+        let (nextStepSignal, nextStepObserver) = Signal<Result<Void, LDError>, Never>.pipe()
         self.nextStepSignal = nextStepSignal
         self.nextStepObserver = nextStepObserver
         
@@ -82,48 +85,31 @@ class NewEventViewModel {
     }
     
     func loadCustomRecipes() {
-        CloudManager.shared.userIsLoggedIn()
+        self.customRecipesLoadingFlow()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
-            .startWithResult { result in
+            .take(duringLifetimeOf: self)
+            .startWithResult { [unowned self] result in
                 switch result {
-                case .failure:
+                case .failure(let error):
                     self.isLoading.value = false
-                    self.nextStepObserver.sendCompleted()
-                case .success(let userIsLoggedIn):
-                    if userIsLoggedIn {
-                        CloudManager.shared.fetchLDRecipesFromCloud()
-                            .on(starting: { self.isLoading.value = true })
-                            .on(completed: { self.isLoading.value = false })
-                            .startWithResult { [weak self] result in
-                                guard let self = self else { return }
-                                switch result {
-                                case .failure:
-                                    self.isLoading.value = false
-                                    self.nextStepObserver.sendCompleted()
-                                case .success(let recipes):
-                                    self.isLoading.value = true
-                                    RealmHelper.shared.transferCloudRecipesToRealm(recipes)
-                                        .startWithResult { [weak self] result in
-                                            guard let self = self else { return }
-                                            self.isLoading.value = false
-                                            switch result {
-                                            case .failure(let error):
-                                                print(error)
-                                                #warning("do something better")
-                                                self.nextStepObserver.sendCompleted()
-                                            case.success:
-                                                self.nextStepObserver.sendCompleted()
-                                            }
-                                    }
-                                    
-                                }
-                        }
-                    } else {
-                        self.isLoading.value = false
-                        self.nextStepObserver.sendCompleted()
-                    }
+                    self.nextStepObserver.send(value: .failure(error))
+                case .success():
+                    self.nextStepObserver.send(value: .success(()))
                 }
+            }
+    }
+    
+    private func customRecipesLoadingFlow() -> SignalProducer<Void, LDError> {
+        return self.cloudManager.userIsLoggedIn()
+            .flatMap(.concat) { [weak self] userIsLoggedIn -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                guard userIsLoggedIn else { return SignalProducer(error: .notSignedInCloudLoadingRecipes) }
+                return self.cloudManager.fetchLDRecipesFromCloud()
+            .flatMap(.concat) { [weak self] recipes -> SignalProducer<Void, LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                return self.realmHelper.transferCloudRecipesToRealm(recipes)
+            }
         }
     }
 }

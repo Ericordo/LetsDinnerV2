@@ -136,7 +136,15 @@ class SelectedRecipesViewController: LDViewController {
             present(vc, animated: true, completion: nil)
         }
     }
-    
+
+    private func showCustomRecipe(recipe: LDRecipe) {
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: recipe,
+                                                                                                 creationMode: false),
+                                                                                                 delegate: nil)
+        viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
+        self.present(viewCustomRecipeVC, animated: true, completion: nil)
+    }
+
     private func setupUI() {
         view.backgroundColor = .backgroundColor
         NotificationCenter.default.addObserver(self,
@@ -243,10 +251,12 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
         if recipeType == .apiRecipes, let recipe = Event.shared.selectedRecipes.first(where: { $0.id == recipeId
         }) {
             cell.configureCell(recipe)
-            
         } else if recipeType == .customRecipes, let recipe = Event.shared.selectedCustomRecipes.first(where: { $0.id == recipeId
         }) {
             cell.configureCellWithCustomRecipe(recipe)
+        } else if recipeType == .publicRecipes, let recipe = Event.shared.selectedPublicRecipes.first(where: { $0.id == recipeId
+        }) {
+            cell.configureCellWithPublicRecipe(recipe)
         }
         return cell
     }
@@ -269,6 +279,11 @@ extension SelectedRecipesViewController: UITableViewDataSource, UITableViewDeleg
                 if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == cell.selectedRecipe.id }) {
                     CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: String(Event.shared.selectedRecipes[index].id))
                     Event.shared.selectedRecipes.remove(at: index)
+                }
+            case .publicRecipes:
+                if let index = Event.shared.selectedPublicRecipes.firstIndex(where: { $0.id == cell.selectedPublicRecipe.id }) {
+                    CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: Event.shared.selectedPublicRecipes[index].id)
+                    Event.shared.selectedPublicRecipes.remove(at: index)
                 }
             }
 
@@ -327,15 +342,13 @@ extension SelectedRecipesViewController: RecipeCellDelegate {
     
     func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {}
     
+    func recipeCellDidSelectPublicRecipe(_ publicRecipe: LDRecipe) {}
+    
     func recipeCellDidSelectView(_ recipe: Recipe) {
         openRecipeInSafari(recipe: recipe)
     }
     
-    func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: customRecipe,
-                                                                                                 creationMode: false),
-                                                                                                 delegate: nil)
-        viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
-        self.present(viewCustomRecipeVC, animated: true, completion: nil)
+    func recipeCellDidSelectCustomRecipeView(_ recipe: LDRecipe) {
+        self.showCustomRecipe(recipe: recipe)
     }
 }

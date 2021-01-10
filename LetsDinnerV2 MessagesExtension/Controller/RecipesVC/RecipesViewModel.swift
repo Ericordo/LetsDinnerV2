@@ -13,6 +13,7 @@ import RealmSwift
 enum SearchType: String {
     case apiRecipes
     case customRecipes
+    case publicRecipes
 }
 
 class RecipesViewModel {
@@ -23,6 +24,7 @@ class RecipesViewModel {
 //    var customRecipes : Results<CustomRecipe>?
 //    var customSearchResults = [LDRecipe]()
     var customRecipes = [LDRecipe]()
+    var publicRecipes = [LDRecipe]()
 
     let dataChangeSignal: Signal<Void, Never>
     private let dataChangeObserver: Signal<Void, Never>.Observer
@@ -36,13 +38,15 @@ class RecipesViewModel {
     let searchType : MutableProperty<SearchType>
     let isLoading = MutableProperty<Bool>(false)
     
-    var previouslySelectedRecipes = [Recipe]()
-    var previouslySelectedCustomRecipes = [LDRecipe]()
+    var previouslySelectedRecipes : [Recipe]
+    var previouslySelectedCustomRecipes : [LDRecipe]
+    var previouslySelectedPublicRecipes : [LDRecipe]
     
     init() {
         self.searchType = MutableProperty(SearchType(rawValue: defaults.searchType) ?? .apiRecipes)
         previouslySelectedRecipes = Event.shared.selectedRecipes
         previouslySelectedCustomRecipes = Event.shared.selectedCustomRecipes
+        previouslySelectedPublicRecipes = Event.shared.selectedPublicRecipes
                 
         let (dataChangeSignal, dataChangeObserver) = Signal<Void, Never>.pipe()
         self.dataChangeSignal = dataChangeSignal
@@ -93,6 +97,9 @@ class RecipesViewModel {
                             self.dataChangeObserver.send(value: ())
                         }
                 }
+            case .publicRecipes:
+                self.publicRecipes = self.publicRecipes.filter { $0.title.lowercased().contains(keyword.lowercased()) }
+                self.dataChangeObserver.send(value: ())
             }
         }
         
@@ -168,12 +175,27 @@ class RecipesViewModel {
         self.dataChangeObserver.send(value: ())
     }
     
+    private func loadPublicRecipes() {
+        PublicRecipeManager.shared.fetchRecipes()
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithValues({ [unowned self] recipes in
+                self.publicRecipes = recipes
+                self.publicRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
+                self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
+                self.dataChangeObserver.send(value: ())
+            })
+    }
+    
     func loadRecipes() {
         switch self.searchType.value {
         case .apiRecipes:
             loadDefaultRecipes()
         case .customRecipes:
             loadCustomRecipes()
+        case .publicRecipes:
+            loadPublicRecipes()
         }
     }
     
@@ -183,6 +205,7 @@ class RecipesViewModel {
             if !task.isCustom &&
                 !Event.shared.selectedRecipes.contains(where: { $0.title == task.parentRecipe }) &&
                 !Event.shared.selectedCustomRecipes.contains(where: { $0.title == task.parentRecipe }) &&
+                !Event.shared.selectedPublicRecipes.contains(where: { $0.title == task.parentRecipe }) &&
                 task.parentRecipe != LabelStrings.misc
             {
                 let index = Event.shared.tasks.firstIndex { $0.taskName == task.taskName }
@@ -193,6 +216,7 @@ class RecipesViewModel {
         // Add the New Recipes
         var newRecipes = [Recipe]()
         var newCustomRecipes = [LDRecipe]()
+        var newPublicRecipes = [LDRecipe]()
         
         if previouslySelectedRecipes.isEmpty {
             newRecipes = Event.shared.selectedRecipes
@@ -218,6 +242,20 @@ class RecipesViewModel {
                 if previouslySelectedCustomRecipes.contains(where: { recipe.title == $0.title }) &&
                     !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
                     newCustomRecipes.append(recipe)
+                }
+            }
+        }
+        
+        if previouslySelectedPublicRecipes.isEmpty {
+            newPublicRecipes = Event.shared.selectedPublicRecipes
+        } else {
+            Event.shared.selectedPublicRecipes.forEach { recipe in
+                if !previouslySelectedPublicRecipes.contains(where: { recipe.id == $0.id }) {
+                    newPublicRecipes.append(recipe)
+                }
+                if previouslySelectedPublicRecipes.contains(where: { recipe.title == $0.title }) &&
+                    !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
+                    newPublicRecipes.append(recipe)
                 }
             }
         }
@@ -277,6 +315,29 @@ class RecipesViewModel {
                                 isCustom: false, parentRecipe: recipeName)
                 task.metricUnit = customIngredient.unit
                 if let amount = customIngredient.amount {
+                    if Int(amount) != 0 {
+                        task.metricAmount = (amount * 2) / servings
+                    }
+                }
+                task.servings = 2
+                Event.shared.tasks.append(task)
+            }
+        }
+        
+        newPublicRecipes.forEach { publicRecipe in
+            let recipeName = publicRecipe.title
+            let servings = Double(publicRecipe.servings)
+            let publicIngredients = publicRecipe.ingredients
+            
+            publicIngredients.forEach { publicIngredient in
+                let task = Task(taskName: publicIngredient.name,
+                                assignedPersonUid: "nil",
+                                taskState: TaskState.unassigned.rawValue,
+                                taskUid: "nil",
+                                assignedPersonName: "nil",
+                                isCustom: false, parentRecipe: recipeName)
+                task.metricUnit = publicIngredient.unit
+                if let amount = publicIngredient.amount {
                     if Int(amount) != 0 {
                         task.metricAmount = (amount * 2) / servings
                     }

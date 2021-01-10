@@ -23,6 +23,10 @@ class RealmHelper {
         return realm.objects(CustomRecipe.self)
     }
     
+    private func loadCustomIngredients() -> Results<CustomIngredient>? {
+        return realm.objects(CustomIngredient.self)
+    }
+    
     func saveRecipeInRealm(_ recipe: LDRecipe, recordID: String) -> SignalProducer<Void, LDError> {
         return SignalProducer { observer, _ in
             let recipeModel = self.convertLDRecipeToRLRecipe(recipe)
@@ -44,26 +48,29 @@ class RealmHelper {
         let predicate = NSPredicate(format: "id == %@", convertedCurrentRecipe.id)
         let realmNewRecipe = self.convertLDRecipeToRLRecipe(newRecipe)
         return SignalProducer { observer, _ in
-            do {
-                try self.realm.write {
-                    let realmCurrentRecipeResults = self.realm.objects(CustomRecipe.self).filter(predicate)
-                    let realmCurrentRecipe = realmCurrentRecipeResults.first
-                    if let realmCurrentRecipe = realmCurrentRecipe {
-                        realmCurrentRecipe.title = realmNewRecipe.title
-                        realmCurrentRecipe.downloadUrl = realmNewRecipe.downloadUrl
-                        realmCurrentRecipe.servings = realmNewRecipe.servings
-                        realmCurrentRecipe.comments.removeAll()
-                        realmCurrentRecipe.comments.append(objectsIn: realmNewRecipe.comments)
-                        realmCurrentRecipe.cookingSteps.removeAll()
-                        realmCurrentRecipe.cookingSteps.append(objectsIn: realmNewRecipe.cookingSteps)
-                        realmCurrentRecipe.ingredients.removeAll()
-                        realmCurrentRecipe.ingredients.append(objectsIn: realmNewRecipe.ingredients)
+            DispatchQueue.main.async {
+                do {
+                    try self.realm.write {
+                        let realmCurrentRecipeResults = self.realm.objects(CustomRecipe.self).filter(predicate)
+                        let realmCurrentRecipe = realmCurrentRecipeResults.first
+                        if let realmCurrentRecipe = realmCurrentRecipe {
+                            realmCurrentRecipe.title = realmNewRecipe.title
+                            realmCurrentRecipe.downloadUrl = realmNewRecipe.downloadUrl
+                            realmCurrentRecipe.servings = realmNewRecipe.servings
+                            realmCurrentRecipe.comments.removeAll()
+                            realmCurrentRecipe.comments.append(objectsIn: realmNewRecipe.comments)
+                            realmCurrentRecipe.cookingSteps.removeAll()
+                            realmCurrentRecipe.cookingSteps.append(objectsIn: realmNewRecipe.cookingSteps)
+                            realmCurrentRecipe.ingredients.removeAll()
+                            realmCurrentRecipe.ingredients.append(objectsIn: realmNewRecipe.ingredients)
+                            realmCurrentRecipe.isPublic = realmNewRecipe.isPublic
+                        }
+                        observer.send(value: ())
+                        observer.sendCompleted()
                     }
-                    observer.send(value: ())
-                    observer.sendCompleted()
+                } catch {
+                    observer.send(error: .recipeUpdateRealmFail)
                 }
-            } catch {
-                observer.send(error: .recipeUpdateRealmFail)
             }
         }
     }
@@ -72,36 +79,39 @@ class RealmHelper {
         return SignalProducer { observer, _ in
             let realmRecipe = self.convertLDRecipeToRLRecipe(recipe)
             let predicate = NSPredicate(format: "id == %@", realmRecipe.id)
-            do {
-                try self.realm.write {
-                    let recipeToDelete = self.realm.objects(CustomRecipe.self).filter(predicate)
-                          self.realm.delete(recipeToDelete)
-                    
-//                    if let recipeToDelete = self.realm.object(ofType: CustomRecipe.self, forPrimaryKey: realmRecipe.id){
-//                          self.realm.delete(recipeToDelete)
-//                    }
-//                    self.realm.delete(realmRecipe)
-                    observer.send(value: ())
-                    observer.sendCompleted()
+            DispatchQueue.main.async {
+                do {
+                    try self.realm.write {
+                        let recipeToDelete = self.realm.objects(CustomRecipe.self).filter(predicate)
+                        self.realm.delete(recipeToDelete)
+                        observer.send(value: ())
+                        observer.sendCompleted()
+                    }
+                } catch {
+                    observer.send(error: .recipeDeleteRealmFail)
                 }
-            } catch {
-                observer.send(error: .recipeDeleteRealmFail)
             }
         }
     }
     
     func deleteAllRecipes() {
-             do {
-                 let recipes = self.loadCustomRecipes()
-                 try self.realm.write {
-                     if let recipes = recipes {
-                         self.realm.delete(recipes)
-                     }
-                 }
-             } catch {
-                 print(error)
-             }
-     }
+        do {
+            let recipes = self.loadCustomRecipes()
+            let ingredients = self.loadCustomIngredients()
+            try self.realm.write {
+                if let recipes = recipes {
+                    self.realm.delete(recipes)
+                }
+                if let ingredients = ingredients {
+                    self.realm.delete(ingredients)
+                }
+            }
+        } catch {
+            #if DEBUG
+            print(error.localizedDescription)
+            #endif
+        }
+    }
     
     func transferCloudRecipesToRealm(_ recipes: [LDRecipe]) -> SignalProducer<Void, LDError> {
         self.deleteAllRecipes()
@@ -146,6 +156,7 @@ class RealmHelper {
                                 cookingSteps: convertedSteps,
                                 comments: convertedComments,
                                 ingredients: convertedIngredients,
+                                isPublic: recipe.isPublic,
                                 recordID: ckRecordID)
         return LDrecipe
     }
@@ -176,6 +187,7 @@ class RealmHelper {
         recipe.ingredients.forEach { ingredient in
             customRecipe.ingredients.append(convertLDIngredientToRLIngredient(ingredient))
         }
+        customRecipe.isPublic = recipe.isPublic
         customRecipe.recordId = recipe.recordID?.recordName
         return customRecipe
     }

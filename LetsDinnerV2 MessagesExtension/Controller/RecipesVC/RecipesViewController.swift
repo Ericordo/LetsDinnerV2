@@ -99,9 +99,16 @@ class RecipesViewController: LDNavigationViewController {
             self.present(selectedRecipesVC, animated: true, completion: nil)
         }
         
-        toolbar.recipeToggle.reactive.controlEvents(.touchUpInside).observeValues { _ in
-            let currentSearchType = self.viewModel.searchType.value
-            self.viewModel.searchType.value = currentSearchType == .apiRecipes ? .customRecipes : .apiRecipes
+        toolbar.apiRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.viewModel.searchType.value = .apiRecipes
+        }
+        
+        toolbar.myRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.viewModel.searchType.value = .customRecipes
+        }
+        
+        toolbar.publicRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            self.viewModel.searchType.value = .publicRecipes
         }
         
         searchBar.reactive.continuousTextValues.observeValues { text in
@@ -110,11 +117,7 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         searchBar.reactive.searchButtonClicked.observeValues { _ in
-            if self.viewModel.searchType.value == .apiRecipes {
-                Analytics.logEvent("api_recipes_search", parameters: nil)
-            } else {
-                Analytics.logEvent("custom_recipes_search", parameters: nil)
-            }
+            Analytics.logEvent("\(self.viewModel.searchType.value.rawValue)_search", parameters: nil)
             self.searchBar.resignFirstResponder()
             guard let keyword = self.searchBar.text else { return }
             self.viewModel.keyword.value = keyword
@@ -180,19 +183,21 @@ class RecipesViewController: LDNavigationViewController {
         
     // MARK: Methods
     private func updateUI(_ searchType: SearchType) {
+        toolbar.updateTintColor(searchType)
+        searchBar.text = ""
         switch searchType {
         case .apiRecipes:
             headerLabel.text = LabelStrings.discoverRecipes
             searchBar.placeholder = LabelStrings.searchApiRecipes
-            toolbar.recipeToggle.setImage(Images.recipeBookButtonOutlined, for: .normal)
         case .customRecipes:
             headerLabel.text = LabelStrings.yourRecipes
             searchBar.placeholder = LabelStrings.searchMyRecipes
-            toolbar.recipeToggle.setImage(Images.discoverButtonOutlined, for: .normal)
+        case .publicRecipes:
+            headerLabel.text = LabelStrings.publicRecipes
+            searchBar.placeholder = LabelStrings.searchPublicRecipes
         }
-        self.viewModel.loadRecipes()
         animateSearchTypeTransition()
-        searchBar.text = ""
+        self.viewModel.loadRecipes()
     }
 
     private func animateSearchTypeTransition() {
@@ -212,7 +217,7 @@ class RecipesViewController: LDNavigationViewController {
     }
     
     private func configureNextAndSelectedRecipesButtons() {
-        let count = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
+        let count = Event.shared.recipesCount
         let nextTitle = count == 0 ? LabelStrings.skip : LabelStrings.next
         navigationBar.nextButton.setTitle(nextTitle, for: .normal)
         let selectedRecipesTitle = count == 0 ? "" : " (\(count))"
@@ -309,7 +314,8 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case .customRecipes:
             if viewModel.customRecipes.count == 0 {
                 if searchBar.text!.isEmpty {
-                                tableView.setEmptyViewForRecipeView(title: LabelStrings.noCustomRecipeTitle, message: LabelStrings.noCustomRecipeMessage)
+                    tableView.setEmptyViewForRecipeView(title: LabelStrings.noCustomRecipeTitle,
+                                                        message: LabelStrings.noCustomRecipeMessage)
                 } else {
                     tableView.setEmptyViewForNoResults()
                 }
@@ -317,6 +323,18 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.restore()
             }
             return viewModel.customRecipes.count
+        case .publicRecipes:
+            if viewModel.publicRecipes.count == 0 {
+                if searchBar.text!.isEmpty {
+                    tableView.setEmptyViewForRecipeView(title: LabelStrings.noPublicRecipeTitle,
+                                                        message: LabelStrings.noPublicRecipeMessage)
+                } else {
+                    tableView.setEmptyViewForNoResults()
+                }
+            } else {
+                tableView.restore()
+            }
+            return viewModel.publicRecipes.count
         }
     }
     
@@ -329,6 +347,9 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         case .customRecipes:
             let customRecipe = viewModel.customRecipes[indexPath.section]
             cell.configureCellWithCustomRecipe(customRecipe)
+        case .publicRecipes:
+            let publicRecipe = viewModel.publicRecipes[indexPath.section]
+            cell.configureCellWithPublicRecipe(publicRecipe)
         }
         cell.recipeCellDelegate = self
         return cell
@@ -337,8 +358,10 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
 
     //MARK: RecipeCreationVC Delegate
 extension RecipesViewController: RecipeCreationVCDelegate {
-    func recipeCreationVCDidTapDone() {
-        self.viewModel.searchType.value = .customRecipes
+    func recipeCreationVCDidTapDone(creationMode: Bool) {
+        if creationMode {
+            self.viewModel.searchType.value = .customRecipes
+        }
     }
 }
 
@@ -355,12 +378,14 @@ extension RecipesViewController: RecipeCellDelegate {
         openRecipeInSafari(recipe)
     }
     
-    func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe) {
-        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: customRecipe, creationMode: false), delegate: self)
+    func recipeCellDidSelectCustomRecipeView(_ recipe: LDRecipe) {
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: recipe,
+                                                                                                 creationMode: false),
+                                                                                                 delegate: self)
         viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
         self.present(viewCustomRecipeVC, animated: true, completion: nil)
     }
-    
+        
     func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe) {
         if let index = Event.shared.selectedCustomRecipes.firstIndex(where: { $0.id == customRecipe.id }) {
             CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: customRecipe.id)
@@ -373,7 +398,18 @@ extension RecipesViewController: RecipeCellDelegate {
         configureNextAndSelectedRecipesButtons()
     }
     
-    // MARK: Append Recipe to EventArray
+    func recipeCellDidSelectPublicRecipe(_ publicRecipe: LDRecipe) {
+        if let index = Event.shared.selectedPublicRecipes.firstIndex(where: { $0.id == publicRecipe.id }) {
+            CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: publicRecipe.id)
+            Event.shared.selectedPublicRecipes.remove(at: index)
+        } else {
+            Event.shared.selectedPublicRecipes.append(publicRecipe)
+            CustomOrderHelper.shared.assignRecipeCustomOrder(recipeId: publicRecipe.id,
+                                                             order: CustomOrderHelper.shared.newIndex)
+        }
+        configureNextAndSelectedRecipesButtons()
+    }
+    
     func recipeCellDidSelectRecipe(_ recipe: Recipe) {
         if let index = Event.shared.selectedRecipes.firstIndex(where: { $0.id == recipe.id }) {
             CustomOrderHelper.shared.removeRecipeCustomOrder(recipeId: recipe.id)

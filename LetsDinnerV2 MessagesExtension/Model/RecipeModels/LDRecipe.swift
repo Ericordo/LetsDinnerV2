@@ -17,14 +17,19 @@ struct LDRecipe: Equatable, Codable {
     var cookingSteps: [String] = [String]()
     var comments: [String] = [String]()
     var ingredients: [LDIngredient] = [LDIngredient]()
+    var isPublic: Bool = false
     var recordID: CKRecord.ID? = nil
     
     var isSelected : Bool {
         return Event.shared.selectedCustomRecipes.contains { $0.id == self.id }
     }
     
+    var isPublicAndSelected : Bool {
+        return Event.shared.selectedPublicRecipes.contains { $0.id == self.id }
+    }
+
     private enum CodingKeys: String, CodingKey {
-        case id, title, servings, downloadUrl, cookingSteps, comments, ingredients
+        case id, title, servings, downloadUrl, cookingSteps, comments, ingredients, isPublic
     }
     
     static func == (lhs: LDRecipe, rhs: LDRecipe) -> Bool {
@@ -33,7 +38,8 @@ struct LDRecipe: Equatable, Codable {
             lhs.downloadUrl == rhs.downloadUrl &&
             lhs.cookingSteps == rhs.cookingSteps &&
             lhs.ingredients == rhs.ingredients &&
-            lhs.comments == rhs.comments
+            lhs.comments == rhs.comments &&
+            lhs.isPublic == rhs.isPublic
     }
 }
 

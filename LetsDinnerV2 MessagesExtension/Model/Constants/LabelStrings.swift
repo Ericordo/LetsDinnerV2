@@ -49,7 +49,7 @@ enum LabelStrings {
     
     // RecipesVC
     static let noRecipeTitle = NSLocalizedString("No recipes selected", comment: "no recipes selected")
-    static let noRecipeMessage = NSLocalizedString("Go back and Add something!", comment: "go back and add sthg")
+    static let noRecipeMessage = NSLocalizedString("Go back and add something!", comment: "go back and add sthg")
     static let skip = NSLocalizedString("Skip", comment: "skip")
     static let chooseRecipes = NSLocalizedString("Choose Recipes", comment: "choose recipes")
     static let details = NSLocalizedString(" Details", comment: "details")
@@ -58,6 +58,8 @@ enum LabelStrings {
     static let searchApiRecipes = NSLocalizedString("Search 360K+ recipes", comment: "api search placeholder")
     static let searchMyRecipes = NSLocalizedString("Search my recipes", comment: "custom search placeholder")
     static let noResults = NSLocalizedString("No results! 😬", comment: "no results")
+    static let publicRecipes = NSLocalizedString("LET'S DINNER! RECIPES", comment: "let's dinner recipes")
+    static let searchPublicRecipes = NSLocalizedString("Search Let's Dinner! recipes", comment: "search let's dinner! recipes")
     
     // SelectedRecipe VC
     static let deleteRecipeLabel = NSLocalizedString("To delete a recipe, swipe left.", comment: "delete instruction")
@@ -69,6 +71,8 @@ enum LabelStrings {
     // CustomRecipeVC
     static let noCustomRecipeTitle = NSLocalizedString("No recipe", comment: "no recipe title")
     static let noCustomRecipeMessage = NSLocalizedString("You can create your own recipe!", comment: "no recipe message")
+    static let noPublicRecipeTitle = NSLocalizedString("No recipe yet", comment: "no public recipe title")
+    static let noPublicRecipeMessage = NSLocalizedString("Participate and add your own recipe!", comment: "no public recipe message")
     
     // CreateRecipeVC
     static let cookingTipPlaceholder = NSLocalizedString("Better with almond milk", comment: "cooking tips placeholder")
@@ -80,6 +84,7 @@ enum LabelStrings {
     static let startCreateRecipeMessage3 = NSLocalizedString("Don't forget anything, to not make any mistakes. Having as much information as possible will get really nifty.", comment: "create recipe message 3")
     static let noTipsAndComments = NSLocalizedString("No Tips & Comments", comment: "no Tips And Comments")
     static let done = NSLocalizedString("Done", comment: "done")
+    static let publicRecipe = NSLocalizedString("MAKE THIS RECIPE PUBLIC", comment: "make recipe public")
     
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")

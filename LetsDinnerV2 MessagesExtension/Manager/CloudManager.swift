@@ -105,11 +105,10 @@ class CloudManager {
         record[.title] = recipe.title
         record[.id] = recipe.id
         record[.servings] = recipe.servings
-        if let downloadUrl = recipe.downloadUrl {
-            record[.downloadUrl] = downloadUrl
-        }
+        record[.downloadUrl] = recipe.downloadUrl
         record[.cookingSteps] = recipe.cookingSteps
         record[.tips] = recipe.comments
+        record[.isPublic] = recipe.isPublic.intValue
         return record
     }
     
@@ -275,11 +274,10 @@ class CloudManager {
                 record[.id] = currentRecipe.id
                 record[.title] = newRecipe.title
                 record[.servings] = newRecipe.servings
-                if let downloadUrl = newRecipe.downloadUrl {
-                    record[.downloadUrl] = downloadUrl
-                }
+                record[.downloadUrl] = newRecipe.downloadUrl
                 record[.cookingSteps] = newRecipe.cookingSteps
                 record[.tips] = newRecipe.comments
+                record[.isPublic] = newRecipe.isPublic.intValue
                 
                 self.privateDatabase.save(record) { (_, error) in
                     if error != nil {
@@ -306,7 +304,8 @@ class CloudManager {
                 newIngredientsRecords.append(record)
             }
             
-            let saveRecordsOperation = CKModifyRecordsOperation(recordsToSave: newIngredientsRecords, recordIDsToDelete: currentIngredientsRecordIDs)
+            let saveRecordsOperation = CKModifyRecordsOperation(recordsToSave: newIngredientsRecords,
+                                                                recordIDsToDelete: currentIngredientsRecordIDs)
             
             saveRecordsOperation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
                 if error != nil {
@@ -343,6 +342,9 @@ class CloudManager {
         if let cloudCookingSteps = record.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
             recipe.cookingSteps = cloudCookingSteps
         }
+        if let isPublic = record.value(forKey: LDRecipeKey.isPublic.rawValue) as? NSNumber {
+            recipe.isPublic = isPublic.boolValue
+        }
         recipe.recordID = record.recordID
         
         return recipe
@@ -356,6 +358,7 @@ class CloudManager {
                               cookingSteps: cloudRecipe.cookingSteps,
                               comments: cloudRecipe.comments,
                               ingredients: cloudRecipe.ingredients.map({ self.convertCKIngredientToLDIngredient($0) }),
+                              isPublic: cloudRecipe.isPublic,
                               recordID: cloudRecipe.recordID)
     }
     
@@ -417,6 +420,9 @@ class CloudManager {
             cookingSteps.forEach { step in
                 customRecipe.cookingSteps.append(step)
             }
+            if let isPublic = cloudRecipe.value(forKey: LDRecipeKey.isPublic.rawValue) as? NSNumber {
+                customRecipe.isPublic = isPublic.boolValue
+            }
             return CustomRecipe()
         }
 }
@@ -428,8 +434,8 @@ enum LDRecipeKey : String {
     case ingredients
     case downloadUrl
     case cookingSteps
-    case comments
     case tips
+    case isPublic
 }
 
 enum LDIngredientKey: String {

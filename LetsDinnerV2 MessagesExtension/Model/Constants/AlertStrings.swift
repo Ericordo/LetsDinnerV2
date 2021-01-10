@@ -74,12 +74,15 @@ enum AlertStrings {
     static let recipeDeleteCloudError = NSLocalizedString("We could not delete your recipe.", comment: "recipe delete error")
     static let recipeFetchCloudError = NSLocalizedString("We could not retrieve your recipes.", comment: "recipe fetch error")
     static let notSignedInCloudError = NSLocalizedString("You need to be signed into iCloud to do this.", comment: "not signed into iCloud error")
+    static let notSignedInCloudLoadingRecipesError = NSLocalizedString("You are not signed into iCloud so we could not load your latest recipes, we will use the back-up!", comment: "not signed in iCloud while loading custom recipes")
     static let recipeSaveRealmError = NSLocalizedString("We could not save the recipe in your device, but it was saved in iCloud.", comment: "save recipe locally error")
     static let transferToRealmError = NSLocalizedString("We could not back-up your recipes to your device.", comment: "recipes back up error")
     static let recipeUpdateRealmError = NSLocalizedString("We could not update the recipe in your device, but it was updated in iCloud.", comment: "recipe update realm error")
     static let recipeDeleteRealmError = NSLocalizedString("We could not delete the recipe in your device, but it was deleted in iCloud", comment: "recipe delete realm error")
     static let ongoingRecipeTitle = NSLocalizedString("Recipe in Progress! 👷🏻‍♂️", comment: "recipe in progress alert title")
     static let ongoingRecipeDescription = NSLocalizedString("It seems that you left the app while creating a recipe. Would you like to restore your progress?", comment: "recipe in progress alert description")
+    static let publicRecipeUploadFail = NSLocalizedString("", comment: "")
+    static let publicRecipeUpdateFail = NSLocalizedString("", comment: "")
 
     // ReviewVC
     static let eventUploadFail = NSLocalizedString("We could not save your Event, please try again.", comment: "could not upload event")

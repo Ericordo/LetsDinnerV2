@@ -21,7 +21,7 @@ class EventInfoViewController: LDNavigationViewController {
         let button = PrimaryButton()
         button.setTitle(LabelStrings.cookingManual, for: .normal)
         button.addTarget(self, action: #selector(didTapManualButton), for: .touchUpInside)
-        button.isHidden = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count == 0
+        button.isHidden = Event.shared.recipesCount == 0
         return button
     }()
     

@@ -67,6 +67,13 @@ class CustomOrderHelper {
                 }
             }
         }
+        if !Event.shared.selectedPublicRecipes.isEmpty {
+            for recipe in Event.shared.selectedPublicRecipes {
+                if recipeId == recipe.id {
+                    return .publicRecipes
+                }
+            }
+        }
         return nil
     }
     
@@ -81,6 +88,8 @@ class CustomOrderHelper {
             if let recipe = Event.shared.selectedRecipes.first(where: { $0.id == recipeId }) {
                 recipeTitles.append(recipe.title)
             } else if let recipe = Event.shared.selectedCustomRecipes.first(where: { $0.id == recipeId }) {
+                recipeTitles.append(recipe.title)
+            } else if let recipe = Event.shared.selectedPublicRecipes.first(where: { $0.id == recipeId }) {
                 recipeTitles.append(recipe.title)
             }
         }

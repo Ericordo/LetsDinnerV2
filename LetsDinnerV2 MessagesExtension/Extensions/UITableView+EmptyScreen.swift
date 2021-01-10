@@ -36,7 +36,7 @@ extension UITableView {
         
         let plateImageView : UIImageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "emptyPlate")
+            imageView.image = Images.emptyPlate
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
@@ -60,19 +60,6 @@ extension UITableView {
         plateImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         plateImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         plateImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -50).isActive = true
-        
-        UIView.animate(withDuration: 1, animations: {
-            plateImageView.transform = CGAffineTransform(rotationAngle: .pi / 5)
-        }, completion: { (finish) in
-            UIView.animate(withDuration: 1, animations: {
-                plateImageView.transform = CGAffineTransform(rotationAngle: -1 * (.pi / 5))
-            }, completion: { (finish) in
-                UIView.animate(withDuration: 1, animations: {
-                   plateImageView.transform = CGAffineTransform.identity
-                })
-            })
-        })
-        
         
         // The only tricky part is here:
         self.backgroundView = emptyView
@@ -120,7 +107,7 @@ extension UITableView {
         
         let buttonImage: UIImageView = {
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "addButtonOutlined.png")
+            imageView.image = Images.addButtonOutlined
             return imageView
         }()
 
@@ -157,7 +144,10 @@ extension UITableView {
     
     func setEmptyViewForNoResults() {
         
-        let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
+        let emptyView = UIView(frame: CGRect(x: self.center.x,
+                                             y: self.center.y,
+                                             width: self.bounds.size.width,
+                                             height: self.bounds.size.height))
 
         let messageLabel : UILabel = {
             let label = UILabel()
