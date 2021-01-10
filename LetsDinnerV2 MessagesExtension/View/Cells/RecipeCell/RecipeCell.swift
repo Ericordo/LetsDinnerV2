@@ -12,8 +12,9 @@ import Kingfisher
 protocol RecipeCellDelegate: class {
     func recipeCellDidSelectRecipe(_ recipe: Recipe)
     func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe)
+    func recipeCellDidSelectPublicRecipe(_ publicRecipe: LDRecipe)
     func recipeCellDidSelectView(_ recipe: Recipe)
-    func recipeCellDidSelectCustomRecipeView(_ customRecipe: LDRecipe)
+    func recipeCellDidSelectCustomRecipeView(_ recipe: LDRecipe)
 }
 
 class RecipeCell: UITableViewCell {
@@ -92,6 +93,7 @@ class RecipeCell: UITableViewCell {
     
     var selectedRecipe = Recipe(dict: [:])
     var selectedCustomRecipe = LDRecipe()
+    var selectedPublicRecipe = LDRecipe()
     var searchType: SearchType = .apiRecipes
 
     weak var recipeCellDelegate: RecipeCellDelegate?
@@ -190,13 +192,7 @@ class RecipeCell: UITableViewCell {
     }
     
     func configureCell(_ recipe: Recipe) {
-        if let imageUrl = recipe.imageUrl {
-            recipeImageView.kf.setImage(with: URL(string: imageUrl))
-            backgroundImageView.kf.setImage(with: URL(string: imageUrl))
-        }
-        recipeImageView.isHidden = false
-        visualEffectView.isHidden = false
-
+        self.configureRecipeImage(recipe.imageUrl)
         self.searchType = .apiRecipes
         recipeNameLabel.text = recipe.title
         selectedRecipe = recipe
@@ -206,7 +202,25 @@ class RecipeCell: UITableViewCell {
     }
     
     func configureCellWithCustomRecipe(_ customRecipe: LDRecipe) {
-        if let downloadUrl = customRecipe.downloadUrl {
+        self.configureRecipeImage(customRecipe.downloadUrl)
+        self.searchType = .customRecipes
+        recipeNameLabel.text = customRecipe.title
+        selectedCustomRecipe = customRecipe
+        chooseButton.isHidden = customRecipe.isSelected
+        chosenButton.isHidden = !customRecipe.isSelected
+    }
+    
+    func configureCellWithPublicRecipe(_ publicRecipe: LDRecipe) {
+        self.configureRecipeImage(publicRecipe.downloadUrl)
+        self.searchType = .publicRecipes
+        recipeNameLabel.text = publicRecipe.title
+        selectedPublicRecipe = publicRecipe
+        chooseButton.isHidden = publicRecipe.isPublicAndSelected
+        chosenButton.isHidden = !publicRecipe.isPublicAndSelected
+    }
+    
+    private func configureRecipeImage(_ downloadUrl: String?) {
+        if let downloadUrl = downloadUrl {
             recipeImageView.kf.setImage(with: URL(string: downloadUrl))
             backgroundImageView.kf.setImage(with: URL(string: downloadUrl))
             visualEffectView.isHidden = false
@@ -223,11 +237,6 @@ class RecipeCell: UITableViewCell {
             backgroundImageView.backgroundColor = UIColor.customRecipeBackground
             visualEffectView.isHidden = true
         }
-        self.searchType = .customRecipes
-        recipeNameLabel.text = customRecipe.title
-        selectedCustomRecipe = customRecipe
-        chooseButton.isHidden = customRecipe.isSelected
-        chosenButton.isHidden = !customRecipe.isSelected
     }
     
     @objc private func didTapChooseButton() {
@@ -236,6 +245,8 @@ class RecipeCell: UITableViewCell {
              recipeCellDelegate?.recipeCellDidSelectRecipe(selectedRecipe)
         case .customRecipes:
             recipeCellDelegate?.recipeCellDidSelectCustomRecipe(selectedCustomRecipe)
+        case .publicRecipes:
+            recipeCellDelegate?.recipeCellDidSelectPublicRecipe(selectedPublicRecipe)
         }
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
@@ -247,6 +258,8 @@ class RecipeCell: UITableViewCell {
              recipeCellDelegate?.recipeCellDidSelectRecipe(selectedRecipe)
         case .customRecipes:
             recipeCellDelegate?.recipeCellDidSelectCustomRecipe(selectedCustomRecipe)
+        case .publicRecipes:
+            recipeCellDelegate?.recipeCellDidSelectPublicRecipe(selectedPublicRecipe)
         }
         chooseButton.isHidden = chosenButton.isHidden
         chosenButton.isHidden = !chooseButton.isHidden
@@ -258,6 +271,8 @@ class RecipeCell: UITableViewCell {
             recipeCellDelegate?.recipeCellDidSelectView(selectedRecipe)
         case .customRecipes:
             recipeCellDelegate?.recipeCellDidSelectCustomRecipeView(selectedCustomRecipe)
+        case .publicRecipes:
+            recipeCellDelegate?.recipeCellDidSelectCustomRecipeView(selectedPublicRecipe)
         }
     }
 }

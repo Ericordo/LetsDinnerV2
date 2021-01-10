@@ -44,6 +44,11 @@ class Event {
     var eventDescription = String()
     var selectedRecipes = [Recipe]()
     var selectedCustomRecipes = [LDRecipe]()
+    var selectedPublicRecipes = [LDRecipe]()
+    
+    var recipesCount : Int {
+        return selectedCustomRecipes.count + selectedRecipes.count + selectedPublicRecipes.count
+    }
     
     // Helpful variable
     var tasksNeedUpdate : Bool {
@@ -68,7 +73,8 @@ class Event {
     var localEventId = ""
     var eventCreation = false
     
-     private let database = Database.database().reference()
+    private let database = Database.database().reference()
+
     // MARK: - Functions
     
     func resetEvent() {
@@ -174,34 +180,11 @@ class Event {
         }
         
         if !selectedCustomRecipes.isEmpty {
-            var customRecipesInfo : [String : Any] = [:]
-            selectedCustomRecipes.forEach { recipe in
-                var recipeInfo : [String : Any] = [DataKeys.id : recipe.id,
-                                                   DataKeys.servings : recipe.servings]
-                var ingredientsInfo : [String : [String : Any]] = [:]
-                recipe.ingredients.forEach { ingredient in
-                    var ingredientInfo : [String : Any] = [:]
-                    if let amount = ingredient.amount {
-                        ingredientInfo[DataKeys.amount] = amount
-                    }
-                    ingredientInfo[DataKeys.unit] = ingredient.unit ?? ""
-                    ingredientsInfo[ingredient.name] = ingredientInfo
-                }
-                recipeInfo[DataKeys.ingredients] = ingredientsInfo
-                if let downloadUrl = recipe.downloadUrl {
-                    recipeInfo[DataKeys.downloadUrl] = downloadUrl
-                }
-
-                if !recipe.comments.isEmpty {
-                    recipeInfo[DataKeys.comments] = recipe.comments
-
-                }
-                if !recipe.cookingSteps.isEmpty {
-                    recipeInfo[DataKeys.cookingSteps] = recipe.cookingSteps
-                }
-                customRecipesInfo[recipe.title] = recipeInfo
-            }
-            eventInfo[DataKeys.customRecipes] = customRecipesInfo
+            eventInfo[DataKeys.customRecipes] = self.prepareLDRecipesInfo(selectedCustomRecipes)
+        }
+        
+        if !selectedPublicRecipes.isEmpty {
+            eventInfo[DataKeys.publicRecipes] = self.prepareLDRecipesInfo(selectedPublicRecipes)
         }
         
         if !CustomOrderHelper.shared.customOrder.isEmpty {
@@ -238,6 +221,37 @@ class Event {
         return eventInfo
     }
     
+    private func prepareLDRecipesInfo(_ recipes: [LDRecipe]) -> [String : Any] {
+        var recipesInfo : [String : Any] = [:]
+        selectedCustomRecipes.forEach { recipe in
+            var recipeInfo : [String : Any] = [DataKeys.id : recipe.id,
+                                               DataKeys.servings : recipe.servings]
+            var ingredientsInfo : [String : [String : Any]] = [:]
+            recipe.ingredients.forEach { ingredient in
+                var ingredientInfo : [String : Any] = [:]
+                if let amount = ingredient.amount {
+                    ingredientInfo[DataKeys.amount] = amount
+                }
+                ingredientInfo[DataKeys.unit] = ingredient.unit ?? ""
+                ingredientsInfo[ingredient.name] = ingredientInfo
+            }
+            recipeInfo[DataKeys.ingredients] = ingredientsInfo
+            if let downloadUrl = recipe.downloadUrl {
+                recipeInfo[DataKeys.downloadUrl] = downloadUrl
+            }
+
+            if !recipe.comments.isEmpty {
+                recipeInfo[DataKeys.comments] = recipe.comments
+
+            }
+            if !recipe.cookingSteps.isEmpty {
+                recipeInfo[DataKeys.cookingSteps] = recipe.cookingSteps
+            }
+            recipesInfo[recipe.title] = recipeInfo
+        }
+        return recipesInfo
+    }
+    
     func uploadEvent() -> SignalProducer<Void, LDError> {
         return SignalProducer { observer, _ in
             guard let userID = self.currentUser?.identifier else {
@@ -249,7 +263,12 @@ class Event {
             let eventId = UUID().uuidString
             self.firebaseEventUid = eventId
             
-            self.database.child(userID).child(DataKeys.events).child(eventId).setValue(eventInfo) { error, _ in
+            self.database
+                .child(DataKeys.events)
+                .child(userID)
+                .child(DataKeys.events)
+                .child(eventId)
+                .setValue(eventInfo) { error, _ in
                 if error != nil {
                     observer.send(error: .eventUploadFail)
                 } else {
@@ -265,6 +284,7 @@ class Event {
         let eventID = self.firebaseEventUid
         guard !eventID.isEmpty else { return }
         self.database
+        .child(DataKeys.events)
         .child(userID)
         .child(DataKeys.events)
         .child(eventID)
@@ -326,57 +346,66 @@ class Event {
         }
         self.selectedRecipes = recipes
         
-        var customRecipes = [LDRecipe]()
         if let selectedCustomRecipes = value[DataKeys.customRecipes] as? [String : Any] {
-            selectedCustomRecipes.forEach { (key, value) in
-                guard let dict = value as? [String : Any] else { return }
-                guard let servings = dict[DataKeys.servings] as? Int,
-                    let id = dict[DataKeys.id] as? String
-                    else { return }
-                
-                var customRecipe = LDRecipe(id: id,
-                                            title: key,
-                                            servings: servings)
-                if let ingredients = dict[DataKeys.ingredients] as? [String : [String : Any]] {
-                    ingredients.forEach { key, value in
-                        let name = key
-                        var amount: Double?
-                        var unit: String?
-                        if let ingredientAmount = value[DataKeys.amount] as? Double {
-                            amount = ingredientAmount
-                        }
-                        if let ingredientUnit = value[DataKeys.unit] as? String, !ingredientUnit.isEmpty {
-                            unit = ingredientUnit
-                        }
-                        let customIngredient = LDIngredient(name: name, amount: amount, unit: unit)
-                        customRecipe.ingredients.append(customIngredient)
-                    }
-                }
-                
-                if let downloadUrl = dict[DataKeys.downloadUrl] as? String {
-                    customRecipe.downloadUrl = downloadUrl
-                }
-                
-                if let cookingSteps = dict[DataKeys.cookingSteps] as? [String] {
-                    cookingSteps.forEach { value in
-                        customRecipe.cookingSteps.append(value)
-                    }
-                }
-                
-                if let comments = dict[DataKeys.comments] as? [String] {
-                    comments.forEach { value in
-                        customRecipe.comments.append(value)
-                    }
-                }
-                customRecipes.append(customRecipe)
-            }
+            self.selectedCustomRecipes = self.parseLDRecipes(selectedCustomRecipes)
         }
-        self.selectedCustomRecipes = customRecipes
+        
+        if let selectedPublicRecipes = value[DataKeys.publicRecipes] as? [String : Any] {
+            self.selectedPublicRecipes = self.parseLDRecipes(selectedPublicRecipes)
+        }
+    }
+    
+    private func parseLDRecipes(_ recipeDict: [String: Any]) -> [LDRecipe] {
+        var LDRecipes = [LDRecipe]()
+        recipeDict.forEach { (key, value) in
+            guard let dict = value as? [String : Any] else { return }
+            guard let servings = dict[DataKeys.servings] as? Int,
+                let id = dict[DataKeys.id] as? String
+                else { return }
+            
+            var customRecipe = LDRecipe(id: id,
+                                        title: key,
+                                        servings: servings)
+            if let ingredients = dict[DataKeys.ingredients] as? [String : [String : Any]] {
+                ingredients.forEach { key, value in
+                    let name = key
+                    var amount: Double?
+                    var unit: String?
+                    if let ingredientAmount = value[DataKeys.amount] as? Double {
+                        amount = ingredientAmount
+                    }
+                    if let ingredientUnit = value[DataKeys.unit] as? String, !ingredientUnit.isEmpty {
+                        unit = ingredientUnit
+                    }
+                    let customIngredient = LDIngredient(name: name, amount: amount, unit: unit)
+                    customRecipe.ingredients.append(customIngredient)
+                }
+            }
+            
+            if let downloadUrl = dict[DataKeys.downloadUrl] as? String {
+                customRecipe.downloadUrl = downloadUrl
+            }
+            
+            if let cookingSteps = dict[DataKeys.cookingSteps] as? [String] {
+                cookingSteps.forEach { value in
+                    customRecipe.cookingSteps.append(value)
+                }
+            }
+            
+            if let comments = dict[DataKeys.comments] as? [String] {
+                comments.forEach { value in
+                    customRecipe.comments.append(value)
+                }
+            }
+            LDRecipes.append(customRecipe)
+        }
+        return LDRecipes
     }
     
     func observeEvent() -> SignalProducer<Void, LDError> {
         return SignalProducer { observer, _ in
             self.database
+                .child(DataKeys.events)
                 .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
@@ -396,6 +425,7 @@ class Event {
     private func fetchTasks() -> SignalProducer<Void, LDError> {
         return SignalProducer { observer, _ in
             self.database
+                .child(DataKeys.events)
                 .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
@@ -416,6 +446,7 @@ class Event {
     private func fetchServings() -> SignalProducer<Void, LDError> {
         return SignalProducer { observer, _ in
             self.database
+                .child(DataKeys.events)
                 .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
@@ -433,7 +464,8 @@ class Event {
     }
     
     func fetchTasksAndServings() -> SignalProducer<Void, LDError> {
-        return fetchTasks().flatMap(.concat) { _ -> SignalProducer<Void, LDError> in
+        return fetchTasks().flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError )}
             return self.fetchServings()
         }
     }
@@ -510,7 +542,9 @@ class Event {
         
         return SignalProducer { observer, _ in
             
-            self.database.child(self.hostIdentifier)
+            self.database
+                .child(DataKeys.events)
+                .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
                 .child(DataKeys.tasks)
@@ -526,7 +560,8 @@ class Event {
     }
     
     func updateFirebaseTasksAndServings() -> SignalProducer<Void, LDError> {
-        return updateFirebaseServings().flatMap(.concat) { _ -> SignalProducer<Void, LDError> in
+        return updateFirebaseServings().flatMap(.concat) { [weak self] _ -> SignalProducer<Void, LDError> in
+            guard let self = self else { return SignalProducer(error: .genericError )}
             return self.updateFirebaseTasks()
         }
     }
@@ -535,7 +570,9 @@ class Event {
         self.dateTimestamp = dateTimestamp
         let parameters: [String : Any] = [DataKeys.dateTimestamp : dateTimestamp]
         return SignalProducer { observer, _ in
-            self.database.child(self.hostIdentifier)
+            self.database
+                .child(DataKeys.events)
+                .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
                 .updateChildValues(parameters) { error, _ in
@@ -552,7 +589,9 @@ class Event {
     private func updateFirebaseServings() -> SignalProducer<Void, LDError> {
         let parameters: [String : Any] = [DataKeys.servings : servings]
         return SignalProducer { observer, _ in
-            self.database.child(self.hostIdentifier)
+            self.database
+                .child(DataKeys.events)
+                .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
                 .updateChildValues(parameters) { error, _ in
@@ -570,6 +609,7 @@ class Event {
         self.dinnerName = LabelStrings.cancelledEvent + self.dinnerName
         self.tasks = []
         let eventNode = self.database
+            .child(DataKeys.events)
             .child(hostIdentifier)
             .child(DataKeys.events)
             .child(self.firebaseEventUid)
@@ -621,7 +661,9 @@ class Event {
                                                          DataKeys.hasAccepted: status.rawValue,
                                                          DataKeys.profilePicUrl : defaults.profilePicUrl]
             
-            self.database.child(self.hostIdentifier)
+            self.database
+                .child(DataKeys.events)
+                .child(self.hostIdentifier)
                 .child(DataKeys.events)
                 .child(self.firebaseEventUid)
                 .child(DataKeys.participants)
@@ -636,31 +678,16 @@ class Event {
             }
         }
     }
-//    
-//    func fetchUserStatus(completion: @escaping (Result<Invitation,LDError>) -> Void) {
-//        guard let user = self.currentUser else {
-//            DispatchQueue.main.async {
-//                completion(.failure(.noUserIdentifier))
-//            }
-//        }
-//        
-//        
-//        
-//    }
 
     // MARK: Event Task Management
     
     func calculateTaskCompletionPercentage() -> Double {
         var numberOfCompletedTasks = 0
-        
         self.tasks.forEach { task in
             if task.taskState == .completed {
                 numberOfCompletedTasks += 1
             }
         }
-        
-        let percentage : Double = Double(numberOfCompletedTasks)/Double(self.tasks.count)
-        
-        return percentage
+        return Double(numberOfCompletedTasks)/Double(self.tasks.count)
     }
 }

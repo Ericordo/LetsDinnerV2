@@ -42,7 +42,7 @@ class RecipeCreationViewModel {
     private let imageHelper = ImageHelper.shared
     
     var editingAllowed : Bool {
-        return StepStatus.currentStep == .recipesVC && self.recipe != nil
+        return StepStatus.currentStep == .recipesVC && self.recipe != nil && self.recipe?.recordID != nil
     }
     
     private var informationIsValid : Bool {

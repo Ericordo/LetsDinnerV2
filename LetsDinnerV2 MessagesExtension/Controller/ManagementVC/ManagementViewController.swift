@@ -474,11 +474,20 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
         if tasksTableView.numberOfRows(inSection: indexPath.section) > 1 {
             tasksTableView.deleteRows(at: [indexPath], with: .automatic)
         } else {
-            let recipeName = taskToDelete.parentRecipe
-            let index = Event.shared.selectedRecipes.firstIndex { $0.title == recipeName }
-            if let index = index {
-                Event.shared.selectedRecipes.remove(at: index)
-            }
+            // This is in case we want to remove the recipe from the selected recipes if all tasks are deleted
+//            let recipeName = taskToDelete.parentRecipe
+//            let index = Event.shared.selectedRecipes.firstIndex { $0.title == recipeName }
+//            if let index = index {
+//                Event.shared.selectedRecipes.remove(at: index)
+//            }
+//            let customIndex = Event.shared.selectedCustomRecipes.firstIndex { $0.title == recipeName }
+//            if let index = customIndex {
+//                Event.shared.selectedCustomRecipes.remove(at: index)
+//            }
+//            let publicIndex = Event.shared.selectedPublicRecipes.firstIndex { $0.title == recipeName }
+//            if let index = publicIndex {
+//                Event.shared.selectedPublicRecipes.remove(at: index)
+//            }
             let indexSet = NSMutableIndexSet()
             indexSet.add(indexPath.section)
             tasksTableView.deleteSections(indexSet as IndexSet, with: .automatic)

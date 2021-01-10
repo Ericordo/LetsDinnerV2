@@ -104,7 +104,7 @@ class NewEventViewModel {
         return self.cloudManager.userIsLoggedIn()
             .flatMap(.concat) { [weak self] userIsLoggedIn -> SignalProducer<Void, LDError> in
                 guard let self = self else { return SignalProducer(error: .genericError) }
-                guard userIsLoggedIn else { return SignalProducer(error: .notSignedInCloud) }
+                guard userIsLoggedIn else { return SignalProducer(error: .notSignedInCloudLoadingRecipes) }
                 return self.cloudManager.fetchLDRecipesFromCloud()
             .flatMap(.concat) { [weak self] recipes -> SignalProducer<Void, LDError> in
                 guard let self = self else { return SignalProducer(error: .genericError) }

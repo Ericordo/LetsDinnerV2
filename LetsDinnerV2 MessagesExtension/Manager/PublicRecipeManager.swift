@@ -21,7 +21,7 @@ class PublicRecipeManager {
     func fetchRecipes() -> SignalProducer<[LDRecipe], Never> {
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.publicRecipes)
+                .child(DataKeys.membersRecipes)
                 .observeSingleEvent(of: .value) { snapshot in
                     guard let value = snapshot.value as? [String : Any] else {
                         observer.send(value: [])
@@ -133,7 +133,7 @@ class PublicRecipeManager {
         let recipeInfo = self.createRecipeInfo(recipe)
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.publicRecipes)
+                .child(DataKeys.membersRecipes)
                 .child(recipe.id)
                 .setValue(recipeInfo) { error, _ in
                 if error != nil {
@@ -150,7 +150,7 @@ class PublicRecipeManager {
         let recipeInfo = self.createRecipeInfo(recipe)
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.publicRecipes)
+                .child(DataKeys.membersRecipes)
                 .child(recipe.id)
                 .updateChildValues(recipeInfo, withCompletionBlock: { error, _ in
                     if error != nil {
@@ -166,7 +166,7 @@ class PublicRecipeManager {
     func deleteRecipe(_ recipe: LDRecipe) -> SignalProducer<Void, Never> {
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.publicRecipes)
+                .child(DataKeys.membersRecipes)
                 .child(recipe.id)
                 .removeValue { _, _ in
                     observer.send(value: ())

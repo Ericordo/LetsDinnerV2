@@ -11,7 +11,7 @@ import ReactiveSwift
 import FirebaseAnalytics
 
 protocol RecipeCreationVCDelegate: class {
-    func recipeCreationVCDidTapDone()
+    func recipeCreationVCDidTapDone(creationMode: Bool)
 }
 
 class RecipeCreationViewController: LDViewController {
@@ -347,7 +347,7 @@ class RecipeCreationViewController: LDViewController {
                     self.showBasicAlert(title: AlertStrings.oops,
                                         message: error.description)
                 case.success(()):
-                    self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone()
+                    self.recipeCreationVCDelegate?.recipeCreationVCDidTapDone(creationMode: self.viewModel.creationMode.value)
                     self.dismiss(animated: true, completion: nil)
                 }
             })

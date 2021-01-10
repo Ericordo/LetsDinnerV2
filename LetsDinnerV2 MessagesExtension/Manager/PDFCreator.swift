@@ -12,7 +12,9 @@ import PDFKit
 class PDFCreator {
     
     private let recipes = Event.shared.selectedRecipes
-    private let customRecipes = Event.shared.selectedCustomRecipes
+    private var proprietaryRecipes : [LDRecipe] {
+        return Event.shared.selectedCustomRecipes + Event.shared.selectedPublicRecipes
+    }
     
     private let pageWidth       : CGFloat = 585
     private let pageHeight      : CGFloat = 842
@@ -78,7 +80,7 @@ class PDFCreator {
                 }
             }
             
-            customRecipes.forEach { recipe in
+            proprietaryRecipes.forEach { recipe in
                 startNewPage(context: context, pageRect: pageRect)
                 let titleBottom = addTitle(recipeName: recipe.title, pageRect: pageRect)
                 var topPosition : CGFloat = titleBottom + 15.0
@@ -99,10 +101,8 @@ class PDFCreator {
                     let procedureTitleBottom = addProcedureTitle(pageRect: pageRect, textTop: topPosition)
                     addSteps(steps: recipe.cookingSteps, pageRect: pageRect, textTop: procedureTitleBottom + 15.0, context: context)
                 }
-                
             }
         }
-        
         return data
     }
     

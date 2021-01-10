@@ -14,11 +14,11 @@ class SelectedRecipesViewModel {
     let totalNumberOfRecipes : MutableProperty<Int>
     
     init() {
-        totalNumberOfRecipes = MutableProperty(Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count)
+        totalNumberOfRecipes = MutableProperty(Event.shared.recipesCount)
     }
     
     func updateTotalNumber() {
-        totalNumberOfRecipes.value = Event.shared.selectedRecipes.count + Event.shared.selectedCustomRecipes.count
+        totalNumberOfRecipes.value = Event.shared.recipesCount
     }
     
 }

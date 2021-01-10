@@ -24,6 +24,10 @@ struct LDRecipe: Equatable, Codable {
         return Event.shared.selectedCustomRecipes.contains { $0.id == self.id }
     }
     
+    var isPublicAndSelected : Bool {
+        return Event.shared.selectedPublicRecipes.contains { $0.id == self.id }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case id, title, servings, downloadUrl, cookingSteps, comments, ingredients, isPublic
     }

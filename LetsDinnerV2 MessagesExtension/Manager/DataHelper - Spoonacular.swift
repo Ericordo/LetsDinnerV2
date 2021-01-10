@@ -186,16 +186,20 @@ class DataHelper {
     
     // Cost 16.15 points for 15 results
     func fetchSearchResults(keyword: String) -> SignalProducer<[Recipe], LDError> {
-        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], LDError> in
-            return self.fetchAPIRecipes(recipeIds: recipeIds)
-        }
+        return self.fetchRecipesIds(keyword: keyword)
+            .flatMap(.concat) { [weak self] recipeIds -> SignalProducer<[Recipe], LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError )}
+                return self.fetchAPIRecipes(recipeIds: recipeIds)
             }
+    }
     
     // Cost 9.15 points for 15 results
     func fetchSearchResultsBulk(keyword: String) -> SignalProducer<[Recipe], LDError> {
-        return self.fetchRecipesIds(keyword: keyword).flatMap(.concat) { (recipeIds) -> SignalProducer<[Recipe], LDError> in
-            return self.fetchAPIRecipesBulk(recipeIds: recipeIds)
-        }
+        return self.fetchRecipesIds(keyword: keyword)
+            .flatMap(.concat) { [weak self] recipeIds -> SignalProducer<[Recipe], LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError )}
+                return self.fetchAPIRecipesBulk(recipeIds: recipeIds)
+            }
     }
     
     // Cost 1 point for first recipe then 0.5 for each recipe (8 for 15 results)

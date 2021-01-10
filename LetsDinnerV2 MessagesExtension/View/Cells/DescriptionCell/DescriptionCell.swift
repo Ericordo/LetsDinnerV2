@@ -44,13 +44,14 @@ class DescriptionCell: UITableViewCell {
     
     private let selectedRecipes = Event.shared.selectedRecipes
     private let selectedCustomRecipes = Event.shared.selectedCustomRecipes
+    private let selectedPublicRecipes = Event.shared.selectedPublicRecipes
     private var allRecipesTitles = [String]()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupUI()
         self.setupCollectionView()
-        if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty {
+        if selectedRecipes.isEmpty && selectedCustomRecipes.isEmpty && selectedPublicRecipes.isEmpty  {
             recipesCollectionView.removeFromSuperview()
         }
     }
@@ -117,19 +118,18 @@ extension DescriptionCell: UICollectionViewDelegate, UICollectionViewDataSource 
         let recipeName = allRecipesTitles[indexPath.row]
         let index = selectedRecipes.firstIndex { $0.title == recipeName }
         let customIndex = selectedCustomRecipes.firstIndex { $0.title == recipeName }
+        let publicIndex = selectedPublicRecipes.firstIndex { $0.title == recipeName }
         if let index = index {
             let selectedRecipe = selectedRecipes[index]
             openRecipeInSafari(recipe: selectedRecipe)
         }
         if let customIndex = customIndex {
             let selectedCustomRecipe = selectedCustomRecipes[customIndex]
-            let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: selectedCustomRecipe,
-                                                                                                     creationMode: false),
-                                                                  delegate: nil)
-            viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
-            self.window?.rootViewController?.present(viewCustomRecipeVC,
-                                                     animated: true,
-                                                     completion: nil)
+            self.showCustomRecipe(recipe: selectedCustomRecipe)
+        }
+        if let publicIndex = publicIndex {
+            let selectedPublicRecipe = selectedPublicRecipes[publicIndex]
+            self.showCustomRecipe(recipe: selectedPublicRecipe)
         }
     }
 }
@@ -143,6 +143,16 @@ extension DescriptionCell {
             let vc = CustomSafariVC(url: url)
             self.window?.rootViewController?.present(vc, animated: true, completion: nil)
         }
+    }
+    
+    private func showCustomRecipe(recipe: LDRecipe) {
+        let viewCustomRecipeVC = RecipeCreationViewController(viewModel: RecipeCreationViewModel(with: recipe,
+                                                                                                 creationMode: false),
+                                                                                                 delegate: nil)
+        viewCustomRecipeVC.modalPresentationStyle = .overFullScreen
+        self.window?.rootViewController?.present(viewCustomRecipeVC,
+                                                 animated: true,
+                                                 completion: nil)
     }
     
     private func mergeRecipeTitles() {

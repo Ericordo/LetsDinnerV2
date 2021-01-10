@@ -33,6 +33,7 @@ enum LDError : Error {
     case recipeDeleteCloudFail
     case recipeFetchCloudFail
     case notSignedInCloud
+    case notSignedInCloudLoadingRecipes
     case apiRequestLimit
     case noNetwork
     case apiDecodingFailed
@@ -87,6 +88,8 @@ extension LDError {
             return AlertStrings.recipeFetchCloudError
         case .notSignedInCloud:
             return AlertStrings.notSignedInCloudError
+        case .notSignedInCloudLoadingRecipes:
+            return AlertStrings.notSignedInCloudLoadingRecipesError
         case .apiRequestLimit:
             return AlertStrings.requestLimit
         case .noNetwork:
