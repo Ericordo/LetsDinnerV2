@@ -17,6 +17,7 @@ struct LDRecipe: Equatable, Codable {
     var cookingSteps: [String] = [String]()
     var comments: [String] = [String]()
     var ingredients: [LDIngredient] = [LDIngredient]()
+    var keywords: [String] = [String]()
     var isPublic: Bool = false
     var recordID: CKRecord.ID? = nil
     
@@ -29,7 +30,7 @@ struct LDRecipe: Equatable, Codable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, title, servings, downloadUrl, cookingSteps, comments, ingredients, isPublic
+        case id, title, servings, downloadUrl, cookingSteps, comments, ingredients, keywords, isPublic
     }
     
     static func == (lhs: LDRecipe, rhs: LDRecipe) -> Bool {
@@ -39,6 +40,7 @@ struct LDRecipe: Equatable, Codable {
             lhs.cookingSteps == rhs.cookingSteps &&
             lhs.ingredients == rhs.ingredients &&
             lhs.comments == rhs.comments &&
+            lhs.keywords == rhs.keywords &&
             lhs.isPublic == rhs.isPublic
     }
 }

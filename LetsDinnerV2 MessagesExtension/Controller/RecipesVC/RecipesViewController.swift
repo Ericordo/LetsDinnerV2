@@ -100,14 +100,17 @@ class RecipesViewController: LDNavigationViewController {
         }
         
         toolbar.apiRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            guard self.viewModel.searchType.value != .apiRecipes else { return }
             self.viewModel.searchType.value = .apiRecipes
         }
         
         toolbar.myRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            guard self.viewModel.searchType.value != .customRecipes else { return }
             self.viewModel.searchType.value = .customRecipes
         }
         
         toolbar.publicRecipesButton.reactive.controlEvents(.touchUpInside).observeValues { _ in
+            guard self.viewModel.searchType.value != .publicRecipes else { return }
             self.viewModel.searchType.value = .publicRecipes
         }
         

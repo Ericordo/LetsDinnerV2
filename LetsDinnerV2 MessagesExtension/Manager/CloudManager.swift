@@ -108,6 +108,7 @@ class CloudManager {
         record[.downloadUrl] = recipe.downloadUrl
         record[.cookingSteps] = recipe.cookingSteps
         record[.tips] = recipe.comments
+        record[.keywords] = recipe.keywords
         record[.isPublic] = recipe.isPublic.intValue
         return record
     }
@@ -277,6 +278,7 @@ class CloudManager {
                 record[.downloadUrl] = newRecipe.downloadUrl
                 record[.cookingSteps] = newRecipe.cookingSteps
                 record[.tips] = newRecipe.comments
+                record[.keywords] = newRecipe.keywords
                 record[.isPublic] = newRecipe.isPublic.intValue
                 
                 self.privateDatabase.save(record) { (_, error) in
@@ -339,8 +341,11 @@ class CloudManager {
         if let comments = record.value(forKey: LDRecipeKey.tips.rawValue) as? [String] {
             recipe.comments = comments
         }
-        if let cloudCookingSteps = record.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
-            recipe.cookingSteps = cloudCookingSteps
+        if let cookingSteps = record.value(forKey: LDRecipeKey.cookingSteps.rawValue) as? [String] {
+            recipe.cookingSteps = cookingSteps
+        }
+        if let keywords = record.value(forKey: LDRecipeKey.keywords.rawValue) as? [String] {
+            recipe.keywords = keywords
         }
         if let isPublic = record.value(forKey: LDRecipeKey.isPublic.rawValue) as? NSNumber {
             recipe.isPublic = isPublic.boolValue
@@ -358,6 +363,7 @@ class CloudManager {
                               cookingSteps: cloudRecipe.cookingSteps,
                               comments: cloudRecipe.comments,
                               ingredients: cloudRecipe.ingredients.map({ self.convertCKIngredientToLDIngredient($0) }),
+                              keywords: cloudRecipe.keywords,
                               isPublic: cloudRecipe.isPublic,
                               recordID: cloudRecipe.recordID)
     }
@@ -420,6 +426,13 @@ class CloudManager {
             cookingSteps.forEach { step in
                 customRecipe.cookingSteps.append(step)
             }
+            var keywords = [String]()
+            if let cloudKeywords = cloudRecipe.value(forKey: LDRecipeKey.keywords.rawValue) as? [String] {
+                keywords = cloudKeywords
+            }
+            keywords.forEach { keyword in
+                customRecipe.keywords.append(keyword)
+            }
             if let isPublic = cloudRecipe.value(forKey: LDRecipeKey.isPublic.rawValue) as? NSNumber {
                 customRecipe.isPublic = isPublic.boolValue
             }
@@ -435,6 +448,7 @@ enum LDRecipeKey : String {
     case downloadUrl
     case cookingSteps
     case tips
+    case keywords
     case isPublic
 }
 

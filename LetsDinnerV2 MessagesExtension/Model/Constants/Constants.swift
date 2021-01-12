@@ -175,6 +175,7 @@ enum DataKeys {
     static let isValidated = "isValidated"
     static let language = "language"
     static let recipe = "recipe"
+    static let keywords = "keywords"
 }
 
 

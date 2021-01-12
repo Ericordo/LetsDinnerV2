@@ -83,6 +83,7 @@ class Event {
         dinnerLocation.removeAll()
         selectedRecipes.removeAll()
         selectedCustomRecipes.removeAll()
+        selectedPublicRecipes.removeAll()
         eventDescription.removeAll()
         dateTimestamp = 0.0
         tasks.removeAll()

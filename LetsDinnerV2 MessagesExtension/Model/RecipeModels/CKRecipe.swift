@@ -17,6 +17,7 @@ struct CKRecipe {
     var cookingSteps: [String] = [String]()
     var comments: [String] = [String]()
     var ingredients: [CKIngredient] = [CKIngredient]()
+    var keywords: [String] = [String]()
     var isPublic: Bool = false
     var recordID: CKRecord.ID? = nil
 }

@@ -48,7 +48,7 @@ enum LabelStrings {
     static let restoreEvent = NSLocalizedString("It seems that you left us in the middle of creating an event! Would you like to keep working on it?", comment: "restore event backup")
     
     // RecipesVC
-    static let noRecipeTitle = NSLocalizedString("No recipes selected", comment: "no recipes selected")
+    static let noRecipeTitle = NSLocalizedString("No recipe selected", comment: "no recipe selected")
     static let noRecipeMessage = NSLocalizedString("Go back and add something!", comment: "go back and add sthg")
     static let skip = NSLocalizedString("Skip", comment: "skip")
     static let chooseRecipes = NSLocalizedString("Choose Recipes", comment: "choose recipes")
@@ -85,6 +85,8 @@ enum LabelStrings {
     static let noTipsAndComments = NSLocalizedString("No Tips & Comments", comment: "no Tips And Comments")
     static let done = NSLocalizedString("Done", comment: "done")
     static let publicRecipe = NSLocalizedString("MAKE THIS RECIPE PUBLIC", comment: "make recipe public")
+    static let keywords = NSLocalizedString("KEYWORDS", comment: "keywords")
+    static let keyword = NSLocalizedString("Keyword", comment: "keyword")
     
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")

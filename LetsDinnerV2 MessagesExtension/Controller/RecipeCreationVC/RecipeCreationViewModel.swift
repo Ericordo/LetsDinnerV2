@@ -32,6 +32,7 @@ class RecipeCreationViewModel {
     let ingredients = MutableProperty<[LDIngredient]>([])
     let steps = MutableProperty<[String]>([])
     let comments = MutableProperty<[String]>([])
+    let keywords = MutableProperty<[String]>([])
     let isPublic : MutableProperty<Bool>
     
     let creationMode : MutableProperty<Bool>
@@ -55,6 +56,7 @@ class RecipeCreationViewModel {
             && ingredients.value.isEmpty
             && steps.value.isEmpty
             && comments.value.isEmpty
+            && keywords.value.isEmpty
     }
     
     init(with recipe: LDRecipe? = nil, creationMode: Bool) {
@@ -99,6 +101,7 @@ class RecipeCreationViewModel {
         self.ingredients.value = recipe.ingredients
         self.steps.value = recipe.cookingSteps
         self.comments.value = recipe.comments
+        self.keywords.value = recipe.keywords
         self.isPublic.value = recipe.isPublic
     }
     
@@ -168,6 +171,7 @@ class RecipeCreationViewModel {
                         cookingSteps: self.steps.value,
                         comments: self.comments.value,
                         ingredients: self.ingredients.value,
+                        keywords: self.keywords.value,
                         isPublic: self.isPublic.value)
     }
     
@@ -331,6 +335,7 @@ class RecipeCreationViewModel {
                               cookingSteps: self.steps.value,
                               comments: self.comments.value,
                               ingredients: self.ingredients.value,
+                              keywords: self.keywords.value,
                               isPublic: self.isPublic.value,
                               recordID: nil)
         defaults.backupRecipeData(recipe, imageData: self.recipePicData.value)
@@ -355,6 +360,7 @@ class RecipeCreationViewModel {
                 self.steps.value = recipeData.cookingSteps
                 self.comments.value = recipeData.comments
                 self.ingredients.value = recipeData.ingredients
+                self.keywords.value = recipeData.keywords
                 self.isPublic.value = recipeData.isPublic
             } catch {
                 
