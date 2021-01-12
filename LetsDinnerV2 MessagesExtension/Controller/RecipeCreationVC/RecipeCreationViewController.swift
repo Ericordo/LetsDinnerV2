@@ -107,6 +107,9 @@ class RecipeCreationViewController: LDViewController {
     private let commentsContainer = UIView()
     private let commentsVC : CreationStepViewController
     
+    private let keywordsContainer = UIView()
+    private let keywordsVC : KeywordsViewController
+    
     private let publicSwitch : UISwitch = {
         let control = UISwitch()
         control.onTintColor = .activeButton
@@ -165,7 +168,7 @@ class RecipeCreationViewController: LDViewController {
     private let topViewMinHeight : CGFloat = 55
     private let topViewMaxHeight : CGFloat = 180
     private let bottomViewHeight : CGFloat = UIDevice.current.type == .iPad ? 90 : (UIDevice.current.hasHomeButton ? 60 : 90)
-    private let minimumScrollViewHeight: CGFloat = 300
+    private let minimumScrollViewHeight: CGFloat = 400
         
     private let actionSheetManager = ActionSheetManager()
     
@@ -182,6 +185,7 @@ class RecipeCreationViewController: LDViewController {
                                                   section: .step)
         self.commentsVC = CreationStepViewController(viewModel: viewModel,
                                                      section: .comment)
+        self.keywordsVC = KeywordsViewController(viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -195,6 +199,7 @@ class RecipeCreationViewController: LDViewController {
         addChildController(ingredientsVC, to: ingredientsContainer)
         addChildController(stepsVC, to: stepsContainer)
         addChildController(commentsVC, to: commentsContainer)
+        addChildController(keywordsVC, to: keywordsContainer)
         if self.viewModel.editingAllowed {
             self.addBottomView()
         }
@@ -304,8 +309,7 @@ class RecipeCreationViewController: LDViewController {
         self.viewModel.isLoading.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .startWithValues { [weak self] isLoading in
-                guard let self = self else { return }
+            .startWithValues { [unowned self] isLoading in
                 if isLoading {
                     self.view.addSubview(self.loadingView)
                     self.loadingView.snp.makeConstraints { make in
@@ -334,8 +338,7 @@ class RecipeCreationViewController: LDViewController {
         self.viewModel.recipeSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeValues({ [weak self] result in
-                guard let self = self else { return }
+            .observeValues({ [unowned self] result in
                 switch result {
                 case .failure(let error):
                     if error == .recipeNameMissing {
@@ -357,6 +360,7 @@ class RecipeCreationViewController: LDViewController {
         let ingredientsContainerHeight : CGFloat = ingredientsVC.preferredContentSize.height
         let stepsContainerHeight : CGFloat = stepsVC.preferredContentSize.height
         let commentsContainerHeight : CGFloat = commentsVC.preferredContentSize.height
+        let keywordsContainerHeight : CGFloat = keywordsVC.preferredContentSize.height
         
         self.ingredientsContainer.snp.updateConstraints { make in
             make.height.equalTo(ingredientsContainerHeight)
@@ -370,7 +374,11 @@ class RecipeCreationViewController: LDViewController {
             make.height.equalTo(commentsContainerHeight)
         }
         
-        let containersHeight = ingredientsContainerHeight + stepsContainerHeight + commentsContainerHeight
+        self.keywordsContainer.snp.updateConstraints { make in
+            make.height.equalTo(keywordsContainerHeight)
+        }
+        
+        let containersHeight = ingredientsContainerHeight + stepsContainerHeight + commentsContainerHeight + keywordsContainerHeight
         
         self.contentView.snp.updateConstraints { make in
             make.height.equalTo(minimumScrollViewHeight + containersHeight)
@@ -414,6 +422,7 @@ class RecipeCreationViewController: LDViewController {
         self.recipeTitleLabel.isHidden = !self.addImageButton.isHidden
         self.servingsStepper.isHidden = self.addImageButton.isHidden
         self.secondSeparator.isHidden = self.addImageButton.isHidden
+        self.keywordsContainer.isHidden = !self.viewModel.editingAllowed
         self.publicStackView.isHidden = self.addImageButton.isHidden
         self.fourthSeparator.isHidden = self.addImageButton.isHidden
         let textFieldHeight = bool ? 44 : 0
@@ -499,6 +508,7 @@ class RecipeCreationViewController: LDViewController {
         ingredientsVC.textFieldView.textField.delegate = self
         stepsVC.textFieldView.textField.delegate = self
         commentsVC.textFieldView.textField.delegate = self
+        keywordsVC.keywordField.delegate = self
         picturePicker.delegate = self
         tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view,
                                                           action: #selector(UIView.endEditing(_:)))
@@ -516,6 +526,7 @@ class RecipeCreationViewController: LDViewController {
         contentView.addSubview(ingredientsContainer)
         contentView.addSubview(stepsContainer)
         contentView.addSubview(commentsContainer)
+        contentView.addSubview(keywordsContainer)
         contentView.addSubview(publicStackView)
         publicStackView.addArrangedSubview(publicLabel)
         publicStackView.addArrangedSubview(publicSwitch)
@@ -526,7 +537,6 @@ class RecipeCreationViewController: LDViewController {
         headerView.addSubview(recipeTitleLabel)
         headerView.addSubview(recipeImageView)
         headerView.addSubview(headerSeparator)
-
         addConstraints()
     }
     
@@ -708,8 +718,15 @@ class RecipeCreationViewController: LDViewController {
             make.height.equalTo(200)
         }
         
-        publicStackView.snp.makeConstraints { make in
+        keywordsContainer.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview()
             make.top.equalTo(commentsContainer.snp.bottom).offset(30)
+            make.height.equalTo(200)
+        }
+        
+        publicStackView.snp.makeConstraints { make in
+            make.top.equalTo(keywordsContainer.snp.bottom).offset(30)
             make.trailing.equalToSuperview().offset(-20)
             make.leading.equalToSuperview().offset(30)
             make.height.equalTo(44)
@@ -726,9 +743,15 @@ class RecipeCreationViewController: LDViewController {
 
 extension RecipeCreationViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let cs = CharacterSet(charactersIn: textFieldAllowedCharacters).inverted
-        let filtered: String = (string.components(separatedBy: cs) as NSArray).componentsJoined(by: "")
-        return (string == filtered)
+        if self.activeField == self.keywordsVC.keywordField {
+            guard let stringRange = Range(range, in: textField.text!) else { return false }
+            let updatedText = textField.text!.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 20
+        } else {
+            let cs = CharacterSet(charactersIn: textFieldAllowedCharacters).inverted
+            let filtered: String = (string.components(separatedBy: cs) as NSArray).componentsJoined(by: "")
+            return (string == filtered)
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -751,6 +774,8 @@ extension RecipeCreationViewController: UITextFieldDelegate {
             self.stepsVC.textFieldView.textField.resignFirstResponder()
         case commentsVC.textFieldView.textField:
             self.commentsVC.textFieldView.textField.resignFirstResponder()
+        case keywordsVC.keywordField:
+            self.keywordsVC.keywordField.resignFirstResponder()
         default:
             break
         }
@@ -819,6 +844,8 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
             activeFieldYPosition = stepsContainer.frame.origin.y +  stepsVC.listTableView.contentSize.height - 120
         case commentsVC.textFieldView.textField:
             activeFieldYPosition = commentsContainer.frame.origin.y + commentsVC.listTableView.contentSize.height - 120
+        case keywordsVC.keywordField:
+            activeFieldYPosition = keywordsContainer.frame.origin.y + keywordsVC.tagCollectionView.contentSize.height - 120
         default:
             break
         }

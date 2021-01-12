@@ -63,6 +63,8 @@ class RealmHelper {
                             realmCurrentRecipe.cookingSteps.append(objectsIn: realmNewRecipe.cookingSteps)
                             realmCurrentRecipe.ingredients.removeAll()
                             realmCurrentRecipe.ingredients.append(objectsIn: realmNewRecipe.ingredients)
+                            realmCurrentRecipe.keywords.removeAll()
+                            realmCurrentRecipe.keywords.append(objectsIn: realmNewRecipe.keywords)
                             realmCurrentRecipe.isPublic = realmNewRecipe.isPublic
                         }
                         observer.send(value: ())
@@ -145,6 +147,11 @@ class RealmHelper {
         comments.forEach { comment in
             convertedComments.append(comment)
         }
+        let keywords = recipe.keywords
+        var convertedKeywords = [String]()
+        keywords.forEach { keyword in
+            convertedKeywords.append(keyword)
+        }
         var ckRecordID : CKRecord.ID? = nil
         if let recordId = recipe.recordId {
             ckRecordID = CKRecord.ID(recordName: recordId)
@@ -156,6 +163,7 @@ class RealmHelper {
                                 cookingSteps: convertedSteps,
                                 comments: convertedComments,
                                 ingredients: convertedIngredients,
+                                keywords: convertedKeywords,
                                 isPublic: recipe.isPublic,
                                 recordID: ckRecordID)
         return LDrecipe
@@ -183,6 +191,9 @@ class RealmHelper {
             customRecipe.cookingSteps.append(step)}
         recipe.comments.forEach { comment in
             customRecipe.comments.append(comment)
+        }
+        recipe.keywords.forEach { keyword in
+            customRecipe.keywords.append(keyword)
         }
         recipe.ingredients.forEach { ingredient in
             customRecipe.ingredients.append(convertLDIngredientToRLIngredient(ingredient))

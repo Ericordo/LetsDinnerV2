@@ -60,6 +60,9 @@ class PublicRecipeManager {
         if let cookingSteps = recipeDict[DataKeys.cookingSteps] as? [String] {
             recipe.cookingSteps = cookingSteps
         }
+        if let keywords = recipeDict[DataKeys.keywords] as? [String] {
+            recipe.keywords = keywords
+        }
         if let downloadUrl = recipeDict[DataKeys.downloadUrl] as? String {
             recipe.downloadUrl = downloadUrl
         }
@@ -95,6 +98,9 @@ class PublicRecipeManager {
         if !recipe.cookingSteps.isEmpty {
             recipeInfo[DataKeys.cookingSteps] = recipe.cookingSteps
         }
+        if !recipe.keywords.isEmpty {
+            recipeInfo[DataKeys.keywords] = recipe.keywords
+        }
         var ingredientsInfo: [String : [String : Any]] = [:]
         recipe.ingredients.forEach { ingredient in
             var ingredientInfo : [String : Any] = [:]
@@ -125,6 +131,9 @@ class PublicRecipeManager {
         }
         recipe.ingredients.forEach { ingredient in
             languageString.append(" \(ingredient.name)")
+        }
+        recipe.keywords.forEach { keyword in
+            languageString.append(" \(keyword)")
         }
         return languageString
     }

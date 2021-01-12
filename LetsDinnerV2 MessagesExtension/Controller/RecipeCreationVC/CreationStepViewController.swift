@@ -39,7 +39,6 @@ class CreationStepViewController: UIViewController {
     private let section : CreateRecipeSections
     
     private var selectedRow : Int?
-
     
     init(viewModel: RecipeCreationViewModel, section: CreateRecipeSections) {
         self.viewModel = viewModel
