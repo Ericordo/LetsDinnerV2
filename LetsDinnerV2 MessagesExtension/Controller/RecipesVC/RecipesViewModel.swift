@@ -21,8 +21,6 @@ class RecipesViewModel {
     let keyword = MutableProperty<String>("")
     
     var recipes = [Recipe]()
-//    var customRecipes : Results<CustomRecipe>?
-//    var customSearchResults = [LDRecipe]()
     var customRecipes = [LDRecipe]()
     var publicRecipes = [LDRecipe]()
 
@@ -43,6 +41,10 @@ class RecipesViewModel {
     var previouslySelectedPublicRecipes : [LDRecipe]
     
     private let realmHelper = RealmHelper.shared
+    private let searchManager = SearchManager.shared
+    private let cloudManager = CloudManager.shared
+    private let dataHelper = DataHelper.shared
+    private let publicRecipeManager = PublicRecipeManager.shared
     
     init() {
         self.searchType = MutableProperty(SearchType(rawValue: defaults.searchType) ?? .apiRecipes)
@@ -78,30 +80,12 @@ class RecipesViewModel {
             guard let self = self else { return }
             switch self.searchType.value {
             case .customRecipes:
-//                self.customRecipes = self.customRecipes.filter("title CONTAINS[cd] %@", keyword)
-                self.customRecipes = self.customRecipes.filter { $0.title.lowercased().contains(keyword.lowercased()) }
+                self.customRecipes = self.customRecipes.filter { $0.title.lowercased().contains(keyword) || $0.keywords.contains(keyword) }
                 self.dataChangeObserver.send(value: ())
             case .apiRecipes:
-                SearchManager.shared.resetNumberOfSearchesIfNeeded()
-                self.verifyEligibilityAndSearchIfPossible(keyword: keyword)
-                    .on(starting: { self.isLoading.value = true })
-                    .on(completed: { self.isLoading.value = false })
-                    .take(duringLifetimeOf: self)
-                    .startWithResult { [weak self] result in
-                        guard let self = self else { return }
-                        switch result {
-                        case .failure(let error):
-                            self.isLoading.value = false
-                            self.errorObserver.send(value: error)
-                        case .success(let recipes):
-                            CloudManager.shared.increaseUserSearchCountOnCloud()
-                            self.recipes = recipes
-                            self.dataChangeObserver.send(value: ())
-                        }
-                }
+                self.searchApiRecipes(keyword)
             case .publicRecipes:
-                self.publicRecipes = self.publicRecipes.filter { $0.title.lowercased().contains(keyword.lowercased()) }
-                self.dataChangeObserver.send(value: ())
+                self.searchPublicRecipes(keyword)
             }
         }
         
@@ -109,7 +93,7 @@ class RecipesViewModel {
     }
     
     func openRecipeCreationVCIfPossible() {
-        CloudManager.shared.userIsLoggedIn()
+        self.cloudManager.userIsLoggedIn()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
@@ -129,17 +113,18 @@ class RecipesViewModel {
     }
     
     private func verifyEligibilityAndSearchIfPossible(keyword: String) -> SignalProducer<[Recipe], LDError> {
-        return SearchManager.shared.checkEligibility()
-            .flatMap(.concat) { searchAllowed -> SignalProducer<[Recipe], LDError> in
-            guard searchAllowed else {
-                return SignalProducer.init(error: LDError.apiRequestLimit)
+        return self.searchManager.checkEligibility()
+            .flatMap(.concat) { [weak self] searchAllowed -> SignalProducer<[Recipe], LDError> in
+                guard let self = self else { return SignalProducer(error: .genericError) }
+                guard searchAllowed else {
+                    return SignalProducer(error: LDError.apiRequestLimit)
+                }
+                return self.dataHelper.fetchSearchResultsBulk(keyword: keyword)
             }
-            return DataHelper.shared.fetchSearchResultsBulk(keyword: keyword)
-        }
     }
     
     private func loadDefaultRecipes() {
-        DataHelper.shared.loadDefaultRecipes()
+        self.dataHelper.loadDefaultRecipes()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
@@ -182,11 +167,12 @@ class RecipesViewModel {
         realmHelper.loadCustomRecipes()?.forEach({ customRecipe in
             customRecipeIds.append(customRecipe.id)
         })
-        PublicRecipeManager.shared.fetchRecipes()
+        self.publicRecipeManager.fetchValidatedRecipes()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
             .startWithValues({ [unowned self] recipes in
+                self.publicRecipes = recipes
                 self.publicRecipes = recipes.filter { !customRecipeIds.contains($0.id) }
                 self.publicRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
                 self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
@@ -205,6 +191,44 @@ class RecipesViewModel {
         }
     }
     
+    private func searchApiRecipes(_ keyword: String) {
+        self.searchManager.resetNumberOfSearchesIfNeeded()
+        self.verifyEligibilityAndSearchIfPossible(keyword: keyword)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithResult { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    self.isLoading.value = false
+                    self.errorObserver.send(value: error)
+                case .success(let recipes):
+                    self.cloudManager.increaseUserSearchCountOnCloud()
+                    self.recipes = recipes
+                    self.dataChangeObserver.send(value: ())
+                }
+        }
+    }
+    
+    private func searchPublicRecipes(_ keyword: String) {
+        var customRecipeIds = [String]()
+        realmHelper.loadCustomRecipes()?.forEach({ customRecipe in
+            customRecipeIds.append(customRecipe.id)
+        })
+        self.publicRecipeManager.searchForRecipes(keyword)
+            .on(starting: { self.isLoading.value = true })
+            .on(completed: { self.isLoading.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithValues({ [unowned self] recipes in
+                self.publicRecipes = recipes
+                self.publicRecipes = recipes.filter { !customRecipeIds.contains($0.id) }
+                self.publicRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
+                self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
+                self.dataChangeObserver.send(value: ())
+            })
+    }
+
     func prepareTasks() {
         // Remove
         Event.shared.tasks.forEach { task in

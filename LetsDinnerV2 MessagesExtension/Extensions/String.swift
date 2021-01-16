@@ -110,6 +110,16 @@ extension String {
     var trimmed : String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
+    func substrings() -> [String] {
+        var substrings = [String]()
+        components(separatedBy: .whitespacesAndNewlines).forEach { string in
+            if string.count > 2 {
+                substrings.append(string.lowercased())
+            }
+        }
+        return substrings
+    }
 }
 
 

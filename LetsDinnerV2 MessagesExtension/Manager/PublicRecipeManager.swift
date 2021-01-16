@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import FirebaseDatabase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import ReactiveSwift
 
 class PublicRecipeManager {
@@ -16,31 +17,35 @@ class PublicRecipeManager {
     
     private init() {}
     
-    private let database = Database.database().reference()
-    
-    func fetchRecipes() -> SignalProducer<[LDRecipe], Never> {
+    private let database = Firestore.firestore()
+        
+    func fetchValidatedRecipes() -> SignalProducer<[LDRecipe], Never> {
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.membersRecipes)
-                .observeSingleEvent(of: .value) { snapshot in
-                    guard let value = snapshot.value as? [String : Any] else {
+                .collection(DataKeys.membersRecipes)
+                .whereField(DataKeys.isValidated, isEqualTo: true)
+                .getDocuments { (querySnapshot, error) in
+                    guard error == nil,
+                          let snapshot = querySnapshot else  {
                         observer.send(value: [])
-                        return }
-                let recipes = self.parsePublicRecipes(value)
-                observer.send(value: recipes)
-                observer.sendCompleted()
-            }
+                        return
+                    }
+                    let documents = snapshot.documents
+                    let recipes = self.parsePublicRecipes(documents)
+                    observer.send(value: recipes)
+                    observer.sendCompleted()
+                }
         }
     }
     
-    private func parsePublicRecipes(_ value: [String : Any]) -> [LDRecipe] {
+    private func parsePublicRecipes(_ documents: [QueryDocumentSnapshot]) -> [LDRecipe] {
         var publicRecipes : [PublicRecipe] = []
-        value.forEach { (key, value) in
-            if let publicRecipe = self.parsePublicRecipe(recipeId: key, value as! [String : Any]) {
+        documents.forEach { document in
+            if let publicRecipe = self.parsePublicRecipe(recipeId: document.documentID, document.data()) {
                 publicRecipes.append(publicRecipe)
             }
         }
-        return publicRecipes.filter { $0.validated }.map { $0.recipe }
+        return publicRecipes.map { $0.recipe }
     }
     
     private func parsePublicRecipe(recipeId: String, _ value: [String : Any]) -> PublicRecipe? {
@@ -60,7 +65,7 @@ class PublicRecipeManager {
         if let cookingSteps = recipeDict[DataKeys.cookingSteps] as? [String] {
             recipe.cookingSteps = cookingSteps
         }
-        if let keywords = recipeDict[DataKeys.keywords] as? [String] {
+        if let keywords = value[DataKeys.keywords] as? [String] {
             recipe.keywords = keywords
         }
         if let downloadUrl = recipeDict[DataKeys.downloadUrl] as? String {
@@ -98,9 +103,6 @@ class PublicRecipeManager {
         if !recipe.cookingSteps.isEmpty {
             recipeInfo[DataKeys.cookingSteps] = recipe.cookingSteps
         }
-        if !recipe.keywords.isEmpty {
-            recipeInfo[DataKeys.keywords] = recipe.keywords
-        }
         var ingredientsInfo: [String : [String : Any]] = [:]
         recipe.ingredients.forEach { ingredient in
             var ingredientInfo : [String : Any] = [:]
@@ -115,9 +117,12 @@ class PublicRecipeManager {
         }
         let languageString = self.prepareLanguageString(recipe)
         let language = NSLinguisticTagger.dominantLanguage(for: languageString) ?? "en"
+        var keywords = recipe.keywords
+        keywords += recipe.title.substrings()
         let publicRecipeInfo : [String : Any] = [DataKeys.recipe : recipeInfo,
                                                  DataKeys.isValidated : false,
-                                                 DataKeys.language : language]
+                                                 DataKeys.language : language,
+                                                 DataKeys.keywords : keywords]
         return publicRecipeInfo
     }
     
@@ -137,31 +142,31 @@ class PublicRecipeManager {
         }
         return languageString
     }
-
+    
     func saveRecipe(_ recipe: LDRecipe) -> SignalProducer<Void, LDError> {
         let recipeInfo = self.createRecipeInfo(recipe)
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.membersRecipes)
-                .child(recipe.id)
-                .setValue(recipeInfo) { error, _ in
-                if error != nil {
-                    observer.send(error: .publicRecipeUploadFail)
-                } else {
-                    observer.send(value: ())
-                    observer.sendCompleted()
+                .collection(DataKeys.membersRecipes)
+                .document(recipe.id)
+                .setData(recipeInfo) { error in
+                    if error != nil {
+                        observer.send(error: .publicRecipeUploadFail)
+                    } else {
+                        observer.send(value: ())
+                        observer.sendCompleted()
+                    }
                 }
-            }
         }
     }
-    
+
     func updateRecipe(_ recipe: LDRecipe) -> SignalProducer<Void, LDError> {
         let recipeInfo = self.createRecipeInfo(recipe)
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.membersRecipes)
-                .child(recipe.id)
-                .updateChildValues(recipeInfo, withCompletionBlock: { error, _ in
+                .collection(DataKeys.membersRecipes)
+                .document(recipe.id)
+                .updateData(recipeInfo, completion: { error in
                     if error != nil {
                         observer.send(error: .publicRecipeUpdateFail)
                     } else {
@@ -171,14 +176,35 @@ class PublicRecipeManager {
                 })
         }
     }
-    
+
     func deleteRecipe(_ recipe: LDRecipe) -> SignalProducer<Void, Never> {
         return SignalProducer { observer, _ in
             self.database
-                .child(DataKeys.membersRecipes)
-                .child(recipe.id)
-                .removeValue { _, _ in
+                .collection(DataKeys.membersRecipes)
+                .document(recipe.id)
+                .delete(completion: { _ in
                     observer.send(value: ())
+                    observer.sendCompleted()
+                })
+        }
+    }
+    
+    func searchForRecipes(_ keyword: String) -> SignalProducer<[LDRecipe], Never> {
+        return SignalProducer { observer, _ in
+            self.database
+                .collection(DataKeys.membersRecipes)
+                .whereField(DataKeys.isValidated, isEqualTo: true)
+                .whereField(DataKeys.keywords, arrayContains: keyword)
+                .getDocuments { (querySnapshot, error) in
+                    guard error == nil,
+                          let snapshot = querySnapshot else {
+                        observer.send(value: [])
+                        return
+                    }
+                    let documents = snapshot.documents
+                    print(documents)
+                    let recipes = self.parsePublicRecipes(documents)
+                    observer.send(value: recipes)
                     observer.sendCompleted()
                 }
         }

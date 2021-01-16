@@ -136,6 +136,18 @@ class RecipeCreationViewController: LDViewController {
     
     private lazy var fourthSeparator = separator()
     
+    private let publicDisclaimer : UILabel = {
+        let label = UILabel()
+        label.text = "if it passes our validation, your recipe will be shared with all users of Let's Dinner!. You will be able to update or delete it later if you wish."
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        label.textColor = .secondaryTextLabel
+        label.minimumScaleFactor = 0.7
+        return label
+    }()
+    
     private let doneButton : LDNavButton = {
         let button = LDNavButton()
         button.setTitle(LabelStrings.done, for: .normal)
@@ -276,6 +288,7 @@ class RecipeCreationViewController: LDViewController {
             .take(duringLifetimeOf: self)
             .startWithValues { [unowned self] isPublic in
                 publicSwitch.isOn = isPublic
+                publicDisclaimer.alpha = isPublic ? 1 : 0
             }
         
         self.viewModel.recipePicData.producer
@@ -422,8 +435,9 @@ class RecipeCreationViewController: LDViewController {
         self.recipeTitleLabel.isHidden = !self.addImageButton.isHidden
         self.servingsStepper.isHidden = self.addImageButton.isHidden
         self.secondSeparator.isHidden = self.addImageButton.isHidden
-        self.keywordsContainer.isHidden = !self.viewModel.editingAllowed
+        self.keywordsContainer.isHidden = self.viewModel.keywordContainerHidden
         self.publicStackView.isHidden = self.addImageButton.isHidden
+        self.publicDisclaimer.isHidden = self.addImageButton.isHidden
         self.fourthSeparator.isHidden = self.addImageButton.isHidden
         let textFieldHeight = bool ? 44 : 0
         self.recipeNameTextField.snp.updateConstraints { make in
@@ -531,6 +545,7 @@ class RecipeCreationViewController: LDViewController {
         publicStackView.addArrangedSubview(publicLabel)
         publicStackView.addArrangedSubview(publicSwitch)
         contentView.addSubview(fourthSeparator)
+        contentView.addSubview(publicDisclaimer)
         view.addSubview(headerView)
         headerView.addSubview(doneButton)
         headerView.addSubview(addImageButton)
@@ -737,6 +752,12 @@ class RecipeCreationViewController: LDViewController {
             make.trailing.equalToSuperview()
             make.height.equalTo(1)
             make.top.equalTo(publicStackView.snp.bottom)
+        }
+        
+        publicDisclaimer.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalTo(fourthSeparator.snp.bottom).offset(10)
         }
     }
 }
