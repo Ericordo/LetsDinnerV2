@@ -21,6 +21,8 @@ target 'LetsDinnerV2 MessagesExtension' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Crashlytics'
+  pod 'Firebase/Firestore'
+  pod 'FirebaseFirestoreSwift'
   pod 'RealmSwift'
   pod 'Firebase/Auth'
   pod 'Firebase/Analytics'

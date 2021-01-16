@@ -122,7 +122,7 @@ class RecipesViewController: LDNavigationViewController {
         searchBar.reactive.searchButtonClicked.observeValues { _ in
             Analytics.logEvent("\(self.viewModel.searchType.value.rawValue)_search", parameters: nil)
             self.searchBar.resignFirstResponder()
-            guard let keyword = self.searchBar.text else { return }
+            guard let keyword = self.searchBar.text?.lowercased() else { return }
             self.viewModel.keyword.value = keyword
         }
         

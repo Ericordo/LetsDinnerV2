@@ -46,6 +46,18 @@ class RecipeCreationViewModel {
         return StepStatus.currentStep == .recipesVC && self.recipe != nil && self.recipe?.recordID != nil
     }
     
+    var keywordContainerHidden : Bool {
+        if StepStatus.currentStep == .recipesVC {
+            if creationMode.value || self.editingAllowed {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            return true
+        }
+    }
+
     private var informationIsValid : Bool {
         return !self.recipeName.value.isEmpty
     }
