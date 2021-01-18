@@ -182,7 +182,6 @@ class RecipesViewModel {
                 self.publicRecipes = recipes.filter { !customRecipeIds.contains($0.id) }
                                             .filter { !Event.shared.selectedPublicRecipes.contains($0) }
                 self.addSelectedPublicRecipesToPublicRecipes()
-//                self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
                 self.dataChangeObserver.send(value: ())
             })
     }
@@ -198,7 +197,6 @@ class RecipesViewModel {
                 self.publicRecipes.append(contentsOf: recipes
                                             .filter { !customRecipeIds.contains($0.id) }
                                             .filter { !Event.shared.selectedPublicRecipes.contains($0) })
-//                self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
                 self.addSelectedPublicRecipesToPublicRecipes()
                 self.dataChangeObserver.send(value: ())
             })
