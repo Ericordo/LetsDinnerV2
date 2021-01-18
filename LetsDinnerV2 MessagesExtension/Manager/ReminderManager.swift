@@ -23,11 +23,10 @@ class ReminderManager {
     private let listTitle = Event.shared.dinnerName + " - \(LabelStrings.thingsToBring)"
     
     func addToReminder(on viewController: UIViewController) {
-        
         let calendars = self.reminderStore.calendars(for: .reminder)
         let bundleList: EKCalendar
         
-        // Create List if if list not exist
+        // Create List if list not exist
         if let bundleCalendar = calendars.first(where: { $0.title == listTitle }) {
             // If Exist
             bundleList = bundleCalendar
@@ -36,7 +35,9 @@ class ReminderManager {
             do {
                 bundleList = try self.createNewList(bundleName: self.bundleName)
             } catch let error {
+                #if DEBUG
                 print(error.localizedDescription)
+                #endif
                 return
             }
         }
@@ -57,7 +58,9 @@ class ReminderManager {
             do {
                 try self.importTasksToReminders(bundleList: bundleList, task: task)
             } catch let error {
+                #if DEBUG
                 print(error.localizedDescription)
+                #endif
                 return
             }
         }
@@ -90,7 +93,9 @@ class ReminderManager {
         do {
             try self.reminderStore.saveCalendar(calendar, commit: true)
         } catch let error {
+            #if DEBUG
             print(error.localizedDescription)
+            #endif
         }
         return calendar
     }
@@ -132,7 +137,9 @@ class ReminderManager {
                         do {
                             try self.reminderStore.remove(reminder, commit: false)
                         } catch let error {
+                            #if DEBUG
                             print(error.localizedDescription)
+                            #endif
                             return
                         }
                     }
@@ -142,7 +149,9 @@ class ReminderManager {
                     do {
                         try self.reminderStore.commit()
                     } catch let error {
+                        #if DEBUG
                         print(error.localizedDescription)
+                        #endif
                     }
                 }
             }

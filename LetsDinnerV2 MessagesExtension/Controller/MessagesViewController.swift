@@ -35,7 +35,9 @@ class MessagesViewController: MSMessagesAppViewController {
         do {
             _ = try Realm()
         } catch {
+            #if DEBUG
             print(error.localizedDescription)
+            #endif
         }
 
         CloudManager.shared.retrieveProfileInfo()

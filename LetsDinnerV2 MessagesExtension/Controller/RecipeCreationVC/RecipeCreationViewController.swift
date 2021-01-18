@@ -138,7 +138,7 @@ class RecipeCreationViewController: LDViewController {
     
     private let publicDisclaimer : UILabel = {
         let label = UILabel()
-        label.text = "if it passes our validation, your recipe will be shared with all users of Let's Dinner!. You will be able to update or delete it later if you wish."
+        label.text = LabelStrings.publicDisclaimer
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 0

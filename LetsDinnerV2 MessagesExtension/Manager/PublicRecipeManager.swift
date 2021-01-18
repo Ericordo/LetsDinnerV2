@@ -18,19 +18,56 @@ class PublicRecipeManager {
     private init() {}
     
     private let database = Firestore.firestore()
+    
+    private var lastSnapshot : QueryDocumentSnapshot?
+    private var lastSearchSnapshot : QueryDocumentSnapshot?
+    
+    private let pageCount = 20
         
     func fetchValidatedRecipes() -> SignalProducer<[LDRecipe], Never> {
         return SignalProducer { observer, _ in
             self.database
                 .collection(DataKeys.membersRecipes)
                 .whereField(DataKeys.isValidated, isEqualTo: true)
+                .limit(to: self.pageCount)
                 .getDocuments { (querySnapshot, error) in
                     guard error == nil,
                           let snapshot = querySnapshot else  {
                         observer.send(value: [])
+                        observer.sendCompleted()
                         return
                     }
                     let documents = snapshot.documents
+                    self.lastSnapshot = documents.last
+                    let recipes = self.parsePublicRecipes(documents)
+                    observer.send(value: recipes)
+                    observer.sendCompleted()
+                }
+        }
+    }
+    
+    func fetchFollowingValidatedRecipes() -> SignalProducer<[LDRecipe], Never> {
+        return SignalProducer { observer, _ in
+            guard let lastSnapshot = self.lastSnapshot else {
+                observer.send(value: [])
+                observer.sendCompleted()
+                return
+            }
+            self.database
+                .collection(DataKeys.membersRecipes)
+                .whereField(DataKeys.isValidated, isEqualTo: true)
+                .limit(to: self.pageCount)
+                .start(afterDocument: lastSnapshot)
+                .getDocuments { (querySnapshot, error) in
+                    guard error == nil,
+                          let snapshot = querySnapshot else  {
+                        self.lastSnapshot = nil
+                        observer.send(value: [])
+                        observer.sendCompleted()
+                        return
+                    }
+                    let documents = snapshot.documents
+                    self.lastSnapshot = documents.last
                     let recipes = self.parsePublicRecipes(documents)
                     observer.send(value: recipes)
                     observer.sendCompleted()
@@ -119,6 +156,7 @@ class PublicRecipeManager {
         let language = NSLinguisticTagger.dominantLanguage(for: languageString) ?? "en"
         var keywords = recipe.keywords
         keywords += recipe.title.substrings()
+        keywords.append(recipe.title)
         let publicRecipeInfo : [String : Any] = [DataKeys.recipe : recipeInfo,
                                                  DataKeys.isValidated : false,
                                                  DataKeys.language : language,
@@ -195,14 +233,46 @@ class PublicRecipeManager {
                 .collection(DataKeys.membersRecipes)
                 .whereField(DataKeys.isValidated, isEqualTo: true)
                 .whereField(DataKeys.keywords, arrayContains: keyword)
+                .limit(to: self.pageCount)
                 .getDocuments { (querySnapshot, error) in
                     guard error == nil,
                           let snapshot = querySnapshot else {
                         observer.send(value: [])
+                        observer.sendCompleted()
                         return
                     }
                     let documents = snapshot.documents
-                    print(documents)
+                    self.lastSearchSnapshot = documents.last
+                    let recipes = self.parsePublicRecipes(documents)
+                    observer.send(value: recipes)
+                    observer.sendCompleted()
+                }
+        }
+    }
+    
+    func searchForFollowingRecipes(_ keyword: String) -> SignalProducer<[LDRecipe], Never> {
+        return SignalProducer { observer, _ in
+            guard let lastSearchSnapshot = self.lastSearchSnapshot else {
+                observer.send(value: [])
+                observer.sendCompleted()
+                return
+            }
+            self.database
+                .collection(DataKeys.membersRecipes)
+                .whereField(DataKeys.isValidated, isEqualTo: true)
+                .whereField(DataKeys.keywords, arrayContains: keyword)
+                .limit(to: self.pageCount)
+                .start(afterDocument: lastSearchSnapshot)
+                .getDocuments { (querySnapshot, error) in
+                    guard error == nil,
+                          let snapshot = querySnapshot else {
+                        self.lastSearchSnapshot = nil
+                        observer.send(value: [])
+                        observer.sendCompleted()
+                        return
+                    }
+                    let documents = snapshot.documents
+                    self.lastSearchSnapshot = documents.last
                     let recipes = self.parsePublicRecipes(documents)
                     observer.send(value: recipes)
                     observer.sendCompleted()

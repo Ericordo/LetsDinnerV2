@@ -19,12 +19,17 @@ class RealmHelper {
     
     private init() {}
     
-    func loadCustomRecipes() -> Results<CustomRecipe>? {
+    private func loadCustomRecipes() -> Results<CustomRecipe>? {
         return realm.objects(CustomRecipe.self)
     }
     
-    private func loadCustomIngredients() -> Results<CustomIngredient>? {
-        return realm.objects(CustomIngredient.self)
+    func loadCustomRecipesAsLDRecipes() -> [LDRecipe] {
+        let recipes = self.loadCustomRecipes()
+        var customRecipes = [LDRecipe]()
+        recipes?.forEach({ recipe in
+            customRecipes.append(self.convertRLRecipeToLDRecipe(recipe))
+        })
+        return customRecipes
     }
     
     func saveRecipeInRealm(_ recipe: LDRecipe, recordID: String) -> SignalProducer<Void, LDError> {
@@ -96,16 +101,12 @@ class RealmHelper {
         }
     }
     
-    func deleteAllRecipes() {
+    private func deleteAllRecipes() {
         do {
             let recipes = self.loadCustomRecipes()
-            let ingredients = self.loadCustomIngredients()
             try self.realm.write {
                 if let recipes = recipes {
                     self.realm.delete(recipes)
-                }
-                if let ingredients = ingredients {
-                    self.realm.delete(ingredients)
                 }
             }
         } catch {
@@ -169,7 +170,7 @@ class RealmHelper {
         return LDrecipe
     }
     
-    func convertRLIngredientToLDIngredient(_ ingredient: CustomIngredient) -> LDIngredient {
+    private func convertRLIngredientToLDIngredient(_ ingredient: CustomIngredient) -> LDIngredient {
         var ckRecordID : CKRecord.ID? = nil
         if let recordId = ingredient.recordId {
             ckRecordID = CKRecord.ID(recordName: recordId)
