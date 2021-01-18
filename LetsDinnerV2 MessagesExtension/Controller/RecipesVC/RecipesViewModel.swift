@@ -35,6 +35,7 @@ class RecipesViewModel {
     
     let searchType : MutableProperty<SearchType>
     let isLoading = MutableProperty<Bool>(false)
+    let isloadingNextRecipes = MutableProperty<Bool>(false)
     
     var previouslySelectedRecipes : [Recipe]
     var previouslySelectedCustomRecipes : [LDRecipe]
@@ -45,6 +46,10 @@ class RecipesViewModel {
     private let cloudManager = CloudManager.shared
     private let dataHelper = DataHelper.shared
     private let publicRecipeManager = PublicRecipeManager.shared
+    
+    private var customRecipeIds : [String] {
+        return realmHelper.loadCustomRecipesAsLDRecipes().map { $0.id }
+    }
     
     init() {
         self.searchType = MutableProperty(SearchType(rawValue: defaults.searchType) ?? .apiRecipes)
@@ -70,6 +75,7 @@ class RecipesViewModel {
         .startWithValues { [weak self] searchType in
             guard let self = self else { return }
             defaults.searchType = searchType.rawValue
+            self.keyword.value = ""
             self.dataChangeObserver.send(value: ())
         }
         
@@ -151,31 +157,47 @@ class RecipesViewModel {
         recipes.sort { $0.isSelected && !$1.isSelected }
     }
     
+    private func addSelectedPublicRecipesToPublicRecipes() {
+        Event.shared.selectedPublicRecipes.forEach { recipe in
+            if !self.publicRecipes.contains(where: {  $0.id == recipe.id }) {
+                publicRecipes.append(recipe)
+            }
+        }
+        publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
+    }
+    
     private func loadCustomRecipes() {
-        let recipes = realmHelper.loadCustomRecipes()
-        self.customRecipes.removeAll()
-        recipes?.forEach({ recipe in
-            self.customRecipes.append(realmHelper.convertRLRecipeToLDRecipe(recipe))
-        })
+        self.customRecipes = realmHelper.loadCustomRecipesAsLDRecipes()
         self.customRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
         self.customRecipes.sort { $0.isSelected && !$1.isSelected }
         self.dataChangeObserver.send(value: ())
     }
     
     private func loadPublicRecipes() {
-        var customRecipeIds = [String]()
-        realmHelper.loadCustomRecipes()?.forEach({ customRecipe in
-            customRecipeIds.append(customRecipe.id)
-        })
         self.publicRecipeManager.fetchValidatedRecipes()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
             .startWithValues({ [unowned self] recipes in
-                self.publicRecipes = recipes
                 self.publicRecipes = recipes.filter { !customRecipeIds.contains($0.id) }
-                self.publicRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
-                self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
+                                            .filter { !Event.shared.selectedPublicRecipes.contains($0) }
+                self.addSelectedPublicRecipesToPublicRecipes()
+                self.dataChangeObserver.send(value: ())
+            })
+    }
+    
+    func loadFollowingPublicRecipes() {
+        guard !self.isLoading.value else { return }
+        guard !self.isloadingNextRecipes.value else { return }
+        self.publicRecipeManager.fetchFollowingValidatedRecipes()
+            .on(starting: { self.isloadingNextRecipes.value = true })
+            .on(completed: { self.isloadingNextRecipes.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithValues({ [unowned self] recipes in
+                self.publicRecipes.append(contentsOf: recipes
+                                            .filter { !customRecipeIds.contains($0.id) }
+                                            .filter { !Event.shared.selectedPublicRecipes.contains($0) })
+                self.addSelectedPublicRecipesToPublicRecipes()
                 self.dataChangeObserver.send(value: ())
             })
     }
@@ -212,18 +234,29 @@ class RecipesViewModel {
     }
     
     private func searchPublicRecipes(_ keyword: String) {
-        var customRecipeIds = [String]()
-        realmHelper.loadCustomRecipes()?.forEach({ customRecipe in
-            customRecipeIds.append(customRecipe.id)
-        })
         self.publicRecipeManager.searchForRecipes(keyword)
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
             .startWithValues({ [unowned self] recipes in
-                self.publicRecipes = recipes
                 self.publicRecipes = recipes.filter { !customRecipeIds.contains($0.id) }
-                self.publicRecipes.sort { $0.title.uppercased() < $1.title.uppercased() }
+                                            .filter { !Event.shared.selectedPublicRecipes.contains($0) }
+                self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
+                self.dataChangeObserver.send(value: ())
+            })
+    }
+    
+    func searchFollowingPublicRecipes(_ keyword: String) {
+        guard !self.isLoading.value else { return }
+        guard !self.isloadingNextRecipes.value else { return }
+        self.publicRecipeManager.searchForFollowingRecipes(keyword)
+            .on(starting: { self.isloadingNextRecipes.value = true })
+            .on(completed: { self.isloadingNextRecipes.value = false })
+            .take(duringLifetimeOf: self)
+            .startWithValues({ [unowned self] recipes in
+                self.publicRecipes.append(contentsOf: recipes
+                                            .filter { !customRecipeIds.contains($0.id) }
+                                            .filter { !Event.shared.selectedPublicRecipes.contains($0) })
                 self.publicRecipes.sort { $0.isPublicAndSelected && !$1.isPublicAndSelected }
                 self.dataChangeObserver.send(value: ())
             })

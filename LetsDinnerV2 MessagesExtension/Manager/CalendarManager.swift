@@ -48,14 +48,15 @@ class CalendarManager {
                 self.showEventAlreadyAddedAlert(on: viewController)
             }
         } else {
-            
             do {
                 try self.store.save(event, span: .thisEvent)
                 DispatchQueue.main.async {
                     self.showEventSucessfullySavedAlert(on: viewController)
                 }
             } catch let error {
+                #if DEBUG
                 print(error.localizedDescription)
+                #endif
             }
         }
     }
@@ -74,7 +75,9 @@ class CalendarManager {
         do {
             try self.store.save(event, span: .thisEvent)
         } catch let error {
+            #if DEBUG
             print(error.localizedDescription)
+            #endif
         }
     }
     
@@ -108,6 +111,6 @@ class CalendarManager {
         doneAlert.addAction(UIAlertAction(title: AlertStrings.okAction,
                                           style: .default,
                                           handler: nil))
-        viewController.present(doneAlert, animated: true, completion: nil)
+        viewController.present(doneAlert, animated: true)
     }
 }

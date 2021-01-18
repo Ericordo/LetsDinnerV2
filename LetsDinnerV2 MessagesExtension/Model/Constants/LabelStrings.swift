@@ -87,6 +87,7 @@ enum LabelStrings {
     static let publicRecipe = NSLocalizedString("MAKE THIS RECIPE PUBLIC", comment: "make recipe public")
     static let keywords = NSLocalizedString("KEYWORDS", comment: "keywords")
     static let keyword = NSLocalizedString("Keyword", comment: "keyword")
+    static let publicDisclaimer = NSLocalizedString("if it passes our validation, your recipe will be shared with all users of Let's Dinner!. You will be able to update or delete it later if you wish.", comment: "public recipes disclaimer")
     
     // ManagementVC
     static let noTaskTitle = NSLocalizedString("Nothing's missing? \nIn need of a helping hand?", comment: "no task title")

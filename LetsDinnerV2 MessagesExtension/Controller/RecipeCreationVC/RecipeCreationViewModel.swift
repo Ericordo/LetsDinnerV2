@@ -374,8 +374,10 @@ class RecipeCreationViewModel {
                 self.ingredients.value = recipeData.ingredients
                 self.keywords.value = recipeData.keywords
                 self.isPublic.value = recipeData.isPublic
-            } catch {
-                
+            } catch let error {
+                #if DEBUG
+                print(error.localizedDescription)
+                #endif
             }
         }
         if let imageData = defaults.value(forKey: Keys.recipePicBackup) as? Data {

@@ -18,10 +18,7 @@ protocol ReviewViewControllerDelegate: class {
 
 class ReviewViewController: LDViewController {
     // MARK: Properties
-    private let headerView : UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let headerView = UIView()
     
     private let topLabel: UILabel = {
         let label = UILabel()
@@ -148,8 +145,7 @@ class ReviewViewController: LDViewController {
         self.viewModel.isLoading.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .startWithValues { [weak self] isLoading in
-                guard let self = self else { return }
+            .startWithValues { [unowned self] isLoading in
                 if isLoading {
                     self.view.addSubview(self.loadingView)
                     self.loadingView.snp.makeConstraints { make in
@@ -165,14 +161,12 @@ class ReviewViewController: LDViewController {
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
             .filter { $0 }
-            .startWithValues { [weak self] _ in
-                guard let self = self else { return }
+            .startWithValues { [unowned self] _ in
                 CalendarManager.shared.requestAccessToCalendarIfNeeded()
                     .observe(on: UIScheduler())
                     .take(duringLifetimeOf: self)
                     .filter { !$0 }
-                    .startWithValues { [weak self] _ in
-                        guard let self = self else { return }
+                    .startWithValues { [unowned self] _ in
                         self.calendarSwitch.setOn(false, animated: true)
                         if self.isChecking {
                             self.showBasicAlert(title: AlertStrings.calendarAccess,
@@ -181,9 +175,10 @@ class ReviewViewController: LDViewController {
                 }
         }
         
-        self.viewModel.dataUploadSignal.observe(on: UIScheduler())
-            .observeResult { [weak self] result in
-            guard let self = self else { return }
+        self.viewModel.dataUploadSignal
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .observeResult { [unowned self] result in
             switch result {
             case .failure(let error):
                 self.showBasicAlert(title: AlertStrings.oops, message: error.description)
@@ -275,9 +270,7 @@ class ReviewViewController: LDViewController {
                             make.trailing.equalTo(self.headerView.snp.leading).offset(-20)
                         }
                         self.view.layoutIfNeeded()
-        }) { (_) in
-         
-        }
+        }) { (_) in }
     }
     
     private func hideCalendarSwitch() {
@@ -297,9 +290,7 @@ class ReviewViewController: LDViewController {
                             make.trailing.equalToSuperview().offset(-30)
                         }
                         self.view.layoutIfNeeded()
-        }) { (_) in
-         
-        }
+        }) { (_) in }
     }
     
     private func setupUI() {
@@ -349,7 +340,6 @@ class ReviewViewController: LDViewController {
         calendarStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.leading.equalTo(headerView.snp.trailing).offset(20)
-            
         }
     }
 }

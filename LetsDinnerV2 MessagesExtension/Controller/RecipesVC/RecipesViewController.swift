@@ -39,8 +39,13 @@ class RecipesViewController: LDNavigationViewController {
         tableView.rowHeight = 120
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
-
         return tableView
+    }()
+    
+    private let loadingIndicator : UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .whiteLarge)
+        indicator.color = .activeButton
+        return indicator
     }()
     
     private let toolbar = RecipesToolbar()
@@ -116,6 +121,7 @@ class RecipesViewController: LDNavigationViewController {
         
         searchBar.reactive.continuousTextValues.observeValues { text in
             guard let text = text, text.isEmpty else { return }
+            self.viewModel.keyword.value = ""
             self.viewModel.loadRecipes()
         }
         
@@ -159,6 +165,23 @@ class RecipesViewController: LDNavigationViewController {
                     self.loadingView.start()
                 } else {
                     self.loadingView.stop()
+                }
+        }
+        
+        self.viewModel.isloadingNextRecipes.producer
+            .observe(on: UIScheduler())
+            .take(duringLifetimeOf: self)
+            .startWithValues { [weak self] isLoading in
+                guard let self = self else { return }
+                if isLoading {
+                    self.view.addSubview(self.loadingIndicator)
+                    self.loadingIndicator.snp.makeConstraints { make in
+                        make.centerX.centerY.equalToSuperview()
+                    }
+                    self.loadingIndicator.startAnimating()
+                } else {
+                    self.loadingIndicator.stopAnimating()
+                    self.loadingIndicator.removeFromSuperview()
                 }
         }
 
@@ -246,7 +269,6 @@ class RecipesViewController: LDNavigationViewController {
         navigationBar.titleLabel.text = LabelStrings.chooseRecipes
         navigationBar.previousButton.setImage(Images.chevronLeft, for: .normal)
         navigationBar.previousButton.setTitle(LabelStrings.details, for: .normal)
-//        view.addSwipeGestureRecognizer(action: { self.delegate?.recipeVCDidTapPrevious() })
         view.addTapGestureToHideKeyboard()
         view.addSubview(searchBar)
         view.addSubview(headerLabel)
@@ -255,7 +277,6 @@ class RecipesViewController: LDNavigationViewController {
         configureNextAndSelectedRecipesButtons()
         addConstraints()
     }
-    
     
     private func addConstraints() {
         searchBar.snp.makeConstraints { make in
@@ -357,6 +378,21 @@ extension RecipesViewController: UITableViewDelegate, UITableViewDataSource {
         cell.recipeCellDelegate = self
         return cell
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard self.viewModel.searchType.value == .publicRecipes else { return }
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        if offsetY > contentHeight - height {
+            let keyword = self.viewModel.keyword.value
+            if keyword.isEmpty {
+                self.viewModel.loadFollowingPublicRecipes()
+            } else {
+                self.viewModel.searchFollowingPublicRecipes(keyword)
+            }
+        }
+    }
 }
 
     //MARK: RecipeCreationVC Delegate
@@ -425,6 +461,3 @@ extension RecipesViewController: RecipeCellDelegate {
         configureNextAndSelectedRecipesButtons()
     }
 }
-
-
-

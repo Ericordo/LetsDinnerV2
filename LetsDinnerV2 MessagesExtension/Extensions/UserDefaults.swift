@@ -57,6 +57,7 @@ extension UserDefaults {
                                   eventDescription: Event.shared.eventDescription,
                                   selectedRecipes: Event.shared.selectedRecipes,
                                   selectedCustomRecipes: Event.shared.selectedCustomRecipes,
+                                  selectedPublicRecipes: Event.shared.selectedPublicRecipes,
                                   servings: Event.shared.servings,
                                   tasks: Event.shared.tasks,
                                   customOrder: CustomOrderHelper.shared.customOrder)
@@ -65,7 +66,9 @@ extension UserDefaults {
             let data = try encoder.encode(eventData)
             self.set(data, forKey: Keys.eventBackup)
         } catch {
-            
+            #if DEBUG
+            print(error.localizedDescription)
+            #endif
         }
     }
     
@@ -76,7 +79,9 @@ extension UserDefaults {
                 let eventData = try decoder.decode(EventData.self, from: data)
                 self.restoreEventData(eventData)
             } catch {
-                
+                #if DEBUG
+                print(error.localizedDescription)
+                #endif
             }
         }
     }
@@ -110,6 +115,7 @@ extension UserDefaults {
         Event.shared.eventDescription = eventData.eventDescription
         Event.shared.selectedRecipes = eventData.selectedRecipes
         Event.shared.selectedCustomRecipes = eventData.selectedCustomRecipes
+        Event.shared.selectedPublicRecipes = eventData.selectedPublicRecipes
         Event.shared.servings = eventData.servings
         Event.shared.tasks = eventData.tasks
         CustomOrderHelper.shared.customOrder = eventData.customOrder
@@ -124,8 +130,10 @@ extension UserDefaults {
             if let data = imageData {
                 self.set(data, forKey: Keys.recipePicBackup)
             }
-        } catch {
-            
+        } catch let error {
+            #if DEBUG
+            print(error.localizedDescription)
+            #endif
         }
     }
 

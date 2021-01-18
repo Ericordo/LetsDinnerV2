@@ -16,6 +16,7 @@ struct EventData : Codable {
     let eventDescription : String
     let selectedRecipes : [Recipe]
     let selectedCustomRecipes : [LDRecipe]
+    let selectedPublicRecipes : [LDRecipe]
     let servings : Int
     let tasks : [Task]
     let customOrder : [String : Int]
