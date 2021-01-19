@@ -38,12 +38,12 @@ class ExpandableTaskHeaderView: UIView {
         self.backgroundColor = .backgroundColor
         // Update View
         expandableTasks[section].tasks.forEach { task in
-            if task.taskState == .completed {
+            if task.state == .completed {
                 numberOfCompletedTasks += 1
             }
         }
         expandableTasks[section].tasks.forEach { task in
-            if task.taskState == .unassigned {
+            if task.state == .unassigned {
                 numberOfUnassignedTasks += 1
             }
         }
@@ -159,6 +159,5 @@ class ExpandableTaskHeaderView: UIView {
         separator.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
         separator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         separator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        
     }
 }

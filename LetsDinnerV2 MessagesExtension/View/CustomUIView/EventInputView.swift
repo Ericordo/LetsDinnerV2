@@ -73,7 +73,6 @@ class EventInputView: UIView {
     
     private func configureView() {
         self.configEventInput()
-
         self.backgroundColor = UIColor.keyboardBackground
         self.sizeToFit()
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -81,19 +80,16 @@ class EventInputView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         stackView.addArrangedSubview(breakfastButton)
         stackView.addArrangedSubview(separatorOne)
         stackView.addArrangedSubview(lunchButton)
         stackView.addArrangedSubview(separatorTwo)
         stackView.addArrangedSubview(dinnerButton)
-        
         addEventInputConstraints()
     }
     
     func configEventInput() {
         addSubview(stackView)
-        
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -133,7 +129,5 @@ class EventInputView: UIView {
             separatorTwo.topAnchor.constraint(equalTo: self.topAnchor, constant: 14),
             separatorTwo.heightAnchor.constraint(equalToConstant: 24)
         ])
-        
     }
-        
 }

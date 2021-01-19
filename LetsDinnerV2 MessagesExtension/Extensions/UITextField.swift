@@ -11,26 +11,9 @@ import UIKit
 extension UITextField {
     func animateEmpty() {
         if self.text == "" {
-            
-            UIView.animate(withDuration: 0.5,
-                           delay: 0,
-                           usingSpringWithDamping: 0,
-                           initialSpringVelocity: 0,
-                           options: .curveEaseOut,
-                           animations: {
-                
-//                     self.layer.borderColor = Colors.newGradientPink.cgColor
-//                     self.layer.borderWidth = 2
-//                self.backgroundColor?.withAlphaComponent(1)
-                    
-                 }) { (_) in
-                    self.shake()
-                    self.layer.borderWidth = 0
-                    
-                 }
+            self.shake()
         }
     }
-    
     
     func shake() {
         let shake = CABasicAnimation(keyPath: "position")
@@ -60,8 +43,6 @@ extension UITextField {
         leftView = iconContainerView
         leftViewMode = .always
       }
-    
-    
 }
 
 

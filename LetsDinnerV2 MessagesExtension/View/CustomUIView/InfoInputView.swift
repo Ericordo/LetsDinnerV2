@@ -67,19 +67,11 @@ class InfoInputView : UIView {
 //        infoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
 //        infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20).isActive = true
 //        infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40).isActive = true
-        
     }
-    
     
     func assignInfoInput(textField: UITextField, info: String) {
 //        infoLabel.text = info
         addButton.setTitle(info, for: .normal)
         selectedTextField = textField
     }
-    
-    
-    
-    
-    
-    
 }

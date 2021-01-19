@@ -32,10 +32,8 @@ class TaskCVCell: UICollectionViewCell {
         return view
     }()
     
-    
     var task: Task?
-    var count : Int = 0
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -48,44 +46,44 @@ class TaskCVCell: UICollectionViewCell {
     func configureCell(task: Task, count: Int) {
         self.isUserInteractionEnabled = true
         self.task = task
-        if let amount = task.metricAmount {
+        if let amount = task.amount {
             if amount.truncatingRemainder(dividingBy: 1) == 0.0 {
-                if let unit = task.metricUnit {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount)) \(unit)"
+                if let unit = task.unit {
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.0f", amount)) \(unit)"
                 } else {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount))"
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.0f", amount))"
                 }
             } else {
-                if let unit = task.metricUnit {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+                if let unit = task.unit {
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.1f", amount)) \(unit)"
                 } else {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.1f", amount))"
                 }
             }
         } else {
-            taskNameLabel.text = task.taskName
+            taskNameLabel.text = task.name
         }
-        taskStatusButton.setState(state: task.taskState)
+        taskStatusButton.setState(state: task.state)
         
-        if task.taskState == .assigned || task.taskState == .completed {
-            if Event.shared.currentUser?.identifier != task.assignedPersonUid {
-                personLabel.text = task.assignedPersonName
-                personLabel.setTextAttributes(taskIsOwnedByUser: false)
-                taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.taskState)
+        if task.state == .assigned || task.state == .completed {
+            if Event.shared.currentUser?.identifier != task.ownerId {
+                personLabel.text = task.ownerName
+                personLabel.setTextAttributes(userOwnsTask: false)
+                taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.state)
             } else {
                 // My Task
-                if task.taskState == .completed {
+                if task.state == .completed {
                     personLabel.text = AlertStrings.completed
                 } else {
                     personLabel.text = AlertStrings.assignedToMyself
                 }
-                personLabel.setTextAttributes(taskIsOwnedByUser: true)
-                taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
+                personLabel.setTextAttributes(userOwnsTask: true)
+                taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.state)
             }
         } else {
             // Task Not Assigned
             personLabel.text = AlertStrings.noAssignment
-            personLabel.setTextAttributes(taskIsOwnedByUser: false)
+            personLabel.setTextAttributes(userOwnsTask: false)
         }
         // For deleting the line for the bottom last cell
         separatorLine.isHidden = false

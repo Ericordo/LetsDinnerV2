@@ -29,6 +29,4 @@ class LDNavButton : UIButton {
         self.setTitleColor(UIColor.activeButton, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
     }
-    
-    
 }

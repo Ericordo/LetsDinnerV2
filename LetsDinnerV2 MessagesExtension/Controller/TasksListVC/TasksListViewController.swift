@@ -110,8 +110,7 @@ class TasksListViewController: LDNavigationViewController {
         self.viewModel.newDataSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeResult { [weak self] _ in
-                guard let self = self else { return }
+            .observeResult { [unowned self] _ in
                 self.tasksTableView.reloadData()
                 self.updateSubmitButton()
                 if self.viewModel.pendingChanges() {
@@ -123,8 +122,7 @@ class TasksListViewController: LDNavigationViewController {
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
             .filter { $0 > 1 }
-            .observeValues { [weak self] _ in
-                guard let self = self else { return }
+            .observeValues { [unowned self] _ in
                 self.viewModel.stopObservingOnlineUsers()
                 self.alertBanner.appearAndDisappear(delete: false)
         }
@@ -132,19 +130,18 @@ class TasksListViewController: LDNavigationViewController {
         self.viewModel.taskUpdateSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeValues { [weak self] _ in
-                guard let self = self else { return }
+            .observeValues { [unowned self] _ in
                 self.displayUpdateNeededAlert()
         }
         
         self.viewModel.taskUploadSignal
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .observeValues { [weak self] result in
-            guard let self = self else { return }
+            .observeValues { [unowned self] result in
             switch result {
             case .failure(let error):
-                self.showBasicAlert(title: AlertStrings.oops, message: error.description)
+                self.showBasicAlert(title: AlertStrings.oops,
+                                    message: error.description)
             case.success():
                 self.generator.notificationOccurred(.success)
                 self.delegate?.tasksListVCDidTapSubmit()
@@ -154,8 +151,7 @@ class TasksListViewController: LDNavigationViewController {
         self.viewModel.isLoading.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .startWithValues { [weak self] isLoading in
-                guard let self = self else { return }
+            .startWithValues { [unowned self] isLoading in
                 if isLoading {
                     self.showLoadingView()
                 } else {
@@ -166,9 +162,9 @@ class TasksListViewController: LDNavigationViewController {
         self.viewModel.servings.producer
             .observe(on: UIScheduler())
             .take(duringLifetimeOf: self)
-            .startWithValues { [weak self] servings in
-                guard let self = self else { return }
-                self.servingsView.label.text = String.localizedStringWithFormat(LabelStrings.updateServings, servings)
+            .startWithValues { [unowned self] servings in
+                self.servingsView.label.text = String.localizedStringWithFormat(LabelStrings.updateServings,
+                                                                                servings)
                 self.servingsView.stepper.value = Double(servings)
                 self.servingsView.label.textColor = Event.shared.servingsNeedUpdate ? .activeButton : .textLabel
                 self.updateSubmitButton()

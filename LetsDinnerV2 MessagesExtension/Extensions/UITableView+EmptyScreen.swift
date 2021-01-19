@@ -13,7 +13,6 @@ import UIKit
 extension UITableView {
     
     func setEmptyViewForRecipeView(title: String, message: String) {
-        
         let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
         
         let titleLabel : UILabel = {
@@ -63,7 +62,6 @@ extension UITableView {
         
         // The only tricky part is here:
         self.backgroundView = emptyView
-        
     }
     
     func restore() {
@@ -71,7 +69,6 @@ extension UITableView {
     }
     
     func setEmptyViewForManagementVC(title: String, message: String, message2: String) {
-        
         let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
                 
         let titleLabel : UILabel = {
@@ -111,7 +108,6 @@ extension UITableView {
             return imageView
         }()
 
-        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel2.translatesAutoresizingMaskIntoConstraints = false
@@ -132,18 +128,15 @@ extension UITableView {
         
         messageLabel2.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 10).isActive = true
         messageLabel2.leftAnchor.constraint(equalTo: emptyView.leftAnchor, constant: 30).isActive = true
-
         
         buttonImage.widthAnchor.constraint(equalToConstant: 22).isActive = true
         buttonImage.centerYAnchor.constraint(equalTo: messageLabel2.centerYAnchor).isActive = true
         buttonImage.leadingAnchor.constraint(equalTo: messageLabel2.trailingAnchor, constant: 5).isActive = true
         
         self.backgroundView = emptyView
-        
     }
     
     func setEmptyViewForNoResults() {
-        
         let emptyView = UIView(frame: CGRect(x: self.center.x,
                                              y: self.center.y,
                                              width: self.bounds.size.width,

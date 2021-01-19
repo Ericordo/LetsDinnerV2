@@ -17,8 +17,6 @@ class LDLabel: UILabel {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configure()
-       
     }
     
     convenience init(title: String, text: String) {
@@ -32,20 +30,25 @@ class LDLabel: UILabel {
     
     func configureText(title: String, text: String) {
         let attributedString = NSMutableAttributedString(string: "")
-        attributedString.append(NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22), NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
+        attributedString.append(NSAttributedString(string: title,
+                                                   attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 22),
+                                                                NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
         attributedString.append(NSAttributedString(string: "\n"))
-        attributedString.append(NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17), NSAttributedString.Key.foregroundColor: UIColor.secondaryTextLabel]))
+        attributedString.append(NSAttributedString(string: text,
+                                                   attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17),
+                                                                NSAttributedString.Key.foregroundColor: UIColor.secondaryTextLabel]))
         self.attributedText = attributedString
     }
     
     func configureTextForWelcomeAndPremiumScreen(title: String, text: String) {
         let attributedString = NSMutableAttributedString(string: "")
-        attributedString.append(NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
+        attributedString.append(NSAttributedString(string: title,
+                                                   attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .semibold),
+                                                                NSAttributedString.Key.foregroundColor: UIColor.textLabel]))
         attributedString.append(NSAttributedString(string: "\n"))
-        attributedString.append(NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular), NSAttributedString.Key.foregroundColor: UIColor.secondaryTextLabel]))
+        attributedString.append(NSAttributedString(string: text,
+                                                   attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular),
+                                                                              NSAttributedString.Key.foregroundColor: UIColor.secondaryTextLabel]))
         self.attributedText = attributedString
     }
-    
-    
-
 }

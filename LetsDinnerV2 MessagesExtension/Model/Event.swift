@@ -21,7 +21,7 @@ class Event {
     // Message Info
     var currentSession: MSSession?
     var currentUser: User?
-    var currentConversationTaskStates = [Task]()
+    var currentConversationTasks = [Task]()
     var firebaseEventUid = ""
     var summary = ""
     
@@ -45,14 +45,11 @@ class Event {
     var selectedRecipes = [Recipe]()
     var selectedCustomRecipes = [LDRecipe]()
     var selectedPublicRecipes = [LDRecipe]()
-    
     var recipesCount : Int {
         return selectedCustomRecipes.count + selectedRecipes.count + selectedPublicRecipes.count
     }
-    
-    // Helpful variable
     var tasksNeedUpdate : Bool {
-        return !tasks.difference(from: currentConversationTaskStates).isEmpty
+        return !tasks.difference(from: currentConversationTasks).isEmpty
     }
     var servingsNeedUpdate : Bool {
         return servings != currentConversationServings
@@ -60,16 +57,12 @@ class Event {
     var servings = 2
     var currentConversationServings = 2
     var hostIdentifier = ""
-
     var participants = [User]()
     var tasks = [Task]()
-    
     var allTasksCompleted : Bool {
         return calculateTaskCompletionPercentage() == 1
     }
-    
     var isCancelled = false
-    
     var localEventId = ""
     var eventCreation = false
     
@@ -88,7 +81,7 @@ class Event {
         dateTimestamp = 0.0
         tasks.removeAll()
         firebaseEventUid.removeAll()
-        currentConversationTaskStates.removeAll()
+        currentConversationTasks.removeAll()
         currentSession = nil
         hostIdentifier.removeAll()
         participants.removeAll()
@@ -195,20 +188,19 @@ class Event {
         if !tasks.isEmpty {
             var tasksInfo : [String : Any] = [:]
             tasks.forEach { task in
-                var taskInfo : [String : Any] = [DataKeys.title : task.taskName,
-                                                 DataKeys.ownerName : task.assignedPersonName,
-                                                 DataKeys.ownerUid : task.assignedPersonUid ?? "nil",
-                                                 DataKeys.state : task.taskState.rawValue,
+                var taskInfo : [String : Any] = [DataKeys.title : task.name,
+                                                 DataKeys.ownerName : task.ownerName,
+                                                 DataKeys.ownerId : task.ownerId ?? "nil",
+                                                 DataKeys.state : task.state.rawValue,
                                                  DataKeys.isCustom : task.isCustom,
                                                  DataKeys.parentRecipe : task.parentRecipe]
-                if let amount = task.metricAmount {
-                    taskInfo[DataKeys.metricAmount] = amount
+                if let amount = task.amount {
+                    taskInfo[DataKeys.amount] = amount
                 }
-                if let unit = task.metricUnit {
-                    taskInfo[DataKeys.metricUnit] = unit
+                if let unit = task.unit {
+                    taskInfo[DataKeys.unit] = unit
                 }
-                let taskUid = UUID().uuidString
-                tasksInfo[taskUid] = taskInfo
+                tasksInfo[task.id] = taskInfo
             }
             eventInfo[DataKeys.tasks] = tasksInfo
         }
@@ -472,50 +464,50 @@ class Event {
     }
     
     private func parseEventTasks(_ taskDict: [String : Any]) {
-        self.currentConversationTaskStates.removeAll()
+        self.currentConversationTasks.removeAll()
         var tasks = [Task]()
         taskDict.forEach { (key, value) in
             guard let dict = value as? [String : Any] else { return }
             guard let title = dict[DataKeys.title] as? String,
                 let ownerName = dict[DataKeys.ownerName] as? String,
-                let ownerUid = dict[DataKeys.ownerUid] as? String,
+                let ownerId = dict[DataKeys.ownerId] as? String,
                 let state = dict[DataKeys.state] as? Int,
                 let isCustom = dict[DataKeys.isCustom] as? Bool,
                 let parentRecipe = dict[DataKeys.parentRecipe] as? String
                 else { return }
-
-            let task = Task(taskName: title,
-                            assignedPersonUid: ownerUid,
-                            taskState: state,
-                            taskUid: key,
-                            assignedPersonName: ownerName,
+            
+            let task = Task(id: key,
+                            name: title,
+                            ownerName: ownerName,
+                            ownerId: ownerId,
+                            state: TaskState(rawValue: state)!,
                             isCustom: isCustom,
                             parentRecipe: parentRecipe)
             
-            if let amount = dict[DataKeys.metricAmount] as? Double {
-                task.metricAmount = amount
+            if let amount = dict[DataKeys.amount] as? Double {
+                task.amount = amount
             }
-            if let unit = dict[DataKeys.metricUnit] as? String {
-                task.metricUnit = unit
+            if let unit = dict[DataKeys.unit] as? String {
+                task.unit = unit
             }
             tasks.append(task)
 
             // TODO: Fix this duplication at some point and make sure it works, update: seems necessary otherwise app doesnt see difference between current tasks and updated tasks by user when going back, keep it or implement a comparison method
-            let newTask = Task(taskName: title,
-                               assignedPersonUid: ownerUid,
-                               taskState: state,
-                               taskUid: key,
-                               assignedPersonName: ownerName,
-                               isCustom: isCustom,
-                               parentRecipe: parentRecipe)
+            let newTask = Task(id: key,
+                            name: title,
+                            ownerName: ownerName,
+                            ownerId: ownerId,
+                            state: TaskState(rawValue: state)!,
+                            isCustom: isCustom,
+                            parentRecipe: parentRecipe)
 
-            if let amount = dict[DataKeys.metricAmount] as? Double {
-                newTask.metricAmount = amount
+            if let amount = dict[DataKeys.amount] as? Double {
+                newTask.amount = amount
             }
-            if let unit = dict[DataKeys.metricUnit] as? String {
-                newTask.metricUnit = unit
+            if let unit = dict[DataKeys.unit] as? String {
+                newTask.unit = unit
             }
-            self.currentConversationTaskStates.append(newTask)
+            self.currentConversationTasks.append(newTask)
         }
         self.tasks = tasks
     }
@@ -525,20 +517,20 @@ class Event {
     func updateFirebaseTasks() -> SignalProducer<Void, LDError> {
         var parameters : [String : [String: Any]] = [:]
         tasks.forEach { task in
-            var taskParameters: [String : Any] = [DataKeys.title: task.taskName,
-                                                  DataKeys.ownerName : task.assignedPersonName,
-                                                  DataKeys.ownerUid : task.assignedPersonUid ?? "nil",
-                                                  DataKeys.state : task.taskState.rawValue,
+            var taskParameters: [String : Any] = [DataKeys.title: task.name,
+                                                  DataKeys.ownerName : task.ownerName,
+                                                  DataKeys.ownerId : task.ownerId ?? "nil",
+                                                  DataKeys.state : task.state.rawValue,
                                                   DataKeys.isCustom : task.isCustom,
                                                   DataKeys.parentRecipe : task.parentRecipe]
-            if let amount = task.metricAmount {
-                taskParameters[DataKeys.metricAmount] = amount
+            if let amount = task.amount {
+                taskParameters[DataKeys.amount] = amount
             }
-            if let unit = task.metricUnit {
-                taskParameters[DataKeys.metricUnit] = unit
+            if let unit = task.unit {
+                taskParameters[DataKeys.unit] = unit
             }
             
-            parameters[task.taskUid] = taskParameters
+            parameters[task.id] = taskParameters
         }
         
         return SignalProducer { observer, _ in
@@ -620,10 +612,10 @@ class Event {
     }
     
     func getAssignedNewTasks() -> Int {
-        let difference = tasks.difference(from: currentConversationTaskStates)
+        let difference = tasks.difference(from: currentConversationTasks)
         var assignedStatusCount = 0
         difference.forEach { task in
-            if task.taskState == .assigned {
+            if task.state == .assigned {
                 assignedStatusCount += 1
             }
         }
@@ -631,10 +623,10 @@ class Event {
     }
     
     func getCompletedTasks() -> Int {
-        let difference = tasks.difference(from: currentConversationTaskStates)
+        let difference = tasks.difference(from: currentConversationTasks)
         var completedStatusCount = 0
         difference.forEach { task in
-            if task.taskState == .completed {
+            if task.state == .completed {
                 completedStatusCount += 1
             }
         }
@@ -644,7 +636,7 @@ class Event {
     func getRemainingTasks() -> Int {
         var unassignedStatusCount = 0
         tasks.forEach { task in
-            if task.taskState == .unassigned {
+            if task.state == .unassigned {
                 unassignedStatusCount += 1
             }
         }
@@ -685,7 +677,7 @@ class Event {
     func calculateTaskCompletionPercentage() -> Double {
         var numberOfCompletedTasks = 0
         self.tasks.forEach { task in
-            if task.taskState == .completed {
+            if task.state == .completed {
                 numberOfCompletedTasks += 1
             }
         }

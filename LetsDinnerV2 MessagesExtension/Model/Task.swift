@@ -15,22 +15,15 @@ enum TaskState: Int, Codable {
 }
 
 class Task: Hashable, Codable, Equatable {
-    var taskUid: String
-    var taskName: String
-    var assignedPersonName: String
-    var assignedPersonUid: String?
-    var taskState: TaskState
-    
-// MARK: Add for the custom tasks
+    var id : String
+    var name: String
+    var ownerName: String
+    var ownerId: String?
+    var state: TaskState
     var isCustom: Bool
-    
-// MARK: Add for the collapse rows
     var parentRecipe: String
-    
-    // To change everywhere to var amount and var unit, as the selection is done before
-    var metricAmount: Double?
-    var metricUnit: String?
-
+    var amount: Double?
+    var unit: String?
     var servings: Int?
     
 //    var hashValue: Int {
@@ -38,24 +31,22 @@ class Task: Hashable, Codable, Equatable {
 //    }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(taskUid)
+        hasher.combine(id)
     }
     
     static func ==(lhs: Task, rhs: Task) -> Bool {
-        return lhs.taskState == rhs.taskState && lhs.taskUid == rhs.taskUid
+        return lhs.state == rhs.state && lhs.id == rhs.id
     }
     
-    init(taskName: String, assignedPersonUid: String?, taskState: Int, taskUid: String, assignedPersonName: String, isCustom: Bool, parentRecipe: String) {
-        self.taskName = taskName
-        self.assignedPersonName = assignedPersonName
-        self.taskState = TaskState(rawValue: taskState)!
-        self.taskUid = taskUid
-        self.assignedPersonUid = assignedPersonUid
+    init(id: String = UUID().uuidString, name: String, ownerName: String, ownerId: String?, state: TaskState, isCustom: Bool, parentRecipe: String) {
+        self.id = id
+        self.name = name
+        self.ownerName = ownerName
+        self.ownerId = ownerId
+        self.state = state
         self.isCustom = isCustom
         self.parentRecipe = parentRecipe
     }
-    
-    
 }
 
 
