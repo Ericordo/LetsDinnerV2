@@ -79,10 +79,10 @@ class EventSummaryViewModel {
     private func unassignTasksOfCurrentUser() {
         guard let currentUser = Event.shared.currentUser else { return }
         Event.shared.tasks.forEach { task in
-            if currentUser.identifier == task.assignedPersonUid {
-                task.taskState = .unassigned
-                task.assignedPersonName = "nil"
-                task.assignedPersonUid = "nil"
+            if currentUser.identifier == task.ownerId {
+                task.state = .unassigned
+                task.ownerName = "nil"
+                task.ownerId = "nil"
             }
         }
         guard Event.shared.tasksNeedUpdate else {

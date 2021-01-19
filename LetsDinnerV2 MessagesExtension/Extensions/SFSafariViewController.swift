@@ -10,8 +10,10 @@ import Foundation
 import SafariServices
 
 extension SFSafariViewController {
-
     func registerForNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(closeVC), name: Notification.Name(rawValue: "WillTransition"), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(closeVC),
+                                               name: Notification.Name(rawValue: "WillTransition"),
+                                               object: nil)
     }
 }

@@ -9,21 +9,17 @@
 import UIKit
 
 class TaskPersonLabel: UILabel {
-    
-    let taskIsOwnedByUserFont = UIFont.systemFont(ofSize: 13, weight: .regular)
-    let taskIsOwnedByUserTextColor = UIColor.activeButton
-    
-    let regularFont = UIFont.systemFont(ofSize: 13)
-    let regularTextColor = UIColor.secondaryTextLabel
 
-    func setTextAttributes(taskIsOwnedByUser: Bool) {
-        switch taskIsOwnedByUser {
-        case true:
-            font = taskIsOwnedByUserFont
-            textColor = taskIsOwnedByUserTextColor
-        case false:
-            font = regularFont
-            textColor = regularTextColor
-        }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.font = .systemFont(ofSize: 13)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func setTextAttributes(userOwnsTask: Bool) {
+        self.textColor = userOwnsTask ? .activeButton : .secondaryTextLabel
     }
 }

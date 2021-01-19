@@ -34,7 +34,6 @@ class PrimaryButton: UIButton {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     override func layoutSubviews() {
@@ -67,7 +66,6 @@ class SecondaryButton: UIButton {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     private func setup() {
@@ -87,7 +85,6 @@ class TertiaryButton: UIButton {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     private func setup() {

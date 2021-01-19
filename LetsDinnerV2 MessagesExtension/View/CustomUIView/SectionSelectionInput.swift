@@ -87,7 +87,6 @@ class SectionSelectionInput : UIView {
             sectionsCollectionView.selectItem(at: [0,0], animated: true, scrollPosition: .top)
             viewFirstInit = false
         }
-        
     }
     
     func configureInput(sections: [String]) {
@@ -99,11 +98,11 @@ class SectionSelectionInput : UIView {
     }
     
     private func addConstraints() {
-        sectionsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        sectionsCollectionView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        sectionsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-        sectionsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        sectionsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15).isActive = true
+        sectionsCollectionView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-15)
+        }
     }
 }
 
@@ -123,7 +122,6 @@ extension SectionSelectionInput: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         sectionSelectionInputDelegate?.updateSelectedSection(sectionName: sections[indexPath.row])
     }
- 
 }
 
 extension SectionSelectionInput: UICollectionViewDelegateFlowLayout {
@@ -134,5 +132,4 @@ extension SectionSelectionInput: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-    
 }

@@ -72,7 +72,6 @@ extension UIView {
     
     // MARK: Add Blur Effect
     func addBlurEffect() {
-        
         var blurEffect = UIBlurEffect(style: .light)
             
         if #available(iOS 13, *) {
@@ -87,8 +86,6 @@ extension UIView {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
         self.insertSubview(blurEffectView, at: 0)
     }
-    
-    
     
     func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
         if #available(iOS 11.0, *) {
@@ -171,8 +168,4 @@ extension UIView {
         array.forEach { array.append(contentsOf: $0.allSubViews) }
         return array
     }
-    
-    
-    
-
 }

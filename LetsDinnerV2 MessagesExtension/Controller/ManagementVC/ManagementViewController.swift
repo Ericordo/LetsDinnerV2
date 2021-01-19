@@ -460,8 +460,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
     
     private func deleteTask(indexPath: IndexPath) {
         let taskToDelete = viewModel.expandableTasks[indexPath.section].tasks[indexPath.row]
-        let index = Event.shared.tasks.firstIndex { taskToDelete.taskName == $0.taskName &&
-                                                    taskToDelete.parentRecipe == $0.parentRecipe }
+        let index = Event.shared.tasks.firstIndex { taskToDelete.id == $0.id }
         Event.shared.tasks.remove(at: index!)
         viewModel.tasks.value = Event.shared.tasks
         

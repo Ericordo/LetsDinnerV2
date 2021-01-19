@@ -53,7 +53,7 @@ class ReminderManager {
         self.deleteExistingTasks()
         
         // Export tasks
-        let existingTasks = assignedTask.sorted { $0.taskName < $1.taskName } // TO BE EDIT
+        let existingTasks = assignedTask.sorted { $0.name < $1.name } // TO BE EDIT
         existingTasks.forEach { task in
             do {
                 try self.importTasksToReminders(bundleList: bundleList, task: task)
@@ -102,18 +102,18 @@ class ReminderManager {
     
     private func filterAssignedTasks() -> [Task] {
         // Filter only Assigned and Incomplete Tasks
-        return Event.shared.tasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier && $0.taskState == .assigned }
+        return Event.shared.tasks.filter { $0.ownerId == Event.shared.currentUser?.identifier && $0.state == .assigned }
     }
     
     private func importTasksToReminders(bundleList: EKCalendar, task: Task) throws {
         let reminder: EKReminder = EKReminder(eventStore: self.reminderStore)
         
-        if let amount = task.metricAmount, let unit = task.metricUnit {
-            reminder.title = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
-        } else if let amount = task.metricAmount {
-            reminder.title = "\(task.taskName), \(String(format:"%.1f", amount))"
+        if let amount = task.amount, let unit = task.unit {
+            reminder.title = "\(task.name), \(String(format:"%.1f", amount)) \(unit)"
+        } else if let amount = task.amount {
+            reminder.title = "\(task.name), \(String(format:"%.1f", amount))"
         } else {
-            reminder.title = task.taskName
+            reminder.title = task.name
         }
         
         reminder.calendar = bundleList

@@ -271,7 +271,7 @@ class RecipesViewModel {
                 !Event.shared.selectedPublicRecipes.contains(where: { $0.title == task.parentRecipe }) &&
                 task.parentRecipe != LabelStrings.misc
             {
-                let index = Event.shared.tasks.firstIndex { $0.taskName == task.taskName }
+                let index = Event.shared.tasks.firstIndex { $0.id == task.id }
                 Event.shared.tasks.remove(at: index!)
             }
         }
@@ -285,10 +285,9 @@ class RecipesViewModel {
             newRecipes = Event.shared.selectedRecipes
         } else {
             Event.shared.selectedRecipes.forEach { recipe in
-                if !previouslySelectedRecipes.contains(where: { recipe.title == $0.title }) {
+                if !previouslySelectedRecipes.contains(where: { recipe.id == $0.id }) {
                     newRecipes.append(recipe)
-                }
-                if previouslySelectedRecipes.contains(where: { recipe.title == $0.title }) &&
+                } else if previouslySelectedRecipes.contains(where: { recipe.id == $0.id }) &&
                     !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
                     newRecipes.append(recipe)
                 }
@@ -301,8 +300,7 @@ class RecipesViewModel {
             Event.shared.selectedCustomRecipes.forEach { recipe in
                 if !previouslySelectedCustomRecipes.contains(where: { recipe.id == $0.id }) {
                     newCustomRecipes.append(recipe)
-                }
-                if previouslySelectedCustomRecipes.contains(where: { recipe.title == $0.title }) &&
+                } else if previouslySelectedCustomRecipes.contains(where: { recipe.id == $0.id }) &&
                     !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
                     newCustomRecipes.append(recipe)
                 }
@@ -315,71 +313,55 @@ class RecipesViewModel {
             Event.shared.selectedPublicRecipes.forEach { recipe in
                 if !previouslySelectedPublicRecipes.contains(where: { recipe.id == $0.id }) {
                     newPublicRecipes.append(recipe)
-                }
-                if previouslySelectedPublicRecipes.contains(where: { recipe.title == $0.title }) &&
+                } else if previouslySelectedPublicRecipes.contains(where: { recipe.id == $0.id }) &&
                     !Event.shared.tasks.contains(where: { recipe.title == $0.parentRecipe }) {
                     newPublicRecipes.append(recipe)
                 }
             }
         }
         
-        // According to api and custom
         newRecipes.forEach { recipe in
             let recipeName = recipe.title
             let servings = Double(recipe.servings ?? 2)
             let ingredients = recipe.ingredientList
+            let system = defaults.measurementSystem
             
-            if defaults.measurementSystem == "imperial" {
-                ingredients?.forEach({ ingredient in
-                    if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.usAmount, let unit = ingredient.usUnit {
-                        let task = Task(taskName: name,
-                                        assignedPersonUid: "nil",
-                                        taskState: TaskState.unassigned.rawValue,
-                                        taskUid: "nil",
-                                        assignedPersonName: "nil",
-                                        isCustom: false,
-                                        parentRecipe: recipeName)
-                        task.metricAmount = (amount * 2) / Double(servings)
-                        task.metricUnit = unit
-                        task.servings = 2
-                        Event.shared.tasks.append(task)
+            ingredients?.forEach({ ingredient in
+                if let name = ingredient.name?.capitalizingFirstLetter() {
+                    let task = Task(name: name,
+                                    ownerName: "nil",
+                                    ownerId: "nil",
+                                    state: .unassigned,
+                                    isCustom: false,
+                                    parentRecipe: recipeName)
+                    task.servings = 2
+                    let amount = system == "imperial" ? ingredient.usAmount : ingredient.metricAmount
+                    let unit = system == "imperial" ? ingredient.usUnit : ingredient.metricUnit
+                    if let amount = amount {
+                        task.amount = (amount * 2) / Double(servings)
                     }
-                })
-            } else {
-                ingredients?.forEach({ ingredient in
-                    if let name = ingredient.name?.capitalizingFirstLetter(), let amount = ingredient.metricAmount, let unit = ingredient.metricUnit {
-                        let task = Task(taskName: name,
-                                        assignedPersonUid: "nil",
-                                        taskState: TaskState.unassigned.rawValue,
-                                        taskUid: "nil",
-                                        assignedPersonName: "nil",
-                                        isCustom: false,
-                                        parentRecipe: recipeName)
-                        task.metricAmount = (amount * 2) / Double(servings)
-                        task.metricUnit = unit
-                        task.servings = 2
-                        Event.shared.tasks.append(task)
-                    }
-                })
-            }
+                    task.unit = unit
+                    Event.shared.tasks.append(task)
+                }
+            })
         }
-        
+
         newCustomRecipes.forEach { customRecipe in
             let recipeName = customRecipe.title
             let servings = Double(customRecipe.servings)
             let customIngredients = customRecipe.ingredients
             
             customIngredients.forEach { customIngredient in
-                let task = Task(taskName: customIngredient.name,
-                                assignedPersonUid: "nil",
-                                taskState: TaskState.unassigned.rawValue,
-                                taskUid: "nil",
-                                assignedPersonName: "nil",
-                                isCustom: false, parentRecipe: recipeName)
-                task.metricUnit = customIngredient.unit
+                let task = Task(name: customIngredient.name,
+                                ownerName: "nil",
+                                ownerId: "nil",
+                                state: .unassigned,
+                                isCustom: false,
+                                parentRecipe: recipeName)
+                task.unit = customIngredient.unit
                 if let amount = customIngredient.amount {
                     if Int(amount) != 0 {
-                        task.metricAmount = (amount * 2) / servings
+                        task.amount = (amount * 2) / servings
                     }
                 }
                 task.servings = 2
@@ -393,16 +375,16 @@ class RecipesViewModel {
             let publicIngredients = publicRecipe.ingredients
             
             publicIngredients.forEach { publicIngredient in
-                let task = Task(taskName: publicIngredient.name,
-                                assignedPersonUid: "nil",
-                                taskState: TaskState.unassigned.rawValue,
-                                taskUid: "nil",
-                                assignedPersonName: "nil",
-                                isCustom: false, parentRecipe: recipeName)
-                task.metricUnit = publicIngredient.unit
+                let task = Task(name: publicIngredient.name,
+                                ownerName: "nil",
+                                ownerId: "nil",
+                                state: .unassigned,
+                                isCustom: false,
+                                parentRecipe: recipeName)
+                task.unit = publicIngredient.unit
                 if let amount = publicIngredient.amount {
                     if Int(amount) != 0 {
-                        task.metricAmount = (amount * 2) / servings
+                        task.amount = (amount * 2) / servings
                     }
                 }
                 task.servings = 2

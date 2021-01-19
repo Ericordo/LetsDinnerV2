@@ -71,7 +71,9 @@ class TaskSummaryCell: UITableViewCell {
     
     weak var reviewVCDelegate: TaskSummaryCellInReviewVCDelegate?
     
-    let sortedTasks = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+    private var sortedTasks : [Task] {
+        return Event.shared.tasks.sorted { $0.name < $1.name }
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -50,35 +50,35 @@ class TaskCell: UITableViewCell {
     
     func didTapTaskStatusButton(indexPath: IndexPath) {
         guard let task = task else { return }
-        switch task.taskState {
+        switch task.state {
         case .unassigned:
-            personLabel.setTextAttributes(taskIsOwnedByUser: true)
-            task.assignedPersonName = defaults.username
-            task.assignedPersonUid = Event.shared.currentUser?.identifier
-            task.taskState = .assigned
+            personLabel.setTextAttributes(userOwnsTask: true)
+            task.ownerName = defaults.username
+            task.ownerId = Event.shared.currentUser?.identifier
+            task.state = .assigned
             personLabel.text = AlertStrings.assignedToMyself
             delegate?.taskCellUpdateProgress(indexPath: indexPath)
-            taskStatusButton.setState(state: task.taskState)
+            taskStatusButton.setState(state: task.state)
         case .assigned:
-            if Event.shared.currentUser?.identifier == task.assignedPersonUid {
-                task.taskState = .completed
-                task.assignedPersonName = defaults.username
-                task.assignedPersonUid = Event.shared.currentUser?.identifier
+            if Event.shared.currentUser?.identifier == task.ownerId {
+                task.state = .completed
+                task.ownerName = defaults.username
+                task.ownerId = Event.shared.currentUser?.identifier
                 personLabel.text = AlertStrings.completed
-                taskStatusButton.setState(state: task.taskState)
+                taskStatusButton.setState(state: task.state)
                 delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
         case .completed:
-            if Event.shared.currentUser?.identifier == task.assignedPersonUid {
-                task.taskState = .unassigned
-                task.assignedPersonName = "nil"
-                task.assignedPersonUid = "nil"
+            if Event.shared.currentUser?.identifier == task.ownerId {
+                task.state = .unassigned
+                task.ownerName = "nil"
+                task.ownerId = "nil"
                 personLabel.text = ""
-                taskStatusButton.setState(state: task.taskState)
+                taskStatusButton.setState(state: task.state)
                 delegate?.taskCellUpdateProgress(indexPath: indexPath)
             }
         }
-        if let index = Event.shared.tasks.firstIndex(where: { $0.taskUid == task.taskUid }) {
+        if let index = Event.shared.tasks.firstIndex(where: { $0.id == task.id }) {
             Event.shared.tasks[index] = task
         }
         delegate?.taskCellDidTapTaskStatusButton()
@@ -87,40 +87,40 @@ class TaskCell: UITableViewCell {
     func configureCell(task: Task, indexPath: Int) {
         self.task = task
         self.indexPath = indexPath
-                if let amount = task.metricAmount {
+                if let amount = task.amount {
             if amount.truncatingRemainder(dividingBy: 1) == 0.0 {
-                if let unit = task.metricUnit {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount)) \(unit)"
+                if let unit = task.unit {
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.0f", amount)) \(unit)"
                 } else {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.0f", amount))"
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.0f", amount))"
                 }
             } else {
-                if let unit = task.metricUnit {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount)) \(unit)"
+                if let unit = task.unit {
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.1f", amount)) \(unit)"
                 } else {
-                    taskNameLabel.text = "\(task.taskName), \(String(format:"%.1f", amount))"
+                    taskNameLabel.text = "\(task.name), \(String(format:"%.1f", amount))"
                 }
             }
         } else {
-            taskNameLabel.text = task.taskName
+            taskNameLabel.text = task.name
         }
-        taskStatusButton.setState(state: task.taskState)
-        if task.taskState == .assigned || task.taskState == .completed {
-            if Event.shared.currentUser?.identifier != task.assignedPersonUid {
-                personLabel.text = task.assignedPersonName
-                personLabel.setTextAttributes(taskIsOwnedByUser: false)
-                taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.taskState)
+        taskStatusButton.setState(state: task.state)
+        if task.state == .assigned || task.state == .completed {
+            if Event.shared.currentUser?.identifier != task.ownerId {
+                personLabel.text = task.ownerName
+                personLabel.setTextAttributes(userOwnsTask: false)
+                taskStatusButton.setColorAttributes(ownedByUser: false, taskState: task.state)
             } else {
-                if task.taskState == .completed {
+                if task.state == .completed {
                     personLabel.text = AlertStrings.completed
                 } else {
                     personLabel.text = AlertStrings.assignedToMyself
                 }
-                personLabel.setTextAttributes(taskIsOwnedByUser: true)
-                taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.taskState)
+                personLabel.setTextAttributes(userOwnsTask: true)
+                taskStatusButton.setColorAttributes(ownedByUser: true, taskState: task.state)
             }
         } else {
-            personLabel.setTextAttributes(taskIsOwnedByUser: false)
+            personLabel.setTextAttributes(userOwnsTask: false)
             personLabel.text = AlertStrings.noAssignment
         }
         taskStatusButton.isUserInteractionEnabled = false

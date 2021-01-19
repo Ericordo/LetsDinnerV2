@@ -39,13 +39,15 @@ extension UIView {
         self.isUserInteractionEnabled = true
         self.GestureRecognizerAction = action
         
-        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeRightGesture(sender:)))
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self,
+                                                              action: #selector(handleSwipeRightGesture(sender:)))
         self.addGestureRecognizer(swipeGestureRecognizer)
     }
     
     public func addTapGestureToHideKeyboard() {
         self.isUserInteractionEnabled = true
-        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self, action: #selector(self.endEditing(_:)))
+        let tapGestureToHideKeyboard = UITapGestureRecognizer(target: self,
+                                                              action: #selector(self.endEditing(_:)))
         self.addGestureRecognizer(tapGestureToHideKeyboard)
     }
     
@@ -57,12 +59,8 @@ extension UIView {
         if sender.direction == .right {
             if let action = self.GestureRecognizerAction {
                 action?()
-                print("Slide Right and go back")
-            } else {
-                print("no action")
             }
         }
     }
-    
 }
 

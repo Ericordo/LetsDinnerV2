@@ -39,8 +39,8 @@ class ManagementViewModel {
     private func updateServings(servings: Int) {
         Event.shared.tasks.forEach { task in
             if !task.isCustom {
-                if let amount = task.metricAmount, let oldServings = task.servings {
-                    task.metricAmount = (amount * Double(servings)) / Double(oldServings)
+                if let amount = task.amount, let oldServings = task.servings {
+                    task.amount = (amount * Double(servings)) / Double(oldServings)
                     task.servings = servings
                 }
             }

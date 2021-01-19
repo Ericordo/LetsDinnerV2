@@ -19,7 +19,6 @@ class ProgressCircle: UIView {
     
       required init?(coder aDecoder: NSCoder) {
           super.init(coder: aDecoder)
-          configureView()
       }
     
     private func configureView() {
@@ -60,9 +59,6 @@ class ProgressCircle: UIView {
     private func roundUp(_ value: Double, toNearest: Double) -> Double {
         return ceil(value / toNearest) * toNearest
     }
-    
-
-    
 }
 
 

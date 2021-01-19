@@ -13,12 +13,14 @@ import FirebaseDatabase
 class TasksListViewModel {
     
     private let usersChild = Database.database().reference()
+        .child(DataKeys.events)
         .child(Event.shared.hostIdentifier)
         .child(DataKeys.events)
         .child(Event.shared.firebaseEventUid)
         .child(DataKeys.onlineUsers)
     
     private let tasksChild = Database.database().reference()
+        .child(DataKeys.events)
         .child(Event.shared.hostIdentifier)
         .child(DataKeys.events)
         .child(Event.shared.firebaseEventUid)
@@ -52,7 +54,7 @@ class TasksListViewModel {
     var currentUserOnline = false
     
     init() {
-        tasks = MutableProperty<[Task]>(Event.shared.tasks.sorted { $0.taskName < $1.taskName })
+        tasks = MutableProperty<[Task]>(Event.shared.tasks.sorted { $0.name < $1.name })
         servings = MutableProperty<Int>(Event.shared.servings)
         
         let (newDataSignal, newDataObserver) = Signal<Result<Void, LDError>, Never>.pipe()
@@ -82,10 +84,9 @@ class TasksListViewModel {
             }
         }
         
-        servings.producer.observe(on: UIScheduler())
+        servings.producer
             .take(duringLifetimeOf: self)
-            .startWithValues { [weak self] servings in
-                guard let self = self else { return }
+            .startWithValues { [unowned self] servings in
                 self.updateServings(servings: servings)
         }
         
@@ -97,8 +98,8 @@ class TasksListViewModel {
         Event.shared.servings = servings
         Event.shared.tasks.forEach { task in
             if !task.isCustom {
-                if let amount = task.metricAmount {
-                    task.metricAmount = (amount * Double(servings)) / Double(oldServings)
+                if let amount = task.amount {
+                    task.amount = (amount * Double(servings)) / Double(oldServings)
                     task.servings = servings
                 }
             }
@@ -139,16 +140,23 @@ class TasksListViewModel {
     }
     
     func sortTasks() {
-        tasks.value = tasks.value.sorted(by: { $0.taskState.rawValue < $1.taskState.rawValue } )
+        tasks.value = tasks.value.sorted(by: { $0.state.rawValue < $1.state.rawValue } )
         prepareTasks()
     }
     
     func updateSummaryText() {
         let numberOfUpdatedTasks = Event.shared.getAssignedNewTasks() + Event.shared.getCompletedTasks()
         let taskString = numberOfUpdatedTasks == 1 ? LabelStrings.task : LabelStrings.tasks
-        let summaryForServings = String.localizedStringWithFormat(LabelStrings.updatedServingsSummary, defaults.username)
-        let summaryForTasks = String.localizedStringWithFormat(LabelStrings.updatedTasksSummary, defaults.username, numberOfUpdatedTasks, taskString)
-        let summaryForTasksAndServings = String.localizedStringWithFormat(LabelStrings.updatedTasksAndServingsSummary, defaults.username, numberOfUpdatedTasks, taskString)
+        let summaryForServings = String.localizedStringWithFormat(LabelStrings.updatedServingsSummary,
+                                                                  defaults.username)
+        let summaryForTasks = String.localizedStringWithFormat(LabelStrings.updatedTasksSummary,
+                                                               defaults.username,
+                                                               numberOfUpdatedTasks,
+                                                               taskString)
+        let summaryForTasksAndServings = String.localizedStringWithFormat(LabelStrings.updatedTasksAndServingsSummary,
+                                                                          defaults.username,
+                                                                          numberOfUpdatedTasks,
+                                                                          taskString)
         let tasksUpdate = Event.shared.tasksNeedUpdate
         let servingsUpdate = Event.shared.servingsNeedUpdate
         if tasksUpdate && servingsUpdate {
@@ -201,7 +209,7 @@ class TasksListViewModel {
                     self.isLoading.value = false
                     self.newDataObserver.send(value: .failure(error))
                 case .success():
-                    self.tasks.value = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+                    self.tasks.value = Event.shared.tasks.sorted { $0.name < $1.name }
                     self.servings.value = Event.shared.servings
                 }
         }
@@ -209,18 +217,19 @@ class TasksListViewModel {
     
     func restoreTasks() {
         var newTasks = [Task]()
-        Event.shared.currentConversationTaskStates.forEach { task in
-            let newTask = Task(taskName: task.taskName,
-                               assignedPersonUid: task.assignedPersonUid,
-                               taskState: task.taskState.rawValue,
-                               taskUid: task.taskUid,
-                               assignedPersonName: task.assignedPersonName,
+        Event.shared.currentConversationTasks.forEach { task in
+            let newTask = Task(id: task.id,
+                               name: task.name,
+                               ownerName: task.ownerName,
+                               ownerId: task.ownerId,
+                               state: task.state,
                                isCustom: task.isCustom,
                                parentRecipe: task.parentRecipe)
-            if let amount = task.metricAmount,
-                let unit = task.metricUnit {
-                newTask.metricAmount = amount
-                newTask.metricUnit = unit
+            if let amount = task.amount {
+                newTask.amount = amount
+            }
+            if let unit = task.unit {
+                newTask.unit = unit
             }
             newTasks.append(newTask)
         }
@@ -261,11 +270,11 @@ class TasksListViewModel {
     }
     
     func pendingChanges() -> Bool {
-        let pendingAssignedTasks = self.pendingTasks.filter { $0.assignedPersonUid == Event.shared.currentUser?.identifier }
-        let freeTasks = Event.shared.tasks.filter { $0.taskState == .unassigned }
+        let pendingAssignedTasks = self.pendingTasks.filter { $0.ownerId == Event.shared.currentUser?.identifier }
+        let freeTasks = Event.shared.tasks.filter { $0.state == .unassigned }
         
         pendingAssignedTasks.forEach { pendingTask in
-            if freeTasks.contains(where: { $0.taskUid == pendingTask.taskUid }) {
+            if freeTasks.contains(where: { $0.id == pendingTask.id }) {
                 tasksToUpdate.append(pendingTask)
             }
         }
@@ -273,15 +282,15 @@ class TasksListViewModel {
     }
     
     func applyPendingChanges() {
-        tasksToUpdate.forEach { taskUpdate in
-            let index = Event.shared.tasks.firstIndex { $0.taskUid == taskUpdate.taskUid }
+        tasksToUpdate.forEach { taskToUpdate in
+            let index = Event.shared.tasks.firstIndex { $0.id == taskToUpdate.id }
             if let index = index {
-                Event.shared.tasks[index] = taskUpdate
+                Event.shared.tasks[index] = taskToUpdate
             }
         }
         self.pendingTasks.removeAll()
         self.tasksToUpdate.removeAll()
-        self.tasks.value = Event.shared.tasks.sorted { $0.taskName < $1.taskName }
+        self.tasks.value = Event.shared.tasks.sorted { $0.name < $1.name }
         self.prepareTasks()
     }
 }

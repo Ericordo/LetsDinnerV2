@@ -212,11 +212,11 @@ class PDFCreator {
         let tasks = Event.shared.tasks
         tasks.forEach({ task in
             if task.parentRecipe == recipeName {
-                let ingredientName = NSMutableAttributedString(string: "- \(task.taskName)", attributes: subtextAttributes)
-                if let amount = task.metricAmount {
+                let ingredientName = NSMutableAttributedString(string: "- \(task.name)", attributes: subtextAttributes)
+                if let amount = task.amount {
                     ingredientName.append(NSAttributedString(string: ", \(formatAmount(amount))", attributes: subtextAttributes))
                 }
-                if let unit = task.metricUnit {
+                if let unit = task.unit {
                     ingredientName.append(NSAttributedString(string: " \(unit)", attributes: subtextAttributes))
                 }
                 ingredientName.append(NSAttributedString(string: "\n"))

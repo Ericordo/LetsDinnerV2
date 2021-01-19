@@ -9,18 +9,9 @@
 import UIKit
 
 class InfoInputToolbar : UIToolbar {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configureView()
-    }
-    
+        
     private var infoLabelText = String()
+
     private var selectedTextField = UITextField()
     
     private let infoLabel : UILabel = {
@@ -37,6 +28,15 @@ class InfoInputToolbar : UIToolbar {
         return button
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     private func configureView() {
         let labelItem = UIBarButtonItem(customView: infoLabel)
         let buttonItem = UIBarButtonItem(customView: addButton)
@@ -53,10 +53,4 @@ class InfoInputToolbar : UIToolbar {
         infoLabel.text = info
         selectedTextField = textField
     }
-    
-    
-    
-    
-    
-    
 }

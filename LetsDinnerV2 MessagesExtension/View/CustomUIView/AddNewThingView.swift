@@ -318,22 +318,21 @@ extension AddNewThingView: UITextFieldDelegate {
                                             unit: unitTextField.text)
            
         case .manageTask:
-            let taskName = item
+            let name = item
             let amount = amountTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let unit = unitTextField.text!
 
-            // Pass to Global Varaible
-            let newTask = Task(taskName: taskName,
-                               assignedPersonUid: "nil",
-                               taskState: TaskState.unassigned.rawValue,
-                               taskUid: "nil",
-                               assignedPersonName: "nil",
+            // Pass to Global Variable
+            let newTask = Task(name: name,
+                               ownerName: "nil",
+                               ownerId: "nil",
+                               state: .unassigned,
                                isCustom: amount.isEmpty,
                                parentRecipe: self.selectedSection ?? DefaultSectionName.miscellaneous.labelString)
             if !amount.isEmpty {
-                newTask.metricAmount = amount.doubleValue
+                newTask.amount = amount.doubleValue
                 newTask.servings = Event.shared.servings
-                newTask.metricUnit = unit
+                newTask.unit = unit
             }
                 
             Event.shared.tasks.append(newTask)

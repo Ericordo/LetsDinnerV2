@@ -11,8 +11,6 @@ import UIKit
 let defaults = UserDefaults.standard
 
 enum ApiKeys {
-        static let appId =  "5dbeb10b"
-        static let apiKey = "b92d6e0482b3e23150ef3060aec1fd31"
         static let apiKeySpoonacular = "123e94eacbbf40e497d48a0dd5b83189"
     // In case too many requests during testing
         static let backUpKey = "b07aca6301b44075ac9b4c9b09a2b3ac"
@@ -24,8 +22,6 @@ enum Keys {
     static let profilePicUrl = "profilePicUrl"
     static let address = "address"
     static let measurementSystem = "measurementSystem"
-//    static let accepted = "Accepted"
-//    static let declined = "Declined"
     static let userUid = "userUid"
     static let onboardingComplete = "onboardingComplete"
     static let searchType = "searchType"
@@ -159,12 +155,10 @@ enum DataKeys {
     static let tasks = "tasks"
     static let title = "title"
     static let ownerName = "ownerName"
-    static let ownerUid = "ownerUid"
+    static let ownerId = "ownerId"
     static let state = "state"
     static let isCustom = "isCustom"
     static let parentRecipe = "parentRecipe"
-    static let metricUnit = "metricUnit"
-    static let metricAmount = "metricAmount"
     static let fullName = "fullName"
     static let hasAccepted = "hasAccepted"
     static let profilePicUrl = "profilePicUrl"
