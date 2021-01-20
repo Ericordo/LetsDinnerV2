@@ -1,5 +1,5 @@
 //
-//  Ingredient - Spoonacular.swift
+//  Ingredient.swift
 //  LetsDinnerV2 MessagesExtension
 //
 //  Created by Eric Ordonneau on 04/12/2019.

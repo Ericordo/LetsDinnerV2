@@ -444,7 +444,7 @@ extension ManagementViewController: UITableViewDataSource, UITableViewDelegate {
             self.viewModel.prepareData()
         })
         
-        deleteAction.image = UIImage(named: "deleteIcon.png")
+        deleteAction.image = Images.deleteIcon
         
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = true
