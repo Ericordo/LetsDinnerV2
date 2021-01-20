@@ -106,9 +106,9 @@
 		88B7833023717E3E009E4F3C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7832F23717E3E009E4F3C /* String.swift */; };
 		88C44FCA255AFAB500748844 /* LandscapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C44FC9255AFAB500748844 /* LandscapeViewController.swift */; };
 		88C44FCE255B34DF00748844 /* LDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C44FCD255B34DF00748844 /* LDViewController.swift */; };
-		88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */; };
-		88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */; };
-		88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */; };
+		88C95B29239831CA000E750A /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B28239831CA000E750A /* ApiHelper.swift */; };
+		88C95B2B239831F2000E750A /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2A239831F2000E750A /* Recipe.swift */; };
+		88C95B2D23983203000E750A /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C95B2C23983203000E750A /* Ingredient.swift */; };
 		88C95B2F23984736000E750A /* SpoonacularRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 88C95B2E23984736000E750A /* SpoonacularRecipes.json */; };
 		88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */; };
 		88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C9650C239A9C3600CFC710 /* SectionInputCell.swift */; };
@@ -297,9 +297,9 @@
 		88B7832F23717E3E009E4F3C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		88C44FC9255AFAB500748844 /* LandscapeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeViewController.swift; sourceTree = "<group>"; };
 		88C44FCD255B34DF00748844 /* LDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDViewController.swift; sourceTree = "<group>"; };
-		88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataHelper - Spoonacular.swift"; sourceTree = "<group>"; };
-		88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe - Spoonacular.swift"; sourceTree = "<group>"; };
-		88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient - Spoonacular.swift"; sourceTree = "<group>"; };
+		88C95B28239831CA000E750A /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
+		88C95B2A239831F2000E750A /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		88C95B2C23983203000E750A /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		88C95B2E23984736000E750A /* SpoonacularRecipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SpoonacularRecipes.json; sourceTree = "<group>"; };
 		88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSelectionInput.swift; sourceTree = "<group>"; };
 		88C9650C239A9C3600CFC710 /* SectionInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionInputCell.swift; sourceTree = "<group>"; };
@@ -724,8 +724,8 @@
 			children = (
 				884CE1C22461FDF8001062BF /* LDRecipe.swift */,
 				884CE1C42461FE02001062BF /* LDIngredient.swift */,
-				88C95B2A239831F2000E750A /* Recipe - Spoonacular.swift */,
-				88C95B2C23983203000E750A /* Ingredient - Spoonacular.swift */,
+				88C95B2A239831F2000E750A /* Recipe.swift */,
+				88C95B2C23983203000E750A /* Ingredient.swift */,
 				882B9CC523998738001634D9 /* CustomRecipe.swift */,
 				882B9CC72399A0BD001634D9 /* CustomIngredient.swift */,
 				884CE1C62465C50A001062BF /* CKRecipe.swift */,
@@ -966,7 +966,7 @@
 				881AC72D245218750055F120 /* ImageHelper.swift */,
 				B8CFF47D2454070200799DA8 /* CustomOrderHelper.swift */,
 				884CE1B9246086CC001062BF /* RealmHelper.swift */,
-				88C95B28239831CA000E750A /* DataHelper - Spoonacular.swift */,
+				88C95B28239831CA000E750A /* ApiHelper.swift */,
 				884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */,
 				88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */,
 				888C8B1425A5E8E00058DB59 /* PublicRecipeManager.swift */,
@@ -1232,14 +1232,14 @@
 				88DCC13925AB7E2C009174C7 /* LeftAlignedFlowLayout.swift in Sources */,
 				880B13602374B08A003E29AC /* TaskCVCell.swift in Sources */,
 				88056E7C2477C97F00F0D90F /* IdleViewController.swift in Sources */,
-				88C95B2D23983203000E750A /* Ingredient - Spoonacular.swift in Sources */,
+				88C95B2D23983203000E750A /* Ingredient.swift in Sources */,
 				880B13652374B3F2003E29AC /* TaskPersonLabel.swift in Sources */,
 				888C8B1125A5D8030058DB59 /* PublicRecipe.swift in Sources */,
 				884CE1C72465C50A001062BF /* CKRecipe.swift in Sources */,
 				885133B124310C32004CD858 /* EventTranscriptView.swift in Sources */,
 				8821535724E0A9BD008A8DD8 /* RecipeCreationViewController.swift in Sources */,
 				B8CFF47E2454070200799DA8 /* CustomOrderHelper.swift in Sources */,
-				88C95B2B239831F2000E750A /* Recipe - Spoonacular.swift in Sources */,
+				88C95B2B239831F2000E750A /* Recipe.swift in Sources */,
 				B886BD9C24790B7B0069C248 /* CreateRecipeCookingStepCell.swift in Sources */,
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
 				88F94EBD24EC0DAC00FFBB14 /* LDListItemAdditionView.swift in Sources */,
@@ -1327,7 +1327,7 @@
 				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
-				88C95B29239831CA000E750A /* DataHelper - Spoonacular.swift in Sources */,
+				88C95B29239831CA000E750A /* ApiHelper.swift in Sources */,
 				B85071D32392723D00632026 /* UIView+GestureRecognizer.swift in Sources */,
 				884CE1B8245EEBF5001062BF /* LDNavigationViewController.swift in Sources */,
 				885088BC255488E5002AFB92 /* PremiumCheckViewModel.swift in Sources */,

@@ -10,12 +10,6 @@ import UIKit
 
 let defaults = UserDefaults.standard
 
-enum ApiKeys {
-        static let apiKeySpoonacular = "123e94eacbbf40e497d48a0dd5b83189"
-    // In case too many requests during testing
-        static let backUpKey = "b07aca6301b44075ac9b4c9b09a2b3ac"
-}
-
 enum Keys {
     static let firstName = "firstName"
     static let lastName = "lastName"
@@ -85,6 +79,7 @@ enum Images {
     // ManagementVC
     static let swipeActionAssign = UIImage(named: "swipeActionAssign")
     static let swipeActionComplete = UIImage(named: "swipeActionComplete")
+    static let deleteIcon = UIImage(named: "deleteIcon.png")
     
     // AddThingView
     static let addTask = UIImage(named: "sendFill")
@@ -129,6 +124,7 @@ enum DataKeys {
     static let searchAllowed = "searchAllowed"
     static let searchNumber = "searchNumber"
     static let lastSearchDate = "lastSearchDate"
+    static let apiKey = "apiKey"
     static let events = "Events"
     static let membersRecipes = "PublicRecipes"
     static let publicRecipes = "publicRecipes"
@@ -171,6 +167,3 @@ enum DataKeys {
     static let recipe = "recipe"
     static let keywords = "keywords"
 }
-
-
-

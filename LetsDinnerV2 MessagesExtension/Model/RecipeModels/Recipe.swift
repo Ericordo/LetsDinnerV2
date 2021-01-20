@@ -1,5 +1,5 @@
 //
-//  Recipe - Spoonacular.swift
+//  Recipe.swift
 //  LetsDinnerV2 MessagesExtension
 //
 //  Created by Eric Ordonneau on 04/12/2019.
@@ -9,7 +9,6 @@
 import Foundation
 
 struct Recipe : Codable {
-    
     var title: String
     var imageUrl: String?
     var sourceUrl: String?

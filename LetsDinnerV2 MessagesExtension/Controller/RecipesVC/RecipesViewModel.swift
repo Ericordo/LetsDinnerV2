@@ -44,7 +44,7 @@ class RecipesViewModel {
     private let realmHelper = RealmHelper.shared
     private let searchManager = SearchManager.shared
     private let cloudManager = CloudManager.shared
-    private let dataHelper = DataHelper.shared
+    private let apiHelper = ApiHelper.shared
     private let publicRecipeManager = PublicRecipeManager.shared
     
     private var customRecipeIds : [String] {
@@ -125,12 +125,12 @@ class RecipesViewModel {
                 guard searchAllowed else {
                     return SignalProducer(error: LDError.apiRequestLimit)
                 }
-                return self.dataHelper.fetchSearchResultsBulk(keyword: keyword)
+                return self.apiHelper.fetchSearchResultsBulk(keyword: keyword)
             }
     }
     
     private func loadDefaultRecipes() {
-        self.dataHelper.loadDefaultRecipes()
+        self.apiHelper.loadDefaultRecipes()
             .on(starting: { self.isLoading.value = true })
             .on(completed: { self.isLoading.value = false })
             .take(duringLifetimeOf: self)
