@@ -23,6 +23,7 @@ class LDListItemAdditionView: UIView {
         textField.textColor = .textLabel
         textField.font = .systemFont(ofSize: 17)
         textField.tintColor = .activeButton
+        textField.returnKeyType = .done
         return textField
     }()
     
@@ -34,6 +35,7 @@ class LDListItemAdditionView: UIView {
         textField.font = .systemFont(ofSize: 13, weight: .semibold)
         textField.tintColor = .activeButton
         textField.placeholder = LabelStrings.amountPlaceholder
+        textField.returnKeyType = .done
         return textField
     }()
     
