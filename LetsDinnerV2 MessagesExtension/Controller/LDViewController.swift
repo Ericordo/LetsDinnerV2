@@ -10,12 +10,29 @@ import UIKit
 
 class LDViewController: UIViewController {
 
+    private var offlineVC: NoNetworkViewController?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        NetworkManager.shared.reachability.whenUnreachable = { reachability in
+            self.showOfflinePage()
+        }
+        NetworkManager.shared.reachability.whenReachable = { reachability in
+            self.removeOfflinePage()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        NetworkManager.isReachable(completed: { [weak self] _ in
+            guard let self = self else { return }
+            self.removeOfflinePage()
+        })
+        NetworkManager.isUnreachable(completed: { [weak self] _ in
+            guard let self = self else { return }
+            guard self.offlineVC == nil else { return }
+            self.showOfflinePage()
+        })
         self.showLandscapeViewControllerIfNeeded()
     }
     
@@ -65,4 +82,20 @@ class LDViewController: UIViewController {
         }
          controller.didMove(toParent: self)
      }
+    
+    private func showOfflinePage() {
+        self.offlineVC = NoNetworkViewController()
+        guard let offlineVC = self.offlineVC else { return }
+        self.addChildViewController(controller: offlineVC)
+    }
+    
+    private func removeOfflinePage() {
+        if let offlineVC = self.offlineVC {
+            DispatchQueue.main.async {
+                offlineVC.view.removeFromSuperview()
+                offlineVC.removeFromParent()
+            }
+        }
+        self.offlineVC = nil
+    }
 }

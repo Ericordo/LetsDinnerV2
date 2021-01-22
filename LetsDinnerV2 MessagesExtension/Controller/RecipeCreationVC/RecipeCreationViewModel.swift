@@ -340,6 +340,9 @@ class RecipeCreationViewModel {
     
     // MARK: Temporary back-up
     @objc private func backupRecipe() {
+        guard !informationIsEmpty else {
+            defaults.deleteRecipeBackup()
+            return }
         let recipe = LDRecipe(id: "",
                               title: self.recipeName.value,
                               servings: self.servings.value,

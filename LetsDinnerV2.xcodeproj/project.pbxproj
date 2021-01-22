@@ -113,6 +113,9 @@
 		88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */; };
 		88C9650E239A9C3600CFC710 /* SectionInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C9650C239A9C3600CFC710 /* SectionInputCell.swift */; };
 		88CCDF4E25A0DD6700D601A5 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */; };
+		88D31A6F25BB5D9F00D4A2CA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D31A6E25BB5D9F00D4A2CA /* Reachability.swift */; };
+		88D31A7325BB5DC200D4A2CA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D31A7225BB5DC200D4A2CA /* NetworkManager.swift */; };
+		88D31A7725BB5DF900D4A2CA /* NoNetworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D31A7625BB5DF900D4A2CA /* NoNetworkViewController.swift */; };
 		88D33F0923A534C70061AD9A /* InfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D33F0823A534C70061AD9A /* InfoInputView.swift */; };
 		88D9AB33246B19DD007716E6 /* EventDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */; };
 		88D9AB35246B1A02007716E6 /* EventDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */; };
@@ -304,6 +307,9 @@
 		88C96509239A92DC00CFC710 /* SectionSelectionInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSelectionInput.swift; sourceTree = "<group>"; };
 		88C9650C239A9C3600CFC710 /* SectionInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionInputCell.swift; sourceTree = "<group>"; };
 		88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
+		88D31A6E25BB5D9F00D4A2CA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		88D31A7225BB5DC200D4A2CA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		88D31A7625BB5DF900D4A2CA /* NoNetworkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNetworkViewController.swift; sourceTree = "<group>"; };
 		88D33F0823A534C70061AD9A /* InfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoInputView.swift; sourceTree = "<group>"; };
 		88D9AB32246B19DD007716E6 /* EventDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewModel.swift; sourceTree = "<group>"; };
 		88D9AB34246B1A02007716E6 /* EventDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescriptionViewController.swift; sourceTree = "<group>"; };
@@ -623,6 +629,7 @@
 				884E0E562533560700E165C4 /* RecipeBookVC */,
 				88C44FC9255AFAB500748844 /* LandscapeViewController.swift */,
 				88C44FCD255B34DF00748844 /* LDViewController.swift */,
+				88D31A7625BB5DF900D4A2CA /* NoNetworkViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -970,6 +977,8 @@
 				884A5D8C24A3662D00CBF8AF /* PDFCreator.swift */,
 				88CCDF4D25A0DD6700D601A5 /* SearchManager.swift */,
 				888C8B1425A5E8E00058DB59 /* PublicRecipeManager.swift */,
+				88D31A6E25BB5D9F00D4A2CA /* Reachability.swift */,
+				88D31A7225BB5DC200D4A2CA /* NetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1244,6 +1253,7 @@
 				88D9AB39246B50E3007716E6 /* ManagementViewController.swift in Sources */,
 				88F94EBD24EC0DAC00FFBB14 /* LDListItemAdditionView.swift in Sources */,
 				B88457E024A72CE000077C0F /* Double.swift in Sources */,
+				88D31A7325BB5DC200D4A2CA /* NetworkManager.swift in Sources */,
 				88C9650A239A92DC00CFC710 /* SectionSelectionInput.swift in Sources */,
 				8827BB2823F5DDAB00DEDC39 /* CloudManager.swift in Sources */,
 				88349F412370D10A002A1879 /* RecipeCell.swift in Sources */,
@@ -1259,6 +1269,7 @@
 				3270EC2524471A5E00E78445 /* ThankYouViewController.swift in Sources */,
 				88D9AB35246B1A02007716E6 /* EventDescriptionViewController.swift in Sources */,
 				885C60BE23805A3D00ED3A17 /* StepTracking.swift in Sources */,
+				88D31A6F25BB5D9F00D4A2CA /* Reachability.swift in Sources */,
 				886EB36923DDFF11002CFCB5 /* CancelCell.swift in Sources */,
 				885C60BB2380311100ED3A17 /* TaskManagementCell.swift in Sources */,
 				884A5D8D24A3662D00CBF8AF /* PDFCreator.swift in Sources */,
@@ -1326,6 +1337,7 @@
 				887BE721240470F6006619C7 /* LDLabel.swift in Sources */,
 				B8E4CA7823812157006DD095 /* TitleCell.swift in Sources */,
 				885C60C72380A15400ED3A17 /* RecipeCVCell.swift in Sources */,
+				88D31A7725BB5DF900D4A2CA /* NoNetworkViewController.swift in Sources */,
 				880B137323757224003E29AC /* UserCVCell.swift in Sources */,
 				88C95B29239831CA000E750A /* ApiHelper.swift in Sources */,
 				B85071D32392723D00632026 /* UIView+GestureRecognizer.swift in Sources */,

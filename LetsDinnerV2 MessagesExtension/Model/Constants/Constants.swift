@@ -31,6 +31,7 @@ enum Images {
     static let chevronRight = UIImage(named: "chevronRight")!
     static let settings = UIImage(named: "settingsButtonOutlinedWhite")
     static let logo = UIImage(named: "appIconWhite")
+    static let noNetwork = UIImage(named: "noNetwork")!
     // Welcome Screen
     static let chatIcon = UIImage(named: "chatIcon")!
     static let inviteIcon = UIImage(named: "inviteIcon")!
