@@ -11,6 +11,8 @@ import Foundation
 enum LabelStrings {
     static let next = NSLocalizedString("Next", comment: "Next")
     static let restore = NSLocalizedString("Restore", comment: "restore")
+    static let noNetworkTitle = NSLocalizedString("No Network", comment: "no network")
+    static let noNetworkDescription = NSLocalizedString("It seems that your device is not connected to internet. Please come back online!", comment: "no network description")
     
     // InitialVC
     static let letsdinner = "Let's Dinner!"

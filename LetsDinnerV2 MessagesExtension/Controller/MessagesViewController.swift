@@ -20,8 +20,11 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-//        print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
+
+        #if DEBUG
+        print(Realm.Configuration.defaultConfiguration.fileURL ?? "")
+        #endif
+
         self.view.backgroundColor = .backgroundColor
         
         #warning("Get rid of that and just reinstall the app")

@@ -71,7 +71,7 @@ class RecipeCreationViewController: LDViewController {
         let textField = UITextField()
         textField.placeholder = LabelStrings.recipeNamePlaceholder
         textField.autocapitalizationType = .words
-        textField.returnKeyType = .next
+        textField.returnKeyType = .done
         textField.borderStyle = .none
         textField.clearButtonMode = .whileEditing
         textField.textColor = .textLabel
@@ -170,8 +170,6 @@ class RecipeCreationViewController: LDViewController {
     private let picturePicker = UIImagePickerController()
     
     private var imageState: ImageState = .addPic
-    
-    private var tapGestureToHideKeyboard = UITapGestureRecognizer()
     
     private let loadingView = LDLoadingView()
     
@@ -520,14 +518,11 @@ class RecipeCreationViewController: LDViewController {
         scrollView.scrollIndicatorInsets = scrollView.contentInset
         recipeNameTextField.delegate = self
         ingredientsVC.textFieldView.textField.delegate = self
+        ingredientsVC.textFieldView.secondaryTextField.delegate = self
         stepsVC.textFieldView.textField.delegate = self
         commentsVC.textFieldView.textField.delegate = self
         keywordsVC.keywordField.delegate = self
         picturePicker.delegate = self
-        tapGestureToHideKeyboard = UITapGestureRecognizer(target: self.view,
-                                                          action: #selector(UIView.endEditing(_:)))
-//        tapGestureToHideKeyboard.delegate = self
-        tapGestureToHideKeyboard.cancelsTouchesInView = false
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(informationLabel)
@@ -876,8 +871,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
             self.scrollView.setContentOffset(CGPoint(x: 0, y: activeFieldYPosition), animated: true)
         }
         
-        self.view.addGestureRecognizer(self.tapGestureToHideKeyboard)
-        
         if let activeField = activeField {
             scrollView.scrollRectToVisible(activeField.frame, animated: true)
         }
@@ -887,19 +880,6 @@ extension RecipeCreationViewController: UIScrollViewDelegate {
         DispatchQueue.main.async {
             self.scrollView.contentInset = UIEdgeInsets(top: self.topViewMaxHeight, left: 0, bottom: self.bottomViewHeight, right: 0)
             self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset
-            self.scrollView.setContentOffset(CGPoint(x: 0, y: -96), animated: true)
         }
-        self.view.removeGestureRecognizer(self.tapGestureToHideKeyboard)
     }
 }
-
-//extension RecipeCreationViewControllerBis: UIGestureRecognizerDelegate {
-//    private func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-//        if touch.view?.isDescendant(of: self.ingredientsVC.listTableView) == true ||
-//            touch.view?.isDescendant(of: self.stepsVC.listTableView) == true ||
-//            touch.view?.isDescendant(of: self.commentsVC.listTableView) == true {
-//            return false
-//        }
-//        return true
-//    }
-//}

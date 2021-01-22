@@ -140,7 +140,6 @@ class CreationStepViewController: UIViewController {
             self.addComment(self.textFieldView.textField.text!)
         }
         self.textFieldView.textField.text = ""
-        self.textFieldView.textField.becomeFirstResponder()
         self.selectedRow = nil
     }
     

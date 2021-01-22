@@ -31,6 +31,7 @@ class KeywordsViewController: UIViewController {
         tf.textColor = .textLabel
         tf.font = .systemFont(ofSize: 17)
         tf.tintColor = .activeButton
+        tf.returnKeyType = .done
         return tf
     }()
     
