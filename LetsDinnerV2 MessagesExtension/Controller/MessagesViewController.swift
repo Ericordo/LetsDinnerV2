@@ -27,14 +27,6 @@ class MessagesViewController: MSMessagesAppViewController {
 
         self.view.backgroundColor = .backgroundColor
         
-        #warning("Get rid of that and just reinstall the app")
-        let config = Realm.Configuration(
-            schemaVersion: 4,
-            migrationBlock: { migration, oldSchemaVersion in
-                if (oldSchemaVersion < 4) {
-                }
-        })
-        Realm.Configuration.defaultConfiguration = config
         do {
             _ = try Realm()
         } catch {
