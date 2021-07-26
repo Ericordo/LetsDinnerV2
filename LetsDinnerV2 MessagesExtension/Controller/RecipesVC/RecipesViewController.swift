@@ -12,11 +12,11 @@ import ReactiveCocoa
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol ModalViewHandler: class {
+protocol ModalViewHandler: AnyObject {
     func reloadTableAfterModalDismissed()
 }
 
-protocol RecipesViewControllerDelegate: class {
+protocol RecipesViewControllerDelegate: AnyObject {
         func recipeVCDidTapNext()
         func recipeVCDidTapPrevious()
 }

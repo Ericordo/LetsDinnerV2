@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TaskManagementCellDelegate: class {
+protocol TaskManagementCellDelegate: AnyObject {
     func taskManagementCellDidTapTaskStatusButton(indexPath: IndexPath)
 }
 

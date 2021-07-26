@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol ManagementViewControllerDelegate: class {
+protocol ManagementViewControllerDelegate: AnyObject {
     func managementVCDidTapBack()
     func managementVCDdidTapNext()
 }

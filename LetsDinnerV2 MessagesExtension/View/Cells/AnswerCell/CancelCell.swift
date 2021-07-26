@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CancelCellDelegate: class {
+protocol CancelCellDelegate: AnyObject {
     func postponeEvent()
     func cancelEvent()
 }

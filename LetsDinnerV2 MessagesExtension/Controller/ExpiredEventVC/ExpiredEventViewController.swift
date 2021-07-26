@@ -17,7 +17,7 @@ private enum RowItemNumber: Int, CaseIterable {
     case expiredEventInfo = 4
 }
 
-protocol ExpiredEventViewControllerDelegate: class {
+protocol ExpiredEventViewControllerDelegate: AnyObject {
     func didTapNewEvent(newSubscription: NewSubscription?)
 }
 

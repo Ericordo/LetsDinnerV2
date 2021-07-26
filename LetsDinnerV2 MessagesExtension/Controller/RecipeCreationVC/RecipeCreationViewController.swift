@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol RecipeCreationVCDelegate: class {
+protocol RecipeCreationVCDelegate: AnyObject {
     func recipeCreationVCDidTapDone(creationMode: Bool)
 }
 

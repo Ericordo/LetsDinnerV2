@@ -11,7 +11,7 @@ import EventKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol EventSummaryViewControllerDelegate: class {
+protocol EventSummaryViewControllerDelegate: AnyObject {
     func eventSummaryVCOpenTasksList()
     func eventSummaryVCDidAnswer(hasAccepted: Invitation)
     func eventSummaryVCOpenEventInfo()

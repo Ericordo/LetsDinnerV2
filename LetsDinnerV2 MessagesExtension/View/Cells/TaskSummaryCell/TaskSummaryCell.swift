@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol TaskSummaryCellDelegate: class {
+protocol TaskSummaryCellDelegate: AnyObject {
     func taskSummaryCellDidTapSeeAll()
 }
 
-protocol TaskSummaryCellInReviewVCDelegate: class {
+protocol TaskSummaryCellInReviewVCDelegate: AnyObject {
     func taskSummaryDidTapSeeAllBeforeCreateEvent()
 }
 

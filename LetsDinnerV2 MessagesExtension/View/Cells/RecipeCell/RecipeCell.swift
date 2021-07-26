@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-protocol RecipeCellDelegate: class {
+protocol RecipeCellDelegate: AnyObject {
     func recipeCellDidSelectRecipe(_ recipe: Recipe)
     func recipeCellDidSelectCustomRecipe(_ customRecipe: LDRecipe)
     func recipeCellDidSelectPublicRecipe(_ publicRecipe: LDRecipe)

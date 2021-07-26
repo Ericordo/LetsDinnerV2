@@ -20,7 +20,7 @@ enum MainTextFieldCharacterLimit: Int {
     case comment = 200
 }
 
-protocol AddThingDelegate: class {
+protocol AddThingDelegate: AnyObject {
     func doneEditThing(selectedSection: String?,
                        item: String?,
                        amount: String?,

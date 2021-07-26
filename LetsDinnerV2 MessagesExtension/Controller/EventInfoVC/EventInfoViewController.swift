@@ -11,7 +11,7 @@ import PDFKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol EventInfoViewControllerDelegate: class {
+protocol EventInfoViewControllerDelegate: AnyObject {
     func eventInfoVCDidTapBackButton()
 }
 

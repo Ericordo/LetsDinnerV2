@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SectionSelectionInputDelegate : class {
+protocol SectionSelectionInputDelegate : AnyObject {
     func updateSelectedSection(sectionName: String)
 }
 

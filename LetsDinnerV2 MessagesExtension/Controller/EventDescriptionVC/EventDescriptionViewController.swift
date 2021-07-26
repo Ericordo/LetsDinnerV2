@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveSwift
 
-protocol EventDescriptionViewControllerDelegate: class {
+protocol EventDescriptionViewControllerDelegate: AnyObject {
     func eventDescriptionVCDidTapPrevious(controller: EventDescriptionViewController)
     func eventDescriptionVCDidTapFinish(controller: EventDescriptionViewController)
 }

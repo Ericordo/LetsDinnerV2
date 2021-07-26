@@ -10,7 +10,7 @@ import UIKit
 import Messages
 import FirebaseDatabase
 
-protocol EventTranscriptViewDelegate: class {
+protocol EventTranscriptViewDelegate: AnyObject {
     func didTapBubble()
 }
 

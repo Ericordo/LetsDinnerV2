@@ -20,7 +20,7 @@ enum MeasurementSystem : String {
     case imperial
 }
 
-protocol RegistrationViewControllerDelegate : class {
+protocol RegistrationViewControllerDelegate : AnyObject {
     func didTapCancel()
     func didTapNext(previousStep: StepTracking, newSubscription: NewSubscription?)
 }

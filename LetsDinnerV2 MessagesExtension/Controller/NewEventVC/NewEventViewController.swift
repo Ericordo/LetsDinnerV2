@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol NewEventViewControllerDelegate: class {
+protocol NewEventViewControllerDelegate: AnyObject {
     func newEventVCDidTapNext(controller: NewEventViewController)
     func newEventVCDdidTapProfile(controller: NewEventViewController)
 }

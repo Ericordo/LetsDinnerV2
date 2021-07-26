@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AnswerCellDelegate: class {
+protocol AnswerCellDelegate: AnyObject {
     func addToCalendarAlert()
     func declineEventAlert()
     func declineInvitation() 

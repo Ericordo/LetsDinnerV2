@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveSwift
 
-protocol PremiumCheckViewControllerDelegate: class {
+protocol PremiumCheckViewControllerDelegate: AnyObject {
     func subscriptionCheckDone(newSubscription: NewSubscription?)
     func subscriptionCheckFailed()
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AnswerAcceptedCellDelegate: class {
+protocol AnswerAcceptedCellDelegate: AnyObject {
     func showUpdateAcceptedStatusAlert()
 }
 

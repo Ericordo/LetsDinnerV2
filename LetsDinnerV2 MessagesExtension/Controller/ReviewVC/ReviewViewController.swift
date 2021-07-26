@@ -10,7 +10,7 @@ import UIKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol ReviewViewControllerDelegate: class {
+protocol ReviewViewControllerDelegate: AnyObject {
     func reviewVCDidTapPrevious()
     func reviewVCDidTapSend()
     func reviewVCBackToManagementVC()

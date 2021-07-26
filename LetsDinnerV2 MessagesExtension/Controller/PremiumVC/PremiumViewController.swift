@@ -11,7 +11,7 @@ import StoreKit
 import ReactiveSwift
 import FirebaseAnalytics
 
-protocol PremiumViewControllerDelegate: class {
+protocol PremiumViewControllerDelegate: AnyObject {
     func subscribeLater()
     func subscribedSuccessfully()
     func restoredSubscription()

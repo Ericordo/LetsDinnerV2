@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol IdleViewControllerDelegate: class {
+protocol IdleViewControllerDelegate: AnyObject {
     func idleVCDidTapContinue()
     func idleVCDidTapNewEvent()
     func idleVCDidTapSettings()

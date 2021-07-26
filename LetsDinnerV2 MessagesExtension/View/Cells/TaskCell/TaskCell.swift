@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TaskCellDelegate: class {
+protocol TaskCellDelegate: AnyObject {
     func taskCellDidTapTaskStatusButton()
     func taskCellUpdateProgress(indexPath: IndexPath)
 }

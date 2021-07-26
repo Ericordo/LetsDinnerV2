@@ -9,7 +9,7 @@
 import UIKit
 import ReactiveSwift
 
-protocol TasksListViewControllerDelegate: class {
+protocol TasksListViewControllerDelegate: AnyObject {
     func tasksListVCDidTapBackButton()
     func tasksListVCDidTapSubmit()
 }

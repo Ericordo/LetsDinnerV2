@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol InitialViewControllerDelegate: class {
+protocol InitialViewControllerDelegate: AnyObject {
     func initialVCDidTapSettings()
     func initialVCDidTapNewEvent()
 }
